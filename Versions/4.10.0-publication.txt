@@ -1,0 +1,22 @@
+Annonce
+Texte:
+Toulouse, le 01/09/2015
+
+Bonjour,
+
+La version 4.10.0 est maintenant disponible.
+
+Liste des évolutions et corrections:
+- lien vers fichier ODT modifiable
+- tri alphabétique des fonctions de recherche des personnages et lieux
+- suppression de la dépendance dans les paquetages deb et rpm
+- ajout du Hongrois comme langue de l'interface utilisateur
+- nouvelle écriture de la fonction Memoria
+- nouvelle fonction de plannification pour l'auteur
+- choix d'un modèle simple sans macro pour LibreOffice
+- sélection d'un modèle personnel pour LibreOffice
+- remise en ordre du code
+- préparation de la fonction import
+- suppression de la lib languagetool et de toutes les utilisations
+- reconfiguration GIT (sans lib, dicts.all)
+- refondation du code source

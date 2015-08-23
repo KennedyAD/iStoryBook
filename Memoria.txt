@@ -1,0 +1,48 @@
+Nouvelles possibilités
+
+Introduction à partir de la version 4.10.0
+
+Il est possible de ne pas sélectionner une date de référence lorsque le type
+d'élément est un Lieu, un personnage, un objet ou une étiquette. Attention
+toutefois, dans ce cas le rendu risque d'être un peu "fouilli" en raison du
+grand nombre de liens qui seront visualisés.
+
+Les objets et les étiquettes sont distingués. Jusqu'à cette version les objets
+et étiquettes étaient confondus.
+
+Les relations entre une scène et un objet peuvent être  indiqués indifféremment,
+y compris simultanément, soit via l'affectation dans l'éditeur de scène, soit
+via l'affection d'objet.
+
+L'affection d'objet, ou d'étiquette, permet maintenant de cumuler différents
+éléments. Par exemple pour un objet, indication d'un personnage et/ou un lieu 
+et/ou une scène de début avec éventuellement une scène de fin. Remarque: dans
+le cas de l'utilisation d'une scène de début et de fin, il est nécessaire que
+les scènes concernées s'enchainent via leurs dates. Pour l'écriture d'une pièce
+de théâtre dans laquelle on respecte scrupuleusement l'unité de temps, il n'est
+pas naturel de dater les scènes, il sera donc inutile de chercher à indiquer les
+scènes de début et de fin.
+
+-- english --
+New possibilities
+
+Introduction from version 4.10.0
+
+You can not select a reference date when the type is a place, a person, an item 
+or a tag. But be careful, in this case the rendering might be a bit "messy" 
+because of the large number of links that will be displayed.
+
+The items and tags are distinguished. Until this version the items and 
+tags were confused.
+
+The relationship between an item and a scene can be specified either, 
+including simultaneously, either via assignment in the Scene editor or via 
+the assignment.
+
+The item assignment, or tag assignment, now allows to combine different 
+types. For example, for an item, indication of a character and / or location 
+and / or an scene start, with optionally a scene end. Note: In the case of 
+using a scene start and end, it is necessary that the relevant scenes are 
+linked via their dates. For writing a play in which scrupulously respects the 
+time unit, it is not natural to date the scenes, it will be useless to try to 
+indicate the scenes start and end.

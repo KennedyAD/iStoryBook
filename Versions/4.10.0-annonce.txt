@@ -1,0 +1,30 @@
+Annonce
+Texte:
+Toulouse, le 27/07/2015
+
+Bonjour,
+
+La publication de la prochaine version 4.10.0 interviendra, sauf difficulté de
+dernière minute, le 1er septembre 2015. Cette nouvelle version apporte des
+changements très substentiels, c'est la raison pour laquelle le numéro de
+version secondaire est incrémenté.
+
+L'équipe recherche toujours des traducteurs pour:
+- traduire l'interface utilisateur
+- traduire, ou écrire, le site Internet
+- écrire une documentation utilisateur 
+
+Nouvelle version 4.10.0
+- lien vers fichier ODT modifiable
+- tri alphabétique des fonctions de recherche des personnages et lieux
+- suppression de la dépendance dans les paquetages deb et rpm
+- ajout du Hongrois comme langue de l'interface utilisateur
+- nouvelle écriture de la fonction Memoria
+- nouvelle fonction de plannification pour l'auteur
+- choix d'un modèle simple sans macro pour LibreOffice
+- sélection d'un modèle personnel pour LibreOffice
+- remise en ordre du code
+- préparation de la fonction import
+- suppression de la lib languagetool et de toutes les utilisations
+- reconfiguration GIT (sans lib, dicts.all)
+- refondation du code source
