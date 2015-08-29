@@ -75,7 +75,7 @@ public class SbConstants {
 		PRODUCT_NAME("oStorybook"),
 		PRODUCT_VERSION("4.10.0"),
 		PRODUCT_FULL_NAME(PRODUCT_NAME + " " + PRODUCT_VERSION),
-		PRODUCT_RELEASE_DATE("2015-04-21"),
+		PRODUCT_RELEASE_DATE("2015-09-01"),
 		COPYRIGHT_YEAR("2012-2013-2014-2015"),
 		COPYRIGHT_COMPANY("The Storybook Team"),
 		PREFERENCE_DB_NAME("preference"),
@@ -96,12 +96,12 @@ public class SbConstants {
 	}
 
 	public enum URL {
-		HOMEPAGE("http://sourceforge.net/p/ostorybook/"),
+		HOMEPAGE("http://ostorybook.tuxfamily.org/"),
 		CONTACT(HOMEPAGE + "discussion"),
 		DOC(HOMEPAGE + "wiki/Home"),
 		FAQ(HOMEPAGE + "wiki/faq"),
 		REPORTBUG(HOMEPAGE + "tickets"),
-		WEB("http://ostorybook.sourceforge.net/"),
+		WEB("http://ostorybook.tuxfamily.org/"),
 		VERSION(WEB + "Versions.txt"),
 		UPDATE(WEB + "Update.zip"),
 		DO_UPDATE("false");
