@@ -19,6 +19,7 @@
         <property name="sb.debian.distdir" value="${sb.distdir}/debian-package" />
         <property name="sb.debian.deployment.dir" value="${sb.linux.deployment.dir}/debian" />
         <property name="sb.debian.app" value="${sb.debian.distdir}/usr/share/ostorybook"/>
+        <property name="sb.src.zip.name" value="${sb.distdir}/oStorybook_src.zip" />
 	<!-- mac specific build parameters -->
 	<property name="sb.mac.deployment.dir" value="${sb.deployment.dir}/macintosh" />
 	<property name="sb.mac.installer.mount.dir" value="/Volumes/tmpStorybook-${TODAY}" />
@@ -133,6 +134,24 @@
 		<mkdir dir="${sb.distdir}" />
 		<zip destfile="${sb.distzip}" basedir="${basedir}/dist" />
 	</target>
+        <target name="build-src">
+            <echo>make the src zip file...</echo>
+            <delete file="${sb.src.zip.name}"/>
+            <zip zipfile="${sb.src.zip.name}">
+                <zipfileset dir="${basedir}">
+                    <include name="src/**" />
+                    <include name="build.xml" />
+                    <include name="ABOUT.txt" />
+                    <include name="LICENSE.txt" />
+                    <include name="README.txt" />
+                    <include name="ROADMAP.html" />
+                    <include name="THANKS.txt" />
+                    <include name="Versions.txt" />
+                    <include name="oStorybook-*.*" />
+                    <include name="splash.png" />
+                </zipfileset>
+            </zip>
+        </target>
 <!-- ========================================================================================= -->
 	<target name="build-jarbundler" depends="jar" >
             <taskdef name="jarbundler"
