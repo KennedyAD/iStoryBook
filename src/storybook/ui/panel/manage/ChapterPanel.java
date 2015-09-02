@@ -20,6 +20,8 @@ package storybook.ui.panel.manage;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import org.hibernate.Session;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
+import storybook.action.EditEntityAction;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
@@ -50,8 +53,12 @@ import storybook.ui.interfaces.IRefreshable;
 import storybook.ui.panel.manage.dnd.DTScenePanel;
 import storybook.ui.panel.manage.dnd.SceneTransferHandler;
 
+/*
+Ajout de l'ouverture de l'éditeur sur double click sur le titre du chapitre
+*/
+
 @SuppressWarnings("serial")
-public class ChapterPanel extends AbstractPanel implements IRefreshable {
+public class ChapterPanel extends AbstractPanel implements MouseListener, IRefreshable {
 
 	private Chapter chapter;
 	private SceneTransferHandler sceneTransferHandler;
@@ -168,6 +175,7 @@ public class ChapterPanel extends AbstractPanel implements IRefreshable {
 		}
 		lbChapter.setVerticalAlignment(SwingConstants.TOP);
 		lbChapter.setText(buf.toString());
+		lbChapter.addMouseListener(this);
 		add(lbChapter);
 
 		sceneTransferHandler = new SceneTransferHandler(mainFrame);
@@ -250,5 +258,37 @@ public class ChapterPanel extends AbstractPanel implements IRefreshable {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (getChapter() == null) {
+			return;
+		}
+		requestFocusInWindow();
+		if (e.getClickCount() == 2) {
+			EditEntityAction act = new EditEntityAction(mainFrame, getChapter(),false);
+			act.actionPerformed(null);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
 	}
 }

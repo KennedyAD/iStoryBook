@@ -2,6 +2,9 @@ oStorybook
 --------------------------------------------------------------------------------
 
 Versions :
+4.10.1 : favdb et Jean Rébillat 01/12/2015
+- ajout de l'ouverture de l'éditeur sur double click sur le titre du chapitre
+  dans la vue Gestion des chapitres et des scènes
 4.10.0 : favdb et Jean Rébillat 01/09/2015
 - lien vers fichier ODT modifiable
 - tri alphabétique des fonctions de recherche des personnages et lieux
