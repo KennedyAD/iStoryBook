@@ -73,7 +73,7 @@ public class EditSceneLOAction extends AbstractEntityAction {
 				} catch (IOException ex) {
 					SbApp.error("EntityEditor.createOdtFile(...)", ex);
 				}
-				((Scene) entity).setOdf(file.getName());
+				((Scene) entity).setOdf(file.getPath());
 			}
 		}
 		try {

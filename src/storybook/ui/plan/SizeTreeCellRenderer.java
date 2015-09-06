@@ -28,21 +28,25 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 
 	private int maxval;
 	private int currentval;
-	private JLabel label;
+	private JLabel textLabel;
+	private JLabel percentLabel;
 	
 	public SizeTreeCellRenderer() {
 		setLayout(null);
 		setBackground(UIManager.getColor("Tree.textBackground"));
-		label = new JLabel("Test");
-		label.setFont(UIManager.getFont("Tree.font"));
-		add(label);
+		textLabel = new JLabel("Test");
+		textLabel.setFont(UIManager.getFont("Tree.font"));
+		add(textLabel);
+		percentLabel = new JLabel("Test");
+		percentLabel.setFont(UIManager.getFont("Tree.font"));
+		add(percentLabel);
 	}
 	
 	public Dimension getPreferredSize()
 	{
-		Dimension size = label.getPreferredSize();
+		Dimension size = textLabel.getPreferredSize();
 		if (maxval > 0) {
-		    size.width += BARSIZE + DELTA;
+		    size.width += BARSIZE + 2 * DELTA + percentLabel.getPreferredSize().width;
 		}
 		return size;
 	} 
@@ -50,7 +54,9 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 	@Override
 	public void setBounds(int x, int y, int w, int h) {
 		super.setBounds(x, y , w, h);
-		label.setBounds(0, 0, label.getPreferredSize().width, label.getPreferredSize().height);
+		textLabel.setBounds(0, 0, textLabel.getPreferredSize().width, textLabel.getPreferredSize().height);
+		percentLabel.setBounds(w -  percentLabel.getPreferredSize().width,
+				0, percentLabel.getPreferredSize().width, percentLabel.getPreferredSize().height);
 	}
 	
 	@Override
@@ -59,35 +65,48 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 			boolean hasFocus) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 		Object userObject = node.getUserObject();
-		label.setText(userObject.toString());
+		textLabel.setText(userObject.toString());
 
 		maxval = -1;
+		int percent = 0;
 		if (userObject instanceof SizedElement) {
 			currentval = ((SizedElement)userObject).getSize();
 			maxval = -1;
 			Object obj = ((SizedElement)userObject).getElement();
+			percentLabel.setVisible(false);
 			if (obj instanceof Scene) {
 				Scene scene = (Scene) obj;
-				label.setIcon(scene.getSceneState().getIcon());
+				textLabel.setIcon(scene.getSceneState().getIcon());
 			} else if ((leaf) && (obj instanceof AbstractEntity)) {
 				Icon icon = EntityUtil
 						.getEntityIcon((AbstractEntity) obj);
-				label.setIcon(icon);
+				textLabel.setIcon(icon);
 			} else if (obj instanceof String) {
 				// default icon for title
-				label.setIcon(UIManager.getIcon("Tree.closedIcon"));
-				maxval = 100;
+				textLabel.setIcon(UIManager.getIcon("Tree.closedIcon"));
+				maxval  = ((SizedElement)userObject).getMaxSize();
+				percent = (currentval * 100) / ((maxval == 0) ? 100 : maxval);
+				percentLabel.setVisible(true);
+			    percentLabel.setText("" + percent  + " %");
 			}
 			if (!leaf && obj instanceof AbstractEntity) {
 				Icon icon = EntityUtil.getEntityIcon((AbstractEntity) obj);
-				label.setIcon(icon);
+				textLabel.setIcon(icon);
 				if (obj instanceof Part) {
 					maxval = Math.max(currentval, ((Part)obj).getObjectiveChars());
 				}
 				else if (obj instanceof Chapter) {
 					maxval = Math.max(currentval, ((Chapter)obj).getObjectiveChars());
 				}
+				if (maxval == 0) {
+					percent = 0;
+				} else {
+				    percent = (currentval * 100) / maxval;
+				}
+				percentLabel.setVisible(true);
+			    percentLabel.setText("" + percent  + " %");
 			}
+
 		}
 		return this;
 	}
@@ -99,10 +118,10 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 		if (maxval > 0) {
 			Rectangle dimension = getBounds();
             g.setColor(Color.BLUE);
-            g.fillRect(dimension.width - BARSIZE , 1, BARSIZE, dimension.height -2);
+            g.fillRect(dimension.width - BARSIZE - DELTA - percentLabel.getPreferredSize().width, 1, BARSIZE, dimension.height -2);
             g.setColor(Color.GREEN);
             int width = (BARSIZE * currentval) / maxval;
-            g.fillRect(dimension.width - BARSIZE +1, 2, width -2, dimension.height -4);
+            g.fillRect(dimension.width - BARSIZE - DELTA - percentLabel.getPreferredSize().width + 1, 2, width -2, dimension.height -4);
 		}
 
 	}

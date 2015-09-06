@@ -110,10 +110,7 @@ public final class ODTUtils {
 		for (Scene scene : scenes) {
 			int sceneSize = 0;
 			if (BookUtil.isUseLibreOffice(mainFrame)) {
-				String filepath = scene.getOdf();
-				if ((filepath == null) || (filepath.isEmpty())) {
-					filepath = ODTUtils.getFilePath(mainFrame, scene);
-				}
+				String filepath = ODTUtils.getFilePath(mainFrame, scene);
 				sceneSize = ODTUtils.getDocumentSize(filepath);
 			} else {
 				sceneSize = scene.getSummary().length();
@@ -151,10 +148,7 @@ public final class ODTUtils {
 		SbApp.trace("computing sizes");
 		for (Scene scene : scenes) {
 			if (BookUtil.isUseLibreOffice(mainFrame)) {
-				String filepath = scene.getOdf();
-				if ((filepath == null) || (filepath.isEmpty())) {
-					filepath = ODTUtils.getFilePath(mainFrame, scene);
-				}
+				String filepath = ODTUtils.getFilePath(mainFrame, scene);
 				sceneSizes.put(scene, ODTUtils.getDocumentSizeOrWords(filepath, wordsCount));
 			} else {
 				if (wordsCount)
@@ -177,10 +171,7 @@ public final class ODTUtils {
 		if (object instanceof Scene)
 		{
 			if (BookUtil.isUseLibreOffice(mainFrame)) {
-				String filepath = ((Scene)object).getOdf();
-				if ((filepath == null) || (filepath.isEmpty())) {
-					filepath = ODTUtils.getFilePath(mainFrame, (Scene)object);
-				}
+				String filepath =  ODTUtils.getFilePath(mainFrame, (Scene)object);
 				ret = getDocumentSize(filepath);
 			} else {
 				ret = ((Scene)object).getSummary().length();
@@ -213,6 +204,16 @@ public final class ODTUtils {
 	}
 
 	public static String getFilePath(MainFrame mainFrame, Scene scene) {
+		String stored = scene.getOdf();
+		if ((stored !=null) && (!stored.isEmpty())) {
+			return stored;
+		} else {
+			return getDefaultFilePath(mainFrame, scene);
+		}
+	}
+
+	public static String getDefaultFilePath(MainFrame mainFrame, Scene scene) {
+		// Have to calculate path from information
 		String path = mainFrame.getDbFile().getPath();
 		String str1 = ""+scene.getChapter().getChapterno();
 		if (str1.length() < 2) {str1 = "0" + str1;}
@@ -260,7 +261,9 @@ public final class ODTUtils {
 				if (file.exists()) {
 					pkg = new ODPackage(file);
 					Document doc = pkg.getDocument("content.xml");
-					ret = getSize(doc.getRootElement(), countWords);
+					if (doc != null) {
+					   ret = getSize(doc.getRootElement(), countWords);
+					}
 				}
 			} catch (IOException e) {
 			}

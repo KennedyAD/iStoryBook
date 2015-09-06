@@ -22,8 +22,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -36,6 +34,7 @@ import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.ui.Layer;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
@@ -70,6 +69,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	/** Pane to contain all. */
 	private JTabbedPane tabbedPane;
 	private JTree tree;
+	CircleProgressBar[] progress = new CircleProgressBar[5];
 
 	/**
 	 * Constructor.
@@ -116,16 +116,6 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	 * Generate panel for showing global information
 	 */
 	private void addGlobalPanel() {
-		// get neded elements
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		SceneDAOImpl dao = new SceneDAOImpl(session);
-		int allScenes = dao.findAll().size();
-		int[] nbScenesByState = new int[6];
-		for (int i = 0; i < 6; i++) {
-			nbScenesByState[i] = dao.findBySceneState(i).size();
-		}
-		session.close();
 
 		// create panel
 		JPanel globalPanel = new JPanel();
@@ -145,14 +135,31 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 
 		// add progress bars
 		for (int i = 0; i < 5; i++) {
-			CircleProgressBar bar = new CircleProgressBar(0, 100);
-			bar.setPreferredSize(new Dimension(100, 100));
-			bar.setBorderPainted(false);
-			globalPanel.add(bar, "split 2, flowy");
-			bar.setValue((nbScenesByState[i + 1] * 100)
-					/ ((allScenes == 0) ? 1 : allScenes));
+			progress[i] = new CircleProgressBar(0, 100);
+			progress[i].setPreferredSize(new Dimension(100, 100));
+			progress[i].setBorderPainted(false);
+			globalPanel.add(progress[i], "split 2, flowy");
 			globalPanel.add(new JLabel(labels[i], SwingConstants.CENTER));
 		}
+		setProgressBarsValues();
+	}
+	
+	private void setProgressBarsValues() {
+		// get neded elements
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		int allScenes = dao.findAll().size();
+		int[] nbScenesByState = new int[6];
+		for (int i = 0; i < 6; i++) {
+			nbScenesByState[i] = dao.findBySceneState(i).size();
+		}
+		session.close();
+		for (int i = 0; i < 5; i++) {
+			progress[i].setValue((nbScenesByState[i + 1] * 100)
+					/ ((allScenes == 0) ? 1 : allScenes));
+		}
+		
 	}
 
 	/**
@@ -187,8 +194,10 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		}
 		if (topmaxsize == 0) {
 			topSp.setSize(100);
+			topSp.setMaxSize(100);
 		} else {
-		    topSp.setSize((topsize * 100) / topmaxsize);
+		    topSp.setSize(topsize);
+		    topSp.setMaxSize(topmaxsize);
 		}
 		
 		tree.expandRow(0);
@@ -196,6 +205,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		tree.addMouseListener(this);
 
 	}
+	
 	
 	private void createSubStructure(DefaultMutableTreeNode father, Part part,
 			Map<Object, Integer> sizes) {
@@ -217,6 +227,19 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		}
 		for (Chapter chapter : chapters) {
 			createSubStructure(node, chapter, sizes);
+		}
+		
+		// align objective chars value with the one of contained elements
+		int subObjective = 0;
+		for (Part subpart : subparts) {
+			subObjective += subpart.getObjectiveChars();
+		}
+		for (Chapter chapter : chapters) {
+			subObjective += chapter.getObjectiveChars();
+		}
+		if (subObjective > part.getObjectiveChars())
+		{
+			part.setObjectiveChars(subObjective);
 		}
 	}
 	
@@ -442,13 +465,18 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		else if (BookController.CommonProps.REFRESH.check(propName)) {
 			if (newValue instanceof SbView) {
 				if (ViewName.PLAN.compare(((SbView)newValue))) {
-					refresh();
+					refreshValues();
 				}
 			}
 			return;
 		}
 	}
 	
+	private void refreshValues() {
+		setProgressBarsValues();
+		
+	}
+
 	private void showPopupMenu(JTree tree, MouseEvent evt) {
 		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
 		DefaultMutableTreeNode selectedNode = null;
@@ -494,25 +522,17 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }
