@@ -56,6 +56,7 @@ import storybook.ui.options.ManageOptionsDialog;
  * @author martin
  *
  */
+
 @SuppressWarnings("serial")
 public class ManagePanel extends AbstractScrollPanel {
 
