@@ -156,10 +156,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 	private JTextField tfFile;
 	private JButton btChooseFile;
 
-	private enum MsgState {
-
-		ERRORS, WARNINGS, UPDATED, ADDED
-	}
+	private enum MsgState {ERRORS, WARNINGS, UPDATED, ADDED}
 	private boolean leaveOpen;
 	private AbstractEntityHandler entityHandler;
 	private final BookController ctrl;

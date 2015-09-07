@@ -11,6 +11,7 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.SpinnerNumberModel;
 import java.util.*;
+import storybook.toolkit.I18N;
 
 /**
  * Panel for editing the size of a table cell
@@ -214,7 +215,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 		this.setPreferredSize(new java.awt.Dimension(215, 95));
 		this.setMaximumSize(getPreferredSize());
 		this.setMinimumSize(getPreferredSize());
-		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("size"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5))); //$NON-NLS-1$
+		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.size"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5))); //$NON-NLS-1$
 		this.add(getWidthCB(), gridBagConstraints);
 		this.add(getHeightCB(), gridBagConstraints1);
 		this.add(getWidthField(), gridBagConstraints2);
@@ -231,7 +232,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getWidthCB() {
 		if (widthCB == null) {
 			widthCB = new JCheckBox();
-			widthCB.setText(i18n.str("width")); //$NON-NLS-1$
+			widthCB.setText(I18N.getMsg("shef.width")); //$NON-NLS-1$
 
 			widthCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
@@ -251,7 +252,7 @@ public class SizeAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getHeightCB() {
 		if (heightCB == null) {
 			heightCB = new JCheckBox();
-			heightCB.setText(i18n.str("height")); //$NON-NLS-1$
+			heightCB.setText(I18N.getMsg("shef.height")); //$NON-NLS-1$
 
 			heightCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {

@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import shef.ui.text.TextEditPopupManager;
+import storybook.toolkit.I18N;
 
 public class LinkAttributesPanel extends HTMLAttributeEditorPanel {
 
@@ -104,7 +105,7 @@ public class LinkAttributesPanel extends HTMLAttributeEditorPanel {
 		gridBagConstraints.gridy = 0;
 		this.setLayout(new GridBagLayout());
 		this.setSize(new java.awt.Dimension(320, 118));
-		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("attributes"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
+		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.attributes"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
 		this.add(getNameCB(), gridBagConstraints);
 		this.add(getTitleCB(), gridBagConstraints1);
 		this.add(getOpenInCB(), gridBagConstraints2);
@@ -183,7 +184,7 @@ public class LinkAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getNameCB() {
 		if (nameCB == null) {
 			nameCB = new JCheckBox();
-			nameCB.setText(i18n.str("name")); //$NON-NLS-1$
+			nameCB.setText(I18N.getMsg("shef.name")); //$NON-NLS-1$
 			nameCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					nameField.setEditable(nameCB.isSelected());
@@ -201,7 +202,7 @@ public class LinkAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getTitleCB() {
 		if (titleCB == null) {
 			titleCB = new JCheckBox();
-			titleCB.setText(i18n.str("title")); //$NON-NLS-1$
+			titleCB.setText(I18N.getMsg("shef.title")); //$NON-NLS-1$
 			titleCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					titleField.setEditable(titleCB.isSelected());
@@ -219,7 +220,7 @@ public class LinkAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getOpenInCB() {
 		if (openInCB == null) {
 			openInCB = new JCheckBox();
-			openInCB.setText(i18n.str("open_in")); //$NON-NLS-1$
+			openInCB.setText(I18N.getMsg("shef.open_in")); //$NON-NLS-1$
 			openInCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					openInCombo.setEnabled(openInCB.isSelected());

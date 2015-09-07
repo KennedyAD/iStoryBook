@@ -26,10 +26,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
-import shef.i18n.I18n;
 import shef.ui.HeaderPanel;
 import shef.ui.UIUtils;
 import shef.ui.text.Entities;
+import storybook.toolkit.I18N;
 
 
 public class SpecialCharDialog extends JDialog
@@ -39,11 +39,11 @@ public class SpecialCharDialog extends JDialog
      */
     private static final long serialVersionUID = 1L;
 
-    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs"); //$NON-NLS-1$
+//    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs"); //$NON-NLS-1$
     
     private static Icon icon = UIUtils.getIcon(UIUtils.X48, "copyright.png"); //$NON-NLS-1$
-    private static String title = i18n.str("special_character"); //$NON-NLS-1$
-    private static String desc = i18n.str("special_character_desc"); //$NON-NLS-1$
+    private static String title = I18N.getMsg("shef.special_character"); //$NON-NLS-1$
+    private static String desc = I18N.getMsg("shef.special_character_desc"); //$NON-NLS-1$
         
     private Font plainFont = new Font("Dialog", Font.PLAIN, 12); //$NON-NLS-1$
     private Font rollFont = new Font("Dialog", Font.BOLD, 14); //$NON-NLS-1$
@@ -93,7 +93,7 @@ public class SpecialCharDialog extends JDialog
             charPanel.add(chLabel);
         }
         
-        JButton close = new JButton(i18n.str("close")); //$NON-NLS-1$
+        JButton close = new JButton(I18N.getMsg("shef.close")); //$NON-NLS-1$
         close.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)

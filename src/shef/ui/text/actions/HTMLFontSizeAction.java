@@ -15,6 +15,7 @@ import javax.swing.text.StyledEditorKit;
 import shef.ui.text.HTMLUtils;
 
 import org.bushe.swing.action.ActionManager;
+import storybook.toolkit.I18N;
 
 /**
  * Action which edits HTML font size
@@ -36,9 +37,9 @@ public class HTMLFontSizeAction extends HTMLTextEditAction {
 	public static final int XLARGE = 5;
 	public static final int XXLARGE = 6;
 
-	private static final String SML = i18n.str("small");
-	private static final String MED = i18n.str("medium");
-	private static final String LRG = i18n.str("large");
+	private static final String SML = I18N.getMsg("shef.small");
+	private static final String MED = I18N.getMsg("shef.medium");
+	private static final String LRG = I18N.getMsg("shef.large");
 
 	public static final int FONT_SIZES[] = {8, 10, 12, 14, 18, 24, 36/*28*/};
 
@@ -82,13 +83,13 @@ public class HTMLFontSizeAction extends HTMLTextEditAction {
 		 AttributeSet at = document.getCharacterElement(caret).getAttributes();*/
 		AttributeSet at = HTMLUtils.getCharacterAttributes(ed);
 		if (at.isDefined(StyleConstants.FontSize)) {
-			setSelected(at.containsAttribute(
-					StyleConstants.FontSize, new Integer(FONT_SIZES[size])));
+			setSelected(at.containsAttribute(StyleConstants.FontSize, FONT_SIZES[size]));
 		} else {
 			setSelected(size == MEDIUM);
 		}
 	}
 
+	@Override
 	protected void updateSourceContextState(JEditorPane ed) {
 		setSelected(false);
 	}

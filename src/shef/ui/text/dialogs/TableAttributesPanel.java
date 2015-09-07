@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import storybook.toolkit.I18N;
 
 public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 
@@ -385,7 +386,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getWidthCB() {
 		if (widthCB == null) {
 			widthCB = new JCheckBox();
-			widthCB.setText(i18n.str("width"));             //$NON-NLS-1$
+			widthCB.setText(I18N.getMsg("shef.width"));             //$NON-NLS-1$
 			widthCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					widthField.setEnabled(widthCB.isSelected());
@@ -430,7 +431,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getAlignCB() {
 		if (alignCB == null) {
 			alignCB = new JCheckBox();
-			alignCB.setText(i18n.str("align")); //$NON-NLS-1$
+			alignCB.setText(I18N.getMsg("shef.align")); //$NON-NLS-1$
 			alignCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					alignCombo.setEnabled(alignCB.isSelected());
@@ -448,7 +449,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getCellSpacingCB() {
 		if (cellSpacingCB == null) {
 			cellSpacingCB = new JCheckBox();
-			cellSpacingCB.setText(i18n.str("cellspacing")); //$NON-NLS-1$
+			cellSpacingCB.setText(I18N.getMsg("shef.cellspacing")); //$NON-NLS-1$
 			cellSpacingCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					cellSpacingField.setEnabled(cellSpacingCB.isSelected());
@@ -479,7 +480,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getBorderCB() {
 		if (borderCB == null) {
 			borderCB = new JCheckBox();
-			borderCB.setText(i18n.str("border")); //$NON-NLS-1$
+			borderCB.setText(I18N.getMsg("shef.border")); //$NON-NLS-1$
 			borderCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					borderField.setEnabled(borderCB.isSelected());
@@ -510,7 +511,7 @@ public class TableAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getCellPaddingCB() {
 		if (cellPaddingCB == null) {
 			cellPaddingCB = new JCheckBox();
-			cellPaddingCB.setText(i18n.str("cellpadding")); //$NON-NLS-1$
+			cellPaddingCB.setText(I18N.getMsg("shef.cellpadding")); //$NON-NLS-1$
 			cellPaddingCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					cellPaddingField.setEnabled(cellPaddingCB.isSelected());

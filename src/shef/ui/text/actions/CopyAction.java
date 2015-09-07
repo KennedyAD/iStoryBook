@@ -14,6 +14,7 @@ import shef.ui.UIUtils;
 
 import org.bushe.swing.action.ActionManager;
 import org.bushe.swing.action.ShouldBeEnabledDelegate;
+import storybook.toolkit.I18N;
 
 
 /**
@@ -32,14 +33,15 @@ public class CopyAction extends BasicEditAction
     public CopyAction()
     {
         super("");
-        putValue(Action.NAME, i18n.str("copy"));
+        putValue(Action.NAME, I18N.getMsg("shef.copy"));
         putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "copy.png"));
         putValue(ActionManager.LARGE_ICON, UIUtils.getIcon(UIUtils.X24, "copy.png"));
         putValue(Action.ACCELERATOR_KEY,
             KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
-        putValue(MNEMONIC_KEY, new Integer(i18n.mnem("copy")));
+        putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.copy"));
         addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate()
         {
+			@Override
         	public boolean shouldBeEnabled(Action a)
             {                          
             	JEditorPane ed = getCurrentEditor();
@@ -53,11 +55,13 @@ public class CopyAction extends BasicEditAction
     /* (non-Javadoc)
      * @see shef.ui.text.actions.BasicEditAction#doEdit(java.awt.event.ActionEvent, javax.swing.JEditorPane)
      */
+	@Override
     protected void doEdit(ActionEvent e, JEditorPane editor)
     {
         editor.copy();
     }
     
+	@Override
     protected void contextChanged()
     {
     	super.contextChanged();

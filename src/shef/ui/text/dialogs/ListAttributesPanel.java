@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.SpinnerNumberModel;
 import java.util.*;
+import storybook.toolkit.I18N;
 
 public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 
@@ -21,8 +22,8 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 	public static final int UL_LIST = 0;
 	public static final int OL_LIST = 1;
 
-	private static final String UL = i18n.str("unordered_list"); //$NON-NLS-1$
-	private static final String OL = i18n.str("ordered_list");     //$NON-NLS-1$
+	private static final String UL = I18N.getMsg("shef.unordered_list"); //$NON-NLS-1$
+	private static final String OL = I18N.getMsg("shef.ordered_list");     //$NON-NLS-1$
 	private static final String LIST_TYPES[] = {UL, OL};
 
 	private static final String OL_TYPES[] = {"1", "a", "A", "i", "I"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
@@ -38,7 +39,7 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 	private static final String UL_TYPES[] = {"disc", "square", "circle"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	private static final String UL_TYPE_LABELS[]
 			= {
-				i18n.str("solid_circle"), i18n.str("solid_square"), i18n.str("open_circle") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				I18N.getMsg("shef.solid_circle"), I18N.getMsg("shef.solid_square"), I18N.getMsg("shef.open_circle") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			};
 
 	private JLabel typeLabel = null;
@@ -148,7 +149,7 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 		gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
 		gridBagConstraints.gridy = 0;
 		typeLabel = new JLabel();
-		typeLabel.setText(i18n.str("list_type")); //$NON-NLS-1$
+		typeLabel.setText(I18N.getMsg("shef.list_type")); //$NON-NLS-1$
 		this.setLayout(new GridBagLayout());
 		this.setSize(new java.awt.Dimension(234, 159));
 		this.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -258,7 +259,7 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getStyleCB() {
 		if (styleCB == null) {
 			styleCB = new JCheckBox();
-			styleCB.setText(i18n.str("style")); //$NON-NLS-1$
+			styleCB.setText(I18N.getMsg("shef.style")); //$NON-NLS-1$
 			styleCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					styleCombo.setEnabled(styleCB.isSelected());
@@ -276,7 +277,7 @@ public class ListAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getStartAtCB() {
 		if (startAtCB == null) {
 			startAtCB = new JCheckBox();
-			startAtCB.setText(i18n.str("start_at")); //$NON-NLS-1$
+			startAtCB.setText(I18N.getMsg("shef.start_at")); //$NON-NLS-1$
 			startAtCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					startAtField.setEnabled(startAtCB.isSelected());

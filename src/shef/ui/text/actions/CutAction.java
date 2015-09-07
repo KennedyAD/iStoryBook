@@ -15,6 +15,7 @@ import shef.ui.UIUtils;
 
 import org.bushe.swing.action.ActionManager;
 import org.bushe.swing.action.ShouldBeEnabledDelegate;
+import storybook.toolkit.I18N;
 
 
 /**
@@ -33,14 +34,15 @@ public class CutAction extends BasicEditAction
     public CutAction()
     {
         super("");
-        putValue(Action.NAME, i18n.str("cut"));
+        putValue(Action.NAME, I18N.getMsg("shef.cut"));
         putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "cut.png"));
         putValue(ActionManager.LARGE_ICON, UIUtils.getIcon(UIUtils.X24, "cut.png"));
         putValue(Action.ACCELERATOR_KEY,
             KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
-        putValue(MNEMONIC_KEY, new Integer(i18n.mnem("cut")));
+        putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.cut"));
         addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate()
         {
+			@Override
             public boolean shouldBeEnabled(Action a)
             {                          
             	JEditorPane ed = getCurrentEditor();
@@ -55,11 +57,13 @@ public class CutAction extends BasicEditAction
     /* (non-Javadoc)
      * @see shef.ui.text.actions.BasicEditAction#doEdit(java.awt.event.ActionEvent, javax.swing.JEditorPane)
      */
+	@Override
     protected void doEdit(ActionEvent e, JEditorPane editor)
     {
         editor.cut();
     }
     
+	@Override
     protected void contextChanged()
     {
     	super.contextChanged();

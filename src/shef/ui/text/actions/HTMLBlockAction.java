@@ -28,6 +28,8 @@ import shef.ui.text.CompoundUndoManager;
 import shef.ui.text.ElementWriter;
 import shef.ui.text.HTMLUtils;
 
+import storybook.toolkit.I18N;
+
 /**
  * Action which formats HTML block level elements
  *
@@ -61,18 +63,18 @@ public class HTMLBlockAction extends HTMLTextEditAction {
 
 	public static final String[] ELEMENT_TYPES
 			= {
-				i18n.str("body_text"),
-				i18n.str("paragraph"),
-				i18n.str("heading") + " 1",
-				i18n.str("heading") + " 2",
-				i18n.str("heading") + " 3",
-				i18n.str("heading") + " 4",
-				i18n.str("heading") + " 5",
-				i18n.str("heading") + " 6",
-				i18n.str("preformatted"),
-				i18n.str("blockquote"),
-				i18n.str("ordered_list"),
-				i18n.str("unordered_list")
+				I18N.getMsg("shef.body_text"),
+				I18N.getMsg("shef.paragraph"),
+				I18N.getMsg("shef.heading") + " 1",
+				I18N.getMsg("shef.heading") + " 2",
+				I18N.getMsg("shef.heading") + " 3",
+				I18N.getMsg("shef.heading") + " 4",
+				I18N.getMsg("shef.heading") + " 5",
+				I18N.getMsg("shef.heading") + " 6",
+				I18N.getMsg("shef.preformatted"),
+				I18N.getMsg("shef.blockquote"),
+				I18N.getMsg("shef.ordered_list"),
+				I18N.getMsg("shef.unordered_list")
 			};
 
 	private int type;
@@ -93,17 +95,17 @@ public class HTMLBlockAction extends HTMLTextEditAction {
 		putValue(NAME, ELEMENT_TYPES[type]);
 		putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KEYS[type], Event.ALT_MASK));
 		if (type == P) {
-			putValue(MNEMONIC_KEY, (int) i18n.mnem("paragraph"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.paragraph"));
 		} else if (type == PRE) {
-			putValue(MNEMONIC_KEY, (int) i18n.mnem("preformatted"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.preformatted"));
 		} else if (type == BLOCKQUOTE) {
-			putValue(MNEMONIC_KEY, (int) i18n.mnem("blockquote"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.blockquote"));
 		} else if (type == OL) {
 			putValue(SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "listordered.png"));
-			putValue(MNEMONIC_KEY, (int) i18n.mnem("ordered_list"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.ordered_list"));
 		} else if (type == UL) {
 			putValue(SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "listunordered.png"));
-			putValue(MNEMONIC_KEY, (int) i18n.mnem("unordered_list"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.unordered_list"));
 		} else {
 			String s = type + "";
 			putValue(Action.MNEMONIC_KEY, (int) s.charAt(0));

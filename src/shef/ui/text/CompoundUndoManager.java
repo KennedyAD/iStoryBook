@@ -22,8 +22,8 @@ import javax.swing.undo.UndoableEdit;
 
 import org.bushe.swing.action.ActionManager;
 
-import shef.i18n.I18n;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 //TODO add static method to unregister documents
 /**
@@ -46,7 +46,7 @@ import shef.ui.UIUtils;
  */
 public class CompoundUndoManager implements UndoableEditListener {
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.text");
+	//private static final I18n i18n = I18n.getInstance("shef.ui.text");
 
 	/**
 	 * Static undo action that works across all documents with a CompoundUndoManager registered as an
@@ -168,6 +168,7 @@ public class CompoundUndoManager implements UndoableEditListener {
 		this(doc, new UndoManager());
 	}
 
+	@Override
 	public void undoableEditHappened(UndoableEditEvent evt) {
 		UndoableEdit edit = evt.getEdit();
 		if (compoundEdit != null) {
@@ -202,10 +203,10 @@ public class CompoundUndoManager implements UndoableEditListener {
 		private static final long serialVersionUID = 1L;
 
 		public UndoAction() {
-			super(i18n.str("undo"));
+			super(I18N.getMsg("shef.undo"));
 			putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "undo.png"));
 			putValue(ActionManager.LARGE_ICON, UIUtils.getIcon(UIUtils.X24, "undo.png"));
-			putValue(MNEMONIC_KEY, new Integer(i18n.mnem("undo")));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.undo"));
 
 			setEnabled(false);
 			putValue(
@@ -214,6 +215,7 @@ public class CompoundUndoManager implements UndoableEditListener {
 			putValue(SHORT_DESCRIPTION, getValue(NAME));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			Document doc = getTextComponent(e).getDocument();
 			UndoManager um = getUndoManagerForDocument(doc);
@@ -238,10 +240,10 @@ public class CompoundUndoManager implements UndoableEditListener {
 		private static final long serialVersionUID = 1L;
 
 		public RedoAction() {
-			super(i18n.str("redo"));
+			super(I18N.getMsg("shef.redo"));
 			putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "redo.png"));
 			putValue(ActionManager.LARGE_ICON, UIUtils.getIcon(UIUtils.X24, "redo.png"));
-			putValue(MNEMONIC_KEY, new Integer(i18n.mnem("redo")));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.redo"));
 
 			setEnabled(false);
 			putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(
@@ -249,6 +251,7 @@ public class CompoundUndoManager implements UndoableEditListener {
 			putValue(SHORT_DESCRIPTION, getValue(NAME));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			Document doc = getTextComponent(e).getDocument();
 			UndoManager um = getUndoManagerForDocument(doc);

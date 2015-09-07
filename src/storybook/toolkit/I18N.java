@@ -82,6 +82,14 @@ public class I18N {
 		return formatter.format(args);
 	}
 
+	public static char getMnemonic(String key) {
+		String s = getMsg(key + ".mnemonic");
+		if (s != null && s.length() > 0) {
+			return s.charAt(0);
+		}
+		return '!';
+	}
+
 	public static final void setMnemonic(JMenuItem menuItem, int englishKey) {
 		setMnemonic(menuItem, englishKey, englishKey);
 	}
@@ -136,7 +144,11 @@ public class I18N {
 
 	public static String getMsg(String resourceKey) {
 		ResourceBundle rb = getMessageResourceBundle();
+		try{
 		return rb.getString(resourceKey);
+		} catch (Exception ex) {
+			return '!' + resourceKey + '!';
+		}
 	}
 
 	public static String getMsg(String resourceKey, boolean required) {

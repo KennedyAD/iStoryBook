@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import shef.ui.text.TextEditPopupManager;
+import storybook.toolkit.I18N;
 
 public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 
@@ -246,7 +247,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 		gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
 		gridBagConstraints.gridy = 0;
 		imgUrlLabel = new JLabel();
-		imgUrlLabel.setText(i18n.str("image_url")); //$NON-NLS-1$
+		imgUrlLabel.setText(I18N.getMsg("shef.image_url")); //$NON-NLS-1$
 		this.setLayout(new GridBagLayout());
 		this.setSize(365, 188);
 		//this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Image Properties", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5,5,5,5)));
@@ -270,7 +271,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getAltTextCB() {
 		if (altTextCB == null) {
 			altTextCB = new JCheckBox();
-			altTextCB.setText(i18n.str("alt_text")); //$NON-NLS-1$
+			altTextCB.setText(I18N.getMsg("shef.alt_text")); //$NON-NLS-1$
 			altTextCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					altTextField.setEditable(altTextCB.isSelected());
@@ -288,7 +289,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getWidthCB() {
 		if (widthCB == null) {
 			widthCB = new JCheckBox();
-			widthCB.setText(i18n.str("width")); //$NON-NLS-1$
+			widthCB.setText(I18N.getMsg("shef.width")); //$NON-NLS-1$
 			widthCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					widthField.setEnabled(widthCB.isSelected());
@@ -306,7 +307,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getHeightCB() {
 		if (heightCB == null) {
 			heightCB = new JCheckBox();
-			heightCB.setText(i18n.str("height")); //$NON-NLS-1$
+			heightCB.setText(I18N.getMsg("shef.height")); //$NON-NLS-1$
 			heightCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					heightField.setEnabled(heightCB.isSelected());
@@ -324,7 +325,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getBorderCB() {
 		if (borderCB == null) {
 			borderCB = new JCheckBox();
-			borderCB.setText(i18n.str("border")); //$NON-NLS-1$
+			borderCB.setText(I18N.getMsg("shef.border")); //$NON-NLS-1$
 			borderCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					borderField.setEnabled(borderCB.isSelected());
@@ -381,7 +382,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getVSpaceCB() {
 		if (vSpaceCB == null) {
 			vSpaceCB = new JCheckBox();
-			vSpaceCB.setText(i18n.str("vspace")); //$NON-NLS-1$
+			vSpaceCB.setText(I18N.getMsg("shef.vspace")); //$NON-NLS-1$
 			vSpaceCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					vSpaceField.setEnabled(vSpaceCB.isSelected());
@@ -399,7 +400,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getHSpaceCB() {
 		if (hSpaceCB == null) {
 			hSpaceCB = new JCheckBox();
-			hSpaceCB.setText(i18n.str("hspace")); //$NON-NLS-1$
+			hSpaceCB.setText(I18N.getMsg("shef.hspace")); //$NON-NLS-1$
 			hSpaceCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					hSpaceField.setEnabled(hSpaceCB.isSelected());
@@ -417,7 +418,7 @@ public class ImageAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getAlignCB() {
 		if (alignCB == null) {
 			alignCB = new JCheckBox();
-			alignCB.setText(i18n.str("align")); //$NON-NLS-1$
+			alignCB.setText(I18N.getMsg("shef.align")); //$NON-NLS-1$
 			alignCB.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					alignCombo.setEnabled(alignCB.isSelected());

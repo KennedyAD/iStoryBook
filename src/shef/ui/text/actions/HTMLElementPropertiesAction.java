@@ -9,6 +9,7 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.Enumeration;
 //import java.util.Hashtable;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import shef.ui.text.dialogs.ElementStyleDialog;
 import shef.ui.text.dialogs.HyperlinkDialog;
 import shef.ui.text.dialogs.ListDialog;
 import shef.ui.text.dialogs.TablePropertiesDialog;
+import storybook.toolkit.I18N;
 
 /**
  * Action for editing an element's properties depending on the current caret position.
@@ -56,16 +58,17 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 
 	public static final String PROPS[]
 			= {
-				i18n.str("table_properties_"),
-				i18n.str("list_properties_"),
-				i18n.str("image_properties_"),
-				i18n.str("hyperlink_properties_"),
-				i18n.str("object_properties_")
+				I18N.getMsg("shef.table_properties_"),
+				I18N.getMsg("shef.list_properties_"),
+				I18N.getMsg("shef.image_properties_"),
+				I18N.getMsg("shef.hyperlink_properties_"),
+				I18N.getMsg("shef.object_properties_")
 			};
 
 	public HTMLElementPropertiesAction() {
 		super(PROPS[ELEM_PROPS]);
 		addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate() {
+			@Override
 			public boolean shouldBeEnabled(Action a) {
 				return getEditMode() != SOURCE && elementAtCaretPosition(getCurrentEditor()) != null;
 			}
@@ -73,6 +76,7 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 	}
 
 	//public void actionPerformed(ActionEvent e)
+	@Override
 	protected void wysiwygEditPerformed(ActionEvent e, JEditorPane ed) {
 		Element elem = elementAtCaretPosition(ed);
 		int type = getElementType(elem);
@@ -208,7 +212,7 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 
 				html = getElementHTML(tableElem, dlg.getTableAttributes());
 				doc.setOuterHTML(tableElem, html);
-			} catch (Exception ex) {
+			} catch (BadLocationException | IOException ex) {
 				ex.printStackTrace();
 			}
 			CompoundUndoManager.endCompoundEdit(doc);
@@ -221,12 +225,15 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 			return;
 		}
 		int type;
-		if (elem.getName().equals("ul")) {
-			type = ListDialog.UNORDERED;
-		} else if (elem.getName().equals("ol")) {
-			type = ListDialog.ORDERED;
-		} else {
-			return;
+		switch (elem.getName()) {
+			case "ul":
+				type = ListDialog.UNORDERED;
+				break;
+			case "ol":
+				type = ListDialog.ORDERED;
+				break;
+			default:
+				return;
 		}
 
 		Map attr = getAttribs(elem);
@@ -371,12 +378,13 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 		CompoundUndoManager.beginCompoundEdit(document);
 		try {
 			document.setOuterHTML(elem, html);
-		} catch (Exception ex) {
+		} catch (BadLocationException | IOException ex) {
 			ex.printStackTrace();
 		}
 		CompoundUndoManager.endCompoundEdit(document);
 	}
 
+	@Override
 	protected void updateWysiwygContextState(JEditorPane ed) {
 		int t = ELEM_PROPS;
 		Element elem = elementAtCaretPosition(ed);
@@ -443,6 +451,7 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 	/* (non-Javadoc)
 	 * @see shef.ui.text.actions.HTMLTextEditAction#sourceEditPerformed(java.awt.event.ActionEvent, javax.swing.JEditorPane)
 	 */
+	@Override
 	protected void sourceEditPerformed(ActionEvent e, JEditorPane editor) {
 
 	}

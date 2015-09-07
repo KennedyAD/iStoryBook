@@ -14,24 +14,25 @@ import javax.swing.text.html.HTML;
 
 import storybook.toolkit.swing.SwingUtil;
 
-import shef.i18n.I18n;
+//import shef.i18n.I18n;
 import shef.ui.UIUtils;
 import shef.ui.text.HTMLUtils;
 import shef.ui.text.actions.HTMLTextEditAction;
 import shef.ui.text.dialogs.ImageDialog;
+import storybook.toolkit.I18N;
 
 @SuppressWarnings("serial")
 public class SbHTMLImageAction extends HTMLTextEditAction {
 
-	private static final I18n i18n = I18n
-			.getInstance("storybook.toolkit.shef.shef");
+//	private static final I18n i18n = I18n.getInstance("storybook.toolkit.shef.shef");
 
 	public SbHTMLImageAction() {
-		super(i18n.str("image_")); //$NON-NLS-1$
+		super(I18N.getMsg("shef.image_")); //$NON-NLS-1$
 		putValue(SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "image.png")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, getValue(Action.NAME));
 	}
 
+	@Override
 	protected void sourceEditPerformed(ActionEvent e, JEditorPane editor) {
 		ImageDialog d = createDialog(editor);
 		// d.setSize(300, 300);
@@ -44,6 +45,7 @@ public class SbHTMLImageAction extends HTMLTextEditAction {
 		editor.replaceSelection(d.getHTML());
 	}
 
+	@Override
 	protected void wysiwygEditPerformed(ActionEvent e, JEditorPane editor) {
 		// ImageDialog d = createDialog(editor);
 		// // d.setSize(300, 300);

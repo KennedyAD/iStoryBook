@@ -73,6 +73,7 @@ public class AboutDialog extends AbstractDialog {
 			+ "<br>German: <b>Frankie Johnson</b>"
 			+ "<br>Greek: <i>vacant</i>"
 			+ "<br>Hebrew: <i>vacant</i>"
+			+ "<br>Hungarian: <b>Sinkovics Vivien</b>"
 			+ "<br>Italian: <b>Gian Paolo Renello</b>"
 			+ "<br>Japanese: <b>Asuka Yuki (飛香宥希/P.N.)</b>"
 			+ "<br>Polish: <i>vacant</i>"

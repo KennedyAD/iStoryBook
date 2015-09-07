@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 import java.util.*;
+import storybook.toolkit.I18N;
 
 /**
  * A panel for editing table alignment attributes
@@ -43,6 +44,7 @@ public class AlignmentAttributesPanel extends HTMLAttributeEditorPanel {
 		updateComponentsFromAttribs();
 	}
 
+	@Override
 	public void updateComponentsFromAttribs() {
 		if (attribs.containsKey("align")) //$NON-NLS-1$
 		{
@@ -132,7 +134,7 @@ public class AlignmentAttributesPanel extends HTMLAttributeEditorPanel {
 		gridBagConstraints.gridy = 0;
 		this.setLayout(new GridBagLayout());
 		this.setSize(185, 95);
-		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(i18n.str("content_alignment")), javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5))); //$NON-NLS-1$
+		this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(I18N.getMsg("shef.content_alignment")), javax.swing.BorderFactory.createEmptyBorder(2, 5, 2, 5))); //$NON-NLS-1$
 
 		this.setPreferredSize(new java.awt.Dimension(185, 95));
 		this.setMaximumSize(this.getPreferredSize());
@@ -151,9 +153,10 @@ public class AlignmentAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getVAlignCB() {
 		if (vAlignCB == null) {
 			vAlignCB = new JCheckBox();
-			vAlignCB.setText(i18n.str("vertical")); //$NON-NLS-1$
+			vAlignCB.setText(I18N.getMsg("shef.vertical")); //$NON-NLS-1$
 
 			vAlignCB.addActionListener(new java.awt.event.ActionListener() {
+				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					vLocCombo.setEnabled(vAlignCB.isSelected());
 				}
@@ -170,9 +173,10 @@ public class AlignmentAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getHAlignCB() {
 		if (hAlignCB == null) {
 			hAlignCB = new JCheckBox();
-			hAlignCB.setText(i18n.str("horizontal")); //$NON-NLS-1$
+			hAlignCB.setText(I18N.getMsg("shef.horizontal")); //$NON-NLS-1$
 
 			hAlignCB.addActionListener(new java.awt.event.ActionListener() {
+				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					hLocCombo.setEnabled(hAlignCB.isSelected());
 				}

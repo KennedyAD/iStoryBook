@@ -52,8 +52,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-import shef.i18n.I18n;
 import shef.ui.text.TextEditPopupManager;
+import storybook.toolkit.I18N;
 
 /**
  * A find and replace dialog for JTextComponents
@@ -66,7 +66,7 @@ public class TextFinderDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
 
 	public static final char[] WORD_SEPARATORS = {' ', '\t', '\n',
 		'\r', '\f', '.', ',', ':', '-', '(', ')', '[', ']', '{',
@@ -94,7 +94,7 @@ public class TextFinderDialog extends JDialog {
 	protected boolean searchUp = false;
 	protected String searchData;
 
-	private static final String TITLE = i18n.str("find_and_replace"); //$NON-NLS-1$
+	private static final String TITLE = I18N.getMsg("shef.find_and_replace"); //$NON-NLS-1$
 	//private JTextComponent textComp;
 
 	public TextFinderDialog(Frame owner, JTextComponent tc, int index) {
@@ -120,7 +120,7 @@ public class TextFinderDialog extends JDialog {
 		JPanel pf = new JPanel();
 		pf.setLayout(new DialogLayout(20, 5));
 		pf.setBorder(new EmptyBorder(8, 5, 8, 0));
-		pf.add(new JLabel(i18n.str("find_what")));
+		pf.add(new JLabel(I18N.getMsg("shef.find_what")));
 
 		txtFind1 = new JTextField();
 		docFind = txtFind1.getDocument();
@@ -129,26 +129,26 @@ public class TextFinderDialog extends JDialog {
 		popupManager.registerJTextComponent(txtFind1);
 
 		JPanel po = new JPanel(new GridLayout(2, 2, 8, 2));
-		po.setBorder(new TitledBorder(new EtchedBorder(), i18n.str("options")));
+		po.setBorder(new TitledBorder(new EtchedBorder(), I18N.getMsg("shef.options")));
 
-		JCheckBox chkWord = new JCheckBox(i18n.str("whole_words_only"));
+		JCheckBox chkWord = new JCheckBox(I18N.getMsg("shef.whole_words_only"));
 		chkWord.setMnemonic('w');
 		modelWord = chkWord.getModel();
 		po.add(chkWord);
 
 		ButtonGroup bg = new ButtonGroup();
-		JRadioButton rdUp = new JRadioButton(i18n.str("search_up"));
+		JRadioButton rdUp = new JRadioButton(I18N.getMsg("shef.search_up"));
 		rdUp.setMnemonic('u');
 		modelUp = rdUp.getModel();
 		bg.add(rdUp);
 		po.add(rdUp);
 
-		JCheckBox chkCase = new JCheckBox(i18n.str("match_case"));
+		JCheckBox chkCase = new JCheckBox(I18N.getMsg("shef.match_case"));
 		chkCase.setMnemonic('c');
 		modelCase = chkCase.getModel();
 		po.add(chkCase);
 
-		JRadioButton rdDown = new JRadioButton(i18n.str("search_down"), true);
+		JRadioButton rdDown = new JRadioButton(I18N.getMsg("shef.search_down"), true);
 		rdDown.setMnemonic('d');
 		modelDown = rdDown.getModel();
 		bg.add(rdDown);
@@ -166,7 +166,7 @@ public class TextFinderDialog extends JDialog {
 			}
 		};
 
-		JButton btFind = new JButton(i18n.str("find_next"));
+		JButton btFind = new JButton(I18N.getMsg("shef.find_next"));
 		btFind.addActionListener(findAction);
 		btFind.setMnemonic('f');
 		p.add(btFind);
@@ -179,14 +179,14 @@ public class TextFinderDialog extends JDialog {
 			}
 		};
 
-		JButton btClose = new JButton(i18n.str("close"));
+		JButton btClose = new JButton(I18N.getMsg("shef.close"));
 		btClose.addActionListener(closeAction);
 		btClose.setDefaultCapable(true);
 		p.add(btClose);
 		p01.add(p);
 		p1.add(p01, BorderLayout.EAST);
 
-		tb.addTab(i18n.str("find"), p1);
+		tb.addTab(I18N.getMsg("shef.find"), p1);
 
 		// "Replace" panel
 		JPanel p2 = new JPanel(new BorderLayout());
@@ -197,13 +197,13 @@ public class TextFinderDialog extends JDialog {
 		pc.setLayout(new DialogLayout(20, 5));
 		pc.setBorder(new EmptyBorder(8, 5, 8, 0));
 
-		pc.add(new JLabel(i18n.str("find_what")));
+		pc.add(new JLabel(I18N.getMsg("shef.find_what")));
 		txtFind2 = new JTextField();
 		txtFind2.setDocument(docFind);
 		pc.add(txtFind2);
 		popupManager.registerJTextComponent(txtFind2);
 
-		pc.add(new JLabel(i18n.str("replace")));
+		pc.add(new JLabel(I18N.getMsg("shef.replace")));
 		JTextField txtReplace = new JTextField();
 		docReplace = txtReplace.getDocument();
 		pc.add(txtReplace);
@@ -211,26 +211,26 @@ public class TextFinderDialog extends JDialog {
 		popupManager.registerJTextComponent(txtReplace);
 
 		po = new JPanel(new GridLayout(2, 2, 8, 2));
-		po.setBorder(new TitledBorder(new EtchedBorder(), i18n.str("options")));
+		po.setBorder(new TitledBorder(new EtchedBorder(), I18N.getMsg("shef.options")));
 
-		chkWord = new JCheckBox(i18n.str("whole_words_only"));
+		chkWord = new JCheckBox(I18N.getMsg("shef.whole_words_only"));
 		chkWord.setMnemonic('w');
 		chkWord.setModel(modelWord);
 		po.add(chkWord);
 
 		bg = new ButtonGroup();
-		rdUp = new JRadioButton(i18n.str("search_up"));
+		rdUp = new JRadioButton(I18N.getMsg("shef.search_up"));
 		rdUp.setMnemonic('u');
 		rdUp.setModel(modelUp);
 		bg.add(rdUp);
 		po.add(rdUp);
 
-		chkCase = new JCheckBox(i18n.str("match_case"));
+		chkCase = new JCheckBox(I18N.getMsg("shef.match_case"));
 		chkCase.setMnemonic('c');
 		chkCase.setModel(modelCase);
 		po.add(chkCase);
 
-		rdDown = new JRadioButton(i18n.str("search_down"), true);
+		rdDown = new JRadioButton(I18N.getMsg("shef.search_down"), true);
 		rdDown.setMnemonic('d');
 		rdDown.setModel(modelDown);
 		bg.add(rdDown);
@@ -247,7 +247,7 @@ public class TextFinderDialog extends JDialog {
 				findNext(true, true);
 			}
 		};
-		JButton btReplace = new JButton(i18n.str("replace"));
+		JButton btReplace = new JButton(I18N.getMsg("shef.replace"));
 		btReplace.addActionListener(replaceAction);
 		btReplace.setMnemonic('r');
 		p.add(btReplace);
@@ -267,16 +267,16 @@ public class TextFinderDialog extends JDialog {
 					counter++;
 				}
 				JOptionPane.showMessageDialog(owner,
-						counter + " " + i18n.str("replacements_prompt"), "Info",
+						counter + " " + I18N.getMsg("shef.replacements_prompt"), "Info",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		};
-		JButton btReplaceAll = new JButton(i18n.str("replace_all"));
+		JButton btReplaceAll = new JButton(I18N.getMsg("shef.replace_all"));
 		btReplaceAll.addActionListener(replaceAllAction);
 		btReplaceAll.setMnemonic('a');
 		p.add(btReplaceAll);
 
-		btClose = new JButton(i18n.str("close"));
+		btClose = new JButton(I18N.getMsg("shef.close"));
 		btClose.addActionListener(closeAction);
 		btClose.setDefaultCapable(true);
 		p.add(btClose);
@@ -286,7 +286,7 @@ public class TextFinderDialog extends JDialog {
 		// Make button columns the same size
 		p01.setPreferredSize(p02.getPreferredSize());
 
-		tb.addTab(i18n.str("replace"), p2);
+		tb.addTab(I18N.getMsg("shef.replace"), p2);
 
 		tb.setSelectedIndex(index);
 
@@ -355,14 +355,14 @@ public class TextFinderDialog extends JDialog {
 		}
 
 		if (key.length() == 0) {
-			warning(i18n.str("no_target_prompt"));
+			warning(I18N.getMsg("shef.no_target_prompt"));
 			return -1;
 		}
 
 		if (modelWord.isSelected()) {
 			for (int k = 0; k < WORD_SEPARATORS.length; k++) {
 				if (key.indexOf(WORD_SEPARATORS[k]) >= 0) {
-					warning(i18n.str("illegal_character_prompt")
+					warning(I18N.getMsg("shef.illegal_character_prompt")
 							+ " \'" + WORD_SEPARATORS[k] + "\'");
 					return -1;
 				}
@@ -405,7 +405,7 @@ public class TextFinderDialog extends JDialog {
 
 			if (index < 0 || index >= searchData.length()) {
 				if (showWarnings) {
-					warning(i18n.str("text_not_found"));
+					warning(I18N.getMsg("shef.text_not_found"));
 				}
 				return 0;
 			}
@@ -428,7 +428,7 @@ public class TextFinderDialog extends JDialog {
 					}
 
 					if (showWarnings) {
-						warning(i18n.str("text_not_found"));
+						warning(I18N.getMsg("shef.text_not_found"));
 					}
 					return 0;
 				}

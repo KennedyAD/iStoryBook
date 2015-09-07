@@ -17,6 +17,7 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.bushe.swing.action.ShouldBeEnabledDelegate;
+import storybook.toolkit.I18N;
 
 /**
  * Action which clears inline text styles
@@ -33,12 +34,13 @@ public class ClearStylesAction extends HTMLTextEditAction
 
     public ClearStylesAction()
     {
-        super(i18n.str("clear_styles"));
-        putValue(MNEMONIC_KEY, new Integer(i18n.mnem("clear_styles")));
+        super(I18N.getMsg("shef.clear_styles"));
+        putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.clear_styles"));
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke("shift ctrl Y"));
         
         addShouldBeEnabledDelegate(new ShouldBeEnabledDelegate()
         {
+			@Override
             public boolean shouldBeEnabled(Action a)
             {                          
                 return getEditMode() != SOURCE;
@@ -49,6 +51,7 @@ public class ClearStylesAction extends HTMLTextEditAction
     /* (non-Javadoc)
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
+	@Override
     protected void wysiwygEditPerformed(ActionEvent e, JEditorPane editor)
     {
         HTMLDocument document = (HTMLDocument)editor.getDocument();
@@ -91,6 +94,7 @@ public class ClearStylesAction extends HTMLTextEditAction
     /* (non-Javadoc)
      * @see shef.ui.text.actions.HTMLTextEditAction#sourceEditPerformed(java.awt.event.ActionEvent, javax.swing.JEditorPane)
      */
+	@Override
     protected void sourceEditPerformed(ActionEvent e, JEditorPane editor)
     {
         

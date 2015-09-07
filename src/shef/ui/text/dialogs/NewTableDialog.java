@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import shef.i18n.I18n;
 import shef.ui.OptionDialog;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 public class NewTableDialog extends OptionDialog {
 
@@ -32,19 +32,19 @@ public class NewTableDialog extends OptionDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
 
 	private LayoutPanel layoutPanel = new LayoutPanel();
 	private TableAttributesPanel propsPanel;
 	private static Icon icon = UIUtils.getIcon(UIUtils.X48, "table.png"); //$NON-NLS-1$
 
 	public NewTableDialog(Frame parent) {
-		super(parent, i18n.str("new_table"), i18n.str("new_table_desc"), icon);         //$NON-NLS-1$ //$NON-NLS-2$
+		super(parent, I18N.getMsg("shef.new_table"), I18N.getMsg("shef.new_table_desc"), icon);         //$NON-NLS-1$ //$NON-NLS-2$
 		init();
 	}
 
 	public NewTableDialog(Dialog parent) {
-		super(parent, i18n.str("new_table"), i18n.str("new_table_desc"), icon);         //$NON-NLS-1$ //$NON-NLS-2$
+		super(parent, I18N.getMsg("shef.new_table"), I18N.getMsg("shef.new_table_desc"), icon);         //$NON-NLS-1$ //$NON-NLS-2$
 		init();
 	}
 
@@ -59,7 +59,7 @@ public class NewTableDialog extends OptionDialog {
 
 		propsPanel.setBorder(
 				BorderFactory.createCompoundBorder(
-						BorderFactory.createTitledBorder(i18n.str("properties")), //$NON-NLS-1$
+						BorderFactory.createTitledBorder(I18N.getMsg("shef.properties")), //$NON-NLS-1$
 						BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -155,7 +155,7 @@ public class NewTableDialog extends OptionDialog {
 			gridBagConstraints1.insets = new java.awt.Insets(0, 0, 0, 5);
 			gridBagConstraints1.gridy = 0;
 			colsLabel = new JLabel();
-			colsLabel.setText(i18n.str("columns")); //$NON-NLS-1$
+			colsLabel.setText(I18N.getMsg("shef.columns")); //$NON-NLS-1$
 			GridBagConstraints gridBagConstraints = new GridBagConstraints();
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -163,12 +163,12 @@ public class NewTableDialog extends OptionDialog {
 			gridBagConstraints.weighty = 0.0;
 			gridBagConstraints.gridy = 0;
 			rowsLabel = new JLabel();
-			rowsLabel.setText(i18n.str("rows")); //$NON-NLS-1$
+			rowsLabel.setText(I18N.getMsg("shef.rows")); //$NON-NLS-1$
 			this.setLayout(new GridBagLayout());
 			this.setSize(330, 60);
 			this.setPreferredSize(new java.awt.Dimension(330, 60));
 			//this.setMaximumSize(this.getPreferredSize());
-			this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("layout"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
+			this.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.layout"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
 			this.add(rowsLabel, gridBagConstraints);
 			this.add(colsLabel, gridBagConstraints1);
 			this.add(getRowsField(), gridBagConstraints6);

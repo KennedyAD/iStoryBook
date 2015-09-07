@@ -11,7 +11,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import shef.i18n.I18n;
+
+import storybook.toolkit.I18N;
 
 /**
  * This class implements a standard data entry dialog with "OK" and "Cancel" buttons. Subclasses can override the
@@ -29,7 +30,7 @@ public class StandardDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.i18n");
+//	private static final I18n i18n = I18n.getInstance("shef.ui.i18n");
 
 	// Constants
 	public static final int BUTTONS_CENTER = FlowLayout.CENTER;
@@ -41,7 +42,7 @@ public class StandardDialog extends JDialog {
 	 */
 	private static final int COMPONENT_SPACING = 5;
 
-    // Attributes
+	// Attributes
 	/**
 	 * Flag indicating if the "Cancel" button was pressed to close dialog
 	 */
@@ -52,7 +53,7 @@ public class StandardDialog extends JDialog {
 	 */
 	private Container myUserContentPane;
 
-    // Methods
+	// Methods
 	/**
 	 * This method is the default constructor.
 	 */
@@ -109,14 +110,14 @@ public class StandardDialog extends JDialog {
 		setModal(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        // Setup the internal content pane to hold the user content pane
+		// Setup the internal content pane to hold the user content pane
 		// and the standard button panel
 		JPanel internalContentPane = new JPanel();
 
 		internalContentPane.setLayout(
 				new BorderLayout(COMPONENT_SPACING, COMPONENT_SPACING));
 
-		Action okAction = new AbstractAction(i18n.str("ok")) {
+		Action okAction = new AbstractAction(I18N.getMsg("shef.ok")) {
 			/**
 			 *
 			 */
@@ -131,7 +132,7 @@ public class StandardDialog extends JDialog {
 			}
 		};
 
-		Action cancelAction = new AbstractAction(i18n.str("cancel")) //$NON-NLS-1$
+		Action cancelAction = new AbstractAction(I18N.getMsg("shef.cancel")) //$NON-NLS-1$
 		{
 			/**
 			 *
@@ -163,7 +164,7 @@ public class StandardDialog extends JDialog {
 		//setContentPane(new JPanel(new BorderLayout()));
 		super.setContentPane(internalContentPane);
 
-        // Finally, add a listener for the window close button.
+		// Finally, add a listener for the window close button.
 		// Process this event the same as the "Cancel" button.
 		WindowAdapter windowAdapter = new WindowAdapter() {
 			@Override
@@ -202,7 +203,8 @@ public class StandardDialog extends JDialog {
 	 * is cancelled if the "Cancel" button is pressed or the "Close" window button is pressed, or the "Escape" key is
 	 * pressed. In other words, if the User has caused the dialog to close by any method other than by pressing the "Ok"
 	 * button, this method will return <code>true</code>.
-	 * @return 
+	 *
+	 * @return
 	 */
 	public boolean hasUserCancelled() {
 		return myIsDialogCancelled;

@@ -12,11 +12,12 @@ import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.JPanel;
 
-import shef.i18n.I18n;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 public class HTMLFontDialog extends HTMLOptionDialog {
 
@@ -25,22 +26,13 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//	private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
 
 	private static Icon icon = UIUtils.getIcon(UIUtils.X48, "fontsize.png"); //$NON-NLS-1$
-	private static String title = i18n.str("font"); //$NON-NLS-1$
-	private static String desc = i18n.str("font_desc"); //$NON-NLS-1$
+	private static String title = I18N.getMsg("shef.font"); //$NON-NLS-1$
+	private static String desc = I18N.getMsg("shef.font_desc"); //$NON-NLS-1$
 
-	private static final Integer SIZES[]
-			= {
-				new Integer(8),
-				new Integer(10),
-				new Integer(12),
-				new Integer(14),
-				new Integer(18),
-				new Integer(24),
-				new Integer(36)
-			};
+	private static final Integer SIZES[] = {8, 10, 12, 14, 18, 24, 36};
 
 	private JPanel jContentPane = null;
 	private JLabel fontLabel = null;
@@ -104,14 +96,15 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 
 	public int getFontSize() {
 		Integer i = (Integer) sizeCombo.getSelectedItem();
-		return i.intValue();
+		return i;
 	}
 
 	public void setFontSize(int size) {
-		sizeCombo.setSelectedItem(new Integer(size));
+		sizeCombo.setSelectedItem(size);
 		updatePreview();
 	}
 
+	@Override
 	public String getHTML() {
 		String html = "<font "; //$NON-NLS-1$
 		html += "name=\"" + fontCombo.getSelectedItem() + "\" "; //$NON-NLS-1$ //$NON-NLS-2$
@@ -172,7 +165,7 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 
 		String font = fontCombo.getSelectedItem().toString();
 		Integer size = SIZES[sizeCombo.getSelectedIndex()];
-		Font f = new Font(font, style, size.intValue());
+		Font f = new Font(font, style, size);
 		previewLabel.setFont(f);
 
 	}
@@ -209,7 +202,7 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 			gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
 			gridBagConstraints.gridy = 0;
 			fontLabel = new JLabel();
-			fontLabel.setText(i18n.str("font")); //$NON-NLS-1$
+			fontLabel.setText(I18N.getMsg("shef.font")); //$NON-NLS-1$
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new GridBagLayout());
 			jContentPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -218,7 +211,7 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 			jContentPane.add(getSizeCombo(), gridBagConstraints2);
 			jContentPane.add(getStylePanel(), gridBagConstraints21);
 
-			sizeCombo.setSelectedItem(new Integer(previewLabel.getFont().getSize()));
+			sizeCombo.setSelectedItem(previewLabel.getFont().getSize());
 		}
 		return jContentPane;
 	}
@@ -239,12 +232,11 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 			fonts.add("serif"); //$NON-NLS-1$
 			fonts.add("sans-serif"); //$NON-NLS-1$
 			fonts.add("monospaced");
-			for (int i = 0; i < envfonts.length; i++) {
-				fonts.add(envfonts[i]);
-			}
+			fonts.addAll(Arrays.asList(envfonts));
 
 			fontCombo = new JComboBox(fonts);
 			fontCombo.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					updatePreview();
 				}
@@ -262,8 +254,9 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 	private JComboBox getSizeCombo() {
 		if (sizeCombo == null) {
 			sizeCombo = new JComboBox(SIZES);
-			sizeCombo.setSelectedItem(new Integer(12));
+			sizeCombo.setSelectedItem(12);
 			sizeCombo.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					updatePreview();
 				}
@@ -329,8 +322,9 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 	private JCheckBox getBoldCB() {
 		if (boldCB == null) {
 			boldCB = new JCheckBox();
-			boldCB.setText(i18n.str("bold")); //$NON-NLS-1$
+			boldCB.setText(I18N.getMsg("shef.bold")); //$NON-NLS-1$
 			boldCB.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					updatePreview();
 				}
@@ -347,8 +341,9 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 	private JCheckBox getItalicCB() {
 		if (italicCB == null) {
 			italicCB = new JCheckBox();
-			italicCB.setText(i18n.str("italic")); //$NON-NLS-1$
+			italicCB.setText(I18N.getMsg("shef.italic")); //$NON-NLS-1$
 			italicCB.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					updatePreview();
 				}
@@ -365,8 +360,9 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 	private JCheckBox getUlCB() {
 		if (ulCB == null) {
 			ulCB = new JCheckBox();
-			ulCB.setText(i18n.str("underline")); //$NON-NLS-1$
+			ulCB.setText(I18N.getMsg("shef.underline")); //$NON-NLS-1$
 			ulCB.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					updatePreview();
 				}
@@ -389,7 +385,7 @@ public class HTMLFontDialog extends HTMLOptionDialog {
 			spacer.add(previewLabel);
 			previewPanel = new JPanel();
 			previewPanel.setLayout(new BorderLayout());
-			previewPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("preview"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED))))); //$NON-NLS-1$
+			previewPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.preview"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED))))); //$NON-NLS-1$
 			previewPanel.setPreferredSize(new java.awt.Dimension(90, 100));
 			previewPanel.setMaximumSize(previewPanel.getPreferredSize());
 			previewPanel.setMinimumSize(previewPanel.getPreferredSize());

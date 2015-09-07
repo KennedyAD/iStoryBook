@@ -13,7 +13,6 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.bushe.swing.action.ShouldBeEnabledDelegate;
 
-import shef.i18n.I18n;
 import shef.ui.DefaultAction;
 
 
@@ -23,7 +22,7 @@ import shef.ui.DefaultAction;
  */
 public abstract class HTMLTextEditAction extends DefaultAction
 {
-    static final I18n i18n = I18n.getInstance("shef.ui.text.actions");
+    //static final I18n i18n = I18n.getInstance("shef.ui.text.actions");
     
     public static final String EDITOR = "editor";
     

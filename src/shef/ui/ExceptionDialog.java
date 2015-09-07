@@ -21,15 +21,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import javax.swing.BorderFactory;
-import shef.i18n.I18n;
+
+import storybook.toolkit.I18N;
 
 public class ExceptionDialog extends JDialog {
 
-	private static final I18n i18n = I18n.getInstance("shef.ui");
+//	private static final I18n i18n = I18n.getInstance("shef.ui");
 
 	private static final long serialVersionUID = 1L;
 	private static final int PREFERRED_WIDTH = 450;
-	private static final String DEFAULT_TITLE = i18n.str("error");  //  @jve:decl-index=0: //$NON-NLS-1$
+	private static final String DEFAULT_TITLE = I18N.getMsg("shef.error");  //  @jve:decl-index=0: //$NON-NLS-1$
 
 	private JPanel jContentPane = null;
 	private JLabel iconLabel = null;
@@ -124,7 +125,7 @@ public class ExceptionDialog extends JDialog {
 			gridBagConstraints1.weightx = 1.0;
 			gridBagConstraints1.gridy = 0;
 			titleLabel = new JLabel();
-			titleLabel.setText(i18n.str("error_prompt")); //$NON-NLS-1$
+			titleLabel.setText(I18N.getMsg("shef.error_prompt")); //$NON-NLS-1$
 			GridBagConstraints gridBagConstraints = new GridBagConstraints();
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.gridheight = 3;
@@ -177,7 +178,7 @@ public class ExceptionDialog extends JDialog {
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText(i18n.str("ok")); //$NON-NLS-1$
+			okButton.setText(I18N.getMsg("shef.ok")); //$NON-NLS-1$
 			okButton.addActionListener(new java.awt.event.ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -196,7 +197,7 @@ public class ExceptionDialog extends JDialog {
 	private JButton getDetailsButton() {
 		if (detailsButton == null) {
 			detailsButton = new JButton();
-			detailsButton.setText(i18n.str("_details")); //$NON-NLS-1$
+			detailsButton.setText(I18N.getMsg("shef.details")); //$NON-NLS-1$
 			detailsButton.addActionListener(new java.awt.event.ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -213,11 +214,11 @@ public class ExceptionDialog extends JDialog {
 
 	public void showDetails(boolean b) {
 		if (b) {
-			detailsButton.setText(i18n.str("details_")); //$NON-NLS-1$
+			detailsButton.setText(I18N.getMsg("shef.details_")); //$NON-NLS-1$
 			scrollPane.setVisible(true);
 			separator.setVisible(false);
 		} else {
-			detailsButton.setText(i18n.str("_details")); //$NON-NLS-1$
+			detailsButton.setText(I18N.getMsg("shef.details")); //$NON-NLS-1$
 			scrollPane.setVisible(false);
 			separator.setVisible(true);
 		}
@@ -232,7 +233,7 @@ public class ExceptionDialog extends JDialog {
 	}
 
 	public void setThrowable(Throwable th) {
-		String msg = i18n.str("no_message_given"); //$NON-NLS-1$
+		String msg = I18N.getMsg("shef.no_message_given"); //$NON-NLS-1$
 		if (th.getLocalizedMessage() != null && !th.getLocalizedMessage().equals("")) //$NON-NLS-1$
 		{
 			msg = th.getLocalizedMessage();

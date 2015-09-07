@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import shef.ui.text.TextEditPopupManager;
 
 import java.util.*;
+import storybook.toolkit.I18N;
 
 
 public class StyleAttributesPanel extends HTMLAttributeEditorPanel
@@ -66,14 +67,14 @@ public class StyleAttributesPanel extends HTMLAttributeEditorPanel
         gridBagConstraints1.insets = new java.awt.Insets(0,0,5,5);
         gridBagConstraints1.gridy = 1;
         idLabel = new JLabel();
-        idLabel.setText(i18n.str("id")); //$NON-NLS-1$
+        idLabel.setText(I18N.getMsg("shef.id")); //$NON-NLS-1$
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0,0,5,5);
         gridBagConstraints.gridy = 0;
         classLabel = new JLabel();
-        classLabel.setText(i18n.str("class")); //$NON-NLS-1$
+        classLabel.setText(I18N.getMsg("shef.class")); //$NON-NLS-1$
         this.setLayout(new GridBagLayout());
         this.setSize(new java.awt.Dimension(210,60));
         this.setPreferredSize(new java.awt.Dimension(210,60));

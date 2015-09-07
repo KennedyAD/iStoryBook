@@ -68,7 +68,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.undo.UndoManager;
 
-import shef.i18n.I18n;
 import shef.ui.DefaultAction;
 import shef.ui.UIUtils;
 import shef.ui.text.CompoundUndoManager;
@@ -121,7 +120,7 @@ import javax.swing.text.BadLocationException;
 @SuppressWarnings("serial")
 public class HtmlEditor extends JPanel {
 
-    private static final I18n i18n = I18n.getInstance("storybook.toolkit.shef.shef");
+//    private static final I18n i18n = I18n.getInstance("storybook.toolkit.shef.shef");
 
     private static final String INVALID_TAGS[] = {"html", "head", "body", "title"};
 
@@ -252,7 +251,7 @@ public class HtmlEditor extends JPanel {
 	srcPopupMenu = ActionUIFactory.getInstance().createPopupMenu(editActions);
 
 	// create file menu
-	JMenu fileMenu = new JMenu(i18n.str("file"));
+	JMenu fileMenu = new JMenu(I18N.getMsg("shef.file"));
 
 	// create edit menu
 	ActionList lst = new ActionList("edits");
@@ -266,19 +265,19 @@ public class HtmlEditor extends JPanel {
 	lst.add(new FindReplaceAction(false));
 	actionList.addAll(lst);
 	editMenu = ActionUIFactory.getInstance().createMenu(lst);
-	editMenu.setText(i18n.str("edit"));
+	editMenu.setText(I18N.getMsg("shef.edit"));
 
 	// create format menu
-	formatMenu = new JMenu(i18n.str("format"));
+	formatMenu = new JMenu(I18N.getMsg("shef.format"));
 	lst = HTMLEditorActionFactory.createFontSizeActionList();
 	// HTMLEditorActionFactory.createInlineActionList();
 	actionList.addAll(lst);
-	formatMenu.add(createMenu(lst, i18n.str("size")));
+	formatMenu.add(createMenu(lst, I18N.getMsg("shef.size")));
 	fontSizeActions.addAll(lst);
 
 	lst = HTMLEditorActionFactory.createInlineActionList();
 	actionList.addAll(lst);
-	formatMenu.add(createMenu(lst, i18n.str("style")));
+	formatMenu.add(createMenu(lst, I18N.getMsg("shef.style")));
 
 	act = new HTMLFontColorAction();
 	actionList.add(act);
@@ -295,27 +294,27 @@ public class HtmlEditor extends JPanel {
 
 	lst = HTMLEditorActionFactory.createBlockElementActionList();
 	actionList.addAll(lst);
-	formatMenu.add(createMenu(lst, i18n.str("paragraph")));
+	formatMenu.add(createMenu(lst, I18N.getMsg("shef.paragraph")));
 	paraActions.addAll(lst);
 
 	lst = HTMLEditorActionFactory.createListElementActionList();
 	actionList.addAll(lst);
-	formatMenu.add(createMenu(lst, i18n.str("list")));
+	formatMenu.add(createMenu(lst, I18N.getMsg("shef.list")));
 	formatMenu.addSeparator();
 	paraActions.addAll(lst);
 
 	lst = HTMLEditorActionFactory.createAlignActionList();
 	actionList.addAll(lst);
-	formatMenu.add(createMenu(lst, i18n.str("align")));
+	formatMenu.add(createMenu(lst, I18N.getMsg("shef.align")));
 
-	JMenu tableMenu = new JMenu(i18n.str("table"));
+	JMenu tableMenu = new JMenu(I18N.getMsg("shef.table"));
 	lst = HTMLEditorActionFactory.createInsertTableElementActionList();
 	actionList.addAll(lst);
-	tableMenu.add(createMenu(lst, i18n.str("insert")));
+	tableMenu.add(createMenu(lst, I18N.getMsg("shef.insert")));
 
 	lst = HTMLEditorActionFactory.createDeleteTableElementActionList();
 	actionList.addAll(lst);
-	tableMenu.add(createMenu(lst, i18n.str("delete")));
+	tableMenu.add(createMenu(lst, I18N.getMsg("shef.delete")));
 	formatMenu.add(tableMenu);
 	formatMenu.addSeparator();
 
@@ -323,7 +322,7 @@ public class HtmlEditor extends JPanel {
 	formatMenu.add(objectPropertiesAction);
 
 	// create insert menu
-	insertMenu = new JMenu(i18n.str("insert"));
+	insertMenu = new JMenu(I18N.getMsg("shef.insert"));
 	act = new HTMLLinkAction();
 	actionList.add(act);
 	insertMenu.add(act);
@@ -834,7 +833,7 @@ public class HtmlEditor extends JPanel {
 	int tab;
 
 	public ChangeTabAction(int tab) {
-	    super((tab == 0) ? i18n.str("rich_text") : i18n.str("source"));
+	    super((tab == 0) ? I18N.getMsg("shef.rich_text") : I18N.getMsg("shef.source"));
 	    this.tab = tab;
 	    putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);
 	}

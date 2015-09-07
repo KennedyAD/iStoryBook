@@ -27,8 +27,8 @@ import javax.swing.text.TextAction;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
-import shef.i18n.I18n;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 /**
  * Manages an application-wide popup menu for JTextComponents. Any JTextComponent registered with the manager will have
@@ -44,7 +44,7 @@ import shef.ui.UIUtils;
  */
 public class TextEditPopupManager {
 
-	private static final I18n i18n = I18n.getInstance("shef.ui.text");
+	//private static final I18n i18n = I18n.getInstance("shef.ui.text");
 
 	private static TextEditPopupManager singleton = null;
 
@@ -55,19 +55,19 @@ public class TextEditPopupManager {
 	public static final String UNDO = "undo";
 	public static final String REDO = "redo";
 
-	private HashMap actions = new HashMap();
+	private final HashMap actions = new HashMap();
 
 	// The actions we add to the popup menu
-	private Action cut = new DefaultEditorKit.CutAction();
-	private Action copy = new DefaultEditorKit.CopyAction();
-	private Action paste = new DefaultEditorKit.PasteAction();
-	private Action selectAll = new NSelectAllAction();
-	private Action undo = new UndoAction();
-	private Action redo = new RedoAction();
+	private final Action cut = new DefaultEditorKit.CutAction();
+	private final Action copy = new DefaultEditorKit.CopyAction();
+	private final Action paste = new DefaultEditorKit.PasteAction();
+	private final Action selectAll = new NSelectAllAction();
+	private final Action undo = new UndoAction();
+	private final Action redo = new RedoAction();
 
 	// maintains a list of the currently registered JTextComponents
-	private List textComps = new Vector();
-	private List undoers = new Vector();
+	private final List textComps = new Vector();
+	private final List undoers = new Vector();
 
 	private JTextComponent focusedComp;// the registered JTextComponent that is
 	// focused
@@ -75,19 +75,19 @@ public class TextEditPopupManager {
 	// JTextComponent
 
 	// Listeners for the JTextComponents
-	private FocusListener focusHandler = new PopupFocusHandler();
-	private MouseListener popupHandler = new PopupHandler();
-	private UndoListener undoHandler = new UndoListener();
-	private CaretListener caretHandler = new CaretHandler();
-	private JPopupMenu popup = new JPopupMenu();// The one and only popup menu
+	private final FocusListener focusHandler = new PopupFocusHandler();
+	private final MouseListener popupHandler = new PopupHandler();
+	private final UndoListener undoHandler = new UndoListener();
+	private final CaretListener caretHandler = new CaretHandler();
+	private final JPopupMenu popup = new JPopupMenu();// The one and only popup menu
 
 	@SuppressWarnings("unchecked")
 	private TextEditPopupManager() {
-		cut.putValue(Action.NAME, i18n.str("cut"));
+		cut.putValue(Action.NAME, I18N.getMsg("shef.cut"));
 		cut.putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "cut.png"));
-		copy.putValue(Action.NAME, i18n.str("copy"));
+		copy.putValue(Action.NAME, I18N.getMsg("shef.copy"));
 		copy.putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "copy.png"));
-		paste.putValue(Action.NAME, i18n.str("paste"));
+		paste.putValue(Action.NAME, I18N.getMsg("shef.paste"));
 		paste.putValue(Action.SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "paste.png"));
 		selectAll.putValue(Action.ACCELERATOR_KEY, null);
 
@@ -251,6 +251,7 @@ public class TextEditPopupManager {
 	 */
 	private class UndoListener implements UndoableEditListener {
 
+		@Override
 		public void undoableEditHappened(UndoableEditEvent e) {
 			UndoableEdit edit = e.getEdit();
 			if (undoer != null) {
@@ -268,11 +269,12 @@ public class TextEditPopupManager {
 		private static final long serialVersionUID = 1L;
 
 		public RedoAction() {
-			super(i18n.str("redo"),
+			super(I18N.getMsg("shef.redo"),
 					UIUtils.getIcon(UIUtils.X16, "redo.png"));
-			putValue(MNEMONIC_KEY, new Integer(i18n.mnem("redo")));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.redo"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				if (undoer != null) {
@@ -290,11 +292,12 @@ public class TextEditPopupManager {
 		private static final long serialVersionUID = 1L;
 
 		public UndoAction() {
-			super(i18n.str("undo"),
+			super(I18N.getMsg("shef.undo"),
 					UIUtils.getIcon(UIUtils.X16, "undo.png"));
-			putValue(MNEMONIC_KEY, new Integer(i18n.mnem("undo")));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.undo"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				if (undoer != null) {
@@ -315,10 +318,11 @@ public class TextEditPopupManager {
 		private static final long serialVersionUID = 1L;
 
 		public NSelectAllAction() {
-			super(i18n.str("select_all"));
-			putValue(MNEMONIC_KEY, new Integer(i18n.mnem("select_all")));
+			super(I18N.getMsg("shef.select_all"));
+			putValue(MNEMONIC_KEY, (int) I18N.getMnemonic("shef.select_all"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			getTextComponent(e).selectAll();
 		}
@@ -330,12 +334,13 @@ public class TextEditPopupManager {
 	 */
 	private class PopupFocusHandler implements FocusListener {
 
+		@Override
 		public void focusGained(FocusEvent e) {
 			if (!e.isTemporary()) {
 				JTextComponent tc = (JTextComponent) e.getComponent();
 				int index = getIndexOfJTextComponent(tc);
 				if (index != -1) {
-                    // set the current UndoManager for the currently focused
+					// set the current UndoManager for the currently focused
 					// JTextComponent
 					undoer = (UndoManager) undoers.get(index);
 					focusedComp = tc;
@@ -347,6 +352,7 @@ public class TextEditPopupManager {
 			}
 		}
 
+		@Override
 		public void focusLost(FocusEvent e) {
 		}
 	}
@@ -356,6 +362,7 @@ public class TextEditPopupManager {
 	 */
 	private class CaretHandler implements CaretListener {
 
+		@Override
 		public void caretUpdate(CaretEvent e) {
 			updateActions();
 		}
@@ -366,10 +373,12 @@ public class TextEditPopupManager {
 	 */
 	private class PopupHandler extends MouseAdapter {
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			checkForPopupTrigger(e);
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			checkForPopupTrigger(e);
 		}

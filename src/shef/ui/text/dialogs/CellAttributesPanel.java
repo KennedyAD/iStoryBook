@@ -12,6 +12,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import java.util.*;
+import storybook.toolkit.I18N;
 
 public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 
@@ -45,6 +46,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 		updateComponentsFromAttribs();
 	}
 
+	@Override
 	public void updateComponentsFromAttribs() {
 		alignPanel.updateComponentsFromAttribs();
 		sizePanel.updateComponentsFromAttribs();
@@ -91,6 +93,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public void updateAttribsFromComponents() {
 		alignPanel.updateAttribsFromComponents();
 		sizePanel.updateAttribsFromComponents();
@@ -116,6 +119,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 		}
 	}
 
+	@Override
 	public void setAttributes(Map attr) {
 		alignPanel.setAttributes(attr);
 		sizePanel.setAttributes(attr);
@@ -211,7 +215,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getDontWrapCB() {
 		if (dontWrapCB == null) {
 			dontWrapCB = new JCheckBox();
-			dontWrapCB.setText(i18n.str("dont_wrap_text")); //$NON-NLS-1$
+			dontWrapCB.setText(I18N.getMsg("shef.dont_wrap_text")); //$NON-NLS-1$
 		}
 		return dontWrapCB;
 	}
@@ -260,7 +264,7 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 			gridBagConstraints4.gridy = 0;
 			spanPanel = new JPanel();
 			spanPanel.setLayout(new GridBagLayout());
-			spanPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("span"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2))); //$NON-NLS-1$
+			spanPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.span"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2))); //$NON-NLS-1$
 			spanPanel.add(getColSpanCB(), gridBagConstraints4);
 			spanPanel.add(getRowSpanCB(), gridBagConstraints5);
 			spanPanel.add(getColSpanField(), gridBagConstraints6);
@@ -277,9 +281,10 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getColSpanCB() {
 		if (colSpanCB == null) {
 			colSpanCB = new JCheckBox();
-			colSpanCB.setText(i18n.str("colspan")); //$NON-NLS-1$
+			colSpanCB.setText(I18N.getMsg("shef.colspan")); //$NON-NLS-1$
 			colSpanCB.setPreferredSize(new java.awt.Dimension(85, 25));
 			colSpanCB.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					colSpanField.setEnabled(colSpanCB.isSelected());
 				}
@@ -296,8 +301,9 @@ public class CellAttributesPanel extends HTMLAttributeEditorPanel {
 	private JCheckBox getRowSpanCB() {
 		if (rowSpanCB == null) {
 			rowSpanCB = new JCheckBox();
-			rowSpanCB.setText(i18n.str("rowspan")); //$NON-NLS-1$
+			rowSpanCB.setText(I18N.getMsg("shef.rowspan")); //$NON-NLS-1$
 			rowSpanCB.addItemListener(new java.awt.event.ItemListener() {
+				@Override
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					rowSpanField.setEnabled(rowSpanCB.isSelected());
 				}

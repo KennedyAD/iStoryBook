@@ -15,9 +15,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import shef.i18n.I18n;
 import shef.ui.OptionDialog;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 public class TablePropertiesDialog extends OptionDialog
 {
@@ -26,11 +26,11 @@ public class TablePropertiesDialog extends OptionDialog
      */
     private static final long serialVersionUID = 1L;
 
-    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
     
     private static Icon icon = UIUtils.getIcon(UIUtils.X48, "table.png"); //$NON-NLS-1$
-    private static String title = i18n.str("table_properties"); //$NON-NLS-1$
-    private static String desc = i18n.str("table_properties_desc"); //$NON-NLS-1$
+    private static String title = I18N.getMsg("shef.table_properties"); //$NON-NLS-1$
+    private static String desc = I18N.getMsg("shef.table_properties_desc"); //$NON-NLS-1$
     
     private TableAttributesPanel tableProps = new TableAttributesPanel();
     private RowAttributesPanel rowProps = new RowAttributesPanel();
@@ -51,16 +51,16 @@ public class TablePropertiesDialog extends OptionDialog
     private void init()
     {
         Border emptyBorder = new EmptyBorder(5, 5, 5, 5);
-        Border titleBorder = BorderFactory.createTitledBorder(i18n.str("table_properties")); //$NON-NLS-1$
+        Border titleBorder = BorderFactory.createTitledBorder(I18N.getMsg("shef.table_properties")); //$NON-NLS-1$
         
         tableProps.setBorder(BorderFactory.createCompoundBorder(emptyBorder, titleBorder));
         rowProps.setBorder(emptyBorder);
         cellProps.setBorder(emptyBorder);
         
         JTabbedPane tabs = new JTabbedPane();        
-        tabs.add(tableProps, i18n.str("table"));         //$NON-NLS-1$
-        tabs.add(rowProps, i18n.str("row")); //$NON-NLS-1$
-        tabs.add(cellProps, i18n.str("cell")); //$NON-NLS-1$
+        tabs.add(tableProps, I18N.getMsg("shef.table"));         //$NON-NLS-1$
+        tabs.add(rowProps, I18N.getMsg("shef.row")); //$NON-NLS-1$
+        tabs.add(cellProps, I18N.getMsg("shef.cell")); //$NON-NLS-1$
         
         setContentPane(tabs);
         setSize(440, 375);

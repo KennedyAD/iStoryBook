@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import shef.ui.text.TextEditPopupManager;
+import storybook.toolkit.I18N;
 
 public class LinkPanel extends HTMLAttributeEditorPanel {
 
@@ -122,16 +123,16 @@ public class LinkPanel extends HTMLAttributeEditorPanel {
 			gridBagConstraints1.insets = new java.awt.Insets(0, 0, 0, 5);
 			gridBagConstraints1.gridy = 1;
 			textLabel = new JLabel();
-			textLabel.setText(i18n.str("text")); //$NON-NLS-1$
+			textLabel.setText(I18N.getMsg("shef.text")); //$NON-NLS-1$
 			GridBagConstraints gridBagConstraints = new GridBagConstraints();
 			gridBagConstraints.gridx = 0;
 			gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
 			gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
 			gridBagConstraints.gridy = 0;
 			urlLabel = new JLabel();
-			urlLabel.setText(i18n.str("url")); //$NON-NLS-1$
+			urlLabel.setText(I18N.getMsg("shef.url")); //$NON-NLS-1$
 			hlinkPanel = new JPanel();
-			hlinkPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, i18n.str("link"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
+			hlinkPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, I18N.getMsg("shef.link"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, null), javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5))); //$NON-NLS-1$
 			hlinkPanel.setLayout(new GridBagLayout());
 			hlinkPanel.add(urlLabel, gridBagConstraints);
 			hlinkPanel.add(textLabel, gridBagConstraints1);

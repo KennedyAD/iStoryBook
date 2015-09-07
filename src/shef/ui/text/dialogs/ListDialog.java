@@ -9,11 +9,11 @@ import java.awt.Frame;
 
 import javax.swing.Icon;
 
-import shef.i18n.I18n;
 import shef.ui.OptionDialog;
 import shef.ui.UIUtils;
 
 import java.util.*;
+import storybook.toolkit.I18N;
 
 public class ListDialog extends OptionDialog
 {
@@ -22,14 +22,14 @@ public class ListDialog extends OptionDialog
      */
     private static final long serialVersionUID = 1L;
 
-    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
     
     public static final int UNORDERED = ListAttributesPanel.UL_LIST;
     public static final int ORDERED = ListAttributesPanel.OL_LIST;
     
     private static Icon icon = UIUtils.getIcon(UIUtils.X48, "categories.png"); //$NON-NLS-1$
-    private static String title = i18n.str("list_properties"); //$NON-NLS-1$
-    private static String desc = i18n.str("list_properties_desc"); //$NON-NLS-1$
+    private static String title = I18N.getMsg("shef.list_properties"); //$NON-NLS-1$
+    private static String desc = I18N.getMsg("shef.list_properties_desc"); //$NON-NLS-1$
     
     private ListAttributesPanel listAttrPanel;
 

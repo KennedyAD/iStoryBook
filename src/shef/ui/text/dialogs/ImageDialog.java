@@ -11,8 +11,8 @@ import java.util.Map;
 
 import javax.swing.Icon;
 
-import shef.i18n.I18n;
 import shef.ui.UIUtils;
+import storybook.toolkit.I18N;
 
 
 public class ImageDialog extends HTMLOptionDialog
@@ -22,11 +22,11 @@ public class ImageDialog extends HTMLOptionDialog
      */
     private static final long serialVersionUID = 1L;
 
-    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
+//    private static final I18n i18n = I18n.getInstance("shef.ui.text.dialogs");
     
     private static Icon icon = UIUtils.getIcon(UIUtils.X48, "image.png"); //$NON-NLS-1$
-    private static String title = i18n.str("image"); //$NON-NLS-1$
-    private static String desc = i18n.str("image_desc"); //$NON-NLS-1$
+    private static String title = I18N.getMsg("shef.image"); //$NON-NLS-1$
+    private static String desc = I18N.getMsg("shef.image_desc"); //$NON-NLS-1$
 
     private ImagePanel imagePanel;
     

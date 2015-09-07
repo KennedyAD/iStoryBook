@@ -17,6 +17,7 @@ import javax.swing.JTabbedPane;
 
 import shef.ui.text.HTMLUtils;
 import shef.ui.text.TextEditPopupManager;
+import storybook.toolkit.I18N;
 
 public class ImagePanel extends HTMLAttributeEditorPanel {
 
@@ -89,7 +90,7 @@ public class ImagePanel extends HTMLAttributeEditorPanel {
 	private void initialize() {
 		JTabbedPane tabs = new JTabbedPane();
 		linkAttrPanel = new LinkAttributesPanel();
-		linkCB = new JCheckBox(i18n.str("link")); //$NON-NLS-1$
+		linkCB = new JCheckBox(I18N.getMsg("shef.link")); //$NON-NLS-1$
 		linkUrlField = new JTextField();
 		//linkUrlField.setEditable(true);
 		JPanel urlPanel = new JPanel(new GridBagLayout());
@@ -115,8 +116,8 @@ public class ImagePanel extends HTMLAttributeEditorPanel {
 
 		imageAttrPanel = new ImageAttributesPanel();
 		imageAttrPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		tabs.addTab(i18n.str("image"), imageAttrPanel); //$NON-NLS-1$
-		tabs.addTab(i18n.str("link"), linkPanel);         //$NON-NLS-1$
+		tabs.addTab(I18N.getMsg("shef.image"), imageAttrPanel); //$NON-NLS-1$
+		tabs.addTab(I18N.getMsg("shef.link"), linkPanel);         //$NON-NLS-1$
 
 		setLayout(new BorderLayout());
 		add(tabs);

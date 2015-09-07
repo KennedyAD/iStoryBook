@@ -1,9 +1,8 @@
 /dicts/
 /dicts.all/
 /distrib/
-/languagetool/
-/languagetool.all/
 /lib/
 /xhibernate.cfg.xml
 /ABOUT_LANG.txt
-/bin/
+/nbproject/private/
+/build/
