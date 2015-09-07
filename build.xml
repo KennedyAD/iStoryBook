@@ -20,6 +20,7 @@
         <property name="sb.debian.deployment.dir" value="${sb.linux.deployment.dir}/debian" />
         <property name="sb.debian.app" value="${sb.debian.distdir}/usr/share/ostorybook"/>
         <property name="sb.src.zip.name" value="${sb.distdir}/oStorybook_src.zip" />
+        <property name="sb.lib.zip.name" value="${sb.distdir}/oStorybook_lib.zip" />
 	<!-- mac specific build parameters -->
 	<property name="sb.mac.deployment.dir" value="${sb.deployment.dir}/macintosh" />
 	<property name="sb.mac.installer.mount.dir" value="/Volumes/tmpStorybook-${TODAY}" />
@@ -149,6 +150,13 @@
                     <include name="Versions.txt" />
                     <include name="oStorybook-*.*" />
                     <include name="splash.png" />
+                </zipfileset>
+            </zip>
+            <echo>make the lib zip file...</echo>
+            <delete file="${sb.lib.zip.name}"/>
+            <zip zipfile="${sb.lib.zip.name}">
+                <zipfileset dir="${basedir}">
+                    <include name="lib/**" />
                 </zipfileset>
             </zip>
         </target>
