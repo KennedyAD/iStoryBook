@@ -380,6 +380,10 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		}
 		table.packAll();
 	}
+	
+	public JXTable getTable() {
+		return table;
+	}
 
 	protected List<SbColumn> getColumns() {
 		List<SbColumn> ret = new ArrayList<SbColumn>();

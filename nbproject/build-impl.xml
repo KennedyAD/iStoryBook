@@ -1024,7 +1024,6 @@ is divided into following sections:
     	    <fileset dir="dicts"/>
     	  </copy>
         <copy file="ABOUT.txt" todir="${dist.dir}" />
-        <copy file="ABOUT_LANG.txt" todir="${dist.dir}" />
         <copy file="LICENSE.txt" todir="${dist.dir}" />
         <copy file="LICENSE-fr.txt" todir="${dist.dir}" />
         <copy file="THANKS.txt" todir="${dist.dir}" />

@@ -114,7 +114,7 @@ public class PersonTable extends AbstractTable {
 
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
-		ArrayList<Long> ids = new ArrayList<Long>();
+		ArrayList<Long> ids = new ArrayList<>();
 		for (int row : rows) {
 			Person person = (Person) getEntityFromRow(row);
 			ids.add(person.getId());
@@ -136,4 +136,5 @@ public class PersonTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Person();
 	}
+	
 }

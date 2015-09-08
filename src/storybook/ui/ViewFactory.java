@@ -1,33 +1,36 @@
 
 /*
-Storybook: Open Source software for novelists and authors.
-Copyright (C) 2008 - 2012 Martin Mustun, 2015 FaVdB
+ Storybook: Open Source software for novelists and authors.
+ Copyright (C) 2008 - 2012 Martin Mustun, 2015 FaVdB
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package storybook.ui;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.table.TableColumn;
 
 import net.infonode.docking.View;
 import net.infonode.docking.util.StringViewMap;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.table.TableColumnExt;
 import storybook.SbApp;
 import storybook.SbConstants.ViewName;
+import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.chart.GanttChart;
 import storybook.ui.chart.OccurrenceOfLocationsChart;
@@ -49,6 +52,7 @@ import storybook.ui.panel.navigation.NavigationPanel;
 import storybook.ui.panel.reading.ReadingPanel;
 import storybook.ui.panel.tree.TreePanel;
 import storybook.ui.plan.PlanPanel;
+import storybook.ui.table.AbstractTable;
 import storybook.ui.table.CategoryTable;
 import storybook.ui.table.ChapterTable;
 import storybook.ui.table.GenderTable;
@@ -83,102 +87,225 @@ public class ViewFactory {
 	}
 
 	public SbView getView(ViewName viewName) {
-		SbApp.trace("ViewFactory.getView("+viewName.name()+")");
+		SbApp.trace("ViewFactory.getView(" + viewName.name() + ")");
 		SbView view = (SbView) viewMap.getView(viewName.toString());
 		if (view != null) {
 			return view;
 		}
-		if (viewName == ViewName.SCENES) return getScenesView();
-		else if (viewName == ViewName.CHAPTERS) return getChaptersView();
-		else if (viewName == ViewName.PARTS) return getPartsView();
-		else if (viewName == ViewName.LOCATIONS)  return getLocationsView();
-		else if (viewName == ViewName.PERSONS) return getPersonsView();
-		else if (viewName == ViewName.RELATIONSHIPS) return getRelationshipsView();
-		else if (viewName == ViewName.GENDERS) return getGendersView();
-		else if (viewName == ViewName.CATEGORIES) return getCategoriesView();
-		else if (viewName == ViewName.STRANDS) return getStrandsView();
-		else if (viewName == ViewName.IDEAS) return getIdeasView();
-		else if (viewName == ViewName.TAGS) return getTagsView();
-		else if (viewName == ViewName.ITEMS) return getItemView();
-		else if (viewName == ViewName.TAGLINKS) return getTagLinksView();
-		else if (viewName == ViewName.ITEMLINKS) return getItemLinksView();
-		else if (viewName == ViewName.INTERNALS) return getInternalsView();
-		else if (viewName == ViewName.CHRONO) return getChronoView();
-		else if (viewName == ViewName.BOOK) return getBookView();
-		else if (viewName == ViewName.MANAGE) return getManageView();
-		else if (viewName == ViewName.READING) return getReadingView();
-		else if (viewName == ViewName.MEMORIA) return getMemoriaView();
-		else if (viewName == ViewName.EDITOR) return getEditorView();
-		else if (viewName == ViewName.TREE) return getTreeView();
-		else if (viewName == ViewName.INFO) return getQuickInfoView();
-		else if (viewName == ViewName.NAVIGATION) return getNavigationView();
-		else if (viewName == ViewName.CHART_PERSONS_BY_DATE) return getChartPersonsByDate();
-		else if (viewName == ViewName.CHART_PERSONS_BY_SCENE) return getChartPersonsByScene();
-		else if (viewName == ViewName.CHART_WiWW) return getChartWiWW();
-		else if (viewName == ViewName.CHART_STRANDS_BY_DATE)  return getChartStrandsByDate();
-		else if (viewName == ViewName.CHART_OCCURRENCE_OF_PERSONS) return getChartOccurrenceOfPersons();
-		else if (viewName == ViewName.CHART_OCCURRENCE_OF_LOCATIONS) return getChartOccurrenceOfLocations();
-		else if (viewName == ViewName.CHART_GANTT) return getChartGantt();
-		else if (viewName == ViewName.ATTRIBUTES) return getAttributesView();
-		else if (viewName == ViewName.PLAN) return getPlanView();
-		else if (viewName == ViewName.TIMEEVENT) return getTimeEventView();
+		if (viewName == ViewName.SCENES) {
+			return getScenesView();
+		} else if (viewName == ViewName.CHAPTERS) {
+			return getChaptersView();
+		} else if (viewName == ViewName.PARTS) {
+			return getPartsView();
+		} else if (viewName == ViewName.LOCATIONS) {
+			return getLocationsView();
+		} else if (viewName == ViewName.PERSONS) {
+			return getPersonsView();
+		} else if (viewName == ViewName.RELATIONSHIPS) {
+			return getRelationshipsView();
+		} else if (viewName == ViewName.GENDERS) {
+			return getGendersView();
+		} else if (viewName == ViewName.CATEGORIES) {
+			return getCategoriesView();
+		} else if (viewName == ViewName.STRANDS) {
+			return getStrandsView();
+		} else if (viewName == ViewName.IDEAS) {
+			return getIdeasView();
+		} else if (viewName == ViewName.TAGS) {
+			return getTagsView();
+		} else if (viewName == ViewName.ITEMS) {
+			return getItemView();
+		} else if (viewName == ViewName.TAGLINKS) {
+			return getTagLinksView();
+		} else if (viewName == ViewName.ITEMLINKS) {
+			return getItemLinksView();
+		} else if (viewName == ViewName.INTERNALS) {
+			return getInternalsView();
+		} else if (viewName == ViewName.CHRONO) {
+			return getChronoView();
+		} else if (viewName == ViewName.BOOK) {
+			return getBookView();
+		} else if (viewName == ViewName.MANAGE) {
+			return getManageView();
+		} else if (viewName == ViewName.READING) {
+			return getReadingView();
+		} else if (viewName == ViewName.MEMORIA) {
+			return getMemoriaView();
+		} else if (viewName == ViewName.EDITOR) {
+			return getEditorView();
+		} else if (viewName == ViewName.TREE) {
+			return getTreeView();
+		} else if (viewName == ViewName.INFO) {
+			return getQuickInfoView();
+		} else if (viewName == ViewName.NAVIGATION) {
+			return getNavigationView();
+		} else if (viewName == ViewName.CHART_PERSONS_BY_DATE) {
+			return getChartPersonsByDate();
+		} else if (viewName == ViewName.CHART_PERSONS_BY_SCENE) {
+			return getChartPersonsByScene();
+		} else if (viewName == ViewName.CHART_WiWW) {
+			return getChartWiWW();
+		} else if (viewName == ViewName.CHART_STRANDS_BY_DATE) {
+			return getChartStrandsByDate();
+		} else if (viewName == ViewName.CHART_OCCURRENCE_OF_PERSONS) {
+			return getChartOccurrenceOfPersons();
+		} else if (viewName == ViewName.CHART_OCCURRENCE_OF_LOCATIONS) {
+			return getChartOccurrenceOfLocations();
+		} else if (viewName == ViewName.CHART_GANTT) {
+			return getChartGantt();
+		} else if (viewName == ViewName.ATTRIBUTES) {
+			return getAttributesView();
+		} else if (viewName == ViewName.PLAN) {
+			return getPlanView();
+		} else if (viewName == ViewName.TIMEEVENT) {
+			return getTimeEventView();
+		}
 
 		return null;
 	}
 
 	public SbView getView(String viewName) {
-		SbApp.trace("ViewFactory.getView("+viewName+")");
+		SbApp.trace("ViewFactory.getView(" + viewName + ")");
 		return (SbView) viewMap.getView(viewName);
 	}
 
 	public void loadView(SbView view) {
-		if (view == null)  return;
-		SbApp.trace("ViewFactory.loadView("+view.getName()+")");
+		if (view == null) {
+			return;
+		}
+		SbApp.trace("ViewFactory.loadView(" + view.getName() + ")");
 		AbstractPanel comp = new BlankPanel(mainFrame);
-		if (ViewName.CHRONO.compare(view))  comp = new ChronoPanel(mainFrame);
-		else if (ViewName.BOOK.compare(view)) comp = new BookPanel(mainFrame);
-		else if (ViewName.MANAGE.compare(view)) comp = new ManagePanel(mainFrame);
-		else if (ViewName.READING.compare(view)) comp = new ReadingPanel(mainFrame);
-		else if (ViewName.MEMORIA.compare(view)) comp = new MemoriaPanel(mainFrame);
-		else if (ViewName.SCENES.compare(view)) comp = new SceneTable(mainFrame);
-		else if (ViewName.CHAPTERS.compare(view)) comp = new ChapterTable(mainFrame);
-		else if (ViewName.PARTS.compare(view)) comp = new PartTable(mainFrame);
-		else if (ViewName.LOCATIONS.compare(view)) comp = new LocationTable(mainFrame);
-		else if (ViewName.PERSONS.compare(view)) comp = new PersonTable(mainFrame);
-		else if (ViewName.RELATIONSHIPS.compare(view)) comp = new RelationshipTable(mainFrame);
-		else if (ViewName.GENDERS.compare(view)) comp = new GenderTable(mainFrame);
-		else if (ViewName.CATEGORIES.compare(view)) comp = new CategoryTable(mainFrame);
-		else if (ViewName.STRANDS.compare(view)) comp = new StrandTable(mainFrame);
-		else if (ViewName.IDEAS.compare(view)) comp = new IdeaTable(mainFrame);
-		else if (ViewName.TAGS.compare(view)) comp = new TagTable(mainFrame);
-		else if (ViewName.ITEMS.compare(view)) comp = new ItemTable(mainFrame);
-		else if (ViewName.TAGLINKS.compare(view)) comp = new TagLinkTable(mainFrame);
-		else if (ViewName.ITEMLINKS.compare(view)) comp = new ItemLinkTable(mainFrame);
-		else if (ViewName.CHART_PERSONS_BY_DATE.compare(view)) comp = new PersonsByDateChart(mainFrame);
-		else if (ViewName.CHART_PERSONS_BY_SCENE.compare(view)) comp = new PersonsBySceneChart(mainFrame);
-		else if (ViewName.CHART_WiWW.compare(view)) comp = new WiWWChart(mainFrame);
-		else if (ViewName.CHART_STRANDS_BY_DATE.compare(view)) comp = new StrandsByDateChart(mainFrame);
-		else if (ViewName.CHART_OCCURRENCE_OF_PERSONS.compare(view)) comp = new OccurrenceOfPersonsChart(mainFrame);
-		else if (ViewName.CHART_OCCURRENCE_OF_LOCATIONS.compare(view)) comp = new OccurrenceOfLocationsChart(mainFrame);
-		else if (ViewName.CHART_GANTT.compare(view)) comp = new GanttChart(mainFrame);
-		else if (ViewName.ATTRIBUTES.compare(view)) comp = new AttributesViewPanel(mainFrame);
-		else if (ViewName.TREE.compare(view)) comp = new TreePanel(mainFrame);
-		else if (ViewName.INFO.compare(view)) comp = new InfoPanel(mainFrame);
-		else if (ViewName.NAVIGATION.compare(view)) comp = new NavigationPanel(mainFrame);
-		else if (ViewName.INTERNALS.compare(view)) comp = new InternalTable(mainFrame);
-		else if (ViewName.PLAN.compare(view)) comp = new PlanPanel(mainFrame);
-		else if (ViewName.TIMEEVENT.compare(view)) comp = new TimeEventTable(mainFrame);
+		boolean isTable=false;
+		if (ViewName.CHRONO.compare(view)) {
+			comp = new ChronoPanel(mainFrame);
+		} else if (ViewName.BOOK.compare(view)) {
+			comp = new BookPanel(mainFrame);
+		} else if (ViewName.MANAGE.compare(view)) {
+			comp = new ManagePanel(mainFrame);
+		} else if (ViewName.READING.compare(view)) {
+			comp = new ReadingPanel(mainFrame);
+		} else if (ViewName.MEMORIA.compare(view)) {
+			comp = new MemoriaPanel(mainFrame);
+		} else if (ViewName.SCENES.compare(view)) {
+			comp = new SceneTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.CHAPTERS.compare(view)) {
+			comp = new ChapterTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.PARTS.compare(view)) {
+			comp = new PartTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.LOCATIONS.compare(view)) {
+			comp = new LocationTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.PERSONS.compare(view)) {
+			comp = new PersonTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.RELATIONSHIPS.compare(view)) {
+			comp = new RelationshipTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.GENDERS.compare(view)) {
+			comp = new GenderTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.CATEGORIES.compare(view)) {
+			comp = new CategoryTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.STRANDS.compare(view)) {
+			comp = new StrandTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.IDEAS.compare(view)) {
+			comp = new IdeaTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.TAGS.compare(view)) {
+			comp = new TagTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.ITEMS.compare(view)) {
+			comp = new ItemTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.TAGLINKS.compare(view)) {
+			comp = new TagLinkTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.ITEMLINKS.compare(view)) {
+			comp = new ItemLinkTable(mainFrame);
+			isTable=true;
+		} else if (ViewName.CHART_PERSONS_BY_DATE.compare(view)) {
+			comp = new PersonsByDateChart(mainFrame);
+		} else if (ViewName.CHART_PERSONS_BY_SCENE.compare(view)) {
+			comp = new PersonsBySceneChart(mainFrame);
+		} else if (ViewName.CHART_WiWW.compare(view)) {
+			comp = new WiWWChart(mainFrame);
+		} else if (ViewName.CHART_STRANDS_BY_DATE.compare(view)) {
+			comp = new StrandsByDateChart(mainFrame);
+		} else if (ViewName.CHART_OCCURRENCE_OF_PERSONS.compare(view)) {
+			comp = new OccurrenceOfPersonsChart(mainFrame);
+		} else if (ViewName.CHART_OCCURRENCE_OF_LOCATIONS.compare(view)) {
+			comp = new OccurrenceOfLocationsChart(mainFrame);
+		} else if (ViewName.CHART_GANTT.compare(view)) {
+			comp = new GanttChart(mainFrame);
+		} else if (ViewName.ATTRIBUTES.compare(view)) {
+			comp = new AttributesViewPanel(mainFrame);
+		} else if (ViewName.TREE.compare(view)) {
+			comp = new TreePanel(mainFrame);
+		} else if (ViewName.INFO.compare(view)) {
+			comp = new InfoPanel(mainFrame);
+		} else if (ViewName.NAVIGATION.compare(view)) {
+			comp = new NavigationPanel(mainFrame);
+		} else if (ViewName.INTERNALS.compare(view)) {
+			comp = new InternalTable(mainFrame);
+		} else if (ViewName.PLAN.compare(view)) {
+			comp = new PlanPanel(mainFrame);
+		} else if (ViewName.TIMEEVENT.compare(view)) {
+			comp = new TimeEventTable(mainFrame);
+			isTable=true;
+		}
 		comp.initAll();
 		view.load(comp);
 	}
 
 	public void unloadView(SbView view) {
-		SbApp.trace("ViewFactory.unloadView("+view.getName()+")");
+		SbApp.trace("ViewFactory.unloadView(" + view.getName() + ")");
+		boolean isTable = false;
+		isTable = false;
+		if (ViewName.SCENES.compare(view)) {
+			isTable = true;
+		} else if (ViewName.CHAPTERS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.PARTS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.LOCATIONS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.PERSONS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.RELATIONSHIPS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.GENDERS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.CATEGORIES.compare(view)) {
+			isTable = true;
+		} else if (ViewName.STRANDS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.IDEAS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.TAGS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.ITEMS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.TAGLINKS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.ITEMLINKS.compare(view)) {
+			isTable = true;
+		} else if (ViewName.TIMEEVENT.compare(view)) {
+			isTable = true;
+		}
+		if (isTable) {
+			saveTableDesign(view);
+		}
 		view.unload();
 	}
 
 	private String getChartName(String i18nKey) {
-		SbApp.trace("ViewFactory.getChartName("+i18nKey+")");
+		SbApp.trace("ViewFactory.getChartName(" + i18nKey + ")");
 		return I18N.getMsg("msg.common.chart") + ": " + I18N.getMsg(i18nKey);
 	}
 
@@ -632,7 +759,9 @@ public class ViewFactory {
 	private void addOptionsButton(final SbView view) {
 		//SbApp.trace("ViewFactory.addOptionsButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.options", "msg.common.options");
-		bt.addActionListener((ActionEvent e) -> {mainFrame.getBookController().showOptions(view);});
+		bt.addActionListener((ActionEvent e) -> {
+			mainFrame.getBookController().showOptions(view);
+		});
 		view.getCustomTabComponents().add(bt);
 	}
 
@@ -646,7 +775,7 @@ public class ViewFactory {
 		view.getCustomTabComponents().add(bt);
 	}
 
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({"unchecked", "unused"})
 	private void addPrintButton(final SbView view) {
 		//SbApp.trace("ViewFactory.addPrintButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.print", "msg.common.print");
@@ -679,5 +808,21 @@ public class ViewFactory {
 
 	private boolean isViewInitialized(ViewName viewName) {
 		return viewMap.getView(viewName.toString()) == null;
+	}
+
+	private void saveTableDesign(SbView view) {/*
+		AbstractTable comp = (AbstractTable) view.getComponent();
+		JXTable table = comp.getTable();
+		for (TableColumn col : table.getColumns(true)) {
+			String l1 = "Table."+view.getName()+"." + col.getHeaderValue();
+			TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
+			System.out.println(l1+".isVisible="+ext.isVisible());
+			//BookUtil.store(mainFrame, l1, cl.getWidth());
+			//System.out.println(l1+"="+col.getWidth());
+		}*/
+	}
+	
+	private void loadTableDesign(SbView view) {
+		
 	}
 }
