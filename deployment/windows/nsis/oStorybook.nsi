@@ -7,7 +7,6 @@
 !define VERSIONBUILD 1
 !define DESCRIPTION "${VERSIONMAJOR}.${VERSIONMINOR}.${VERSIONBUILD}"
 !define DISTDIR "..\..\..\dist"
-!define MAINDIR "..\..\.."
 # These will be displayed by the "Click here for support information" link in "Add/Remove Programs"
 # It is possible to use "mailto:" links in here to open the email client
 !define HELPURL "http://..." # "Support Information" link
@@ -25,13 +24,13 @@ LoadLanguageFile "${NSISDIR}\Contrib\Language files\English.nlf"
 LoadLanguageFile "${NSISDIR}\Contrib\Language files\French.nlf"
 
 # rtf or txt file - remember if it is txt, it must be in the DOS text format (\r\n)
-LicenseLangString myLicenseData ${LANG_ENGLISH} "${MAINDIR}\LICENSE.txt"
-LicenseLangString myLicenseData ${LANG_FRENCH} "${MAINDIR}\LICENSE-fr.txt"
+LicenseLangString myLicenseData ${LANG_ENGLISH} "${DISTDIR}\LICENSE.txt"
+LicenseLangString myLicenseData ${LANG_FRENCH} "${DISTDIR}\LICENSE-fr.txt"
 LicenseData $(myLicenseData)
 
 # This will be in the installer/uninstaller's title bar
 Name "${APPNAME}"
-Icon "${MAINDIR}\oStorybook-icon.ico"
+Icon "${DISTDIR}\oStorybook-icon.ico"
 outFile "${DISTDIR}\oStorybook-installer.exe"
  
 !include LogicLib.nsh
@@ -75,9 +74,9 @@ section "install"
 	# Files for the install directory - to build the installer, these should be in the same directory as the install script (this file)
 	setOutPath $INSTDIR
 	# Files added here should be removed by the uninstaller (see section "uninstall")
-	file "${MAINDIR}\LICENSE.txt"
-	file "${MAINDIR}\README.TXT"
-	file "${MAINDIR}\oStorybook-icon.ico"
+	file "${DISTDIR}\LICENSE.txt"
+	file "${DISTDIR}\README.TXT"
+	file "${DISTDIR}\oStorybook-icon.ico"
 	file "${DISTDIR}\ostorybook.jar"
 	file /r "${DISTDIR}\dicts"
 	file /r "${DISTDIR}\ostorybook_lib"

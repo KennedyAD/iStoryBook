@@ -2,6 +2,8 @@ package storybook.toolkit.odt;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,9 @@ import java.util.Map;
 import org.hibernate.Session;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jopendocument.dom.ODPackage;
+import org.jopendocument.dom.ODSingleXMLDocument;
 
 import storybook.SbApp;
 import storybook.model.BookModel;
@@ -296,5 +300,84 @@ public final class ODTUtils {
 			}
 		}
 		return ret;
+	}
+
+	public static void createBookFile(MainFrame mainFrame, String outputPath) {
+		ODSingleXMLDocument dest = null;
+		try {
+			String source = "storybook/resources/Empty.odt";
+			if (BookUtil.isUseSimpleTemplate(mainFrame)) {
+				source = "storybook/resources/Simple.odt";
+			}
+			InputStream is = ODTUtils.class.getClassLoader()
+					.getResourceAsStream(source);
+			ODPackage pack = new ODPackage(is);
+		    dest = new ODSingleXMLDocument(pack.getContent().getDocument());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+
+		// Get scenes
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl partdao = new PartDAOImpl(session);
+		List<Part> roots = partdao.findAllRoots();
+		session.close();
+
+		for (Part root : roots) {
+			appendElements(mainFrame, dest, root);
+		}
+		try {
+			dest.saveToPackageAs(new File(outputPath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Part part) {
+
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl partdao = new PartDAOImpl(session);
+		List<Part> subparts = partdao.getParts(part);
+		List<Chapter> chapters = partdao.findChapters(part); 
+		session.close();
+
+		for (Part subpart : subparts) {
+			appendElements(mainFrame, dest, subpart);
+		}
+		for (Chapter chapter : chapters) {
+			appendElements(mainFrame, dest, chapter);
+		}
+	}
+
+	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Chapter chapter) {
+
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		List<Scene> scenes = dao.findByChapter(chapter);
+		session.close();
+
+		for (Scene scene : scenes) {
+			if (BookUtil.isUseLibreOffice(mainFrame)) {
+				String filepath = ODTUtils.getFilePath(mainFrame, scene);
+				File f = new File(filepath);
+				if (f.exists())
+				{
+					try {
+						ODSingleXMLDocument p = ODSingleXMLDocument.createFromPackage(f);
+						// Concatenate them
+						dest.add(p);
+					} catch (JDOMException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 }

@@ -204,6 +204,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		tabbedPane.addTab(I18N.getMsg("msg.plan.title.progress"), scroller);
 		tree.addMouseListener(this);
 
+		ODTUtils.createBookFile(mainFrame, "C:/Temp/TestOutFile.odt");
 	}
 	
 	
