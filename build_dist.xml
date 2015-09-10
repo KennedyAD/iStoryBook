@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project code with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="../"/>
+    <property name="dir.jarfile" value="dist/"/>
+    <target name="create_run_jar">
+        <delete dir="${dir.jarfile}"/>
+        <mkdir dir="${dir.jarfile}"/>
+        <jar destfile="${dir.jarfile}/ostorybook.jar">
+            <manifest>
+                <attribute name="Main-Class" value="storybook.SbApp"/>
+                <attribute name="Class-Path" value=". ostorybook_lib/antlr-2.7.6.jar ostorybook_lib/attesoro.1.8.01.jar ostorybook_lib/beansbinding-1.2.1.jar ostorybook_lib/c3p0-0.9.1.jar ostorybook_lib/collections-generic-4.01.jar ostorybook_lib/colt-1.2.0.jar ostorybook_lib/commons-beanutils-1.8.3.jar ostorybook_lib/commons-codec-1.6.jar ostorybook_lib/commons-collections-3.1.jar ostorybook_lib/commons-digester-1.7.jar ostorybook_lib/commons-io-2.1.jar ostorybook_lib/commons-lang-2.4.jar ostorybook_lib/commons-lang3-3.1.jar ostorybook_lib/commons-logging-1.1.1.jar ostorybook_lib/commons-validator-1.3.1.jar ostorybook_lib/concurrent-1.3.4.jar ostorybook_lib/dao-1.0.0.jar ostorybook_lib/dao-hibernate-1.0.0.jar ostorybook_lib/dom4j-1.6.1.jar ostorybook_lib/h2-1.3.159.jar ostorybook_lib/hibernate-jpa-2.0-api-1.0.1.Final.jar ostorybook_lib/hibernate3.jar ostorybook_lib/idw-gpl.jar ostorybook_lib/itextpdf-5.5.0.jar ostorybook_lib/j3d-core-1.3.1.jar ostorybook_lib/japura-1.14.3.jar ostorybook_lib/jarbundler-2.2.0.jar ostorybook_lib/javassist.jar ostorybook_lib/jcalendar-1.4.jar ostorybook_lib/jcommon-1.0.17.jar ostorybook_lib/jfreechart-1.0.14.jar ostorybook_lib/jOpenDocument-1.3.jar ostorybook_lib/jortho.jar ostorybook_lib/jsoup-1.6.1.jar ostorybook_lib/jta-1.1.jar ostorybook_lib/jtidy-8.0.jar ostorybook_lib/vecmath-1.3.1.jar ostorybook_lib/jung-api-2.0.1.jar ostorybook_lib/jung-algorithms-2.0.1.jar ostorybook_lib/jung-visualization-2.0.1.jar ostorybook_lib/jung-3d-2.0.1.jar ostorybook_lib/jung-graph-impl-2.0.1.jar ostorybook_lib/wstx-asl-3.2.6.jar ostorybook_lib/stax-api-1.0.1.jar ostorybook_lib/jung-io-2.0.1.jar ostorybook_lib/jung-jai-2.0.1.jar ostorybook_lib/jung-jai-samples-2.0.1.jar ostorybook_lib/jWordSplitter.jar ostorybook_lib/morfologik-fsa-1.5.2.jar ostorybook_lib/morfologik-stemming-1.5.2.jar ostorybook_lib/segment-1.3.0.jar ostorybook_lib/tika-core-0.9.jar ostorybook_lib/LanguageTool.jar ostorybook_lib/log4j-1.2.16.jar ostorybook_lib/miglayout-4.0-swing.jar ostorybook_lib/miglayout-4.0-swt.jar ostorybook_lib/novaworx-syntax-0.0.7.jar ostorybook_lib/sam.jar ostorybook_lib/search-1.0.0.jar ostorybook_lib/search-hibernate-1.0.0.jar ostorybook_lib/SHEF.jar ostorybook_lib/slf4j-api-1.6.1.jar ostorybook_lib/slf4j-jdk14-1.6.4.jar ostorybook_lib/swingx-beaninfo-1.6.2.jar ostorybook_lib/swingx-core-1.6.2.jar ostorybook_lib/xjavadoc-1.1.jar ostorybook_lib/xml-actions.jar"/>
+            </manifest>
+            <fileset dir="${dir.workspace}/code/bin"/>
+            <fileset dir="${dir.workspace}/code/lib"/>
+        </jar>
+        <copy file="${dir.workspace}/code/LICENSE.txt" todir="${dir.jarfile}"/>
+        <copy file="${dir.workspace}/code/LICENSE-fr.txt" todir="${dir.jarfile}"/>
+        <copy file="${dir.workspace}/code/README.txt" todir="${dir.jarfile}"/>
+        <copy file="${dir.workspace}/code/oStorybook-icon.ico" todir="${dir.jarfile}"/>
+        <delete dir="${dir.jarfile}/ostorybook_lib"/>
+        <mkdir dir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/antlr-2.7.6.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/attesoro.1.8.01.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/beansbinding-1.2.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/c3p0-0.9.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/collections-generic-4.01.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/colt-1.2.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-beanutils-1.8.3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-codec-1.6.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-collections-3.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-digester-1.7.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-io-2.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-lang-2.4.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-lang3-3.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-logging-1.1.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/commons-validator-1.3.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/concurrent-1.3.4.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/dao-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/dao-hibernate-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/dom4j-1.6.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/h2-1.3.159.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/hibernate3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/idw-gpl.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/itextpdf-5.5.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/j3d-core-1.3.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/japura-1.14.3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jarbundler-2.2.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/javassist.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jcalendar-1.4.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jcommon-1.0.17.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jfreechart-1.0.14.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jOpenDocument-1.3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jortho.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jsoup-1.6.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jta-1.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jtidy-8.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/vecmath-1.3.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-api-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-algorithms-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-visualization-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-3d-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-graph-impl-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/wstx-asl-3.2.6.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/stax-api-1.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-io-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-jai-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jung-jai-samples-2.0.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/jWordSplitter.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/morfologik-fsa-1.5.2.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/morfologik-stemming-1.5.2.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/segment-1.3.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/tika-core-0.9.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/LanguageTool.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/log4j-1.2.16.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/miglayout-4.0-swing.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/miglayout-4.0-swt.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/novaworx-syntax-0.0.7.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/sam.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/search-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/search-hibernate-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/SHEF.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/slf4j-api-1.6.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/slf4j-jdk14-1.6.4.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/swingx-beaninfo-1.6.2.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/swingx-core-1.6.2.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/xjavadoc-1.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/xml-actions.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy todir="${dir.jarfile}/dicts" flatten="false">
+                <fileset dir="${dir.workspace}/code/dicts.all/dicts/" />
+        </copy>
+    </target>
+</project>
