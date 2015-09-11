@@ -97,10 +97,10 @@ public class SbConstants {
 
 	public enum URL {
 		HOMEPAGE("http://ostorybook.tuxfamily.org/"),
-		CONTACT(HOMEPAGE + "discussion"),
-		DOC(HOMEPAGE + "wiki/Home"),
-		FAQ(HOMEPAGE + "wiki/faq"),
-		REPORTBUG(HOMEPAGE + "tickets"),
+		CONTACT("http://ostorybook.tuxfamily.org/fortopic.php"),
+		DOC(HOMEPAGE + "articles.php?pg=41&mnuid=2&tconfig=2"),
+		FAQ(HOMEPAGE + "faq.php"),
+		REPORTBUG(HOMEPAGE + "support"),
 		WEB("http://ostorybook.tuxfamily.org/"),
 		VERSION(WEB + "Versions.txt"),
 		UPDATE(WEB + "Update.zip"),

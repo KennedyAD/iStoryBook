@@ -18,6 +18,7 @@
 package storybook.toolkit;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -129,23 +130,32 @@ public class I18N {
 		return messageResourceBundle;
 	}
 
-	public static String getTestMsg(String resourceKey) {
+	public static String getExtMsg(String resourceKey) {
+		File f=new File(SbApp.getI18nFile()+".properties");
+		if (!f.exists()) {
+			SbApp.setI18nFile("");
+			return(getMessageResourceBundle().getString(resourceKey));
+		}
 		Properties prop = new Properties();
 		InputStream input = null;
 		try {
-			input = new FileInputStream(System.getProperty("user.dir")+"/testMessages.properties");
+			input = new FileInputStream(SbApp.getI18nFile()+".properties");
 			prop.load(input);
 			input.close();
 			return(prop.getProperty(resourceKey));
 		} catch (IOException ex) {
+			System.out.println("default msg "+resourceKey);
 			return(getMessageResourceBundle().getString(resourceKey));
 		}
 	}
 
 	public static String getMsg(String resourceKey) {
+		if (SbApp.getI18nFile()!=null) {
+			return(getExtMsg(resourceKey));
+		}
 		ResourceBundle rb = getMessageResourceBundle();
 		try{
-		return rb.getString(resourceKey);
+			return rb.getString(resourceKey);
 		} catch (Exception ex) {
 			return '!' + resourceKey + '!';
 		}

@@ -67,6 +67,7 @@ public class SbApp extends Component {
 	private static boolean bTraceHibernate=false;
 
 	private static SbApp instance;
+	private static String i18nFile;
 
 	private PreferenceModel preferenceModel;
 	private PreferenceController preferenceController;
@@ -493,6 +494,27 @@ public class SbApp extends Component {
 	public static void main(String[] args) {
 		String tempDir = System.getProperty("java.io.tmpdir");
 		String fn = tempDir + File.separator + "storybook.lck";
+		if (args.length>0) {
+			for (int i=0;i<args.length;i++) {
+				if (args[i].equalsIgnoreCase("--trace")) {
+					SbApp.bTrace=true;
+					System.out.println("Storybook execution in trace mode");
+				}
+				if (args[i].equalsIgnoreCase("--hibernate")) {
+					SbApp.bTraceHibernate=true;
+					System.out.println("Hibernate in trace mode");
+				}
+				if (args[i].equalsIgnoreCase("--msg")) {
+					File f=new File(args[i+1]+".properties");
+					if (!f.exists()) {
+						System.out.println("Msg test file not exists : "+args[i+1]);
+					} else {
+						SbApp.i18nFile=args[i+1];
+						System.out.println("Msg test file is : "+SbApp.i18nFile);
+					}
+				}
+			}
+		}
 		if (!lockInstance(fn)) {
 			Object[] options = { I18N.getMsg("msg.running.remove"),
 					I18N.getMsg("msg.common.cancel") };
@@ -514,19 +536,6 @@ public class SbApp extends Component {
 			return;
 		}
 		
-		if (args.length>0) {
-			for (String arg : args) {
-				if (arg.equalsIgnoreCase("--trace")) {
-					SbApp.bTrace=true;
-					SbApp.trace("Storybook execution in trace mode");
-				}
-				if (arg.equalsIgnoreCase("--hibernate")) {
-					SbApp.bTraceHibernate=true;
-					SbApp.trace("Hibernate in trace mode");
-				}
-			}
-		}
-
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -578,6 +587,14 @@ public class SbApp extends Component {
 
 	public static boolean getTraceHibernate() {
 		return(bTraceHibernate);
+	}
+
+	public static String getI18nFile() {
+		return(i18nFile);
+	}
+	
+	public static void setI18nFile(String file) {
+		i18nFile=file;
 	}
 
 	public static void setTrace(boolean b) {

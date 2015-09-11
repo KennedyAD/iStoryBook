@@ -1020,8 +1020,13 @@ is divided into following sections:
         <echo level="info">To run this application from the command line without Ant, try:</echo>
         <property location="${dist.jar}" name="dist.jar.resolved"/>
         <echo level="info">java -jar "${dist.jar.resolved}"</echo>
+        <mkdir dir="${dist.dir}/dicts" />
     	<copy todir="${dist.dir}/dicts">
     	    <fileset dir="dicts"/>
+    	  </copy>
+        <mkdir dir="${dist.dir}/resources" />
+    	<copy todir="${dist.dir}/resources">
+            <fileset dir="resources"/>
     	  </copy>
         <copy file="ABOUT.txt" todir="${dist.dir}" />
         <copy file="LICENSE.txt" todir="${dist.dir}" />
