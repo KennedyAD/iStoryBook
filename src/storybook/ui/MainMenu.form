@@ -100,6 +100,7 @@
                   <ResourceString bundle="storybook/msg/messages.properties" key="msg.file.save.as" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
                 <Property name="actionCommand" type="java.lang.String" value="save-as-command"/>
+                <Property name="actionCommand" type="java.lang.String" value="export-book-command"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileSaveAsActionPerformed"/>

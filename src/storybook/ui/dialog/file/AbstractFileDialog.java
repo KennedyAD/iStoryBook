@@ -51,6 +51,7 @@ public abstract class AbstractFileDialog
 	protected JPanel optionsPanel;
 	protected File file;
 	private boolean hideDir = false;
+	private boolean forceDbExt = true;
 
 	public AbstractFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
@@ -164,6 +165,10 @@ public abstract class AbstractFileDialog
 		hideDir = dirOnly;
 	}
 
+	public void setForceDbExtension(boolean forced) {
+		forceDbExt = forced;
+	}
+
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
@@ -179,9 +184,11 @@ public abstract class AbstractFileDialog
 					return;
 				}
 				String name = tfName.getText();
-				String fileExt = SbConstants.Storybook.DB_FILE_EXT.toString();
-				if (!name.endsWith(fileExt)) {
-					name += fileExt;
+				if (forceDbExt) {
+					String fileExt = SbConstants.Storybook.DB_FILE_EXT.toString();
+					if (!name.endsWith(fileExt)) {
+						name += fileExt;
+					}
 				}
 				file = new File(tfDir.getText() + File.separator + name);
 				if (file.exists()) {

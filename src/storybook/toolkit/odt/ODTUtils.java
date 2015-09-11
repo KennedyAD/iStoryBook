@@ -2,6 +2,7 @@ package storybook.toolkit.odt;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +10,15 @@ import java.util.Map;
 import org.hibernate.Session;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jopendocument.dom.ODPackage;
+import org.jopendocument.dom.ODSingleXMLDocument;
+import org.jopendocument.dom.ODXMLDocument;
+import org.jopendocument.dom.text.Paragraph;
+import org.jopendocument.dom.text.TextDocument;
 
 import storybook.SbApp;
+import storybook.SbConstants.BookKey;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.PartDAOImpl;
@@ -147,18 +154,20 @@ public final class ODTUtils {
 		// Get size of scenes from LibreOffice or summary
 		SbApp.trace("computing sizes");
 		for (Scene scene : scenes) {
-			if (BookUtil.isUseLibreOffice(mainFrame)) {
-				String filepath = ODTUtils.getFilePath(mainFrame, scene);
-				sceneSizes.put(scene, ODTUtils.getDocumentSizeOrWords(filepath, wordsCount));
-			} else {
-				if (wordsCount)
-				{
-					int size = scene.getSummary().split("\\w+").length;
-					sceneSizes.put(scene, size);
-				}
-				else
-				{
-				   sceneSizes.put(scene, scene.getSummary().length());
+			if (scene.getChapter() != null) {
+				if (BookUtil.isUseLibreOffice(mainFrame)) {
+					String filepath = ODTUtils.getFilePath(mainFrame, scene);
+					sceneSizes.put(scene, ODTUtils.getDocumentSizeOrWords(filepath, wordsCount));
+				} else {
+					if (wordsCount)
+					{
+						int size = scene.getSummary().split("\\w+").length;
+						sceneSizes.put(scene, size);
+					}
+					else
+					{
+						sceneSizes.put(scene, scene.getSummary().length());
+					}
 				}
 			}
 		}
@@ -215,7 +224,11 @@ public final class ODTUtils {
 	public static String getDefaultFilePath(MainFrame mainFrame, Scene scene) {
 		// Have to calculate path from information
 		String path = mainFrame.getDbFile().getPath();
-		String str1 = ""+scene.getChapter().getChapterno();
+		String str1 = "";
+		Chapter chapter = scene.getChapter();
+		if (chapter != null) {
+			str1 += chapter.getChapterno();
+		}
 		if (str1.length() < 2) {str1 = "0" + str1;}
 		String str2 = ""+scene.getSceneno();
 		if (str2.length() < 2) {str2 = "0" + str2;}
@@ -296,5 +309,120 @@ public final class ODTUtils {
 			}
 		}
 		return ret;
+	}
+
+	public static void createBookFile(MainFrame mainFrame, File output) {
+		ODSingleXMLDocument dest = null;
+		try {
+			String source = "storybook/resources/Simple.odt";
+			InputStream is = ODTUtils.class.getClassLoader()
+					.getResourceAsStream(source);
+			ODPackage pack = new ODPackage(is);
+			dest = pack.toSingle();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+
+		// Get scenes
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl partdao = new PartDAOImpl(session);
+		List<Part> roots = partdao.findAllRoots();
+		session.close();
+
+		TextDocument tdoc = dest.getPackage().getTextDocument();
+		Paragraph paragraph = new Paragraph();
+	    paragraph.addContent(BookUtil.get(mainFrame, BookKey.TITLE, "").getStringValue());
+	    paragraph.setStyleName("Title-Text");
+		tdoc.add(paragraph);
+	    paragraph = new Paragraph();
+	    paragraph.addContent(BookUtil.get(mainFrame, BookKey.SUBTITLE, "").getStringValue());
+	    paragraph.setStyleName("Subtitle-Text");
+		tdoc.add(paragraph);
+	    paragraph = new Paragraph();
+	    paragraph.addContent(BookUtil.get(mainFrame, BookKey.AUTHOR, "").getStringValue());
+	    paragraph.setStyleName("Author-Text");
+		tdoc.add(paragraph);
+
+
+		for (Part root : roots) {
+		    paragraph = new Paragraph();
+		    paragraph.setStyleName("Part-Title");
+		    paragraph.addContent(root.getName());
+			tdoc.add(paragraph);
+			appendElements(mainFrame, dest, root, "***");
+		}
+		try {
+			dest.saveToPackageAs(output);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Part part, String sceneSeparator) {
+
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl partdao = new PartDAOImpl(session);
+		List<Part> subparts = partdao.getParts(part);
+		List<Chapter> chapters = partdao.findChapters(part); 
+		session.close();
+
+		for (Part subpart : subparts) {
+			appendElements(mainFrame, dest, subpart, sceneSeparator);
+		}
+
+		TextDocument tdoc = dest.getPackage().getTextDocument();
+		for (Chapter chapter : chapters) {
+			Paragraph paragraph = new Paragraph();
+		    paragraph.setStyleName("Chapter-Title");
+		    paragraph.addContent("" + chapter.getChapterno() + " : " + chapter.getTitle());
+			tdoc.add(paragraph);
+			appendElements(mainFrame, dest, chapter, sceneSeparator);
+		}
+	}
+
+	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Chapter chapter, String sceneSeparator) {
+
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		List<Scene> scenes = dao.findByChapter(chapter);
+		session.close();
+
+		TextDocument tdoc = dest.getPackage().getTextDocument();
+		String sep = null;
+		for (Scene scene : scenes) {
+			if (BookUtil.isUseLibreOffice(mainFrame)) {
+				String filepath = ODTUtils.getFilePath(mainFrame, scene);
+				File f = new File(filepath);
+				if (f.exists())
+				{
+					Paragraph paragraph = new Paragraph();
+					if (sep == null)
+					{
+						sep = sceneSeparator;
+					}
+					else
+					{
+						paragraph.addContent(sep);
+					    paragraph.setStyleName("Scene-Separator");
+					}
+					tdoc.add(paragraph);
+					try {
+						
+						ODSingleXMLDocument p = ODSingleXMLDocument.createFromPackage(f);
+						// Concatenate them
+						dest.add(p, false);
+					} catch (JDOMException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 }

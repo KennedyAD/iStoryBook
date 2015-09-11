@@ -71,6 +71,8 @@
           mnemonic="A"
           smicon="/storybook/resources/icons/16x16/file-save-as.png"
           icon="/storybook/resources/icons/16x16/file-save-as.png"/>
+  <action id="export-book-command"
+          name="<i18n>msg.file.export.book</i18n>" />
   <action id="rename-command"
           name="<i18ndot>msg.common.rename</i18ndot>"
           mnemonic="R"
@@ -516,6 +518,7 @@
 			</action-list>
 			<action idref="save-command" />
 			<action idref="save-as-command" />
+			<action idref="export-book-command" />
 			<action idref="rename-command" />
 			<action idref="close-command" />
 			<empty />

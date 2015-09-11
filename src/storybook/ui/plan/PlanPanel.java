@@ -203,7 +203,6 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		tree.expandRow(0);
 		tabbedPane.addTab(I18N.getMsg("msg.plan.title.progress"), scroller);
 		tree.addMouseListener(this);
-
 	}
 	
 	

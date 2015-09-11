@@ -25,6 +25,8 @@ import java.awt.datatransfer.StringSelection;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 
+import com.sun.jaf.ui.ActionManager;
+
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.ViewName;
@@ -61,9 +63,6 @@ import storybook.ui.dialog.rename.RenameCityDialog;
 import storybook.ui.dialog.rename.RenameCountryDialog;
 import storybook.ui.dialog.rename.RenameItemCategoryDialog;
 import storybook.ui.dialog.rename.RenameTagCategoryDialog;
-
-import com.sun.jaf.ui.ActionManager;
-import storybook.importer.DlgImport;
 
 /**
  *
@@ -132,6 +131,7 @@ public class MainMenu extends javax.swing.JFrame {
         fileOpenRecent = new javax.swing.JMenu();
         fileSave = new javax.swing.JMenuItem();
         fileSaveAs = new javax.swing.JMenuItem();
+        fileExportBook = new javax.swing.JMenuItem();
         fileRename = new javax.swing.JMenuItem();
         fileClose = new javax.swing.JMenuItem();
         separatorFile1 = new javax.swing.JPopupMenu.Separator();
@@ -623,6 +623,18 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuFile.add(fileSaveAs);
+
+       // fileExportBook.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+       // fileExportBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/file-save-as.png"))); // NOI18N
+       // fileExportBook.setMnemonic('A');
+        fileExportBook.setText(bundle.getString("msg.file.export.book")); // NOI18N
+        fileExportBook.setActionCommand("export-book-command");
+        fileExportBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileExportBookActionPerformed(evt);
+            }
+        });
+        menuFile.add(fileExportBook);
 
         fileRename.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         fileRename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/rename.png"))); // NOI18N
@@ -1511,6 +1523,10 @@ public class MainMenu extends javax.swing.JFrame {
         mainFrame.getSbActionManager().getActionHandler().handleFileSaveAs();
     }//GEN-LAST:event_fileSaveAsActionPerformed
 
+    private void fileExportBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExportBookActionPerformed
+        mainFrame.getSbActionManager().getActionHandler().handleFileExportBook();
+    }//GEN-LAST:event_fileExportBookActionPerformed
+
     private void fileRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileRenameActionPerformed
         mainFrame.getSbActionManager().getActionHandler().handleFileRename();
     }//GEN-LAST:event_fileRenameActionPerformed
@@ -2104,6 +2120,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem fileRename;
     private javax.swing.JMenuItem fileSave;
     private javax.swing.JMenuItem fileSaveAs;
+    private javax.swing.JMenuItem fileExportBook;
     private javax.swing.JMenuItem helpAbout;
     private javax.swing.JMenuItem helpCheckUpdates;
     private javax.swing.JMenuItem helpDoc;
