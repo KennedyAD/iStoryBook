@@ -172,6 +172,19 @@ public class BookUtil {
 		dao.saveOrUpdate(strKey, val);
 		model.commit();
 	}
+	
+	public static boolean isKeyExist(MainFrame mainFrame, String strKey) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		Internal internal = dao.findByKey(strKey);
+		boolean b;
+		if (internal == null) {
+			b=false;
+		} else b=true;
+		model.commit();
+		return b;		
+	}
 
 	public static Internal get(MainFrame mainFrame, BookKey key, Object val) {
 		return(get(mainFrame,key.toString(),val));

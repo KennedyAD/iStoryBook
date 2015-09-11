@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import net.infonode.docking.View;
@@ -30,6 +31,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 import storybook.SbApp;
 import storybook.SbConstants.ViewName;
+import storybook.model.hbn.entity.Internal;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.chart.GanttChart;
@@ -79,11 +81,20 @@ public class ViewFactory {
 	//private boolean trace=false;
 	private final MainFrame mainFrame;
 	private final StringViewMap viewMap;
+	private boolean initialisation;
 
 	public ViewFactory(MainFrame mainFrame) {
 		SbApp.trace("ViewFactory(mainFrame)");
 		this.mainFrame = mainFrame;
 		viewMap = new StringViewMap();
+	}
+	
+	public void setInitialisation() {
+		initialisation=true;
+	}
+
+	public void resetInitialisation() {
+		initialisation=false;
 	}
 
 	public SbView getView(ViewName viewName) {
@@ -261,11 +272,12 @@ public class ViewFactory {
 		}
 		comp.initAll();
 		view.load(comp);
+		if (isTable && !initialisation) loadTableDesign(view);
 	}
 
 	public void unloadView(SbView view) {
 		SbApp.trace("ViewFactory.unloadView(" + view.getName() + ")");
-		boolean isTable = false;
+		boolean isTable;
 		isTable = false;
 		if (ViewName.SCENES.compare(view)) {
 			isTable = true;
@@ -810,19 +822,47 @@ public class ViewFactory {
 		return viewMap.getView(viewName.toString()) == null;
 	}
 
-	private void saveTableDesign(SbView view) {/*
+	private void saveTableDesign(SbView view) {
 		AbstractTable comp = (AbstractTable) view.getComponent();
 		JXTable table = comp.getTable();
 		for (TableColumn col : table.getColumns(true)) {
 			String l1 = "Table."+view.getName()+"." + col.getHeaderValue();
 			TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
-			System.out.println(l1+".isVisible="+ext.isVisible());
-			//BookUtil.store(mainFrame, l1, cl.getWidth());
-			//System.out.println(l1+"="+col.getWidth());
-		}*/
+			if (ext.isVisible()) {
+				BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()));
+				System.out.println("save."+l1+"="+Integer.toString(col.getPreferredWidth()));
+			} else {
+				BookUtil.store(mainFrame, l1, "hide");
+				System.out.println("save."+l1+"=hide");
+			}
+		}
 	}
 	
 	private void loadTableDesign(SbView view) {
-		
+		AbstractTable comp = (AbstractTable) view.getComponent();
+		JXTable table = comp.getTable();
+		for (TableColumn col : table.getColumns(true)) {
+			String colName=(String) col.getHeaderValue();
+			String l1 = "Table."+view.getName()+"." + colName;
+			if (!BookUtil.isKeyExist(mainFrame, l1)) {
+				System.out.println("load."+l1+"="+"absent");
+				continue;
+			}
+			Internal internal=BookUtil.get(mainFrame, l1, "hide");
+			if (internal == null) {
+				System.out.println("load."+l1+"="+"null");
+				continue;
+			}
+			TableColumnExt ext = table.getColumnExt(colName);
+			if (internal.getStringValue().equals("hide")) {
+				ext.setVisible(false);
+				System.out.println("load."+l1+"="+"hide");
+			} else {
+				ext.setVisible(true);
+				int s=col.getPreferredWidth();
+				col.setPreferredWidth(Integer.parseInt(internal.getStringValue()));
+				System.out.println("load."+l1+"="+internal.getStringValue()+"(n="+col.getPreferredWidth()+",o="+s+")");
+			}
+		}
 	}
 }

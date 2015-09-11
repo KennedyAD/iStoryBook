@@ -136,6 +136,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		try {
 			this.dbFile = dbF;
 			viewFactory = new ViewFactory(this);
+			viewFactory.setInitialisation();
 			sbActionManager = new SbActionManager(this);
 			sbActionManager.init();
 			// model and controller
@@ -152,6 +153,7 @@ public class MainFrame extends JFrame implements IPaintable {
 			SpellCheckerUtil.registerDictionaries();
 			// listener
 			addWindowListener(new MainFrameWindowAdaptor());
+			viewFactory.resetInitialisation();
 		} catch (Exception e) {
 			SbApp.error("MainFrame.init(" + dbF.getName() + ")", e);
 		}

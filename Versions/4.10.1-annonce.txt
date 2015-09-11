@@ -1,0 +1,17 @@
+Annonce
+Texte:
+Toulouse, le ??/11/2015
+
+Bonjour,
+
+La publication de la prochaine version 4.10.1 interviendra, sauf difficulté de
+dernière minute, le 1er décembre 2015.
+
+L'équipe recherche toujours des traducteurs pour:
+- traduire l'interface utilisateur
+- traduire, ou écrire, le site Internet
+- écrire une documentation utilisateur 
+
+Nouvelle version 4.10.1
+- accès aux chapitres depuis la vue "Gérer les chapitres et les scènes"
+- mémorisation de la disposition des tableau
