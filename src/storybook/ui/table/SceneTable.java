@@ -273,4 +273,9 @@ public class SceneTable extends AbstractTable {
 		return(false);
 	}
 
+	@Override
+	public String getTableName() {
+		return("Scene");
+	}
+
 }

@@ -155,4 +155,9 @@ public class TimeEventTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new TimeEvent();
 	}
+
+	@Override
+	public String getTableName() {
+		return("TimeEvent");
+	}
 }

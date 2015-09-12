@@ -109,4 +109,9 @@ public class ItemLinkTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new ItemLink();
 	}
+
+	@Override
+	public String getTableName() {
+		return("ItemLink");
+	}
 }

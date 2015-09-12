@@ -826,14 +826,12 @@ public class ViewFactory {
 		AbstractTable comp = (AbstractTable) view.getComponent();
 		JXTable table = comp.getTable();
 		for (TableColumn col : table.getColumns(true)) {
-			String l1 = "Table."+view.getName()+"." + col.getHeaderValue();
+			String l1 = "Table."+comp.getTableName()+"." + col.getHeaderValue();
 			TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
 			if (ext.isVisible()) {
 				BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()));
-				System.out.println("save."+l1+"="+Integer.toString(col.getPreferredWidth()));
 			} else {
 				BookUtil.store(mainFrame, l1, "hide");
-				System.out.println("save."+l1+"=hide");
 			}
 		}
 	}
@@ -843,26 +841,22 @@ public class ViewFactory {
 		JXTable table = comp.getTable();
 		for (TableColumn col : table.getColumns(true)) {
 			String colName=(String) col.getHeaderValue();
-			String l1 = "Table."+view.getName()+"." + colName;
+			String l1 = "Table."+comp.getTableName()+"." + colName;
 			if (!BookUtil.isKeyExist(mainFrame, l1)) {
-				System.out.println("load."+l1+"="+"absent");
 				continue;
 			}
 			Internal internal=BookUtil.get(mainFrame, l1, "hide");
 			if (internal == null) {
-				System.out.println("load."+l1+"="+"null");
 				continue;
 			}
 			TableColumnExt ext = table.getColumnExt(colName);
 			if (internal.getStringValue().equals("hide")) {
 				ext.setVisible(false);
-				System.out.println("load."+l1+"="+"hide");
 			} else {
 				ext.setVisible(true);
-				int s=col.getPreferredWidth();
 				col.setPreferredWidth(Integer.parseInt(internal.getStringValue()));
-				System.out.println("load."+l1+"="+internal.getStringValue()+"(n="+col.getPreferredWidth()+",o="+s+")");
 			}
 		}
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 }

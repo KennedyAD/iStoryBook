@@ -123,4 +123,9 @@ public class ChapterTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Chapter();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Chapter");
+	}
 }

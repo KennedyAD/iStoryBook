@@ -109,4 +109,9 @@ public class IdeaTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Idea();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Idea");
+	}
 }

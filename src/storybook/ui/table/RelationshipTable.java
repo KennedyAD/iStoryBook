@@ -109,4 +109,9 @@ public class RelationshipTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Relationship();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Relationship");
+	}
 }

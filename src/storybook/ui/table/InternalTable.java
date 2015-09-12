@@ -109,4 +109,9 @@ public class InternalTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Internal();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Internal");
+	}
 }
