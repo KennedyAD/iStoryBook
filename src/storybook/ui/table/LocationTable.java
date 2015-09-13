@@ -109,4 +109,9 @@ public class LocationTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Location();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Location");
+	}
 }

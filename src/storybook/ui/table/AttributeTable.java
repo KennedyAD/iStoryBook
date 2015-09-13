@@ -97,4 +97,9 @@ public class AttributeTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Attribute();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Attribute");
+	}
 }

@@ -181,4 +181,9 @@ public class StrandTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Strand();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Strand");
+	}
 }

@@ -109,4 +109,9 @@ public class GenderTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Gender();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Gender");
+	}
 }

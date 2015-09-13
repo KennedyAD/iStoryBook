@@ -137,4 +137,9 @@ public class PersonTable extends AbstractTable {
 		return new Person();
 	}
 	
+	@Override
+	public String getTableName() {
+		return("Persons");
+	}
+	
 }

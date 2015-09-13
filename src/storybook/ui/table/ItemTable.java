@@ -109,4 +109,9 @@ public class ItemTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Item();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Item");
+	}
 }

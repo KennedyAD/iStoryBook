@@ -109,4 +109,9 @@ public class TagLinkTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new TagLink();
 	}
+
+	@Override
+	public String getTableName() {
+		return("TagLink");
+	}
 }

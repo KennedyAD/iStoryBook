@@ -194,7 +194,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		tableModel = new DefaultTableModel(colNames.toArray(), 0);
 		table = new JXTable();
 		table.setModel(tableModel);
-
+		
 		// renderer and comparators
 		for (SbColumn col : getColumns()) {
 			if (col.getInputType() == InputType.SEPARATOR) {
@@ -272,7 +272,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 			try {
 				TableColumn tcol = table.getColumn(col.toString());
-				tcol.setPreferredWidth(col.getWidth());
+				//tcol.setPreferredWidth(col.getWidth());
 				tcol.setMinWidth(40);
 			} catch (IllegalArgumentException e) {
 				// ignore;
@@ -378,15 +378,17 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 		} catch (ClassCastException e) {
 		}
-		table.packAll();
+		//table.packAll();
 	}
 	
 	public JXTable getTable() {
 		return table;
 	}
+	
+	abstract public String getTableName();
 
 	protected List<SbColumn> getColumns() {
-		List<SbColumn> ret = new ArrayList<SbColumn>();
+		List<SbColumn> ret = new ArrayList<>();
 		for (SbColumn column : columns)
 		{
 			if (column.getInputType() != InputType.SEPARATOR) {

@@ -110,4 +110,9 @@ public class TagTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Tag();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Tag");
+	}
 }

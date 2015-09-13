@@ -160,7 +160,7 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 				((TableColumn) localObject6).setCellRenderer(new ColorTableCellRenderer(false));
 			}
 		}
-		ntable.setAutoResizeMode(0);
+		ntable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		ntable.getTableHeader().setReorderingAllowed(false);
 		ToolTipHeader localToolTipHeader = new ToolTipHeader(ntable.getColumnModel());
 		localToolTipHeader.setToolTipStrings((String[]) string2);

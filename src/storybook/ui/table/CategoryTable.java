@@ -181,4 +181,9 @@ public class CategoryTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Category();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Category");
+	}
 }

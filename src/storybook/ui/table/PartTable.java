@@ -110,4 +110,9 @@ public class PartTable extends AbstractTable {
 	protected AbstractEntity getNewEntity() {
 		return new Part();
 	}
+
+	@Override
+	public String getTableName() {
+		return("Part");
+	}
 }

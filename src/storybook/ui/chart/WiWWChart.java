@@ -141,7 +141,7 @@ public class WiWWChart extends AbstractPersonsChart
 			localTableColumn.setPreferredWidth(120);
 			localTableColumn.setCellRenderer(new WiWWTableCellRenderer());
 		}
-		jTable.setAutoResizeMode(0);
+		jTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		jTable.getTableHeader().setReorderingAllowed(false);
 		return jTable;
 	}
