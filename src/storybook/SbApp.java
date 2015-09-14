@@ -172,6 +172,7 @@ public class SbApp extends Component {
 
 	public void removeMainFrame(MainFrame mainFrame) {
 		trace("SbApp.removeMainFrame("+mainFrame.getName()+")");
+		for (MainFrame m : mainFrames) m.saveAllTableDesign();
 		mainFrames.remove(mainFrame);
 	}
 

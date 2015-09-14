@@ -615,6 +615,10 @@ public class MainFrame extends JFrame implements IPaintable {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
+	public void saveAllTableDesign() {
+		viewFactory.saveAllTableDesign();
+	}
+
 	private static class DynamicView extends View {
 
 		private final int id;

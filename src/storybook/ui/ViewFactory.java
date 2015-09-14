@@ -88,13 +88,13 @@ public class ViewFactory {
 		this.mainFrame = mainFrame;
 		viewMap = new StringViewMap();
 	}
-	
+
 	public void setInitialisation() {
-		initialisation=true;
+		initialisation = true;
 	}
 
 	public void resetInitialisation() {
-		initialisation=false;
+		initialisation = false;
 	}
 
 	public SbView getView(ViewName viewName) {
@@ -187,7 +187,7 @@ public class ViewFactory {
 		}
 		SbApp.trace("ViewFactory.loadView(" + view.getName() + ")");
 		AbstractPanel comp = new BlankPanel(mainFrame);
-		boolean isTable=false;
+		boolean isTable = false;
 		if (ViewName.CHRONO.compare(view)) {
 			comp = new ChronoPanel(mainFrame);
 		} else if (ViewName.BOOK.compare(view)) {
@@ -200,46 +200,46 @@ public class ViewFactory {
 			comp = new MemoriaPanel(mainFrame);
 		} else if (ViewName.SCENES.compare(view)) {
 			comp = new SceneTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.CHAPTERS.compare(view)) {
 			comp = new ChapterTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.PARTS.compare(view)) {
 			comp = new PartTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.LOCATIONS.compare(view)) {
 			comp = new LocationTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.PERSONS.compare(view)) {
 			comp = new PersonTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.RELATIONSHIPS.compare(view)) {
 			comp = new RelationshipTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.GENDERS.compare(view)) {
 			comp = new GenderTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.CATEGORIES.compare(view)) {
 			comp = new CategoryTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.STRANDS.compare(view)) {
 			comp = new StrandTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.IDEAS.compare(view)) {
 			comp = new IdeaTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.TAGS.compare(view)) {
 			comp = new TagTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.ITEMS.compare(view)) {
 			comp = new ItemTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.TAGLINKS.compare(view)) {
 			comp = new TagLinkTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.ITEMLINKS.compare(view)) {
 			comp = new ItemLinkTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		} else if (ViewName.CHART_PERSONS_BY_DATE.compare(view)) {
 			comp = new PersonsByDateChart(mainFrame);
 		} else if (ViewName.CHART_PERSONS_BY_SCENE.compare(view)) {
@@ -268,11 +268,13 @@ public class ViewFactory {
 			comp = new PlanPanel(mainFrame);
 		} else if (ViewName.TIMEEVENT.compare(view)) {
 			comp = new TimeEventTable(mainFrame);
-			isTable=true;
+			isTable = true;
 		}
 		comp.initAll();
 		view.load(comp);
-		if (isTable && !initialisation) loadTableDesign(view);
+		if (isTable && !initialisation) {
+			loadTableDesign(view);
+		}
 	}
 
 	public void unloadView(SbView view) {
@@ -822,30 +824,44 @@ public class ViewFactory {
 		return viewMap.getView(viewName.toString()) == null;
 	}
 
-	private void saveTableDesign(SbView view) {
-		AbstractTable comp = (AbstractTable) view.getComponent();
-		JXTable table = comp.getTable();
-		for (TableColumn col : table.getColumns(true)) {
-			String l1 = "Table."+comp.getTableName()+"." + col.getHeaderValue();
-			TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
-			if (ext.isVisible()) {
-				BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()));
-			} else {
-				BookUtil.store(mainFrame, l1, "hide");
-			}
+	public void saveAllTableDesign() {
+		if (viewMap.getViewCount() == 0) {
+			return;
+		}
+		for (int i = 0; i < viewMap.getViewCount(); i++) {
+			saveTableDesign((SbView) viewMap.getViewAtIndex(i));
 		}
 	}
-	
+
+	private void saveTableDesign(SbView view) {
+		SbApp.trace("ViewFactory.saveTableDesign(" + view.getName() + ")");
+		try {
+			AbstractTable comp = (AbstractTable) view.getComponent();
+			JXTable table = comp.getTable();
+			for (TableColumn col : table.getColumns(true)) {
+				String l1 = "Table." + comp.getTableName() + "." + col.getHeaderValue();
+				TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
+				if (ext.isVisible()) {
+					BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()));
+				} else {
+					BookUtil.store(mainFrame, l1, "hide");
+				}
+			}
+		} catch (Exception e) {
+
+		}
+	}
+
 	private void loadTableDesign(SbView view) {
 		AbstractTable comp = (AbstractTable) view.getComponent();
 		JXTable table = comp.getTable();
 		for (TableColumn col : table.getColumns(true)) {
-			String colName=(String) col.getHeaderValue();
-			String l1 = "Table."+comp.getTableName()+"." + colName;
+			String colName = (String) col.getHeaderValue();
+			String l1 = "Table." + comp.getTableName() + "." + colName;
 			if (!BookUtil.isKeyExist(mainFrame, l1)) {
 				continue;
 			}
-			Internal internal=BookUtil.get(mainFrame, l1, "hide");
+			Internal internal = BookUtil.get(mainFrame, l1, "hide");
 			if (internal == null) {
 				continue;
 			}
