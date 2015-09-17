@@ -40,7 +40,7 @@ import storybook.SbApp;
 public class I18N {
 
 	public final static String TIME_FORMAT = "HH:mm:ss";
-	public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	//public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static ResourceBundle iconResourceBundle = null;
 	private static ResourceBundle messageResourceBundle = null;
 
@@ -61,6 +61,7 @@ public class I18N {
 	public static DateFormat getShortDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.SHORT);
 	}
+				
 
 	public static DateFormat getMediumDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.MEDIUM);

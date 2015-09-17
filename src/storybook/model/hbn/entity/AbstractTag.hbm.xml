@@ -17,8 +17,8 @@
     <property column="type" insert="false" name="type" type="java.lang.Integer" update="false"/>
     <property column="category" insert="true" name="category" type="java.lang.String" update="true"/>
     <property column="name" insert="true" name="name" type="java.lang.String" update="true"/>
-    <property column="description" insert="true" name="description" type="java.lang.String" update="true"/>
-    <property column="notes" insert="true" name="notes" type="java.lang.String" update="true"/>
+    <property column="description" insert="true" length="32768" name="description" type="java.lang.String" update="true"/>
+    <property column="notes" insert="true" length="32768" name="notes" type="java.lang.String" update="true"/>
     <!--
             To add non XDoclet property mappings, create a file named
                 hibernate-properties-AbstractTag.xml

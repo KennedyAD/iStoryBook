@@ -15,3 +15,6 @@ L'équipe recherche toujours des traducteurs pour:
 Nouvelle version 4.10.1
 - accès aux chapitres depuis la vue "Gérer les chapitres et les scènes"
 - mémorisation de la disposition des tableau
+- alignement de la taille des champs notes et description des objets et
+  étiquettes sur la même taille que pour les autres éléments (32768)
+- correction du bug concernant le format de date à saisir

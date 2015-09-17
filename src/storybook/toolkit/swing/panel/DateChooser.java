@@ -42,6 +42,8 @@ import storybook.ui.MainFrame;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
+import storybook.SbConstants;
+import storybook.toolkit.PrefUtil;
 
 /**
  * @author martin
@@ -68,8 +70,7 @@ public class DateChooser extends AbstractPanel {
 	}
 
 	public boolean hasError() {
-		JTextFieldDateEditor tf = (JTextFieldDateEditor) dateChooser
-				.getComponent(1);
+		JTextFieldDateEditor tf = (JTextFieldDateEditor) dateChooser.getComponent(1);
 		if (tf.getForeground() == Color.red) {
 			return true;
 		}
@@ -90,35 +91,30 @@ public class DateChooser extends AbstractPanel {
 		setLayout(new MigLayout("flowx, ins 0"));
 
 		dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString(PrefUtil.get(SbConstants.PreferenceKey.DATEFORMAT, "MM-dd-yyyy").getStringValue());
 		dateChooser.setMinimumSize(new Dimension(120, 20));
 
 		JLabel lbTime = new JLabel(I18N.getMsgColon("msg.common.time"));
 
-		IconButton btClearTime = new IconButton("icon.small.clear",
-				getClearTimeAction());
+		IconButton btClearTime = new IconButton("icon.small.clear", getClearTimeAction());
 		btClearTime.setSize20x20();
 
 		timeSpinner = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner,
-				I18N.TIME_FORMAT);
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, I18N.TIME_FORMAT);
 		timeSpinner.setEditor(timeEditor);
 		timeSpinner.setValue(DateUtil.getZeroTimeDate());
 		timeSpinner.setPreferredSize(new Dimension(80, 30));
 
-		IconButton btFirstDate = new IconButton("icon.small.first",
-				getFirstDateAction());
+		IconButton btFirstDate = new IconButton("icon.small.first", getFirstDateAction());
 		btFirstDate.setSize20x20();
 
-		IconButton btPrevDay = new IconButton("icon.small.previous",
-				getPrevDayAction());
+		IconButton btPrevDay = new IconButton("icon.small.previous", getPrevDayAction());
 		btPrevDay.setSize20x20();
 
-		IconButton btNextDay = new IconButton("icon.small.next",
-				getNextDayAction());
+		IconButton btNextDay = new IconButton("icon.small.next", getNextDayAction());
 		btNextDay.setSize20x20();
 
-		IconButton btLastDate = new IconButton("icon.small.last",
-				getLastDateAction());
+		IconButton btLastDate = new IconButton("icon.small.last", getLastDateAction());
 		btLastDate.setSize20x20();
 
 		// layout
