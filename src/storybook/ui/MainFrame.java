@@ -726,6 +726,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		dlg.setSize(this.getWidth() / 2, 680);
 		dlg.add(editor);
 		dlg.setLocationRelativeTo(this);
+		dlg.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		dlg.setVisible(true);
 	}
 
