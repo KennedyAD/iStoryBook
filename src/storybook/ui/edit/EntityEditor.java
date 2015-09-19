@@ -156,7 +156,10 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 	private JTextField tfFile;
 	private JButton btChooseFile;
 
-	private enum MsgState {ERRORS, WARNINGS, UPDATED, ADDED}
+	private enum MsgState {
+
+		ERRORS, WARNINGS, UPDATED, ADDED
+	}
 	private boolean leaveOpen;
 	private AbstractEntityHandler entityHandler;
 	private final BookController ctrl;
@@ -304,7 +307,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 
 			titlePanel = new TitlePanel();
 			titlePanel.refresh(entity);
-			add(titlePanel, "split 2, growx");
+			String titleLayout="split 3, growx";
+			if (entity instanceof Idea) titleLayout="split 2, growx";
+			add(titlePanel, titleLayout);
 
 			JButton unicodeButton = new JButton();
 			Image img = ImageIO.read(getClass().getResource("/storybook/resources/icons/16x16/specchar.png"));
@@ -312,13 +317,27 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			unicodeButton.setToolTipText(I18N.getMsg("msg.editor.specchar.tooltip"));
 			unicodeButton.setMargin(new Insets(0, 0, 0, 0));
 			unicodeButton.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					mainFrame.showUnicodeDialog();
 				}
 			});
 			add(unicodeButton, "align right");
+
+			if (!(entity instanceof Idea)) {
+				JButton ideaButton = new JButton();
+				img = ImageIO.read(getClass().getResource("/storybook/resources/icons/16x16/idea.png"));
+				ideaButton.setIcon(new ImageIcon(img));
+				ideaButton.setToolTipText(I18N.getMsg("msg.editor.specchar.tooltip"));
+				ideaButton.setMargin(new Insets(0, 0, 0, 0));
+				ideaButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						mainFrame.showEditorAsDialog(new Idea());
+					}
+				});
+				add(ideaButton, "align right");
+			}
 
 			containers.add(new JPanel());
 			JPanel container = containers.get(containers.size() - 1);
@@ -349,12 +368,12 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 						container.add(btgPanel, "span");
 					}
 					if (col.getInputType() == InputType.NONE) {
-					// skip input type "none"
+						// skip input type "none"
 						// no => used to display information
 						//	continue;
 					}
 					if (col.getInputType() == InputType.SEPARATOR) {
-					//JSeparator sep = new JSeparator();
+						//JSeparator sep = new JSeparator();
 						//container.add(sep, "growx");
 					} else {
 						JLabel lb = new JLabel();
@@ -1342,7 +1361,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			if (BookUtil.isUsePersonnalTemplate(mainFrame)) {
 				Internal internal = BookUtil.get(mainFrame, BookKey.USE_PERSONNAL_TEMPLATE, "");
 				source = internal.getStringValue();
-				File f=new File(source);
+				File f = new File(source);
 				if (f.exists()) {
 					is = new FileInputStream(source);
 				}
