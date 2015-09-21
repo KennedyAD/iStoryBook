@@ -54,6 +54,7 @@ import storybook.toolkit.net.Updater;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.dialog.AboutDialog;
 import storybook.ui.dialog.BookPropertiesDialog;
+import storybook.ui.dialog.ChaptersOrderDialog;
 import storybook.ui.dialog.CreateChaptersDialog;
 import storybook.ui.dialog.FoiDialog;
 import storybook.ui.dialog.ManageLayoutsDialog;
@@ -132,7 +133,6 @@ public class MainMenu extends javax.swing.JFrame {
         fileOpenRecent = new javax.swing.JMenu();
         fileSave = new javax.swing.JMenuItem();
         fileSaveAs = new javax.swing.JMenuItem();
-        fileExportBook = new javax.swing.JMenuItem();
         fileRename = new javax.swing.JMenuItem();
         fileClose = new javax.swing.JMenuItem();
         separatorFile1 = new javax.swing.JPopupMenu.Separator();
@@ -171,6 +171,7 @@ public class MainMenu extends javax.swing.JFrame {
         menuPrimaryObjects = new javax.swing.JMenu();
         tabScene = new javax.swing.JMenuItem();
         tabChapter = new javax.swing.JMenuItem();
+        jChaptersOrder = new javax.swing.JMenuItem();
         tabPart = new javax.swing.JMenuItem();
         tabStrand = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
@@ -617,25 +618,13 @@ public class MainMenu extends javax.swing.JFrame {
         fileSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/file-save-as.png"))); // NOI18N
         fileSaveAs.setMnemonic('A');
         fileSaveAs.setText(bundle.getString("msg.file.save.as")); // NOI18N
-        fileSaveAs.setActionCommand("save-as-command");
+        fileSaveAs.setActionCommand("export-book-command");
         fileSaveAs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileSaveAsActionPerformed(evt);
             }
         });
         menuFile.add(fileSaveAs);
-
-       // fileExportBook.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-       // fileExportBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/file-save-as.png"))); // NOI18N
-       // fileExportBook.setMnemonic('A');
-        fileExportBook.setText(bundle.getString("msg.file.export.book")); // NOI18N
-        fileExportBook.setActionCommand("export-book-command");
-        fileExportBook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileExportBookActionPerformed(evt);
-            }
-        });
-        menuFile.add(fileExportBook);
 
         fileRename.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         fileRename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/rename.png"))); // NOI18N
@@ -936,6 +925,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuPrimaryObjects.add(tabChapter);
+
+        jChaptersOrder.setText(bundle.getString("msg.menu.chapters.order")); // NOI18N
+        jChaptersOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChaptersOrderActionPerformed(evt);
+            }
+        });
+        menuPrimaryObjects.add(jChaptersOrder);
 
         tabPart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_parts.png"))); // NOI18N
         tabPart.setMnemonic('P');
@@ -2040,6 +2037,11 @@ public class MainMenu extends javax.swing.JFrame {
 		 SwingUtil.showModalDialog(dlg, mainFrame);*/
     }//GEN-LAST:event_fileImportActionPerformed
 
+    private void jChaptersOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChaptersOrderActionPerformed
+        ChaptersOrderDialog dlg = new ChaptersOrderDialog(mainFrame);
+		SwingUtil.showModalDialog(dlg, mainFrame);
+    }//GEN-LAST:event_jChaptersOrderActionPerformed
+
 	/**
 	 * @param args the command line arguments
 	 */
@@ -2124,7 +2126,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem fileRename;
     private javax.swing.JMenuItem fileSave;
     private javax.swing.JMenuItem fileSaveAs;
-    private javax.swing.JMenuItem fileExportBook;
     private javax.swing.JMenuItem helpAbout;
     private javax.swing.JMenuItem helpCheckUpdates;
     private javax.swing.JMenuItem helpDoc;
@@ -2132,6 +2133,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpHome;
     private javax.swing.JMenuItem helpReportBug;
     private javax.swing.JCheckBoxMenuItem helpTrace;
+    private javax.swing.JMenuItem jChaptersOrder;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
@@ -2248,7 +2250,7 @@ public class MainMenu extends javax.swing.JFrame {
 		javax.swing.JMenuItem[] submenus = {
 			editCopyBlurb, editCopyBook,
 			fileClose, fileExport, filePrint,
-			fileProperties, fileRename, fileSave, fileSaveAs, fileExportBook, fileImport
+			fileProperties, fileRename, fileSave, fileSaveAs, fileExport, fileImport
 		};
 		for (javax.swing.JMenuItem m : submenus) {
 			m.setVisible(false);
