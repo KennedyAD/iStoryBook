@@ -5,6 +5,14 @@
  */
 package storybook.ui.dialog;
 
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
+import org.hibernate.Session;
+import storybook.model.BookModel;
+import storybook.model.hbn.dao.ChapterDAOImpl;
+import storybook.model.hbn.dao.PartDAOImpl;
+import storybook.model.hbn.entity.Chapter;
 import storybook.ui.MainFrame;
 
 /**
@@ -12,6 +20,7 @@ import storybook.ui.MainFrame;
  * @author favdb
  */
 public class ChaptersOrderDialog extends javax.swing.JDialog {
+	private MainFrame mainFrame;
 
 	/**
 	 * Creates new form ChaptersOrderDialog
@@ -26,6 +35,8 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 	public ChaptersOrderDialog(MainFrame mainFrame) {
 		super(mainFrame, true);
 		initComponents();
+		this.mainFrame=mainFrame;
+		initUI();
 	}
 
 	/**
@@ -55,7 +66,6 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jListChapters);
 
         jButtonUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/arrowup.png"))); // NOI18N
-        jButtonUp.setText(bundle.getString("msg.order.up")); // NOI18N
         jButtonUp.setToolTipText(bundle.getString("msg.order.up")); // NOI18N
         jButtonUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,7 +74,6 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         });
 
         jButtonDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/arrowdown.png"))); // NOI18N
-        jButtonDown.setText(bundle.getString("msg.order.down")); // NOI18N
         jButtonDown.setToolTipText(bundle.getString("msg.order.down")); // NOI18N
         jButtonDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,31 +100,29 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addComponent(jButtonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonUp, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                    .addComponent(jButtonDown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonUp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(158, 158, 158)
                         .addComponent(jButtonDown))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonOK)
@@ -127,15 +134,21 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpActionPerformed
-        // TODO add your handling code here:
+        moveList(-1);
     }//GEN-LAST:event_jButtonUpActionPerformed
 
     private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownActionPerformed
-        // TODO add your handling code here:
+        moveList(1);
     }//GEN-LAST:event_jButtonDownActionPerformed
 
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
-        // TODO add your handling code here:
+        DefaultListModel listModel=(DefaultListModel)jListChapters.getModel();
+		for(Integer i=0;i<listModel.getSize();i++) {
+			Chapter chapter=(Chapter)listModel.getElementAt(i);
+			chapter.setChapterno(i+1);
+			mainFrame.getBookController().updateChapter(chapter);
+		}
+		dispose();
     }//GEN-LAST:event_jButtonOKActionPerformed
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
@@ -193,7 +206,48 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+	@SuppressWarnings("unchecked")
 	private void initUI() {
-		
+		jListChapters.setModel(new DefaultListModel());
+		loadList(-1);		
 	}
+	
+	@SuppressWarnings("unchecked")
+	private void loadList(int first) {
+		DefaultListModel listModel=(DefaultListModel)jListChapters.getModel();
+		listModel.removeAllElements();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		ChapterDAOImpl ChapterDAO = new ChapterDAOImpl(session);
+		List<Chapter> chapters = ChapterDAO.findAll();
+		for (Chapter chapter : chapters) {
+			listModel.addElement(chapter);
+		}
+		if (first!=-1) {
+			jListChapters.setSelectedIndex(first);
+		}
+		model.commit();
+	}
+	
+	private void moveList(int sens) {
+		int index=jListChapters.getSelectedIndex();
+		DefaultListModel listModel=(DefaultListModel)jListChapters.getModel();
+		if ((sens==-1)&&(index==0)) {
+			return;
+		} 
+		if ((sens==1) && (index==listModel.getSize()-1)) {
+			System.out.println("fin");
+		}
+		Chapter oChapter=(Chapter)listModel.getElementAt(index+sens);
+		Integer oChapterNo=oChapter.getChapterno();
+		oChapter.setChapterno(99999);
+		mainFrame.getBookController().updateChapter(oChapter);
+		Chapter nChapter=(Chapter)listModel.getElementAt(index);
+		Integer nChapterNo=nChapter.getChapterno();
+		nChapter.setChapterno(oChapterNo);
+		mainFrame.getBookController().updateChapter(nChapter);
+		oChapter.setChapterno(nChapterNo);
+		mainFrame.getBookController().updateChapter(oChapter);
+		loadList(index+sens);
+	} 
 }
