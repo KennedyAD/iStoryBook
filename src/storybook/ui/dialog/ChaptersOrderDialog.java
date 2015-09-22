@@ -7,11 +7,9 @@ package storybook.ui.dialog;
 
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
 import org.hibernate.Session;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ChapterDAOImpl;
-import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.Chapter;
 import storybook.ui.MainFrame;
 
@@ -20,12 +18,9 @@ import storybook.ui.MainFrame;
  * @author favdb
  */
 public class ChaptersOrderDialog extends javax.swing.JDialog {
-	private MainFrame mainFrame;
-
+	MainFrame mainFrame;
 	/**
-	 * Creates new form ChaptersOrderDialog
-	 * @param parent
-	 * @param modal
+	 * Creates new form NewJDialog
 	 */
 	public ChaptersOrderDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -54,8 +49,6 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         jButtonOK = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("storybook/msg/messages"); // NOI18N
-        setTitle(bundle.getString("msg.menu.chapters.order")); // NOI18N
 
         jListChapters.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -65,7 +58,6 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         jScrollPane1.setViewportView(jListChapters);
 
         jButtonUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/arrowup.png"))); // NOI18N
-        jButtonUp.setToolTipText(bundle.getString("msg.order.up")); // NOI18N
         jButtonUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonUpActionPerformed(evt);
@@ -73,13 +65,13 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         });
 
         jButtonDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/arrowdown.png"))); // NOI18N
-        jButtonDown.setToolTipText(bundle.getString("msg.order.down")); // NOI18N
         jButtonDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDownActionPerformed(evt);
             }
         });
 
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("storybook/msg/messages"); // NOI18N
         jButtonOK.setText(bundle.getString("msg.common.exit")); // NOI18N
         jButtonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,29 +84,29 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonUp, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                            .addComponent(jButtonDown, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(245, 245, 245)
-                        .addComponent(jButtonOK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButtonDown, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                            .addComponent(jButtonUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonOK, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonUp)
-                        .addGap(158, 158, 158)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonDown))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonOK)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -123,6 +115,10 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonOKActionPerformed
+
     private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpActionPerformed
         moveList(-1);
     }//GEN-LAST:event_jButtonUpActionPerformed
@@ -130,10 +126,6 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
     private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownActionPerformed
         moveList(1);
     }//GEN-LAST:event_jButtonDownActionPerformed
-
-    private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
-        dispose();
-    }//GEN-LAST:event_jButtonOKActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -160,6 +152,7 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.getLogger(ChaptersOrderDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+        //</editor-fold>
         //</editor-fold>
 
 		/* Create and display the dialog */
@@ -215,7 +208,7 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 			return;
 		} 
 		if ((sens==1) && (index==listModel.getSize()-1)) {
-			return;
+			System.out.println("fin");
 		}
 		Chapter oChapter=(Chapter)listModel.getElementAt(index+sens);
 		Integer oChapterNo=oChapter.getChapterno();
@@ -228,5 +221,5 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 		oChapter.setChapterno(nChapterNo);
 		mainFrame.getBookController().updateChapter(oChapter);
 		loadList(index+sens);
-	} 
+	}
 }
