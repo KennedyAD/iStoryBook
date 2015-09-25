@@ -72,8 +72,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 	private Integer size;
 
 	public ChronoScenePanel(MainFrame mainFrame, Scene scene) {
-		super(mainFrame, scene, true, Color.white, scene.getStrand()
-				.getJColor());
+		super(mainFrame, scene, true, Color.white, scene.getStrand().getJColor());
 		init();
 		initUi();
 	}
@@ -129,8 +128,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 	@Override
 	public void init() {
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
 			setZoomedSize(internal.getIntegerValue());
 		} catch (Exception e) {
 			setZoomedSize(SbConstants.DEFAULT_CHRONO_ZOOM);
@@ -144,8 +142,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 
 	@Override
 	public void refresh() {
-		MigLayout layout = new MigLayout("fill,flowy,insets 4", "[]",
-				"[][grow]");
+		MigLayout layout = new MigLayout("fill,flowy,insets 4", "[]", "[][grow]");
 		setLayout(layout);
 		setPreferredSize(new Dimension(size, size));
 		setComponentPopupMenu(EntityUtil.createPopupMenu(mainFrame, scene));
@@ -155,15 +152,13 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		// set dotted border for scenes of other parts
 		setBorder(SwingUtil.getBorderDefault());
 		if (scene.hasChapter()) {
-			if (!scene.getChapter().getPart().getId().equals(mainFrame
-					.getCurrentPart().getId())) {
+			if (!scene.getChapter().getPart().getId().equals(mainFrame.getCurrentPart().getId())) {
 				setBorder(SwingUtil.getBorderDot());
 			}
 		}
 
 		// strand links
-		StrandLinksPanel strandLinksPanel = new StrandLinksPanel(mainFrame,
-				scene, true);
+		StrandLinksPanel strandLinksPanel = new StrandLinksPanel(mainFrame, scene, true);
 
 		// person links
 		PersonLinksPanel personLinksPanel = new PersonLinksPanel(mainFrame, scene);
@@ -225,8 +220,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		taTitle.setCaretPosition(0);
 		taTitle.getUndoManager().discardAllEdits();
 		taTitle.addFocusListener(this);
-		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame,
-				scene,true));
+		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame, scene,true));
 		JScrollPane spTitle = new JScrollPane(taTitle);
 		spTitle.setPreferredSize(new Dimension(50, 35));
 
@@ -251,10 +245,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		buttonPanel.add(btDelete);
 		buttonPanel.add(btNew);
 
-		upperPanel = new JPanel(new MigLayout(
-				"ins 0",
-				"[][grow][]",
-				"[top][top][top]"));
+		upperPanel = new JPanel(new MigLayout("ins 0", "[][grow][]", "[top][top][top]"));
 		upperPanel.setName(CN_UPPER_PANEL);
 		upperPanel.setOpaque(false);
 		upperPanel.add(lbSceneNo, "grow,width pref+10px,split 3");

@@ -47,8 +47,7 @@ public class ColumnPanel extends AbstractStrandDatePanel {
 	@Override
 	public void initUi() {
 		try {
-			MigLayout layout = new MigLayout("insets 1,fill", "[][grow]",
-					"[top]");
+			MigLayout layout = new MigLayout("insets 1,fill", "[][grow]", "[top]");
 			setLayout(layout);
 			setOpaque(false);
 
@@ -67,13 +66,11 @@ public class ColumnPanel extends AbstractStrandDatePanel {
 				SpacePanel spacePanel = new SpacePanel(mainFrame, strand, date);
 				add(spacePanel, "grow");
 			} else {
-				MigLayout layout2 = new MigLayout("wrap,insets 0", "[]",
-						"[top]");
+				MigLayout layout2 = new MigLayout("wrap,insets 0", "[]", "[top]");
 				JPanel rowPanel = new JPanel(layout2);
 				rowPanel.setOpaque(false);
 				for (Scene scene : sceneList) {
-					ChronoScenePanel csp = new ChronoScenePanel(mainFrame,
-							scene);
+					ChronoScenePanel csp = new ChronoScenePanel(mainFrame, scene);
 					rowPanel.add(csp, "grow");
 				}
 				add(rowPanel, "grow");

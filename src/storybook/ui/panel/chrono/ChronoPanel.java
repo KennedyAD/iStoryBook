@@ -29,6 +29,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -303,6 +305,35 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		Session session = model.beginTransaction();
 
 		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
+		List<String> tScene = new ArrayList<>();
+		List<Scene> scenes=sceneDao.findAll();
+		SimpleDateFormat df=new SimpleDateFormat("YYYYMMDDHHmmss");
+		for (Scene scene : scenes) {
+			Date d=scene.getDate();
+			if (scene.hasRelativeScene()) {
+				Long m=scene.getRelativeSceneId();
+				d=null;
+				while (d==null) {
+					if (m==null) break;
+					if (sceneDao.find(m).hasRelativeScene()) {
+						d=sceneDao.find(m).getRelativeDate(sceneDao.find(m));
+						m=sceneDao.find(m).getRelativeSceneId();
+					} else {
+						d=sceneDao.find(m).getDate();
+						m=null;
+					}
+				}
+			}
+			String x=scene.getPartChapterSceneNo()+";"+scene.getId();
+			if (d!=null) {
+				tScene.add(df.format(d)+";"+x);
+			}
+			else {
+				tScene.add("000000000000000"+";"+x);
+			}
+		}
+		tScene.sort(null);
+		System.out.println(tScene);
 		List<Date> dates = sceneDao.findDistinctDates(currentPart);
 		DateUtil.expandDatesToFuture(dates);
 		StrandDAOImpl strandDao = new StrandDAOImpl(session);
@@ -322,37 +353,38 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			Date lastDate = null;
 			for (Date date : dates) {
 				int i = 0;
-				if (showDateDiff && lastDate != null)
+				if (showDateDiff && lastDate != null) {
 					for (int j = 0; j < strands.size(); ++j) {
 						DateDiffLabel lbDiff = new DateDiffLabel(lastDate, date);
 						if (lbDiff.getDays() > 1) {
 							String wrap = "";
-							if (j == strands.size() - 1)
+							if (j == strands.size() - 1) {
 								wrap = "wrap,";
+							}
 							panel.add(lbDiff, wrap + "growx,al center");
 						}
 					}
+				}
 				for (Strand strand : strands) {
 					JLabel lbStrand = new JLabel(" " + strand.toString() + " ");
-					lbStrand.setMinimumSize(new Dimension(20, lbStrand
-							.getHeight()));
-					lbStrand.setBackground(ColorUtil.getPastel(strand
-							.getJColor()));
+					lbStrand.setMinimumSize(new Dimension(20, lbStrand.getHeight()));
+					lbStrand.setBackground(ColorUtil.getPastel(strand.getJColor()));
 					lbStrand.setOpaque(true);
-					lbStrand.putClientProperty(CLIENT_PROPERTY_STRAND_ID,
-							strand.getId());
+					lbStrand.putClientProperty(CLIENT_PROPERTY_STRAND_ID, strand.getId());
 					strandLabels.add(lbStrand);
 					String wrap = "";
-					if (i == strands.size() - 1)
+					if (i == strands.size() - 1) {
 						wrap = "wrap,";
+					}
 					panel.add(lbStrand, wrap + "grow");
 					++i;
 				}
 				i = 0;
 				for (Strand strand : strands) {
 					String wrap = "";
-					if (i == strands.size() - 1)
+					if (i == strands.size() - 1) {
 						wrap = "wrap";
+					}
 					ColumnPanel colPanel = new ColumnPanel(mainFrame, strand, date);
 					panel.add(colPanel, wrap + ",grow");
 					++i;
@@ -367,8 +399,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 					if (showDateDiff && lastDate != null) {
 						DateDiffLabel lbDiff = new DateDiffLabel(lastDate, date, true);
 						lbDiff.setUI(new VerticalLabelUI(false));
-						if (lbDiff.getDays() > 1)
+						if (lbDiff.getDays() > 1) {
 							panel.add(lbDiff, "growy");
+						}
 					}
 
 					JLabel lbStrand = new JLabel(" " + strand.toString() + " ");
@@ -380,8 +413,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 					strandLabels.add(lbStrand);
 					panel.add(lbStrand, "grow");
 					String wrap = "";
-					if (i == dates.size() - 1)
+					if (i == dates.size() - 1) {
 						wrap = ",wrap";
+					}
 					RowPanel rowPanel = new RowPanel(mainFrame, strand, date);
 					panel.add(rowPanel, "grow" + wrap);
 					++i;
