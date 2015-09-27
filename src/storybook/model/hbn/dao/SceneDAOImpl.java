@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -173,7 +172,7 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 		Query query = session.createSQLQuery(sql);
 		query.setParameter("strand_id", strand.getId());
 		List<Object> ret = query.list();
-		List<Date> dates = new ArrayList<Date>();
+		List<Date> dates = new ArrayList<>();
 		for (int i = 0; i < ret.size(); ++i) {
 			Object[] oa = (Object[]) ret.get(i);
 			dates.add((Date) oa[0]);
@@ -203,7 +202,7 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 		}
 		Query query = session.createSQLQuery(sql);
 		List<Object> ret = query.list();
-		List<Date> dates = new ArrayList<Date>();
+		List<Date> dates = new ArrayList<>();
 		for (int i = 0; i < ret.size(); ++i) {
 			Object[] oa = (Object[]) ret.get(i);
 			dates.add((Date) oa[0]);
@@ -231,7 +230,7 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByDate(Date date) {
 		if (date == null) {
-			return new ArrayList<Scene>();
+			return new ArrayList<>();
 		}
 		Query query = session.createQuery("select s from Scene as s"
 				+ " where s.sceneTs between :tsStart and :tsEnd"
@@ -297,7 +296,7 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByStrandAndDate(Strand strand, Date date) {
 		if (date == null) {
-			return new ArrayList<Scene>();
+			return new ArrayList<>();
 		}
 		// OLD: Query query = session
 		// .createQuery("from Scene s where s.sceneTs = :sceneTs and s.strand=:strand order by s.sceneTs");
@@ -320,8 +319,7 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 			if (!scene.getStrand().getId().equals(strand.getId())) {
 				continue;
 			}
-			Scene relativeScene = (Scene) session.get(Scene.class,
-					scene.getRelativeSceneId());
+			Scene relativeScene = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
 			Date sceneDate = scene.getRelativeDate(relativeScene);
 			if (sceneDate == null) {
 				continue;

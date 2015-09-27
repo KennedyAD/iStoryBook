@@ -305,35 +305,6 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		Session session = model.beginTransaction();
 
 		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
-		List<String> tScene = new ArrayList<>();
-		List<Scene> scenes=sceneDao.findAll();
-		SimpleDateFormat df=new SimpleDateFormat("YYYYMMDDHHmmss");
-		for (Scene scene : scenes) {
-			Date d=scene.getDate();
-			if (scene.hasRelativeScene()) {
-				Long m=scene.getRelativeSceneId();
-				d=null;
-				while (d==null) {
-					if (m==null) break;
-					if (sceneDao.find(m).hasRelativeScene()) {
-						d=sceneDao.find(m).getRelativeDate(sceneDao.find(m));
-						m=sceneDao.find(m).getRelativeSceneId();
-					} else {
-						d=sceneDao.find(m).getDate();
-						m=null;
-					}
-				}
-			}
-			String x=scene.getPartChapterSceneNo()+";"+scene.getId();
-			if (d!=null) {
-				tScene.add(df.format(d)+";"+x);
-			}
-			else {
-				tScene.add("000000000000000"+";"+x);
-			}
-		}
-		tScene.sort(null);
-		System.out.println(tScene);
 		List<Date> dates = sceneDao.findDistinctDates(currentPart);
 		DateUtil.expandDatesToFuture(dates);
 		StrandDAOImpl strandDao = new StrandDAOImpl(session);
