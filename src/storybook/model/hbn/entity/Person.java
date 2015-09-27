@@ -33,15 +33,15 @@ import storybook.toolkit.swing.ColorUtil;
 public class Person extends AbstractEntity implements Comparable<Person> {
 
 	private Gender gender;
-	private String firstname;
-	private String lastname;
-	private String abbreviation;
+	private String firstname = "";
+	private String lastname = "";
+	private String abbreviation = "";
 	private Date birthday;
 	private Date dayofdeath;
-	private String occupation;
-	private String description;
+	private String occupation = "";
+	private String description = "";
 	private Integer color;
-	private String notes;
+	private String notes = "";
 	private Category category;
 	private List<Attribute> attributes;
 
