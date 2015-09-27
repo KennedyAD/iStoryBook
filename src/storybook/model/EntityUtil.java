@@ -1,6 +1,6 @@
 /*
  Storybook: Open Source software for novelists and authors.
- Copyright (C) 2008 - 2012 Martin Mustun
+ Copyright (C) 2008 - 2015 Martin Mustun
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -131,10 +131,6 @@ import storybook.toolkit.swing.FontUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumn;
 
-/**
- * @author martin
- *
- */
 public class EntityUtil {
 
 	public static Boolean isPersonAlive(Person person, Date now) {
@@ -145,22 +141,37 @@ public class EntityUtil {
 
 	public static int calculatePersonAge(Person person, Date date) {
 		Date birthday = person.getBirthday();
-		if (birthday == null)
-			return -1;
+		if (birthday == null) {
+                    return -1;
+                }
 
 		// Create a calendar object with the date of birth
 		Calendar dateOfBirth = new GregorianCalendar();
 		dateOfBirth.setTime(birthday);
+                dateOfBirth.set(Calendar.HOUR_OF_DAY, 0);
+                dateOfBirth.set(Calendar.MINUTE, 0);
+                dateOfBirth.set(Calendar.SECOND, 0);
+                dateOfBirth.set(Calendar.MILLISECOND, 0);
 
 		// person already dead?
 		if (!isPersonAlive(person, date)) {
 			Calendar death = new GregorianCalendar();
 			death.setTime(person.getDayofdeath());
+                        death.set(Calendar.HOUR_OF_DAY, 0);
+                        death.set(Calendar.MINUTE, 0);
+                        death.set(Calendar.SECOND, 0);
+                        death.set(Calendar.MILLISECOND, 0);
 			int age = death.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
 			Calendar dateOfBirth2 = new GregorianCalendar();
+                        dateOfBirth2.setTime(birthday);
 			dateOfBirth2.add(Calendar.YEAR, age);
-			if (death.before(dateOfBirth2))
+                        dateOfBirth2.set(Calendar.HOUR_OF_DAY, 0);
+                        dateOfBirth2.set(Calendar.MINUTE, 0);
+                        dateOfBirth2.set(Calendar.SECOND, 0);
+                        dateOfBirth2.set(Calendar.MILLISECOND, 0);
+			if (death.before(dateOfBirth2)) {
 				age--;
+                        }
 			return age;
 		}
 
