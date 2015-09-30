@@ -60,7 +60,7 @@ public class EditSceneLOAction extends AbstractEntityAction {
 		if (!file.exists()) {
 			if (JOptionPane.showConfirmDialog(null,
 					I18N.getMsg("msg.libreoffice.filenotexist"),
-					I18N.getMsg("msg.libreoffice.lauching"),
+					I18N.getMsg("msg.libreoffice.launching"),
 					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 				try {
 					String source = "storybook/resources/Empty.odt";

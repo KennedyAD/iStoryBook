@@ -1337,7 +1337,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		if (!file.exists()) {
 			if (JOptionPane.showConfirmDialog(null,
 					I18N.getMsg("msg.libreoffice.filenotexist"),
-					I18N.getMsg("msg.libreoffice.lauching"),
+					I18N.getMsg("msg.libreoffice.launching"),
 					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 				createOdtFile(file);
 				scene.setOdf(file.getName());

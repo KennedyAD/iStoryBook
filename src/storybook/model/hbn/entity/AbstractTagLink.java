@@ -164,12 +164,10 @@ public abstract class AbstractTagLink extends AbstractEntity {
 
 	public Period getPeriod() {
 		if (hasPeriod()) {
-			return new Period(getStartScene().getSceneTs(), getEndScene()
-					.getSceneTs());
+			return new Period(getStartScene().getSceneTs(), getEndScene().getSceneTs());
 		}
 		if (hasStartScene()) {
-			return new Period(getStartScene().getSceneTs(), getStartScene()
-					.getSceneTs());
+			return new Period(getStartScene().getSceneTs(), getStartScene().getSceneTs());
 		}
 		return null;
 	}
@@ -236,16 +234,13 @@ public abstract class AbstractTagLink extends AbstractEntity {
 						: test.getStartScene().getId());
 		ret = ret
 				&& equalsLongNullValue(endScene == null ? null : endScene.id,
-						test.getEndScene() == null ? null : test.getEndScene()
-								.getId());
+						test.getEndScene() == null ? null : test.getEndScene().getId());
 		ret = ret
 				&& equalsLongNullValue(person == null ? null : person.id,
-						test.getPerson() == null ? null : test.getPerson()
-								.getId());
+						test.getPerson() == null ? null : test.getPerson().getId());
 		ret = ret
 				&& equalsLongNullValue(location == null ? null : location.id,
-						test.getLocation() == null ? null : test.getLocation()
-								.getId());
+						test.getLocation() == null ? null : test.getLocation().getId());
 		return ret;
 	}
 

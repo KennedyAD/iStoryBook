@@ -307,6 +307,17 @@ public class Scene extends AbstractEntity implements Comparable<Scene> {
         }
         return buf.toString();
     }
+	
+	public String getPartChapterSceneNo() {
+		String ret="";
+		if (!hasChapter()) {
+			ret="x.x.";
+		} else {
+			ret=chapter.getPart().getNumber()+"."+chapter.getChapterno()+".";
+		}
+		ret+=sceneno;
+		return(ret);
+	}
 
     public String getSummary() {
         return this.summary;

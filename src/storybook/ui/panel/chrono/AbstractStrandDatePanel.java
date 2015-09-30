@@ -20,8 +20,12 @@ package storybook.ui.panel.chrono;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Date;
+import org.hibernate.Session;
 
 import storybook.controller.BookController;
+import storybook.model.BookModel;
+import storybook.model.hbn.dao.SceneDAOImpl;
+import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
@@ -43,8 +47,7 @@ public abstract class AbstractStrandDatePanel extends AbstractPanel {
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
-		if (BookController.SceneProps.NEW.check(propName)
-				|| BookController.SceneProps.DELETE.check(propName)) {
+		if (BookController.SceneProps.NEW.check(propName) || BookController.SceneProps.DELETE.check(propName)) {
 			refresh();
 			if (getParent() != null) {
 				getParent().validate();
@@ -60,5 +63,14 @@ public abstract class AbstractStrandDatePanel extends AbstractPanel {
 
 	public Date getDate() {
 		return date;
+	}
+	
+	public Scene getScene(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
+		Scene scene = sceneDao.find(id);
+		model.commit();
+		return(scene);
 	}
 }
