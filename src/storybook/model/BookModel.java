@@ -33,6 +33,7 @@ import storybook.controller.BookController;
 import storybook.model.hbn.dao.CategoryDAOImpl;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.GenderDAOImpl;
+import storybook.model.hbn.dao.GroupDAOImpl;
 import storybook.model.hbn.dao.IdeaDAOImpl;
 import storybook.model.hbn.dao.InternalDAOImpl;
 import storybook.model.hbn.dao.ItemDAOImpl;
@@ -50,6 +51,7 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
+import storybook.model.hbn.entity.Group;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -158,6 +160,7 @@ public class BookModel extends AbstractModel {
 		fireAgainLocations();
 		fireAgainPersons();
 		fireAgainRelationships();
+		fireAgainGroups();
 		fireAgainGenders();
 		fireAgainCategories();
 		fireAgainStrands();
@@ -189,6 +192,8 @@ public class BookModel extends AbstractModel {
 			fireAgainLocations();
 		} else if (ViewName.PERSONS.compare(view)) {
 			fireAgainPersons();
+		} else if (ViewName.GROUPS.compare(view)) {
+			fireAgainGroups();
 		} else if (ViewName.RELATIONSHIPS.compare(view)) {
 			fireAgainRelationships();
 		} else if (ViewName.GENDERS.compare(view)) {
@@ -264,10 +269,19 @@ public class BookModel extends AbstractModel {
 	private void fireAgainRelationships() {
 		SbApp.trace("BookModel.fireAgainRelationships()");
 		Session session = beginTransaction();
-		RelationshipDAOImpl rDao = new RelationshipDAOImpl(session);
-		List<Relationship> relationships = rDao.findAll();
+		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
+		List<Relationship> relationships = dao.findAll();
 		commit();
 		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
+	}
+
+	private void fireAgainGroups() {
+		SbApp.trace("BookModel.fireAgainGroups()");
+		Session session = beginTransaction();
+		GroupDAOImpl dao = new GroupDAOImpl(session);
+		List<Group> groups = dao.findAll();
+		commit();
+		firePropertyChange(BookController.GroupProps.INIT.toString(), null, groups);
 	}
 
 	private void fireAgainGenders() {
@@ -276,7 +290,7 @@ public class BookModel extends AbstractModel {
 		GenderDAOImpl genderDao = new GenderDAOImpl(session);
 		List<Gender> genders = genderDao.findAll();
 		commit();
-		firePropertyChange(BookController.GenderProps.INIT.toString(), null, genders);
+		firePropertyChange(BookController.GroupProps.INIT.toString(), null, genders);
 	}
 
 	private void fireAgainCategories() {
@@ -413,6 +427,10 @@ public class BookModel extends AbstractModel {
 		setShowInfo((AbstractEntity)gender);
 	}
 
+	public void setShowInfo(Group group) {
+		setShowInfo((AbstractEntity)group);
+	}
+
 	public void setShowInfo(Location location) {
 		setShowInfo((AbstractEntity)location);
 	}
@@ -458,6 +476,10 @@ public class BookModel extends AbstractModel {
 	}
 
 	public void setShowInMemoria(Relationship p) {
+		setShowInMemoria((AbstractEntity) p);
+	}
+
+	public void setShowInMemoria(Group p) {
 		setShowInMemoria((AbstractEntity) p);
 	}
 
@@ -814,7 +836,7 @@ public class BookModel extends AbstractModel {
 
 	// relationship
 	public void setEditRelationship(Relationship entity) {
-		//firePropertyChange(BookController.PersonProps.EDIT.toString(),null, entity);
+		//firePropertyChange(BookController.RelationshipProps.EDIT.toString(),null, entity);
 		editEntity((AbstractEntity)entity);
 	}
 
@@ -859,6 +881,54 @@ public class BookModel extends AbstractModel {
 			Relationship old = dao.find(id);
 			commit();
 			setDeleteRelationship(old);
+		}
+	}
+
+	// group
+	public void setEditGroup(Group entity) {
+		//firePropertyChange(BookController.GroupProps.EDIT.toString(),null, entity);
+		editEntity((AbstractEntity)entity);
+	}
+
+	public synchronized void setUpdateGroup(Group r) {
+		Session session = beginTransaction();
+		GroupDAOImpl dao = new GroupDAOImpl(session);
+		Group old = dao.find(r.getId());
+		commit();
+		session = beginTransaction();
+		session.update(r);
+		commit();
+		firePropertyChange(BookController.GroupProps.UPDATE.toString(), old, r);
+	}
+
+	public synchronized void setNewGroup(Group r) {
+		Session session = beginTransaction();
+		session.save(r);
+		commit();
+		firePropertyChange(BookController.GroupProps.NEW.toString(), null, r);
+	}
+
+	public synchronized void setDeleteGroup(Group r) {
+		if (r.getId() == null) {
+			return;
+		}
+		try {
+			Session session = beginTransaction();
+			session.delete(r);
+			commit();
+		} catch (ConstraintViolationException e) {
+			SbApp.error("BookModel.setDeleteGroup("+r.getDescription()+")", e);
+		}
+		firePropertyChange(BookController.GroupProps.DELETE.toString(),r, null);
+	}
+
+	public synchronized void setDeleteMultiGroup(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			GroupDAOImpl dao = new GroupDAOImpl(session);
+			Group old = dao.find(id);
+			commit();
+			setDeleteGroup(old);
 		}
 	}
 
