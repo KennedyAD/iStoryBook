@@ -1,6 +1,6 @@
 /*
  Storybook: Open Source software for novelists and authors.
- Copyright (C) 2008 - 2015 Martin Mustun
+ Copyright (C) 2008 - 2015 Martin Mustun, Pete Keller
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -135,10 +135,10 @@ import storybook.ui.table.SbColumn;
 
 public class EntityUtil {
 
-	public static Boolean isPersonAlive(Person person, Date now) {
+	public static Boolean isPersonDead(Person person, Date now) {
 		if (person.getDayofdeath() == null)
-			return true;
-		return (!now.after(person.getDayofdeath()));
+			return false;
+		return (now.after(person.getDayofdeath()));
 	}
 
 	public static int calculatePersonAge(Person person, Date date) {
@@ -156,7 +156,7 @@ public class EntityUtil {
                 dateOfBirth.set(Calendar.MILLISECOND, 0);
 
 		// person already dead?
-		if (!isPersonAlive(person, date)) {
+		if (isPersonDead(person, date)) {
 			Calendar death = new GregorianCalendar();
 			death.setTime(person.getDayofdeath());
                         death.set(Calendar.HOUR_OF_DAY, 0);
@@ -1001,7 +1001,7 @@ public class EntityUtil {
 			buf.append(I18N.getMsgColon("msg.dlg.person.age"));
 			buf.append(" ");
 			buf.append(calculatePersonAge(person, date));
-			if (!isPersonAlive(person, date))
+			if (isPersonDead(person, date))
 				buf.append("+");
 			buf.append("<br>");
 		}
