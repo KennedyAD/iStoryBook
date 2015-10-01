@@ -275,55 +275,52 @@ public class Person extends AbstractEntity implements Comparable<Person> {
                 }
 		return (now.after(getDayofdeath()));
 	}
+        
+        public Calendar clearTime(Calendar cal) {
+                cal.set(Calendar.HOUR, 0);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                
+                return cal;
+        }
 
 	public int calculateAge(Date now) {
 		if (birthday == null) {
                     return -1;
                 }
 
-		// Create a calendar object with the date of birth
 		Calendar dateOfBirth = new GregorianCalendar();
 		dateOfBirth.setTime(birthday);
-                dateOfBirth.set(Calendar.HOUR_OF_DAY, 0);
-                dateOfBirth.set(Calendar.MINUTE, 0);
-                dateOfBirth.set(Calendar.SECOND, 0);
-                dateOfBirth.set(Calendar.MILLISECOND, 0);
+                dateOfBirth = clearTime(dateOfBirth);
 
-		// person already dead?
+
 		if (isDead(now)) {
 			Calendar death = new GregorianCalendar();
 			death.setTime(getDayofdeath());
-                        death.set(Calendar.HOUR_OF_DAY, 0);
-                        death.set(Calendar.MINUTE, 0);
-                        death.set(Calendar.SECOND, 0);
-                        death.set(Calendar.MILLISECOND, 0);
+                        death = clearTime(death);
+                        
 			int age = death.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
                         
 			Calendar dateOfBirth2 = new GregorianCalendar();
                         dateOfBirth2.setTime(birthday);
-			dateOfBirth2.add(Calendar.YEAR, age);
-                        dateOfBirth2.set(Calendar.HOUR_OF_DAY, 0);
-                        dateOfBirth2.set(Calendar.MINUTE, 0);
-                        dateOfBirth2.set(Calendar.SECOND, 0);
-                        dateOfBirth2.set(Calendar.MILLISECOND, 0);
+                        dateOfBirth2 = clearTime(dateOfBirth2);
+                        dateOfBirth2.add(Calendar.YEAR, age);
+                        
 			if (death.before(dateOfBirth2)) {
 				age--;
                         }
 			return age;
 		}
 
-		// create a calendar object with today's date
 		Calendar today = new GregorianCalendar();
 		today.setTime(now);
 
-		// get age based on year
 		int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
 
-		// add the tentative age to the date of birth to get this year's
-		// birthday
 		dateOfBirth.add(Calendar.YEAR, age);
 
-		// if this year's birthday has not happened yet, subtract one from age
 		if (today.before(dateOfBirth))
 			age--;
 		return age;
