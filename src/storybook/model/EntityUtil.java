@@ -134,66 +134,6 @@ import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumn;
 
 public class EntityUtil {
-
-	public static Boolean isPersonDead(Person person, Date now) {
-		if (person.getDayofdeath() == null)
-			return false;
-		return (now.after(person.getDayofdeath()));
-	}
-
-	public static int calculatePersonAge(Person person, Date date) {
-		Date birthday = person.getBirthday();
-		if (birthday == null) {
-                    return -1;
-                }
-
-		// Create a calendar object with the date of birth
-		Calendar dateOfBirth = new GregorianCalendar();
-		dateOfBirth.setTime(birthday);
-                dateOfBirth.set(Calendar.HOUR_OF_DAY, 0);
-                dateOfBirth.set(Calendar.MINUTE, 0);
-                dateOfBirth.set(Calendar.SECOND, 0);
-                dateOfBirth.set(Calendar.MILLISECOND, 0);
-
-		// person already dead?
-		if (isPersonDead(person, date)) {
-			Calendar death = new GregorianCalendar();
-			death.setTime(person.getDayofdeath());
-                        death.set(Calendar.HOUR_OF_DAY, 0);
-                        death.set(Calendar.MINUTE, 0);
-                        death.set(Calendar.SECOND, 0);
-                        death.set(Calendar.MILLISECOND, 0);
-			int age = death.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
-			Calendar dateOfBirth2 = new GregorianCalendar();
-                        dateOfBirth2.setTime(birthday);
-			dateOfBirth2.add(Calendar.YEAR, age);
-                        dateOfBirth2.set(Calendar.HOUR_OF_DAY, 0);
-                        dateOfBirth2.set(Calendar.MINUTE, 0);
-                        dateOfBirth2.set(Calendar.SECOND, 0);
-                        dateOfBirth2.set(Calendar.MILLISECOND, 0);
-			if (death.before(dateOfBirth2)) {
-				age--;
-                        }
-			return age;
-		}
-
-		// create a calendar object with today's date
-		Calendar today = new GregorianCalendar();
-		today.setTime(date);
-
-		// get age based on year
-		int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
-
-		// add the tentative age to the date of birth to get this year's
-		// birthday
-		dateOfBirth.add(Calendar.YEAR, age);
-
-		// if this year's birthday has not happened yet, subtract one from age
-		if (today.before(dateOfBirth))
-			age--;
-		return age;
-	}
-
 	public static void convertPlainTextToHtml(MainFrame mainFrame) {
 		boolean useHtmlScenes = BookUtil.isUseHtmlScenes(mainFrame);
 		boolean useHtmlDescr = BookUtil.isUseHtmlDescr(mainFrame);
@@ -1000,9 +940,10 @@ public class EntityUtil {
 		if (date != null && person.getBirthday() != null) {
 			buf.append(I18N.getMsgColon("msg.dlg.person.age"));
 			buf.append(" ");
-			buf.append(calculatePersonAge(person, date));
-			if (isPersonDead(person, date))
-				buf.append("+");
+			buf.append(person.calculateAge(date));
+			if (person.isDead(date)) {
+                                buf.append("+");
+                        }
 			buf.append("<br>");
 		}
 		buf.append(I18N.getMsgColon("msg.dlg.mng.persons.gender"));
