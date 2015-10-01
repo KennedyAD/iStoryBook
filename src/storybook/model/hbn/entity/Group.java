@@ -116,9 +116,6 @@ public class Group extends AbstractEntity {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		if (hasPersons()) {
-			buf.append(persons.toString());
-		}
 		if (this.description!=null) {
 			if (buf.length() > 0) {
 				buf.append(", ");
