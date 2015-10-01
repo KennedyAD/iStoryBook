@@ -36,6 +36,7 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
+import storybook.model.hbn.entity.Group;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.model.hbn.entity.Tag;
@@ -308,6 +309,30 @@ public class BookController extends AbstractController {
 		final private String text;
 
 		private RelationshipProps(String text) {
+			this.text = text;
+		}
+
+		@Override
+		public String toString() {
+			return text;
+		}
+
+		public boolean check(String prop) {
+			return text.equals(prop);
+		}
+	};
+
+	public enum GroupProps {
+
+		INIT("InitGroup"),
+		EDIT("EditGroup"),
+		DELETE("DeleteGroup"),
+		DELETE_MULTI("DeleteMultiGroups"),
+		NEW("NewGroup"),
+		UPDATE("UpdateGroup");
+		final private String text;
+
+		private GroupProps(String text) {
 			this.text = text;
 		}
 
@@ -640,6 +665,10 @@ public class BookController extends AbstractController {
 				updateRelationship((Relationship) entity);
 				return;
 			}
+			if (entity instanceof Group) {
+				updateGroup((Group) entity);
+				return;
+			}
 			if (entity instanceof Gender) {
 				updateGender((Gender) entity);
 				return;
@@ -709,6 +738,10 @@ public class BookController extends AbstractController {
 				deletePerson((Person) entity);
 				return;
 			}
+			if (entity instanceof Group) {
+				deleteGroup((Group) entity);
+				return;
+			}
 			if (entity instanceof Relationship) {
 				deleteRelationship((Relationship) entity);
 				return;
@@ -759,8 +792,7 @@ public class BookController extends AbstractController {
 			}
 			throw new Exception("Entity type not found.");
 		} catch (Exception e) {
-			SbApp.error("BookController.deleteEntity(" + entity.getClass().getName()
-				+ ") Exception:",e);
+			SbApp.error("BookController.deleteEntity(" + entity.getClass().getName() + ") Exception:",e);
 		}
 	}
 
@@ -785,6 +817,10 @@ public class BookController extends AbstractController {
 			}
 			if (entity instanceof Relationship) {
 				newRelationship((Relationship) entity);
+				return;
+			}
+			if (entity instanceof Group) {
+				newGroup((Group) entity);
 				return;
 			}
 			if (entity instanceof Gender) {
@@ -854,6 +890,10 @@ public class BookController extends AbstractController {
 			}
 			if (entity instanceof Person) {
 				setPersonToEdit((Person) entity);
+				return;
+			}
+			if (entity instanceof Group) {
+				setGroupToEdit((Group) entity);
 				return;
 			}
 			if (entity instanceof Relationship) {
@@ -1113,6 +1153,27 @@ public class BookController extends AbstractController {
 
 	public void setRelationshipToEdit(Relationship r) {
 		setModelProperty(RelationshipProps.EDIT.toString(), r);
+	}
+
+	// group
+	public void updateGroup(Group r) {
+		setModelProperty(GroupProps.UPDATE.toString(), r);
+	}
+
+	public void newGroup(Group r) {
+		setModelProperty(GroupProps.NEW.toString(), r);
+	}
+
+	public void deleteGroup(Group r) {
+		setModelProperty(GroupProps.DELETE.toString(), r);
+	}
+
+	public void deleteMultiGroups(ArrayList<Long> ids) {
+		setModelProperty(GroupProps.DELETE_MULTI.toString(), ids);
+	}
+
+	public void setGroupToEdit(Group r) {
+		setModelProperty(GroupProps.EDIT.toString(), r);
 	}
 
 	// genders

@@ -155,8 +155,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
-	protected synchronized void setModelProperty(String propertyName,
-			Object newValue) {
+	protected synchronized void setModelProperty(String propertyName, Object newValue) {
 		if (newValue != null) {
 			SbApp.trace("AbstractControler.setModelProperty(" + propertyName
 					+ "," + newValue.toString() + ")");
@@ -165,29 +164,22 @@ public abstract class AbstractController implements PropertyChangeListener {
 				Class<?>[] classes = null;
 				try {
 					if (newValue instanceof AbstractEntity) {
-						classes = new Class[] { EntityUtil
-								.getEntityClass((AbstractEntity) newValue) };
+						classes = new Class[] { EntityUtil.getEntityClass((AbstractEntity) newValue) };
 					} else if (newValue != null) {
 						classes = new Class[] { newValue.getClass() };
 					}
-					method = model.getClass().getMethod("set" + propertyName,
-							classes);
+					method = model.getClass().getMethod("set" + propertyName, classes);
 					if (newValue != null) {
 						method.invoke(model, newValue);
 					} else {
 						method.invoke(model);
 					}
-				} catch (NoSuchMethodException | SecurityException
-						| IllegalAccessException | IllegalArgumentException
+				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException e) {
-					System.err
-							.println("*** : AbstractController.setModelProperty()"
-									+ "\nmsg="
-									+ e.getCause().toString()
-									+ "\nmethod:"
-									+ method.getName()
-									+ "\nclasses:"
-									+ classes.getClass().toString());
+					System.err.println("*** : AbstractController.setModelProperty()"
+									+ "\nmsg=" + e.getCause().toString()
+									+ "\nmethod:" + method.getName()
+									+ "\nclasses:" + classes.getClass().toString());
 				}
 			}
 		}

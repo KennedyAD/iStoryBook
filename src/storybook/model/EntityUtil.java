@@ -81,6 +81,7 @@ import storybook.model.handler.LocationEntityHandler;
 import storybook.model.handler.PartEntityHandler;
 import storybook.model.handler.PersonEntityHandler;
 import storybook.model.handler.RelationshipEntityHandler;
+import storybook.model.handler.GroupEntityHandler;
 import storybook.model.handler.SceneEntityHandler;
 import storybook.model.handler.StrandEntityHandler;
 import storybook.model.handler.TagEntityHandler;
@@ -108,6 +109,7 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
+import storybook.model.hbn.entity.Group;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -564,6 +566,10 @@ public class EntityUtil {
 			// nothing to copy
 			return;
 		}
+		if (entity instanceof Group) {
+			// nothing to copy
+			return;
+		}
 		if (entity instanceof Category) {
 			Category e = (Category) entity;
 			e.setName(copyStr + e.getName());
@@ -621,6 +627,9 @@ public class EntityUtil {
 			return !Objects.equals(old.getGender().getId(), upd.getGender().getId());
 		}
 		if (oldEntity instanceof Relationship) {
+			return false;
+		}
+		if (oldEntity instanceof Group) {
 			return false;
 		}
 		if (oldEntity instanceof Location) {
@@ -774,6 +783,8 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (entity instanceof Relationship)
 			return new RelationshipEntityHandler(mainFrame);
+		if (entity instanceof Group)
+			return new GroupEntityHandler(mainFrame);
 		if (entity instanceof Gender)
 			return new GenderEntityHandler(mainFrame);
 		if (entity instanceof Category)
@@ -803,6 +814,7 @@ public class EntityUtil {
 		// but cannot be used as a class "Tag" parameter in reflection
 		if (entity instanceof Person) return Person.class;
 		if (entity instanceof Relationship) return Relationship.class;
+		if (entity instanceof Group) return Group.class;
 		if (entity instanceof Category) return Category.class;
 		if (entity instanceof Gender) return Gender.class;
 		if (entity instanceof Location) return Location.class;
@@ -820,8 +832,7 @@ public class EntityUtil {
 		return null;
 	}
 
-	public static List<JCheckBox> createCategoryCheckBoxes(MainFrame mainFrame,
-			ActionListener comp) {
+	public static List<JCheckBox> createCategoryCheckBoxes(MainFrame mainFrame, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -840,8 +851,7 @@ public class EntityUtil {
 		return list;
 	}
 
-	public static List<JCheckBox> createCountryCheckBoxes(MainFrame mainFrame,
-			ActionListener comp) {
+	public static List<JCheckBox> createCountryCheckBoxes(MainFrame mainFrame, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -858,22 +868,19 @@ public class EntityUtil {
 		return list;
 	}
 
-	public static List<JCheckBox> createPersonCheckBoxes(MainFrame mainFrame,
-			List<JCheckBox> cbCategoryList, ActionListener comp) {
+	public static List<JCheckBox> createPersonCheckBoxes(MainFrame mainFrame,List<JCheckBox> cbl, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		PersonDAOImpl dao = new PersonDAOImpl(session);
-		for (JCheckBox cb : cbCategoryList) {
+		for (JCheckBox cb : cbl) {
 			if (cb.isSelected()) {
-				Category category = (Category) cb
-						.getClientProperty(SbConstants.ComponentName.CB_CATEGORY);
+				Category category = (Category) cb.getClientProperty(SbConstants.ComponentName.CB_CATEGORY);
 				List<Person> persons = dao.findByCategory(category);
 				for (Person person : persons) {
 					JCheckBox cbPerson = new JCheckBox(person.getFullNameAbbr());
 					cbPerson.setOpaque(false);
-					cbPerson.putClientProperty(
-							SbConstants.ComponentName.CB_PERSON, person);
+					cbPerson.putClientProperty(SbConstants.ComponentName.CB_PERSON, person);
 					cbPerson.addActionListener(comp);
 					list.add(cbPerson);
 				}
@@ -928,8 +935,7 @@ public class EntityUtil {
 		return scene;
 	}
 
-	public static void abandonEntityChanges(MainFrame mainFrame,
-			AbstractEntity entity) {
+	public static void abandonEntityChanges(MainFrame mainFrame, AbstractEntity entity) {
 		try {
 			if (entity.isTransient())
 				// nothing to do for a new entity
@@ -990,8 +996,7 @@ public class EntityUtil {
 		buf.append(scene.getSummary(true, 600));
 	}
 
-	private static void toolTipAppendPerson(StringBuffer buf, Person person,
-			Date date) {
+	private static void toolTipAppendPerson(StringBuffer buf, Person person, Date date) {
 		if (date != null && person.getBirthday() != null) {
 			buf.append(I18N.getMsgColon("msg.dlg.person.age"));
 			buf.append(" ");
@@ -1011,8 +1016,7 @@ public class EntityUtil {
 		buf.append(TextUtil.truncateText(person.getDescription()));
 	}
 
-	public static String getDeleteInfo(MainFrame mainFrame,
-			AbstractEntity entity) {
+	public static String getDeleteInfo(MainFrame mainFrame, AbstractEntity entity) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(HtmlUtil.getHeadWithCSS());
 		boolean warnings = addDeletionInfo(mainFrame, entity, buf);
@@ -1295,6 +1299,8 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (obj instanceof Relationship || method.getReturnType() == Relationship.class)
 			return new RelationshipEntityHandler(mainFrame);
+		if (obj instanceof Group || method.getReturnType() == Group.class)
+			return new GroupEntityHandler(mainFrame);
 		if (obj instanceof Location || method.getReturnType() == Location.class)
 			return new LocationEntityHandler(mainFrame);
 		if (obj instanceof Tag || method.getReturnType() == Tag.class)
@@ -1340,8 +1346,7 @@ public class EntityUtil {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void fillAutoCombo(MainFrame mainFrame,
-			AutoCompleteComboBox autoCombo,
+	public static void fillAutoCombo(MainFrame mainFrame, AutoCompleteComboBox autoCombo,
 			AbstractEntityHandler entityHandler, String text, String methodName) {
 		try {
 			JComboBox combo = autoCombo.getJComboBox();
@@ -1449,6 +1454,7 @@ public class EntityUtil {
 			return ((Person) entity).getIcon();
 		}
 		if (entity instanceof Relationship) return I18N.getIcon("icon.small.link");
+		if (entity instanceof Group) return I18N.getIcon("icon.small.group");
 		if (entity instanceof Gender) return I18N.getIcon("icon.small.gender");
 		if (entity instanceof Category) return I18N.getIcon("icon.small.category");
 		if (entity instanceof Strand) return I18N.getIcon("icon.small.strand");
@@ -1507,6 +1513,10 @@ public class EntityUtil {
 		if (entity instanceof Relationship) {
 			if (isTransient) return I18N.getMsg("msg.relationship.new");
 			return I18N.getMsg("msg.relationship");
+		}
+		if (entity instanceof Group) {
+			if (isTransient) return I18N.getMsg("msg.group.new");
+			return I18N.getMsg("msg.group");
 		}
 		if (entity instanceof Gender) {
 			if (isTransient) return I18N.getMsg("msg.dlg.mng.persons.gender.new");

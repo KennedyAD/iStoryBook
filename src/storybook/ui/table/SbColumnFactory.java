@@ -414,6 +414,57 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	public Vector<SbColumn> getGroupColumns() {
+		int i=1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Description", "msg.dlg.group.description");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "EndScene", InputType.COMBOBOX, "msg.tag.end.scene");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		//col.setShowInSeparateTab(true);
+		col.setHideOnStart(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+		
+		col = new SbColumn(i++, "Persons", InputType.LIST, "msg.common.persons");
+		col.setShowInSeparateTab(true);
+		Search search = new Search(Person.class);
+		search.addSort("category.sort", false);
+		col.setSearch(search);
+		col.setTableCellRenderer(new PersonsTableCellRenderer());
+		col.setCbDecorator(new PersonCbPanelDecorator());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Locations", InputType.LIST, "msg.common.locations");
+		col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new LocationsTableCellRenderer());
+		col.setCbDecorator(new LocationCbPanelDecorator());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Items", InputType.LIST, "msg.common.items");
+		col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new ItemsTableCellRenderer());
+		col.setCbDecorator(new ItemCbPanelDecorator());
+		columns.add(col);
+
+		return columns;
+	}
+
 	public Vector<SbColumn> getGenderColumns() {
 		int i=1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();

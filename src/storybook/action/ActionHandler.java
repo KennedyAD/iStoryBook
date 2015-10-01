@@ -393,6 +393,10 @@ public class ActionHandler {
 		showAndFocus(ViewName.GENDERS);
 	}
 
+	public void handleShowGroups() {
+		showAndFocus(ViewName.GROUPS);
+	}
+
 	public void handleShowPersons() {
 		showAndFocus(ViewName.PERSONS);
 	}

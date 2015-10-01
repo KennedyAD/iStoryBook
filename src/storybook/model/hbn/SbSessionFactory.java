@@ -103,6 +103,7 @@ public class SbSessionFactory {
 				config.addClass(storybook.model.hbn.entity.Scene.class);
 				config.addClass(storybook.model.hbn.entity.Gender.class);
 				config.addClass(storybook.model.hbn.entity.Person.class);
+				config.addClass(storybook.model.hbn.entity.Group.class);
 				config.addClass(storybook.model.hbn.entity.Relationship.class);
 				config.addClass(storybook.model.hbn.entity.Location.class);
 				config.addClass(storybook.model.hbn.entity.Strand.class);
