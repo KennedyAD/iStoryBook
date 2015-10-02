@@ -36,6 +36,7 @@ public abstract class AbstractModel {
 	}
 
 	public Session beginTransaction() {
+		SbApp.trace("AbstractModel.beginTransaction()");
 		Session session = sessionFactory.getSession();
 		session.beginTransaction();
 		return session;

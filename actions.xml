@@ -315,6 +315,10 @@
           name="<i18n>msg.dlg.mng.persons.gender</i18n>"
           smicon="/storybook/resources/icons/16x16/gender.png"
           icon="/storybook/resources/icons/16x16/gender.png"/>
+        <action id="new-group-command"
+          name="<i18n>msg.common.group</i18n>"
+          smicon="/storybook/resources/icons/16x16/group.png"
+          icon="/storybook/resources/icons/16x16/group.png"/>
 	<action id="new-location-command"
           name="<i18n>msg.common.location</i18n>"
           smicon="/storybook/resources/icons/16x16/location.png"
@@ -545,6 +549,7 @@
 			<action idref="new-person-link-command" />
 			<action idref="new-category-command" />
 			<action idref="new-gender-command" />
+			<action idref="new-group-command" />
 			<empty />
 			<action idref="new-location-command" />
 			<empty />
@@ -567,6 +572,7 @@
 			<action idref="entity-persons-links-command" />
 			<action idref="entity-categories-command" />
 			<action idref="entity-genders-command" />
+			<action idref="entity-groups-command" />
 			<empty />
 			<action idref="entity-locations-command" />
 			<action idref="rename-city-command" />

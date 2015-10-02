@@ -1,6 +1,6 @@
 /*
 Storybook: Open Source software for novelists and authors.
-Copyright (C) 2008 - 2012 Martin Mustun
+Copyright (C) 2008 - 2015 Martin Mustun, Pete Keller
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,7 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 import java.awt.Color;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -33,15 +35,15 @@ import storybook.toolkit.swing.ColorUtil;
 public class Person extends AbstractEntity implements Comparable<Person> {
 
 	private Gender gender;
-	private String firstname;
-	private String lastname;
-	private String abbreviation;
+	private String firstname = "";
+	private String lastname = "";
+	private String abbreviation = "";
 	private Date birthday;
 	private Date dayofdeath;
-	private String occupation;
-	private String description;
+	private String occupation = "";
+	private String description = "";
 	private Integer color;
-	private String notes;
+	private String notes = "";
 	private Category category;
 	private List<Attribute> attributes;
 
@@ -265,6 +267,63 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 			return gender.getIcon();
 		}
 		return new ImageIcon();
+	}
+        
+	public Boolean isDead(Date now) {
+		if (getDayofdeath() == null || now == null) {
+                    return false;
+                }
+		return (now.after(getDayofdeath()));
+	}
+        
+        public Calendar clearTime(Calendar cal) {
+                cal.set(Calendar.HOUR, 0);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                
+                return cal;
+        }
+
+	public int calculateAge(Date now) {
+		if (birthday == null) {
+                    return -1;
+                }
+
+		Calendar dateOfBirth = new GregorianCalendar();
+		dateOfBirth.setTime(birthday);
+                dateOfBirth = clearTime(dateOfBirth);
+
+
+		if (isDead(now)) {
+			Calendar death = new GregorianCalendar();
+			death.setTime(getDayofdeath());
+                        death = clearTime(death);
+                        
+			int age = death.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
+                        
+			Calendar dateOfBirth2 = new GregorianCalendar();
+                        dateOfBirth2.setTime(birthday);
+                        dateOfBirth2 = clearTime(dateOfBirth2);
+                        dateOfBirth2.add(Calendar.YEAR, age);
+                        
+			if (death.before(dateOfBirth2)) {
+				age--;
+                        }
+			return age;
+		}
+
+		Calendar today = new GregorianCalendar();
+		today.setTime(now);
+
+		int age = today.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
+
+		dateOfBirth.add(Calendar.YEAR, age);
+
+		if (today.before(dateOfBirth))
+			age--;
+		return age;
 	}
 
 	@Override
