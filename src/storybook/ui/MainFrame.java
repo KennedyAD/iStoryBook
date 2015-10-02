@@ -604,7 +604,12 @@ public class MainFrame extends JFrame implements IPaintable {
 		setPreferredSize(new Dimension(w, h));
 		int x = PrefUtil.get(PreferenceKey.POS_X, SbConstants.DEFAULT_POS_X).getIntegerValue();
 		int y = PrefUtil.get(PreferenceKey.POS_Y, SbConstants.DEFAULT_POS_Y).getIntegerValue();
-		setLocation(x, y);
+		
+		// Do not put it out of screen
+		Dimension size = this.getToolkit().getScreenSize();
+		if ((x >= 0) && (y >= 0 ) && (x < size.width) && (y < size.height)) {
+		    setLocation(x, y);
+		}
 		boolean maximized = PrefUtil.get(PreferenceKey.MAXIMIZED, false).getBooleanValue();
 		if (maximized) {
 			setMaximized();

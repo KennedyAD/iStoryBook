@@ -36,6 +36,7 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 	private AbstractEntityHandler entityHandler;
 	private List<AbstractEntity> entities;
 	private Search search;
+	private boolean autoSelect = true;
 
 	public CheckBoxPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -71,8 +72,10 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 			for (AbstractEntity ent : entities) {
 				session.refresh(ent);
 			}
-			for (AbstractEntity ent : entities) {
-				selectEntity(session, ent);
+			if (autoSelect) {
+			    for (AbstractEntity ent : entities) {
+				    selectEntity(session, ent);
+			    }
 			}
 		}
 		model.commit();
@@ -130,7 +133,7 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 		return ret;
 	}
 
-	private void addEntity(Session session, AbstractEntity entity) {
+	public void addEntity(Session session, AbstractEntity entity) {
 		session.refresh(entity);
 		JCheckBox cb = new JCheckBox();
 		cb.setOpaque(false);
@@ -179,5 +182,13 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 
 	public void setSearch(Search search) {
 		this.search = search;
+	}
+
+	public boolean getAutoSelect() {
+		return autoSelect;
+	}
+
+	public void setAutoSelect(boolean flag) {
+		this.autoSelect = flag;
 	}
 }

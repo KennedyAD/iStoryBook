@@ -132,14 +132,13 @@ public class SwingUtil {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static JComboBox createSpellingCombo() {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
+	public static JComboBox<String> createSpellingCombo() {
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (Spelling spelling : Spelling.values()) {
 			if (isLanguageOK(spelling.name()))
 				model.addElement(spelling.getI18N());
 		}
-		return new JComboBox(model);
+		return new JComboBox<String>(model);
 	}
 
 	public static boolean isLanguageOK(String x) {
@@ -152,13 +151,12 @@ public class SwingUtil {
 		return (rc);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static JComboBox createLanguageCombo() {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
+	public static JComboBox<String> createLanguageCombo() {
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (Language lang : Language.values()) {
 			model.addElement(lang.getI18N());
 		}
-		return new JComboBox(model);
+		return new JComboBox<String>(model);
 	}
 
 	public static void setUnitIncrement(JScrollPane scroller) {

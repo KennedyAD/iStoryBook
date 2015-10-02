@@ -44,10 +44,9 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.BookKey;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ChapterDAOImpl;
@@ -66,6 +65,8 @@ import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
+import storybook.ui.dialog.copy.AbstractCopyDialog;
+import storybook.ui.dialog.copy.PersonCopyDialog;
 
 /**
  * @author martin
@@ -472,6 +473,8 @@ public class BookPropertiesDialog extends AbstractDialog {
 				HtmlSelection selection = new HtmlSelection(tpInfo.getText());
 				Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 				clbrd.setContents(selection, selection);
+				AbstractCopyDialog dial = new PersonCopyDialog(mainFrame);
+				SwingUtil.showModalDialog(dial, mainFrame);
 			}
 		};
 	}

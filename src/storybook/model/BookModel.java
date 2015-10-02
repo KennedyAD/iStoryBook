@@ -767,10 +767,16 @@ public class BookModel extends AbstractModel {
 	}
 
 	public synchronized void setNewPerson(Person person) {
+		try {
 		Session session = beginTransaction();
 		session.save(person);
 		commit();
 		firePropertyChange(BookController.PersonProps.NEW.toString(), null, person);
+		}
+		catch( Exception e) {
+				e.printStackTrace();
+				throw e;
+		}
 	}
 
 	public synchronized void setDeletePerson(Person person) {
