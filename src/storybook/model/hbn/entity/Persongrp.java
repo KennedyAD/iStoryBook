@@ -22,7 +22,7 @@ import java.util.List;
 import storybook.toolkit.I18N;
 import storybook.toolkit.Period;
 
-public class Group extends AbstractEntity {
+public class Persongrp extends AbstractEntity {
 
 	String description;
 	Scene startScene;
@@ -33,10 +33,10 @@ public class Group extends AbstractEntity {
     private List<Item> items;
     private List<Location> locations;
     
-	public Group() {
+	public Persongrp() {
 	}
 
-	public Group(String description, Scene startScene, Scene endScene, String notes) {
+	public Persongrp(String description, Scene startScene, Scene endScene, String notes) {
 		this.description = description;
 		this.startScene = startScene;
 		this.endScene = endScene;

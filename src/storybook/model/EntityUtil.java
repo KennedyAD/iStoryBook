@@ -79,7 +79,7 @@ import storybook.model.handler.LocationEntityHandler;
 import storybook.model.handler.PartEntityHandler;
 import storybook.model.handler.PersonEntityHandler;
 import storybook.model.handler.RelationshipEntityHandler;
-import storybook.model.handler.GroupEntityHandler;
+import storybook.model.handler.PersongrpEntityHandler;
 import storybook.model.handler.SceneEntityHandler;
 import storybook.model.handler.StrandEntityHandler;
 import storybook.model.handler.TagEntityHandler;
@@ -107,7 +107,7 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -504,7 +504,7 @@ public class EntityUtil {
 			// nothing to copy
 			return;
 		}
-		if (entity instanceof Group) {
+		if (entity instanceof Persongrp) {
 			// nothing to copy
 			return;
 		}
@@ -567,7 +567,7 @@ public class EntityUtil {
 		if (oldEntity instanceof Relationship) {
 			return false;
 		}
-		if (oldEntity instanceof Group) {
+		if (oldEntity instanceof Persongrp) {
 			return false;
 		}
 		if (oldEntity instanceof Location) {
@@ -721,8 +721,8 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (entity instanceof Relationship)
 			return new RelationshipEntityHandler(mainFrame);
-		if (entity instanceof Group)
-			return new GroupEntityHandler(mainFrame);
+		if (entity instanceof Persongrp)
+			return new PersongrpEntityHandler(mainFrame);
 		if (entity instanceof Gender)
 			return new GenderEntityHandler(mainFrame);
 		if (entity instanceof Category)
@@ -752,7 +752,7 @@ public class EntityUtil {
 		// but cannot be used as a class "Tag" parameter in reflection
 		if (entity instanceof Person) return Person.class;
 		if (entity instanceof Relationship) return Relationship.class;
-		if (entity instanceof Group) return Group.class;
+		if (entity instanceof Persongrp) return Persongrp.class;
 		if (entity instanceof Category) return Category.class;
 		if (entity instanceof Gender) return Gender.class;
 		if (entity instanceof Location) return Location.class;
@@ -1238,8 +1238,8 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (obj instanceof Relationship || method.getReturnType() == Relationship.class)
 			return new RelationshipEntityHandler(mainFrame);
-		if (obj instanceof Group || method.getReturnType() == Group.class)
-			return new GroupEntityHandler(mainFrame);
+		if (obj instanceof Persongrp || method.getReturnType() == Persongrp.class)
+			return new PersongrpEntityHandler(mainFrame);
 		if (obj instanceof Location || method.getReturnType() == Location.class)
 			return new LocationEntityHandler(mainFrame);
 		if (obj instanceof Tag || method.getReturnType() == Tag.class)
@@ -1393,7 +1393,7 @@ public class EntityUtil {
 			return ((Person) entity).getIcon();
 		}
 		if (entity instanceof Relationship) return I18N.getIcon("icon.small.link");
-		if (entity instanceof Group) return I18N.getIcon("icon.small.group");
+		if (entity instanceof Persongrp) return I18N.getIcon("icon.small.persongrp");
 		if (entity instanceof Gender) return I18N.getIcon("icon.small.gender");
 		if (entity instanceof Category) return I18N.getIcon("icon.small.category");
 		if (entity instanceof Strand) return I18N.getIcon("icon.small.strand");
@@ -1453,9 +1453,9 @@ public class EntityUtil {
 			if (isTransient) return I18N.getMsg("msg.relationship.new");
 			return I18N.getMsg("msg.relationship");
 		}
-		if (entity instanceof Group) {
-			if (isTransient) return I18N.getMsg("msg.group.new");
-			return I18N.getMsg("msg.group");
+		if (entity instanceof Persongrp) {
+			if (isTransient) return I18N.getMsg("msg.persongrp.new");
+			return I18N.getMsg("msg.persongrp");
 		}
 		if (entity instanceof Gender) {
 			if (isTransient) return I18N.getMsg("msg.dlg.mng.persons.gender.new");

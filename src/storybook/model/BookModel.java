@@ -33,7 +33,7 @@ import storybook.controller.BookController;
 import storybook.model.hbn.dao.CategoryDAOImpl;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.GenderDAOImpl;
-import storybook.model.hbn.dao.GroupDAOImpl;
+import storybook.model.hbn.dao.PersongrpDAOImpl;
 import storybook.model.hbn.dao.IdeaDAOImpl;
 import storybook.model.hbn.dao.InternalDAOImpl;
 import storybook.model.hbn.dao.ItemDAOImpl;
@@ -51,7 +51,6 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Group;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -59,6 +58,7 @@ import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Relationship;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
@@ -154,22 +154,24 @@ public class BookModel extends AbstractModel {
 	public void fireAgain() {
 		SbApp.trace("BookModel.fireAgain()");
 
-		fireAgainScenes();
-		fireAgainChapters();
-		fireAgainParts();
-		fireAgainLocations();
-		fireAgainPersons();
-		fireAgainRelationships();
-		fireAgainGroups();
-		fireAgainGenders();
 		fireAgainCategories();
-		fireAgainStrands();
+		fireAgainChapters();
+		fireAgainGenders();
 		fireAgainIdeas();
-		fireAgainTags();
-		fireAgainItems();
-		fireAgainTagLinks();
-		fireAgainItemLinks();
 		fireAgainInternals();
+		fireAgainItems();
+		fireAgainItemLinks();
+		fireAgainLocations();
+		fireAgainParts();
+		fireAgainPersons();
+		fireAgainPersongrps();
+		fireAgainPlan();
+		fireAgainRelationships();
+		fireAgainScenes();
+		fireAgainStrands();
+		fireAgainTags();
+		fireAgainTagLinks();
+		fireAgainTimeEvent();
 	}
 
 	public void fireAgain(SbView view) {
@@ -192,8 +194,8 @@ public class BookModel extends AbstractModel {
 			fireAgainLocations();
 		} else if (ViewName.PERSONS.compare(view)) {
 			fireAgainPersons();
-		} else if (ViewName.GROUPS.compare(view)) {
-			fireAgainGroups();
+		} else if (ViewName.PERSONGRPS.compare(view)) {
+			fireAgainPersongrps();
 		} else if (ViewName.RELATIONSHIPS.compare(view)) {
 			fireAgainRelationships();
 		} else if (ViewName.GENDERS.compare(view)) {
@@ -224,8 +226,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainScenes() {
 		SbApp.trace("BookModel.fireAgainScenes()");
 		Session session = beginTransaction();
-		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
-		List<Scene> scenes = sceneDao.findAll();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		List<Scene> scenes = dao.findAll();
 		commit();
 		firePropertyChange(BookController.SceneProps.INIT.toString(), null, scenes);
 	}
@@ -233,8 +235,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainChapters() {
 		SbApp.trace("BookModel.fireAgainChapters()");
 		Session session = beginTransaction();
-		ChapterDAOImpl chapterDao = new ChapterDAOImpl(session);
-		List<Chapter> chapters = chapterDao.findAll();
+		ChapterDAOImpl dao = new ChapterDAOImpl(session);
+		List<Chapter> chapters = dao.findAll();
 		commit();
 		firePropertyChange(BookController.ChapterProps.INIT.toString(), null, chapters);
 	}
@@ -242,8 +244,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainParts() {
 		SbApp.trace("BookModel.fireAgainParts()");
 		Session session = beginTransaction();
-		PartDAOImpl partDao = new PartDAOImpl(session);
-		List<Part> parts = partDao.findAll();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Part> parts = dao.findAll();
 		commit();
 		firePropertyChange(BookController.PartProps.INIT.toString(), null, parts);
 	}
@@ -251,8 +253,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainLocations() {
 		SbApp.trace("BookModel.fireAgainLocations()");
 		Session session = beginTransaction();
-		LocationDAOImpl locationDao = new LocationDAOImpl(session);
-		List<Location> locations = locationDao.findAll();
+		LocationDAOImpl dao = new LocationDAOImpl(session);
+		List<Location> locations = dao.findAll();
 		commit();
 		firePropertyChange(BookController.LocationProps.INIT.toString(), null, locations);
 	}
@@ -260,8 +262,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainPersons() {
 		SbApp.trace("BookModel.fireAgainPersons()");
 		Session session = beginTransaction();
-		PersonDAOImpl personDao = new PersonDAOImpl(session);
-		List<Person> persons = personDao.findAll();
+		PersonDAOImpl dao = new PersonDAOImpl(session);
+		List<Person> persons = dao.findAll();
 		commit();
 		firePropertyChange(BookController.PersonProps.INIT.toString(), null, persons);
 	}
@@ -275,29 +277,29 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
 	}
 
-	private void fireAgainGroups() {
-		SbApp.trace("BookModel.fireAgainGroups()");
+	private void fireAgainPersongrps() {/*
+		SbApp.trace("BookModel.fireAgainPersongrps()");
 		Session session = beginTransaction();
-		GroupDAOImpl dao = new GroupDAOImpl(session);
-		List<Group> groups = dao.findAll();
+		PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
+		List<Persongrp> persongrps = dao.findAll();
 		commit();
-		firePropertyChange(BookController.GroupProps.INIT.toString(), null, groups);
-	}
+		firePropertyChange(BookController.PersongrpProps.INIT.toString(), null, persongrps);
+	*/}
 
 	private void fireAgainGenders() {
 		SbApp.trace("BookModel.fireAgainGenders()");
 		Session session = beginTransaction();
-		GenderDAOImpl genderDao = new GenderDAOImpl(session);
-		List<Gender> genders = genderDao.findAll();
+		GenderDAOImpl dao = new GenderDAOImpl(session);
+		List<Gender> genders = dao.findAll();
 		commit();
-		firePropertyChange(BookController.GroupProps.INIT.toString(), null, genders);
+		firePropertyChange(BookController.GenderProps.INIT.toString(), null, genders);
 	}
 
 	private void fireAgainCategories() {
 		SbApp.trace("BookModel.fireAgainCategories()");
 		Session session = beginTransaction();
-		CategoryDAOImpl categoryDao = new CategoryDAOImpl(session);
-		List<Category> categories = categoryDao.findAll();
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		List<Category> categories = dao.findAll();
 		commit();
 		firePropertyChange(BookController.CategoryProps.INIT.toString(), null, categories);
 	}
@@ -305,8 +307,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainStrands() {
 		SbApp.trace("BookModel.fireAgainStrands()");
 		Session session = beginTransaction();
-		StrandDAOImpl strandDao = new StrandDAOImpl(session);
-		List<Strand> strands = strandDao.findAll();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		List<Strand> strands = dao.findAll();
 		commit();
 		firePropertyChange(BookController.StrandProps.INIT.toString(), null, strands);
 	}
@@ -314,8 +316,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainIdeas() {
 		SbApp.trace("BookModel.fireAgainIdeas()");
 		Session session = beginTransaction();
-		IdeaDAOImpl ideaDao = new IdeaDAOImpl(session);
-		List<Idea> ideas = ideaDao.findAll();
+		IdeaDAOImpl dao = new IdeaDAOImpl(session);
+		List<Idea> ideas = dao.findAll();
 		commit();
 		firePropertyChange(BookController.IdeaProps.INIT.toString(), null, ideas);
 	}
@@ -323,8 +325,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainTags() {
 		SbApp.trace("BookModel.fireAgainTags()");
 		Session session = beginTransaction();
-		TagDAOImpl tagDao = new TagDAOImpl(session);
-		List<Tag> tags = tagDao.findAll();
+		TagDAOImpl dao = new TagDAOImpl(session);
+		List<Tag> tags = dao.findAll();
 		commit();
 		firePropertyChange(BookController.TagProps.INIT.toString(), null, tags);
 	}
@@ -332,8 +334,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainItems() {
 		SbApp.trace("BookModel.fireAgainItems()");
 		Session session = beginTransaction();
-		ItemDAOImpl itemDao = new ItemDAOImpl(session);
-		List<Item> items = itemDao.findAll();
+		ItemDAOImpl dao = new ItemDAOImpl(session);
+		List<Item> items = dao.findAll();
 		commit();
 		firePropertyChange(BookController.ItemProps.INIT.toString(), null, items);
 	}
@@ -341,8 +343,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainTagLinks() {
 		SbApp.trace("BookModel.fireAgainTagLinks()");
 		Session session = beginTransaction();
-		TagLinkDAOImpl tagLinkDao = new TagLinkDAOImpl(session);
-		List<TagLink> tagLinks = tagLinkDao.findAll();
+		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
+		List<TagLink> tagLinks = dao.findAll();
 		commit();
 		firePropertyChange(BookController.TagLinkProps.INIT.toString(), null, tagLinks);
 	}
@@ -350,8 +352,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainItemLinks() {
 		SbApp.trace("BookModel.fireAgainItemLinks()");
 		Session session = beginTransaction();
-		ItemLinkDAOImpl itemLinkDao = new ItemLinkDAOImpl(session);
-		List<ItemLink> itemLinks = itemLinkDao.findAll();
+		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
+		List<ItemLink> itemLinks = dao.findAll();
 		commit();
 		firePropertyChange(BookController.ItemLinkProps.INIT.toString(), null, itemLinks);
 	}
@@ -359,8 +361,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainInternals() {
 		SbApp.trace("BookModel.fireAgainInternals()");
 		Session session = beginTransaction();
-		InternalDAOImpl internalDao = new InternalDAOImpl(session);
-		List<Internal> internals = internalDao.findAll();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		List<Internal> internals = dao.findAll();
 		commit();
 		firePropertyChange(BookController.InternalProps.INIT.toString(), null, internals);
 	}
@@ -371,8 +373,8 @@ public class BookModel extends AbstractModel {
 	private void fireAgainTimeEvent() {
 		SbApp.trace("BookModel.fireAgainTimeEvent()");
 		Session session = beginTransaction();
-		TimeEventDAOImpl internalDao = new TimeEventDAOImpl(session);
-		List<TimeEvent> internals = internalDao.findAll();
+		TimeEventDAOImpl dao = new TimeEventDAOImpl(session);
+		List<TimeEvent> internals = dao.findAll();
 		commit();
 		firePropertyChange(BookController.TimeEventProps.INIT.toString(), null, internals);
 	}
@@ -427,7 +429,7 @@ public class BookModel extends AbstractModel {
 		setShowInfo((AbstractEntity)gender);
 	}
 
-	public void setShowInfo(Group group) {
+	public void setShowInfo(Persongrp group) {
 		setShowInfo((AbstractEntity)group);
 	}
 
@@ -479,7 +481,7 @@ public class BookModel extends AbstractModel {
 		setShowInMemoria((AbstractEntity) p);
 	}
 
-	public void setShowInMemoria(Group p) {
+	public void setShowInMemoria(Persongrp p) {
 		setShowInMemoria((AbstractEntity) p);
 	}
 
@@ -664,7 +666,6 @@ public class BookModel extends AbstractModel {
 		session = beginTransaction();
 		session.update(part);
 		commit();
-
 		firePropertyChange(BookController.PartProps.UPDATE.toString(), old, part);
 	}
 
@@ -891,30 +892,30 @@ public class BookModel extends AbstractModel {
 	}
 
 	// group
-	public void setEditGroup(Group entity) {
+	public void setEditPersongrp(Persongrp entity) {
 		//firePropertyChange(BookController.GroupProps.EDIT.toString(),null, entity);
 		editEntity((AbstractEntity)entity);
 	}
 
-	public synchronized void setUpdateGroup(Group r) {
+	public synchronized void setUpdatePersongrp(Persongrp r) {
 		Session session = beginTransaction();
-		GroupDAOImpl dao = new GroupDAOImpl(session);
-		Group old = dao.find(r.getId());
+		PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
+		Persongrp old = dao.find(r.getId());
 		commit();
 		session = beginTransaction();
 		session.update(r);
 		commit();
-		firePropertyChange(BookController.GroupProps.UPDATE.toString(), old, r);
+		firePropertyChange(BookController.PersongrpProps.UPDATE.toString(), old, r);
 	}
 
-	public synchronized void setNewGroup(Group r) {
+	public synchronized void setNewPersongrp(Persongrp r) {
 		Session session = beginTransaction();
 		session.save(r);
 		commit();
-		firePropertyChange(BookController.GroupProps.NEW.toString(), null, r);
+		firePropertyChange(BookController.PersongrpProps.NEW.toString(), null, r);
 	}
 
-	public synchronized void setDeleteGroup(Group r) {
+	public synchronized void setDeletePersongrp(Persongrp r) {
 		if (r.getId() == null) {
 			return;
 		}
@@ -923,18 +924,18 @@ public class BookModel extends AbstractModel {
 			session.delete(r);
 			commit();
 		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeleteGroup("+r.getDescription()+")", e);
+			SbApp.error("BookModel.setDeletePersongrp("+r.getDescription()+")", e);
 		}
-		firePropertyChange(BookController.GroupProps.DELETE.toString(),r, null);
+		firePropertyChange(BookController.PersongrpProps.DELETE.toString(),r, null);
 	}
 
-	public synchronized void setDeleteMultiGroup(ArrayList<Long> ids) {
+	public synchronized void setDeleteMultiPersongrp(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
-			GroupDAOImpl dao = new GroupDAOImpl(session);
-			Group old = dao.find(id);
+			PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
+			Persongrp old = dao.find(id);
 			commit();
-			setDeleteGroup(old);
+			setDeletePersongrp(old);
 		}
 	}
 
@@ -969,7 +970,6 @@ public class BookModel extends AbstractModel {
 		if (gender.getId() == null) {
 			return;
 		}
-
 		// set gender of affected persons to "male"
 		Session session = beginTransaction();
 		GenderDAOImpl dao = new GenderDAOImpl(session);
@@ -994,12 +994,10 @@ public class BookModel extends AbstractModel {
 			GenderDAOImpl dao = new GenderDAOImpl(session);
 			Gender old = dao.find(id);
 			commit();
-
 			session = beginTransaction();
 			dao = new GenderDAOImpl(session);
 			dao.removeById(id);
 			commit();
-
 			firePropertyChange(BookController.GenderProps.DELETE.toString(), old, null);
 		}
 	}
@@ -1015,11 +1013,9 @@ public class BookModel extends AbstractModel {
 		CategoryDAOImpl dao = new CategoryDAOImpl(session);
 		Category old = dao.find(category.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(category);
 		commit();
-
 		firePropertyChange(BookController.CategoryProps.UPDATE.toString(), old, category);
 	}
 
@@ -1027,7 +1023,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(category);
 		commit();
-
 		firePropertyChange(BookController.CategoryProps.NEW.toString(), null, category);
 	}
 
@@ -1035,7 +1030,6 @@ public class BookModel extends AbstractModel {
 		if (category.getId() == null) {
 			return;
 		}
-
 		// set category of affected persons to "minor"
 		Session session = beginTransaction();
 		CategoryDAOImpl dao = new CategoryDAOImpl(session);
@@ -1050,7 +1044,6 @@ public class BookModel extends AbstractModel {
 		session = beginTransaction();
 		session.delete(category);
 		commit();
-
 		firePropertyChange(BookController.CategoryProps.DELETE.toString(), category, null);
 	}
 
@@ -1060,12 +1053,10 @@ public class BookModel extends AbstractModel {
 			CategoryDAOImpl dao = new CategoryDAOImpl(session);
 			Category old = dao.find(id);
 			commit();
-
 			session = beginTransaction();
 			dao = new CategoryDAOImpl(session);
 			dao.removeById(id);
 			commit();
-
 			firePropertyChange(BookController.CategoryProps.DELETE.toString(), old, null);
 		}
 	}
@@ -1089,11 +1080,9 @@ public class BookModel extends AbstractModel {
 		StrandDAOImpl dao = new StrandDAOImpl(session);
 		Strand old = dao.find(strand.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(strand);
 		commit();
-
 		firePropertyChange(BookController.StrandProps.UPDATE.toString(), old, strand);
 	}
 
@@ -1101,7 +1090,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(strand);
 		commit();
-
 		firePropertyChange(BookController.StrandProps.NEW.toString(), null, strand);
 	}
 
@@ -1122,7 +1110,6 @@ public class BookModel extends AbstractModel {
 			for (Scene scene : scenes) {
 				setUpdateScene(scene);
 			}
-
 			// delete scenes
 			session = beginTransaction();
 			StrandDAOImpl strandDao = new StrandDAOImpl(session);
@@ -1131,7 +1118,6 @@ public class BookModel extends AbstractModel {
 			for (Scene scene : scenes) {
 				setDeleteScene(scene);
 			}
-
 			// delete strand
 			session = beginTransaction();
 			session.delete(strand);
@@ -1160,7 +1146,6 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.StrandProps.ORDER_DOWN.toString(), null,strand);
 	}
 
-
 	// idea
 	public void setEditIdea(Idea entity) {
 		//firePropertyChange(BookController.IdeaProps.EDIT.toString(), null, entity);
@@ -1172,11 +1157,9 @@ public class BookModel extends AbstractModel {
 		IdeaDAOImpl dao = new IdeaDAOImpl(session);
 		Idea old = dao.find(idea.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(idea);
 		commit();
-
 		firePropertyChange(BookController.IdeaProps.UPDATE.toString(), old,idea);
 	}
 
@@ -1184,7 +1167,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(idea);
 		commit();
-
 		firePropertyChange(BookController.IdeaProps.NEW.toString(), null,idea);
 	}
 
@@ -1197,19 +1179,17 @@ public class BookModel extends AbstractModel {
 		commit();
 		firePropertyChange(BookController.IdeaProps.DELETE.toString(),idea, null);
 	}
-
+	
 	public synchronized void setDeleteMultiIdeas(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
 			IdeaDAOImpl dao = new IdeaDAOImpl(session);
 			Idea old = dao.find(id);
 			commit();
-
 			session = beginTransaction();
 			dao = new IdeaDAOImpl(session);
 			dao.removeById(id);
 			commit();
-
 			firePropertyChange(BookController.IdeaProps.DELETE.toString(),old, null);
 		}
 	}
@@ -1225,11 +1205,9 @@ public class BookModel extends AbstractModel {
 		TagDAOImpl dao = new TagDAOImpl(session);
 		Tag old = dao.find(tag.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(tag);
 		commit();
-
 		firePropertyChange(BookController.TagProps.UPDATE.toString(), old, tag);
 	}
 
@@ -1237,7 +1215,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(tag);
 		commit();
-
 		firePropertyChange(BookController.TagProps.NEW.toString(), null, tag);
 	}
 
@@ -1281,11 +1258,9 @@ public class BookModel extends AbstractModel {
 		ItemDAOImpl dao = new ItemDAOImpl(session);
 		Item old = dao.find(item.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(item);
 		commit();
-
 		firePropertyChange(BookController.ItemProps.UPDATE.toString(), old, item);
 	}
 
@@ -1293,7 +1268,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(item);
 		commit();
-
 		firePropertyChange(BookController.ItemProps.NEW.toString(), null, item);
 	}
 
@@ -1337,11 +1311,9 @@ public class BookModel extends AbstractModel {
 		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
 		TagLink old = dao.find(tagLink.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(tagLink);
 		commit();
-
 		firePropertyChange(BookController.TagLinkProps.UPDATE.toString(), old, tagLink);
 	}
 
@@ -1349,7 +1321,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(tagLink);
 		commit();
-
 		firePropertyChange(BookController.TagLinkProps.NEW.toString(), null, tagLink);
 	}
 
@@ -1384,11 +1355,9 @@ public class BookModel extends AbstractModel {
 		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
 		ItemLink old = dao.find(itemLink.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(itemLink);
 		commit();
-
 		firePropertyChange(BookController.ItemLinkProps.UPDATE.toString(), old, itemLink);
 	}
 
@@ -1396,7 +1365,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(itemLink);
 		commit();
-
 		firePropertyChange(BookController.ItemLinkProps.NEW.toString(), null, itemLink);
 	}
 
@@ -1446,7 +1414,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(scene);
 		commit();
-
 		firePropertyChange(BookController.SceneProps.NEW.toString(), null, scene);
 	}
 
@@ -1483,9 +1450,9 @@ public class BookModel extends AbstractModel {
 	}
 
 	// internals
-	public void setEditInternal(Internal entity) {
+	public void setEditInternal(Internal internal) {
 		//firePropertyChange(BookController.InternalProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
+		editEntity((AbstractEntity)internal);
 	}
 
 	public synchronized void setUpdateInternal(Internal internal) {
@@ -1493,11 +1460,9 @@ public class BookModel extends AbstractModel {
 		InternalDAOImpl dao = new InternalDAOImpl(session);
 		Internal old = dao.find(internal.getId());
 		commit();
-
 		session = beginTransaction();
 		session.update(internal);
 		commit();
-
 		firePropertyChange(BookController.InternalProps.UPDATE.toString(), old, internal);
 	}
 
@@ -1505,7 +1470,6 @@ public class BookModel extends AbstractModel {
 		Session session = beginTransaction();
 		session.save(internal);
 		commit();
-
 		firePropertyChange(BookController.InternalProps.NEW.toString(), null, internal);
 	}
 
@@ -1534,33 +1498,32 @@ public class BookModel extends AbstractModel {
 		editEntity((AbstractEntity)entity);
 	}
 
-	public synchronized void setUpdateTimeEvent(TimeEvent chapter) {
+	public synchronized void setUpdateTimeEvent(TimeEvent entity) {
 		Session session = beginTransaction();
 		TimeEventDAOImpl dao = new TimeEventDAOImpl(session);
-		TimeEvent old = dao.find(chapter.getId());
+		TimeEvent old = dao.find(entity.getId());
 		commit();
 		session = beginTransaction();
-		session.update(chapter);
+		session.update(entity);
 		commit();
-		firePropertyChange(BookController.TimeEventProps.UPDATE.toString(), old, chapter);
+		firePropertyChange(BookController.TimeEventProps.UPDATE.toString(), old, entity);
 	}
 
-	public synchronized void setNewTimeEvent(TimeEvent chapter) {
+	public synchronized void setNewTimeEvent(TimeEvent entity) {
 		Session session = beginTransaction();
-		session.save(chapter);
+		session.save(entity);
 		commit();
-		firePropertyChange(BookController.TimeEventProps.NEW.toString(), null, chapter);
+		firePropertyChange(BookController.TimeEventProps.NEW.toString(), null, entity);
 	}
 
-	public synchronized void setDeleteTimeEvent(TimeEvent chapter) {
-		if (chapter.getId() == null) {
+	public synchronized void setDeleteTimeEvent(TimeEvent entity) {
+		if (entity.getId() == null) {
 			return;
 		}
-		Session session = beginTransaction();
 		// delete chapter
-		session = beginTransaction();
-		session.delete(chapter);
+		Session session = beginTransaction();
+		session.delete(entity);
 		commit();
-		firePropertyChange(BookController.TimeEventProps.DELETE.toString(), chapter, null);
+		firePropertyChange(BookController.TimeEventProps.DELETE.toString(), entity, null);
 	}
 }

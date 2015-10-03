@@ -179,74 +179,7 @@ public class ActionHandler {
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
-/*
-	public void handleNewScene()		{handleNewEntity(new Scene());}//new OK
-	public void handleNewChapter()	{handleNewEntity(new Chapter());}//new OK
-	public void handleNewPart()		{handleNewEntity(new Part());}//new OK
-	public void handleNewStrand()		{handleNewEntity(new Strand());}//new OK
-	public void handleNewPerson()		{handleNewEntity(new Person());}//new OK
-	public void handleNewCategory()	{handleNewEntity(new Category());}//new OK
-	public void handleNewGender()		{handleNewEntity(new Gender());}//new OK
-	public void handleNewLocation()	{handleNewEntity(new Location());}//new OK
-	public void handleNewTag()			{handleNewEntity(new Tag());}//new OK
-	public void handleNewTagLink()	{handleNewEntity(new TagLink());}//new OK
-	public void handleNewItem()		{handleNewEntity(new Item());}//new OK
-	public void handleNewItemLink()	{handleNewEntity(new ItemLink());}//new OK
-	public void handleNewIdea()		{handleNewEntity(new Idea());}//new OK
 
-	private void handleNewEntity(AbstractEntity entity) {//new OK
-		BookController ctrl = mainFrame.getBookController();
-		ctrl.setEntityToEdit(entity);
-		mainFrame.showView(ViewName.EDITOR);
-		//SbApp.trace("ActionHandler.handleEntity(...)");
-		//EditorDlg dlg=new EditorDlg(mainFrame,entity);
-		//dlg.setVisible(true);
-	}
-*/
-	/*
-	public void handleFlashOfInspiration() {
-		FoiDialog dlg = new FoiDialog(mainFrame);
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handleTaskList() {//new OK
-		showAndFocus(ViewName.SCENES);
-		mainFrame.getBookController().showTaskList();
-	}
-
-	public void handleExportPrint() {
-		//ExportPrintDialog dlg = new ExportPrintDialog(mainFrame);
-		//SwingUtil.showDialog(dlg, mainFrame);
-	}
-
-	public void handleChartGantt() {//new OK
-		showAndFocus(ViewName.CHART_GANTT);
-	}
-
-	public void handleChartOccurrenceOfLocations() {//new OK
-		showAndFocus(ViewName.CHART_OCCURRENCE_OF_LOCATIONS);
-	}
-
-	public void handleChartOccurrenceOfPersons() {//new OK
-		showAndFocus(ViewName.CHART_OCCURRENCE_OF_PERSONS);
-	}
-
-	public void handleChartStrandsByDate() {//new OK
-		showAndFocus(ViewName.CHART_STRANDS_BY_DATE);
-	}
-
-	public void handleChartWiWW() {//new OK
-		showAndFocus(ViewName.CHART_WiWW);
-	}
-
-	public void handleChartPersonsByDate() {
-		showAndFocus(ViewName.CHART_PERSONS_BY_DATE);
-	}
-
-	public void handleChartPersonsByScene() {
-		showAndFocus(ViewName.CHART_PERSONS_BY_SCENE);
-	}
-*/
 	public void handlePreviousPart() {
 		Part currentPart = mainFrame.getCurrentPart();
 		BookModel model = mainFrame.getBookModel();
@@ -352,7 +285,6 @@ public class ActionHandler {
 		}
 	}
 
-
 	public void handleShowInternals() {
 		showAndFocus(ViewName.INTERNALS);
 	}
@@ -393,8 +325,8 @@ public class ActionHandler {
 		showAndFocus(ViewName.GENDERS);
 	}
 
-	public void handleShowGroups() {
-		showAndFocus(ViewName.GROUPS);
+	public void handleShowPersonGrps() {
+		showAndFocus(ViewName.PERSONGRPS);
 	}
 
 	public void handleShowPersons() {
@@ -418,16 +350,6 @@ public class ActionHandler {
 		view.restore();
 		view.restoreFocus();
 	}
-
-	/*public void handleNewFile() {//new OK
-		SbApp.getInstance().createNewFile();
-	}*/
-
-	/*public void handleOpenFile() {//new OK
-		mainFrame.setWaitingCursor();
-		SbApp.getInstance().openFile();
-		mainFrame.setDefaultCursor();
-	}*/
 
 	public void handleRecentClear() {
 		SbApp.getInstance().clearRecentFiles();
@@ -482,61 +404,6 @@ public class ActionHandler {
 		mainFrame.close();
 	}
 
-	public void handleSaveLayout() {
-		String name = JOptionPane.showInputDialog(mainFrame,
-			I18N.getMsgColon("msg.common.enter.name"),
-			I18N.getMsg("msg.docking.save.layout"),
-			JOptionPane.PLAIN_MESSAGE);
-		if (name != null) {
-			DockingWindowUtil.saveLayout(mainFrame, name);
-		}
-	}
-
-	public void handleManageLayouts() {
-		ManageLayoutsDialog dlg = new ManageLayoutsDialog(mainFrame);
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handleDefaultLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.DEFAULT_LAYOUT);
-	}
-
-	public void handlePersonsLocationsLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.PERSONS_LOCATIONS_LAYOUT);
-	}
-
-	public void handleTagsItemsLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.TAGS_ITEMS_LAYOUT);
-	}
-
-	public void handleChronoOnlyLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.CHRONO_ONLY_LAYOUT);
-	}
-
-	public void handleBookOnlyLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.BOOK_ONLY_LAYOUT);
-	}
-
-	public void handleManageOnlyLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.MANAGE_ONLY_LAYOUT);
-	}
-
-	public void handleReadingOnlyLayout() {
-		DockingWindowUtil.setLayout(mainFrame,DockingWindowUtil.READING_ONLY_LAYOUT);
-	}
-
-	public void handleResetLayout() {
-		SwingUtil.setWaitingCursor(mainFrame);
-		mainFrame.setDefaultLayout();
-		// suppression du garbage collector
-		//SbApp.getInstance().runGC();
-		SwingUtil.setDefaultCursor(mainFrame);
-	}
-
-	public void handleRefresh() {
-		mainFrame.refresh();
-	}
-
 	public void handleBookProperties() {//new OK
 		BookPropertiesDialog dlg = new BookPropertiesDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
@@ -550,22 +417,7 @@ public class ActionHandler {
 	public void handleViewStatus(boolean selected) {
 	}
 
-	/*public void handleExportBookText() {//new OK
-		DlgExport export=new DlgExport(mainFrame);
-		export.setVisible(true);
-		// old
-		//BookExporter exp = new BookExporter(mainFrame);
-		//exp.setExportForOpenOffice(true);
-		//exp.exportToHtmlFile();
-	}*/
-
-	/*public void handleExportBookHtml() {//new OK
-		BookExporter exp = new BookExporter(mainFrame);
-		exp.setExportForOpenOffice(true);
-		exp.exportToHtmlFile();
-	}*/
-
-	public void handleCopyBookText() {//new OK
+	/*public void handleCopyBookText() {//new OK
 		BookExporter exp = new BookExporter(mainFrame);
 		exp.setExportForOpenOffice(false);
 		exp.exportToClipboard();
@@ -576,35 +428,6 @@ public class ActionHandler {
 		StringSelection selection = new StringSelection(internal.getStringValue() + "\n");
 		Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clbrd.setContents(selection, selection);
-	}
+	}*/
 
-	public void handleReportBug() {//new OK
-		NetUtil.openBrowser(SbConstants.URL.REPORTBUG.toString());
-	}
-
-	public void handleDoc() {//new OK
-		NetUtil.openBrowser(SbConstants.URL.DOC.toString());
-	}
-
-	public void handleFAQ() {//new OK
-		NetUtil.openBrowser(SbConstants.URL.FAQ.toString());
-	}
-
-	public void handleHomepage() {
-		NetUtil.openBrowser(SbConstants.URL.HOMEPAGE.toString());
-	}
-
-	public void handleAbout() {
-		AboutDialog dlg = new AboutDialog(mainFrame);
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handleTrace() {//new OK
-		if (SbApp.getTrace()) SbApp.setTrace(false);
-		else SbApp.setTrace(true);
-	}
-
-	public void handleExit() {
-		SbApp.getInstance().exit();
-	}
 }

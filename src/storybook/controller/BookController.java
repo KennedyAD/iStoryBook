@@ -36,7 +36,7 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.model.hbn.entity.Tag;
@@ -322,17 +322,17 @@ public class BookController extends AbstractController {
 		}
 	};
 
-	public enum GroupProps {
+	public enum PersongrpProps {
 
-		INIT("InitGroup"),
-		EDIT("EditGroup"),
-		DELETE("DeleteGroup"),
-		DELETE_MULTI("DeleteMultiGroups"),
-		NEW("NewGroup"),
-		UPDATE("UpdateGroup");
+		INIT("InitPersongrp"),
+		EDIT("EditPersongrp"),
+		DELETE("DeletePersongrp"),
+		DELETE_MULTI("DeleteMultiPersongrps"),
+		NEW("NewPersongrp"),
+		UPDATE("UpdatePersongrp");
 		final private String text;
 
-		private GroupProps(String text) {
+		private PersongrpProps(String text) {
 			this.text = text;
 		}
 
@@ -647,73 +647,41 @@ public class BookController extends AbstractController {
 		try {
 			if (entity instanceof Chapter) {
 				updateChapter((Chapter) entity);
-				return;
-			}
-			if (entity instanceof Part) {
+			} else if (entity instanceof Part) {
 				updatePart((Part) entity);
-				return;
-			}
-			if (entity instanceof Location) {
+			} else if (entity instanceof Location) {
 				updateLocation((Location) entity);
-				return;
-			}
-			if (entity instanceof Person) {
+			} else if (entity instanceof Person) {
 				updatePerson((Person) entity);
-				return;
-			}
-			if (entity instanceof Relationship) {
+			} else if (entity instanceof Relationship) {
 				updateRelationship((Relationship) entity);
-				return;
-			}
-			if (entity instanceof Group) {
-				updateGroup((Group) entity);
-				return;
-			}
-			if (entity instanceof Gender) {
+			} else if (entity instanceof Persongrp) {
+				updatePersongrp((Persongrp) entity);
+			} else if (entity instanceof Gender) {
 				updateGender((Gender) entity);
-				return;
-			}
-			if (entity instanceof Category) {
+			} else if (entity instanceof Category) {
 				updateCategory((Category) entity);
-				return;
-			}
-			if (entity instanceof Strand) {
+			} else if (entity instanceof Strand) {
 				updateStrand((Strand) entity);
-				return;
-			}
-			if (entity instanceof Idea) {
+			} else if (entity instanceof Idea) {
 				updateIdea((Idea) entity);
-				return;
-			}
-			if (entity instanceof Tag) {
+			} else if (entity instanceof Tag) {
 				updateTag((Tag) entity);
-				return;
-			}
-			if (entity instanceof TagLink) {
+			} else if (entity instanceof TagLink) {
 				updateTagLink((TagLink) entity);
-				return;
-			}
-			if (entity instanceof Item) {
+			} else if (entity instanceof Item) {
 				updateItem((Item) entity);
-				return;
-			}
-			if (entity instanceof ItemLink) {
+			} else if (entity instanceof ItemLink) {
 				updateItemLink((ItemLink) entity);
-				return;
-			}
-			if (entity instanceof Scene) {
+			} else if (entity instanceof Scene) {
 				updateScene((Scene) entity);
-				return;
-			}
-			if (entity instanceof Internal) {
+			} else if (entity instanceof Internal) {
 				updateInternal((Internal) entity);
-				return;
-			}
-			if (entity instanceof TimeEvent) {
+			} else if (entity instanceof TimeEvent) {
 				updateTimeEvent((TimeEvent) entity);
-				return;
+			} else {
+				throw new Exception("Entity type not found.");
 			}
-			throw new Exception("Entity type not found.");
 		} catch (Exception e) {
 			SbApp.error("BookController.updateEntity(" + entity.getAbbr() + ")",e);
 		}
@@ -724,73 +692,39 @@ public class BookController extends AbstractController {
 		try {
 			if (entity instanceof Chapter) {
 				deleteChapter((Chapter) entity);
-				return;
-			}
-			if (entity instanceof Part) {
+			} else if (entity instanceof Part) {
 				deletePart((Part) entity);
-				return;
-			}
-			if (entity instanceof Location) {
+			} else if (entity instanceof Location) {
 				deleteLocation((Location) entity);
-				return;
-			}
-			if (entity instanceof Person) {
+			} else if (entity instanceof Person) {
 				deletePerson((Person) entity);
-				return;
-			}
-			if (entity instanceof Group) {
-				deleteGroup((Group) entity);
-				return;
-			}
-			if (entity instanceof Relationship) {
+			} else if (entity instanceof Persongrp) {
+				deletePersongrp((Persongrp) entity);
+			} else if (entity instanceof Relationship) {
 				deleteRelationship((Relationship) entity);
-				return;
-			}
-			if (entity instanceof Gender) {
+			} else if (entity instanceof Gender) {
 				deleteGender((Gender) entity);
-				return;
-			}
-			if (entity instanceof Category) {
+			} else if (entity instanceof Category) {
 				deleteCategory((Category) entity);
-				return;
-			}
-			if (entity instanceof Strand) {
+			} else if (entity instanceof Strand) {
 				deleteStrand((Strand) entity);
-				return;
-			}
-			if (entity instanceof Idea) {
+			} else if (entity instanceof Idea) {
 				deleteIdea((Idea) entity);
-				return;
-			}
-			if (entity instanceof Tag) {
+			} else if (entity instanceof Tag) {
 				deleteTag((Tag) entity);
-				return;
-			}
-			if (entity instanceof TagLink) {
+			} else if (entity instanceof TagLink) {
 				deleteTagLink((TagLink) entity);
-				return;
-			}
-			if (entity instanceof Item) {
+			} else if (entity instanceof Item) {
 				deleteItem((Item) entity);
-				return;
-			}
-			if (entity instanceof ItemLink) {
+			} else if (entity instanceof ItemLink) {
 				deleteItemLink((ItemLink) entity);
-				return;
-			}
-			if (entity instanceof Scene) {
+			} else if (entity instanceof Scene) {
 				deleteScene((Scene) entity);
-				return;
-			}
-			if (entity instanceof Internal) {
+			} else if (entity instanceof Internal) {
 				deleteInternal((Internal) entity);
-				return;
-			}
-			if (entity instanceof TimeEvent) {
+			} else if (entity instanceof TimeEvent) {
 				deleteTimeEvent((TimeEvent) entity);
-				return;
-			}
-			throw new Exception("Entity type not found.");
+			} else throw new Exception("Entity type not found.");
 		} catch (Exception e) {
 			SbApp.error("BookController.deleteEntity(" + entity.getClass().getName() + ") Exception:",e);
 		}
@@ -801,73 +735,39 @@ public class BookController extends AbstractController {
 		try {
 			if (entity instanceof Chapter) {
 				newChapter((Chapter) entity);
-				return;
-			}
-			if (entity instanceof Part) {
+			} else if (entity instanceof Part) {
 				newPart((Part) entity);
-				return;
-			}
-			if (entity instanceof Location) {
+			} else if (entity instanceof Location) {
 				newLocation((Location) entity);
-				return;
-			}
-			if (entity instanceof Person) {
+			} else if (entity instanceof Person) {
 				newPerson((Person) entity);
-				return;
-			}
-			if (entity instanceof Relationship) {
+			} else if (entity instanceof Relationship) {
 				newRelationship((Relationship) entity);
-				return;
-			}
-			if (entity instanceof Group) {
-				newGroup((Group) entity);
-				return;
-			}
-			if (entity instanceof Gender) {
+			} else if (entity instanceof Persongrp) {
+				newPersongrp((Persongrp) entity);
+			} else if (entity instanceof Gender) {
 				newGender((Gender) entity);
-				return;
-			}
-			if (entity instanceof Category) {
+			} else if (entity instanceof Category) {
 				newCategory((Category) entity);
-				return;
-			}
-			if (entity instanceof Strand) {
+			} else if (entity instanceof Strand) {
 				newStrand((Strand) entity);
-				return;
-			}
-			if (entity instanceof Idea) {
+			} else if (entity instanceof Idea) {
 				newIdea((Idea) entity);
-				return;
-			}
-			if (entity instanceof Tag) {
+			} else if (entity instanceof Tag) {
 				newTag((Tag) entity);
-				return;
-			}
-			if (entity instanceof TagLink) {
+			} else if (entity instanceof TagLink) {
 				newTagLink((TagLink) entity);
-				return;
-			}
-			if (entity instanceof Item) {
+			} else if (entity instanceof Item) {
 				newItem((Item) entity);
-				return;
-			}
-			if (entity instanceof ItemLink) {
+			} else if (entity instanceof ItemLink) {
 				newItemLink((ItemLink) entity);
-				return;
-			}
-			if (entity instanceof Scene) {
+			} else if (entity instanceof Scene) {
 				newScene((Scene) entity);
-				return;
-			}
-			if (entity instanceof Internal) {
+			} else if (entity instanceof Internal) {
 				newInternal((Internal) entity);
-				return;
-			}
-			if (entity instanceof TimeEvent) {
+			} else if (entity instanceof TimeEvent) {
 				newTimeEvent((TimeEvent) entity);
-				return;
-			}
-			throw new Exception("Entity type not found.");
+			} else throw new Exception("Entity type not found.");
 		} catch (Exception e) {
 			SbApp.error("BookController.newEntity(" + entity.getClass().getName() + ") Exception:",e);
 		}
@@ -878,73 +778,39 @@ public class BookController extends AbstractController {
 		try {
 			if (entity instanceof Chapter) {
 				setChapterToEdit((Chapter) entity);
-				return;
-			}
-			if (entity instanceof Part) {
+			} else if (entity instanceof Part) {
 				setPartToEdit((Part) entity);
-				return;
-			}
-			if (entity instanceof Location) {
+			} else if (entity instanceof Location) {
 				setLocationToEdit((Location) entity);
-				return;
-			}
-			if (entity instanceof Person) {
+			} else if (entity instanceof Person) {
 				setPersonToEdit((Person) entity);
-				return;
-			}
-			if (entity instanceof Group) {
-				setGroupToEdit((Group) entity);
-				return;
-			}
-			if (entity instanceof Relationship) {
+			} else if (entity instanceof Persongrp) {
+				setPersongrpToEdit((Persongrp) entity);
+			} else if (entity instanceof Relationship) {
 				setRelationshipToEdit((Relationship) entity);
-				return;
-			}
-			if (entity instanceof Gender) {
+			} else if (entity instanceof Gender) {
 				setGenderToEdit((Gender) entity);
-				return;
-			}
-			if (entity instanceof Category) {
+			} else if (entity instanceof Category) {
 				setCategoryToEdit((Category) entity);
-				return;
-			}
-			if (entity instanceof Strand) {
+			} else if (entity instanceof Strand) {
 				setStrandToEdit((Strand) entity);
-				return;
-			}
-			if (entity instanceof Idea) {
+			} else if (entity instanceof Idea) {
 				setIdeaToEdit((Idea) entity);
-				return;
-			}
-			if (entity instanceof Tag) {
+			} else if (entity instanceof Tag) {
 				setTagToEdit((Tag) entity);
-				return;
-			}
-			if (entity instanceof TagLink) {
+			} else if (entity instanceof TagLink) {
 				setTagLinkToEdit((TagLink) entity);
-				return;
-			}
-			if (entity instanceof Item) {
+			} else if (entity instanceof Item) {
 				setItemToEdit((Item) entity);
-				return;
-			}
-			if (entity instanceof ItemLink) {
+			} else if (entity instanceof ItemLink) {
 				setItemLinkToEdit((ItemLink) entity);
-				return;
-			}
-			if (entity instanceof Scene) {
+			} else if (entity instanceof Scene) {
 				setSceneToEdit((Scene) entity);
-				return;
-			}
-			if (entity instanceof Internal) {
+			} else if (entity instanceof Internal) {
 				setInternalToEdit((Internal) entity);
-				return;
-			}
-			if (entity instanceof TimeEvent) {
+			} else if (entity instanceof TimeEvent) {
 				setTimeEventToEdit((TimeEvent) entity);
-				return;
-			}
-			throw new Exception("Entity type not found.");
+			} else throw new Exception("Entity type not found.");
 		} catch (Exception e) {
 			SbApp.error("BookController.setEntityToEdit(" + entity.getClass().getName() + ") Exception:",e);
 		}
@@ -1156,24 +1022,24 @@ public class BookController extends AbstractController {
 	}
 
 	// group
-	public void updateGroup(Group r) {
-		setModelProperty(GroupProps.UPDATE.toString(), r);
+	public void updatePersongrp(Persongrp r) {
+		setModelProperty(PersongrpProps.UPDATE.toString(), r);
 	}
 
-	public void newGroup(Group r) {
-		setModelProperty(GroupProps.NEW.toString(), r);
+	public void newPersongrp(Persongrp r) {
+		setModelProperty(PersongrpProps.NEW.toString(), r);
 	}
 
-	public void deleteGroup(Group r) {
-		setModelProperty(GroupProps.DELETE.toString(), r);
+	public void deletePersongrp(Persongrp r) {
+		setModelProperty(PersongrpProps.DELETE.toString(), r);
 	}
 
-	public void deleteMultiGroups(ArrayList<Long> ids) {
-		setModelProperty(GroupProps.DELETE_MULTI.toString(), ids);
+	public void deleteMultiPersongrps(ArrayList<Long> ids) {
+		setModelProperty(PersongrpProps.DELETE_MULTI.toString(), ids);
 	}
 
-	public void setGroupToEdit(Group r) {
-		setModelProperty(GroupProps.EDIT.toString(), r);
+	public void setPersongrpToEdit(Persongrp r) {
+		setModelProperty(PersongrpProps.EDIT.toString(), r);
 	}
 
 	// genders

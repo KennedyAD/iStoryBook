@@ -27,67 +27,67 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import storybook.SbApp;
 import storybook.model.hbn.entity.Person;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Scene;
 
-public class GroupDAOImpl extends SbGenericDAOImpl<Group, Long> implements GroupDAO {
+public class PersongrpDAOImpl extends SbGenericDAOImpl<Persongrp, Long> implements PersongrpDAO {
 
-	public GroupDAOImpl() {
+	public PersongrpDAOImpl() {
 		super();
 	}
 
-	public GroupDAOImpl(Session session) {
+	public PersongrpDAOImpl(Session session) {
 		super(session);
-		SbApp.trace("GroupDAOImpl("+session.getEntityName(this)+")");
+		SbApp.trace("PersongrpDAOImpl("+session.getEntityName(this)+")");
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Group> findByScene(Scene scene) {
-		Criteria crit = session.createCriteria(Group.class);
+	public List<Persongrp> findByScene(Scene scene) {
+		Criteria crit = session.createCriteria(Persongrp.class);
 		crit.add(Restrictions.eq("startScene", scene));
-		List<Group> groups = (List<Group>) crit.list();
-		return groups;
+		List<Persongrp> persongrps = (List<Persongrp>) crit.list();
+		return persongrps;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Group> findByStartOrEndScene(Scene scene) {
-		Criteria crit = session.createCriteria(Group.class);
+	public List<Persongrp> findByStartOrEndScene(Scene scene) {
+		Criteria crit = session.createCriteria(Persongrp.class);
 		Criterion cr1 = Restrictions.eq("startScene", scene);
 		Criterion cr2 = Restrictions.eq("endScene", scene);
 		crit.add(Restrictions.or(cr1, cr2));
-		List<Group> groups = (List<Group>) crit.list();
+		List<Persongrp> groups = (List<Persongrp>) crit.list();
 		return groups;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Group> findByPerson(Person person) {
-		Query query = session.createQuery("select s from Groupe as s"
+	public List<Persongrp> findByPerson(Person person) {
+		Query query = session.createQuery("select s from Persongrp as s"
 				+ " join s.persons as p"
 				+ " where p=:person");
 		query.setParameter("person", person);
-		List<Group> ret = query.list();
+		List<Persongrp> ret = query.list();
 		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Group> findByItem(Item item) {
-		Query query = session.createQuery("select s from Groupe as s"
+	public List<Persongrp> findByItem(Item item) {
+		Query query = session.createQuery("select s from Persongrp as s"
 				+ " join s.items as p"
 				+ " where p=:item");
 		query.setParameter("item", item);
-		List<Group> ret = query.list();
+		List<Persongrp> ret = query.list();
 		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Group> findByLocation(Location location) {
-		Query query = session.createQuery("select s from Groupe as s"
+	public List<Persongrp> findByLocation(Location location) {
+		Query query = session.createQuery("select s from Persongrp as s"
 				+ " join s.locations as p"
 				+ " where p=:location");
 		query.setParameter("location", location);
-		List<Group> ret = query.list();
+		List<Persongrp> ret = query.list();
 		return ret;
 	}
 

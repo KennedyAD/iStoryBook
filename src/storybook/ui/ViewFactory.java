@@ -113,8 +113,8 @@ public class ViewFactory {
 			return getLocationsView();
 		} else if (viewName == ViewName.PERSONS) {
 			return getPersonsView();
-		} else if (viewName == ViewName.GROUPS) {
-			return getGroupsView();
+		} else if (viewName == ViewName.PERSONGRPS) {
+			return getPersongrpsView();
 		} else if (viewName == ViewName.RELATIONSHIPS) {
 			return getRelationshipsView();
 		} else if (viewName == ViewName.GENDERS) {
@@ -495,16 +495,16 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.RELATIONSHIPS.toString());
 	}
 
-	public SbView getGroupsView() {
-		SbApp.trace("ViewFactory.getGroupsView()");
-		if (isViewInitialized(ViewName.GROUPS)) {
-			SbView view = new SbView(I18N.getMsg("msg.group"));
-			view.setName(ViewName.GROUPS.toString());
+	public SbView getPersongrpsView() {
+		SbApp.trace("ViewFactory.getPersongrpsView()");
+		if (isViewInitialized(ViewName.PERSONGRPS)) {
+			SbView view = new SbView(I18N.getMsg("msg.persongrp"));
+			view.setName(ViewName.PERSONGRPS.toString());
 			addRefreshButton(view);
 			addSeparator(view);
 			viewMap.addView(view.getName(), view);
 		}
-		return (SbView) viewMap.getView(ViewName.GROUPS.toString());
+		return (SbView) viewMap.getView(ViewName.PERSONGRPS.toString());
 	}
 
 	public SbView getGendersView() {

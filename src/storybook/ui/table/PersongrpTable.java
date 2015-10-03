@@ -25,9 +25,9 @@ import org.hibernate.Session;
 import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
-import storybook.model.hbn.dao.GroupDAOImpl;
+import storybook.model.hbn.dao.PersongrpDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.ui.MainFrame;
 
 /**
@@ -35,28 +35,28 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class GroupTable extends AbstractTable {
+public class PersongrpTable extends AbstractTable {
 
-	public GroupTable(MainFrame mainFrame) {
+	public PersongrpTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
 	@Override
 	public void init() {
-		columns = SbColumnFactory.getInstance().getGroupColumns();
+		columns = SbColumnFactory.getInstance().getPersongrpColumns();
 	}
 
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
 			String propName = evt.getPropertyName();
-			if (BookController.GroupProps.INIT.check(propName)) {
+			if (BookController.PersongrpProps.INIT.check(propName)) {
 				initTableModel(evt);
-			} else if (BookController.GroupProps.UPDATE.check(propName)) {
+			} else if (BookController.PersongrpProps.UPDATE.check(propName)) {
 				updateEntity(evt);
-			} else if (BookController.GroupProps.NEW.check(propName)) {
+			} else if (BookController.PersongrpProps.NEW.check(propName)) {
 				newEntity(evt);
-			} else if (BookController.GroupProps.DELETE.check(propName)) {
+			} else if (BookController.PersongrpProps.DELETE.check(propName)) {
 				deleteEntity(evt);
 			}
 		} catch (Exception e) {
@@ -68,50 +68,50 @@ public class GroupTable extends AbstractTable {
 		if (row == -1) {
 			return;
 		}
-		Group r = (Group) getEntityFromRow(row);
-		ctrl.setGroupToEdit(r);
+		Persongrp r = (Persongrp) getEntityFromRow(row);
+		ctrl.setPersongrpToEdit(r);
 		mainFrame.showView(ViewName.EDITOR);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setGroupToEdit((Group) entity);
+		ctrl.setPersongrpToEdit((Persongrp) entity);
 		mainFrame.showView(ViewName.EDITOR);
 	}
 
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
-		Group r = (Group) getEntityFromRow(row);
-		ctrl.deleteGroup(r);
+		Persongrp r = (Persongrp) getEntityFromRow(row);
+		ctrl.deletePersongrp(r);
 	}
 
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
-			Group r = (Group) getEntityFromRow(row);
+			Persongrp r = (Persongrp) getEntityFromRow(row);
 			ids.add(r.getId());
 		}
-		ctrl.deleteMultiGroups(ids);
+		ctrl.deleteMultiPersongrps(ids);
 	}
 
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
-		GroupDAOImpl dao = new GroupDAOImpl(session);
-		Group r = dao.find(id);
+		PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
+		Persongrp r = dao.find(id);
 		model.commit();
 		return r;
 	}
 
 	@Override
 	protected AbstractEntity getNewEntity() {
-		return new Group();
+		return new Persongrp();
 	}
 
 	@Override
 	public String getTableName() {
-		return("Group");
+		return("Persongrp");
 	}
 }

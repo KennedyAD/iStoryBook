@@ -414,12 +414,12 @@ public class SbColumnFactory {
 		return columns;
 	}
 
-	public Vector<SbColumn> getGroupColumns() {
+	public Vector<SbColumn> getPersongrpColumns() {
 		int i=1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
-		SbColumn col = new SbColumn(i++, "Description", "msg.dlg.group.description");
+		SbColumn col = new SbColumn(i++, "Description", "msg.dlg.persongrp.description");
 		col.setMaxLength(255);
 		col.setVerifier(new LengthVerifier(col.getMaxLength()));
 		col.setGrowX(true);

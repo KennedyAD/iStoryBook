@@ -277,7 +277,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbView locationsView = getView(ViewName.LOCATIONS);
 		SbView personsView = getView(ViewName.PERSONS);
 		SbView relationshipView = getView(ViewName.RELATIONSHIPS);
-		SbView groupView = getView(ViewName.GROUPS);
+		SbView persongrpView = getView(ViewName.PERSONGRPS);
 		SbView gendersView = getView(ViewName.GENDERS);
 		SbView categoriesView = getView(ViewName.CATEGORIES);
 		SbView listAttributes = getView(ViewName.ATTRIBUTES);
@@ -312,7 +312,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		swTreeInfo.setName("swTreeInfo");
 		TabWindow tabWindow = new TabWindow(new SbView[]{chronoView,
 			bookView, manageView, readingView, memoriaView, scenesView,
-			personsView, groupView, relationshipView, locationsView, chaptersView, gendersView,
+			personsView, persongrpView, relationshipView, locationsView, chaptersView, gendersView,
 			categoriesView, partsView, strandsView, ideasView, tagsView,
 			itemsView, tagLinksView, itemLinksView,
 			internalsView, listAttributes,
@@ -333,7 +333,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		chaptersView.close();
 		partsView.close();
 		personsView.close();
-		groupView.close();
+		persongrpView.close();
 		relationshipView.close();
 		gendersView.close();
 		categoriesView.close();

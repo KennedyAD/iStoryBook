@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import storybook.SbApp;
+import storybook.toolkit.TextTransfer;
 
 /**
  *
@@ -66,9 +67,8 @@ public class BookExporter extends AbstractExporter {
 		SbApp.trace("BookExporter.exportToClipboard()");
 		try {
 			StringBuffer str = getContent();
-			HtmlSelection html = new HtmlSelection(str.toString());
-			Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clip.setContents(html, html);
+			TextTransfer tf=new TextTransfer();
+			tf.setClipboardContents(str.toString());
 			JOptionPane.showMessageDialog(this.mainFrame,
 					I18N.getMsg("msg.book.copy.confirmation"),
 					I18N.getMsg("msg.copied.title"), 1);
