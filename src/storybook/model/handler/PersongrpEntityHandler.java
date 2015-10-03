@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.handler;
 
-import storybook.model.hbn.dao.GroupDAOImpl;
+import storybook.model.hbn.dao.PersongrpDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
@@ -28,27 +28,27 @@ import storybook.ui.table.SbColumnFactory;
  * @author martin
  *
  */
-public class GroupEntityHandler extends AbstractEntityHandler {
+public class PersongrpEntityHandler extends AbstractEntityHandler {
 
-	public GroupEntityHandler(MainFrame mainFrame) {
-		super(mainFrame, SbColumnFactory.getInstance().getGroupColumns());
+	public PersongrpEntityHandler(MainFrame mainFrame) {
+		super(mainFrame, SbColumnFactory.getInstance().getPersongrpColumns());
 	}
 
 	@Override
 	public AbstractEntity createNewEntity() {
-		Group p = new Group();
+		Persongrp p = new Persongrp();
 		return p;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
-		return (Class<T>) GroupDAOImpl.class;
+		return (Class<T>) PersongrpDAOImpl.class;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
-		return (Class<T>) Group.class;
+		return (Class<T>) Persongrp.class;
 	}
 }

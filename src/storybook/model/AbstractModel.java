@@ -2,9 +2,9 @@ package storybook.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeEvent;
 
 import org.hibernate.Session;
+
 import storybook.SbApp;
 import storybook.model.hbn.SbSessionFactory;
 import storybook.model.hbn.entity.AbstractEntity;
@@ -13,7 +13,6 @@ import storybook.ui.MainFrame;
 public abstract class AbstractModel {
 
 	protected PropertyChangeSupport propertyChangeSupport;
-
 	protected SbSessionFactory sessionFactory;
 	MainFrame mainFrame;
 

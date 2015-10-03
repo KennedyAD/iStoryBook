@@ -18,10 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
-public interface GroupDAO extends GenericDAO<Group, Long> {
+public interface PersongrpDAO extends GenericDAO<Persongrp, Long> {
 
 }

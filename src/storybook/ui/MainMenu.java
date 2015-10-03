@@ -35,7 +35,7 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Group;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -50,6 +50,7 @@ import storybook.model.hbn.entity.TagLink;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.DockingWindowUtil;
 import storybook.toolkit.I18N;
+import storybook.toolkit.TextTransfer;
 import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.net.Updater;
 import storybook.toolkit.swing.SwingUtil;
@@ -111,7 +112,7 @@ public class MainMenu extends javax.swing.JFrame {
         btTabScene = new javax.swing.JButton();
         btTabChapter = new javax.swing.JButton();
         btTabPerson = new javax.swing.JButton();
-        btTabGroup = new javax.swing.JButton();
+        btTabPersongrp = new javax.swing.JButton();
         btTabRelationship = new javax.swing.JButton();
         btTabLocation = new javax.swing.JButton();
         btTabItem = new javax.swing.JButton();
@@ -158,7 +159,7 @@ public class MainMenu extends javax.swing.JFrame {
         newStrand = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         newPerson = new javax.swing.JMenuItem();
-        newGroup = new javax.swing.JMenuItem();
+        newPersongrp = new javax.swing.JMenuItem();
         newCategory = new javax.swing.JMenuItem();
         newGender = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
@@ -180,7 +181,7 @@ public class MainMenu extends javax.swing.JFrame {
         tabStrand = new javax.swing.JMenuItem();
         jSeparator9 = new javax.swing.JPopupMenu.Separator();
         tabPerson = new javax.swing.JMenuItem();
-        tabGroup = new javax.swing.JMenuItem();
+        tabPersongrp = new javax.swing.JMenuItem();
         tabRelationship = new javax.swing.JMenuItem();
         tabCategory = new javax.swing.JMenuItem();
         tabGender = new javax.swing.JMenuItem();
@@ -403,16 +404,16 @@ public class MainMenu extends javax.swing.JFrame {
         });
         toolBar.add(btTabPerson);
 
-        btTabGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
-        btTabGroup.setFocusable(false);
-        btTabGroup.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btTabGroup.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btTabGroup.addActionListener(new java.awt.event.ActionListener() {
+        btTabPersongrp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
+        btTabPersongrp.setFocusable(false);
+        btTabPersongrp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btTabPersongrp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btTabPersongrp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btTabGroupActionPerformed(evt);
+                btTabPersongrpActionPerformed(evt);
             }
         });
-        toolBar.add(btTabGroup);
+        toolBar.add(btTabPersongrp);
 
         btTabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_relationship.png"))); // NOI18N
         btTabRelationship.setToolTipText(bundle.getString("msg.relationship")); // NOI18N
@@ -826,14 +827,15 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuNewEntity.add(newPerson);
 
-        newGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/group.png"))); // NOI18N
-        newGroup.setText(bundle.getString("msg.common.group")); // NOI18N
-        newGroup.addActionListener(new java.awt.event.ActionListener() {
+        newPersongrp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/group.png"))); // NOI18N
+        newPersongrp.setText(bundle.getString("msg.common.persongrp")); // NOI18N
+        newPersongrp.setActionCommand(bundle.getString("msg.common.persongrp")); // NOI18N
+        newPersongrp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newGroupActionPerformed(evt);
+                newPersongrpActionPerformed(evt);
             }
         });
-        menuNewEntity.add(newGroup);
+        menuNewEntity.add(newPersongrp);
 
         newCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/category.png"))); // NOI18N
         newCategory.setText(bundle.getString("msg.persons.category")); // NOI18N
@@ -993,14 +995,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuPrimaryObjects.add(tabPerson);
 
-        tabGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
-        tabGroup.setText(bundle.getString("msg.common.group")); // NOI18N
-        tabGroup.addActionListener(new java.awt.event.ActionListener() {
+        tabPersongrp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
+        tabPersongrp.setText(bundle.getString("msg.common.persongrp")); // NOI18N
+        tabPersongrp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tabGroupActionPerformed(evt);
+                tabPersongrpActionPerformed(evt);
             }
         });
-        menuPrimaryObjects.add(tabGroup);
+        menuPrimaryObjects.add(tabPersongrp);
 
         tabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_relationship.png"))); // NOI18N
         tabRelationship.setText(bundle.getString("msg.relationship")); // NOI18N
@@ -1479,7 +1481,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         helpReportBug.setMnemonic('B');
         helpReportBug.setText(bundle.getString("msg.menu.help.bug")); // NOI18N
-        helpReportBug.setEnabled(false);
         helpReportBug.setName("report-bug-command"); // NOI18N
         helpReportBug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1596,9 +1597,8 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void editCopyBlurbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCopyBlurbActionPerformed
 		Internal internal = BookUtil.get(mainFrame, SbConstants.BookKey.BLURB, "");
-		StringSelection selection = new StringSelection(internal.getStringValue() + "\n");
-		Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clbrd.setContents(selection, selection);
+		TextTransfer tf=new TextTransfer();
+		tf.setClipboardContents(internal.getStringValue() + "\n");
     }//GEN-LAST:event_editCopyBlurbActionPerformed
 
     private void newSceneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSceneActionPerformed
@@ -2078,17 +2078,17 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
     }//GEN-LAST:event_jChaptersOrderActionPerformed
 
-    private void tabGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabGroupActionPerformed
-		mainFrame.showAndFocus(SbConstants.ViewName.GROUPS);
-    }//GEN-LAST:event_tabGroupActionPerformed
+    private void tabPersongrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabPersongrpActionPerformed
+		mainFrame.showAndFocus(SbConstants.ViewName.PERSONGRPS);
+    }//GEN-LAST:event_tabPersongrpActionPerformed
 
-    private void btTabGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTabGroupActionPerformed
-		this.tabGroupActionPerformed(evt);
-    }//GEN-LAST:event_btTabGroupActionPerformed
+    private void btTabPersongrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTabPersongrpActionPerformed
+		this.tabPersongrpActionPerformed(evt);
+    }//GEN-LAST:event_btTabPersongrpActionPerformed
 
-    private void newGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGroupActionPerformed
-		newEntity(new Group());
-    }//GEN-LAST:event_newGroupActionPerformed
+    private void newPersongrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPersongrpActionPerformed
+		newEntity(new Persongrp());
+    }//GEN-LAST:event_newPersongrpActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -2140,11 +2140,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton btNextPart;
     private javax.swing.JButton btPreviousPart;
     private javax.swing.JButton btTabChapter;
-    private javax.swing.JButton btTabGroup;
     private javax.swing.JButton btTabItem;
     private javax.swing.JButton btTabItemLink;
     private javax.swing.JButton btTabLocation;
     private javax.swing.JButton btTabPerson;
+    private javax.swing.JButton btTabPersongrp;
     private javax.swing.JButton btTabRelationship;
     private javax.swing.JButton btTabScene;
     private javax.swing.JButton btTabTag;
@@ -2218,13 +2218,13 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem newChapters;
     private javax.swing.JMenuItem newFOI;
     private javax.swing.JMenuItem newGender;
-    private javax.swing.JMenuItem newGroup;
     private javax.swing.JMenuItem newIdea;
     private javax.swing.JMenuItem newItem;
     private javax.swing.JMenuItem newItemLink;
     private javax.swing.JMenuItem newLocation;
     private javax.swing.JMenuItem newPart;
     private javax.swing.JMenuItem newPerson;
+    private javax.swing.JMenuItem newPersongrp;
     private javax.swing.JMenuItem newScene;
     private javax.swing.JMenuItem newStrand;
     private javax.swing.JMenuItem newTag;
@@ -2241,13 +2241,13 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem tabCategory;
     private javax.swing.JMenuItem tabChapter;
     private javax.swing.JMenuItem tabGender;
-    private javax.swing.JMenuItem tabGroup;
     private javax.swing.JMenuItem tabIdea;
     private javax.swing.JMenuItem tabItem;
     private javax.swing.JMenuItem tabItemLink;
     private javax.swing.JMenuItem tabLocation;
     private javax.swing.JMenuItem tabPart;
     private javax.swing.JMenuItem tabPerson;
+    private javax.swing.JMenuItem tabPersongrp;
     private javax.swing.JMenuItem tabRelationship;
     private javax.swing.JMenuItem tabScene;
     private javax.swing.JMenuItem tabStrand;
@@ -2316,7 +2316,7 @@ public class MainMenu extends javax.swing.JFrame {
 			btManageScene,
 			btNewChapter, btNewItem, btNewLocation, btNewPerson, btNewScene, btNewTag,
 			btNextPart, btPreviousPart,
-			btTabChapter, btTabItem, btTabItemLink, btTabLocation, btTabPerson, btTabGroup, btTabRelationship,
+			btTabChapter, btTabItem, btTabItemLink, btTabLocation, btTabPerson, btTabPersongrp, btTabRelationship,
 			btTabScene, btTabTag, btTabTagLink,
 			btViewBook, btViewChrono, btViewMemoria, btViewReading, btIdea
 		};
@@ -2369,7 +2369,7 @@ public class MainMenu extends javax.swing.JFrame {
 		newChapters.setText(I18N.getMsg("msg.generate.chapters"));
 		newFOI.setText(I18N.getMsg("msg.foi.title"));
 		newGender.setText(I18N.getMsg("msg.common.genders"));
-		newGroup.setText(I18N.getMsg("msg.common.group"));
+		newPersongrp.setText(I18N.getMsg("msg.common.persongrp"));
 		newIdea.setText(I18N.getMsg("msg.idea.table.idea"));
 		newItem.setText(I18N.getMsg("msg.item"));
 		newItemLink.setText(I18N.getMsg("msg.item.link"));
@@ -2395,7 +2395,7 @@ public class MainMenu extends javax.swing.JFrame {
 		tabLocation.setText(I18N.getMsg("msg.common.location"));
 		tabPart.setText(I18N.getMsg("msg.common.part"));
 		tabPerson.setText(I18N.getMsg("msg.common.person"));
-		tabGroup.setText(I18N.getMsg("msg.common.group"));
+		tabPersongrp.setText(I18N.getMsg("msg.common.persongrp"));
 		tabRelationship.setText(I18N.getMsg("msg.relationship"));
 		tabScene.setText(I18N.getMsg("msg.common.scene"));
 		tabStrand.setText(I18N.getMsg("msg.common.strand"));
