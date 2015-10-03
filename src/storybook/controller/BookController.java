@@ -765,6 +765,8 @@ public class BookController extends AbstractController {
 				newScene((Scene) entity);
 			} else if (entity instanceof Internal) {
 				newInternal((Internal) entity);
+			} else if (entity instanceof Attribute) {
+				newAttribute((Attribute) entity);
 			} else if (entity instanceof TimeEvent) {
 				newTimeEvent((TimeEvent) entity);
 			} else throw new Exception("Entity type not found.");

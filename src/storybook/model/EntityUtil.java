@@ -691,7 +691,7 @@ public class EntityUtil {
 
 				// delete orphans
 				AttributeDAOImpl dao = new AttributeDAOImpl(session);
-				dao.deleteOrphans();
+				//dao.deleteOrphans();
 
 				// add attributes
 				for (Attribute property : attributes) {
