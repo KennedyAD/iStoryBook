@@ -43,16 +43,10 @@ import org.hibernate.Session;
 import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants.BookKey;
-import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
-import storybook.model.handler.AbstractEntityHandler;
-import storybook.model.handler.AttributeEntityHandler;
-import storybook.model.hbn.dao.CategoryDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Attribute;
-import storybook.model.hbn.entity.Category;
-import storybook.model.hbn.entity.Person;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
@@ -66,7 +60,7 @@ import storybook.ui.edit.CheckBoxPanel;
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractCopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog implements
+public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog implements
 		ActionListener, CaretListener {
 
 	private AbstractAction projectAction;
@@ -74,9 +68,12 @@ public abstract class AbstractCopyDialog<ELEMENT extends AbstractEntity> extends
 	private JComboBox<MainFrame> openedCombo;
 	private JTabbedPane tabbedPane;
 	private CheckBoxPanel check;
+	
+	private AbstractCopier<ELEMENT> copier;
 
-	public AbstractCopyDialog(MainFrame mainFrame) {
-		super(mainFrame);
+	public CopyDialog(AbstractCopier<ELEMENT> copier) {
+		super(copier.getMainFrame());
+		this.copier = copier;
 		initAll();
 	}
 
@@ -116,32 +113,10 @@ public abstract class AbstractCopyDialog<ELEMENT extends AbstractEntity> extends
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainFrame destination = (MainFrame) openedCombo.getSelectedItem();
-				BookModel model = mainFrame.getBookModel();
-				BookModel destinationModel = destination.getBookModel();
-				Session destinationSession = destinationModel.beginTransaction();
-				List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
+
 				if (destination != null) {
-					AbstractEntityHandler entityHandler = getEntityHandler(destination);
-					List<AbstractEntity[]> buf = new ArrayList<AbstractEntity[]>();
 					for (AbstractEntity elt : check.getSelectedEntities()) {
-						AbstractEntity newElt = entityHandler.createNewEntity();
-						BookController destCtrl = destination.getBookController();
-						EntityUtil.copyEntityProperties(destination, elt, newElt);
-						((Person)newElt).setAttributes(new ArrayList<Attribute>());
-						((Person)newElt).setCategory(cats.get(0));
-						destCtrl.newEntity(newElt);
-						AbstractEntity[] duet = new AbstractEntity[2];
-						duet[0] = elt;
-						duet[1] = newElt;
-						buf.add(duet);
-					}
-					
-					for (AbstractEntity[] elt : buf) {
-						copyAttributes(mainFrame, destination, (ELEMENT)elt[0], (ELEMENT)elt[1]);
-					}
-					
-					for (AbstractEntity elt[] : buf) {
-						copySpecialInformation(mainFrame, destination, (ELEMENT)elt[0], (ELEMENT)elt[1]);
+						copier.copy(destination, (ELEMENT)elt);
 					}
 					
 					canceled = false;
@@ -151,38 +126,6 @@ public abstract class AbstractCopyDialog<ELEMENT extends AbstractEntity> extends
 		};
 	}
 	
-	private void copyAttributes(MainFrame origin, MainFrame destination, ELEMENT originElt, ELEMENT destElt) {
-
-		BookController destCtrl = destination.getBookController();
-		AttributeEntityHandler handler = new AttributeEntityHandler(destination);
-		List<Attribute> attributes = EntityUtil.getEntityAttributes(origin, originElt);
-		BookModel model = origin.getBookModel();
-		List<Attribute> newAttributes = new ArrayList<Attribute>();
-		for (Attribute attribute : attributes) {
-			Session oriSession = model.beginTransaction();
-			oriSession.refresh(attribute);
-			String key = attribute.getKey();
-			String value = attribute.getValue();
-
-			Attribute attr = (Attribute) handler.createNewEntity();
-			attr.setKey(key);
-			attr.setValue(value);
-			//destCtrl.newEntity(attr);
-			newAttributes.add(attr);
-			model.commit();
-		}
-		EntityUtil.setEntityAttributes(destination, destElt, newAttributes );
-	}
-	
-	protected abstract void copySpecialInformation(MainFrame origin, MainFrame destination, ELEMENT originElt, ELEMENT destElt);
-	
-	protected abstract List<ELEMENT> getAllElements(Session session, MainFrame origin);
-	
-	protected abstract CbPanelDecorator getDecorator();
-	
-	protected abstract AbstractEntityHandler getEntityHandler(MainFrame mainFrame);
-
-
 	private JPanel createDestinationPanel() {
 		MigLayout layout = new MigLayout("wrap 2", "", "[]10");
 		JPanel panel = new JPanel(layout);
@@ -224,16 +167,18 @@ public abstract class AbstractCopyDialog<ELEMENT extends AbstractEntity> extends
 		panel.add(scroller, "grow");
 		
 		check.setAutoSelect(false);
-		check.setEntityHandler(getEntityHandler(mainFrame));
-		CbPanelDecorator decorator = getDecorator();
-		decorator.setPanel(check);
-		check.setDecorator(decorator);
+		check.setEntityHandler(copier.getEntityHandler(mainFrame));
+		CbPanelDecorator decorator = copier.getDecorator();
+		if (decorator != null) {
+		    decorator.setPanel(check);
+		    check.setDecorator(decorator);
+		}
 
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		List<AbstractEntity> buf = new ArrayList<AbstractEntity>();
-		check.setEntityList((List<AbstractEntity>) getAllElements(session, mainFrame));
-		for (AbstractEntity entity : getAllElements(session, mainFrame)) {
+		check.setEntityList((List<AbstractEntity>) copier.getAllElements(session, mainFrame));
+		for (AbstractEntity entity : copier.getAllElements(session, mainFrame)) {
             check.addEntity(session, entity);
             buf.add(entity);
 		}
