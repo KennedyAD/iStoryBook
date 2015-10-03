@@ -65,7 +65,6 @@ import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
-import storybook.ui.dialog.copy.PersonCopier;
 
 /**
  * @author martin
@@ -472,7 +471,6 @@ public class BookPropertiesDialog extends AbstractDialog {
 				HtmlSelection selection = new HtmlSelection(tpInfo.getText());
 				Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 				clbrd.setContents(selection, selection);
-				new PersonCopier(mainFrame).showDialog();
 			}
 		};
 	}

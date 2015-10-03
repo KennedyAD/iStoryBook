@@ -17,10 +17,6 @@
  */
 package storybook.ui;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 
@@ -35,7 +31,6 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -43,6 +38,7 @@ import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
+import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.model.hbn.entity.Tag;
@@ -61,6 +57,7 @@ import storybook.ui.dialog.CreateChaptersDialog;
 import storybook.ui.dialog.FoiDialog;
 import storybook.ui.dialog.ManageLayoutsDialog;
 import storybook.ui.dialog.PreferencesDialog;
+import storybook.ui.dialog.copy.PersonCopier;
 import storybook.ui.dialog.rename.RenameCityDialog;
 import storybook.ui.dialog.rename.RenameCountryDialog;
 import storybook.ui.dialog.rename.RenameItemCategoryDialog;
@@ -150,6 +147,7 @@ public class MainMenu extends javax.swing.JFrame {
         menuEdit = new javax.swing.JMenu();
         editCopyBook = new javax.swing.JMenuItem();
         editCopyBlurb = new javax.swing.JMenuItem();
+        copyPersons = new javax.swing.JMenuItem();
         windowPreferences = new javax.swing.JMenuItem();
         menuNewEntity = new javax.swing.JMenu();
         newScene = new javax.swing.JMenuItem();
@@ -748,6 +746,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuEdit.add(editCopyBlurb);
+
+        copyPersons.setText(bundle.getString("msg.dlg.copypersons.title")); // NOI18N
+        copyPersons.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	copyPersonsActionPerformed(evt);
+            }
+        });
+        menuEdit.add(copyPersons);
 
         windowPreferences.setText(bundle.getString("msg.dlg.preference.title")); // NOI18N
         windowPreferences.setName("preferences-command"); // NOI18N
@@ -1911,6 +1917,11 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
     }//GEN-LAST:event_windowPreferencesActionPerformed
 
+    private void copyPersonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPersonsActionPerformed
+		PersonCopier copier = new PersonCopier(mainFrame);
+		copier.showDialog();
+    }//GEN-LAST:event_copyPersonsActionPerformed
+
     private void helpDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpDocActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.DOC.toString());
     }//GEN-LAST:event_helpDocActionPerformed
@@ -2273,6 +2284,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem windowManageLayouts;
     private javax.swing.JMenuItem windowPersonsAndLocations;
     private javax.swing.JMenuItem windowPreferences;
+    private javax.swing.JMenuItem copyPersons;
     private javax.swing.JMenuItem windowReading;
     private javax.swing.JMenuItem windowRefresh;
     private javax.swing.JMenuItem windowResetLayout;

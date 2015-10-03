@@ -41,9 +41,7 @@ public class PersonCopier extends AbstractCopier<Person> {
 		List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
 		boolean found = false;
 		for (Category cat : cats) {
-			System.out.println("compare '" + cat.getName() + "' to '" + categ.getName() + "'");
 			if (cat.getName().equals(categ.getName())) {
-				System.out.println("found '" + categ.getName() + "'");
 				found = true;
 				destElt.setCategory(cat);
 				break;
@@ -51,7 +49,6 @@ public class PersonCopier extends AbstractCopier<Person> {
 		}
 
 		if (!found) {
-			System.out.println("creating '" + categ.getName() + "'");
             Category destCat = new CategoryCopier(origin).copy(destination, categ);
 			destElt.setCategory(destCat);
 		}
