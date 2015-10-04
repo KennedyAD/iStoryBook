@@ -62,14 +62,49 @@ public abstract class AbstractCopier<ELEMENT extends AbstractEntity> {
 		return (ELEMENT) newElt;
 	}
 	
+	/**
+	 * Prepare transfer of an entity. Sometimes there are higher level objects (Group, Category...)
+	 * that must be copied first, before copying the entity itself.
+	 * Derived classes have to do it.
+	 * 
+	 * @param origin origin mainFrame, from where comes the entity to copy
+	 * @param destination destination mainFrame, where to store the newly created entity
+	 * @param originElt entity to copy
+	 * @param destElt newly created entity
+	 */
 	protected abstract void prepareTransfer(MainFrame origin, MainFrame destination, ELEMENT originElt, ELEMENT destElt);
 
+	/**
+	 * Complete transfer of an entity. Sometimes there are special information (Attributes...)
+	 * that must be copied to complete the copy of the entity.
+	 * Derived classes have to do it.
+	 * 
+	 * @param origin origin mainFrame, from where comes the entity to copy
+	 * @param destination destination mainFrame, where to store the newly created entity
+	 * @param originElt entity to copy
+	 * @param destElt newly created entity
+	 */
 	protected abstract void copySpecialInformation(MainFrame origin, MainFrame destination, ELEMENT originElt, ELEMENT destElt);
 	
+	/**
+	 * How to get all entities of the type from the origin project. 
+	 * @param session opened current session
+	 * @param origin origin mainFrame
+	 * @return the list of all entities in the project
+	 */
 	protected abstract List<ELEMENT> getAllElements(Session session, MainFrame origin);
 	
+	/**
+	 * Get decorator for the entity list.
+	 * @return the decorator
+	 */
 	protected abstract CbPanelDecorator getDecorator();
 	
+	/**
+	 * Get entity handler
+	 * @param mainFrame origin mainFrame
+	 * @return the entity handler
+	 */
 	protected abstract AbstractEntityHandler getEntityHandler(MainFrame mainFrame);
 }
 
