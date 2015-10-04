@@ -25,18 +25,18 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
-
-import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public abstract class AbstractFileDialog
@@ -52,6 +52,7 @@ public abstract class AbstractFileDialog
 	protected File file;
 	private boolean hideDir = false;
 	private boolean forceDbExt = true;
+	private boolean askForOverwrite = false;
 
 	public AbstractFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
@@ -61,6 +62,12 @@ public abstract class AbstractFileDialog
 	}
 
 	protected void initOptionsPanel() {
+	}
+
+	/**
+	 *  Add information (label / widget) to the main panel.
+	 */
+	protected void addInformationLines() {
 	}
 
 	@Override
@@ -114,6 +121,9 @@ public abstract class AbstractFileDialog
 			add(tfDir, "split 2");
 			add(btChooseDir);
 		}
+		
+		addInformationLines();
+		
 		add(optionsPanel, "span");
 		add(lbWarning, "span,gapy 10");
 		add(btOk, "sg,span,split 2,right,gapy 10");
@@ -165,6 +175,10 @@ public abstract class AbstractFileDialog
 		hideDir = dirOnly;
 	}
 
+	public void setAskForOverwrite(boolean ask) {
+		askForOverwrite = ask;
+	}
+
 	public void setForceDbExtension(boolean forced) {
 		forceDbExt = forced;
 	}
@@ -191,7 +205,17 @@ public abstract class AbstractFileDialog
 					}
 				}
 				file = new File(tfDir.getText() + File.separator + name);
-				if (file.exists()) {
+				if ((file.exists()) && (askForOverwrite)) {
+					int ret = JOptionPane.showConfirmDialog( mainFrame,
+							I18N.getMsg("msg.save_file.overwrite.text", file.getName()),
+							I18N.getMsg("msg.save_file.overwrite.title"),
+					    JOptionPane.YES_NO_OPTION);
+					if (ret == JOptionPane.NO_OPTION) {
+					    lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
+					    return;
+					}
+				}
+				else if (file.exists()) {
 					lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
 					return;
 				}

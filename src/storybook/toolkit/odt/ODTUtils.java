@@ -13,7 +13,6 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jopendocument.dom.ODPackage;
 import org.jopendocument.dom.ODSingleXMLDocument;
-import org.jopendocument.dom.ODXMLDocument;
 import org.jopendocument.dom.text.Paragraph;
 import org.jopendocument.dom.text.TextDocument;
 
@@ -311,7 +310,7 @@ public final class ODTUtils {
 		return ret;
 	}
 
-	public static void createBookFile(MainFrame mainFrame, File output) {
+	public static void createBookFile(MainFrame mainFrame, File output, String sceneSeparator) {
 		ODSingleXMLDocument dest = null;
 		try {
 			String source = "storybook/resources/Simple.odt";
@@ -352,7 +351,7 @@ public final class ODTUtils {
 		    paragraph.setStyleName("Part-Title");
 		    paragraph.addContent(root.getName());
 			tdoc.add(paragraph);
-			appendElements(mainFrame, dest, root, "***");
+			appendElements(mainFrame, dest, root, sceneSeparator);
 		}
 		try {
 			dest.saveToPackageAs(output);

@@ -471,6 +471,7 @@ public class BookPropertiesDialog extends AbstractDialog {
 				HtmlSelection selection = new HtmlSelection(tpInfo.getText());
 				Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 				clbrd.setContents(selection, selection);
+				mainFrame.getSbActionManager().getActionHandler().handleFileExportBook();
 			}
 		};
 	}

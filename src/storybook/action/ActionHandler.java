@@ -387,7 +387,8 @@ public class ActionHandler {
 			return;
 		}
 		File file = dlg.getFile();
-	    ODTUtils.createBookFile(mainFrame, file);
+		String sceneSeparator = dlg.getSceneSeparator();
+	    ODTUtils.createBookFile(mainFrame, file, sceneSeparator);
 	}
 
 	public void handleFileRename() {
