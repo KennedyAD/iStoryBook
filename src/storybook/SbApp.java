@@ -68,6 +68,11 @@ public class SbApp extends Component {
 
 	private static SbApp instance;
 	private static String i18nFile;
+	private static boolean bDevTest=false;
+
+	public static boolean isDevTest() {
+		return(bDevTest);
+	}
 
 	private PreferenceModel preferenceModel;
 	private PreferenceController preferenceController;
@@ -504,6 +509,10 @@ public class SbApp extends Component {
 				if (args[i].equalsIgnoreCase("--hibernate")) {
 					SbApp.bTraceHibernate=true;
 					System.out.println("Hibernate in trace mode");
+				}
+				if (args[i].equalsIgnoreCase("--dev")) {
+					SbApp.bDevTest=true;
+					System.out.println("Development test");
 				}
 				if (args[i].equalsIgnoreCase("--msg")) {
 					File f=new File(args[i+1]+".properties");

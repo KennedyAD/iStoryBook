@@ -86,6 +86,7 @@ public class MainMenu extends javax.swing.JFrame {
 		mainFrame = main;
 		if (SbApp.getI18nFile()!=null) translateMenu();
 		helpTrace.setSelected(SbApp.getTrace());
+		if (SbApp.isDevTest()==false) devTest.setVisible(false);
 	}
 
 	/**
@@ -149,9 +150,10 @@ public class MainMenu extends javax.swing.JFrame {
         menuEdit = new javax.swing.JMenu();
         editCopyBook = new javax.swing.JMenuItem();
         editCopyBlurb = new javax.swing.JMenuItem();
-        copyPersons = new javax.swing.JMenuItem();
-        copyLocations = new javax.swing.JMenuItem();
-        copyItems = new javax.swing.JMenuItem();
+        editCopyPersons = new javax.swing.JMenuItem();
+        editCopyLocations = new javax.swing.JMenuItem();
+        editCopyItems = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         windowPreferences = new javax.swing.JMenuItem();
         menuNewEntity = new javax.swing.JMenu();
         newScene = new javax.swing.JMenuItem();
@@ -250,6 +252,7 @@ public class MainMenu extends javax.swing.JFrame {
         jSeparator18 = new javax.swing.JPopupMenu.Separator();
         helpCheckUpdates = new javax.swing.JMenuItem();
         helpTrace = new javax.swing.JCheckBoxMenuItem();
+        devTest = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -751,29 +754,30 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuEdit.add(editCopyBlurb);
 
-        copyPersons.setText(bundle.getString("msg.dlg.copypersons.title")); // NOI18N
-        copyPersons.addActionListener(new java.awt.event.ActionListener() {
+        editCopyPersons.setText(bundle.getString("msg.dlg.copypersons.title")); // NOI18N
+        editCopyPersons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	copyPersonsActionPerformed(evt);
+                editCopyPersonsActionPerformed(evt);
             }
         });
-        menuEdit.add(copyPersons);
+        menuEdit.add(editCopyPersons);
 
-        copyLocations.setText(bundle.getString("msg.dlg.copylocations.title")); // NOI18N
-        copyLocations.addActionListener(new java.awt.event.ActionListener() {
+        editCopyLocations.setText(bundle.getString("msg.dlg.copylocations.title")); // NOI18N
+        editCopyLocations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	copyLocationsActionPerformed(evt);
+                editCopyLocationsActionPerformed(evt);
             }
         });
-        menuEdit.add(copyLocations);
+        menuEdit.add(editCopyLocations);
 
-        copyItems.setText(bundle.getString("msg.dlg.copyitems.title")); // NOI18N
-        copyItems.addActionListener(new java.awt.event.ActionListener() {
+        editCopyItems.setText(bundle.getString("msg.dlg.copyitems.title")); // NOI18N
+        editCopyItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	copyItemsActionPerformed(evt);
+                editCopyItemsActionPerformed(evt);
             }
         });
-        menuEdit.add(copyItems);
+        menuEdit.add(editCopyItems);
+        menuEdit.add(jSeparator1);
 
         windowPreferences.setText(bundle.getString("msg.dlg.preference.title")); // NOI18N
         windowPreferences.setName("preferences-command"); // NOI18N
@@ -1546,6 +1550,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuHelp.add(helpTrace);
 
+        devTest.setText("Dev-test");
+        devTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                devTestActionPerformed(evt);
+            }
+        });
+        menuHelp.add(devTest);
+
         menuBar.add(menuHelp);
 
         setJMenuBar(menuBar);
@@ -1937,20 +1949,20 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
     }//GEN-LAST:event_windowPreferencesActionPerformed
 
-    private void copyPersonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyPersonsActionPerformed
+    private void editCopyPersonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCopyPersonsActionPerformed
 		PersonCopier copier = new PersonCopier(mainFrame);
 		copier.showDialog();
-    }//GEN-LAST:event_copyPersonsActionPerformed
+    }//GEN-LAST:event_editCopyPersonsActionPerformed
 
-    private void copyLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyLocationsActionPerformed
+    private void editCopyLocationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCopyLocationsActionPerformed
     	LocationCopier copier = new LocationCopier(mainFrame);
 		copier.showDialog();
-    }//GEN-LAST:event_copyLocationsActionPerformed
+    }//GEN-LAST:event_editCopyLocationsActionPerformed
 
-    private void copyItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyItemsActionPerformed
+    private void editCopyItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCopyItemsActionPerformed
     	ItemCopier copier = new ItemCopier(mainFrame);
 		copier.showDialog();
-    }//GEN-LAST:event_copyItemsActionPerformed
+    }//GEN-LAST:event_editCopyItemsActionPerformed
 
     private void helpDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpDocActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.DOC.toString());
@@ -2131,6 +2143,12 @@ public class MainMenu extends javax.swing.JFrame {
 		newEntity(new Persongrp());
     }//GEN-LAST:event_newPersongrpActionPerformed
 
+    private void devTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devTestActionPerformed
+        // add your code to test here, don't delete this line
+		
+		// end of your adding code, don't delete this line
+    }//GEN-LAST:event_devTestActionPerformed
+
 	/**
 	 * @param args the command line arguments
 	 */
@@ -2202,8 +2220,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem chartStrandsByDate;
     private javax.swing.JMenuItem chartWIWW;
     private javax.swing.JMenuItem chartsAttributes;
+    private javax.swing.JMenuItem devTest;
     private javax.swing.JMenuItem editCopyBlurb;
     private javax.swing.JMenuItem editCopyBook;
+    private javax.swing.JMenuItem editCopyItems;
+    private javax.swing.JMenuItem editCopyLocations;
+    private javax.swing.JMenuItem editCopyPersons;
     private javax.swing.JMenuItem fileClose;
     private javax.swing.JMenuItem fileExit;
     private javax.swing.JMenuItem fileExport;
@@ -2225,6 +2247,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem helpTrace;
     private javax.swing.JMenuItem jChaptersOrder;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
@@ -2314,9 +2337,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem windowManageLayouts;
     private javax.swing.JMenuItem windowPersonsAndLocations;
     private javax.swing.JMenuItem windowPreferences;
-    private javax.swing.JMenuItem copyPersons;
-    private javax.swing.JMenuItem copyLocations;
-    private javax.swing.JMenuItem copyItems;
     private javax.swing.JMenuItem windowReading;
     private javax.swing.JMenuItem windowRefresh;
     private javax.swing.JMenuItem windowResetLayout;
@@ -2344,7 +2364,7 @@ public class MainMenu extends javax.swing.JFrame {
 			m.setVisible(false);
 		}
 		javax.swing.JMenuItem[] submenus = {
-			editCopyBlurb, editCopyBook,
+			editCopyBlurb, editCopyBook, editCopyPersons, editCopyLocations, editCopyItems,
 			fileClose, fileExport, filePrint,
 			fileProperties, fileRename, fileSave, fileSaveAs, fileExport, fileImport
 		};
@@ -2367,6 +2387,7 @@ public class MainMenu extends javax.swing.JFrame {
 		for (javax.swing.JButton bt : button) {
 			bt.setVisible(false);
 		}
+		if (SbApp.isDevTest()==false) devTest.setVisible(false);
 	}
 
 	private void translateMenu() {
@@ -2380,6 +2401,9 @@ public class MainMenu extends javax.swing.JFrame {
 		chartsAttributes.setText(I18N.getMsg("msg.attribute.list"));
 		editCopyBlurb.setText(I18N.getMsg("msg.blurb.copy"));
 		editCopyBook.setText(I18N.getMsg("msg.book.copy"));
+		editCopyPersons.setText(I18N.getMsg("msg.dlg.copypersons.title"));
+		editCopyLocations.setText(I18N.getMsg("msg.dlg.copylocations.title"));
+		editCopyItems.setText(I18N.getMsg("msg.dlg.copyitems.title"));
 		fileClose.setText(I18N.getMsg("msg.file.close"));
 		fileExit.setText(I18N.getMsg("msg.common.exit"));
 		fileExport.setText(I18N.getMsg("msg.file.export"));
@@ -2469,5 +2493,6 @@ public class MainMenu extends javax.swing.JFrame {
 		windowResetLayout.setText(I18N.getMsg("msg.docking.reset.layout"));
 		windowSaveLayout.setText(I18N.getMsg("msg.docking.save.layout"));
 		windowTagsAndItems.setText(I18N.getMsg("msg.layout.tags.items"));
-}
+		if (SbApp.isDevTest()==false) devTest.setVisible(false);
+	}
 }
