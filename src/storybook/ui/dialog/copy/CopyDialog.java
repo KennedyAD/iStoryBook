@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
@@ -202,17 +203,24 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog i
 				public void actionPerformed(ActionEvent evt) {
 					mainFrame.setWaitingCursor();
 					SbApp.getInstance().openFile();
-			        DefaultComboBoxModel<MainFrame> model = (DefaultComboBoxModel<MainFrame>) openedCombo.getModel();
-			        // removing old data
-			        model.removeAllElements();
 
-					for (MainFrame frame : SbApp.getInstance().getMainFrames()) {
-						if ( frame != mainFrame) {
-						   model.addElement(frame);
-						   System.out.println(frame.getTitle());
+					// refresh combobox
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+					        DefaultComboBoxModel<MainFrame> model = (DefaultComboBoxModel<MainFrame>) openedCombo.getModel();
+					        // removing old data
+					        model.removeAllElements();
+
+							for (MainFrame frame : SbApp.getInstance().getMainFrames()) {
+								   System.out.println(frame.getTitle());
+								if ( frame != mainFrame) {
+								   model.addElement(frame);
+								}
+							}
+							mainFrame.setDefaultCursor();
 						}
-					}
-					mainFrame.setDefaultCursor();
+					});
 				}
 			};
 		return projectAction;

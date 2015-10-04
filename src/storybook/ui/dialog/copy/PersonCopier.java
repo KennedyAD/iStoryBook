@@ -27,18 +27,19 @@ public class PersonCopier extends AbstractCopier<Person> {
 
 	@Override
 	protected void prepareTransfer(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
-//		BookModel destinationModel = destination.getBookModel();
-//		Session destinationSession = destinationModel.beginTransaction();
-//		List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
-//		destElt.setCategory(cats.get(0));
 		
-
-     //   Category destCat = new CategoryCopier(origin).copy(destination, originElt.getCategory());
-        
-		Category categ = originElt.getCategory();
+		setCategory(destination, originElt, destElt);
+		
+		destElt.setAttributes(new ArrayList<Attribute>());
+	}
+	
+	private void setCategory(MainFrame destination, Person originElt, Person destElt) {
 		BookModel destinationModel = destination.getBookModel();
 		Session destinationSession = destinationModel.beginTransaction();
+		Category categ = originElt.getCategory();
 		List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
+		destinationSession.close();
+
 		boolean found = false;
 		for (Category cat : cats) {
 			if (cat.getName().equals(categ.getName())) {
@@ -49,11 +50,9 @@ public class PersonCopier extends AbstractCopier<Person> {
 		}
 
 		if (!found) {
-            Category destCat = new CategoryCopier(origin).copy(destination, categ);
+            Category destCat = new CategoryCopier(getMainFrame()).copy(destination, categ);
 			destElt.setCategory(destCat);
 		}
-		
-		destElt.setAttributes(new ArrayList<Attribute>());
 	}
 
 	@Override
