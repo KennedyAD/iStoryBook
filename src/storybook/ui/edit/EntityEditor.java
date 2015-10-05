@@ -83,7 +83,6 @@ import storybook.model.handler.AbstractEntityHandler;
 import storybook.model.handler.CategoryEntityHandler;
 import storybook.model.handler.ChapterEntityHandler;
 import storybook.model.handler.GenderEntityHandler;
-import storybook.model.handler.PersongrpEntityHandler;
 import storybook.model.handler.IdeaEntityHandler;
 import storybook.model.handler.InternalEntityHandler;
 import storybook.model.handler.ItemEntityHandler;
@@ -103,7 +102,6 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -225,8 +223,6 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			entityHandler = new LocationEntityHandler(mainFrame);
 		} else if (entity instanceof Person) {
 			entityHandler = new PersonEntityHandler(mainFrame);
-		} else if (entity instanceof Persongrp) {
-			entityHandler = new PersongrpEntityHandler(mainFrame);
 		} else if (entity instanceof Gender) {
 			entityHandler = new GenderEntityHandler(mainFrame);
 		} else if (entity instanceof Category) {

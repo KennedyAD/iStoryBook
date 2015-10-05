@@ -79,7 +79,6 @@ import storybook.model.handler.LocationEntityHandler;
 import storybook.model.handler.PartEntityHandler;
 import storybook.model.handler.PersonEntityHandler;
 import storybook.model.handler.RelationshipEntityHandler;
-import storybook.model.handler.PersongrpEntityHandler;
 import storybook.model.handler.SceneEntityHandler;
 import storybook.model.handler.StrandEntityHandler;
 import storybook.model.handler.TagEntityHandler;
@@ -107,7 +106,6 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
@@ -504,10 +502,6 @@ public class EntityUtil {
 			// nothing to copy
 			return;
 		}
-		if (entity instanceof Persongrp) {
-			// nothing to copy
-			return;
-		}
 		if (entity instanceof Category) {
 			Category e = (Category) entity;
 			e.setName(copyStr + e.getName());
@@ -565,9 +559,6 @@ public class EntityUtil {
 			return !Objects.equals(old.getGender().getId(), upd.getGender().getId());
 		}
 		if (oldEntity instanceof Relationship) {
-			return false;
-		}
-		if (oldEntity instanceof Persongrp) {
 			return false;
 		}
 		if (oldEntity instanceof Location) {
@@ -721,8 +712,6 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (entity instanceof Relationship)
 			return new RelationshipEntityHandler(mainFrame);
-		if (entity instanceof Persongrp)
-			return new PersongrpEntityHandler(mainFrame);
 		if (entity instanceof Gender)
 			return new GenderEntityHandler(mainFrame);
 		if (entity instanceof Category)
@@ -752,7 +741,6 @@ public class EntityUtil {
 		// but cannot be used as a class "Tag" parameter in reflection
 		if (entity instanceof Person) return Person.class;
 		if (entity instanceof Relationship) return Relationship.class;
-		if (entity instanceof Persongrp) return Persongrp.class;
 		if (entity instanceof Category) return Category.class;
 		if (entity instanceof Gender) return Gender.class;
 		if (entity instanceof Location) return Location.class;
@@ -1199,7 +1187,7 @@ public class EntityUtil {
 				model.commit();
 			} catch (HibernateException | NoSuchMethodException | SecurityException
 					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				System.err.println("EntityUtil.copyEntityProperties() Exception : " + e.getMessage());
+				System.err.println("EntityUtil.addInfo(mainFrame, entity) Exception : " + e.getMessage());
 			}
 			buf.append("</p>\n");
 		}
@@ -1238,8 +1226,6 @@ public class EntityUtil {
 			return new PersonEntityHandler(mainFrame);
 		if (obj instanceof Relationship || method.getReturnType() == Relationship.class)
 			return new RelationshipEntityHandler(mainFrame);
-		if (obj instanceof Persongrp || method.getReturnType() == Persongrp.class)
-			return new PersongrpEntityHandler(mainFrame);
 		if (obj instanceof Location || method.getReturnType() == Location.class)
 			return new LocationEntityHandler(mainFrame);
 		if (obj instanceof Tag || method.getReturnType() == Tag.class)
@@ -1392,8 +1378,7 @@ public class EntityUtil {
 			if (entity.isTransient()) return I18N.getIcon("icon.small.person");
 			return ((Person) entity).getIcon();
 		}
-		if (entity instanceof Relationship) return I18N.getIcon("icon.small.link");
-		if (entity instanceof Persongrp) return I18N.getIcon("icon.small.persongrp");
+		if (entity instanceof Relationship) return I18N.getIcon("icon.small.group");
 		if (entity instanceof Gender) return I18N.getIcon("icon.small.gender");
 		if (entity instanceof Category) return I18N.getIcon("icon.small.category");
 		if (entity instanceof Strand) return I18N.getIcon("icon.small.strand");
@@ -1452,10 +1437,6 @@ public class EntityUtil {
 		if (entity instanceof Relationship) {
 			if (isTransient) return I18N.getMsg("msg.relationship.new");
 			return I18N.getMsg("msg.relationship");
-		}
-		if (entity instanceof Persongrp) {
-			if (isTransient) return I18N.getMsg("msg.persongrp.new");
-			return I18N.getMsg("msg.persongrp");
 		}
 		if (entity instanceof Gender) {
 			if (isTransient) return I18N.getMsg("msg.dlg.mng.persons.gender.new");

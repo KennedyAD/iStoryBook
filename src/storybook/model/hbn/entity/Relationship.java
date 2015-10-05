@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+import java.util.List;
 import storybook.toolkit.I18N;
 import storybook.toolkit.Period;
 
@@ -29,7 +30,10 @@ public class Relationship extends AbstractEntity {
 	Scene startScene;
 	Scene endScene;
 	String notes;
-
+	private List<Person> persons;
+    private List<Item> items;
+    private List<Location> locations;
+    
 	public Relationship() {
 	}
 
@@ -79,8 +83,45 @@ public class Relationship extends AbstractEntity {
 
 	public void setEndScene(Scene endScene) {this.endScene = endScene;}
 
+	    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+	
+	public int numberOfPersons() {return(persons.size());}
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+	public int numberOfItems() {return(items.size());}
+
+	public List<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<Location> locations) {
+        this.locations = locations;
+    }
+
+	public int numberOfLocations() {return(locations.size());}
+
 	public boolean hasOnlyScene() {
-		return startScene != null && endScene == null && person1 == null && person2 == null && description == null;
+		return startScene != null
+				&& endScene == null
+				&& person1 == null
+				&& person2 == null
+				&& description == null
+				&& numberOfPersons() == 0
+				&& numberOfItems() == 0
+				&& numberOfLocations() == 0;
 	}
 
 	public boolean hasPeriod() {
@@ -107,7 +148,7 @@ public class Relationship extends AbstractEntity {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		if (hasPerson1()) {
+		/*if (hasPerson1()) {
 			buf.append(person1.toString());
 		}
 		if (hasPerson2()) {
@@ -115,7 +156,7 @@ public class Relationship extends AbstractEntity {
 				buf.append(", ");
 			}
 			buf.append(person2.toString());
-		}
+		}*/
 		if (this.description!=null) {
 			if (buf.length() > 0) {
 				buf.append(", ");

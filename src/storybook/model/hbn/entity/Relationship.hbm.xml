@@ -14,5 +14,20 @@
     <many-to-one cascade="none" class="storybook.model.hbn.entity.Scene" column="start_scene_id" insert="true" lazy="false" name="startScene" outer-join="auto" update="true"/>
     <many-to-one cascade="none" class="storybook.model.hbn.entity.Scene" column="end_scene_id" insert="true" lazy="false" name="endScene" outer-join="auto" update="true"/>
     <property column="notes" insert="true" length="32768" name="notes" type="java.lang.String" update="true"/>
+    <bag cascade="none" lazy="false" name="persons" table="relationship_persons">
+      <key column="relationship_id">
+            </key>
+      <many-to-many class="storybook.model.hbn.entity.Person" column="person_id" outer-join="auto"/>
+    </bag>
+    <bag cascade="none" lazy="false" name="locations" table="relationship_locations">
+      <key column="relationship_id">
+            </key>
+      <many-to-many class="storybook.model.hbn.entity.Location" column="location_id" outer-join="auto"/>
+    </bag>
+    <bag cascade="none" lazy="false" name="items" table="relationship_items">
+      <key column="relationship_id">
+            </key>
+      <many-to-many class="storybook.model.hbn.entity.Item" column="item_id" outer-join="auto"/>
+    </bag>
   </class>
 </hibernate-mapping>

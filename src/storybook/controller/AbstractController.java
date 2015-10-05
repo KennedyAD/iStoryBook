@@ -164,22 +164,35 @@ public abstract class AbstractController implements PropertyChangeListener {
 				Class<?>[] classes = null;
 				try {
 					if (newValue instanceof AbstractEntity) {
+						SbApp.trace("newValue instanceof AbstractEntity");
 						classes = new Class[] { EntityUtil.getEntityClass((AbstractEntity) newValue) };
 					} else if (newValue != null) {
+						SbApp.trace("newValue != null");
 						classes = new Class[] { newValue.getClass() };
 					}
 					method = model.getClass().getMethod("set" + propertyName, classes);
+					SbApp.trace("method : "+"set" + propertyName + classes.toString());
 					if (newValue != null) {
+						SbApp.trace("newValue != null after method="+method.toString());
 						method.invoke(model, newValue);
 					} else {
+						SbApp.trace("newValue == null after method");
 						method.invoke(model);
 					}
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException e) {
-					System.err.println("*** : AbstractController.setModelProperty()"
-									+ "\nmsg=" + e.getCause().toString()
-									+ "\nmethod:" + method.getName()
-									+ "\nclasses:" + classes.getClass().toString());
+					if (e.getCause()!=null) {
+						String emsg=(e.getCause()==null?"null":e.getCause().toString());
+						String emethod=(method==null?"null":method.getName());
+						String eclasses=(classes.getClass()==null?"null":classes.getClass().toString());
+						System.err.println("*** : AbstractController.setModelProperty()"
+										+ "\nmsg=" + emsg
+										+ "\nmethod:" + emethod
+										+ "\nclasses:" + eclasses);
+					} else {
+						System.err.println("*** : AbstractController.setModelProperty()"+
+								e.toString());
+					}
 				}
 			}
 		}

@@ -515,6 +515,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 	}
 
 	protected synchronized AbstractEntity getEntityFromRow(int row) {
+		SbApp.trace("AbstractTable.getEntityFromRow("+row+")");
 		if (row == -1) {
 			return null;
 		}

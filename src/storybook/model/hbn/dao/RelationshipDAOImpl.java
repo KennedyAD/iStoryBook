@@ -21,9 +21,12 @@ package storybook.model.hbn.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import storybook.model.hbn.entity.Item;
+import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
 import storybook.model.hbn.entity.Scene;
@@ -65,5 +68,36 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		List<Relationship> relationships = (List<Relationship>) crit.list();
 		return relationships;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByPersonLink(Person person) {
+		Query query = session.createQuery("select s from Relationship as s"
+				+ " join s.persons as p"
+				+ " where p=:person");
+		query.setParameter("person", person);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByItemLink(Item item) {
+		Query query = session.createQuery("select s from Relationship as s"
+				+ " join s.items as p"
+				+ " where p=:item");
+		query.setParameter("item", item);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByLocationLink(Location location) {
+		Query query = session.createQuery("select s from Relationship as s"
+				+ " join s.locations as p"
+				+ " where p=:location");
+		query.setParameter("location", location);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
 
 }

@@ -36,7 +36,6 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
-import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.model.hbn.entity.Tag;
@@ -655,8 +654,6 @@ public class BookController extends AbstractController {
 				updatePerson((Person) entity);
 			} else if (entity instanceof Relationship) {
 				updateRelationship((Relationship) entity);
-			} else if (entity instanceof Persongrp) {
-				updatePersongrp((Persongrp) entity);
 			} else if (entity instanceof Gender) {
 				updateGender((Gender) entity);
 			} else if (entity instanceof Category) {
@@ -698,8 +695,6 @@ public class BookController extends AbstractController {
 				deleteLocation((Location) entity);
 			} else if (entity instanceof Person) {
 				deletePerson((Person) entity);
-			} else if (entity instanceof Persongrp) {
-				deletePersongrp((Persongrp) entity);
 			} else if (entity instanceof Relationship) {
 				deleteRelationship((Relationship) entity);
 			} else if (entity instanceof Gender) {
@@ -743,8 +738,6 @@ public class BookController extends AbstractController {
 				newPerson((Person) entity);
 			} else if (entity instanceof Relationship) {
 				newRelationship((Relationship) entity);
-			} else if (entity instanceof Persongrp) {
-				newPersongrp((Persongrp) entity);
 			} else if (entity instanceof Gender) {
 				newGender((Gender) entity);
 			} else if (entity instanceof Category) {
@@ -786,8 +779,6 @@ public class BookController extends AbstractController {
 				setLocationToEdit((Location) entity);
 			} else if (entity instanceof Person) {
 				setPersonToEdit((Person) entity);
-			} else if (entity instanceof Persongrp) {
-				setPersongrpToEdit((Persongrp) entity);
 			} else if (entity instanceof Relationship) {
 				setRelationshipToEdit((Relationship) entity);
 			} else if (entity instanceof Gender) {
@@ -1021,27 +1012,6 @@ public class BookController extends AbstractController {
 
 	public void setRelationshipToEdit(Relationship r) {
 		setModelProperty(RelationshipProps.EDIT.toString(), r);
-	}
-
-	// group
-	public void updatePersongrp(Persongrp r) {
-		setModelProperty(PersongrpProps.UPDATE.toString(), r);
-	}
-
-	public void newPersongrp(Persongrp r) {
-		setModelProperty(PersongrpProps.NEW.toString(), r);
-	}
-
-	public void deletePersongrp(Persongrp r) {
-		setModelProperty(PersongrpProps.DELETE.toString(), r);
-	}
-
-	public void deleteMultiPersongrps(ArrayList<Long> ids) {
-		setModelProperty(PersongrpProps.DELETE_MULTI.toString(), ids);
-	}
-
-	public void setPersongrpToEdit(Persongrp r) {
-		setModelProperty(PersongrpProps.EDIT.toString(), r);
 	}
 
 	// genders

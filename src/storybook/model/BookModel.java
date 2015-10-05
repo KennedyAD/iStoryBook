@@ -33,7 +33,6 @@ import storybook.controller.BookController;
 import storybook.model.hbn.dao.CategoryDAOImpl;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.GenderDAOImpl;
-import storybook.model.hbn.dao.PersongrpDAOImpl;
 import storybook.model.hbn.dao.IdeaDAOImpl;
 import storybook.model.hbn.dao.InternalDAOImpl;
 import storybook.model.hbn.dao.ItemDAOImpl;
@@ -58,7 +57,6 @@ import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
-import storybook.model.hbn.entity.Persongrp;
 import storybook.model.hbn.entity.Relationship;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
@@ -421,16 +419,16 @@ public class BookModel extends AbstractModel {
 		setShowInfo((AbstractEntity)person);
 	}
 
+	public void setShowInfo(Relationship entity) {
+		setShowInfo((AbstractEntity)entity);
+	}
+
 	public void setShowInfo(Category category) {
 		setShowInfo((AbstractEntity)category);
 	}
 
 	public void setShowInfo(Gender gender) {
 		setShowInfo((AbstractEntity)gender);
-	}
-
-	public void setShowInfo(Persongrp group) {
-		setShowInfo((AbstractEntity)group);
 	}
 
 	public void setShowInfo(Location location) {
@@ -478,10 +476,6 @@ public class BookModel extends AbstractModel {
 	}
 
 	public void setShowInMemoria(Relationship p) {
-		setShowInMemoria((AbstractEntity) p);
-	}
-
-	public void setShowInMemoria(Persongrp p) {
 		setShowInMemoria((AbstractEntity) p);
 	}
 
@@ -752,6 +746,15 @@ public class BookModel extends AbstractModel {
 			}
 			// delete tag / item links
 			EntityUtil.deleteTagAndItemLinks(this, location);
+			// delete relationship
+			session = beginTransaction();
+			RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
+			List<Relationship> relations = daoR.findByLocationLink(location);
+			commit();
+			for (Relationship relation : relations) {
+				relation.getLocations().remove(location);
+				session.update(relation);
+			}
 			// delete location
 			session = beginTransaction();
 			session.delete(location);
@@ -821,6 +824,15 @@ public class BookModel extends AbstractModel {
 			}
 			// delete tag / item links
 			EntityUtil.deleteTagAndItemLinks(this, person);
+			// delete relationship
+			session = beginTransaction();
+			RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
+			List<Relationship> relations = daoR.findByPersonLink(person);
+			commit();
+			for (Relationship relation : relations) {
+				relation.getPersons().remove(person);
+				session.update(relation);
+			}
 			// delete person
 			session = beginTransaction();
 			session.delete(person);
@@ -888,54 +900,6 @@ public class BookModel extends AbstractModel {
 			Relationship old = dao.find(id);
 			commit();
 			setDeleteRelationship(old);
-		}
-	}
-
-	// group
-	public void setEditPersongrp(Persongrp entity) {
-		//firePropertyChange(BookController.GroupProps.EDIT.toString(),null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdatePersongrp(Persongrp r) {
-		Session session = beginTransaction();
-		PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
-		Persongrp old = dao.find(r.getId());
-		commit();
-		session = beginTransaction();
-		session.update(r);
-		commit();
-		firePropertyChange(BookController.PersongrpProps.UPDATE.toString(), old, r);
-	}
-
-	public synchronized void setNewPersongrp(Persongrp r) {
-		Session session = beginTransaction();
-		session.save(r);
-		commit();
-		firePropertyChange(BookController.PersongrpProps.NEW.toString(), null, r);
-	}
-
-	public synchronized void setDeletePersongrp(Persongrp r) {
-		if (r.getId() == null) {
-			return;
-		}
-		try {
-			Session session = beginTransaction();
-			session.delete(r);
-			commit();
-		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeletePersongrp("+r.getDescription()+")", e);
-		}
-		firePropertyChange(BookController.PersongrpProps.DELETE.toString(),r, null);
-	}
-
-	public synchronized void setDeleteMultiPersongrp(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
-			Persongrp old = dao.find(id);
-			commit();
-			setDeletePersongrp(old);
 		}
 	}
 
@@ -1282,6 +1246,15 @@ public class BookModel extends AbstractModel {
 		commit();
 		for (ItemLink link : links) {
 			setDeleteItemLink(link);
+		}
+		// delete relationship
+		session = beginTransaction();
+		RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
+		List<Relationship> relations = daoR.findByItemLink(item);
+		commit();
+		for (Relationship relation : relations) {
+			relation.getItems().remove(item);
+			session.update(relation);
 		}
 		// delete item
 		session = beginTransaction();
