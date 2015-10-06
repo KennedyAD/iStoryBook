@@ -162,7 +162,6 @@ public class BookModel extends AbstractModel {
 		fireAgainLocations();
 		fireAgainParts();
 		fireAgainPersons();
-		fireAgainPersongrps();
 		fireAgainPlan();
 		fireAgainRelationships();
 		fireAgainScenes();
@@ -192,8 +191,6 @@ public class BookModel extends AbstractModel {
 			fireAgainLocations();
 		} else if (ViewName.PERSONS.compare(view)) {
 			fireAgainPersons();
-		} else if (ViewName.PERSONGRPS.compare(view)) {
-			fireAgainPersongrps();
 		} else if (ViewName.RELATIONSHIPS.compare(view)) {
 			fireAgainRelationships();
 		} else if (ViewName.GENDERS.compare(view)) {
@@ -274,15 +271,6 @@ public class BookModel extends AbstractModel {
 		commit();
 		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
 	}
-
-	private void fireAgainPersongrps() {/*
-		SbApp.trace("BookModel.fireAgainPersongrps()");
-		Session session = beginTransaction();
-		PersongrpDAOImpl dao = new PersongrpDAOImpl(session);
-		List<Persongrp> persongrps = dao.findAll();
-		commit();
-		firePropertyChange(BookController.PersongrpProps.INIT.toString(), null, persongrps);
-	*/}
 
 	private void fireAgainGenders() {
 		SbApp.trace("BookModel.fireAgainGenders()");

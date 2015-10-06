@@ -250,7 +250,6 @@ public class SbConstants {
 		LOCATIONS("Locations"),
 		PERSONS("Persons"),
 		RELATIONSHIPS("Relationships"),
-		PERSONGRPS("PersonGrps"),
 		GENDERS("Genders"),
 		CATEGORIES("Categories"),
 		ATTRIBUTES("Attributes"),

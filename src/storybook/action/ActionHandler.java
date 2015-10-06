@@ -325,10 +325,6 @@ public class ActionHandler {
 		showAndFocus(ViewName.GENDERS);
 	}
 
-	public void handleShowPersonGrps() {
-		showAndFocus(ViewName.PERSONGRPS);
-	}
-
 	public void handleShowPersons() {
 		showAndFocus(ViewName.PERSONS);
 	}

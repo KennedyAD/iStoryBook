@@ -321,30 +321,6 @@ public class BookController extends AbstractController {
 		}
 	};
 
-	public enum PersongrpProps {
-
-		INIT("InitPersongrp"),
-		EDIT("EditPersongrp"),
-		DELETE("DeletePersongrp"),
-		DELETE_MULTI("DeleteMultiPersongrps"),
-		NEW("NewPersongrp"),
-		UPDATE("UpdatePersongrp");
-		final private String text;
-
-		private PersongrpProps(String text) {
-			this.text = text;
-		}
-
-		@Override
-		public String toString() {
-			return text;
-		}
-
-		public boolean check(String prop) {
-			return text.equals(prop);
-		}
-	};
-
 	public enum AttributeProps {
 
 		INIT("InitAttributes"),

@@ -162,7 +162,7 @@ public class MainMenu extends javax.swing.JFrame {
         newStrand = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         newPerson = new javax.swing.JMenuItem();
-        newRelationship = new javax.swing.JMenuItem();
+        newRelationships = new javax.swing.JMenuItem();
         newCategory = new javax.swing.JMenuItem();
         newGender = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
@@ -777,7 +777,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         menuBar.add(menuEdit);
 
-        menuNewEntity.setMnemonic(java.util.ResourceBundle.getBundle("storybook/msg/messages").getString("msg.common.new.mnemonic").charAt(0));
         menuNewEntity.setText(bundle.getString("msg.common.new.object")); // NOI18N
         menuNewEntity.setName("new-entity-menu-command"); // NOI18N
 
@@ -844,15 +843,15 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuNewEntity.add(newPerson);
 
-        newRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/group.png"))); // NOI18N
-        newRelationship.setText(bundle.getString("msg.new.relationship")); // NOI18N
-        newRelationship.setActionCommand(bundle.getString("msg.common.persongrp")); // NOI18N
-        newRelationship.addActionListener(new java.awt.event.ActionListener() {
+        newRelationships.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/relationship.png"))); // NOI18N
+        newRelationships.setText(bundle.getString("msg.new.relationship")); // NOI18N
+        newRelationships.setToolTipText(bundle.getString("msg.relationship")); // NOI18N
+        newRelationships.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newRelationshipActionPerformed(evt);
+                newRelationshipsActionPerformed(evt);
             }
         });
-        menuNewEntity.add(newRelationship);
+        menuNewEntity.add(newRelationships);
 
         newCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/category.png"))); // NOI18N
         newCategory.setText(bundle.getString("msg.persons.category")); // NOI18N
@@ -2109,9 +2108,9 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
     }//GEN-LAST:event_jChaptersOrderActionPerformed
 
-    private void newRelationshipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRelationshipActionPerformed
+    private void newRelationshipsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRelationshipsActionPerformed
 		newEntity(new Relationship());
-    }//GEN-LAST:event_newRelationshipActionPerformed
+    }//GEN-LAST:event_newRelationshipsActionPerformed
 
     private void devTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devTestActionPerformed
         // add your code to test here, don't delete this line
@@ -2257,7 +2256,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem newLocation;
     private javax.swing.JMenuItem newPart;
     private javax.swing.JMenuItem newPerson;
-    private javax.swing.JMenuItem newRelationship;
+    private javax.swing.JMenuItem newRelationships;
     private javax.swing.JMenuItem newScene;
     private javax.swing.JMenuItem newStrand;
     private javax.swing.JMenuItem newTag;
@@ -2405,7 +2404,7 @@ public class MainMenu extends javax.swing.JFrame {
 		newChapters.setText(I18N.getMsg("msg.generate.chapters"));
 		newFOI.setText(I18N.getMsg("msg.foi.title"));
 		newGender.setText(I18N.getMsg("msg.common.genders"));
-		newRelationship.setText(I18N.getMsg("msg.common.persongrp"));
+		newRelationships.setText(I18N.getMsg("msg.common.relationship"));
 		newIdea.setText(I18N.getMsg("msg.idea.table.idea"));
 		newItem.setText(I18N.getMsg("msg.item"));
 		newItemLink.setText(I18N.getMsg("msg.item.link"));
