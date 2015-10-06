@@ -130,11 +130,13 @@ import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumn;
 
 public class EntityUtil {
+
 	public static void convertPlainTextToHtml(MainFrame mainFrame) {
 		boolean useHtmlScenes = BookUtil.isUseHtmlScenes(mainFrame);
 		boolean useHtmlDescr = BookUtil.isUseHtmlDescr(mainFrame);
-		if (!useHtmlScenes && !useHtmlDescr)
+		if (!useHtmlScenes && !useHtmlDescr) {
 			return;
+		}
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 
@@ -142,10 +144,12 @@ public class EntityUtil {
 		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
 		List<Scene> scenes = sceneDao.findAll();
 		for (Scene scene : scenes) {
-			if (useHtmlScenes)
+			if (useHtmlScenes) {
 				scene.setSummary(HtmlUtil.textToHTML(scene.getSummary()));
-			if (useHtmlDescr)
+			}
+			if (useHtmlDescr) {
 				scene.setNotes(HtmlUtil.textToHTML(scene.getNotes()));
+			}
 			session.update(scene);
 		}
 
@@ -203,8 +207,9 @@ public class EntityUtil {
 		IdeaDAOImpl ideaDao = new IdeaDAOImpl(session);
 		List<Idea> ideas = ideaDao.findAll();
 		for (Idea idea : ideas) {
-			if (useHtmlDescr)
+			if (useHtmlDescr) {
 				idea.setNotes(HtmlUtil.textToHTML(idea.getNotes()));
+			}
 		}
 
 		model.commit();
@@ -214,8 +219,9 @@ public class EntityUtil {
 	public static void convertHtmlToPlainText(MainFrame mainFrame) {
 		boolean usePlainTextScenes = !BookUtil.isUseHtmlScenes(mainFrame);
 		boolean usePlainTextDescr = !BookUtil.isUseHtmlDescr(mainFrame);
-		if (!usePlainTextScenes && !usePlainTextDescr)
+		if (!usePlainTextScenes && !usePlainTextDescr) {
 			return;
+		}
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 
@@ -223,10 +229,12 @@ public class EntityUtil {
 		SceneDAOImpl sceneDao = new SceneDAOImpl(session);
 		List<Scene> scenes = sceneDao.findAll();
 		for (Scene scene : scenes) {
-			if (usePlainTextScenes)
+			if (usePlainTextScenes) {
 				scene.setSummary(HtmlUtil.htmlToText(scene.getSummary(), true));
-			if (usePlainTextDescr)
+			}
+			if (usePlainTextDescr) {
 				scene.setNotes(HtmlUtil.htmlToText(scene.getNotes()));
+			}
 			session.update(scene);
 		}
 
@@ -288,8 +296,9 @@ public class EntityUtil {
 		IdeaDAOImpl ideaDao = new IdeaDAOImpl(session);
 		List<Idea> ideas = ideaDao.findAll();
 		for (Idea idea : ideas) {
-			if (usePlainTextDescr)
+			if (usePlainTextDescr) {
 				idea.setNotes(HtmlUtil.htmlToText(idea.getNotes(), true));
+			}
 		}
 
 		model.commit();
@@ -304,10 +313,11 @@ public class EntityUtil {
 		} else if (entity instanceof Gender) {
 			ret.add(1L);
 			ret.add(2L);
-		} else if (entity instanceof Part)
+		} else if (entity instanceof Part) {
 			ret.add(1L);
-		else if (entity instanceof Strand)
+		} else if (entity instanceof Strand) {
 			ret.add(1L);
+		}
 		return ret;
 	}
 
@@ -337,8 +347,9 @@ public class EntityUtil {
 				String name = propDescr.getName();
 				Object val = propDescr.getReadMethod().invoke(entity);
 				String isNull = "not null";
-				if (val == null)
+				if (val == null) {
 					isNull = "is null";
+				}
 				System.out.println("EntityUtil.printProperties(): " + name
 						+ ": '" + val + "' " + (val == null ? "isNull" : "not null"));
 			}
@@ -351,31 +362,35 @@ public class EntityUtil {
 		Session session = model.beginTransaction();
 		TagLinkDAOImpl tagLinkDao = new TagLinkDAOImpl(session);
 		List<TagLink> tagLinks = null;
-		if (entity instanceof Scene)
+		if (entity instanceof Scene) {
 			tagLinks = tagLinkDao.findByStartOrEndScene((Scene) entity);
-		else if (entity instanceof Person)
+		} else if (entity instanceof Person) {
 			tagLinks = tagLinkDao.findByPerson((Person) entity);
-		else if (entity instanceof Location)
+		} else if (entity instanceof Location) {
 			tagLinks = tagLinkDao.findByLocation((Location) entity);
+		}
 		session.close();
-		if (tagLinks != null && !tagLinks.isEmpty())
+		if (tagLinks != null && !tagLinks.isEmpty()) {
 			for (TagLink link : tagLinks) {
 				model.setDeleteTagLink(link);
 			}
+		}
 		session = model.beginTransaction();
 		ItemLinkDAOImpl itemLinkDao = new ItemLinkDAOImpl(session);
 		List<ItemLink> itemLinks = null;
-		if (entity instanceof Scene)
+		if (entity instanceof Scene) {
 			itemLinks = itemLinkDao.findByStartOrEndScene((Scene) entity);
-		else if (entity instanceof Person)
+		} else if (entity instanceof Person) {
 			itemLinks = itemLinkDao.findByPerson((Person) entity);
-		else if (entity instanceof Location)
+		} else if (entity instanceof Location) {
 			itemLinks = itemLinkDao.findByLocation((Location) entity);
+		}
 		session.close();
-		if (itemLinks != null && !itemLinks.isEmpty())
+		if (itemLinks != null && !itemLinks.isEmpty()) {
 			for (ItemLink link : itemLinks) {
 				model.setDeleteItemLink(link);
 			}
+		}
 
 	}
 
@@ -422,8 +437,9 @@ public class EntityUtil {
 			// correct date / relative scene
 			Scene scene = (Scene) entity;
 			Scene newScene = (Scene) newEntity;
-			if (!scene.hasRelativeScene())
+			if (!scene.hasRelativeScene()) {
 				newScene.removeRelativeScene();
+			}
 			persons = scene.getPersons();
 			locations = scene.getLocations();
 			strands = scene.getStrands();
@@ -440,19 +456,19 @@ public class EntityUtil {
 		// re-set "stolen" bag links
 		if (entity instanceof Scene) {
 			Scene scene = (Scene) entity;
-			
+
 			List<Person> copyPersons = new ArrayList<>();
 			for (Person person : persons) {
 				copyPersons.add(person);
 			}
 			scene.setPersons(copyPersons);
-			
+
 			List<Location> copyLocations = new ArrayList<>();
 			for (Location location : locations) {
 				copyLocations.add(location);
 			}
 			scene.setLocations(copyLocations);
-			
+
 			List<Strand> copyStrands = new ArrayList<>();
 			for (Strand strand : strands) {
 				copyStrands.add(strand);
@@ -534,8 +550,9 @@ public class EntityUtil {
 	}
 
 	public static boolean hasHierarchyChanged(AbstractEntity oldEntity, AbstractEntity updEntity) {
-		if (oldEntity == null || updEntity == null)
+		if (oldEntity == null || updEntity == null) {
 			return false;
+		}
 		if (oldEntity instanceof Idea) {
 			Idea old = (Idea) oldEntity;
 			Idea upd = (Idea) updEntity;
@@ -544,18 +561,21 @@ public class EntityUtil {
 		if (oldEntity instanceof Scene) {
 			Scene old = (Scene) oldEntity;
 			Scene upd = (Scene) updEntity;
-			if (old.getChapter() == null && upd.getChapter() != null)
+			if (old.getChapter() == null && upd.getChapter() != null) {
 				return true;
-			if (old.getChapter() != null && upd.getChapter() == null)
+			}
+			if (old.getChapter() != null && upd.getChapter() == null) {
 				return true;
+			}
 			return old.getChapter() != null && upd.getChapter() != null
 					&& (!Objects.equals(old.getChapter().getId(), upd.getChapter().getId()));
 		}
 		if (oldEntity instanceof Person) {
 			Person old = (Person) oldEntity;
 			Person upd = (Person) updEntity;
-			if (!Objects.equals(old.getCategory().getId(), upd.getCategory().getId()))
+			if (!Objects.equals(old.getCategory().getId(), upd.getCategory().getId())) {
 				return true;
+			}
 			return !Objects.equals(old.getGender().getId(), upd.getGender().getId());
 		}
 		if (oldEntity instanceof Relationship) {
@@ -570,31 +590,41 @@ public class EntityUtil {
 			String updCity = upd.getCity();
 			String oldCountry = old.getCountry();
 			String updCountry = upd.getCountry();
-			if (oldSite == null && updSite != null)
+			if (oldSite == null && updSite != null) {
 				return true;
-			if (oldSite != null && updSite == null)
+			}
+			if (oldSite != null && updSite == null) {
 				return true;
-			if (!oldSite.equals(updSite))
+			}
+			if (!oldSite.equals(updSite)) {
 				return true;
-			if (oldCity == null && updCity != null)
+			}
+			if (oldCity == null && updCity != null) {
 				return true;
-			if (oldCity != null && updCity == null)
+			}
+			if (oldCity != null && updCity == null) {
 				return true;
-			if (!oldCity.equals(updCity))
+			}
+			if (!oldCity.equals(updCity)) {
 				return true;
-			if (oldCountry == null && updCountry != null)
+			}
+			if (oldCountry == null && updCountry != null) {
 				return true;
-			if (oldCountry != null && updCountry == null)
+			}
+			if (oldCountry != null && updCountry == null) {
 				return true;
+			}
 			return !oldCountry.equals(updCountry);
 		}
 		if (oldEntity instanceof AbstractTag) {
 			AbstractTag old = (AbstractTag) oldEntity;
 			AbstractTag upd = (AbstractTag) updEntity;
-			if (old.getCategory() == null && upd.getCategory() == null)
+			if (old.getCategory() == null && upd.getCategory() == null) {
 				return false;
-			if (old.getCategory() != null || upd.getCategory() != null)
+			}
+			if (old.getCategory() != null || upd.getCategory() != null) {
 				return true;
+			}
 			return !old.getCategory().equals(upd.getCategory());
 		}
 		return false;
@@ -602,10 +632,12 @@ public class EntityUtil {
 
 	public static JPopupMenu createPopupMenu(MainFrame mainFrame, AbstractEntity entity) {
 		JPopupMenu menu = new JPopupMenu();
-		if (entity == null)
+		if (entity == null) {
 			return null;
-		if (entity.isTransient())
+		}
+		if (entity.isTransient()) {
 			return null;
+		}
 		JLabel lbTitle = new JLabel("   " + entity.toString());
 		lbTitle.setFont(FontUtil.getBoldFont());
 		menu.add(lbTitle);
@@ -624,8 +656,9 @@ public class EntityUtil {
 			menu.add(new ShowInManageViewAction(mainFrame, entity));
 		}
 		menu.add(new ShowInfoAction(mainFrame, entity));
-		if (isAvailableInMemoria(entity))
+		if (isAvailableInMemoria(entity)) {
 			menu.add(new ShowInMemoriaAction(mainFrame, entity));
+		}
 		menu.add(new JPopupMenu.Separator());
 		if (entity instanceof Scene) {
 		}
@@ -641,8 +674,9 @@ public class EntityUtil {
 			menu.add(new JPopupMenu.Separator());
 			menu.add(new ShowInGoogleMapsAction((Location) entity));
 		}
-		if (menu.getComponents().length == 0)
+		if (menu.getComponents().length == 0) {
 			return null;
+		}
 		return menu;
 	}
 
@@ -653,8 +687,9 @@ public class EntityUtil {
 	}
 
 	public static List<Attribute> getEntityAttributes(MainFrame mainFrame, AbstractEntity entity) {
-		if (entity.isTransient())
+		if (entity.isTransient()) {
 			return new ArrayList<>();
+		}
 		if (entity instanceof Person) {
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
@@ -668,9 +703,10 @@ public class EntityUtil {
 	}
 
 	public static void setEntityAttributes(MainFrame mainFrame, AbstractEntity entity, List<Attribute> attributes) {
-		if (entity.isTransient())
+		if (entity.isTransient()) {
 			return;
-		if (entity instanceof Person)
+		}
+		if (entity instanceof Person) {
 			try {
 				Person person = (Person) entity;
 				BookModel model = mainFrame.getBookModel();
@@ -696,42 +732,59 @@ public class EntityUtil {
 			} catch (HibernateException e) {
 				SbApp.error("EntityUtil.copyEntityProperties()", e);
 			}
+		}
 	}
 
 	public static AbstractEntityHandler getEntityHandler(MainFrame mainFrame,
 			AbstractEntity entity) {
-		if (entity instanceof Scene)
+		if (entity instanceof Scene) {
 			return new SceneEntityHandler(mainFrame);
-		if (entity instanceof Chapter)
+		}
+		if (entity instanceof Chapter) {
 			return new ChapterEntityHandler(mainFrame);
-		if (entity instanceof Part)
+		}
+		if (entity instanceof Part) {
 			return new PartEntityHandler(mainFrame);
-		if (entity instanceof Location)
+		}
+		if (entity instanceof Location) {
 			return new LocationEntityHandler(mainFrame);
-		if (entity instanceof Person)
+		}
+		if (entity instanceof Person) {
 			return new PersonEntityHandler(mainFrame);
-		if (entity instanceof Relationship)
+		}
+		if (entity instanceof Relationship) {
 			return new RelationshipEntityHandler(mainFrame);
-		if (entity instanceof Gender)
+		}
+		if (entity instanceof Gender) {
 			return new GenderEntityHandler(mainFrame);
-		if (entity instanceof Category)
+		}
+		if (entity instanceof Category) {
 			return new CategoryEntityHandler(mainFrame);
-		if (entity instanceof Strand)
+		}
+		if (entity instanceof Strand) {
 			return new StrandEntityHandler(mainFrame);
-		if (entity instanceof Idea)
+		}
+		if (entity instanceof Idea) {
 			return new IdeaEntityHandler(mainFrame);
-		if (entity instanceof Tag)
+		}
+		if (entity instanceof Tag) {
 			return new TagEntityHandler(mainFrame);
-		if (entity instanceof Item)
+		}
+		if (entity instanceof Item) {
 			return new ItemEntityHandler(mainFrame);
-		if (entity instanceof TagLink)
+		}
+		if (entity instanceof TagLink) {
 			return new TagLinkEntityHandler(mainFrame);
-		if (entity instanceof ItemLink)
+		}
+		if (entity instanceof ItemLink) {
 			return new ItemLinkEntityHandler(mainFrame);
-		if (entity instanceof Internal)
+		}
+		if (entity instanceof Internal) {
 			return new InternalEntityHandler(mainFrame);
-		if (entity instanceof TimeEvent)
+		}
+		if (entity instanceof TimeEvent) {
 			return new TimeEventEntityHandler(mainFrame);
+		}
 		return null;
 	}
 
@@ -739,22 +792,54 @@ public class EntityUtil {
 		// note: hibernate sometimes returns
 		// "entity.Tag_$$_javassist_2", which matches to "instanceof Tag",
 		// but cannot be used as a class "Tag" parameter in reflection
-		if (entity instanceof Person) return Person.class;
-		if (entity instanceof Relationship) return Relationship.class;
-		if (entity instanceof Category) return Category.class;
-		if (entity instanceof Gender) return Gender.class;
-		if (entity instanceof Location) return Location.class;
-		if (entity instanceof Scene) return Scene.class;
-		if (entity instanceof Chapter) return Chapter.class;
-		if (entity instanceof Part) return Part.class;
-		if (entity instanceof Tag) return Tag.class;
-		if (entity instanceof TagLink) return TagLink.class;
-		if (entity instanceof Item) return Item.class;
-		if (entity instanceof ItemLink) return ItemLink.class;
-		if (entity instanceof Strand) return Strand.class;
-		if (entity instanceof Idea) return Idea.class;
-		if (entity instanceof Internal) return Internal.class;
-		if (entity instanceof TimeEvent) return TimeEvent.class;
+		if (entity instanceof Person) {
+			return Person.class;
+		}
+		if (entity instanceof Relationship) {
+			return Relationship.class;
+		}
+		if (entity instanceof Category) {
+			return Category.class;
+		}
+		if (entity instanceof Gender) {
+			return Gender.class;
+		}
+		if (entity instanceof Location) {
+			return Location.class;
+		}
+		if (entity instanceof Scene) {
+			return Scene.class;
+		}
+		if (entity instanceof Chapter) {
+			return Chapter.class;
+		}
+		if (entity instanceof Part) {
+			return Part.class;
+		}
+		if (entity instanceof Tag) {
+			return Tag.class;
+		}
+		if (entity instanceof TagLink) {
+			return TagLink.class;
+		}
+		if (entity instanceof Item) {
+			return Item.class;
+		}
+		if (entity instanceof ItemLink) {
+			return ItemLink.class;
+		}
+		if (entity instanceof Strand) {
+			return Strand.class;
+		}
+		if (entity instanceof Idea) {
+			return Idea.class;
+		}
+		if (entity instanceof Internal) {
+			return Internal.class;
+		}
+		if (entity instanceof TimeEvent) {
+			return TimeEvent.class;
+		}
 		return null;
 	}
 
@@ -794,7 +879,7 @@ public class EntityUtil {
 		return list;
 	}
 
-	public static List<JCheckBox> createPersonCheckBoxes(MainFrame mainFrame,List<JCheckBox> cbl, ActionListener comp) {
+	public static List<JCheckBox> createPersonCheckBoxes(MainFrame mainFrame, List<JCheckBox> cbl, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -863,9 +948,10 @@ public class EntityUtil {
 
 	public static void abandonEntityChanges(MainFrame mainFrame, AbstractEntity entity) {
 		try {
-			if (entity.isTransient())
-				// nothing to do for a new entity
+			if (entity.isTransient()) // nothing to do for a new entity
+			{
 				return;
+			}
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.getSession();
 			if (session != null && session.isOpen()) {
@@ -888,14 +974,17 @@ public class EntityUtil {
 		buf.append("<table width='300'>");
 		buf.append("<tr><td>");
 		buf.append(HtmlUtil.getTitle(entity.toString()));
-		if (entity instanceof Person)
+		if (entity instanceof Person) {
 			toolTipAppendPerson(buf, (Person) entity, date);
-		else if (entity instanceof Scene)
+		} else if (entity instanceof Scene) {
 			toolTipAppendScene(buf, (Scene) entity);
-		else if (entity instanceof Location)
+		} else if (entity instanceof Relationship) {
+			toolTipAppendRelationship(buf, (Relationship) entity);
+		} else if (entity instanceof Location) {
 			toolTipAppendLocation(buf, (Location) entity);
-		else if (entity instanceof AbstractTag)
+		} else if (entity instanceof AbstractTag) {
 			toolTipAppendTag(buf, (AbstractTag) entity);
+		}
 		buf.append("</td></tr>");
 		buf.append("</table>");
 		buf.append("</html>");
@@ -928,8 +1017,8 @@ public class EntityUtil {
 			buf.append(" ");
 			buf.append(person.calculateAge(date));
 			if (person.isDead(date)) {
-                                buf.append("+");
-                        }
+				buf.append("+");
+			}
 			buf.append("<br>");
 		}
 		buf.append(I18N.getMsgColon("msg.dlg.mng.persons.gender"));
@@ -943,12 +1032,42 @@ public class EntityUtil {
 		buf.append(TextUtil.truncateText(person.getDescription()));
 	}
 
+	private static void toolTipAppendRelationship(StringBuffer buf, Relationship relationship) {
+		buf.append(I18N.getMsgColon("msg.common.persons"));
+		buf.append(" ");
+		if (relationship.getPerson1()!=null) buf.append(relationship.getPerson1().getAbbr()).append(" ");
+		if (relationship.getPerson2()!=null) buf.append(relationship.getPerson2().getAbbr()).append(" ");
+		List<Person> persons = relationship.getPersons();
+		if (!persons.isEmpty()) {
+			for (Person p : persons) {
+				buf.append(p.getAbbr()).append(" ");
+			}
+		}
+		List<Item> items=relationship.getItems();
+		if (!items.isEmpty()) {
+			buf.append("<br>");
+			buf.append(I18N.getMsgColon("msg.common.items"));
+			for (Item p : items) {
+				buf.append(p.getName()).append(" ");
+			}
+		}
+		List<Location> locations=relationship.getLocations();
+		if (!locations.isEmpty()) {
+			buf.append("<br>");
+			buf.append(I18N.getMsgColon("msg.common.locations"));
+			for (Location p : locations) {
+				buf.append(p.getName()).append(" ");
+			}
+		}
+	}
+
 	public static String getDeleteInfo(MainFrame mainFrame, AbstractEntity entity) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(HtmlUtil.getHeadWithCSS());
 		boolean warnings = addDeletionInfo(mainFrame, entity, buf);
-		if (warnings)
+		if (warnings) {
 			buf.append(HtmlUtil.getHr());
+		}
 		buf.append(getInfo(mainFrame, entity, true));
 		return buf.toString();
 	}
@@ -1126,10 +1245,12 @@ public class EntityUtil {
 		Class<? extends AbstractEntity> clazz = entity.getClass();
 		for (SbColumn col : entityHandler.getColumns()) {
 			String methodName = "get" + col.getMethodName();
-			if (methodName.equals("getId") || methodName.equals("getIcon"))
+			if (methodName.equals("getId") || methodName.equals("getIcon")) {
 				continue;
-			if (col.isHideOnInfo())
+			}
+			if (col.isHideOnInfo()) {
 				continue;
+			}
 			buf.append("<p>");
 			buf.append(HtmlUtil.getBold(col.toString()));
 			buf.append(": ");
@@ -1141,9 +1262,9 @@ public class EntityUtil {
 				Object ret = method.invoke(entity);
 				if (ret != null) {
 					String str = "";
-					if (ret instanceof Boolean)
+					if (ret instanceof Boolean) {
 						str = ((Boolean) ret ? I18N.getMsg("msg.common.yes") : I18N.getMsg("msg.common.no"));
-					else if (ret instanceof List<?>) {
+					} else if (ret instanceof List<?>) {
 						List<?> list = (List<?>) ret;
 						if (!list.isEmpty()) {
 							StringBuilder buf2 = new StringBuilder();
@@ -1166,27 +1287,27 @@ public class EntityUtil {
 						if (DateUtil.isZeroTimeDate(date)) {
 							formatter = I18N.getLongDateFormatter();
 							date = DateUtil.getZeroTimeDate(date);
-						} else
-							if (entity instanceof TimeEvent) {
-								formatter = new SimpleDateFormat(((TimeEvent)entity).getStepFormat());
-							} else {
-							    formatter = I18N.getDateTimeFormatter();
-							}
+						} else if (entity instanceof TimeEvent) {
+							formatter = new SimpleDateFormat(((TimeEvent) entity).getStepFormat());
+						} else {
+							formatter = I18N.getDateTimeFormatter();
+						}
 						str = formatter.format(date);
 					} else {
 						str = ret.toString();
 						if (methodName.endsWith("Notes")
 								|| methodName.endsWith("Description")
-								|| methodName.endsWith("Summary"))
+								|| methodName.endsWith("Summary")) {
 							str = HtmlUtil.getCleanHtml(str);
+						}
 					}
-					if (truncate)
+					if (truncate) {
 						str = TextUtil.truncateString(HtmlUtil.htmlToText(str), 200);
+					}
 					buf.append(str);
 				}
 				model.commit();
-			} catch (HibernateException | NoSuchMethodException | SecurityException
-					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (HibernateException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				System.err.println("EntityUtil.addInfo(mainFrame, entity) Exception : " + e.getMessage());
 			}
 			buf.append("</p>\n");
@@ -1210,61 +1331,87 @@ public class EntityUtil {
 
 	public static AbstractEntityHandler getEntityHandler(MainFrame mainFrame,
 			Object obj, Method method, AbstractEntity entity) {
-		if (obj instanceof Scene || method.getReturnType() == Scene.class)
+		if (obj instanceof Scene || method.getReturnType() == Scene.class) {
 			return new SceneEntityHandler(mainFrame);
-		if (obj instanceof Chapter || method.getReturnType() == Chapter.class)
+		}
+		if (obj instanceof Chapter || method.getReturnType() == Chapter.class) {
 			return new ChapterEntityHandler(mainFrame);
-		if (obj instanceof Gender || method.getReturnType() == Gender.class)
+		}
+		if (obj instanceof Gender || method.getReturnType() == Gender.class) {
 			return new GenderEntityHandler(mainFrame);
-		if (obj instanceof Part || method.getReturnType() == Part.class)
+		}
+		if (obj instanceof Part || method.getReturnType() == Part.class) {
 			return new PartEntityHandler(mainFrame);
-		if (obj instanceof Category || method.getReturnType() == Category.class)
+		}
+		if (obj instanceof Category || method.getReturnType() == Category.class) {
 			return new CategoryEntityHandler(mainFrame);
-		if (obj instanceof Strand || method.getReturnType() == Strand.class)
+		}
+		if (obj instanceof Strand || method.getReturnType() == Strand.class) {
 			return new StrandEntityHandler(mainFrame);
-		if (obj instanceof Person || method.getReturnType() == Person.class)
+		}
+		if (obj instanceof Person || method.getReturnType() == Person.class) {
 			return new PersonEntityHandler(mainFrame);
-		if (obj instanceof Relationship || method.getReturnType() == Relationship.class)
+		}
+		if (obj instanceof Relationship || method.getReturnType() == Relationship.class) {
 			return new RelationshipEntityHandler(mainFrame);
-		if (obj instanceof Location || method.getReturnType() == Location.class)
+		}
+		if (obj instanceof Location || method.getReturnType() == Location.class) {
 			return new LocationEntityHandler(mainFrame);
-		if (obj instanceof Tag || method.getReturnType() == Tag.class)
+		}
+		if (obj instanceof Tag || method.getReturnType() == Tag.class) {
 			return new TagEntityHandler(mainFrame);
-		if (obj instanceof Item || method.getReturnType() == Item.class)
+		}
+		if (obj instanceof Item || method.getReturnType() == Item.class) {
 			return new ItemEntityHandler(mainFrame);
-		if (obj instanceof TagLink || method.getReturnType() == TagLink.class)
+		}
+		if (obj instanceof TagLink || method.getReturnType() == TagLink.class) {
 			return new TagLinkEntityHandler(mainFrame);
-		if (obj instanceof ItemLink || method.getReturnType() == ItemLink.class)
+		}
+		if (obj instanceof ItemLink || method.getReturnType() == ItemLink.class) {
 			return new ItemLinkEntityHandler(mainFrame);
-		if (obj instanceof Internal || method.getReturnType() == Internal.class)
+		}
+		if (obj instanceof Internal || method.getReturnType() == Internal.class) {
 			return new InternalEntityHandler(mainFrame);
-		if (obj instanceof TimeEvent || method.getReturnType() == TimeEvent.class)
+		}
+		if (obj instanceof TimeEvent || method.getReturnType() == TimeEvent.class) {
 			return new TimeEventEntityHandler(mainFrame);
-		if ((obj != null && obj instanceof Integer) || method.getReturnType() == Integer.class)
-			if (method.getName().contains("RelativeScene"))
+		}
+		if ((obj != null && obj instanceof Integer) || method.getReturnType() == Integer.class) {
+			if (method.getName().contains("RelativeScene")) {
 				return new SceneEntityHandler(mainFrame);
+			}
+		}
 		if ((obj != null && obj instanceof List) || method.getReturnType() == List.class) {
-			if (method.getName().endsWith("Persons"))
+			if (method.getName().endsWith("Persons")) {
 				return new PersonEntityHandler(mainFrame);
-			if (method.getName().endsWith("Items"))
+			}
+			if (method.getName().endsWith("Items")) {
 				return new ItemEntityHandler(mainFrame);
-			if (method.getName().endsWith("Locations"))
+			}
+			if (method.getName().endsWith("Locations")) {
 				return new LocationEntityHandler(mainFrame);
-			if (method.getName().endsWith("Strands"))
+			}
+			if (method.getName().endsWith("Strands")) {
 				return new StrandEntityHandler(mainFrame);
+			}
 		}
 		if ((obj != null && obj instanceof String) || method.getReturnType() == String.class) {
-			if (method.getName().endsWith("City") || method.getName().endsWith("Country"))
+			if (method.getName().endsWith("City") || method.getName().endsWith("Country")) {
 				return new LocationEntityHandler(mainFrame);
+			}
 			if (method.getName().endsWith("Category")) {
-				if (entity instanceof Tag)
+				if (entity instanceof Tag) {
 					return new TagEntityHandler(mainFrame);
-				if (entity instanceof Item)
+				}
+				if (entity instanceof Item) {
 					return new ItemEntityHandler(mainFrame);
-				if (entity instanceof Idea)
+				}
+				if (entity instanceof Idea) {
 					return new IdeaEntityHandler(mainFrame);
-				if (entity instanceof TimeEvent)
+				}
+				if (entity instanceof TimeEvent) {
 					return new TimeEventEntityHandler(mainFrame);
+				}
 			}
 		}
 		return null;
@@ -1284,16 +1431,16 @@ public class EntityUtil {
 			List<Object> items = (List<Object>) m.invoke(dao);
 			model.commit();
 			for (Object item : items) {
-				if (item == null || ((item instanceof String) && (((String)item).isEmpty())))
+				if (item == null || ((item instanceof String) && (((String) item).isEmpty()))) {
 					continue;
+				}
 				combo.addItem(item);
 			}
 			combo.addItem("");
 			combo.getModel().setSelectedItem(text);
 			combo.revalidate();
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException 
-				| IllegalArgumentException | InvocationTargetException e) {
-			SbApp.error("EntityUtil.copyEntityProperties()",e);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			SbApp.error("EntityUtil.copyEntityProperties()", e);
 		}
 	}
 
@@ -1303,7 +1450,9 @@ public class EntityUtil {
 			boolean isNew, boolean addEmptyItem) {
 		combo.removeAllItems();
 		ListCellRenderer renderer = entityHandler.getListCellRenderer();
-		if (renderer != null) combo.setRenderer(renderer);
+		if (renderer != null) {
+			combo.setRenderer(renderer);
+		}
 		int i = 0;
 		if (addEmptyItem) {
 			++i;
@@ -1318,11 +1467,13 @@ public class EntityUtil {
 		for (AbstractEntity entity2 : entities) {
 			session.refresh(entity2);
 			combo.addItem(entity2);
-			if (entity != null)
-				if (entity.getId().equals(entity2.getId()))
-					// don't use combo.setSelectedItem(entity) here
-					// leads to a "no session" exception for tag links
+			if (entity != null) {
+				if (entity.getId().equals(entity2.getId())) // don't use combo.setSelectedItem(entity) here
+				// leads to a "no session" exception for tag links
+				{
 					combo.setSelectedIndex(i);
+				}
+			}
 			++i;
 		}
 		combo.revalidate();
@@ -1355,13 +1506,14 @@ public class EntityUtil {
 				.append(">\n")
 				.append(getEntityTitle(entity))
 				.append("</span>\n");
-		if (!entity.isTransient())
+		if (!entity.isTransient()) {
 			buf.append("&nbsp;&nbsp;")
-				.append("<span ")
-				.append(getCSSTitle2())
-				.append("/>\n")
-				.append(entity.toString())
-				.append("</span>");
+					.append("<span ")
+					.append(getCSSTitle2())
+					.append("/>\n")
+					.append(entity.toString())
+					.append("</span>");
+		}
 		return buf.toString();
 	}
 
@@ -1370,24 +1522,54 @@ public class EntityUtil {
 	}
 
 	public static Icon getEntityIcon(AbstractEntity entity) {
-		if (entity instanceof Scene) return I18N.getIcon("icon.small.scene");
-		if (entity instanceof Chapter) return I18N.getIcon("icon.small.chapter");
-		if (entity instanceof Part) return I18N.getIcon("icon.small.part");
-		if (entity instanceof Location) return I18N.getIcon("icon.small.location");
+		if (entity instanceof Scene) {
+			return I18N.getIcon("icon.small.scene");
+		}
+		if (entity instanceof Chapter) {
+			return I18N.getIcon("icon.small.chapter");
+		}
+		if (entity instanceof Part) {
+			return I18N.getIcon("icon.small.part");
+		}
+		if (entity instanceof Location) {
+			return I18N.getIcon("icon.small.location");
+		}
 		if (entity instanceof Person) {
-			if (entity.isTransient()) return I18N.getIcon("icon.small.person");
+			if (entity.isTransient()) {
+				return I18N.getIcon("icon.small.person");
+			}
 			return ((Person) entity).getIcon();
 		}
-		if (entity instanceof Relationship) return I18N.getIcon("icon.small.group");
-		if (entity instanceof Gender) return I18N.getIcon("icon.small.gender");
-		if (entity instanceof Category) return I18N.getIcon("icon.small.category");
-		if (entity instanceof Strand) return I18N.getIcon("icon.small.strand");
-		if (entity instanceof Idea) return I18N.getIcon("icon.small.idea");
-		if (entity instanceof Tag) return I18N.getIcon("icon.small.tag");
-		if (entity instanceof Item) return I18N.getIcon("icon.small.item");
-		if (entity instanceof TagLink) return I18N.getIcon("icon.small.link");
-		if (entity instanceof ItemLink) return I18N.getIcon("icon.small.link");
-		if (entity instanceof Internal) return I18N.getIcon("icon.small.hammer");
+		if (entity instanceof Relationship) {
+			return I18N.getIcon("icon.small.relationship");
+		}
+		if (entity instanceof Gender) {
+			return I18N.getIcon("icon.small.gender");
+		}
+		if (entity instanceof Category) {
+			return I18N.getIcon("icon.small.category");
+		}
+		if (entity instanceof Strand) {
+			return I18N.getIcon("icon.small.strand");
+		}
+		if (entity instanceof Idea) {
+			return I18N.getIcon("icon.small.idea");
+		}
+		if (entity instanceof Tag) {
+			return I18N.getIcon("icon.small.tag");
+		}
+		if (entity instanceof Item) {
+			return I18N.getIcon("icon.small.item");
+		}
+		if (entity instanceof TagLink) {
+			return I18N.getIcon("icon.small.link");
+		}
+		if (entity instanceof ItemLink) {
+			return I18N.getIcon("icon.small.link");
+		}
+		if (entity instanceof Internal) {
+			return I18N.getIcon("icon.small.hammer");
+		}
 		return new ImageIcon();
 	}
 
@@ -1411,67 +1593,99 @@ public class EntityUtil {
 		return getEntityTitle(entity, null);
 	}
 
-	public static String getEntityTitle(AbstractEntity entity,  Boolean setIsTransient) {
+	public static String getEntityTitle(AbstractEntity entity, Boolean setIsTransient) {
 		boolean isTransient = entity.isTransient();
-		if (setIsTransient != null) isTransient = setIsTransient;
+		if (setIsTransient != null) {
+			isTransient = setIsTransient;
+		}
 		if (entity instanceof Scene) {
-			if (isTransient) return I18N.getMsg("msg.common.scene.add");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.scene.add");
+			}
 			return I18N.getMsg("msg.common.scene");
 		}
 		if (entity instanceof Chapter) {
-			if (isTransient) return I18N.getMsg("msg.common.chapter.add");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.chapter.add");
+			}
 			return I18N.getMsg("msg.common.chapter");
 		}
 		if (entity instanceof Part) {
-			if (isTransient) return I18N.getMsg("msg.common.part.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.part.new");
+			}
 			return I18N.getMsg("msg.common.part");
 		}
 		if (entity instanceof Location) {
-			if (isTransient) return I18N.getMsg("msg.common.location.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.location.new");
+			}
 			return I18N.getMsg("msg.common.location");
 		}
 		if (entity instanceof Person) {
-			if (isTransient) return I18N.getMsg("msg.common.person.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.person.new");
+			}
 			return I18N.getMsg("msg.common.person");
 		}
 		if (entity instanceof Relationship) {
-			if (isTransient) return I18N.getMsg("msg.relationship.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.relationship.new");
+			}
 			return I18N.getMsg("msg.relationship");
 		}
 		if (entity instanceof Gender) {
-			if (isTransient) return I18N.getMsg("msg.dlg.mng.persons.gender.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.dlg.mng.persons.gender.new");
+			}
 			return I18N.getMsg("msg.dlg.person.gender");
 		}
 		if (entity instanceof Category) {
-			if (isTransient) return I18N.getMsg("msg.persons.category");
+			if (isTransient) {
+				return I18N.getMsg("msg.persons.category");
+			}
 			return I18N.getMsg("msg.common.category");
 		}
 		if (entity instanceof Strand) {
-			if (isTransient) return I18N.getMsg("msg.common.strand.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.common.strand.new");
+			}
 			return I18N.getMsg("msg.common.strand");
 		}
 		if (entity instanceof Idea) {
-			if (isTransient) return I18N.getMsg("msg.idea.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.idea.new");
+			}
 			return I18N.getMsg("msg.idea.table.idea");
 		}
 		if (entity instanceof Tag) {
-			if (isTransient) return I18N.getMsg("msg.tag.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.tag.new");
+			}
 			return I18N.getMsg("msg.tag");
 		}
 		if (entity instanceof Item) {
-			if (isTransient) return I18N.getMsg("msg.item.new");
+			if (isTransient) {
+				return I18N.getMsg("msg.item.new");
+			}
 			return I18N.getMsg("msg.item");
 		}
 		if (entity instanceof TagLink) {
-			if (isTransient) return I18N.getMsg("msg.new.tag.link");
+			if (isTransient) {
+				return I18N.getMsg("msg.new.tag.link");
+			}
 			return I18N.getMsg("msg.common.link");
 		}
 		if (entity instanceof ItemLink) {
-			if (isTransient) return I18N.getMsg("msg.new.item.link");
+			if (isTransient) {
+				return I18N.getMsg("msg.new.item.link");
+			}
 			return I18N.getMsg("msg.common.link");
 		}
 		if (entity instanceof Internal) {
-			if (isTransient) return "New Internal";
+			if (isTransient) {
+				return "New Internal";
+			}
 			return I18N.getMsg("msg.internal");
 		}
 		return "";

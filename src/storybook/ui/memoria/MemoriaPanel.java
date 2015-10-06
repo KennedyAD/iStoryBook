@@ -89,6 +89,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.jdesktop.swingx.icon.EmptyIcon;
+import storybook.model.hbn.dao.RelationshipDAOImpl;
+import storybook.model.hbn.entity.Relationship;
 
 public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefreshable {
 
@@ -110,6 +112,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	private List<Long> sceneIds;
 	//persons
 	private Person personVertex;
+	//relationships
+	private Relationship relationshipVertex;
+	private String relationshipVertexTitle;
 	//locations
 	private Location locationVertex;
 	private String locationVertexTitle;
@@ -138,6 +143,8 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	private final Icon manIconLarge = I18N.getIcon("icon.large.man");
 	private final Icon personIconMedium = I18N.getIcon("icon.medium.person");
 	private final Icon personIconLarge = I18N.getIcon("icon.large.person");
+	private final Icon relationshipIconMedium = I18N.getIcon("icon.medium.relationship");
+	private final Icon relationshipIconLarge = I18N.getIcon("icon.large.relationship");
 	private final Icon locationIconMedium = I18N.getIcon("icon.medium.location");
 	private final Icon locationIconLarge = I18N.getIcon("icon.large.location");
 	private final Icon sceneIconMedium = I18N.getIcon("icon.medium.scene");
@@ -149,6 +156,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	private final Icon emptyIcon = new EmptyIcon();
 	//processAction
 	private boolean processActionListener = true;
+	private RelationshipDAOImpl relationshipDAO;
 
 	public MemoriaPanel(MainFrame paramMainFrame) {
 		super(paramMainFrame);
@@ -474,7 +482,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			DefaultModalGraphMouse mouse = new DefaultModalGraphMouse();
 			vv.setGraphMouse(mouse);
 			mouse.add(new MemoriaGraphMouse(this));
-	    // T O D O  MemoriaPanel compile error suppress 2 lines
+			// T O D O  MemoriaPanel compile error suppress 2 lines
 			//VertexStringerImpl localVertexStringerImpl = new VertexStringerImpl(labelMap);
 			//vv.getRenderContext().setVertexLabelTransformer(new VertexStringerImpl(localVertexStringerImpl));
 			VertexIconShapeTransformer transformer = new VertexIconShapeTransformer(new EllipseVertexShapeTransformer());
@@ -499,7 +507,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			if (entity == null) {
 				entity = (AbstractEntity) entityCombo.getItemAt(0);
 			}
-	    //if ((!(entity instanceof Scene)) && (chosenDate == null)) {
+			//if ((!(entity instanceof Scene)) && (chosenDate == null)) {
 			//	return;
 			//}
 			if ((entity instanceof Scene)) {
@@ -566,6 +574,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		SceneDAOImpl daoScene = new SceneDAOImpl(session);
+		relationshipDAO = new RelationshipDAOImpl(session);
 		Scene localScene = (Scene) daoScene.find(Long.valueOf(entityId));
 		if (localScene == null) {
 			model.commit();
@@ -665,6 +674,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		TagDAOImpl localTagDAOImpl = new TagDAOImpl(session);
+		relationshipDAO = new RelationshipDAOImpl(session);
 		Tag tag = (Tag) localTagDAOImpl.find(Long.valueOf(entityId));
 		if (tag == null) {
 			model.commit();
@@ -756,6 +766,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		ItemDAOImpl itemDAOImpl = new ItemDAOImpl(session);
+		relationshipDAO = new RelationshipDAOImpl(session);
 		Item localItem = (Item) itemDAOImpl.find(Long.valueOf(entityId));
 		if (localItem == null) {
 			model.commit();
@@ -857,6 +868,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		labelMap.put(person, person.toString());
 		iconMap.put(person, getPersonIcon(person, SbConstants.IconSize.MEDIUM));
 		graph.addEdge(graphIndex++, personVertex, person);
+		List<Relationship> relationships = relationshipDAO.findByPersonLink(person);
+		addToVertexRelationships(relationships);
+		relationships = relationshipDAO.findByPerson(person);
+		addToVertexRelationships(relationships);
+
 	}
 
 	void addToVertexPersons(Set<Person> paramSet) {
@@ -867,11 +883,39 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	void addToVertexRelationship(Relationship relationship) {
+		boolean b=false;
+		if (relationship.hasPeriod() && (chosenDate != null)) {
+			Period period = relationship.getPeriod();
+			if ((period != null) && (!period.isInside(chosenDate))) {
+				b=true;
+			}
+		} else {
+			b=true;
+		}
+		if (b) {
+			graph.addVertex(relationship);
+			labelMap.put(relationship, relationship.getDescription());
+			iconMap.put(relationship, relationshipIconMedium);
+			graph.addEdge(graphIndex++, relationshipVertex, relationship);
+		}
+	}
+
+	void addToVertexRelationships(List<Relationship> relationships) {
+		if (!relationships.isEmpty()) {
+			for (Relationship relationship : relationships) {
+				addToVertexRelationship(relationship);
+			}
+		}
+	}
+
 	void addToVertexLocation(Location location) {
 		graph.addVertex(location);
 		labelMap.put(location, location.toString());
 		iconMap.put(location, locationIconMedium);
 		graph.addEdge(graphIndex++, locationVertex, location);
+		List<Relationship> relationships = relationshipDAO.findByLocationLink(location);
+		addToVertexRelationships(relationships);
 	}
 
 	void addToVertexLocations(Set<Location> paramSet) {
@@ -886,6 +930,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		LocationDAOImpl locationDao = new LocationDAOImpl(session);
+		relationshipDAO = new RelationshipDAOImpl(session);
 		Location location = (Location) locationDao.find(Long.valueOf(entityId));
 		if (location == null) {
 			model.commit();
@@ -962,6 +1007,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		PersonDAOImpl personDAO = new PersonDAOImpl(session);
+		relationshipDAO = new RelationshipDAOImpl(session);
 		Person localPerson = (Person) personDAO.find(Long.valueOf(entityId));
 		if (localPerson == null) {
 			model.commit();
@@ -1109,6 +1155,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	void initVertices(AbstractEntity entity) {
 		initVertexScene(entity);
 		initVertexPerson(entity);
+		initVertexRelationship(entity);
 		initVertexLocation(entity);
 		if (showTagVertex) {
 			if (!(entity instanceof Tag)) {
@@ -1185,6 +1232,8 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			labelMap.put(item, item.toString());
 			iconMap.put(item, itemIconMedium);
 			graph.addEdge(graphIndex++, itemVertex, item);
+			List<Relationship> relationships = relationshipDAO.findByItemLink(item);
+			addToVertexRelationships(relationships);
 		}
 	}
 
@@ -1254,6 +1303,16 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		labelMap.put(personVertex, personVertex.getFullName());
 		iconMap.put(personVertex, emptyIcon);
 		graph.addEdge(graphIndex++, entity, personVertex);
+	}
+
+	private void initVertexRelationship(AbstractEntity entity) {
+		SbApp.trace("MemoriaPanel.initVertexRelationship(" + entity.toString() + ")");
+		relationshipVertex = new Relationship();
+		relationshipVertex.setDescription(I18N.getMsg("msg.menu.relationships"));
+		graph.addVertex(relationshipVertex);
+		labelMap.put(relationshipVertex, relationshipVertex.toString());
+		iconMap.put(relationshipVertex, emptyIcon);
+		graph.addEdge(graphIndex++, entity, relationshipVertex);
 	}
 
 	private void initVertexLocation(AbstractEntity entity) {
