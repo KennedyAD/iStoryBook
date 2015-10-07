@@ -1697,7 +1697,7 @@
         <Component class="javax.swing.JButton" name="btTabRelationship">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/storybook/resources/icons/16x32/manage_groups.png"/>
+              <Image iconType="3" name="/storybook/resources/icons/16x32/manage_relationships.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
               <ResourceString bundle="storybook/msg/messages.properties" key="msg.relationship" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
