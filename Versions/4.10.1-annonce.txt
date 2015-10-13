@@ -14,10 +14,11 @@ L'équipe recherche toujours des traducteurs pour:
 
 Nouvelle version 4.10.1
 - accès aux chapitres depuis la vue "Gérer les chapitres et les scènes"
-- mémorisation de la disposition des tableau
+- mémorisation de la disposition des tableaux
 - alignement de la taille des champs notes et description des objets et
   étiquettes sur la même taille que pour les autres éléments (32768)
-- correction du bug concernant le format de date à saisir
+- correction du bug concernant le format de date à saisir, avec correction
+au niveau des préférences et des tableaux
 - obligation d'utiliser le OK ou Annuler pour sortir du dialogue editeur
 - ajout de la creation d'une idea depuis n'importe quel editeur
 - possibilité de changer l'ordre des chapitres

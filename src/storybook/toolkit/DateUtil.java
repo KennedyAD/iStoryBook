@@ -186,10 +186,27 @@ public class DateUtil {
 		SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 		return (formatter.format(date));
 	}
+	
+	public static String timeToString(Date date) {
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		return (formatter.format(date));
+	}
 
 	public static String simpleDateToString(Date date) {
 		Preference prefDateFormat = PrefUtil.get(PreferenceKey.DATEFORMAT, "MM-dd-yyyy");
 		SimpleDateFormat formatter = new SimpleDateFormat(prefDateFormat.getStringValue());
 		return (formatter.format(date));
+	}
+	
+	public static String simpleDateTimeToString(Date date) {
+		Preference prefDateFormat = PrefUtil.get(PreferenceKey.DATEFORMAT, "MM-dd-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat(prefDateFormat.getStringValue()+" HH:mm:ss");
+		return (formatter.format(date));
+	}
+	
+	public static DateFormat simpleDateToString() {
+		Preference prefDateFormat = PrefUtil.get(PreferenceKey.DATEFORMAT, "MM-dd-yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat(prefDateFormat.getStringValue());
+		return (formatter);
 	}
 }
