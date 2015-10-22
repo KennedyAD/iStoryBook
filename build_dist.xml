@@ -42,7 +42,7 @@
         <copy file="${dir.workspace}/code/lib/dao-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/dao-hibernate-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/dom4j-1.6.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
-        <copy file="${dir.workspace}/code/lib/h2-1.3.159.jar" todir="${dir.jarfile}/ostorybook_lib"/>
+        <copy file="${dir.workspace}/code/lib/h2-1.4.189.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/hibernate3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/idw-gpl.jar" todir="${dir.jarfile}/ostorybook_lib"/>
