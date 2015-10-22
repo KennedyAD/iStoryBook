@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -54,8 +55,12 @@ public class I18N {
 		return locale.getLanguage() + "_" + locale.getCountry();
 	}
 
+	public static String getDateTime(Date date) {
+		return DateUtil.simpleDateTimeToString(date);
+	}
+	
 	public static DateFormat getDateTimeFormatter() {
-		return DateFormat.getInstance();
+		return DateFormat.getDateTimeInstance();
 	}
 
 	public static DateFormat getShortDateFormatter() {
@@ -226,5 +231,10 @@ public class I18N {
 	public static Image getIconImage(String resourceKey) {
 		ImageIcon icon = (ImageIcon) I18N.getIcon(resourceKey);
 		return icon.getImage();
+	}
+	
+	public static Icon getIconExternal(String filename) {
+		ImageIcon iconext = new ImageIcon(filename);
+		return(iconext);
 	}
 }

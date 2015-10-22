@@ -181,6 +181,7 @@ public class PreferencesDialog extends AbstractDialog implements
 		JLabel lbDateFormat = new JLabel(I18N.getMsgColon("msg.common.dateformatlabel"));
 		dateFormatCombo = SwingUtil.createDateFormat();
 		Preference prefDateFormat = PrefUtil.get(PreferenceKey.DATEFORMAT, "MM-dd-yyyy");
+		dateFormatCombo.setSelectedItem(prefDateFormat.getStringValue());
 
 		// spelling
 		JLabel lbSpelling = new JLabel(I18N.getMsgColon("msg.pref.spelling"));

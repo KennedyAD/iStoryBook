@@ -41,14 +41,7 @@ public class DateTableCellRenderer extends DefaultTableCellRenderer {
 	public void setValue(Object value) {
 		try {
 			if (value instanceof Date) {
-				Date date = (Date) value;
-				DateFormat formatter;
-				if (DateUtil.isZeroTimeDate(date)) {
-					formatter = I18N.getMediumDateFormatter();
-				} else {
-					formatter = I18N.getDateTimeFormatter();
-				}
-				setText(formatter.format(date));
+				setText(I18N.getDateTime((Date)value));
 			} else {
 				setText("");
 			}
