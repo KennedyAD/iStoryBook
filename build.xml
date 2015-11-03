@@ -286,21 +286,8 @@ mkdir ${sb.debian.app}
 cp -R ${basedir}/dist/* ${sb.debian.app}
 rm ${sb.debian.distdir}/usr/share/ostorybook/LICENSE.txt
 echo Modification des droits
-chmod -R 644 ${sb.debian.distdir}/usr
+find ${sb.debian.distdir}/usr -type d -exec chmod 755 {} +
 chmod -R 755 ${sb.debian.distdir}/DEBIAN
-chmod -R 755 ${sb.debian.distdir}/usr/bin/ostorybook
-chmod    755 ${sb.debian.distdir}/usr
-chmod    755 ${sb.debian.distdir}/usr/bin
-chmod    755 ${sb.debian.distdir}/usr/share
-chmod    755 ${sb.debian.distdir}/usr/share/applications
-chmod    755 ${sb.debian.distdir}/usr/share/doc
-chmod    755 ${sb.debian.distdir}/usr/share/doc/ostorybook
-chmod    755 ${sb.debian.distdir}/usr/share/icons
-chmod    755 ${sb.debian.distdir}/usr/share/mime
-chmod    755 ${sb.debian.distdir}/usr/share/mime/packages
-chmod    755 ${sb.debian.distdir}/usr/share/ostorybook
-chmod    755 ${sb.debian.distdir}/usr/share/ostorybook/dicts
-chmod    755 ${sb.debian.distdir}/usr/share/ostorybook/lib
 echo Construction du paquet DEBIAN
 dpkg-deb --build ${sb.debian.distdir} ${sb.distdir}/oStorybook-${sb.version}.deb
 echo Nettoyage...

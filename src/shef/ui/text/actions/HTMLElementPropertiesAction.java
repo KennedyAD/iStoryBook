@@ -393,7 +393,6 @@ public class HTMLElementPropertiesAction extends HTMLTextEditAction {
 		}
 
 		putValue(NAME, PROPS[t]);
-		//Messages.setMnemonic(PROPS[t], this); TODO this won't set the right mnemonic
 	}
 
 	private int getElementType(Element elem) {

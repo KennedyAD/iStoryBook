@@ -40,7 +40,7 @@ import storybook.toolkit.I18N;
  * TextEditPopupManager.getInstance().registerJTextComponent(textField);
  * </code></pre>
  *
- * @author Bob Tantlinger TODO Internationalize, add mnemonics, etc
+ * @author Bob Tantlinger
  */
 public class TextEditPopupManager {
 

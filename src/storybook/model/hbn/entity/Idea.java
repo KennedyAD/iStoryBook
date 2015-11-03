@@ -28,7 +28,7 @@ import storybook.toolkit.html.HtmlUtil;
  * @hibernate.class
  *   table="IDEAS"
  */
-public class Idea extends AbstractEntity {
+public class Idea extends AbstractEntity implements Comparable<Idea> {
 
 	private Integer status;
 	private String note;
@@ -139,5 +139,9 @@ public class Idea extends AbstractEntity {
 		hash = hash * 31 + (category != null ? category.hashCode() : 0);
 		hash = hash * 31 + (note != null ? note.hashCode() : 0);
 		return hash;
+	}
+
+	public int compareTo(Idea o) {
+		return getNote().compareTo(o.getNote());
 	}
 }
