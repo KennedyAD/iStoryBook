@@ -64,21 +64,17 @@ public class DateUtil {
 
 	public static Date getZeroTimeDate() {
 		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return cal.getTime();
+		clearTime(cal);
+                return cal.getTime();
 	}
 
 	public static boolean isZeroTimeDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0
-				&& cal.get(Calendar.SECOND) == 0) {
-			return true;
-		}
-		return false;
+		return cal.get(Calendar.HOUR_OF_DAY) == 0 
+                        && cal.get(Calendar.MINUTE) == 0
+                        && cal.get(Calendar.SECOND) == 0
+                        && cal.get(Calendar.MILLISECOND) == 0;
 	}
 
 	public static Date getZeroTimeDate(Date date) {
@@ -87,10 +83,7 @@ public class DateUtil {
 		}
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
+                clearTime(cal);
 		return cal.getTime();
 	}
 
@@ -209,4 +202,17 @@ public class DateUtil {
 		SimpleDateFormat formatter = new SimpleDateFormat(prefDateFormat.getStringValue());
 		return (formatter);
 	}
+
+    /**
+     *
+     * @param cal the value of cal
+     */
+    public static Calendar clearTime(Calendar cal) {
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal;
+    }
 }

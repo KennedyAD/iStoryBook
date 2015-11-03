@@ -26,6 +26,8 @@ import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import static storybook.toolkit.DateUtil.clearTime;
+
 import storybook.toolkit.swing.ColorUtil;
 
 /**
@@ -276,15 +278,6 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 		return (now.after(getDayofdeath()));
 	}
         
-        public Calendar clearTime(Calendar cal) {
-                cal.set(Calendar.HOUR, 0);
-                cal.set(Calendar.HOUR_OF_DAY, 0);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-                
-                return cal;
-        }
 
 	public int calculateAge(Date now) {
 		if (birthday == null) {
