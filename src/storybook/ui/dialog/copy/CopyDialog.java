@@ -86,7 +86,7 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog i
 	public void initUi() {
 		super.initUi();
 		setLayout(new MigLayout("wrap,fill", "", "[grow][]"));
-		setTitle(I18N.getMsg("msg.dlg.preference.title"));
+		setTitle(I18N.getMsg("msg.copy.title"));
 		setIconImage(I18N.getIconImage("icon.sb"));
 		setPreferredSize(new Dimension(500, 600));
 
@@ -102,8 +102,7 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog i
 		add(getCancelButton(), "sg");
 	}
 	
-	protected void addPanelToTabbed(JPanel panel, String I18NTitle)
-	{
+	protected void addPanelToTabbed(JPanel panel, String I18NTitle) {
 		tabbedPane.addTab(I18N.getMsg(I18NTitle), panel);
 	}
 
@@ -177,7 +176,7 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog i
 
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
-		List<AbstractEntity> buf = new ArrayList<AbstractEntity>();
+		List<AbstractEntity> buf = new ArrayList<>();
 		check.setEntityList((List<AbstractEntity>) copier.getAllElements(session, mainFrame));
 		for (AbstractEntity entity : copier.getAllElements(session, mainFrame)) {
             check.addEntity(session, entity);
