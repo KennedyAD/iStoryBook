@@ -1026,7 +1026,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuPrimaryObjects.add(tabPerson);
 
-        tabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
+        tabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_relationships.png"))); // NOI18N
         tabRelationship.setText(bundle.getString("msg.relationship")); // NOI18N
         tabRelationship.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
