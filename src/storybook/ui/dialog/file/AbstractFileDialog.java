@@ -199,8 +199,9 @@ public abstract class AbstractFileDialog
 				}
 				String name = tfName.getText();
 				if (forceDbExt) {
-					String fileExt = SbConstants.Storybook.DB_FILE_EXT.toString();
-					if (!name.endsWith(fileExt)) {
+					String fileExtOld = SbConstants.Storybook.DB_FILE_EXT.toString();
+					String fileExt = SbConstants.Storybook.DB_FILE_EXT2.toString();
+					if ((!name.endsWith(fileExtOld)) && (!name.endsWith(fileExt))) {
 						name += fileExt;
 					}
 				}
