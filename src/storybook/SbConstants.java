@@ -81,6 +81,7 @@ public class SbConstants {
 		PREFERENCE_DB_NAME("preference"),
 		DB_VERSION("4.0"),
 		DB_FILE_EXT(".h2.db"),
+		DB_FILE_EXT2(".mv.db"),
 		DB_CONFIG_EXT(".cfg.xml"),
 		IS_BETA_VERSION("false"),
 		USER_HOME_DIR("storybook5");

@@ -20,7 +20,7 @@ public class H2FileFilter extends FileFilter {
 			if (!ext.equals("db")) {
 				return false;
 			}
-			if (name.contains(".h2") || name.contains(".data")) {
+			if (name.contains(".h2") || name.contains(".mv") || name.contains(".data")) {
 				return true;
 			}
 		}

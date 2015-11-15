@@ -44,6 +44,11 @@ public class DbFile {
 		String absPath = file.getAbsolutePath();
 		String ext = SbConstants.Storybook.DB_FILE_EXT.toString();
 		int idx = absPath.lastIndexOf(ext);
+		// Using new "mv.db" name
+		if (idx < 0) {
+			ext = SbConstants.Storybook.DB_FILE_EXT2.toString();
+			idx = absPath.lastIndexOf(ext);
+		}
 		dbName = absPath.substring(0, idx);
 		String fileName = file.getName();
 		idx = fileName.lastIndexOf(ext);

@@ -57,6 +57,7 @@ import storybook.ui.dialog.CreateChaptersDialog;
 import storybook.ui.dialog.FoiDialog;
 import storybook.ui.dialog.ManageLayoutsDialog;
 import storybook.ui.dialog.PreferencesDialog;
+import storybook.ui.dialog.copy.IdeaCopier;
 import storybook.ui.dialog.copy.ItemCopier;
 import storybook.ui.dialog.copy.LocationCopier;
 import storybook.ui.dialog.copy.PersonCopier;
@@ -149,9 +150,11 @@ public class MainMenu extends javax.swing.JFrame {
         menuEdit = new javax.swing.JMenu();
         editCopyBook = new javax.swing.JMenuItem();
         editCopyBlurb = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
         editCopyPersons = new javax.swing.JMenuItem();
         editCopyLocations = new javax.swing.JMenuItem();
         editCopyItems = new javax.swing.JMenuItem();
+        editCopyIdeas = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         windowPreferences = new javax.swing.JMenuItem();
         menuNewEntity = new javax.swing.JMenu();
@@ -741,29 +744,41 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuEdit.add(editCopyBlurb);
 
-        editCopyPersons.setText(bundle.getString("msg.dlg.copypersons.title")); // NOI18N
+        jMenu1.setText(bundle.getString("msg.copy.menu")); // NOI18N
+
+        editCopyPersons.setText(bundle.getString("msg.common.persons")); // NOI18N
         editCopyPersons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCopyPersonsActionPerformed(evt);
             }
         });
-        menuEdit.add(editCopyPersons);
+        jMenu1.add(editCopyPersons);
 
-        editCopyLocations.setText(bundle.getString("msg.dlg.copylocations.title")); // NOI18N
+        editCopyLocations.setText(bundle.getString("msg.common.locations")); // NOI18N
         editCopyLocations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCopyLocationsActionPerformed(evt);
             }
         });
-        menuEdit.add(editCopyLocations);
+        jMenu1.add(editCopyLocations);
 
-        editCopyItems.setText(bundle.getString("msg.dlg.copyitems.title")); // NOI18N
+        editCopyItems.setText(bundle.getString("msg.common.items")); // NOI18N
         editCopyItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editCopyItemsActionPerformed(evt);
             }
         });
-        menuEdit.add(editCopyItems);
+        jMenu1.add(editCopyItems);
+
+        editCopyIdeas.setText(bundle.getString("msg.common.ideas")); // NOI18N
+        editCopyIdeas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCopyIdeasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(editCopyIdeas);
+
+        menuEdit.add(jMenu1);
         menuEdit.add(jSeparator1);
 
         windowPreferences.setText(bundle.getString("msg.dlg.preference.title")); // NOI18N
@@ -1011,7 +1026,7 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuPrimaryObjects.add(tabPerson);
 
-        tabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_groups.png"))); // NOI18N
+        tabRelationship.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x32/manage_relationships.png"))); // NOI18N
         tabRelationship.setText(bundle.getString("msg.relationship")); // NOI18N
         tabRelationship.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2118,6 +2133,11 @@ public class MainMenu extends javax.swing.JFrame {
 		// end of your adding code, don't delete this line
     }//GEN-LAST:event_devTestActionPerformed
 
+    private void editCopyIdeasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCopyIdeasActionPerformed
+    	IdeaCopier copier = new IdeaCopier(mainFrame);
+		copier.showDialog();
+    }//GEN-LAST:event_editCopyIdeasActionPerformed
+
 	/**
 	 * @param args the command line arguments
 	 */
@@ -2191,6 +2211,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem devTest;
     private javax.swing.JMenuItem editCopyBlurb;
     private javax.swing.JMenuItem editCopyBook;
+    private javax.swing.JMenuItem editCopyIdeas;
     private javax.swing.JMenuItem editCopyItems;
     private javax.swing.JMenuItem editCopyLocations;
     private javax.swing.JMenuItem editCopyPersons;
@@ -2214,6 +2235,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpReportBug;
     private javax.swing.JCheckBoxMenuItem helpTrace;
     private javax.swing.JMenuItem jChaptersOrder;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
