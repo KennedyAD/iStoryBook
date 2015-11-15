@@ -50,14 +50,14 @@ public class ChartUtil {
 		Date localDate1 = (Date) paramTreeSet.first();
 		Calendar localCalendar1 = Calendar.getInstance();
 		localCalendar1.setTime(localDate1);
-		int i = localCalendar1.get(1);
+		int i = localCalendar1.get(Calendar.YEAR);
 		if (i > 1900) {
 			return paramTreeSet;
 		}
 		for (Date localDate2 : paramTreeSet) {
 			Calendar localCalendar2 = Calendar.getInstance();
 			localCalendar2.setTime(localDate2);
-			int j = localCalendar2.get(1);
+			int j = localCalendar2.get(Calendar.YEAR);
 			localDate2 = DateUtils.addYears(localDate2, 1900 - j);
 			localTreeSet.add(localDate2);
 		}
