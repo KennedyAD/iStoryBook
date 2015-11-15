@@ -1,26 +1,25 @@
 package shef.ui;
 
-import javax.swing.JPanel;
-import java.awt.Frame;
-import javax.swing.JDialog;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-
 import java.awt.Dialog;
-import java.awt.Insets;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
+import java.awt.Insets;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 import storybook.toolkit.I18N;
 
