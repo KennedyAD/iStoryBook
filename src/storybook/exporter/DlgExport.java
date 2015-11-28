@@ -145,6 +145,11 @@ public class DlgExport extends javax.swing.JDialog {
                 cbReportItemStateChanged(evt);
             }
         });
+        cbReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbReportActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText(bundle.getString("msg.dlg.export.format")); // NOI18N
 
@@ -219,12 +224,12 @@ public class DlgExport extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbReport, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbReport, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 133, Short.MAX_VALUE))
+                        .addGap(0, 46, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btClose, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,6 +315,14 @@ public class DlgExport extends javax.swing.JDialog {
 		DlgExportOptions expo=new DlgExportOptions(this,true);
 		expo.setVisible(true);
     }//GEN-LAST:event_btOptionsActionPerformed
+
+    private void cbReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbReportActionPerformed
+		ExportData report=(ExportData)cbReport.getSelectedItem();
+		if (report.getExportName().contains("sql")) {
+			cbFormat.setSelectedItem("sql");
+			return;
+		}
+    }//GEN-LAST:event_cbReportActionPerformed
 
 	/**
 	 * @param args the command line arguments
