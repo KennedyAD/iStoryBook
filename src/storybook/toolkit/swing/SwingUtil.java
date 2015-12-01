@@ -78,10 +78,9 @@ import javax.swing.plaf.ToolBarUI;
 import javax.swing.plaf.basic.BasicToolBarUI;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
+import miginfocom.swing.MigLayout;
 
 import shef.ui.text.WysiwygHTMLEditorKit;
-
-import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;

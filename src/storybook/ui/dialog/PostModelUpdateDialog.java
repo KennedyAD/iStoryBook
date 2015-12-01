@@ -30,7 +30,7 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

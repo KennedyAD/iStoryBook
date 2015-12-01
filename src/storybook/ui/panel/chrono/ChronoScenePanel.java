@@ -51,7 +51,7 @@ import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 import storybook.ui.panel.linkspanel.ItemLinksPanel;
 
 @SuppressWarnings("serial")

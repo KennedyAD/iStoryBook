@@ -36,7 +36,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 import net.infonode.docking.View;
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import storybook.SbConstants;

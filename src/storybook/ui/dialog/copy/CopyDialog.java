@@ -41,7 +41,7 @@ import javax.swing.event.CaretListener;
 
 import org.hibernate.Session;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants.BookKey;
 import storybook.model.BookModel;

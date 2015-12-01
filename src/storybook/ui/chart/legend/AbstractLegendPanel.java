@@ -17,7 +17,7 @@ package storybook.ui.chart.legend;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 

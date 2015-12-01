@@ -26,7 +26,7 @@ import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.panel.AbstractPanel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

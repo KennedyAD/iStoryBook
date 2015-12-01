@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;

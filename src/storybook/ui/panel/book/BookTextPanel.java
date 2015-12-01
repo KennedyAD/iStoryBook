@@ -43,7 +43,7 @@ import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.label.SceneStateLabel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

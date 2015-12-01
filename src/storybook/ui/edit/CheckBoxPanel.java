@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 

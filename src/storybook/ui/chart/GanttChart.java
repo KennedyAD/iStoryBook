@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;

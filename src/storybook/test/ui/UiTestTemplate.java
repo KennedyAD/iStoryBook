@@ -23,8 +23,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

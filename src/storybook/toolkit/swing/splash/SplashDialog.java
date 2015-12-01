@@ -21,10 +21,9 @@ package storybook.toolkit.swing.splash;
 import java.awt.Frame;
 
 import javax.swing.JDialog;
+import miginfocom.swing.MigLayout;
 
 import storybook.ui.interfaces.IPaintable;
-
-import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class SplashDialog extends JDialog implements IPaintable {

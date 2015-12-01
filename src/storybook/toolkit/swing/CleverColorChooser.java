@@ -42,7 +42,7 @@ import javax.swing.SwingConstants;
 
 import storybook.ui.interfaces.IRefreshable;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class CleverColorChooser extends JPanel implements IRefreshable,

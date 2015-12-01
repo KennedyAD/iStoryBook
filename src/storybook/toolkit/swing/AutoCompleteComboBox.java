@@ -25,7 +25,7 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import storybook.ui.panel.AbstractPanel;

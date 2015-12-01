@@ -26,7 +26,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import storybook.SbApp;

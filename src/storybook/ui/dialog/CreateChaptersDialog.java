@@ -35,7 +35,7 @@ import storybook.model.hbn.entity.Part;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class CreateChaptersDialog extends AbstractDialog {

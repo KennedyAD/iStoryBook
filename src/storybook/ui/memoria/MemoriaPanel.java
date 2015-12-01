@@ -85,7 +85,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.infonode.docking.View;
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.jdesktop.swingx.icon.EmptyIcon;

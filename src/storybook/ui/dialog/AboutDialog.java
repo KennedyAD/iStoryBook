@@ -35,7 +35,7 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * The about dialog shows the copyright, credits and some internal information that may help to support clients.

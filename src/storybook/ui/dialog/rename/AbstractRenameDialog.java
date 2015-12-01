@@ -35,7 +35,7 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 abstract public class AbstractRenameDialog extends AbstractDialog implements

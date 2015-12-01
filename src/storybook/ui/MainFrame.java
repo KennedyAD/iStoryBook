@@ -43,6 +43,7 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
+import miginfocom.swing.MigLayout;
 
 import net.infonode.docking.DockingWindow;
 import net.infonode.docking.DockingWindowAdapter;
@@ -58,7 +59,6 @@ import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.MixedViewHandler;
 import net.infonode.docking.util.StringViewMap;
 import net.infonode.util.Direction;
-import net.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 

@@ -20,7 +20,7 @@ package storybook.ui.dialog.file;
 
 import javax.swing.JCheckBox;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.apache.commons.io.FileUtils;
 import storybook.toolkit.I18N;

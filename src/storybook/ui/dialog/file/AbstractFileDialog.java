@@ -31,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;

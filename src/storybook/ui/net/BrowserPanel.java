@@ -28,7 +28,7 @@ import javax.swing.event.HyperlinkListener;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class BrowserPanel extends JEditorPane implements HyperlinkListener {

@@ -30,9 +30,8 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
-import net.miginfocom.swing.MigLayout;
-
 import org.apache.commons.lang3.time.DateUtils;
+
 import storybook.model.EntityUtil;
 import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
@@ -42,6 +41,7 @@ import storybook.ui.MainFrame;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
+import miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.PrefUtil;
 

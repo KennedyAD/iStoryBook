@@ -24,6 +24,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import miginfocom.swing.MigLayout;
 
 import storybook.ui.SbView;
 
@@ -36,7 +37,6 @@ import net.infonode.docking.View;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.infonode.util.Direction;
-import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings({ "serial" })
 public class IdwTest03 extends JFrame {

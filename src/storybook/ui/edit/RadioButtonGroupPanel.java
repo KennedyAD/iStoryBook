@@ -32,7 +32,7 @@ import javax.swing.JRadioButton;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.RadioButtonGroup;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

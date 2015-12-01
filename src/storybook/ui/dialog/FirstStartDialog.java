@@ -37,7 +37,7 @@ import storybook.toolkit.SpellCheckerUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.BackgroundPanel;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin

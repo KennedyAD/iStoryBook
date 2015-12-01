@@ -68,7 +68,7 @@ import javax.swing.Timer;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 import org.jopendocument.dom.OOUtils;
 

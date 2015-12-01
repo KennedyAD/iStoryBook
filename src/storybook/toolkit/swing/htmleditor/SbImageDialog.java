@@ -33,7 +33,7 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.ui.dialog.AbstractDialog;
 
-import net.miginfocom.swing.MigLayout;
+import miginfocom.swing.MigLayout;
 
 /**
  * @author martin
