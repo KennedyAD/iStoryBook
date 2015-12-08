@@ -43,7 +43,7 @@ import storybook.ui.panel.AbstractScenePanel;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 
 @SuppressWarnings("serial")

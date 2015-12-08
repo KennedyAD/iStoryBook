@@ -46,7 +46,7 @@ import javax.swing.border.BevelBorder;
 
 import org.hibernate.Session;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 import storybook.SbConstants.BookKey;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ChapterDAOImpl;

@@ -85,7 +85,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.infonode.docking.View;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.jdesktop.swingx.icon.EmptyIcon;
@@ -610,7 +610,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		// liste des personnages liés à la scène
 		List<Person> persons = localScene.getPersons();
 		for (Person person : persons) {
-			addToVertexPerson(person);
+			addToVertexPerson(person, null);
 		}
 		// liste des lieux liés à la scène
 		List<Location> locations = localScene.getLocations();
@@ -695,7 +695,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			if ((chosenDate == null) || (period == null) || (period.isInside(chosenDate))) {
 				if (tagLink.hasLocationOrPerson()) {
 					if (tagLink.hasPerson()) {
-						addToVertexPerson(tagLink.getPerson());
+						addToVertexPerson(tagLink.getPerson(), null);
 						List<TagLink> TLbys = localTagLinkDAOImpl.findByPerson(tagLink.getPerson());
 						if (!TLbys.isEmpty()) {
 							for (TagLink TLby : TLbys) {
@@ -786,7 +786,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			Period period = itemLink.getPeriod();
 			if ((chosenDate == null) || (period == null) || (period.isInside(chosenDate))) {
 				if (itemLink.hasPerson()) {
-					addToVertexPerson(itemLink.getPerson());
+					addToVertexPerson(itemLink.getPerson(), null);
 				}
 				if (itemLink.hasLocation()) {
 					addToVertexLocation(itemLink.getLocation());
@@ -804,7 +804,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 						List<Person> persons = scene.getPersons();
 						if (!persons.isEmpty()) {
 							for (Person person : persons) {
-								addToVertexPerson(person);
+								addToVertexPerson(person, null);
 							}
 						}
 						List<Item> items = scene.getItems();
@@ -832,7 +832,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 				List<Person> persons = scene.getPersons();
 				if (!persons.isEmpty()) {
 					for (Person person : persons) {
-						addToVertexPerson(person);
+						addToVertexPerson(person,null);
 					}
 				}
 				List<Item> items = scene.getItems();
@@ -863,22 +863,22 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	void addToVertexPerson(Person person) {
+	void addToVertexPerson(Person person, Person personLink) {
 		graph.addVertex(person);
 		labelMap.put(person, person.toString());
 		iconMap.put(person, getPersonIcon(person, SbConstants.IconSize.MEDIUM));
 		graph.addEdge(graphIndex++, personVertex, person);
-		List<Relationship> relationships = relationshipDAO.findByPersonLink(person);
-		addToVertexRelationships(relationships);
+		List<Relationship> relationships;
+		relationships = relationshipDAO.findByPersonLink(person);
+		addToVertexRelationships(relationships, personLink);
 		relationships = relationshipDAO.findByPerson(person);
-		addToVertexRelationships(relationships);
-
+		addToVertexRelationships(relationships, personLink);
 	}
 
 	void addToVertexPersons(Set<Person> paramSet) {
 		if (!paramSet.isEmpty()) {
 			for (Person person : paramSet) {
-				addToVertexPerson(person);
+				addToVertexPerson(person, null);
 			}
 		}
 	}
@@ -901,10 +901,17 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	void addToVertexRelationships(List<Relationship> relationships) {
+	void addToVertexRelationships(List<Relationship> relationships, Person person) {
 		if (!relationships.isEmpty()) {
 			for (Relationship relationship : relationships) {
-				addToVertexRelationship(relationship);
+				if (relationship.hasPerson1()) {
+					if (relationship.getPerson1().equals(person))
+						addToVertexRelationship(relationship);
+				}
+				if (relationship.hasPerson2()) {
+					if (relationship.getPerson2().equals(person))
+						addToVertexRelationship(relationship);
+				}
 			}
 		}
 	}
@@ -915,7 +922,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		iconMap.put(location, locationIconMedium);
 		graph.addEdge(graphIndex++, locationVertex, location);
 		List<Relationship> relationships = relationshipDAO.findByLocationLink(location);
-		addToVertexRelationships(relationships);
+		addToVertexRelationships(relationships, null);
 	}
 
 	void addToVertexLocations(Set<Location> paramSet) {
@@ -985,7 +992,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 						List<Person> persons = scene.getPersons();
 						if (!persons.isEmpty()) {
 							for (Person person : persons) {
-								addToVertexPerson(person);
+								addToVertexPerson(person, null);
 								searchInvolvedTags(tagLinkDao.findByPerson(person));
 								searchInvolvedItems(itemLinkDao.findByPerson((Person) person));
 							}
@@ -1093,7 +1100,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 					if (!persons.isEmpty()) {
 						for (Person person : persons) {
 							if (!person.equals(localPerson)) {
-								addToVertexPerson(person);
+								addToVertexPerson(person,localPerson);
 								TLbys = tagLinkDAO.findByPerson(person);
 								if (!TLbys.isEmpty()) {
 									for (TagLink TLby : TLbys) {
@@ -1233,7 +1240,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			iconMap.put(item, itemIconMedium);
 			graph.addEdge(graphIndex++, itemVertex, item);
 			List<Relationship> relationships = relationshipDAO.findByItemLink(item);
-			addToVertexRelationships(relationships);
+			addToVertexRelationships(relationships, null);
 		}
 	}
 

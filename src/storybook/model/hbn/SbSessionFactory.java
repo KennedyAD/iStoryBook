@@ -25,8 +25,6 @@ import org.hibernate.cfg.Configuration;
 import storybook.model.hbn.entity.AbstractEntity;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAOImpl;
-import com.mchange.v2.log.MLevel;
-import static com.mchange.v2.log.MLevel.OFF;
 import java.util.logging.Level;
 import org.hibernate.HibernateException;
 import storybook.SbApp;
@@ -85,13 +83,13 @@ public class SbSessionFactory {
 				System.setProperties(p);
 			}
 			config.setProperty("connection.provider_class", "org.hibernate.connection.C3P0ConnectionProvider");
-			config.setProperty("hibernate.c3p0.debug", "0");
+			/*config.setProperty("hibernate.c3p0.debug", "0");
 			config.setProperty("hibernate.c3p0.min_size", "0");
 			config.setProperty("hibernate.c3p0.max_size", "1");
 			config.setProperty("hibernate.c3p0.timeout", "5000");
 			config.setProperty("hibernate.c3p0.max_statements", "100");
 			config.setProperty("hibernate.c3p0.idle_test_period", "300");
-			config.setProperty("hibernate.c3p0.acquire_increment", "2");
+			config.setProperty("hibernate.c3p0.acquire_increment", "2");*/
 			config.setProperty("current_session_context_class", "thread");
 			config.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
 			config.setProperty("hibernate.current_session_context_class", "thread");

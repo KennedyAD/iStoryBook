@@ -24,7 +24,6 @@
         <delete dir="${dir.jarfile}/ostorybook_lib"/>
         <mkdir dir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/antlr-2.7.6.jar" todir="${dir.jarfile}/ostorybook_lib"/>
-        <copy file="${dir.workspace}/code/lib/attesoro.1.8.01.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/beansbinding-1.2.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/c3p0-0.9.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/collections-generic-4.01.jar" todir="${dir.jarfile}/ostorybook_lib"/>
@@ -42,7 +41,6 @@
         <copy file="${dir.workspace}/code/lib/dao-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/dao-hibernate-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/dom4j-1.6.1.jar" todir="${dir.jarfile}/ostorybook_lib"/>
-        <copy file="${dir.workspace}/code/lib/h2-1.4.189.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/hibernate3.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/idw-gpl.jar" todir="${dir.jarfile}/ostorybook_lib"/>
@@ -77,8 +75,6 @@
         <copy file="${dir.workspace}/code/lib/tika-core-0.9.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/LanguageTool.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/log4j-1.2.16.jar" todir="${dir.jarfile}/ostorybook_lib"/>
-        <copy file="${dir.workspace}/code/lib/miglayout-4.0-swing.jar" todir="${dir.jarfile}/ostorybook_lib"/>
-        <copy file="${dir.workspace}/code/lib/miglayout-4.0-swt.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/novaworx-syntax-0.0.7.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/sam.jar" todir="${dir.jarfile}/ostorybook_lib"/>
         <copy file="${dir.workspace}/code/lib/search-1.0.0.jar" todir="${dir.jarfile}/ostorybook_lib"/>

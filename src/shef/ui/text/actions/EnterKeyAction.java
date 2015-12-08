@@ -335,7 +335,7 @@ public class EnterKeyAction extends DecoratedTextAction
         if(cr == endOffs)
         {
             //update the character attributes for the added paragraph
-            //FIXME If the added paragraph is at the start/end 
+            //F I X M E  If the added paragraph is at the start/end 
             //of the document, the char attrs dont get set           
             setCharAttribs(p, chAttribs);            
         }

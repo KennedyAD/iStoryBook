@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import storybook.controller.BookController;

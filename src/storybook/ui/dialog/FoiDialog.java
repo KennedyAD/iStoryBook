@@ -30,7 +30,7 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 import storybook.ui.MainFrame;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

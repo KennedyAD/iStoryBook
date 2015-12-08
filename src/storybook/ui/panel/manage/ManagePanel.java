@@ -30,7 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.infonode.docking.View;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import storybook.SbApp;

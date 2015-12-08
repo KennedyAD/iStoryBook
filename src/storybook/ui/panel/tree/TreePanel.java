@@ -47,7 +47,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import net.infonode.docking.View;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 

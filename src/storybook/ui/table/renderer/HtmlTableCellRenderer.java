@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import storybook.toolkit.TextUtil;
 import storybook.toolkit.html.HtmlUtil;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class HtmlTableCellRenderer extends DefaultTableCellRenderer {

@@ -21,7 +21,7 @@ package storybook.toolkit.swing.splash;
 import java.awt.Frame;
 
 import javax.swing.JDialog;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import storybook.ui.interfaces.IPaintable;
 

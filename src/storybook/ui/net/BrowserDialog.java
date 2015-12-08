@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
 import storybook.toolkit.I18N;
 import storybook.ui.dialog.AbstractDialog;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

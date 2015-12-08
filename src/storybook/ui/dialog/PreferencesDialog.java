@@ -52,7 +52,7 @@ import storybook.toolkit.SpellCheckerUtil;
 import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.swing.SwingUtil;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

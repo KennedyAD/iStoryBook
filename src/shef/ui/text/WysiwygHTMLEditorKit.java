@@ -424,7 +424,7 @@ public class WysiwygHTMLEditorKit extends HTMLEditorKit {
 					Element el = doc.getParagraphElement(vElem.getStartOffset());
 					//get the parent and check if its the same element
 					el = HTMLUtils.getParent(el, HTML.Tag.TABLE);
-					//FIXME if the element is a nested table in the first cell
+					//F I X M E  if the element is a nested table in the first cell
 					//of the parent table, the parent view is removed
 					if (el != vElem) {
 						it.remove();

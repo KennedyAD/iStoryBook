@@ -28,7 +28,7 @@ import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 
 import net.infonode.docking.View;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

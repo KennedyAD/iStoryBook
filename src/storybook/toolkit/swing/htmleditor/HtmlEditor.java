@@ -90,7 +90,7 @@ import shef.ui.text.actions.HTMLLinkAction;
 import shef.ui.text.actions.HTMLTableAction;
 import shef.ui.text.actions.HTMLTextEditAction;
 import shef.ui.text.actions.SpecialCharAction;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 import novaworx.syntax.SyntaxFactory;
 import novaworx.textpane.SyntaxDocument;
 import novaworx.textpane.SyntaxGutter;

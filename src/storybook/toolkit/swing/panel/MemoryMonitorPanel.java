@@ -32,7 +32,7 @@ import javax.swing.Timer;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.interfaces.IPaintable;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

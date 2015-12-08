@@ -53,15 +53,13 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 
 	@SuppressWarnings("unchecked")
 	public List<String> findCountries(){
-		//TODO order by l.country
 		Query query = session.createQuery("select distinct(l.country) from Location as l order by l.country");
 		return (List<String>)query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<String> findCities(){
-		//TODO order by l.city
-		Query query = session.createQuery("select distinct(l.city) from Location as l");
+		Query query = session.createQuery("select distinct(l.city) from Location as l order by l.city");
 		return (List<String>)query.list();
 	}
 

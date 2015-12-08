@@ -8,10 +8,6 @@ Eclipse :
 http://www.eclipse.org
 Interface de développement
 
-Attesoro : auteur Stephen Ostermiller, GPL v2
-http://attesoro.org/
-Attesoro est un outil d'internationalisation.
-
 DOM4J : Copyright 2001-2005 (C) MetaStuff
 DOM4J est une API Open Source Java permettant de travailler avec XML
 
@@ -19,12 +15,14 @@ GenericDAO : szczytowski, licence Apache 2.0
 http://code.google.com/p/generic-dao/
 Outils de gestion pour Hibernate et la gestion DAO
 
-H2database :
+H2d atabase :
 Multiple-Licensed under the H2 License, Version 1.0,
 and under the Eclipse Public License, Version 1.0
 (http://h2database.com/html/license.html).
 Initial Developer: H2 Group
 H2database est le moteur de base de données
+Note: le code source est intégré, il s'agit de la version 1.4.189, ne pas
+upgrader
 
 IDW-GPL : GPL v2
 InfoNode Docking Windows is developed by NNL Technology AB.
@@ -54,6 +52,7 @@ Log4J, Tika et Commons de apache.org
 
 Miglayout : de Miginfo.com, licence free BSD or GPL
 http://www.miglayout.com/
+Initial developer: Mikael Grev
 Gestionnaire de layout pour l'interface utilisateur.
 
 SHEF : auteur Bob Tantlinger, LGPL v2.1
@@ -86,7 +85,7 @@ Framework de modélisation, d'analyse et de visualisation de graphe
 
 novaworx : n'existe plus
 
-sam : Lichael Bushe, Apache 2.0
+sam : Michael Bushe, Apache 2.0
 https://java.net/projects/sam
 Swing Action Amanager
 

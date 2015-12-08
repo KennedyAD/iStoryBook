@@ -25,7 +25,7 @@ import org.bushe.swing.action.ActionManager;
 import shef.ui.UIUtils;
 import storybook.toolkit.I18N;
 
-//TODO add static method to unregister documents
+//T O D O  add static method to unregister documents
 /**
  * Manages compound undoable edits.
  *

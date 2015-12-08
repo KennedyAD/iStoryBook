@@ -30,7 +30,7 @@ import storybook.controller.BookController;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IPaintable;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

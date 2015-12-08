@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;

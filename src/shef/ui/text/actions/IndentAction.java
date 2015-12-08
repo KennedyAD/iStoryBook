@@ -58,7 +58,7 @@ public class IndentAction extends HTMLTextEditAction {
 	 */
 	@Override
 	protected void sourceEditPerformed(ActionEvent e, JEditorPane editor) {
-		// TODO Auto-generated method stub
+		// T O D O  Auto-generated method stub
 
 	}
 

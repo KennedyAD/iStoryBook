@@ -33,18 +33,7 @@ public abstract class AbstractTag extends AbstractEntity {
 
 	public static final int TYPE_TAG = 0;
 	public static final int TYPE_ITEM = 1;
-	//TODO utiliser les objets Tag pour identifier des liens d'objet à objet de même nature
-	// exemples:
-	// objet lié à un autre objet
-	// lieu lié à un autre lieu
-	// etiquette liée à une autre étiquette
 	public static final int TYPE_LINK = 10;
-	// dans ce cas :
-	// - category recevra le nom du type d'objet à lier (Person, Item, Location, Tag)
-	// - name recevra l'Id du premier objet suivi de l'Id du second objet, séparateur |
-	//TODO faire l'écran de saisie correspondant
-	//TODO faire le pannel Associations
-	//TODO faire le print correspondant
 
 	protected Integer type;
 	private String category;

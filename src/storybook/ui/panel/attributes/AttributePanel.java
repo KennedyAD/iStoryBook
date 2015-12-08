@@ -28,7 +28,7 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.toolkit.swing.AutoCompleteComboBox;
 import storybook.ui.panel.AbstractPanel;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

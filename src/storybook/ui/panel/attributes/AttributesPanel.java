@@ -26,7 +26,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import org.hibernate.Session;
 import storybook.model.BookModel;

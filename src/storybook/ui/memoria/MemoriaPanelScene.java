@@ -75,7 +75,7 @@ public class MemoriaPanelScene {
 		// liste des personnages liés à la scène
 		List<Person> persons = scene.getPersons();
 		for (Person person : persons) {
-			mp.addToVertexPerson(person);
+			mp.addToVertexPerson(person, null);
 		}
 		// liste des lieux liés à la scène
 		List<Location> locations = scene.getLocations();

@@ -319,7 +319,6 @@ public final class ODTUtils {
 			ODPackage pack = new ODPackage(is);
 			dest = pack.toSingle();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
@@ -356,7 +355,6 @@ public final class ODTUtils {
 		try {
 			dest.saveToPackageAs(output);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -417,7 +415,6 @@ public final class ODTUtils {
 						// Concatenate them
 						dest.add(p, false);
 					} catch (JDOMException | IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

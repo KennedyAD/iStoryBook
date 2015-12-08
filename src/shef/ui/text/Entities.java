@@ -694,7 +694,7 @@ public class Entities {
 	 * @return A new escaped <code>String</code>.
 	 */
 	public String escape(String str, boolean escapeNon7bit) {
-		// todo: rewrite to use a Writer
+		// T O D O : rewrite to use a Writer
 		StringBuffer buf = new StringBuffer(str.length() * 2);
 		int i;
 		for (i = 0; i < str.length(); ++i) {

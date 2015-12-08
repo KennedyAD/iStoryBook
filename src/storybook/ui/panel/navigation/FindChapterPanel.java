@@ -38,7 +38,7 @@ import storybook.toolkit.swing.panel.ViewsRadioButtonPanel;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

@@ -23,7 +23,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 

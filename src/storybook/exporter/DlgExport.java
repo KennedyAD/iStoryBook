@@ -29,7 +29,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FileUtils;
-import org.h2.tools.Script;
+import storybook.toolkit.H2_Script;
 
 import storybook.SbConstants;
 import storybook.model.hbn.entity.Internal;
@@ -506,7 +506,7 @@ public class DlgExport extends javax.swing.JDialog {
 		String file = /*txFolder.getText()+File.separator+*/mainFrame.getDbFile().getDbName()+".sql";
 		System.out.println("export to "+file);
         try {
-			Script.process(url, "sa", "", file, "", "");
+			H2_Script.process(url, "sa", "", file,"","");
 			JOptionPane.showMessageDialog(this,
 					"Export SQL is OK.",
 					"SQL export",

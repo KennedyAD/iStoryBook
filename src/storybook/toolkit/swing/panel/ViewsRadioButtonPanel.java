@@ -28,7 +28,7 @@ import storybook.toolkit.I18N;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

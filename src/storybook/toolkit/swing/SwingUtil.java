@@ -78,7 +78,7 @@ import javax.swing.plaf.ToolBarUI;
 import javax.swing.plaf.basic.BasicToolBarUI;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 import shef.ui.text.WysiwygHTMLEditorKit;
 

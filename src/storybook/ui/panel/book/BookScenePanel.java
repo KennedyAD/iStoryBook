@@ -27,7 +27,7 @@ import storybook.model.hbn.entity.Scene;
 import storybook.ui.panel.AbstractScenePanel;
 import storybook.ui.MainFrame;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class BookScenePanel extends AbstractScenePanel {

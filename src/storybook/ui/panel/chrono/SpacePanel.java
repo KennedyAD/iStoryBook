@@ -40,7 +40,7 @@ import storybook.toolkit.swing.IconButton;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class SpacePanel extends AbstractPanel implements MouseListener {

@@ -32,7 +32,7 @@ import storybook.toolkit.swing.panel.BackgroundPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

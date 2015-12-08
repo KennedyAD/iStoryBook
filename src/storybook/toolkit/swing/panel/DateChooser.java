@@ -41,7 +41,7 @@ import storybook.ui.MainFrame;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
-import miginfocom.swing.MigLayout;
+import org.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.PrefUtil;
 
