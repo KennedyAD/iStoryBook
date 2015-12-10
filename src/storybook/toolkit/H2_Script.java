@@ -41,7 +41,7 @@ public class H2_Script extends Tool {
      * @h2.resource
      *
      * @param args the command line arguments
-     */
+     *//*
     public static void main(String... args) throws SQLException {
         new H2_Script().runTool(args);
     }
@@ -99,7 +99,7 @@ public class H2_Script extends Tool {
             throw new SQLException("URL not set");
         }
         process(url, user, password, file, options1, options2);
-    }
+    }*/
 
     /**
      * Backs up a database to a stream.
@@ -143,5 +143,10 @@ public class H2_Script extends Tool {
             JdbcUtils.closeSilently(stat);
         }
     }
+
+	@Override
+	public void runTool(String... strings) throws SQLException {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 
 }
