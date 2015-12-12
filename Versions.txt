@@ -3,7 +3,7 @@ oStorybook
 
 Versions :
 4.10.2 : favdb et Jean Rébillat 01/04/2016
-- suppression des libraries miglayout pour intégration dans le code source
+- suppression du bug Enregistrer Sous et Renommer
 4.10.1 : favdb et Jean Rébillat 01/12/2015
 - accès aux chapitres depuis la vue "Gérer les chapitres et les scènes"
 - mémorisation de la disposition des tableaux

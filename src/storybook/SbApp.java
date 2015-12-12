@@ -233,31 +233,17 @@ public class SbApp extends Component {
 		}
 	}
 
-	public void renameFile(final MainFrame mainFrame, File file) {
-		trace("SbApp.renameFile("+mainFrame.getName()+","+file.getAbsolutePath()+")");
+	public void renameFile(final MainFrame mainFrame, File outFile) {
+		trace("SbApp.renameFile("+mainFrame.getName()+","+outFile.getAbsolutePath()+")");
 		try {
-			FileUtils.copyFile(mainFrame.getDbFile().getFile(), file);
-			DbFile dbFile = new DbFile(file);
-			OpenFileAction act = new OpenFileAction("", dbFile);
-			act.actionPerformed(null);
-			Timer t1 = new Timer(1000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mainFrame.close();
-				}
-			});
-			t1.setRepeats(false);
-			t1.start();
-			Timer t2 = new Timer(4000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					mainFrame.getDbFile().getFile().delete();
-				}
-			});
-			t2.setRepeats(false);
-			t2.start();
+			File inFile=mainFrame.getDbFile().getFile();
+			mainFrame.close(false);
+			FileUtils.copyFile(inFile, outFile);
+			inFile.delete();
+			DbFile dbFile = new DbFile(outFile);
+			openFile(dbFile);				
 		} catch (IOException e) {
-			error("SbApp.renameFile("+mainFrame.getName()+","+file.getName()+")", e);
+			error("SbApp.renameFile("+mainFrame.getName()+","+outFile.getName()+")", e);
 		}
 	}
 

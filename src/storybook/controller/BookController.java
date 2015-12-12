@@ -76,6 +76,7 @@ public class BookController extends AbstractController {
 		REFRESH("Refresh"),
 		SHOW_OPTIONS("ShowOptions"),
 		SHOW_INFO("ShowInfo"),
+		SHOW_MEMO("ShowMemo"),
 		PRINT("Print"),
 		EXPORT("Export"),
 		SHOW_TASKLIST("ShowTaskList"),

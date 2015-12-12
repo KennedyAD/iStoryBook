@@ -1597,7 +1597,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_fileRenameActionPerformed
 
     private void fileCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileCloseActionPerformed
-		mainFrame.close();
+		mainFrame.close(true);
     }//GEN-LAST:event_fileCloseActionPerformed
 
     private void filePropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePropertiesActionPerformed

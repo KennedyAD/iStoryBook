@@ -34,6 +34,7 @@ public abstract class AbstractTag extends AbstractEntity {
 	public static final int TYPE_TAG = 0;
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_LINK = 10;
+	public static final int TYPE_MEMO = 20;
 
 	protected Integer type;
 	private String category;

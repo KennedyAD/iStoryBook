@@ -52,4 +52,13 @@ public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 		List<Tag> tags = (List<Tag>) crit.list();
 		return tags;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Tag> findAllMemo() {
+		Criteria crit = session.createCriteria(Tag.class);
+		crit.add(Restrictions.eq("type", "20"));
+		crit.addOrder(Order.asc("name"));
+		List<Tag> tags = (List<Tag>) crit.list();
+		return tags;
+	}
 }

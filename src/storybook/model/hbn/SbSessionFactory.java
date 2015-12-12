@@ -72,6 +72,7 @@ public class SbSessionFactory {
 			} else {
 				dbURL += ";TRACE_LEVEL_FILE=0;TRACE_LEVEL_SYSTEM_OUT=0";
 			}
+			//dbURL += ";mv_Store=false";
 			config.setProperty("hibernate.connection.url", dbURL);
 			config.setProperty("hibernate.connection.username", "sa");
 			config.setProperty("hibernate.connection.password", "");
@@ -132,5 +133,9 @@ public class SbSessionFactory {
 				//System.out.println("  " + name + ": " + entity.toString());
 			}
 		}
+	}
+
+	public void closeSession() {
+		sessionFactory.close();
 	}
 }

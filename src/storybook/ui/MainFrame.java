@@ -547,7 +547,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 
-	public void close() {
+	public void close(boolean exitIfEmpty) {
 		if (!isBlank()) {
 			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
 			if (pref.getBooleanValue()) {
@@ -574,10 +574,11 @@ public class MainFrame extends JFrame implements IPaintable {
 			BookUtil.store(this, BookKey.LAST_USED_PART.toString(), (Integer) ((int) (long) getCurrentPart().getId()));
 		}
 
+		bookModel.closeSession();
 		SbApp app = SbApp.getInstance();
 		app.removeMainFrame(this);
 		dispose();
-		if (app.getMainFrames().isEmpty()) {
+		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
 			app.exit();
 		}
 	}
@@ -642,7 +643,7 @@ public class MainFrame extends JFrame implements IPaintable {
 
 		@Override
 		public void windowClosing(WindowEvent evt) {
-			close();
+			close(true);
 		}
 	}
 

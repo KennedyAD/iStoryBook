@@ -52,6 +52,7 @@ public abstract class AbstractFileDialog
 	protected File file;
 	private boolean hideDir = false;
 	private boolean forceDbExt = true;
+	private String defaultDBExt = "mv.db";
 	private boolean askForOverwrite = false;
 
 	public AbstractFileDialog(MainFrame mainFrame) {
@@ -182,6 +183,10 @@ public abstract class AbstractFileDialog
 	public void setForceDbExtension(boolean forced) {
 		forceDbExt = forced;
 	}
+	
+	public void setDefaultDBExt(String ext) {
+		defaultDBExt=ext;
+	}
 
 	@Override
 	protected AbstractAction getOkAction() {
@@ -204,6 +209,8 @@ public abstract class AbstractFileDialog
 					if ((!name.endsWith(fileExtOld)) && (!name.endsWith(fileExt))) {
 						name += fileExt;
 					}
+				} else {
+					name += defaultDBExt;
 				}
 				file = new File(tfDir.getText() + File.separator + name);
 				if ((file.exists()) && (askForOverwrite)) {

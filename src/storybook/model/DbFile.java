@@ -94,4 +94,9 @@ public class DbFile {
 	public String toString() {
 		return file.getPath();
 	}
+
+	public String getExt() {
+		int beginIndex=file.getName().indexOf(".");
+		return(file.getName().substring(beginIndex));
+	}
 }

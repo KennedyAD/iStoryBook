@@ -71,4 +71,8 @@ public abstract class AbstractModel {
 	public void editEntity(AbstractEntity entity) {
 		mainFrame.showEditorAsDialog(entity);
 	}
+	
+	public void closeSession() {
+		sessionFactory.closeSession();
+	}
 }

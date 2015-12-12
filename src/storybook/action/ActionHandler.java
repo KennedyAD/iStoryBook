@@ -361,19 +361,22 @@ public class ActionHandler {
 
 	public void handleFileSaveAs() {
 		SaveAsFileDialog dlg = new SaveAsFileDialog(mainFrame);
+		dlg.setForceDbExtension(false);
+		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		if (dlg.isCanceled()) {
 			return;
 		}
-		File file = dlg.getFile();
+		File outFile = dlg.getFile();
+		File inFile=mainFrame.getDbFile().getFile();
+		mainFrame.close(false);
 		try {
-			FileUtils.copyFile(mainFrame.getDbFile().getFile(), file);
+			FileUtils.copyFile(inFile, outFile);
 		} catch (IOException ioe) {
 			System.err.println("ActionHandler.handleSaveAs() IOex : "+ioe.getMessage());
 		}
-		DbFile dbFile = new DbFile(file);
-		OpenFileAction act = new OpenFileAction("", dbFile);
-		act.actionPerformed(null);
+		DbFile dbFile = new DbFile(outFile);
+		SbApp.getInstance().openFile(dbFile);
 	}
 
 	public void handleFileExportBook() {
@@ -382,23 +385,25 @@ public class ActionHandler {
 		if (dlg.isCanceled()) {
 			return;
 		}
-		File file = dlg.getFile();
+		File outFile = dlg.getFile();
 		String sceneSeparator = dlg.getSceneSeparator();
-	    ODTUtils.createBookFile(mainFrame, file, sceneSeparator);
+	    ODTUtils.createBookFile(mainFrame, outFile, sceneSeparator);
 	}
 
 	public void handleFileRename() {
 		RenameFileDialog dlg = new RenameFileDialog(mainFrame);
+		dlg.setForceDbExtension(false);
+		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		if (dlg.isCanceled()) {
 			return;
 		}
-		File file = dlg.getFile();
-		SbApp.getInstance().renameFile(mainFrame, file);
+		File outFile = dlg.getFile();
+		SbApp.getInstance().renameFile(mainFrame, outFile);
 	}
 
 	public void handleClose() {
-		mainFrame.close();
+		mainFrame.close(true);
 	}
 
 	public void handleBookProperties() {//new OK
