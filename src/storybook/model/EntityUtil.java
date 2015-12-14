@@ -75,6 +75,7 @@ import storybook.model.handler.InternalEntityHandler;
 import storybook.model.handler.ItemEntityHandler;
 import storybook.model.handler.ItemLinkEntityHandler;
 import storybook.model.handler.LocationEntityHandler;
+import storybook.model.handler.MemoEntityHandler;
 import storybook.model.handler.PartEntityHandler;
 import storybook.model.handler.PersonEntityHandler;
 import storybook.model.handler.RelationshipEntityHandler;
@@ -110,6 +111,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
@@ -769,6 +771,9 @@ public class EntityUtil {
 		if (entity instanceof Tag) {
 			return new TagEntityHandler(mainFrame);
 		}
+		if (entity instanceof Memo) {
+			return new MemoEntityHandler(mainFrame);
+		}
 		if (entity instanceof Item) {
 			return new ItemEntityHandler(mainFrame);
 		}
@@ -814,6 +819,9 @@ public class EntityUtil {
 		}
 		if (entity instanceof Part) {
 			return Part.class;
+		}
+		if (entity instanceof Memo) {
+			return Memo.class;
 		}
 		if (entity instanceof Tag) {
 			return Tag.class;
@@ -1357,6 +1365,9 @@ public class EntityUtil {
 		if (obj instanceof Location || method.getReturnType() == Location.class) {
 			return new LocationEntityHandler(mainFrame);
 		}
+		if (obj instanceof Memo || method.getReturnType() == Memo.class) {
+			return new MemoEntityHandler(mainFrame);
+		}
 		if (obj instanceof Tag || method.getReturnType() == Tag.class) {
 			return new TagEntityHandler(mainFrame);
 		}
@@ -1554,6 +1565,9 @@ public class EntityUtil {
 		if (entity instanceof Idea) {
 			return I18N.getIcon("icon.small.idea");
 		}
+		if (entity instanceof Memo) {
+			return I18N.getIcon("icon.small.memo");
+		}
 		if (entity instanceof Tag) {
 			return I18N.getIcon("icon.small.tag");
 		}
@@ -1656,6 +1670,12 @@ public class EntityUtil {
 				return I18N.getMsg("msg.idea.new");
 			}
 			return I18N.getMsg("msg.idea.table.idea");
+		}
+		if (entity instanceof Memo) {
+			if (isTransient) {
+				return I18N.getMsg("msg.memo.new");
+			}
+			return I18N.getMsg("msg.memo");
 		}
 		if (entity instanceof Tag) {
 			if (isTransient) {

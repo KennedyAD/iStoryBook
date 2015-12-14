@@ -642,6 +642,31 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	public Vector<SbColumn> getMemoColumns() {
+		int i=1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
+		col.setMaxLength(255);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setGrowX(true);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+//		col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
 	public Vector<SbColumn> getItemColumns() {
 		int i=1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();

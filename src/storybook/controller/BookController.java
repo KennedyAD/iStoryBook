@@ -33,6 +33,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
@@ -69,6 +70,22 @@ public class BookController extends AbstractController {
 		super();
 		mainFrame=m;
 		attachModel(model);
+	}
+
+	private void updateMemo(Memo memo) {
+		setModelProperty(MemoProps.UPDATE.toString(), memo);
+	}
+
+	private void deleteMemo(Memo memo) {
+		setModelProperty(MemoProps.DELETE.toString(), memo);
+	}
+
+	private void newMemo(Memo memo) {
+		setModelProperty(MemoProps.NEW.toString(), memo);
+	}
+
+	private void setMemoToEdit(Memo memo) {
+		setModelProperty(MemoProps.EDIT.toString(), memo);
 	}
 
 	public enum CommonProps {
@@ -470,6 +487,30 @@ public class BookController extends AbstractController {
 		}
 	};
 
+	public enum MemoProps {
+
+		INIT("InitMemos"),
+		EDIT("EditMemo"),
+		DELETE("DeleteMemo"),
+		DELETE_MULTI("DeleteMultiMemos"),
+		NEW("NewMemo"),
+		UPDATE("UpdateMemo");
+		final private String text;
+
+		private MemoProps(String text) {
+			this.text = text;
+		}
+
+		@Override
+		public String toString() {
+			return text;
+		}
+
+		public boolean check(String prop) {
+			return text.equals(prop);
+		}
+	};
+
 	public enum ItemProps {
 
 		INIT("InitItem"),
@@ -641,6 +682,8 @@ public class BookController extends AbstractController {
 				updateIdea((Idea) entity);
 			} else if (entity instanceof Tag) {
 				updateTag((Tag) entity);
+			} else if (entity instanceof Memo) {
+				updateMemo((Memo) entity);
 			} else if (entity instanceof TagLink) {
 				updateTagLink((TagLink) entity);
 			} else if (entity instanceof Item) {
@@ -682,6 +725,8 @@ public class BookController extends AbstractController {
 				deleteStrand((Strand) entity);
 			} else if (entity instanceof Idea) {
 				deleteIdea((Idea) entity);
+			} else if (entity instanceof Memo) {
+				deleteMemo((Memo) entity);
 			} else if (entity instanceof Tag) {
 				deleteTag((Tag) entity);
 			} else if (entity instanceof TagLink) {
@@ -723,6 +768,8 @@ public class BookController extends AbstractController {
 				newStrand((Strand) entity);
 			} else if (entity instanceof Idea) {
 				newIdea((Idea) entity);
+			} else if (entity instanceof Memo) {
+				newMemo((Memo) entity);
 			} else if (entity instanceof Tag) {
 				newTag((Tag) entity);
 			} else if (entity instanceof TagLink) {
@@ -766,6 +813,8 @@ public class BookController extends AbstractController {
 				setStrandToEdit((Strand) entity);
 			} else if (entity instanceof Idea) {
 				setIdeaToEdit((Idea) entity);
+			} else if (entity instanceof Memo) {
+				setMemoToEdit((Memo) entity);
 			} else if (entity instanceof Tag) {
 				setTagToEdit((Tag) entity);
 			} else if (entity instanceof TagLink) {
@@ -809,6 +858,10 @@ public class BookController extends AbstractController {
 
 	public void showInfo(DbFile dbFile) {
 		setModelProperty(CommonProps.SHOW_INFO.toString(), dbFile);
+	}
+
+	public void showMemo(AbstractEntity entity) {
+		setModelProperty(CommonProps.SHOW_MEMO.toString(), entity);
 	}
 
 	public void showInMemoria(AbstractEntity entity) {

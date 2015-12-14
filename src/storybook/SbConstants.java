@@ -277,6 +277,7 @@ public class SbConstants {
 		CHART_GANTT("ChartGantt"),
 		TREE("Tree"),
 		INFO("Info"),
+		MEMOS("Memos"),
 		PLAN("Plan"),
 		TIMEEVENT("TimeEvent");
 		final private String text;

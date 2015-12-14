@@ -88,6 +88,7 @@ import storybook.model.handler.InternalEntityHandler;
 import storybook.model.handler.ItemEntityHandler;
 import storybook.model.handler.ItemLinkEntityHandler;
 import storybook.model.handler.LocationEntityHandler;
+import storybook.model.handler.MemoEntityHandler;
 import storybook.model.handler.PartEntityHandler;
 import storybook.model.handler.PersonEntityHandler;
 import storybook.model.handler.RelationshipEntityHandler;
@@ -107,6 +108,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
@@ -233,6 +235,8 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			entityHandler = new IdeaEntityHandler(mainFrame);
 		} else if (entity instanceof Tag) {
 			entityHandler = new TagEntityHandler(mainFrame);
+		} else if (entity instanceof Memo) {
+			entityHandler = new MemoEntityHandler(mainFrame);
 		} else if (entity instanceof Item) {
 			entityHandler = new ItemEntityHandler(mainFrame);
 		} else if (entity instanceof TagLink) {

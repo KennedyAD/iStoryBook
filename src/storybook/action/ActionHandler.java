@@ -259,6 +259,10 @@ public class ActionHandler {
 		showAndFocus(ViewName.INFO);
 	}
 
+	public void handleShowMemo() {
+		showAndFocus(ViewName.MEMOS);
+	}
+
 	public void handleShowNavigation() {
 		showAndFocus(ViewName.NAVIGATION);
 	}

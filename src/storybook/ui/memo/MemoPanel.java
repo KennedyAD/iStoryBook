@@ -37,19 +37,15 @@ import org.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
-import storybook.model.DbFile;
-import storybook.model.EntityUtil;
+import storybook.model.hbn.dao.MemoDAOImpl;
 import storybook.model.hbn.dao.TagDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
-import storybook.model.hbn.entity.Internal;
-import storybook.model.hbn.entity.Scene;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Tag;
-import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
-import storybook.ui.memoria.EntityTypeCbItem;
 import storybook.ui.panel.AbstractPanel;
 
 /**
@@ -57,14 +53,14 @@ import storybook.ui.panel.AbstractPanel;
  * @author favdb
  */
 public class MemoPanel extends AbstractPanel implements ActionListener, ListSelectionListener, HyperlinkListener {
-	private JComboBox memoCombo;
-	private JButton btNew;
-	private JButton btDelete;
-	private JButton btEdit;
-	private boolean processActionListener;
-	private JPanel controlPanel;
-	private JTextPane infoPanel;
-	private Tag currentMemo;
+	private JComboBox memoCombo;//liste deroulante des memos
+	private JButton btNew;// bouton nouveau
+	private JButton btDelete;// bouton supprimer
+	private JButton btEdit;// bouton modifier
+	private boolean processActionListener;// listener à ignorer
+	private JPanel controlPanel;// le panneau de controle contient la liste deroulante et les boutons
+	private JTextPane infoPanel;// le panneau d'information
+	private Memo currentMemo;// le memo actuellement affiché
 
 	public MemoPanel(MainFrame mainFrame) {
 		super(mainFrame);
@@ -72,13 +68,10 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 	@Override
 	public void init() {
 		/* disposition
-		- liste deroulante memoList
-		-- find all tag avec type == 20
-		-- ajout dans la liste deroulante
-		- bouton de modification du memo affiché btMod
-		- bouton de creation d'un nouveau memo btDel
+		- liste deroulante memoCombo btEdit btDelete btNew
 		- affichage du memo selectionne
 		*/
+		currentMemo=null;
 	}
 
 	@Override
@@ -90,19 +83,8 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		MigLayout migLayout2 = new MigLayout("flowx", "", "");
 		controlPanel.setLayout(migLayout2);
 		controlPanel.setOpaque(false);
-		
-		memoCombo = new JComboBox();
-		memoCombo.setName(SbConstants.ComponentName.COMBO_ENTITIES.toString());
-		memoCombo.setMaximumRowCount(15);
-		if (memoCombo != null) {
-			refreshMemoCombo();
-		}
-		add(controlPanel, "alignx center");
-		controlPanel.removeAll();
-		controlPanel.add(memoCombo, "gapafter 32");
-		controlPanel.revalidate();
-		controlPanel.repaint();
-		memoCombo.addActionListener(this);
+		refreshControlPanel();
+			
 		add(controlPanel, "alignx center");
 
 		infoPanel = new JTextPane();
@@ -113,7 +95,6 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		JScrollPane scroller = new JScrollPane(infoPanel);
 		SwingUtil.setMaxPreferredSize(scroller);
 		add(scroller);
-
 	}
 
 	@Override
@@ -130,9 +111,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 			return;
 		}
 
-		if (BookController.CommonProps.SHOW_INFO.check(propName)) {
+		if (BookController.CommonProps.SHOW_MEMO.check(propName)) {
 			if (newValue instanceof AbstractEntity) {
-				currentMemo = (Tag) newValue;
+				currentMemo = (Memo) newValue;
 				if (currentMemo.isTransient()) {
 					return;
 				}
@@ -164,23 +145,23 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void refreshMemoCombo() {
 		Object entityComboSelected = null;
 		if (memoCombo != null) {
 			entityComboSelected = memoCombo.getSelectedItem();
 		}
-		//entityCombo.removeAll();
-		// faire la liste
+
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
-		TagDAOImpl dao=new TagDAOImpl(session);
-		List<Tag> tags=dao.findAllMemo();
+		MemoDAOImpl dao=new MemoDAOImpl(session);
+		List<Memo> memos=dao.findAll();
 		model.commit();
 		processActionListener = false;
 		DefaultComboBoxModel combo = (DefaultComboBoxModel) memoCombo.getModel();
 		combo.removeAllElements();
-		for (Tag tag : tags) {
-			combo.addElement(tag);
+		for (Memo memo : memos) {
+			combo.addElement(memo);
 		}
 		processActionListener = true;
 		memoCombo.setSelectedItem(entityComboSelected);
@@ -194,8 +175,13 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		btEdit.setIcon(I18N.getIcon("icon.small.edit"));
 		btEdit.setName(SbConstants.ComponentName.BT_EDIT.toString());
 		btEdit.addActionListener(this);
-		btEdit.setEnabled(false);
+		if (entityComboSelected==null) btEdit.setEnabled(false);
 
+		btDelete = new JButton(I18N.getMsg("msg.common.delete"));
+		btDelete.setIcon(I18N.getIcon("icon.small.delete"));
+		btDelete.setName(SbConstants.ComponentName.BT_DELETE.toString());
+		btDelete.addActionListener(this);
+		btDelete.setEnabled(false);
 	}
 
 	@Override
@@ -209,6 +195,8 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 				return;
 			} else if (SbConstants.ComponentName.BT_NEW.check(buttonString)) {
 				return;
+			} else if (SbConstants.ComponentName.BT_DELETE.check(buttonString)) {
+				return;
 			}
 		}
 		refreshMemo();
@@ -220,8 +208,27 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 	}
 
 	private void refreshMemo() {
-		infoPanel.setText(currentMemo.getNotes());
+		if (currentMemo==null) {
+			infoPanel.setText("");
+		} else {
+			infoPanel.setText(currentMemo.getNotes());
+		}
 		infoPanel.setCaretPosition(0);
+	}
+
+	private void refreshControlPanel() {
+		memoCombo = new JComboBox();
+		memoCombo.setName(SbConstants.ComponentName.COMBO_ENTITIES.toString());
+		memoCombo.setMaximumRowCount(15);
+		if (memoCombo != null) {
+			refreshMemoCombo();
+		}
+		add(controlPanel, "alignx center");
+		controlPanel.removeAll();
+		controlPanel.add(memoCombo, "gapafter 32");
+		controlPanel.revalidate();
+		controlPanel.repaint();
+		memoCombo.addActionListener(this);
 	}
 	
 }

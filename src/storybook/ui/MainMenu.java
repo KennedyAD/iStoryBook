@@ -36,6 +36,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
@@ -176,9 +177,10 @@ public class MainMenu extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
         newItem = new javax.swing.JMenuItem();
         newItemLink = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
         newFOI = new javax.swing.JMenuItem();
         newIdea = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        newMemo = new javax.swing.JMenuItem();
         menuPrimaryObjects = new javax.swing.JMenu();
         tabScene = new javax.swing.JMenuItem();
         tabChapter = new javax.swing.JMenuItem();
@@ -216,6 +218,7 @@ public class MainMenu extends javax.swing.JFrame {
         vueTree = new javax.swing.JMenuItem();
         vueInfo = new javax.swing.JMenuItem();
         vueNavigation = new javax.swing.JMenuItem();
+        vueInfo1 = new javax.swing.JMenuItem();
         menuParts = new javax.swing.JMenu();
         partPrevious = new javax.swing.JMenuItem();
         partNext = new javax.swing.JMenuItem();
@@ -936,6 +939,7 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuNewEntity.add(newItemLink);
+        menuNewEntity.add(jSeparator8);
 
         newFOI.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         newFOI.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/bulb.png"))); // NOI18N
@@ -956,7 +960,16 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuNewEntity.add(newIdea);
-        menuNewEntity.add(jSeparator8);
+
+        newMemo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        newMemo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/memo.png"))); // NOI18N
+        newMemo.setText(bundle.getString("msg.memo")); // NOI18N
+        newMemo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newMemoActionPerformed(evt);
+            }
+        });
+        menuNewEntity.add(newMemo);
 
         menuBar.add(menuNewEntity);
 
@@ -1261,6 +1274,15 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         menuView.add(vueNavigation);
+
+        vueInfo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/memo.png"))); // NOI18N
+        vueInfo1.setText(bundle.getString("msg.memo")); // NOI18N
+        vueInfo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vueInfo1ActionPerformed(evt);
+            }
+        });
+        menuView.add(vueInfo1);
 
         menuBar.add(menuView);
 
@@ -2138,6 +2160,14 @@ public class MainMenu extends javax.swing.JFrame {
 		copier.showDialog();
     }//GEN-LAST:event_editCopyIdeasActionPerformed
 
+    private void newMemoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newMemoActionPerformed
+		newEntity(new Memo());
+    }//GEN-LAST:event_newMemoActionPerformed
+
+    private void vueInfo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vueInfo1ActionPerformed
+		mainFrame.showAndFocus(SbConstants.ViewName.MEMOS);
+    }//GEN-LAST:event_vueInfo1ActionPerformed
+
 	/**
 	 * @param args the command line arguments
 	 */
@@ -2276,6 +2306,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem newItem;
     private javax.swing.JMenuItem newItemLink;
     private javax.swing.JMenuItem newLocation;
+    private javax.swing.JMenuItem newMemo;
     private javax.swing.JMenuItem newPart;
     private javax.swing.JMenuItem newPerson;
     private javax.swing.JMenuItem newRelationships;
@@ -2313,6 +2344,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem vueChrono;
     private javax.swing.JMenuItem vueEditor;
     private javax.swing.JMenuItem vueInfo;
+    private javax.swing.JMenuItem vueInfo1;
     private javax.swing.JMenuItem vueManageScene;
     private javax.swing.JMenuItem vueMemoria;
     private javax.swing.JMenuItem vueNavigation;

@@ -38,6 +38,7 @@ import storybook.model.hbn.dao.InternalDAOImpl;
 import storybook.model.hbn.dao.ItemDAOImpl;
 import storybook.model.hbn.dao.ItemLinkDAOImpl;
 import storybook.model.hbn.dao.LocationDAOImpl;
+import storybook.model.hbn.dao.MemoDAOImpl;
 import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.dao.RelationshipDAOImpl;
@@ -55,6 +56,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
+import storybook.model.hbn.entity.Memo;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
@@ -201,6 +203,8 @@ public class BookModel extends AbstractModel {
 			fireAgainStrands();
 		} else if (ViewName.IDEAS.compare(view)) {
 			fireAgainIdeas();
+		} else if (ViewName.MEMOS.compare(view)) {
+			fireAgainMemos();
 		} else if (ViewName.TAGS.compare(view)) {
 			fireAgainTags();
 		} else if (ViewName.ITEMS.compare(view)) {
@@ -306,6 +310,15 @@ public class BookModel extends AbstractModel {
 		List<Idea> ideas = dao.findAll();
 		commit();
 		firePropertyChange(BookController.IdeaProps.INIT.toString(), null, ideas);
+	}
+
+	private void fireAgainMemos() {
+		SbApp.trace("BookModel.fireAgainMemos()");
+		Session session = beginTransaction();
+		MemoDAOImpl dao = new MemoDAOImpl(session);
+		List<Memo> memos = dao.findAll();
+		commit();
+		firePropertyChange(BookController.MemoProps.INIT.toString(), null, memos);
 	}
 
 	private void fireAgainTags() {
@@ -457,6 +470,10 @@ public class BookModel extends AbstractModel {
 
 	public void setShowInfo(DbFile dbFile) {
 		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, dbFile);
+	}
+
+	public void setShowMemo(AbstractEntity entity) {
+		firePropertyChange(BookController.CommonProps.SHOW_MEMO.toString(), null, entity);
 	}
 
 	public void setShowInMemoria(Person person) {
@@ -1196,6 +1213,51 @@ public class BookModel extends AbstractModel {
 			Tag old = dao.find(id);
 			commit();
 			setDeleteTag(old);
+		}
+	}
+
+	// memos
+	public void setEditMemo(Memo entity) {
+		//firePropertyChange(BookController.TagProps.EDIT.toString(), null, entity);
+		editEntity((AbstractEntity)entity);
+	}
+
+	public synchronized void setUpdateMemo(Memo memo) {
+		Session session = beginTransaction();
+		MemoDAOImpl dao = new MemoDAOImpl(session);
+		Memo old = dao.find(memo.getId());
+		commit();
+		session = beginTransaction();
+		session.update(memo);
+		commit();
+		firePropertyChange(BookController.MemoProps.UPDATE.toString(), old, memo);
+	}
+
+	public synchronized void setNewMemo(Memo memo) {
+		Session session = beginTransaction();
+		session.save(memo);
+		commit();
+		firePropertyChange(BookController.MemoProps.NEW.toString(), null, memo);
+	}
+
+	public synchronized void setDeleteMemo(Memo memo) {
+		if (memo.getId() == null) {
+			return;
+		}
+		// delete memo
+		Session session = beginTransaction();
+		session.delete(memo);
+		commit();
+		firePropertyChange(BookController.MemoProps.DELETE.toString(), memo, null);
+	}
+
+	public synchronized void setDeleteMultiMemos(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			MemoDAOImpl dao = new MemoDAOImpl(session);
+			Memo old = dao.find(id);
+			commit();
+			setDeleteMemo(old);
 		}
 	}
 

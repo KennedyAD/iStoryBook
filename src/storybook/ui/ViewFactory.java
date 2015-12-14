@@ -42,6 +42,7 @@ import storybook.ui.chart.PersonsBySceneChart;
 import storybook.ui.chart.StrandsByDateChart;
 import storybook.ui.chart.WiWWChart;
 import storybook.ui.edit.EntityEditor;
+import storybook.ui.memo.MemoPanel;
 import storybook.ui.memoria.MemoriaPanel;
 import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.BlankPanel;
@@ -149,6 +150,8 @@ public class ViewFactory {
 			return getTreeView();
 		} else if (viewName == ViewName.INFO) {
 			return getQuickInfoView();
+		} else if (viewName == ViewName.MEMOS) {
+			return getMemoView();
 		} else if (viewName == ViewName.NAVIGATION) {
 			return getNavigationView();
 		} else if (viewName == ViewName.CHART_PERSONS_BY_DATE) {
@@ -177,7 +180,7 @@ public class ViewFactory {
 	}
 
 	public SbView getView(String viewName) {
-		SbApp.trace("ViewFactory.getView(" + viewName + ")");
+		SbApp.trace("ViewFactory.getView(string=" + viewName + ")");
 		return (SbView) viewMap.getView(viewName);
 	}
 
@@ -185,7 +188,7 @@ public class ViewFactory {
 		if (view == null) {
 			return;
 		}
-		SbApp.trace("ViewFactory.loadView(" + view.getName() + ")");
+		SbApp.trace("ViewFactory.loadView(view=" + view.getName() + ")");
 		AbstractPanel comp = new BlankPanel(mainFrame);
 		boolean isTable = false;
 		if (ViewName.CHRONO.compare(view)) {
@@ -260,6 +263,8 @@ public class ViewFactory {
 			comp = new TreePanel(mainFrame);
 		} else if (ViewName.INFO.compare(view)) {
 			comp = new InfoPanel(mainFrame);
+		} else if (ViewName.MEMOS.compare(view)) {
+			comp = new MemoPanel(mainFrame);
 		} else if (ViewName.NAVIGATION.compare(view)) {
 			comp = new NavigationPanel(mainFrame);
 		} else if (ViewName.INTERNALS.compare(view)) {
@@ -301,6 +306,8 @@ public class ViewFactory {
 			isTable = true;
 		} else if (ViewName.IDEAS.compare(view)) {
 			isTable = true;
+		} else if (ViewName.MEMOS.compare(view)) {
+			isTable = false;
 		} else if (ViewName.TAGS.compare(view)) {
 			isTable = true;
 		} else if (ViewName.ITEMS.compare(view)) {
@@ -721,6 +728,18 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.INFO.toString());
 	}
 
+	public SbView getMemoView() {
+		SbApp.trace("ViewFactory.getMemoView()");
+		if (isViewInitialized(ViewName.INFO)) {
+			SbView view = new SbView(I18N.getMsg("msg.memo.title"));
+			view.setName(ViewName.MEMOS.toString());
+			addRefreshButton(view);
+			addSeparator(view);
+			viewMap.addView(view.getName(), view);
+		}
+		return (SbView) viewMap.getView(ViewName.MEMOS.toString());
+	}
+
 	public SbView getAttributesView() {
 		SbApp.trace("ViewFactory.getAttributesView()");
 		if (isViewInitialized(ViewName.ATTRIBUTES)) {
@@ -759,7 +778,7 @@ public class ViewFactory {
 
 	@SuppressWarnings("unchecked")
 	private void addRefreshButton(final SbView view) {
-		//SbApp.trace("ViewFactory.addRefreshButton("+view.getName()+")");
+		SbApp.trace("ViewFactory.addRefreshButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.refresh", "msg.common.refresh");
 		bt.addActionListener((ActionEvent e) -> {
 			mainFrame.setWaitingCursor();
@@ -771,7 +790,7 @@ public class ViewFactory {
 
 	@SuppressWarnings("unchecked")
 	private void addOptionsButton(final SbView view) {
-		//SbApp.trace("ViewFactory.addOptionsButton("+view.getName()+")");
+		SbApp.trace("ViewFactory.addOptionsButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.options", "msg.common.options");
 		bt.addActionListener((ActionEvent e) -> {
 			mainFrame.getBookController().showOptions(view);
@@ -781,7 +800,7 @@ public class ViewFactory {
 
 	@SuppressWarnings("unchecked")
 	private void addExportButton(final SbView view) {
-		//SbApp.trace("ViewFactory.addExportButton("+view.getName()+")");
+		SbApp.trace("ViewFactory.addExportButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.export", "msg.common.export");
 		bt.addActionListener((ActionEvent e) -> {
 			mainFrame.getBookController().export(view);
@@ -791,7 +810,7 @@ public class ViewFactory {
 
 	@SuppressWarnings({"unchecked", "unused"})
 	private void addPrintButton(final SbView view) {
-		//SbApp.trace("ViewFactory.addPrintButton("+view.getName()+")");
+		SbApp.trace("ViewFactory.addPrintButton("+view.getName()+")");
 		JButton bt = createMiniButton("icon.mini.print", "msg.common.print");
 		bt.addActionListener((ActionEvent e) -> {
 			mainFrame.getBookController().print(view);
@@ -800,7 +819,7 @@ public class ViewFactory {
 	}
 
 	private JButton createMiniButton(String iconKey, String toolTipKey) {
-		//SbApp.trace("ViewFactory.createMiniButton("+iconKey+","+toolTipKey+")");
+		SbApp.trace("ViewFactory.createMiniButton("+iconKey+","+toolTipKey+")");
 		final JButton bt = new JButton(I18N.getIcon(iconKey));
 		bt.setOpaque(false);
 		bt.setBorder(null);
@@ -812,7 +831,7 @@ public class ViewFactory {
 
 	@SuppressWarnings("unchecked")
 	private void addSeparator(View view) {
-		//SbApp.trace("ViewFactory.addRefreshButton("+view.getName()+")");
+		SbApp.trace("ViewFactory.addRefreshButton("+view.getName()+")");
 		view.getCustomTabComponents().add(new JLabel("  "));
 	}
 

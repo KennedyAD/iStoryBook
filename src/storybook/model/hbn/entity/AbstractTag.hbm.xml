@@ -38,5 +38,12 @@
 		containing the additional properties and place it in your merge dir.
 	    -->
     </subclass>
+    <subclass discriminator-value="20" name="Memo">
+      <!--
+            	To add non XDoclet property mappings, create a file named
+                hibernate-properties-Item.xml
+		containing the additional properties and place it in your merge dir.
+	    -->
+    </subclass>
   </class>
 </hibernate-mapping>

@@ -130,6 +130,7 @@ public class Export {
 				ExportIdeas expIdea = new ExportIdeas(this);
 				ret = expIdea.get((Idea) object);
 				break;
+			// TODO export memo
 		}
 		if (!silent) {
 			JOptionPane.showMessageDialog(parent,

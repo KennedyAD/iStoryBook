@@ -283,6 +283,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbView strandsView = getView(ViewName.STRANDS);
 		SbView ideasView = getView(ViewName.IDEAS);
 		SbView tagsView = getView(ViewName.TAGS);
+		SbView memosView = getView(ViewName.MEMOS);
 		SbView itemsView = getView(ViewName.ITEMS);
 		SbView tagLinksView = getView(ViewName.TAGLINKS);
 		SbView itemLinksView = getView(ViewName.ITEMLINKS);
@@ -299,7 +300,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbView chartOccurrenceOfPersons = getView(ViewName.CHART_OCCURRENCE_OF_PERSONS);
 		SbView chartOccurrenceOfLocations = getView(ViewName.CHART_OCCURRENCE_OF_LOCATIONS);
 		SbView chartGantt = getView(ViewName.CHART_GANTT);
-		SbView editorView = getView(ViewName.EDITOR);
+//		SbView editorView = getView(ViewName.EDITOR);
 		SbView treeView = getView(ViewName.TREE);
 		SbView infoView = getView(ViewName.INFO);
 		SbView navigationView = getView(ViewName.NAVIGATION);
@@ -319,10 +320,10 @@ public class MainFrame extends JFrame implements IPaintable {
 			chartStrandsByDate, chartOccurrenceOfPersons,
 			chartOccurrenceOfLocations, chartGantt, planView, timeEventView});
 		tabWindow.setName("tabWindow");
-		//SplitWindow swTabWinEditor = new SplitWindow(true, 0.60f, tabWindow, editorView);
-		//swTabWinEditor.setName("swTabWinEditor");
-		//SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, swTabWinEditor);
-		SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, tabWindow);
+		SplitWindow swTabWinMemo = new SplitWindow(true, 0.60f, tabWindow, memosView);
+		swTabWinMemo.setName("swTabWinMemos");
+		SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, swTabWinMemo);
+		//SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, tabWindow);
 		swMain.setName("swMain");
 		rootWindow.setWindow(swMain);
 		bookView.close();
@@ -352,7 +353,8 @@ public class MainFrame extends JFrame implements IPaintable {
 		chartGantt.close();
 		planView.close();
 		timeEventView.close();
-		//editorView.minimize(Direction.RIGHT);
+		memosView.close();
+		//memoView.minimize(Direction.RIGHT);
 		//WindowBar windowBar = rootWindow.getWindowBar(Direction.RIGHT);
 		//windowBar.setContentPanelSize(EntityEditor.MINIMUM_SIZE.width + 20);
 		infoView.restoreFocus();
