@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 import net.infonode.docking.View;
 import org.hibernate.Session;
 import org.miginfocom.swing.MigLayout;
+import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
@@ -67,6 +68,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 	}
 	@Override
 	public void init() {
+		SbApp.trace("MemoPanel.init()");
 		/* disposition
 		- liste deroulante memoCombo btEdit btDelete btNew
 		- affichage du memo selectionne
@@ -76,6 +78,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 
 	@Override
 	public void initUi() {
+		SbApp.trace("MemoPanel.initUi()");
 		MigLayout migLayout1 = new MigLayout("wrap,fill", "[]", "[][grow]");
 		setLayout(migLayout1);
 		setBackground(SwingUtil.getBackgroundColor());
@@ -99,6 +102,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
+		SbApp.trace("MemoPanel.modelPropertyChange(..)");
 		Object newValue = evt.getNewValue();
 		String propName = evt.getPropertyName();
 
@@ -136,6 +140,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
+		SbApp.trace("MemoPanel.hyperlinkIpdate(...)");
 		try {
 			if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 				NetUtil.openBrowser(e.getURL().toString());
@@ -147,6 +152,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 
 	@SuppressWarnings("unchecked")
 	private void refreshMemoCombo() {
+		SbApp.trace("MemoPanel.refreshMemoCombo()");
 		Object entityComboSelected = null;
 		if (memoCombo != null) {
 			entityComboSelected = memoCombo.getSelectedItem();
@@ -165,58 +171,53 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		}
 		processActionListener = true;
 		memoCombo.setSelectedItem(entityComboSelected);
-		
-		btNew = new JButton(I18N.getMsg("msg.common.new"));
-		btNew.setIcon(I18N.getIcon("icon.small.new"));
-		btNew.setName(SbConstants.ComponentName.BT_NEW.toString());
-		btNew.addActionListener(this);
-		
-		btEdit = new JButton(I18N.getMsg("msg.common.edit"));
-		btEdit.setIcon(I18N.getIcon("icon.small.edit"));
-		btEdit.setName(SbConstants.ComponentName.BT_EDIT.toString());
-		btEdit.addActionListener(this);
-		if (entityComboSelected==null) btEdit.setEnabled(false);
-
-		btDelete = new JButton(I18N.getMsg("msg.common.delete"));
-		btDelete.setIcon(I18N.getIcon("icon.small.delete"));
-		btDelete.setName(SbConstants.ComponentName.BT_DELETE.toString());
-		btDelete.addActionListener(this);
-		btDelete.setEnabled(false);
-	}
+		}
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if ((evt.getSource() == null) || (!processActionListener)) {
 			return;
 		}
+		SbApp.trace("MemoPanel.actionPerformed("+evt.toString()+")");
 		if (evt.getSource() instanceof JButton) {
 			String buttonString = ((JButton) evt.getSource()).getName();
 			if (SbConstants.ComponentName.BT_EDIT.check(buttonString)) {
+				mainFrame.showEditorAsDialog((Memo)memoCombo.getSelectedItem());
 				return;
 			} else if (SbConstants.ComponentName.BT_NEW.check(buttonString)) {
+				mainFrame.showEditorAsDialog(new Memo());
 				return;
 			} else if (SbConstants.ComponentName.BT_DELETE.check(buttonString)) {
 				return;
 			}
 		}
+		currentMemo=(Memo)memoCombo.getSelectedItem();
 		refreshMemo();
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		SbApp.trace("MemoPanel.valueChanged(...)");
+		currentMemo=(Memo)memoCombo.getSelectedItem();
 		refreshMemo();
 	}
 
 	private void refreshMemo() {
+		SbApp.trace("MemoPanel.refreshMemo("+(currentMemo!=null?currentMemo.toString():"null")+")");
 		if (currentMemo==null) {
 			infoPanel.setText("");
+			btEdit.setEnabled(false);
+			btDelete.setEnabled(false);
 		} else {
 			infoPanel.setText(currentMemo.getNotes());
+			btEdit.setEnabled(true);
+			btDelete.setEnabled(true);
 		}
 		infoPanel.setCaretPosition(0);
 	}
 
 	private void refreshControlPanel() {
+		SbApp.trace("MemoPanel.refreshControlPanel()");
 		memoCombo = new JComboBox();
 		memoCombo.setName(SbConstants.ComponentName.COMBO_ENTITIES.toString());
 		memoCombo.setMaximumRowCount(15);
@@ -226,9 +227,30 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		add(controlPanel, "alignx center");
 		controlPanel.removeAll();
 		controlPanel.add(memoCombo, "gapafter 32");
+		memoCombo.addActionListener(this);
+		
+		btNew = new JButton(/*I18N.getMsg("msg.common.new")*/);
+		btNew.setIcon(I18N.getIcon("icon.small.new"));
+		btNew.setName(SbConstants.ComponentName.BT_NEW.toString());
+		btNew.addActionListener(this);
+		controlPanel.add(btNew);
+		
+		btEdit = new JButton(/*I18N.getMsg("msg.common.edit")*/);
+		btEdit.setIcon(I18N.getIcon("icon.small.edit"));
+		btEdit.setName(SbConstants.ComponentName.BT_EDIT.toString());
+		btEdit.addActionListener(this);
+		btEdit.setEnabled(false);
+		controlPanel.add(btEdit);
+
+		btDelete = new JButton(/*I18N.getMsg("msg.common.delete")*/);
+		btDelete.setIcon(I18N.getIcon("icon.small.delete"));
+		btDelete.setName(SbConstants.ComponentName.BT_DELETE.toString());
+		btDelete.addActionListener(this);
+		btDelete.setEnabled(false);
+		controlPanel.add(btDelete);
+
 		controlPanel.revalidate();
 		controlPanel.repaint();
-		memoCombo.addActionListener(this);
 	}
 	
 }
