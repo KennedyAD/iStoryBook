@@ -19,6 +19,9 @@
 package storybook.ui;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -286,40 +289,22 @@ public class ViewFactory {
 		SbApp.trace("ViewFactory.unloadView(" + view.getName() + ")");
 		boolean isTable;
 		isTable = false;
-		if (ViewName.SCENES.compare(view)) {
-			isTable = true;
-		} else if (ViewName.CHAPTERS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.PARTS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.LOCATIONS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.PERSONS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.RELATIONSHIPS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.GENDERS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.CATEGORIES.compare(view)) {
-			isTable = true;
-		} else if (ViewName.STRANDS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.IDEAS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.MEMOS.compare(view)) {
-			isTable = false;
-		} else if (ViewName.TAGS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.ITEMS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.TAGLINKS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.ITEMLINKS.compare(view)) {
-			isTable = true;
-		} else if (ViewName.TIMEEVENT.compare(view)) {
-			isTable = true;
-		}
-		if (isTable) {
+		if (ViewName.SCENES.compare(view) || 
+				ViewName.CHAPTERS.compare(view) ||
+				ViewName.PARTS.compare(view) ||
+				ViewName.LOCATIONS.compare(view) ||
+				ViewName.PERSONS.compare(view) ||
+				ViewName.RELATIONSHIPS.compare(view) ||
+				ViewName.GENDERS.compare(view) ||
+				ViewName.CATEGORIES.compare(view) ||
+				ViewName.STRANDS.compare(view) ||
+				ViewName.IDEAS.compare(view) ||
+				ViewName.MEMOS.compare(view) ||
+				ViewName.TAGS.compare(view) ||
+				ViewName.ITEMS.compare(view) ||
+				ViewName.TAGLINKS.compare(view) ||
+				ViewName.ITEMLINKS.compare(view) ||
+				ViewName.TIMEEVENT.compare(view)) {
 			saveTableDesign(view);
 		}
 		view.unload();
@@ -857,13 +842,16 @@ public class ViewFactory {
 		try {
 			AbstractTable comp = (AbstractTable) view.getComponent();
 			JXTable table = comp.getTable();
+			String colindexes="";
 			for (TableColumn col : table.getColumns(true)) {
 				String l1 = "Table." + comp.getTableName() + "." + col.getHeaderValue();
 				TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
+				int ix=table.convertColumnIndexToView(col.getModelIndex())+1;
+				colindexes+=col.getHeaderValue()+"("+ix+")"+",";
 				if (ext.isVisible()) {
-					BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()));
+					BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth())+","+ix);
 				} else {
-					BookUtil.store(mainFrame, l1, "hide");
+					BookUtil.store(mainFrame, l1, "hide,"+ix);
 				}
 			}
 		} catch (Exception e) {
@@ -874,6 +862,7 @@ public class ViewFactory {
 	private void loadTableDesign(SbView view) {
 		AbstractTable comp = (AbstractTable) view.getComponent();
 		JXTable table = comp.getTable();
+		ArrayList<String> colIndexes=new ArrayList<>();
 		for (TableColumn col : table.getColumns(true)) {
 			String colName = (String) col.getHeaderValue();
 			String l1 = "Table." + comp.getTableName() + "." + colName;
@@ -885,13 +874,31 @@ public class ViewFactory {
 				continue;
 			}
 			TableColumnExt ext = table.getColumnExt(colName);
-			if (internal.getStringValue().equals("hide")) {
+			String colSize="xx";
+			Integer colIndex=-1;
+			if (internal.getStringValue().contains(",")) {
+				String [] p = internal.getStringValue().split(",");
+				colSize=p[0];
+				colIndex=Integer.parseInt(p[1]);
+			} else {
+				colSize=internal.getStringValue();
+				colIndex=col.getModelIndex();
+			}
+			if (colSize.contains("hide")) {
 				ext.setVisible(false);
 			} else {
 				ext.setVisible(true);
-				col.setPreferredWidth(Integer.parseInt(internal.getStringValue()));
+				col.setPreferredWidth(Integer.parseInt(colSize));
 			}
+			colIndexes.add(colIndex+":"+colName);
 		}
+		Collections.sort(colIndexes);
+		ArrayList<String> identifiers=new ArrayList<>();
+		for (String y:colIndexes) {
+			String[] yy=y.split(":");
+			identifiers.add(yy[1]);
+		}
+		table.setColumnSequence(identifiers.toArray());
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 }

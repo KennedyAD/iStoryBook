@@ -2,8 +2,6 @@ oStorybook
 --------------------------------------------------------------------------------
 
 Versions :
-4.10.3 : favdb 01/04/2016
-- ajout de la fonction Memo
 4.10.2 : favdb et Jean Rébillat 13/12/2015
 - suppression du bug Enregistrer Sous et Renommer
 4.10.1 : favdb et Jean Rébillat 01/12/2015
