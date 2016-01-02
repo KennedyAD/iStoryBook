@@ -79,7 +79,7 @@ section "install"
 	file "${DISTDIR}\oStorybook-icon.ico"
 	file "${DISTDIR}\ostorybook.jar"
 	file /r "${DISTDIR}\dicts"
-	file /r "${DISTDIR}\ostorybook_lib"
+	file /r "${DISTDIR}\lib"
 
 	# Add any other files for the install directory (license files, app data, etc) here
  

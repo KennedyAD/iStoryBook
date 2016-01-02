@@ -207,60 +207,13 @@
             <delete dir="${sb.distdir}/${jarbundler.name}.app"/>
         </target> 
 <!-- ========================================================================================= -->
-        <target name="build-app-win" depends="jar, build-prepare">
-            <echo message="BUILDING INSTALLER FOR WINDOWS..." level="info"/>
-            <property name="inst.version" value="${sb.version}"/>
-            <property name="nbdist.dir" value="${sb.distdir}/IzPack"/>
-            <property name="nbdist-app.dir" value="${nbdist.dir}/oStorybook"/>
-            <property name="izpack.dir" value="${basedir}/../../IzPack"/>
-            <property name="izpack2exe.dir" value="${izpack.dir}/utils/wrappers/izpack2exe"/>
-            <property name="izpack.compiler" value="${izpack.dir}/lib/compiler.jar"/>
-            <property name="izpack-installer" value="${nbdist.dir}/install.jar"/>
-            <property name="nbdist-app-installer" value="${sb.distdir}/oStorybook-${sb.version}.exe"/>
-            <property name="izpack.input" value="${nbdist-app.dir}/izpack-install-script.xml"/>
-            <property name="izpack.output" value="${izpack-installer}"/>
-            <property name="izpack.basedir" value="${basedir}/${nbdist-app.dir}"/>
-
-            <taskdef name="izpack" classpath="${izpack.compiler}" classname="com.izforge.izpack.ant.IzPackTask"/>
-
-            <echo message="unzipping ${sb.distzip} into ${nbdist-app.dir} ..." level="info"/>
-            <unzip src="${sb.distzip}" dest="${nbdist-app.dir}"/>
-
-            <echo message="Copying installer/izpack to ${nbdist-app.dir} ..." level="info"/>
-            <copy todir="${nbdist-app.dir}">
-                <fileset dir="deployment/windows/izpack" />
-            </copy>
-            
-            <echo message="Setting variable names..." level="info"/>
-            <replace file="${nbdist-app.dir}/izpack-install-script.xml">
-                <replacefilter token="$APP-NAME" value="oStorybook" />
-                <replacefilter token="$APP-VERSION" value="${sb.version}" />
-                <replacefilter token="$APP-PATH" value="oStorybook-${sb.version}" />
-            </replace>
-            <replace file="${nbdist-app.dir}/shortcutSpec.xml">
-                <replacefilter token="$APP-VERSION" value="${sb.version}" />
-            </replace>
-
-            <echo message="Compiling installer using IzPack..." level="info"/>
-            <izpack input="${izpack.input}"
-                    output="${izpack.output}"
-                    installerType="standard"
-                    basedir="${nbdist.dir}"
-                    izPackDir="${izpack.dir}/"/>
-
-            <echo message="Creating the release ${nbdist-app-installer} ..." level="info"/>
-            <exec dir="${izpack2exe.dir}" executable="python" >
-                <arg value="izpack2exe.py"/>
-                <arg value="--file=${izpack.output}"/>
-                <arg value="--output=${nbdist-app-installer}"/>
-                <arg value="--no-upx"/>
+        <target name="build-app-linux4win" depends="jar, build-prepare, build-app-zip">
+            <echo level="info" message="build-app-zip utilisable seulement si NSIS a été installé (voir la documentation)"/>
+            <exec executable="wine">
+                <arg value="../nsis/makensis.exe" />
+                <arg value="../deployment/windows/nsis/oStorybook.nsi" />
             </exec>
-
-            <echo message="Cleaning and finalizing release..."  level="info"/>
-            <!-- <delete dir="${nbdist.dir}"/> -->
-            <echo message=" "/>
-            <echo message="Release IzPack of oStorybook for Windows is ready in ${nbdist-app-installer}" level="info"/>
-            <delete dir="${nbdist.dir}"/>
+            <move file="dist/oStorybook-installer.exe" tofile="${sb.distdir}/oStorybook-${sb.version}.exe" />
         </target>
 <!-- ========================================================================================= -->
         <target name="build-app-debian" depends="jar,build-prepare">
@@ -307,8 +260,9 @@ alien -r ${sb.distdir}/oStorybook-${sb.version}.deb</echo>
 			<arg value="./setup.sh" />
 		</exec>
 	</target>
-        <target name="build-app-all" depends="build-app-linux, build-app-zip, build-app-mac, build-app-debian, build-app-win">
+        <target name="build-app-all" depends="build-app-linux, build-app-zip, build-app-mac, build-app-debian">
 		<copy file="Versions.txt" todir="${sb.distdir}" />
+            <echo level="warning" message="Pour le package Windows veillez adapter le build-app-linux4win"/>
         </target>
 <!-- ========================================================================================= -->
 </project>
