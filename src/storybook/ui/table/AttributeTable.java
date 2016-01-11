@@ -35,14 +35,16 @@ public class AttributeTable extends AbstractTable {
 			return;
 		}
 		Attribute attribute = (Attribute) getEntityFromRow(row);
-		ctrl.setAttributeToEdit(attribute);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setAttributeToEdit(attribute);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(attribute);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setAttributeToEdit((Attribute) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setAttributeToEdit((Attribute) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

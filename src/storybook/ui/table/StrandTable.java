@@ -141,14 +141,16 @@ public class StrandTable extends AbstractTable {
 			return;
 		}
 		Strand strand = (Strand) getEntityFromRow(row);
-		ctrl.setStrandToEdit(strand);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setStrandToEdit(strand);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(strand);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setStrandToEdit((Strand) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setStrandToEdit((Strand) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

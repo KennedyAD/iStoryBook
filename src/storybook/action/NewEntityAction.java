@@ -47,6 +47,7 @@ public class NewEntityAction extends AbstractEntityAction {
 		BookController ctrl = mainFrame.getBookController();
 		AbstractEntityHandler entityHandler = EntityUtil.getEntityHandler(mainFrame, entity);
 		ctrl.setEntityToEdit(entityHandler.createNewEntity());
-		mainFrame.showView(ViewName.EDITOR);
+		//mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

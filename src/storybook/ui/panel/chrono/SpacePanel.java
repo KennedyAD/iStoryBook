@@ -105,7 +105,8 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 					scene.setStrand(strand);
 					scene.setDate(date);
 					ctrl.setSceneToEdit(scene);
-					mainFrame.showView(ViewName.EDITOR);
+//					mainFrame.showView(ViewName.EDITOR);
+					mainFrame.showEditorAsDialog(scene);
 				}
 			};
 		}

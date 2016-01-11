@@ -281,12 +281,12 @@ public class ActionHandler {
 
 	public void handleDummy() {
 		SbApp.trace("ActionHandler.handleDummy(): ");
-		try {
+		/*try {
 			SbView view = mainFrame.getView(SbConstants.ViewName.EDITOR);
 			mainFrame.getViewFactory().unloadView(view);
 		} catch (Exception ex) {
 			SbApp.error("ActionHandler.handleDummy()",ex);
-		}
+		}*/
 	}
 
 	public void handleShowInternals() {

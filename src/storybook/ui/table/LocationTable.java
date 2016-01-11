@@ -69,14 +69,16 @@ public class LocationTable extends AbstractTable {
 			return;
 		}
 		Location location = (Location) getEntityFromRow(row);
-		ctrl.setLocationToEdit(location);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setLocationToEdit(location);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(location);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setLocationToEdit((Location) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setLocationToEdit((Location) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

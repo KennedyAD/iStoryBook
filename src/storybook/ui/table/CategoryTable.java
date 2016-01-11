@@ -141,14 +141,16 @@ public class CategoryTable extends AbstractTable {
 			return;
 		}
 		Category category = (Category) getEntityFromRow(row);
-		ctrl.setCategoryToEdit(category);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setCategoryToEdit(category);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(category);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setCategoryToEdit((Category) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setCategoryToEdit((Category) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

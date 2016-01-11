@@ -403,9 +403,9 @@ public class MainFrame extends JFrame implements IPaintable {
 
 	public void showView(ViewName viewName) {
 		SbApp.trace("MainFrame.showView(" + viewName.name() + ")");
-		if (viewName.equals(SbConstants.ViewName.EDITOR)) {
-			return;
-		}
+//		if (viewName.equals(SbConstants.ViewName.EDITOR)) {
+//			return;
+//		}
 		setWaitingCursor();
 		SbView view = getView(viewName);
 		if (view.getRootWindow() != null) {
@@ -465,15 +465,16 @@ public class MainFrame extends JFrame implements IPaintable {
 		/*Timer timer = new Timer(200, new ActionListener() {
 		 @Override
 		 public void actionPerformed(ActionEvent e) {*/
-		View editorView = getView(ViewName.EDITOR);
-		 if (!editorView.isShowing()) {
-		 return;
-		 }/*
+//		View editorView = getView(ViewName.EDITOR);
+//		 if (!editorView.isShowing()) {
+//		 return;
+//		 }
+/*
 		 if (editorView.isMinimized()) {
 		 WindowBar bar = rootWindow.getWindowBar(Direction.RIGHT);
 		 bar.setSelectedTab(-1);
 		 } else {*/
-		 editorView.close();
+//		 editorView.close();
 		 /*}*/
 		/*}
 		 });

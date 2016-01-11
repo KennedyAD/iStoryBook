@@ -83,14 +83,16 @@ public class ChapterTable extends AbstractTable {
 			return;
 		}
 		Chapter chapter = (Chapter) getEntityFromRow(row);
-		ctrl.setChapterToEdit(chapter);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setChapterToEdit(chapter);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(chapter);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setChapterToEdit((Chapter) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setChapterToEdit((Chapter) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

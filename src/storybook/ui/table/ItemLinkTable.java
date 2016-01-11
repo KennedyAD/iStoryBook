@@ -69,14 +69,16 @@ public class ItemLinkTable extends AbstractTable {
 			return;
 		}
 		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
-		ctrl.setItemLinkToEdit(itemLink);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setItemLinkToEdit(itemLink);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(itemLink);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setItemLinkToEdit((ItemLink) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setItemLinkToEdit((ItemLink) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

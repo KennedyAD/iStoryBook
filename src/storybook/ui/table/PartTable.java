@@ -70,14 +70,16 @@ public class PartTable extends AbstractTable {
 			return;
 		}
 		Part part = (Part) getEntityFromRow(row);
-		ctrl.setPartToEdit(part);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setPartToEdit(part);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(part);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setPartToEdit((Part) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setPartToEdit((Part) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

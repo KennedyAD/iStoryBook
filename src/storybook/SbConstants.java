@@ -261,7 +261,7 @@ public class SbConstants {
 		ITEMS("Items"),
 		ITEMLINKS("ItemLinks"),
 		INTERNALS("Internals"),
-		EDITOR("Editor"),
+		//EDITOR("Editor"),
 		CHRONO("Chrono"),
 		BOOK("Book"),
 		MANAGE("Manage"),

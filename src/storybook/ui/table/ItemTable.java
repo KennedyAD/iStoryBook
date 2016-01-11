@@ -69,14 +69,16 @@ public class ItemTable extends AbstractTable {
 			return;
 		}
 		Item item = (Item) getEntityFromRow(row);
-		ctrl.setItemToEdit(item);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setItemToEdit(item);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(item);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setItemToEdit((Item) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setItemToEdit((Item) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

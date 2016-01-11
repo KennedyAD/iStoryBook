@@ -58,6 +58,9 @@ public class SceneEntityHandler extends AbstractEntityHandler {
 		if (orig.getSceneTs() != null) {
 			scene.setSceneTs(orig.getSceneTs());
 		}
+		if (orig.hasChapter()) {
+			scene.setChapter(orig.getChapter());
+		}
 		return scene;
 	}
 

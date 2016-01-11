@@ -69,14 +69,16 @@ public class RelationshipTable extends AbstractTable {
 			return;
 		}
 		Relationship r = (Relationship) getEntityFromRow(row);
-		ctrl.setRelationshipToEdit(r);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setRelationshipToEdit(r);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(r);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setRelationshipToEdit((Relationship) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setRelationshipToEdit((Relationship) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

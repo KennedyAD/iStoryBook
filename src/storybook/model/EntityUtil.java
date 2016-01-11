@@ -398,6 +398,14 @@ public class EntityUtil {
 	public static void copyEntityProperties(MainFrame mainFrame, AbstractEntity entity,
 			AbstractEntity newEntity) {
 		try {
+			if (entity == null) {
+				System.err.println("EntityUtils.copyEntityProperties entity is NULL");
+				return;
+			}
+			if (newEntity == null) {
+				System.err.println("EntityUtils.copyEntityProperties newEntity is NULL");
+				return;
+			}
 			ConvertUtils.register(new DateConverter(null), Date.class);
 			ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);
 			ConvertUtils.register(new NullConverter(), Integer.class);

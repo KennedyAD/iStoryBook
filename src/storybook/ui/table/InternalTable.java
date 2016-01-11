@@ -69,14 +69,16 @@ public class InternalTable extends AbstractTable {
 			return;
 		}
 		Internal internal = (Internal) getEntityFromRow(row);
-		ctrl.setInternalToEdit(internal);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setInternalToEdit(internal);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(internal);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setInternalToEdit((Internal) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setInternalToEdit((Internal) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

@@ -70,14 +70,16 @@ public class TagTable extends AbstractTable {
 			return;
 		}
 		Tag tag = (Tag) getEntityFromRow(row);
-		ctrl.setTagToEdit(tag);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTagToEdit(tag);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(tag);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setTagToEdit((Tag) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTagToEdit((Tag) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

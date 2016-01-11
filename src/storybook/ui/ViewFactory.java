@@ -147,9 +147,9 @@ public class ViewFactory {
 			return getReadingView();
 		} else if (viewName == ViewName.MEMORIA) {
 			return getMemoriaView();
-		} else if (viewName == ViewName.EDITOR) {
+		}/* else if (viewName == ViewName.EDITOR) {
 			return getEditorView();
-		} else if (viewName == ViewName.TREE) {
+		}*/ else if (viewName == ViewName.TREE) {
 			return getTreeView();
 		} else if (viewName == ViewName.INFO) {
 			return getQuickInfoView();
@@ -581,23 +581,23 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.ITEMLINKS.toString());
 	}
 
-	public SbView getEditorView() {
-		SbApp.trace("ViewFactory.getEditorView()");
-		if (isViewInitialized(ViewName.EDITOR)) {
-			EntityEditor editor = new EntityEditor(mainFrame);
-			/* supression editor.initAll();*/
-			SbView view = new SbView(I18N.getMsg("msg.common.editor"), editor);
+//	public SbView getEditorView() {
+//		SbApp.trace("ViewFactory.getEditorView()");
+//		if (isViewInitialized(ViewName.EDITOR)) {
+//			EntityEditor editor = new EntityEditor(mainFrame);
+//			/* supression editor.initAll();*/
+//			SbView view = new SbView(I18N.getMsg("msg.common.editor"), editor);
 			// view.getWindowProperties().setCloseEnabled(false);
-			view.setName(ViewName.EDITOR.toString());
+//			view.setName(ViewName.EDITOR.toString());
 			// view.addListener(new DockingWindowAdapter() {
 			// public void windowHidden(DockingWindow window) {
 			// System.out.println("hidden");
 			// }
 			// });
-			viewMap.addView(view.getName(), view);
-		}
-		return (SbView) viewMap.getView(ViewName.EDITOR.toString());
-	}
+//			viewMap.addView(view.getName(), view);
+//		}
+//		return (SbView) viewMap.getView(ViewName.EDITOR.toString());
+//	}
 
 	public SbView getChronoView() {
 		SbApp.trace("ViewFactory.getChronoView()");

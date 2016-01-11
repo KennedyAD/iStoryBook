@@ -1845,7 +1845,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_vueMemoriaActionPerformed
 
     private void vueEditorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vueEditorActionPerformed
-		mainFrame.showAndFocus(SbConstants.ViewName.EDITOR);
+//		mainFrame.showAndFocus(SbConstants.ViewName.EDITOR);
     }//GEN-LAST:event_vueEditorActionPerformed
 
     private void vueTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vueTreeActionPerformed

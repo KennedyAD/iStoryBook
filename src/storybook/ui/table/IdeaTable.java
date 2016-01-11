@@ -69,14 +69,16 @@ public class IdeaTable extends AbstractTable {
 			return;
 		}
 		Idea idea = (Idea) getEntityFromRow(row);
-		ctrl.setIdeaToEdit(idea);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setIdeaToEdit(idea);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(idea);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setIdeaToEdit((Idea) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setIdeaToEdit((Idea) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

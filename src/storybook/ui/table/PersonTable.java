@@ -96,14 +96,16 @@ public class PersonTable extends AbstractTable {
 			return;
 		}
 		Person person = (Person) getEntityFromRow(row);
-		ctrl.setPersonToEdit(person);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setPersonToEdit(person);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(person);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setPersonToEdit((Person) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setPersonToEdit((Person) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

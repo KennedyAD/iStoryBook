@@ -69,14 +69,16 @@ public class TagLinkTable extends AbstractTable {
 			return;
 		}
 		TagLink tagLink = (TagLink) getEntityFromRow(row);
-		ctrl.setTagLinkToEdit(tagLink);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTagLinkToEdit(tagLink);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(tagLink);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setTagLinkToEdit((TagLink) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTagLinkToEdit((TagLink) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

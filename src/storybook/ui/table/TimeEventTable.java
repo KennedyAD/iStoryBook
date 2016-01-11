@@ -117,14 +117,16 @@ public class TimeEventTable extends AbstractTable {
 			return;
 		}
 		TimeEvent event = (TimeEvent) getEntityFromRow(row);
-		ctrl.setTimeEventToEdit(event);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTimeEventToEdit(event);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(event);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setTimeEventToEdit((TimeEvent) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setTimeEventToEdit((TimeEvent) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

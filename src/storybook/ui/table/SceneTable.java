@@ -208,14 +208,16 @@ public class SceneTable extends AbstractTable {
 			return;
 		}
 		Scene scene = (Scene) getEntityFromRow(row);
-		ctrl.setSceneToEdit(scene);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setSceneToEdit(scene);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(scene);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setSceneToEdit((Scene) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setSceneToEdit((Scene) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override

@@ -69,14 +69,16 @@ public class GenderTable extends AbstractTable {
 			return;
 		}
 		Gender gender = (Gender) getEntityFromRow(row);
-		ctrl.setGenderToEdit(gender);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setGenderToEdit(gender);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(gender);
 	}
 
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-		ctrl.setGenderToEdit((Gender) entity);
-		mainFrame.showView(ViewName.EDITOR);
+//		ctrl.setGenderToEdit((Gender) entity);
+//		mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override
