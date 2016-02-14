@@ -31,6 +31,10 @@ import storybook.ui.chart.jfreechart.DbTableCategoryItemLabelGenerator;
 
 public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7383988030730408475L;
 	private ChartPanel chartPanel;
 	private double average;
 

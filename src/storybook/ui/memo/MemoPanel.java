@@ -55,6 +55,10 @@ import storybook.ui.panel.AbstractPanel;
  * @author favdb
  */
 public class MemoPanel extends AbstractPanel implements ActionListener, ListSelectionListener, HyperlinkListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 460674309102964462L;
 	private JComboBox memoCombo;// liste deroulante des memos
 	private JButton btNew;// bouton nouveau
 	private JButton btDelete;// bouton supprimer

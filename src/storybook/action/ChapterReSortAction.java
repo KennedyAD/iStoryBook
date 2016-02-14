@@ -32,6 +32,10 @@ import storybook.ui.MainFrame;
  */
 public class ChapterReSortAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8503649695861596505L;
 	private final Chapter chapter;
 
 	public ChapterReSortAction(MainFrame mainFrame, Chapter chapter) {

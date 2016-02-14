@@ -27,6 +27,10 @@ import storybook.toolkit.Period;
  */
 public abstract class AbstractTagLink extends AbstractEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 154507430888995561L;
 	public static final int TYPE_TAG = 0;
 	public static final int TYPE_ITEM = 1;
 

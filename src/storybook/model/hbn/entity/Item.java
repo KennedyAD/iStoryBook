@@ -23,6 +23,11 @@ package storybook.model.hbn.entity;
  */
 public class Item extends AbstractTag implements Comparable<Item> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6137047987157640178L;
+
 	@Override
 	public int compareTo(Item o) {
 		return getName().compareTo(o.getName());

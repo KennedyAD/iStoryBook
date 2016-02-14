@@ -70,8 +70,6 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 	private JTabbedPane tabbedPane;
 	private JTextField tfGoogleMapsUrl;
 	private JCheckBox cbTranslatorMode;
-	private JCheckBox cbUpdate;
-
 	public PreferencesDialog() {
 		super();
 		initAll();
@@ -192,7 +190,7 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		JLabel lbSpelling = new JLabel(I18N.getMsgColon("msg.pref.spelling"));
 		spellingCombo = SwingUtil.createSpellingCombo();
 		Preference pref = PrefUtil.get(PreferenceKey.SPELLING, Spelling.none.toString());
-		Spelling spelling = Spelling.valueOf(pref.getStringValue());
+		Spelling.valueOf(pref.getStringValue());
 		spellingCombo.setSelectedItem(pref.getStringValue());
 		JLabel lbAddSpelling = new JLabel(" ");
 		JButton addSpelling = new JButton();

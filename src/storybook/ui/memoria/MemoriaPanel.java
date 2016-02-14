@@ -1,7 +1,6 @@
 package storybook.ui.memoria;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -93,6 +92,10 @@ import storybook.ui.panel.AbstractPanel;
 
 public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefreshable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5909906263054167567L;
 	DelegateForest<AbstractEntity, Long> graph;
 	private VisualizationViewer<AbstractEntity, Long> vv;
 	private TreeLayout<AbstractEntity, Long> treeLayout;
@@ -113,7 +116,6 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	private Person personVertex;
 	// relationships
 	private Relationship relationshipVertex;
-	private String relationshipVertexTitle;
 	// locations
 	private Location locationVertex;
 	private String locationVertexTitle;
@@ -385,7 +387,6 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createItemGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -667,7 +668,6 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createSceneGraph() {
 		graphIndex = 0L;
 		BookModel model = mainFrame.getBookModel();
@@ -741,7 +741,6 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createTagGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -1179,7 +1178,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			}
 			if (BookController.CommonProps.SHOW_OPTIONS.check(str)) {
 				View newView = (View) evt.getNewValue();
-				View oldView = (View) getParent().getParent();
+				getParent().getParent();
 				if (!newView.getName().equals(SbConstants.ViewName.MEMORIA.toString())) {
 					return;
 				}

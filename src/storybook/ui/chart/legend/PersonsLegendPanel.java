@@ -29,6 +29,10 @@ import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 
 public class PersonsLegendPanel extends AbstractLegendPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7740120587813935654L;
 	private Collection<Person> collection;
 
 	public PersonsLegendPanel(MainFrame paramMainFrame, Set<Person> paramSet) {

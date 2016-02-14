@@ -50,8 +50,8 @@ public class IdeaStatusHighlighter implements Highlighter {
 		DateLabel lb = new DateLabel();
 		Color bg = comp.getBackground();
 		lb.setBackground(bg);
-		Integer val = Integer.parseInt(compAdapter.getValue().toString());
-		IdeaStateComboModel model = new IdeaStateComboModel();
+		Integer.parseInt(compAdapter.getValue().toString());
+		new IdeaStateComboModel();
 		// IdeaStatus st = model.findByNumber(val);
 		// lb.setText(st.getName());
 		return lb;

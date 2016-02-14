@@ -24,6 +24,11 @@ import storybook.toolkit.I18N;
 
 public class ChapterLegendPanel extends AbstractLegendPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7832819917984570472L;
+
 	@Override
 	public void initUi() {
 		JLabel localJLabel = new JLabel("", 0);

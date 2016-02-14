@@ -31,6 +31,11 @@ import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 
 public class StrandsLegendPanel extends AbstractLegendPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4764618614099349081L;
+
 	public StrandsLegendPanel(MainFrame paramMainFrame) {
 		super(paramMainFrame);
 		initAll();

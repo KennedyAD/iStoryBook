@@ -29,6 +29,10 @@ import javax.swing.JSlider;
 
 public class DateSlider extends JSlider implements ComponentListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5907132521283692083L;
 	private List<Date> dates = new ArrayList<>();
 	@SuppressWarnings("unchecked")
 	private final Hashtable<Integer, JLabel> labelTable = new Hashtable();

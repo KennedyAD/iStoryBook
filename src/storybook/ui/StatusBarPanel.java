@@ -155,7 +155,6 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refreshLayoutCombo() {
 		/*
 		 * layoutCombo.removeAllItems(); layoutCombo.addItem("");

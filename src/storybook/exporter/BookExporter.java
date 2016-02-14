@@ -50,8 +50,7 @@ public class BookExporter extends AbstractExporter {
 	private boolean exportOnlyCurrentPart = false;
 	private boolean exportTableOfContentsLink = false;
 	private HashSet<Long> strandIdsToExport = null;
-	private final String bH1 = "<h1>", eH1 = "</h1>\n\n", bH2 = "<h2>", eH2 = "</h2>\n", bH3 = "<h3>", eH3 = "</h3>\n",
-			bH4 = "<h4>", eH4 = "</h4\n", bTx = "<p>", eTx = "</p";
+	private final String bH1 = "<h1>", eH1 = "</h1>\n\n", bH2 = "<h2>", eH2 = "</h2>\n", bH3 = "<h3>", eH3 = "</h3>\n";
 
 	public BookExporter(MainFrame m) {
 		super(m);
@@ -105,7 +104,6 @@ public class BookExporter extends AbstractExporter {
 		return (buf);
 	}
 
-	@SuppressWarnings("unchecked")
 	public String getChapterAsHtml(Chapter chapter, ChapterDAOImpl ChapterDAO) {
 		String buf = "<a name='" + chapter.getChapternoStr() + "'>";
 		buf += bH2;
@@ -135,7 +133,6 @@ public class BookExporter extends AbstractExporter {
 		return (buf);
 	}
 
-	@SuppressWarnings("unchecked")
 	public String getChapterAsTxt(Chapter chapter, ChapterDAOImpl ChapterDAO) {
 		String buf = "";
 		buf += chapter.getChapternoStr() + "\n";

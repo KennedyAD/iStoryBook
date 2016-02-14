@@ -88,8 +88,6 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.dialog.unicodlg.UnicodeDialog;
 import storybook.ui.edit.EntityEditor;
 import storybook.ui.interfaces.IPaintable;
-//import storybook.view.net.BrowserPanel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.BlankPanel;
 
 /**

@@ -138,8 +138,7 @@ public class SbSessionFactory {
 			System.out.println("SbSessionFactory.query(): " + dao.getClass().getSimpleName());
 			List<? extends AbstractEntity> entities = dao.findAll();
 			for (AbstractEntity entity : entities) {
-				String name = entity.getClass().getSimpleName();
-				// System.out.println(" " + name + ": " + entity.toString());
+				entity.getClass().getSimpleName();
 			}
 		}
 	}

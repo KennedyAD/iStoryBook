@@ -22,7 +22,10 @@ import java.awt.Component;
  * @author favdb
  */
 public class DateRelative extends javax.swing.JPanel {
-	private Component parent;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4578829036317424534L;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JComboBox jComboBox1;
@@ -41,7 +44,6 @@ public class DateRelative extends javax.swing.JPanel {
 	}
 	public DateRelative(Component m) {
 		initComponents();
-		this.parent = m;
 	}
 	/**
 	 * This method is called from within the constructor to initialize the form.

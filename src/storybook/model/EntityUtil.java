@@ -573,7 +573,7 @@ public class EntityUtil {
 
 		List<Person> persons = new ArrayList<>();
 		List<Location> locations = new ArrayList<>();
-		List<Item> items = new ArrayList<>();
+		new ArrayList<>();
 		List<Strand> strands = new ArrayList<>();
 		if (entity instanceof Scene) {
 			// correct date / relative scene
@@ -867,7 +867,6 @@ public class EntityUtil {
 		Session session = model.beginTransaction();
 		SbGenericDAOImpl<?, ?> dao = entityHandler.createDAO();
 		dao.setSession(session);
-		@SuppressWarnings("unchecked")
 		List<AbstractEntity> entities = (List<AbstractEntity>) dao.findAll();
 		for (AbstractEntity entity2 : entities) {
 			session.refresh(entity2);
@@ -1565,9 +1564,7 @@ public class EntityUtil {
 			for (PropertyDescriptor propDescr : bi.getPropertyDescriptors()) {
 				String name = propDescr.getName();
 				Object val = propDescr.getReadMethod().invoke(entity);
-				String isNull = "not null";
 				if (val == null) {
-					isNull = "is null";
 				}
 				System.out.println("EntityUtil.printProperties(): " + name + ": '" + val + "' "
 						+ (val == null ? "isNull" : "not null"));
@@ -1614,9 +1611,7 @@ public class EntityUtil {
 				person.setAttributes(new ArrayList<>());
 				session.saveOrUpdate(person);
 
-				// delete orphans
-				AttributeDAOImpl dao = new AttributeDAOImpl(session);
-				// dao.deleteOrphans();
+				new AttributeDAOImpl(session);
 
 				// add attributes
 				for (Attribute property : attributes) {

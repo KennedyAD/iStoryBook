@@ -29,7 +29,6 @@ import org.hibernate.Session;
 
 import storybook.SbConstants.ClientPropertyName;
 import storybook.model.BookModel;
-import storybook.model.hbn.entity.Chapter;
 import storybook.ui.MainFrame;
 
 @SuppressWarnings("serial")

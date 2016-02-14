@@ -43,6 +43,11 @@ import storybook.ui.dialog.dlgConfirmDelete;
  */
 public class DeleteEntityAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3220558665755676931L;
+
 	public DeleteEntityAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.delete"), I18N.getIcon("icon.small.delete"));
 		this.mainFrame = mainFrame;

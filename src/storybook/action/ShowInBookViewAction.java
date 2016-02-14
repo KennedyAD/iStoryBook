@@ -34,6 +34,11 @@ import storybook.ui.MainFrame;
  */
 public class ShowInBookViewAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3012150858856504639L;
+
 	public ShowInBookViewAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.book.view"), I18N.getIcon("icon.small.book.view"));
 	}

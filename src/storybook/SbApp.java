@@ -59,6 +59,10 @@ import storybook.ui.dialog.SplashDialog;
 import storybook.ui.dialog.file.NewFileDialog;
 
 public class SbApp extends Component {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3654051279782138653L;
 	private static boolean bTrace = false;
 	private static boolean bTraceHibernate = false;
 
@@ -427,7 +431,7 @@ public class SbApp extends Component {
 			}
 			oldPersMngr.closeConnection();
 			setWaitCursor();
-			String text = I18N.getMsg("msg.common.loading", dbFile.getName());
+			I18N.getMsg("msg.common.loading", dbFile.getName());
 			// final HourglassSplash dlg = new HourglassSplash(text);
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override

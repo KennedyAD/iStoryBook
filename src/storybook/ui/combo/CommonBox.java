@@ -69,7 +69,6 @@ public class CommonBox {
 		Session session = model.beginTransaction();
 		GenderDAOImpl dao = new GenderDAOImpl(session);
 		List<Gender> genders = dao.findAll();
-		int ix = -1, i = 0;
 		for (Gender gender : genders) {
 			if (str.equals(gender.getName())) {
 				rgender = gender;
@@ -656,7 +655,7 @@ public class CommonBox {
 			Session session = model.beginTransaction();
 			PersonDAOImpl dao = new PersonDAOImpl(session);
 			List<Person> persons = dao.findAll();
-			int ix = -1, i = 0;
+			int i = 0;
 			int[] indices = {};
 			for (Person person : persons) {
 				listModel.addElement(person.getFullName());

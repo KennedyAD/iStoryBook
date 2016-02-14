@@ -42,7 +42,6 @@ public class ExportXml {
 	BufferedWriter outStream;
 	String author;
 	private final Export parent;
-	private final ParamExport param;
 	public boolean isOpened = false;
 
 	ExportXml(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
@@ -50,7 +49,6 @@ public class ExportXml {
 		this.report = report;
 		this.fileName = fileName;
 		this.author = author;
-		this.param = parent.parent.paramExport;
 		this.isOpened = false;
 	}
 

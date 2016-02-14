@@ -32,6 +32,10 @@ import storybook.ui.MainFrame;
  */
 public class EditEntityAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1937124326228872659L;
 	private boolean saveBeforeEdit;
 
 	public EditEntityAction(MainFrame mainFrame, AbstractEntity entity, boolean b) {

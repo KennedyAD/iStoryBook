@@ -24,6 +24,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
 public class DisposeDialogAction extends AbstractAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7155093606555095607L;
 	private JDialog dlg;
 
 	public DisposeDialogAction(JDialog dlg) {

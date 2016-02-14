@@ -27,6 +27,10 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 
 public class ShowInGoogleMapsAction extends AbstractAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8730121331817176184L;
 	private Location location;
 
 	public ShowInGoogleMapsAction(Location location) {

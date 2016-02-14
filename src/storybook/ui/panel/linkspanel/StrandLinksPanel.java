@@ -22,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import org.hibernate.Session;

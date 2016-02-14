@@ -22,6 +22,10 @@ import storybook.SbConstants.PreferenceKey;
 
 public class Preference extends AbstractEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8910428674106426466L;
 	private String key;
 	private String stringValue;
 	private Integer integerValue;

@@ -34,6 +34,11 @@ import storybook.ui.MainFrame;
  */
 public class ShowMemoAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -749426269692108797L;
+
 	public ShowMemoAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.info.view"), I18N.getIcon("icon.small.memo"));
 	}

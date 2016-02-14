@@ -76,7 +76,7 @@ public class ExportHtml {
 
 	public String getHtmlHead() {
 		String buf = "<head>";
-		String rep = parent.exportData.getKey();
+		parent.exportData.getKey();
 		buf += "<title>" + parent.bookTitle + " - " + parent.author + "</title>\n";
 		buf += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 		buf += "<style type='text/css'>\n";

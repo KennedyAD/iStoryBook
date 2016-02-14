@@ -34,6 +34,11 @@ import storybook.ui.MainFrame;
  */
 public class NewEntityAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5878413048817422195L;
+
 	public NewEntityAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.new") + " " + EntityUtil.getEntityTitle(entity),
 				I18N.getIcon("icon.small.new"));

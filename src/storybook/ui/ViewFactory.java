@@ -855,12 +855,12 @@ public class ViewFactory {
 		try {
 			AbstractTable comp = (AbstractTable) view.getComponent();
 			JXTable table = comp.getTable();
-			String colindexes = "";
+		//	String colindexes = "";
 			for (TableColumn col : table.getColumns(true)) {
 				String l1 = "Table." + comp.getTableName() + "." + col.getHeaderValue();
 				TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
 				int ix = table.convertColumnIndexToView(col.getModelIndex()) + 1;
-				colindexes += col.getHeaderValue() + "(" + ix + ")" + ",";
+		// ADK		colindexes += col.getHeaderValue() + "(" + ix + ")" + ",";
 				if (ext.isVisible()) {
 					BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()) + "," + ix);
 				} else {
@@ -878,8 +878,6 @@ public class ViewFactory {
 
 	public void unloadView(SbView view) {
 		SbApp.trace("ViewFactory.unloadView(" + view.getName() + ")");
-		boolean isTable;
-		isTable = false;
 		if (ViewName.SCENES.compare(view) || ViewName.CHAPTERS.compare(view) || ViewName.PARTS.compare(view)
 				|| ViewName.LOCATIONS.compare(view) || ViewName.PERSONS.compare(view)
 				|| ViewName.RELATIONSHIPS.compare(view) || ViewName.GENDERS.compare(view)

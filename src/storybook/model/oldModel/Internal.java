@@ -31,6 +31,11 @@ import storybook.model.oldModel.MigrationConstants.ProjectSetting;
 //@Deprecated
 public class Internal extends DbTable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6169725317352972761L;
+
 	private static Logger logger = Logger.getLogger(Internal.class);
 
 	public static final String TABLE_NAME = "internal";

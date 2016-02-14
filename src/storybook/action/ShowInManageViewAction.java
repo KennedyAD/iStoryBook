@@ -34,6 +34,11 @@ import storybook.ui.MainFrame;
  */
 public class ShowInManageViewAction extends AbstractEntityAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4951484151714524591L;
+
 	public ShowInManageViewAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.manage.view"), I18N.getIcon("icon.small.manage.view"));
 	}

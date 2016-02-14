@@ -31,7 +31,6 @@ import storybook.ui.MainFrame;
  *
  * @author favdb
  */
-@SuppressWarnings("deprecation")
 public class Export {
 
 	public MainFrame mainFrame;

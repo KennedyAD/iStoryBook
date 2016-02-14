@@ -28,6 +28,11 @@ import javax.swing.AbstractAction;
  */
 public class RunAttesoroAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8901301671747380169L;
+
 	public RunAttesoroAction() {
 		super("Translation Tool");
 	}

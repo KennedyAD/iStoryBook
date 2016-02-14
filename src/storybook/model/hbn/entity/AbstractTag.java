@@ -26,6 +26,10 @@ import java.util.Objects;
  */
 public abstract class AbstractTag extends AbstractEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8952254375477593986L;
 	public static final int TYPE_TAG = 0;
 	public static final int TYPE_ITEM = 1;
 	public static final int TYPE_LINK = 10;

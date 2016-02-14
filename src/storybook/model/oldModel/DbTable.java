@@ -29,6 +29,10 @@ import storybook.SbApp;
 //@Deprecated
 public abstract class DbTable implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1116409961625485131L;
 	private static int volatileId = -100;
 	boolean isVolatile = false;
 

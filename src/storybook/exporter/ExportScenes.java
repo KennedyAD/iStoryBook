@@ -15,7 +15,6 @@ import storybook.model.BookModel;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;
-import storybook.model.state.SceneState;
 import storybook.toolkit.I18N;
 
 /**
@@ -93,13 +92,13 @@ public class ExportScenes {
 	public String get(Scene obj) {
 		if (obj != null)
 			return (EntityUtil.getInfo(parent.mainFrame, obj));
-		String str = debut(obj);
+		debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		SceneDAOImpl dao = new SceneDAOImpl(session);
 		List<Scene> scenes = dao.findAll();
 		for (Scene scene : scenes) {
-			str += ligne(scene, true, true);
+			ligne(scene, true, true);
 		}
 		model.commit();
 		end();

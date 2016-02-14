@@ -30,6 +30,10 @@ import storybook.ui.interfaces.IPaintable;
 import storybook.ui.interfaces.IRefreshable;
 
 public class WiWWPanel extends JPanel implements IRefreshable, IPaintable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3392907590943976699L;
 	private WiWWContainer container;
 	private boolean isSelected;
 

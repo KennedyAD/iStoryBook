@@ -22,6 +22,11 @@ import storybook.ui.MainFrame;
  */
 public class ChaptersOrderDialog extends javax.swing.JDialog {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4699793422557018704L;
+
+	/**
 	 * @param args
 	 *            the command line arguments
 	 */
@@ -121,6 +126,10 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 		jListChapters.setModel(new javax.swing.AbstractListModel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4545741833283628267L;
 			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 
 			@Override

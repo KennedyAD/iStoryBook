@@ -35,6 +35,10 @@ import storybook.ui.chart.legend.PersonsLegendPanel;
 
 public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3431322982261406936L;
 	private Set<Person> foundCharacters;
 	private JTable table;
 	private JSlider colSlider;

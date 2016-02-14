@@ -31,6 +31,10 @@ import storybook.ui.MainFrame;
 
 public abstract class AbstractPersonsChart extends AbstractChartPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -560287079314516405L;
 	protected List<JCheckBox> categoryCbList;
 	protected List<Category> selectedCategories;
 

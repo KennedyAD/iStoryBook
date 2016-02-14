@@ -30,6 +30,10 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 
 public class SplashDialog extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1292678122172777651L;
 	private JLabel lbText;
 	private JLabel lbProgress;
 

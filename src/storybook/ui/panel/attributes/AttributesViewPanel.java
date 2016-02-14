@@ -42,6 +42,10 @@ import storybook.ui.panel.AbstractScrollPanel;
  * @author favdb
  */
 public class AttributesViewPanel extends AbstractScrollPanel implements Printable, MouseWheelListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1186732686192834029L;
 	private JTextPane attributePane;
 
 	public AttributesViewPanel(MainFrame mainFrame) {

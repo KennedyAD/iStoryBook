@@ -32,6 +32,10 @@ import storybook.ui.MainFrame;
  */
 public abstract class AbstractEntityAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7908295217685383289L;
 	protected MainFrame mainFrame;
 	protected AbstractEntity entity;
 

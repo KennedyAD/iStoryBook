@@ -24,6 +24,11 @@ import storybook.ui.MainFrame;
  */
 public class AttributeTable extends AbstractTable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6726506515160952698L;
+
 	public AttributeTable(MainFrame main) {
 		super(main);
 	}

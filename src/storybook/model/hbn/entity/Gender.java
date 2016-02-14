@@ -29,6 +29,10 @@ import storybook.toolkit.I18N;
  */
 public class Gender extends AbstractEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8166861330609955291L;
 	private String name;
 	private Integer childhood;
 	private Integer adolescence;

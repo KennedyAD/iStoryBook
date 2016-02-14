@@ -31,6 +31,10 @@ import storybook.model.hbn.entity.Part;
  */
 public class ChangePartAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1594185453102914870L;
 	private final ActionHandler actionHandler;
 	private final Part part;
 

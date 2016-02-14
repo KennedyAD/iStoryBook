@@ -23,6 +23,11 @@ import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
 public abstract class AbstractLegendPanel extends AbstractPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 257895269432770145L;
+
 	public AbstractLegendPanel() {
 	}
 

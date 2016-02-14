@@ -23,4 +23,9 @@ package storybook.model.hbn.entity;
  */
 public class Tag extends AbstractTag {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3498529625241346418L;
+
 }

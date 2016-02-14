@@ -25,6 +25,10 @@ import storybook.toolkit.Period;
 
 public class Relationship extends AbstractEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1442946726999591208L;
 	private Person person1;
 	private Person person2;
 	String description;

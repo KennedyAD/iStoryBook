@@ -23,6 +23,10 @@ package storybook.model.hbn.entity;
  */
 public class ItemLink extends AbstractTagLink {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1107713512313169659L;
 	private Item item;
 
 	public ItemLink() {

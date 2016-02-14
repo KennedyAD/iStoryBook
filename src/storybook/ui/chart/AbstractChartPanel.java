@@ -48,6 +48,10 @@ import storybook.ui.panel.AbstractPanel;
 
 public abstract class AbstractChartPanel extends AbstractPanel implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4522351134780129190L;
 	protected JPanel panel;
 	protected JPanel optionsPanel;
 	protected String chartTitle;
@@ -64,6 +68,11 @@ public abstract class AbstractChartPanel extends AbstractPanel implements Action
 	private AbstractAction getExportAction() {
 		if (this.exportAction == null) {
 			this.exportAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 2479443471672885882L;
+
 				@Override
 				public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
 					try {

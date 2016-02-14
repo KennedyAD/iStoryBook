@@ -35,6 +35,11 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 	 */
 	protected class MyButton extends JButton implements ActionListener, FocusListener {
 		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1373798657841169892L;
+
+		/**
 		 * Construct this button with the given special character as a label.
 		 * 
 		 * @param label

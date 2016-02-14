@@ -23,7 +23,6 @@ import java.awt.Dimension;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;

@@ -31,6 +31,10 @@ import storybook.model.DbFile;
  */
 public class OpenFileAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6937182424034701171L;
 	private DbFile dbFile;
 
 	public OpenFileAction(String name, DbFile dbFile) {

@@ -190,8 +190,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		// location links
 		LocationLinksPanel locationLinksPanel = new LocationLinksPanel(mainFrame, scene);
 
-		// location links
-		ItemLinksPanel itemLinksPanel = new ItemLinksPanel(mainFrame, scene);
+		new ItemLinksPanel(mainFrame, scene);
 
 		// button new
 		btNew = getNewButton();

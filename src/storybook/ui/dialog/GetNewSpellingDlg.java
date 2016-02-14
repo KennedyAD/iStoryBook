@@ -25,6 +25,10 @@ import storybook.toolkit.swing.SwingUtil;
  */
 public class GetNewSpellingDlg extends javax.swing.JDialog {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2454621058330202803L;
+	/**
 	 * @param args
 	 *            the command line arguments
 	 */
@@ -68,8 +72,6 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		});
 	}
 	private String resultSpelling = "";
-	private boolean ok = false;
-
 	private String curLang;
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -120,7 +122,6 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		if (getFileList() == false)
 			return;
 		resultSpelling = (String) cbSpelling.getSelectedItem();
-		ok = true;
 		dispose();
 	}// GEN-LAST:event_btDownloadActionPerformed
 	private void cbSpellingItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_cbSpellingItemStateChanged

@@ -18,7 +18,6 @@ import com.itextpdf.text.Font;
 class ExportOdf {
 	// TODO ExportOdf
 
-	private final Export parent;
 	String report;
 	String fileName = "";
 	List<ExportHeader> headers;
@@ -27,7 +26,6 @@ class ExportOdf {
 	String author;
 
 	ExportOdf(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
-		this.parent = parent;
 		this.report = report;
 		this.fileName = fileName;
 		this.headers = headers;

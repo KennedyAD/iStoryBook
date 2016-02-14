@@ -32,6 +32,10 @@ import storybook.ui.chart.jfreechart.ChartUtil;
 
 public class StrandsByDateChart extends AbstractChartPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8304872642266527724L;
 	private ChartPanel chartPanel;
 	private double average;
 

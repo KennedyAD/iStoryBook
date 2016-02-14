@@ -41,6 +41,10 @@ import storybook.ui.chart.legend.StrandsLegendPanel;
 
 public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1208152615849597898L;
 	private JTable table;
 	private JSlider colSlider;
 	private JCheckBox cbShowUnusedPersons;

@@ -42,6 +42,10 @@ import storybook.ui.chart.jfreechart.DbTableCategoryItemLabelGenerator;
 
 public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7651847977191973416L;
 	private ChartPanel chartPanel;
 	private double average;
 	private List<JCheckBox> countryCbList;

@@ -386,8 +386,7 @@ public class HtmlEditor extends JPanel {
 
 		srcPopupMenu = ActionUIFactory.getInstance().createPopupMenu(editActions);
 
-		// create file menu
-		JMenu fileMenu = new JMenu(I18N.getMsg("shef.file"));
+		new JMenu(I18N.getMsg("shef.file"));
 
 		// create edit menu
 		ActionList lst = new ActionList("edits");

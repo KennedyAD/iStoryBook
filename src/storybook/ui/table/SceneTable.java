@@ -55,6 +55,10 @@ import storybook.ui.combo.SceneStateListCellRenderer;
 
 public class SceneTable extends AbstractTable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4685761112307430345L;
 	private JComboBox sceneStateCombo;
 	private JComboBox sceneStrandCombo;
 

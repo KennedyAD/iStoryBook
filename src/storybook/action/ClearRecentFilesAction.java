@@ -31,6 +31,10 @@ import storybook.toolkit.I18N;
  */
 public class ClearRecentFilesAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6739842268748155L;
 	private ActionHandler actionHandler;
 
 	public ClearRecentFilesAction(ActionHandler actionHandler) {

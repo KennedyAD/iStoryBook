@@ -22,7 +22,6 @@ import java.awt.LayoutManager;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 

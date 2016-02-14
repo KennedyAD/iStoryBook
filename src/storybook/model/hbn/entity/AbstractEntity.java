@@ -33,6 +33,11 @@ import storybook.toolkit.html.HtmlUtil;
 
 public abstract class AbstractEntity implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2495162971674171830L;
+
 	private static Long transientIdCounter = 1L;
 
 	public static boolean equalsBooleanNullValue(Boolean b1, Boolean b2) {

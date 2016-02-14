@@ -27,6 +27,10 @@ import storybook.toolkit.I18N;
 
 public class WaitDialog extends SplashDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7767572210793452513L;
 	private String text;
 
 	public WaitDialog() {

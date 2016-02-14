@@ -40,6 +40,11 @@ import storybook.toolkit.html.HtmlUtil;
  */
 public class Scene extends AbstractEntity implements Comparable<Scene> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3808206606478079705L;
+
 	public static String tsToTime(Timestamp ts) {
 		String r = "";
 		// TODO tsToTime for new calendar

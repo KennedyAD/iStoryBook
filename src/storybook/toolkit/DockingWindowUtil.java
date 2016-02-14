@@ -42,7 +42,6 @@ import storybook.model.hbn.entity.Preference;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
 import storybook.ui.ViewFactory;
-import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin

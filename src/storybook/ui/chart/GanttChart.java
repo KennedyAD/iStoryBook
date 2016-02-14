@@ -41,6 +41,10 @@ import storybook.ui.chart.jfreechart.ChartUtil;
 
 public class GanttChart extends AbstractPersonsChart {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1773184411359466359L;
 	private ChartPanel chartPanel;
 	private JCheckBox cbShowPeriodsOfLife;
 	private List<JCheckBox> personCbList;

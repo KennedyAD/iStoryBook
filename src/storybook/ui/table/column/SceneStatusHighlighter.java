@@ -50,8 +50,8 @@ public class SceneStatusHighlighter implements Highlighter {
 		DateLabel lb = new DateLabel();
 		Color bg = comp.getBackground();
 		lb.setBackground(bg);
-		Integer val = Integer.parseInt(compAdapter.getValue().toString());
-		SceneStateComboModel model = new SceneStateComboModel();
+		Integer.parseInt(compAdapter.getValue().toString());
+		new SceneStateComboModel();
 		// SceneStatus st = model.findByNumber(val);
 		// lb.setText(st.getName());
 		return lb;

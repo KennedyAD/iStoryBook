@@ -39,6 +39,10 @@ import storybook.ui.chart.jfreechart.ChartUtil;
 
 public class PersonsByDateChart extends AbstractPersonsChart {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7579098175114657018L;
 	private ChartPanel chartPanel;
 	private String domainAxisLabel = I18N.getMsg("msg.common.person");
 	private String rangeAxisLabel = I18N.getMsg("msg.common.date");

@@ -20,6 +20,10 @@ import java.awt.Color;
 import org.jfree.data.xy.XYDataItem;
 
 public class ColorXYDataItem extends XYDataItem {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2152519481856361383L;
 	private Color color;
 
 	public ColorXYDataItem(double paramDouble1, double paramDouble2, Color paramColor) {

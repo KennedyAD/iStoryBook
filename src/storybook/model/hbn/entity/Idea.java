@@ -30,6 +30,10 @@ import storybook.toolkit.html.HtmlUtil;
  */
 public class Idea extends AbstractEntity implements Comparable<Idea> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -205159153726421959L;
 	private Integer status;
 	private String note;
 	private String category;

@@ -31,6 +31,10 @@ import storybook.ui.MainFrame;
  */
 public class LoadDockingLayoutAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5490675505901492112L;
 	private MainFrame mainFrame;
 	private String name;
 
