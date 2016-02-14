@@ -21,6 +21,8 @@ package storybook.ui.table;
 import java.util.List;
 import java.util.Vector;
 
+import com.googlecode.genericdao.search.Search;
+
 import storybook.model.hbn.entity.Person;
 import storybook.toolkit.I18N;
 import storybook.toolkit.comparator.SafeCategoryComparator;
@@ -63,9 +65,6 @@ import storybook.ui.table.renderer.StrandTableCellRenderer;
 import storybook.ui.table.renderer.StrandsTableCellRenderer;
 import storybook.ui.table.renderer.TimeEventFormatTableCellRenderer;
 
-import com.googlecode.genericdao.search.Search;
-
-
 /**
  * @author martin
  *
@@ -74,9 +73,6 @@ public class SbColumnFactory {
 
 	private static SbColumnFactory instance;
 
-	private SbColumnFactory() {
-	}
-
 	public static SbColumnFactory getInstance() {
 		if (instance == null) {
 			instance = new SbColumnFactory();
@@ -84,8 +80,81 @@ public class SbColumnFactory {
 		return instance;
 	}
 
+	private SbColumnFactory() {
+	}
+
+	List<SbColumn> getAttributeColumns() {
+		throw new UnsupportedOperationException("Not supported yet."); // To
+																		// change
+																		// body
+																		// of
+																		// generated
+																		// methods,
+																		// choose
+																		// Tools
+																		// |
+																		// Templates.
+	}
+
+	public Vector<SbColumn> getAttributesColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.attribute.key");
+		col.setMaxLength(255);
+		col.setGrowX(true);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Value", "msg.attribute.value");
+		col.setMaxLength(2048);
+		col.setGrowX(true);
+		VerifierGroup group2 = new VerifierGroup();
+		group2.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group2);
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getCategoryColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.person.category.name");
+		col.setMaxLength(255);
+		col.setGrowX(true);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Sort", "msg.person.category.order");
+		VerifierGroup group2 = new VerifierGroup();
+		group2.addVerifier(new IntegerVerifier(true));
+		group2.addVerifier(new MultipleNumberVerifier());
+		col.setVerifier(group2);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Sup", "msg.person.category.category");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findAllOrderBySort");
+		columns.add(col);
+		return columns;
+	}
+
 	public Vector<SbColumn> getChapterColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -153,8 +222,270 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	public Vector<SbColumn> getGenderColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Icon", InputType.ICON, "msg.common.icon");
+		// col.setReadOnly(true);
+		col.setTableCellRenderer(new IconTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Name", "msg.dlg.mng.persons.gender");
+		col.setMaxLength(255);
+		col.setGrowX(true);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Childhood", "msg.chart.gantt.childhood");
+		col.setVerifier(new IntegerVerifier(true));
+		columns.add(col);
+
+		col = new SbColumn(i++, "Adolescence", "msg.chart.gantt.adolescence");
+		col.setVerifier(new IntegerVerifier(true));
+		columns.add(col);
+
+		col = new SbColumn(i++, "Adulthood", "msg.chart.gantt.adulthood");
+		col.setVerifier(new IntegerVerifier(true));
+		columns.add(col);
+
+		col = new SbColumn(i++, "Retirement", "msg.chart.gantt.retirement");
+		col.setVerifier(new IntegerVerifier(true));
+		columns.add(col);
+
+		return columns;
+	}
+
+	private SbColumn getIdColumn() {
+		SbColumn col = new SbColumn(0, "Id", "msg.common.id");
+		col.setReadOnly(true);
+		col.setVerifier(new IntegerVerifier());
+		col.setHideOnStart(true);
+		return col;
+	}
+
+	public Vector<SbColumn> getIdeaColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "IdeaState", InputType.COMBOBOX, "msg.idea.table.status");
+		col.setComboModel(new IdeaStateComboModel());
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Category", "msg.idea.table.category");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findCategories");
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getInternalColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Key", "msg.internal.key");
+		col.setVerifier(new NotEmptyVerifier());
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "StringValue", "msg.internal.string");
+		columns.add(col);
+
+		col = new SbColumn(i++, "IntegerValue", "msg.internal.integer");
+		columns.add(col);
+
+		col = new SbColumn(i++, "BooleanValue", "msg.internal.boolean");
+		columns.add(col);
+
+		col = new SbColumn(i++, "BinValue", "msg.internal.bin");
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getItemColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
+		col.setMaxLength(255);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setGrowX(true);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Category", "msg.item.category");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findCategories");
+		columns.add(col);
+
+		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setHideOnStart(true);
+		col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getItemLinkColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Item", InputType.COMBOBOX, "msg.item");
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Person", InputType.COMBOBOX, "msg.common.person");
+		col.setEmptyComboItem(true);
+		col.setTableCellRenderer(new PersonTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Location", InputType.COMBOBOX, "msg.common.location");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "EndScene", InputType.COMBOBOX, "msg.tag.end.scene");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getLocationColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.dlg.location.name");
+		col.setMaxLength(255);
+		col.setGrowX(true);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Address", "msg.dlg.location.address");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setHideOnStart(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "City", "msg.dlg.location.city");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findCities");
+		columns.add(col);
+
+		col = new SbColumn(i++, "Country", "msg.dlg.location.country");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findCountries");
+		columns.add(col);
+
+		col = new SbColumn(i++, "Site", "msg.dlg.location.site");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findAll");
+		columns.add(col);
+
+		col = new SbColumn(i++, "Altitude", "msg.dlg.location.altitude");
+		col.setVerifier(new IntegerVerifier(false, true));
+		col.setComparator(new StringIntegerComparator());
+		col.setHideOnStart(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setShowInSeparateTab(true);
+		col.setHideOnStart(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getMemoColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
+		col.setMaxLength(255);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setGrowX(true);
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		// col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
 	public Vector<SbColumn> getPartColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -219,81 +550,12 @@ public class SbColumnFactory {
 		col.setHideOnStart(true);
 		col.setTableCellRenderer(new HtmlTableCellRenderer());
 		columns.add(col);
-		
-		return columns;
-	}
-
-	public Vector<SbColumn> getLocationColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.dlg.location.name");
-		col.setMaxLength(255);
-		col.setGrowX(true);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		col.setDefaultSort(true);
-		columns.add(col);
-		
-		col = new SbColumn(i++, "Address", "msg.dlg.location.address");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setHideOnStart(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "City", "msg.dlg.location.city");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findCities");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Country", "msg.dlg.location.country");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findCountries");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Site", "msg.dlg.location.site");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findAll");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Altitude", "msg.dlg.location.altitude");
-		col.setVerifier(new IntegerVerifier(false, true));
-		col.setComparator(new StringIntegerComparator());
-		col.setHideOnStart(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setShowInSeparateTab(true);
-		col.setHideOnStart(true);
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
 
 		return columns;
 	}
 
 	public Vector<SbColumn> getPersonColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -375,7 +637,7 @@ public class SbColumnFactory {
 	}
 
 	public Vector<SbColumn> getRelationshipColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -394,7 +656,7 @@ public class SbColumnFactory {
 		col.setEmptyComboItem(true);
 		col.setTableCellRenderer(new PersonTableCellRenderer());
 		columns.add(col);
-		
+
 		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
 		col.setEmptyComboItem(true);
 		columns.add(col);
@@ -406,7 +668,7 @@ public class SbColumnFactory {
 		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
 		col.setMaxLength(32768);
 		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		//col.setShowInSeparateTab(true);
+		// col.setShowInSeparateTab(true);
 		col.setHideOnStart(true);
 		col.setTableCellRenderer(new HtmlTableCellRenderer());
 		columns.add(col);
@@ -435,338 +697,8 @@ public class SbColumnFactory {
 		return columns;
 	}
 
-	public Vector<SbColumn> getGenderColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Icon", InputType.ICON, "msg.common.icon");
-//		col.setReadOnly(true);
-		col.setTableCellRenderer(new IconTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Name", "msg.dlg.mng.persons.gender");
-		col.setMaxLength(255);
-		col.setGrowX(true);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Childhood", "msg.chart.gantt.childhood");
-		col.setVerifier(new IntegerVerifier(true));
-		columns.add(col);
-
-		col = new SbColumn(i++, "Adolescence", "msg.chart.gantt.adolescence");
-		col.setVerifier(new IntegerVerifier(true));
-		columns.add(col);
-
-		col = new SbColumn(i++, "Adulthood", "msg.chart.gantt.adulthood");
-		col.setVerifier(new IntegerVerifier(true));
-		columns.add(col);
-
-		col = new SbColumn(i++, "Retirement", "msg.chart.gantt.retirement");
-		col.setVerifier(new IntegerVerifier(true));
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getCategoryColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.person.category.name");
-		col.setMaxLength(255);
-		col.setGrowX(true);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Sort", "msg.person.category.order");
-		VerifierGroup group2 = new VerifierGroup();
-		group2.addVerifier(new IntegerVerifier(true));
-		group2.addVerifier(new MultipleNumberVerifier());
-		col.setVerifier(group2);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Sup", "msg.person.category.category");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findAllOrderBySort");
-		columns.add(col);
-		return columns;
-	}
-
-	public Vector<SbColumn> getAttributesColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.attribute.key");
-		col.setMaxLength(255);
-		col.setGrowX(true);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Value", "msg.attribute.value");
-		col.setMaxLength(2048);
-		col.setGrowX(true);
-		VerifierGroup group2 = new VerifierGroup();
-		group2.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group2);
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getStrandColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.dlg.mng.strands.name");
-		col.setMaxLength(255);
-		col.setGrowX(true);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Abbreviation", "msg.dlg.strand.abbr");
-		col.setMaxLength(255);
-		VerifierGroup group2 = new VerifierGroup();
-		group2.addVerifier(new NotEmptyVerifier());
-		group2.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group2);
-		columns.add(col);
-
-		col = new SbColumn(i++, "JColor", InputType.COLOR, "msg.dlg.mng.strands.color");
-		col.setAllowNoColor(false);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Sort", "msg.order");
-		VerifierGroup group3 = new VerifierGroup();
-		group3.addVerifier(new IntegerVerifier(true));
-		group3.addVerifier(new MultipleNumberVerifier());
-		col.setVerifier(group3);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setHideOnStart(true);
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getIdeaColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "IdeaState", InputType.COMBOBOX, "msg.idea.table.status");
-		col.setComboModel(new IdeaStateComboModel());
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Category", "msg.idea.table.category");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findCategories");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getTagColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
-		col.setMaxLength(255);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		col.setGrowX(true);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Category", "msg.item.category");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findCategories");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setHideOnStart(true);
-		col.setShowInSeparateTab(true);
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getMemoColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
-		col.setMaxLength(255);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		col.setGrowX(true);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-//		col.setShowInSeparateTab(true);
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getItemColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
-		col.setMaxLength(255);
-		VerifierGroup group = new VerifierGroup();
-		group.addVerifier(new NotEmptyVerifier());
-		group.addVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setVerifier(group);
-		col.setGrowX(true);
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Category", "msg.item.category");
-		col.setMaxLength(255);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setGrowX(true);
-		col.setAutoComplete(true);
-		col.setAutoCompleteDaoMethod("findCategories");
-		columns.add(col);
-
-		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
-		col.setMaxLength(32768);
-		col.setVerifier(new LengthVerifier(col.getMaxLength()));
-		col.setHideOnStart(true);
-		col.setShowInSeparateTab(true);
-		col.setTableCellRenderer(new HtmlTableCellRenderer());
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getTagLinkColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Tag", InputType.COMBOBOX, "msg.tag");
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Person", InputType.COMBOBOX, "msg.common.person");
-		col.setEmptyComboItem(true);
-		col.setTableCellRenderer(new PersonTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Location", InputType.COMBOBOX, "msg.common.location");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "EndScene", InputType.COMBOBOX, "msg.tag.end.scene");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		return columns;
-	}
-
-	public Vector<SbColumn> getItemLinkColumns() {
-		int i=1;
-		Vector<SbColumn> columns = new Vector<SbColumn>();
-		columns.add(getIdColumn());
-
-		SbColumn col = new SbColumn(i++, "Item", InputType.COMBOBOX, "msg.item");
-		col.setDefaultSort(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "Person", InputType.COMBOBOX, "msg.common.person");
-		col.setEmptyComboItem(true);
-		col.setTableCellRenderer(new PersonTableCellRenderer());
-		columns.add(col);
-
-		col = new SbColumn(i++, "Location", InputType.COMBOBOX, "msg.common.location");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		col = new SbColumn(i++, "EndScene", InputType.COMBOBOX, "msg.tag.end.scene");
-		col.setEmptyComboItem(true);
-		columns.add(col);
-
-		return columns;
-	}
-
 	public Vector<SbColumn> getSceneColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -884,33 +816,121 @@ public class SbColumnFactory {
 		return columns;
 	}
 
-	public Vector<SbColumn> getInternalColumns() {
-		int i=1;
+	public Vector<SbColumn> getStrandColumns() {
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
-		SbColumn col = new SbColumn(i++, "Key", "msg.internal.key");
-		col.setVerifier(new NotEmptyVerifier());
+		SbColumn col = new SbColumn(i++, "Name", "msg.dlg.mng.strands.name");
+		col.setMaxLength(255);
+		col.setGrowX(true);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Abbreviation", "msg.dlg.strand.abbr");
+		col.setMaxLength(255);
+		VerifierGroup group2 = new VerifierGroup();
+		group2.addVerifier(new NotEmptyVerifier());
+		group2.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group2);
+		columns.add(col);
+
+		col = new SbColumn(i++, "JColor", InputType.COLOR, "msg.dlg.mng.strands.color");
+		col.setAllowNoColor(false);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Sort", "msg.order");
+		VerifierGroup group3 = new VerifierGroup();
+		group3.addVerifier(new IntegerVerifier(true));
+		group3.addVerifier(new MultipleNumberVerifier());
+		col.setVerifier(group3);
 		col.setDefaultSort(true);
 		columns.add(col);
 
-		col = new SbColumn(i++, "StringValue", "msg.internal.string");
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setHideOnStart(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
 		columns.add(col);
 
-		col = new SbColumn(i++, "IntegerValue", "msg.internal.integer");
+		return columns;
+	}
+
+	public Vector<SbColumn> getTagColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Name", "msg.item.name");
+		col.setMaxLength(255);
+		VerifierGroup group = new VerifierGroup();
+		group.addVerifier(new NotEmptyVerifier());
+		group.addVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setVerifier(group);
+		col.setGrowX(true);
+		col.setDefaultSort(true);
 		columns.add(col);
 
-		col = new SbColumn(i++, "BooleanValue", "msg.internal.boolean");
+		col = new SbColumn(i++, "Category", "msg.item.category");
+		col.setMaxLength(255);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setGrowX(true);
+		col.setAutoComplete(true);
+		col.setAutoCompleteDaoMethod("findCategories");
 		columns.add(col);
 
-		col = new SbColumn(i++, "BinValue", "msg.internal.bin");
+		col = new SbColumn(i++, "Description", InputType.TEXTAREA, "msg.dlg.location.description");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Notes", InputType.TEXTAREA, "msg.common.notes");
+		col.setMaxLength(32768);
+		col.setVerifier(new LengthVerifier(col.getMaxLength()));
+		col.setHideOnStart(true);
+		col.setShowInSeparateTab(true);
+		col.setTableCellRenderer(new HtmlTableCellRenderer());
+		columns.add(col);
+
+		return columns;
+	}
+
+	public Vector<SbColumn> getTagLinkColumns() {
+		int i = 1;
+		Vector<SbColumn> columns = new Vector<SbColumn>();
+		columns.add(getIdColumn());
+
+		SbColumn col = new SbColumn(i++, "Tag", InputType.COMBOBOX, "msg.tag");
+		col.setDefaultSort(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "Person", InputType.COMBOBOX, "msg.common.person");
+		col.setEmptyComboItem(true);
+		col.setTableCellRenderer(new PersonTableCellRenderer());
+		columns.add(col);
+
+		col = new SbColumn(i++, "Location", InputType.COMBOBOX, "msg.common.location");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "StartScene", InputType.COMBOBOX, "msg.tag.start.scene");
+		col.setEmptyComboItem(true);
+		columns.add(col);
+
+		col = new SbColumn(i++, "EndScene", InputType.COMBOBOX, "msg.tag.end.scene");
+		col.setEmptyComboItem(true);
 		columns.add(col);
 
 		return columns;
 	}
 
 	public Vector<SbColumn> getTimeEventColumns() {
-		int i=1;
+		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
 		columns.add(getIdColumn());
 
@@ -952,18 +972,6 @@ public class SbColumnFactory {
 		columns.add(col);
 
 		return columns;
-	}
-
-	private SbColumn getIdColumn() {
-		SbColumn col = new SbColumn(0, "Id", "msg.common.id");
-		col.setReadOnly(true);
-		col.setVerifier(new IntegerVerifier());
-		col.setHideOnStart(true);
-		return col;
-	}
-
-	List<SbColumn> getAttributeColumns() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

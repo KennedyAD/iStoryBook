@@ -29,11 +29,11 @@ import javax.swing.JLabel;
 import storybook.toolkit.I18N;
 
 public class FlashThread extends Thread implements ActionListener {
+	private static final String CN_FLASH_LABEL = "FLASH";
+
 	private JComponent comp;
 
 	private boolean remove = false;
-
-	private static final String CN_FLASH_LABEL = "FLASH";
 
 	public FlashThread(JComponent comp) {
 		this.comp = comp;
@@ -42,22 +42,6 @@ public class FlashThread extends Thread implements ActionListener {
 	public FlashThread(JComponent comp, boolean remove) {
 		this.comp = comp;
 		this.remove = remove;
-	}
-
-	public void run() {
-		try {
-			if (remove) {
-				return;
-			}
-			JLabel lb = new JLabel(I18N.getIcon("icon.medium.target"));
-			lb.setName(CN_FLASH_LABEL);
-			Dimension dim = comp.getSize();
-			comp.add(lb, "pos " + dim.width / 2 + " " + dim.height / 2);
-			comp.setComponentZOrder(lb, 0);
-			comp.validate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -70,6 +54,23 @@ public class FlashThread extends Thread implements ActionListener {
 			comp.remove(lb);
 			comp.repaint();
 			SwingUtil.flashEnded();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			if (remove) {
+				return;
+			}
+			JLabel lb = new JLabel(I18N.getIcon("icon.medium.target"));
+			lb.setName(CN_FLASH_LABEL);
+			Dimension dim = comp.getSize();
+			comp.add(lb, "pos " + dim.width / 2 + " " + dim.height / 2);
+			comp.setComponentZOrder(lb, 0);
+			comp.validate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

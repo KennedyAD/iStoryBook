@@ -25,7 +25,6 @@ import org.hibernate.Session;
 
 import storybook.SbApp;
 import storybook.SbConstants.ClientPropertyName;
-import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.TimeEventDAOImpl;
@@ -45,12 +44,7 @@ public class TimeEventTable extends AbstractTable {
 		super(mainFrame);
 	}
 
-	@Override
-	public void init() {
-		columns = SbColumnFactory.getInstance().getTimeEventColumns();
-	}
-
-	@SuppressWarnings({"unchecked"})
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	protected List<AbstractEntity> getAllEntities() {
 		SbApp.trace("getAllEntities()");
@@ -62,7 +56,33 @@ public class TimeEventTable extends AbstractTable {
 		model.commit();
 		return (List<AbstractEntity>) ret;
 	}
-	
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		TimeEventDAOImpl dao = new TimeEventDAOImpl(session);
+		TimeEvent scene = dao.find(id);
+		model.commit();
+		return scene;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new TimeEvent();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("TimeEvent");
+	}
+
+	@Override
+	public void init() {
+		columns = SbColumnFactory.getInstance().getTimeEventColumns();
+	}
+
+	@Override
 	protected void initTableModel(PropertyChangeEvent evt) {
 		SbApp.trace("AbstractTable.initTableModel(evt)");
 		table.putClientProperty(ClientPropertyName.MAIN_FRAME.toString(), mainFrame);
@@ -85,11 +105,11 @@ public class TimeEventTable extends AbstractTable {
 
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
-		SbApp.trace("SceneTable.modelPropertyChangeLocal("+evt.getPropertyName()+")");
+		SbApp.trace("SceneTable.modelPropertyChangeLocal(" + evt.getPropertyName() + ")");
 		try {
 			String propName = evt.getPropertyName();
-//			Object newValue = evt.getNewValue();
-//			Object oldValue = evt.getOldValue();
+			// Object newValue = evt.getNewValue();
+			// Object oldValue = evt.getOldValue();
 			if (BookController.TimeEventProps.INIT.check(propName)) {
 				initTableModel(evt);
 				return;
@@ -111,22 +131,11 @@ public class TimeEventTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		SbApp.trace("TimeEventTable.sendSetEntityToEdit("+row+")");
-		if (row == -1) {
-			return;
+	protected synchronized void sendDeleteEntities(int[] rows) {
+		for (int row : rows) {
+			TimeEvent scene = (TimeEvent) getEntityFromRow(row);
+			ctrl.deleteTimeEvent(scene);
 		}
-		TimeEvent event = (TimeEvent) getEntityFromRow(row);
-//		ctrl.setTimeEventToEdit(event);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(event);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setTimeEventToEdit((TimeEvent) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
 	}
 
 	@Override
@@ -136,30 +145,21 @@ public class TimeEventTable extends AbstractTable {
 	}
 
 	@Override
-	protected synchronized void sendDeleteEntities(int[] rows) {
-		for (int row : rows) {
-			TimeEvent scene = (TimeEvent) getEntityFromRow(row);
-			ctrl.deleteTimeEvent(scene);
+	protected void sendSetEntityToEdit(int row) {
+		SbApp.trace("TimeEventTable.sendSetEntityToEdit(" + row + ")");
+		if (row == -1) {
+			return;
 		}
+		TimeEvent event = (TimeEvent) getEntityFromRow(row);
+		// ctrl.setTimeEventToEdit(event);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(event);
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		TimeEventDAOImpl dao = new TimeEventDAOImpl(session);
-		TimeEvent scene = dao.find(id);
-		model.commit();
-		return scene;
-	}
-
-	@Override
-	protected AbstractEntity getNewEntity() {
-		return new TimeEvent();
-	}
-
-	@Override
-	public String getTableName() {
-		return("TimeEvent");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setTimeEventToEdit((TimeEvent) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

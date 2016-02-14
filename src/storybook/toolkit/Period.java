@@ -31,9 +31,45 @@ public class Period {
 		this.endDate = end;
 	}
 
-	public boolean isOverlapping(Period p) {
-		return this.getStartDate().compareTo(p.getEndDate()) < 0
-				&& this.getEndDate().compareTo(p.getStartDate()) > 0;
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Period)) {
+			return false;
+		}
+		Period p = (Period) o;
+		return this.getStartDate().compareTo(p.getStartDate()) == 0 && this.getEndDate().compareTo(p.getEndDate()) == 0;
+	}
+
+	public Date getEndDate() {
+		return this.endDate;
+	}
+
+	public String getShortString() {
+		return getString(FastDateFormat.SHORT);
+	}
+
+	public Date getStartDate() {
+		return this.startDate;
+	}
+
+	public String getString(int dateFormat) {
+		if (!isValid()) {
+			return I18N.getMsg("msg.common.invalid.period");
+		}
+		String startStr = FastDateFormat.getDateInstance(dateFormat).format(startDate);
+		if (startDate.equals(endDate)) {
+			return startStr;
+		}
+		String endStr = FastDateFormat.getDateInstance(dateFormat).format(endDate);
+		return startStr + " - " + endStr;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		hash = hash * 31 + getStartDate().hashCode();
+		hash = hash * 31 + getEndDate().hashCode();
+		return hash;
 	}
 
 	public boolean isInside(Date date) {
@@ -46,30 +82,8 @@ public class Period {
 		return date.after(startDate) && date.before(endDate);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof Period)) {
-			return false;
-		}
-		Period p = (Period) o;
-		return this.getStartDate().compareTo(p.getStartDate()) == 0
-				&& this.getEndDate().compareTo(p.getEndDate()) == 0;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 1;
-		hash = hash * 31 + getStartDate().hashCode();
-		hash = hash * 31 + getEndDate().hashCode();
-		return hash;
-	}
-
-	public Date getStartDate() {
-		return this.startDate;
-	}
-
-	public Date getEndDate() {
-		return this.endDate;
+	public boolean isOverlapping(Period p) {
+		return this.getStartDate().compareTo(p.getEndDate()) < 0 && this.getEndDate().compareTo(p.getStartDate()) > 0;
 	}
 
 	public boolean isValid() {
@@ -77,24 +91,6 @@ public class Period {
 			return false;
 		}
 		return true;
-	}
-
-	public String getShortString() {
-		return getString(FastDateFormat.SHORT);
-	}
-
-	public String getString(int dateFormat) {
-		if (!isValid()) {
-			return I18N.getMsg("msg.common.invalid.period");
-		}
-		String startStr = FastDateFormat.getDateInstance(dateFormat).format(
-				startDate);
-		if (startDate.equals(endDate)) {
-			return startStr;
-		}
-		String endStr = FastDateFormat.getDateInstance(dateFormat).format(
-				endDate);
-		return startStr + " - " + endStr;
 	}
 
 	@Override

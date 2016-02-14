@@ -33,10 +33,11 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import org.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -47,12 +48,46 @@ public class JXTableTest01 extends JFrame implements ActionListener {
 
 	private static JXTableTest01 instance;
 
+	public static JXTableTest01 getInstance() {
+		if (instance == null) {
+			instance = new JXTableTest01();
+		}
+		return instance;
+	}
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				JXTableTest01.getInstance().init();
+			}
+		});
+	}
 	private JXTable table;
 	private DefaultTableModel model;
+
 	private JTextField tfFilter;
+
 	private JButton btAdd;
 
 	private SbRowFilter rowFilter;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JTextField) {
+			String text = tfFilter.getText();
+			System.out.println("JXTableTest01.actionPerformed(): text:" + text);
+			rowFilter.setText(text);
+			table.setRowFilter(rowFilter);
+			return;
+		}
+		if (e.getSource() instanceof JButton) {
+			System.out.println("JXTableTest01.actionPerformed(): add");
+			Vector<String> v = new Vector<String>();
+			v.add("smith");
+			v.add("new york city");
+			model.addRow(v);
+		}
+	}
 
 	private void init() {
 		initUi();
@@ -103,40 +138,6 @@ public class JXTableTest01 extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-
-	public static JXTableTest01 getInstance() {
-		if (instance == null) {
-			instance = new JXTableTest01();
-		}
-		return instance;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JXTableTest01.getInstance().init();
-			}
-		});
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JTextField) {
-			String text = tfFilter.getText();
-			System.out.println("JXTableTest01.actionPerformed(): text:" + text);
-			rowFilter.setText(text);
-			table.setRowFilter(rowFilter);
-			return;
-		}
-		if (e.getSource() instanceof JButton) {
-			System.out.println("JXTableTest01.actionPerformed(): add");
-			Vector<String> v = new Vector<String>();
-			v.add("smith");
-			v.add("new york city");
-			model.addRow(v);
-		}
-	}
 }
 
 class SbRowFilter extends RowFilter<TableModel, Integer> {
@@ -146,10 +147,6 @@ class SbRowFilter extends RowFilter<TableModel, Integer> {
 	public SbRowFilter(JXTable table) {
 		text = "";
 		this.table = table;
-	}
-
-	public void setText(String text) {
-		this.text = (text == null ? "" : text);
 	}
 
 	@Override
@@ -172,5 +169,9 @@ class SbRowFilter extends RowFilter<TableModel, Integer> {
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	public void setText(String text) {
+		this.text = (text == null ? "" : text);
 	}
 }

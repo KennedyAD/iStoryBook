@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.RelationshipDAOImpl;
@@ -39,6 +39,26 @@ public class RelationshipTable extends AbstractTable {
 
 	public RelationshipTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
+		Relationship r = dao.find(id);
+		model.commit();
+		return r;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Relationship();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Relationship");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class RelationshipTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Relationship r = (Relationship) getEntityFromRow(row);
-//		ctrl.setRelationshipToEdit(r);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(r);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setRelationshipToEdit((Relationship) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Relationship r = (Relationship) getEntityFromRow(row);
-		ctrl.deleteRelationship(r);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class RelationshipTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
-		Relationship r = dao.find(id);
-		model.commit();
-		return r;
+	protected synchronized void sendDeleteEntity(int row) {
+		Relationship r = (Relationship) getEntityFromRow(row);
+		ctrl.deleteRelationship(r);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Relationship();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Relationship r = (Relationship) getEntityFromRow(row);
+		// ctrl.setRelationshipToEdit(r);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(r);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Relationship");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setRelationshipToEdit((Relationship) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

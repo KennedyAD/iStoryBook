@@ -34,11 +34,10 @@ import storybook.model.hbn.entity.Gender;
 public class GenderListCellRenderer extends DefaultListCellRenderer {
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		try {
-			JLabel label = (JLabel) super.getListCellRendererComponent(list,
-					value, index, isSelected, cellHasFocus);
+			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			Gender gender = (Gender) value;
 			label.setIcon(gender.getIcon());
 			return label;

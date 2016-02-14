@@ -25,9 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ClientPropertyName;
 import storybook.model.BookModel;
 import storybook.model.hbn.entity.Person;
@@ -37,12 +37,10 @@ import storybook.ui.MainFrame;
 public class PersonTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		MainFrame mainFrame = (MainFrame) table
-				.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
-		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table,
-				null, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		MainFrame mainFrame = (MainFrame) table.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
+		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table, null, isSelected, hasFocus, row, column);
 		JPanel panel = new JPanel(new MigLayout("insets 2"));
 		panel.setOpaque(true);
 		panel.setBackground(lbText.getBackground());

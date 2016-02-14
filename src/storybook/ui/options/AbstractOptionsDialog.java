@@ -23,24 +23,23 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.BackgroundPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-import org.miginfocom.swing.MigLayout;
-
 /**
  * @author martin
  *
  */
 @SuppressWarnings("serial")
-public abstract class AbstractOptionsDialog extends AbstractDialog implements
-		ChangeListener {
+public abstract class AbstractOptionsDialog extends AbstractDialog implements ChangeListener {
 
 	private boolean zoom;
 
@@ -61,7 +60,12 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements
 		internalInitUi();
 	}
 
-	protected void zoom(int val) {
+	public int getZoomMaxValue() {
+		return zoomMaxValue;
+	}
+
+	public int getZoomMinValue() {
+		return zoomMinValue;
 	}
 
 	private void internalInit() {
@@ -84,7 +88,7 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements
 		if (zoom) {
 			// zoom
 			JLabel lbZoom = new JLabel(I18N.getMsgColon("msg.common.zoom"));
-			JSlider zoomSlider = new JSlider(JSlider.HORIZONTAL, zoomMinValue,zoomMaxValue, zoomValue);
+			JSlider zoomSlider = new JSlider(SwingConstants.HORIZONTAL, zoomMinValue, zoomMaxValue, zoomValue);
 			zoomSlider.setOpaque(false);
 			zoomSlider.setMajorTickSpacing(10);
 			zoomSlider.setMinorTickSpacing(5);
@@ -102,6 +106,22 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements
 		add(panel, "grow");
 	}
 
+	public boolean isZoom() {
+		return zoom;
+	}
+
+	public void setZoom(boolean zoom) {
+		this.zoom = zoom;
+	}
+
+	public void setZoomMaxValue(int zoomMaxValue) {
+		this.zoomMaxValue = zoomMaxValue;
+	}
+
+	public void setZoomMinValue(int zoomMinValue) {
+		this.zoomMinValue = zoomMinValue;
+	}
+
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		JSlider slider = (JSlider) e.getSource();
@@ -111,27 +131,6 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements
 		}
 	}
 
-	public int getZoomMinValue() {
-		return zoomMinValue;
-	}
-
-	public void setZoomMinValue(int zoomMinValue) {
-		this.zoomMinValue = zoomMinValue;
-	}
-
-	public int getZoomMaxValue() {
-		return zoomMaxValue;
-	}
-
-	public void setZoomMaxValue(int zoomMaxValue) {
-		this.zoomMaxValue = zoomMaxValue;
-	}
-
-	public boolean isZoom() {
-		return zoom;
-	}
-
-	public void setZoom(boolean zoom) {
-		this.zoom = zoom;
+	protected void zoom(int val) {
 	}
 }

@@ -29,12 +29,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.toolkit.DateUtil;
 
-public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
-		LocationDAO {
+public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements LocationDAO {
 
 	public LocationDAOImpl() {
 		super();
@@ -44,56 +44,27 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		super(session);
 	}
 
+	public long countByPersonLocationDate(Person person, Location location, Date date) {
+		date = DateUtil.getZeroTimeDate(date);
+		Query query = session
+				.createQuery("select count(s) from Scene as s" + " join s.persons as p" + " join s.locations as l"
+						+ " where p=:person and l=:location" + " and s.sceneTs between :tsStart and :tsEnd");
+		query.setEntity("person", person);
+		query.setEntity("location", location);
+		Timestamp tsStart = new Timestamp(date.getTime());
+		date = DateUtils.addDays(date, 1);
+		date = DateUtils.addMilliseconds(date, -1);
+		Timestamp tsEnd = new Timestamp(date.getTime());
+		query.setTimestamp("tsStart", tsStart);
+		query.setTimestamp("tsEnd", tsEnd);
+		return (Long) query.uniqueResult();
+	}
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Location> findAll() {
 		Query query = session.createQuery("from Location order by location_id,country,city,name");
-		return (List<Location>) query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findCountries(){
-		Query query = session.createQuery("select distinct(l.country) from Location as l order by l.country");
-		return (List<String>)query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findCities(){
-		Query query = session.createQuery("select distinct(l.city) from Location as l order by l.city");
-		return (List<String>)query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findCitiesByCountry(String country) {
-		if (country == null) {
-			Query query = session.createQuery("select distinct(l.city) from Location as l where l.country is null order by l.city");
-			return (List<String>) query.list();
-		}
-		Query query = session.createQuery("select distinct(l.city) from Location as l where l.country=:country order by l.city");
-		query.setParameter("country", country);
-		return (List<String>) query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Location> findByCountries(List<String> countries) {
-		if (countries.isEmpty()) {
-			return new ArrayList<Location>();
-		}
-		Query query = session.createQuery("from Location as l where l.country in (:countries)");
-		query.setParameterList("countries", countries);
-		return (List<Location>) query.list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Location> findByCountry(String country) {
-		Criteria crit = session.createCriteria(Location.class);
-		if (country == null) {
-			crit.add(Restrictions.isNull("country"));
-		} else {
-			crit.add(Restrictions.eq("country", country));
-		}
-		List<Location> locations = (List<Location>) crit.list();
-		return locations;
+		return query.list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -104,7 +75,29 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		} else {
 			crit.add(Restrictions.eq("city", city));
 		}
-		List<Location> locations = (List<Location>) crit.list();
+		List<Location> locations = crit.list();
+		return locations;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Location> findByCountries(List<String> countries) {
+		if (countries.isEmpty()) {
+			return new ArrayList<Location>();
+		}
+		Query query = session.createQuery("from Location as l where l.country in (:countries)");
+		query.setParameterList("countries", countries);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Location> findByCountry(String country) {
+		Criteria crit = session.createCriteria(Location.class);
+		if (country == null) {
+			crit.add(Restrictions.isNull("country"));
+		} else {
+			crit.add(Restrictions.eq("country", country));
+		}
+		List<Location> locations = crit.list();
 		return locations;
 	}
 
@@ -122,26 +115,32 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 			crit.add(Restrictions.eq("city", city));
 		}
 		crit.addOrder(Order.asc("name"));
-		List<Location> locations = (List<Location>) crit.list();
+		List<Location> locations = crit.list();
 		return locations;
 	}
 
-	public long countByPersonLocationDate(Person person, Location location, Date date){
-		date = DateUtil.getZeroTimeDate(date);
-		Query query = session.createQuery(
-				  "select count(s) from Scene as s" +
-				  " join s.persons as p" +
-				  " join s.locations as l" +
-				  " where p=:person and l=:location"
-				  +" and s.sceneTs between :tsStart and :tsEnd");
-		query.setEntity("person", person);
-		query.setEntity("location", location);
-		Timestamp tsStart = new Timestamp(date.getTime());
-		date = DateUtils.addDays(date, 1);
-		date = DateUtils.addMilliseconds(date, -1);
-		Timestamp tsEnd = new Timestamp(date.getTime());
-		query.setTimestamp("tsStart", tsStart);
-		query.setTimestamp("tsEnd", tsEnd);
-		return (Long)query.uniqueResult();
+	@SuppressWarnings("unchecked")
+	public List<String> findCities() {
+		Query query = session.createQuery("select distinct(l.city) from Location as l order by l.city");
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findCitiesByCountry(String country) {
+		if (country == null) {
+			Query query = session
+					.createQuery("select distinct(l.city) from Location as l where l.country is null order by l.city");
+			return query.list();
+		}
+		Query query = session
+				.createQuery("select distinct(l.city) from Location as l where l.country=:country order by l.city");
+		query.setParameter("country", country);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findCountries() {
+		Query query = session.createQuery("select distinct(l.country) from Location as l order by l.country");
+		return query.list();
 	}
 }

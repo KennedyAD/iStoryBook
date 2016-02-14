@@ -19,11 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.test.model;
 
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
+
+import com.googlecode.genericdao.search.Filter;
+import com.googlecode.genericdao.search.Search;
+
 import storybook.model.hbn.SbSessionFactory;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.GenderDAOImpl;
@@ -40,17 +42,58 @@ import storybook.model.hbn.dao.TagLinkDAOImpl;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Gender;
 import storybook.model.hbn.entity.Idea;
-import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
-import storybook.model.hbn.entity.Scene;
-import storybook.model.hbn.entity.Strand;
-
-import com.googlecode.genericdao.search.Filter;
-import com.googlecode.genericdao.search.Search;
 
 public class Test01 {
 
 	private static SbSessionFactory sessionFactory;
+
+	private static void createIdea(Session session) {
+		Idea idea = new Idea();
+		idea.setNote("new idea");
+		idea.setCategory("cat");
+		idea.setStatus(0);
+		session.save(idea);
+	}
+
+	private static void createPerson() {
+		Session session = sessionFactory.getSession();
+		session.beginTransaction();
+
+		Gender gender = (Gender) session.get(Gender.class, 1L);
+		Person person = new Person();
+		person.setGender(gender);
+		person.setAbbreviation("NP");
+		person.setFirstname("new person");
+		Calendar cal = Calendar.getInstance();
+		cal.set(1880, 02, 23);
+		person.setBirthday(cal.getTime());
+		PersonDAOImpl personDAO = new PersonDAOImpl(session);
+		personDAO.setSessionFactory(sessionFactory.getSessionFactory());
+		personDAO.save(person);
+		session.getTransaction().commit();
+	}
+
+	private static void deletePerson() {
+		Session session = sessionFactory.getSession();
+		session.beginTransaction();
+
+		PersonDAOImpl personDAO = new PersonDAOImpl(session);
+		personDAO.setSessionFactory(sessionFactory.getSessionFactory());
+		// Person example = new Person();
+		// example.setFirstname("new person");
+		// Filter filter = personDAO.getFilterFromExample(example);
+		Filter filter = new Filter("firstname", "new person", Filter.OP_EQUAL);
+		Search search = new Search();
+		search.addFilter(filter);
+		List<Person> persons = personDAO.search(search);
+		for (Person person : persons) {
+			System.out.println("Test03.deletePerson(): person: " + person.getFirstname());
+			personDAO.remove(person);
+		}
+
+		session.getTransaction().commit();
+	}
 
 	public static void main(String[] args) {
 		System.out.println("start...");
@@ -107,37 +150,35 @@ public class Test01 {
 	}
 
 	private static void queryChapterDAO() {
-		ChapterDAOImpl chapterDAO = new ChapterDAOImpl(
-				sessionFactory.getSession());
+		ChapterDAOImpl chapterDAO = new ChapterDAOImpl(sessionFactory.getSession());
 		chapterDAO.setSessionFactory(sessionFactory.getSessionFactory());
 		List<Chapter> chapters = chapterDAO.findAll();
 		for (Chapter chapter : chapters) {
-			System.out.println("Test03.queryChapterDAO(): chapter:"
-					+ chapter.getTitle());
+			System.out.println("Test03.queryChapterDAO(): chapter:" + chapter.getTitle());
 		}
 	}
 
-	private static void deletePerson() {
-		Session session = sessionFactory.getSession();
-		session.beginTransaction();
-
-		PersonDAOImpl personDAO = new PersonDAOImpl(session);
-		personDAO.setSessionFactory(sessionFactory.getSessionFactory());
-		// Person example = new Person();
-		// example.setFirstname("new person");
-		// Filter filter = personDAO.getFilterFromExample(example);
-		Filter filter = new Filter("firstname", "new person", Filter.OP_EQUAL);
-		Search search = new Search();
-		search.addFilter(filter);
-		List<Person> persons = personDAO.search(search);
-		for (Person person : persons) {
-			System.out.println("Test03.deletePerson(): person: "
-					+ person.getFirstname());
-			personDAO.remove(person);
-		}
-
-		session.getTransaction().commit();
-	}
+	private static void queryScenes(Session session) {
+		/*
+		 * System.out.println("\nTest01.queryScenes(): "); Query query =
+		 * session.createQuery("from Scene"); List list = (List) query.list();
+		 * for (Scene scene : (List<Scene>)list) { System.out.println("Scene: "
+		 * + scene.getTitle()); if (scene.getStrand() != null) {
+		 * System.out.println("  Strand: " + scene.getStrand().getName()); } if
+		 * (scene.getStrands() != null) { for (Strand strand :
+		 * scene.getStrands()) { if (strand == null) { continue; }
+		 * System.out.println("    Strands: " + strand.getAbbreviation()); } }
+		 * if (scene.getRelativeSceneId() != null) { System.out.println(
+		 * "  Relative Scene: " + scene.getRelativeSceneId()); } if
+		 * (scene.getChapter() != null) { System.out.println("  Chapter: " +
+		 * scene.getChapter().getTitle()); } List<Person> persons =
+		 * scene.getPersons(); for (Person person : persons) { if (person ==
+		 * null) { continue; } System.out.println("  Person: " +
+		 * person.getFirstname() + " " + person.getLastname()); } List<Location>
+		 * locations = scene.getLocations(); for (Location location : locations)
+		 * { if (location == null) { continue; } System.out.println(
+		 * "  Location: " + location.getName()); } }
+		 */}
 
 	private static void updatePerson() {
 		Session session = sessionFactory.getSession();
@@ -145,81 +186,10 @@ public class Test01 {
 		PersonDAOImpl personDAO = new PersonDAOImpl(session);
 		personDAO.setSessionFactory(sessionFactory.getSessionFactory());
 		Person person = personDAO.find(1L);
-		System.out.println("Test03.updatePerson(): person: "
-				+ person.getFirstname());
+		System.out.println("Test03.updatePerson(): person: " + person.getFirstname());
 		person.setDescription("new descr 02");
 		person.setOccupation("new occupation 02");
 		personDAO.save(person);
 		session.getTransaction().commit();
 	}
-
-	private static void createPerson() {
-		Session session = sessionFactory.getSession();
-		session.beginTransaction();
-
-		Gender gender = (Gender) session.get(Gender.class, 1L);
-		Person person = new Person();
-		person.setGender(gender);
-		person.setAbbreviation("NP");
-		person.setFirstname("new person");
-		Calendar cal = Calendar.getInstance();
-		cal.set(1880, 02, 23);
-		person.setBirthday(cal.getTime());
-		PersonDAOImpl personDAO = new PersonDAOImpl(session);
-		personDAO.setSessionFactory(sessionFactory.getSessionFactory());
-		personDAO.save(person);
-		session.getTransaction().commit();
-	}
-
-	private static void createIdea(Session session) {
-		Idea idea = new Idea();
-		idea.setNote("new idea");
-		idea.setCategory("cat");
-		idea.setStatus(0);
-		session.save(idea);
-	}
-
-	private static void queryScenes(Session session) {/*
-		System.out.println("\nTest01.queryScenes(): ");
-		Query query = session.createQuery("from Scene");
-		List list = (List) query.list();
-		for (Scene scene : (List<Scene>)list) {
-			System.out.println("Scene: " + scene.getTitle());
-			if (scene.getStrand() != null) {
-				System.out.println("  Strand: " + scene.getStrand().getName());
-			}
-			if (scene.getStrands() != null) {
-				for (Strand strand : scene.getStrands()) {
-					if (strand == null) {
-						continue;
-					}
-					System.out.println("    Strands: "
-							+ strand.getAbbreviation());
-				}
-			}
-			if (scene.getRelativeSceneId() != null) {
-				System.out.println("  Relative Scene: "
-						+ scene.getRelativeSceneId());
-			}
-			if (scene.getChapter() != null) {
-				System.out.println("  Chapter: "
-						+ scene.getChapter().getTitle());
-			}
-			List<Person> persons = scene.getPersons();
-			for (Person person : persons) {
-				if (person == null) {
-					continue;
-				}
-				System.out.println("  Person: " + person.getFirstname() + " "
-						+ person.getLastname());
-			}
-			List<Location> locations = scene.getLocations();
-			for (Location location : locations) {
-				if (location == null) {
-					continue;
-				}
-				System.out.println("  Location: " + location.getName());
-			}
-		}
-	*/}
 }

@@ -29,8 +29,6 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,11 +37,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.ViewName;
@@ -57,21 +54,21 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
-import storybook.toolkit.DateUtil;
 import storybook.toolkit.BookUtil;
+import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.label.VerticalLabelUI;
-import storybook.ui.panel.AbstractScrollPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
+import storybook.ui.options.ChronoOptionsDialog;
+import storybook.ui.panel.AbstractScrollPanel;
+import storybook.ui.panel.linkspanel.ItemLinksPanel;
 import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
-import storybook.ui.options.ChronoOptionsDialog;
-import storybook.ui.panel.linkspanel.ItemLinksPanel;
 
 /**
  * @author martin
@@ -81,8 +78,62 @@ import storybook.ui.panel.linkspanel.ItemLinksPanel;
 public class ChronoPanel extends AbstractScrollPanel implements Printable, MouseWheelListener {
 
 	private static final String CLIENT_PROPERTY_STRAND_ID = "strand_id";
+	private static void dispatchToChronoScenePanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, ChronoScenePanel.class, ret);
+		for (Component comp : ret) {
+			ChronoScenePanel panel = (ChronoScenePanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+	private static void dispatchToItemLinksPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, ItemLinksPanel.class, ret);
+		for (Component comp : ret) {
+			ItemLinksPanel panel = (ItemLinksPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+	private static void dispatchToLocationLinksPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, LocationLinksPanel.class, ret);
+		for (Component comp : ret) {
+			LocationLinksPanel panel = (LocationLinksPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
+	private static void dispatchToPersonLinksPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, PersonLinksPanel.class, ret);
+		for (Component comp : ret) {
+			PersonLinksPanel panel = (PersonLinksPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
+	private static void dispatchToSpacePanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, SpacePanel.class, ret);
+		for (Component comp : ret) {
+			SpacePanel panel = (SpacePanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
+	private static void dispatchToStrandLinksPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<Component>();
+		SwingUtil.findComponentsByClass(cont, StrandLinksPanel.class, ret);
+		for (Component comp : ret) {
+			StrandLinksPanel panel = (StrandLinksPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
 	private boolean layoutDirection;
+
 	private boolean showDateDiff;
+
 	private List<JLabel> strandLabels;
 
 	public ChronoPanel(MainFrame mainFrame) {
@@ -92,9 +143,17 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 	}
 
 	@Override
-	protected void setZoomValue(int val) {
-		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);
-		mainFrame.getBookController().chronoSetZoom(val);
+	protected int getMaxZoomValue() {
+		return SbConstants.MAX_CHRONO_ZOOM;
+	}
+
+	@Override
+	protected int getMinZoomValue() {
+		return SbConstants.MIN_CHRONO_ZOOM;
+	}
+
+	public JPanel getPanel() {
+		return panel;
 	}
 
 	@Override
@@ -104,13 +163,36 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 	}
 
 	@Override
-	protected int getMinZoomValue() {
-		return SbConstants.MIN_CHRONO_ZOOM;
+	public void init() {
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_LAYOUT_DIRECTION,
+					SbConstants.DEFAULT_CHRONO_LAYOUT_DIRECTION);
+			layoutDirection = internal.getBooleanValue();
+			internal = BookUtil.get(mainFrame, BookKey.CHRONO_SHOW_DATE_DIFFERENCE,
+					SbConstants.DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE);
+			showDateDiff = internal.getBooleanValue();
+		} catch (Exception e) {
+			layoutDirection = SbConstants.DEFAULT_CHRONO_LAYOUT_DIRECTION;
+			showDateDiff = SbConstants.DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE;
+		}
 	}
 
 	@Override
-	protected int getMaxZoomValue() {
-		return SbConstants.MAX_CHRONO_ZOOM;
+	public void initUi() {
+		setLayout(new MigLayout("flowy, ins 0"));
+
+		MigLayout layout = new MigLayout("", "", "[top]");
+		panel = new JPanel(layout);
+		panel.setBackground(SwingUtil.getBackgroundColor());
+		scroller = new JScrollPane(panel);
+		SwingUtil.setUnitIncrement(scroller);
+		SwingUtil.setMaxPreferredSize(scroller);
+		add(scroller, "grow");
+
+		refresh();
+
+		registerKeyboardAction();
+		panel.addMouseWheelListener(this);
 	}
 
 	@Override
@@ -155,8 +237,7 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			return;
 		}
 
-		if (BookController.ChronoViewProps.SHOW_DATE_DIFFERENCE
-				.check(propName)) {
+		if (BookController.ChronoViewProps.SHOW_DATE_DIFFERENCE.check(propName)) {
 			showDateDiff = (Boolean) evt.getNewValue();
 			refresh();
 			return;
@@ -184,23 +265,20 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			}
 		}
 
-// deleted strand, strand order changed
-		if (BookController.StrandProps.DELETE.check(propName)
-				|| BookController.StrandProps.ORDER_DOWN.check(propName)
+		// deleted strand, strand order changed
+		if (BookController.StrandProps.DELETE.check(propName) || BookController.StrandProps.ORDER_DOWN.check(propName)
 				|| BookController.StrandProps.ORDER_UP.check(propName)) {
 			refresh();
 			return;
 		}
 
-// new scene, deleted scene
-		if (BookController.SceneProps.NEW.check(propName)
-				|| BookController.SceneProps.DELETE.check(propName)) {
+		// new scene, deleted scene
+		if (BookController.SceneProps.NEW.check(propName) || BookController.SceneProps.DELETE.check(propName)) {
 			refresh();
 			return;
 		}
 
-		if (BookController.PartProps.CHANGE.check(propName)
-				|| BookController.PartProps.DELETE.check(propName)) {
+		if (BookController.PartProps.CHANGE.check(propName) || BookController.PartProps.DELETE.check(propName)) {
 			ViewUtil.scrollToTop(scroller);
 			refresh();
 			return;
@@ -222,13 +300,13 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			return;
 		}
 
-// edit scene
+		// edit scene
 		if (BookController.SceneProps.EDIT.check(propName)) {
 			// TODO handle text fields if same scene is edited in editor
 			return;
 		}
 
-// scene update
+		// scene update
 		if (BookController.SceneProps.UPDATE.check(propName)) {
 			if (oldValue == null)
 				return;
@@ -266,34 +344,25 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 	}
 
 	@Override
-	public void init() {
-		try {
-			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_LAYOUT_DIRECTION, SbConstants.DEFAULT_CHRONO_LAYOUT_DIRECTION);
-			layoutDirection = internal.getBooleanValue();
-			internal = BookUtil.get(mainFrame, BookKey.CHRONO_SHOW_DATE_DIFFERENCE, SbConstants.DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE);
-			showDateDiff = internal.getBooleanValue();
-		} catch (Exception e) {
-			layoutDirection = SbConstants.DEFAULT_CHRONO_LAYOUT_DIRECTION;
-			showDateDiff = SbConstants.DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE;
-		}
-	}
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.black);
 
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("flowy, ins 0"));
+		int fontHeight = g2.getFontMetrics().getHeight();
+		int fontDesent = g2.getFontMetrics().getDescent();
 
-		MigLayout layout = new MigLayout("", "", "[top]");
-		panel = new JPanel(layout);
-		panel.setBackground(SwingUtil.getBackgroundColor());
-		scroller = new JScrollPane(panel);
-		SwingUtil.setUnitIncrement(scroller);
-		SwingUtil.setMaxPreferredSize(scroller);
-		add(scroller, "grow");
+		double pageHeight = pageFormat.getImageableHeight();
+		double pageWidth = pageFormat.getImageableWidth();
 
-		refresh();
+		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+		// bottom center
+		g2.drawString("Page: " + (pageIndex + 1), (int) pageWidth / 2 - 35,
+				(int) (pageHeight + fontHeight - fontDesent));
+		this.paint(g2);
 
-		registerKeyboardAction();
-		panel.addMouseWheelListener(this);
+		if (pageIndex < 4)
+			return Printable.PAGE_EXISTS;
+		return Printable.NO_SUCH_PAGE;
 	}
 
 	@Override
@@ -400,81 +469,8 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 	}
 
 	@Override
-	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.black);
-
-		int fontHeight = g2.getFontMetrics().getHeight();
-		int fontDesent = g2.getFontMetrics().getDescent();
-
-		double pageHeight = pageFormat.getImageableHeight();
-		double pageWidth = pageFormat.getImageableWidth();
-
-		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-		// bottom center
-		g2.drawString("Page: " + (pageIndex + 1), (int) pageWidth / 2 - 35, (int) (pageHeight + fontHeight - fontDesent));
-		this.paint(g2);
-
-		if (pageIndex < 4)
-			return Printable.PAGE_EXISTS;
-		return Printable.NO_SUCH_PAGE;
-	}
-
-	private static void dispatchToChronoScenePanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, ChronoScenePanel.class, ret);
-		for (Component comp : ret) {
-			ChronoScenePanel panel = (ChronoScenePanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToPersonLinksPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, PersonLinksPanel.class, ret);
-		for (Component comp : ret) {
-			PersonLinksPanel panel = (PersonLinksPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToLocationLinksPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, LocationLinksPanel.class, ret);
-		for (Component comp : ret) {
-			LocationLinksPanel panel = (LocationLinksPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToItemLinksPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, ItemLinksPanel.class, ret);
-		for (Component comp : ret) {
-			ItemLinksPanel panel = (ItemLinksPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToStrandLinksPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, StrandLinksPanel.class, ret);
-		for (Component comp : ret) {
-			StrandLinksPanel panel = (StrandLinksPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToSpacePanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<Component>();
-		SwingUtil.findComponentsByClass(cont, SpacePanel.class, ret);
-		for (Component comp : ret) {
-			SpacePanel panel = (SpacePanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	public JPanel getPanel() {
-		return panel;
+	protected void setZoomValue(int val) {
+		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);
+		mainFrame.getBookController().chronoSetZoom(val);
 	}
 }

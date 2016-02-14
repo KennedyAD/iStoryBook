@@ -20,14 +20,9 @@ package storybook.model.hbn.entity;
 
 import java.util.Objects;
 
-
 /**
- * @hibernate.class
- *   table="TAG"
- *   discriminator-value="-1"
- * @hibernate.discriminator
- *   type="integer"
- *   column="type"
+ * @hibernate.class table="TAG" discriminator-value="-1"
+ * @hibernate.discriminator type="integer" column="type"
  */
 public abstract class AbstractTag extends AbstractEntity {
 
@@ -54,74 +49,6 @@ public abstract class AbstractTag extends AbstractEntity {
 	}
 
 	@Override
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Tag getTag() {
-		if (type != TYPE_TAG) {
-			return null;
-		}
-		return (Tag) this;
-	}
-
-	public Item getItem() {
-		if (type != TYPE_ITEM) {
-			return null;
-		}
-		return (Item) this;
-	}
-
-	public Integer getType() {
-		return this.type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	public String getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = (category == null ? "" : category);
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getNotes() {
-		return this.notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (!super.equals(obj)) {
 			return false;
@@ -138,6 +65,45 @@ public abstract class AbstractTag extends AbstractEntity {
 		return ret;
 	}
 
+	public String getCategory() {
+		return this.category;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	public Item getItem() {
+		if (type != TYPE_ITEM) {
+			return null;
+		}
+		return (Item) this;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getNotes() {
+		return this.notes;
+	}
+
+	public Tag getTag() {
+		if (type != TYPE_TAG) {
+			return null;
+		}
+		return (Tag) this;
+	}
+
+	public Integer getType() {
+		return this.type;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -147,5 +113,34 @@ public abstract class AbstractTag extends AbstractEntity {
 		hash = hash * 31 + (description != null ? description.hashCode() : 0);
 		hash = hash * 31 + (notes != null ? notes.hashCode() : 0);
 		return hash;
+	}
+
+	public void setCategory(String category) {
+		this.category = (category == null ? "" : category);
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

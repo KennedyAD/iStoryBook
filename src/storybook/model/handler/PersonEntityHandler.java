@@ -24,8 +24,8 @@ import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Person;
 import storybook.ui.MainFrame;
-import storybook.ui.table.SbColumnFactory;
 import storybook.ui.combo.PersonListCellRenderer;
+import storybook.ui.table.SbColumnFactory;
 
 /**
  * @author martin
@@ -35,11 +35,6 @@ public class PersonEntityHandler extends AbstractEntityHandler {
 
 	public PersonEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getPersonColumns());
-	}
-
-	@Override
-	public ListCellRenderer getListCellRenderer() {
-		return new PersonListCellRenderer();
 	}
 
 	@Override
@@ -58,5 +53,10 @@ public class PersonEntityHandler extends AbstractEntityHandler {
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Person.class;
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		return new PersonListCellRenderer();
 	}
 }

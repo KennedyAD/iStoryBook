@@ -46,36 +46,24 @@ public abstract class AbstractDialog extends JDialog {
 		this.parent = null;
 	}
 
-	public AbstractDialog(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
-		this.parent = null;
-	}
-
 	public AbstractDialog(JComponent parent) {
 		this.parent = parent;
 		this.mainFrame = null;
 	}
 
-	abstract public void init();
-
-	public void initUi() {
-		if (mainFrame != null) {
-			setIconImage(mainFrame.getIconImage());
-		}
+	public AbstractDialog(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+		this.parent = null;
 	}
 
-	public void initAll() {
-		init();
-		initUi();
-	}
-
-	protected JButton getOkButton() {
-		AbstractAction act = getOkAction();
-		JButton bt = new JButton(act);
-		bt.setText(I18N.getMsg("msg.common.ok"));
-		bt.setIcon(I18N.getIcon("icon.small.ok"));
-		SwingUtil.addEnterAction(bt, act);
-		return bt;
+	protected AbstractAction getCancelAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canceled = true;
+				dispose();
+			}
+		};
 	}
 
 	protected JButton getCancelButton() {
@@ -104,14 +92,26 @@ public abstract class AbstractDialog extends JDialog {
 		};
 	}
 
-	protected AbstractAction getCancelAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				canceled = true;
-				dispose();
-			}
-		};
+	protected JButton getOkButton() {
+		AbstractAction act = getOkAction();
+		JButton bt = new JButton(act);
+		bt.setText(I18N.getMsg("msg.common.ok"));
+		bt.setIcon(I18N.getIcon("icon.small.ok"));
+		SwingUtil.addEnterAction(bt, act);
+		return bt;
+	}
+
+	abstract public void init();
+
+	public void initAll() {
+		init();
+		initUi();
+	}
+
+	public void initUi() {
+		if (mainFrame != null) {
+			setIconImage(mainFrame.getIconImage());
+		}
 	}
 
 	public boolean isCanceled() {

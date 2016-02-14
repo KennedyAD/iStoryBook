@@ -29,8 +29,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
-public class UndoableTextArea extends JTextArea implements UndoableComponent,
-		KeyListener, DocumentListener {
+public class UndoableTextArea extends JTextArea implements UndoableComponent, KeyListener, DocumentListener {
 
 	private static final int LIMIT = 100;
 
@@ -51,16 +50,28 @@ public class UndoableTextArea extends JTextArea implements UndoableComponent,
 		inputMap.put(KeyStroke.getKeyStroke("control Y"), redoAction);
 	}
 
-	public SbUndoManager getUndoManager() {
-		return undo;
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		undo.endGroup();
 	}
 
+	@Override
+	public AbstractAction getRedoAction() {
+		return redoAction;
+	}
+
+	@Override
 	public AbstractAction getUndoAction() {
 		return undoAction;
 	}
 
-	public AbstractAction getRedoAction() {
-		return redoAction;
+	@Override
+	public SbUndoManager getUndoManager() {
+		return undo;
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
 	}
 
 	@Override
@@ -77,15 +88,6 @@ public class UndoableTextArea extends JTextArea implements UndoableComponent,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		undo.endGroup();
-	}
-
-	@Override
-	public void insertUpdate(DocumentEvent e) {
 	}
 
 	@Override

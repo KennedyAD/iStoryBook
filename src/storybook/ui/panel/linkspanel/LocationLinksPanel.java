@@ -7,18 +7,19 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import org.miginfocom.swing.MigLayout;
+import javax.swing.ScrollPaneConstants;
 
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class LocationLinksPanel extends AbstractPanel {
@@ -26,35 +27,15 @@ public class LocationLinksPanel extends AbstractPanel {
 	private Scene scene;
 	private boolean setSize;
 
+	public LocationLinksPanel(MainFrame mainFrame, Scene scene) {
+		this(mainFrame, scene, true);
+	}
+
 	public LocationLinksPanel(MainFrame mainFrame, Scene scene, boolean setSize) {
 		this.mainFrame = mainFrame;
 		this.scene = scene;
 		this.setSize = setSize;
 		refresh();
-	}
-
-	public LocationLinksPanel(MainFrame mainFrame, Scene scene) {
-		this(mainFrame, scene, true);
-	}
-
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		Object newValue = evt.getNewValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.SceneProps.UPDATE.check(propName)) {
-			if (!((Scene) newValue).getId().equals(scene.getId())) {
-				// not this scene
-				return;
-			}
-			refresh();
-			return;
-		}
-
-		if (BookController.LocationProps.UPDATE.check(propName)) {
-			refresh();
-			return;
-		}
 	}
 
 	@Override
@@ -100,11 +81,31 @@ public class LocationLinksPanel extends AbstractPanel {
 				scroller.setPreferredSize(new Dimension(170, 30));
 			}
 			SwingUtil.setUnitIncrement(scroller);
-			scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			ta.setCaretPosition(0);
 			add(scroller, "grow");
 		} else {
 			add(ta, "grow");
+		}
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		Object newValue = evt.getNewValue();
+		String propName = evt.getPropertyName();
+
+		if (BookController.SceneProps.UPDATE.check(propName)) {
+			if (!((Scene) newValue).getId().equals(scene.getId())) {
+				// not this scene
+				return;
+			}
+			refresh();
+			return;
+		}
+
+		if (BookController.LocationProps.UPDATE.check(propName)) {
+			refresh();
+			return;
 		}
 	}
 }

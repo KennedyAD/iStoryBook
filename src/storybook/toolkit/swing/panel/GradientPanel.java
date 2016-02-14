@@ -59,22 +59,11 @@ public class GradientPanel extends JPanel {
 		return direction;
 	}
 
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
-
 	public boolean isCyclic() {
 		return cyclic;
 	}
 
-	public void setCyclic(boolean cyclic) {
-		this.cyclic = cyclic;
-	}
-
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	}
-
+	@Override
 	public void paintComponent(Graphics g) {
 		if (isOpaque()) {
 			super.paintComponent(g);
@@ -92,13 +81,11 @@ public class GradientPanel extends JPanel {
 
 		switch (direction) {
 		case HORIZONTAL: {
-			paint = new GradientPaint(0, height / 2, sc, width, height / 2, ec,
-					cyclic);
+			paint = new GradientPaint(0, height / 2, sc, width, height / 2, ec, cyclic);
 			break;
 		}
 		case VERTICAL: {
-			paint = new GradientPaint(width / 2, 0, sc, width / 2,
-					maxLength > 0 ? maxLength : height, ec, cyclic);
+			paint = new GradientPaint(width / 2, 0, sc, width / 2, maxLength > 0 ? maxLength : height, ec, cyclic);
 			break;
 		}
 		case DIAGONAL_LEFT: {
@@ -112,8 +99,7 @@ public class GradientPanel extends JPanel {
 		}
 
 		if (paint == null) {
-			throw new RuntimeException(
-					"Invalid direction specified in GradientPanel");
+			throw new RuntimeException("Invalid direction specified in GradientPanel");
 		}
 
 		// we need to cast to Graphics2D for this operation
@@ -132,5 +118,17 @@ public class GradientPanel extends JPanel {
 		g2d.setPaint(oldPaint);
 
 		super.paintComponent(g);
+	}
+
+	public void setCyclic(boolean cyclic) {
+		this.cyclic = cyclic;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	public void setMaxLength(int maxLength) {
+		this.maxLength = maxLength;
 	}
 }

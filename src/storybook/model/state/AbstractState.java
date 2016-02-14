@@ -34,27 +34,6 @@ public class AbstractState {
 		super();
 	}
 
-	public Integer getNumber() {
-		return number;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Icon getIcon() {
-		return icon;
-	}
-
-	public String getToolTip() {
-		return toString();
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		// if (!super.equals(obj)) {
@@ -69,10 +48,31 @@ public class AbstractState {
 		return ret;
 	}
 
+	public Icon getIcon() {
+		return icon;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public String getToolTip() {
+		return toString();
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
 		hash = hash * 31 + number.hashCode();
 		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

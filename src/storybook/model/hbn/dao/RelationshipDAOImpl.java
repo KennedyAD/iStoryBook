@@ -25,6 +25,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
@@ -42,10 +43,46 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Relationship> findByItemLink(Item item) {
+		Query query = session.createQuery("select s from Relationship as s" + " join s.items as p" + " where p=:item");
+		query.setParameter("item", item);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByLocationLink(Location location) {
+		Query query = session
+				.createQuery("select s from Relationship as s" + " join s.locations as p" + " where p=:location");
+		query.setParameter("location", location);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByPerson(Person person) {
+		Criteria crit = session.createCriteria(Relationship.class);
+		Criterion cr1 = Restrictions.eq("person1", person);
+		Criterion cr2 = Restrictions.eq("person2", person);
+		crit.add(Restrictions.or(cr1, cr2));
+		List<Relationship> relationships = crit.list();
+		return relationships;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Relationship> findByPersonLink(Person person) {
+		Query query = session
+				.createQuery("select s from Relationship as s" + " join s.persons as p" + " where p=:person");
+		query.setParameter("person", person);
+		List<Relationship> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Relationship> findByScene(Scene scene) {
 		Criteria crit = session.createCriteria(Relationship.class);
 		crit.add(Restrictions.eq("startScene", scene));
-		List<Relationship> relationships = (List<Relationship>) crit.list();
+		List<Relationship> relationships = crit.list();
 		return relationships;
 	}
 
@@ -55,49 +92,8 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		Criterion cr1 = Restrictions.eq("startScene", scene);
 		Criterion cr2 = Restrictions.eq("endScene", scene);
 		crit.add(Restrictions.or(cr1, cr2));
-		List<Relationship> relationships = (List<Relationship>) crit.list();
+		List<Relationship> relationships = crit.list();
 		return relationships;
 	}
-
-	@SuppressWarnings("unchecked")
-	public List<Relationship> findByPerson(Person person) {
-		Criteria crit = session.createCriteria(Relationship.class);
-		Criterion cr1 = Restrictions.eq("person1", person);
-		Criterion cr2 = Restrictions.eq("person2", person);
-		crit.add(Restrictions.or(cr1, cr2));
-		List<Relationship> relationships = (List<Relationship>) crit.list();
-		return relationships;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Relationship> findByPersonLink(Person person) {
-		Query query = session.createQuery("select s from Relationship as s"
-				+ " join s.persons as p"
-				+ " where p=:person");
-		query.setParameter("person", person);
-		List<Relationship> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Relationship> findByItemLink(Item item) {
-		Query query = session.createQuery("select s from Relationship as s"
-				+ " join s.items as p"
-				+ " where p=:item");
-		query.setParameter("item", item);
-		List<Relationship> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Relationship> findByLocationLink(Location location) {
-		Query query = session.createQuery("select s from Relationship as s"
-				+ " join s.locations as p"
-				+ " where p=:location");
-		query.setParameter("location", location);
-		List<Relationship> ret = query.list();
-		return ret;
-	}
-
 
 }

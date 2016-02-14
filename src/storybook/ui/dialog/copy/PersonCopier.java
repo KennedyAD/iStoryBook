@@ -26,36 +26,6 @@ public class PersonCopier extends AbstractCopier<Person> {
 	}
 
 	@Override
-	protected void prepareTransfer(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
-		
-		setCategory(destination, originElt, destElt);
-		
-		destElt.setAttributes(new ArrayList<Attribute>());
-	}
-	
-	private void setCategory(MainFrame destination, Person originElt, Person destElt) {
-		BookModel destinationModel = destination.getBookModel();
-		Session destinationSession = destinationModel.beginTransaction();
-		Category categ = originElt.getCategory();
-		List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
-		destinationSession.close();
-
-		boolean found = false;
-		for (Category cat : cats) {
-			if (cat.getName().equals(categ.getName())) {
-				found = true;
-				destElt.setCategory(cat);
-				break;
-			}
-		}
-
-		if (!found) {
-            Category destCat = new CategoryCopier(getMainFrame()).copy(destination, categ);
-			destElt.setCategory(destCat);
-		}
-	}
-
-	@Override
 	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
 		AttributeEntityHandler handler = new AttributeEntityHandler(destination);
 		List<Attribute> attributes = EntityUtil.getEntityAttributes(origin, originElt);
@@ -73,17 +43,17 @@ public class PersonCopier extends AbstractCopier<Person> {
 			newAttributes.add(attr);
 			model.commit();
 		}
-		EntityUtil.setEntityAttributes(destination, destElt, newAttributes );
+		EntityUtil.setEntityAttributes(destination, destElt, newAttributes);
 	}
 
 	@Override
 	protected List<Person> getAllElements(Session session, MainFrame origin) {
 		PersonDAOImpl dao = new PersonDAOImpl(session);
 		List<Person> ret = dao.findAll();
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	protected CbPanelDecorator getDecorator() {
 		return new PersonCbPanelDecorator();
@@ -92,6 +62,36 @@ public class PersonCopier extends AbstractCopier<Person> {
 	@Override
 	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
 		return new PersonEntityHandler(mainFrame);
+	}
+
+	@Override
+	protected void prepareTransfer(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
+
+		setCategory(destination, originElt, destElt);
+
+		destElt.setAttributes(new ArrayList<Attribute>());
+	}
+
+	private void setCategory(MainFrame destination, Person originElt, Person destElt) {
+		BookModel destinationModel = destination.getBookModel();
+		Session destinationSession = destinationModel.beginTransaction();
+		Category categ = originElt.getCategory();
+		List<Category> cats = new CategoryDAOImpl(destinationSession).findAll();
+		destinationSession.close();
+
+		boolean found = false;
+		for (Category cat : cats) {
+			if (cat.getName().equals(categ.getName())) {
+				found = true;
+				destElt.setCategory(cat);
+				break;
+			}
+		}
+
+		if (!found) {
+			Category destCat = new CategoryCopier(getMainFrame()).copy(destination, categ);
+			destElt.setCategory(destCat);
+		}
 	}
 
 }

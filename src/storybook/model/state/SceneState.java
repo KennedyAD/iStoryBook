@@ -22,7 +22,6 @@ import javax.swing.Icon;
 
 import storybook.toolkit.I18N;
 
-
 /**
  * @author martin
  *

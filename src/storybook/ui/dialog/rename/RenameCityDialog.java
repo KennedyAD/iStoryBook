@@ -21,6 +21,7 @@ package storybook.ui.dialog.rename;
 import java.util.List;
 
 import org.hibernate.Session;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.LocationDAOImpl;
@@ -33,6 +34,11 @@ public class RenameCityDialog extends AbstractRenameDialog {
 
 	public RenameCityDialog(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected String getDlgTitle() {
+		return I18N.getMsg("msg.location.rename.city");
 	}
 
 	@Override
@@ -57,10 +63,5 @@ public class RenameCityDialog extends AbstractRenameDialog {
 			location.setCity(newValue);
 			ctrl.updateLocation(location);
 		}
-	}
-
-	@Override
-	protected String getDlgTitle() {
-		return I18N.getMsg("msg.location.rename.city");
 	}
 }

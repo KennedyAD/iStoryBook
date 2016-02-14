@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.collections.list.SetUniqueList;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
+
 import storybook.SbApp;
 import storybook.SbConstants.PreferenceKey;
 import storybook.model.DbFile;
@@ -37,6 +38,29 @@ import storybook.model.hbn.entity.Preference;
  *
  */
 public class PrefUtil {
+
+	public static void delete(String strPrefKey) {
+		Preference pref = get(strPrefKey, null);
+		if (pref == null) {
+			return;
+		}
+		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
+		Session session = model.beginTransaction();
+		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
+		dao.remove(pref.getKey());
+		model.commit();
+	}
+
+	public static void dump() {
+		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
+		Session session = model.beginTransaction();
+		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
+		List<Preference> preferences = dao.findAll();
+		for (Preference preference : preferences) {
+			System.out.println("PrefUtil.dump(): " + preference);
+		}
+		model.commit();
+	}
 
 	public static Preference get(PreferenceKey prefKey, Object defaultVal) {
 		String key = prefKey.toString();
@@ -75,6 +99,23 @@ public class PrefUtil {
 		return pref;
 	}
 
+	public static List<DbFile> getDbFileList() {
+		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
+		Session session = model.beginTransaction();
+		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
+		Preference pref = dao.findByKey(PreferenceKey.RECENT_FILES.toString());
+		ArrayList<DbFile> list = new ArrayList<DbFile>();
+		if (pref == null) {
+			return list;
+		}
+		String[] values = StringUtils.split(pref.getStringValue(), "#");
+		for (String val : values) {
+			DbFile dbFile = new DbFile(new File(val));
+			list.add(dbFile);
+		}
+		return list;
+	}
+
 	public static void set(PreferenceKey prefKey, Object val) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -91,62 +132,21 @@ public class PrefUtil {
 		model.commit();
 	}
 
-	public static void delete(String strPrefKey) {
-		Preference pref = get(strPrefKey, null);
-		if (pref == null) {
-			return;
-		}
-		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
-		Session session = model.beginTransaction();
-		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
-		dao.remove(pref.getKey());
-		model.commit();
-	}
-
-	public static List<DbFile> getDbFileList() {
-		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
-		Session session = model.beginTransaction();
-		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
-		Preference pref = dao.findByKey(PreferenceKey.RECENT_FILES.toString());
-		ArrayList<DbFile> list = new ArrayList<DbFile>();
-		if(pref == null){
-			return list;
-		}
-		String[] values = StringUtils.split(pref.getStringValue(), "#");
-		for (String val : values) {
-			DbFile dbFile = new DbFile(new File(val));
-			list.add(dbFile);
-		}
-		return list;
-	}
-
 	public static void setDbFileList(List<DbFile> list) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
 		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
 		@SuppressWarnings("unchecked")
-		List<DbFile> uniqueList = (List<DbFile>) SetUniqueList.decorate(list);
+		List<DbFile> uniqueList = SetUniqueList.decorate(list);
 		try {
 			if (uniqueList.size() > 10) {
-				uniqueList = uniqueList.subList(uniqueList.size() - 10,
-						uniqueList.size());
+				uniqueList = uniqueList.subList(uniqueList.size() - 10, uniqueList.size());
 			}
 		} catch (IndexOutOfBoundsException e) {
 			// ignore
 		}
 		String val = StringUtils.join(uniqueList, "#");
 		dao.saveOrUpdate(PreferenceKey.RECENT_FILES.toString(), val);
-		model.commit();
-	}
-
-	public static void dump() {
-		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
-		Session session = model.beginTransaction();
-		PreferenceDAOImpl dao = new PreferenceDAOImpl(session);
-		List<Preference> preferences = dao.findAll();
-		for (Preference preference : preferences) {
-			System.out.println("PrefUtil.dump(): " + preference);
-		}
 		model.commit();
 	}
 }

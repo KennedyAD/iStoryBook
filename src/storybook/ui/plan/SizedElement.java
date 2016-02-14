@@ -8,50 +8,56 @@ public class SizedElement {
 	Object element;
 	int size;
 	int maxSize;
-	
+
 	public Object getElement() {
 		return element;
 	}
+
+	public int getMaxSize() {
+		return maxSize;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
 	/**
 	 * @param element
 	 */
 	public void setElement(Object element) {
 		this.element = element;
 		if (element instanceof Part) {
-			Part part = (Part)element;
+			Part part = (Part) element;
 			maxSize = part.getObjectiveChars();
 		} else if (element instanceof Chapter) {
-			Chapter chapter = (Chapter)element;
+			Chapter chapter = (Chapter) element;
 			maxSize = chapter.getObjectiveChars();
 		}
 	}
-	public int getSize() {
-		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
-	public int getMaxSize() {
-		return maxSize;
-	}
+
 	public void setMaxSize(int size) {
 		this.maxSize = size;
 	}
-	
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	@Override
 	public String toString() {
 		if (element instanceof Part) {
-			Part part = (Part)element;
+			Part part = (Part) element;
 			maxSize = part.getObjectiveChars();
-			return (part.getName() + "    (" + size + "/" + maxSize +")");
+			return (part.getName() + "    (" + size + "/" + maxSize + ")");
 		} else if (element instanceof Chapter) {
-			Chapter chapter = (Chapter)element;
+			Chapter chapter = (Chapter) element;
 			maxSize = chapter.getObjectiveChars();
-			return chapter.getTitle() + "    (" + size + "/" + maxSize +")";
+			return chapter.getTitle() + "    (" + size + "/" + maxSize + ")";
 		} else if (element instanceof Scene) {
-			Scene scene = (Scene)element;
+			Scene scene = (Scene) element;
 			return scene.getTitle() + "    (" + size + ")";
 		} else if (element instanceof String) {
-			return (String)element + "    (" + size + "/" + maxSize +")";
+			return (String) element + "    (" + size + "/" + maxSize + ")";
 		}
 		return "";
 	}

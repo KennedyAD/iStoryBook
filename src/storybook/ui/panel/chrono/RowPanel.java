@@ -23,9 +23,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;
@@ -46,8 +46,7 @@ public class RowPanel extends AbstractStrandDatePanel {
 	@Override
 	public void initUi() {
 		try {
-			MigLayout layout = new MigLayout("insets 1", "[fill,grow]",
-					"[top][fill,grow]");
+			MigLayout layout = new MigLayout("insets 1", "[fill,grow]", "[top][fill,grow]");
 			setLayout(layout);
 			setOpaque(false);
 
@@ -69,8 +68,7 @@ public class RowPanel extends AbstractStrandDatePanel {
 				JPanel colPanel = new JPanel(layout2);
 				colPanel.setOpaque(false);
 				for (Scene scene : sceneList) {
-					ChronoScenePanel csp = new ChronoScenePanel(mainFrame,
-							scene);
+					ChronoScenePanel csp = new ChronoScenePanel(mainFrame, scene);
 					colPanel.add(csp, "grow");
 				}
 				add(colPanel, "grow");

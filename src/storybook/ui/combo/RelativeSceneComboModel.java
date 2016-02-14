@@ -23,6 +23,7 @@ import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 
 import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;
@@ -33,12 +34,16 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class RelativeSceneComboModel extends DefaultComboBoxModel implements
-		IRefreshableComboModel {
+public class RelativeSceneComboModel extends DefaultComboBoxModel implements IRefreshableComboModel {
 
 	private MainFrame mainFrame;
 
 	public RelativeSceneComboModel() {
+	}
+
+	@Override
+	public MainFrame getMainFrame() {
+		return mainFrame;
 	}
 
 	@Override
@@ -58,6 +63,11 @@ public class RelativeSceneComboModel extends DefaultComboBoxModel implements
 	}
 
 	@Override
+	public void setMainFrame(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+	}
+
+	@Override
 	public void setSelectedItem(Object obj) {
 		Scene scene;
 		if (obj instanceof Long) {
@@ -69,15 +79,5 @@ public class RelativeSceneComboModel extends DefaultComboBoxModel implements
 			scene = (Scene) obj;
 		}
 		super.setSelectedItem(scene);
-	}
-
-	@Override
-	public MainFrame getMainFrame() {
-		return mainFrame;
-	}
-
-	@Override
-	public void setMainFrame(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
 	}
 }

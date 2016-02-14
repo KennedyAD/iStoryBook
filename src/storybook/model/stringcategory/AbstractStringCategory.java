@@ -30,12 +30,12 @@ public class AbstractStringCategory {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
+	public String getName() {
 		return name;
 	}
 
-	public String getName() {
+	@Override
+	public String toString() {
 		return name;
 	}
 }

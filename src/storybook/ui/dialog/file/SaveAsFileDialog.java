@@ -31,7 +31,6 @@ public class SaveAsFileDialog extends AbstractFileDialog {
 		DbFile dbFile = mainFrame.getDbFile();
 		file = dbFile.getFile();
 		setDir(file.getParent());
-		setFilename(dbFile.getName() + " (" + I18N.getMsg("msg.common.copy")
-				+ ")");
+		setFilename(dbFile.getName() + " (" + I18N.getMsg("msg.common.copy") + ")");
 	}
 }

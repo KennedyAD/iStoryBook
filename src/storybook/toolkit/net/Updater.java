@@ -33,6 +33,18 @@ import storybook.ui.net.BrowserDialog;
 
 public class Updater {
 
+	private static int calculateVersion(String str) {
+		String[] s = str.split(".");
+		if (s.length != 3) {
+			return -1;
+		}
+		int ret = 0;
+		ret += Integer.parseInt(s[0]) * 1000000;
+		ret += Integer.parseInt(s[1]) * 1000;
+		ret += Integer.parseInt(s[2]);
+		return ret;
+	}
+
 	public static boolean checkForUpdate() {
 		if (SbConstants.URL.DO_UPDATE.toString().equals("true")) {
 			try {
@@ -42,7 +54,7 @@ public class Updater {
 				try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
 					String inputLine = "";
 					versionStr = "";
-					int c = 0,nc=-1;
+					int c = 0, nc = -1;
 					while ((inputLine = in.readLine()) != null) {
 						versionStr = inputLine;
 						if (inputLine.contains("Versions")) {
@@ -57,10 +69,9 @@ public class Updater {
 
 				// compare version
 				int remoteVersion = calculateVersion(versionStr);
-				int localVersion = calculateVersion(SbConstants.Storybook.PRODUCT_VERSION
-					.toString());
+				int localVersion = calculateVersion(SbConstants.Storybook.PRODUCT_VERSION.toString());
 				// for testing
-//			remoteVersion = 4002000;
+				// remoteVersion = 4002000;
 				if (localVersion < remoteVersion) {
 					SwingUtilities.invokeLater(new Runnable() {
 						@Override
@@ -80,17 +91,5 @@ public class Updater {
 			}
 		}
 		return true;
-	}
-
-	private static int calculateVersion(String str) {
-		String[] s = str.split(".");
-		if (s.length != 3) {
-			return -1;
-		}
-		int ret = 0;
-		ret += Integer.parseInt(s[0]) * 1000000;
-		ret += Integer.parseInt(s[1]) * 1000;
-		ret += Integer.parseInt(s[2]);
-		return ret;
 	}
 }

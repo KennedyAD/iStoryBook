@@ -22,14 +22,16 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.controller.BookController;
 import storybook.model.hbn.entity.Internal;
@@ -41,11 +43,10 @@ import storybook.toolkit.filefilter.PngFileFilter;
 import storybook.toolkit.swing.PrintUtil;
 import storybook.toolkit.swing.ScreenImage;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
-public abstract class AbstractChartPanel extends AbstractPanel
-	implements ActionListener {
+public abstract class AbstractChartPanel extends AbstractPanel implements ActionListener {
 
 	protected JPanel panel;
 	protected JPanel optionsPanel;
@@ -60,11 +61,80 @@ public abstract class AbstractChartPanel extends AbstractPanel
 		this.chartTitle = I18N.getMsg(paramString);
 	}
 
+	private AbstractAction getExportAction() {
+		if (this.exportAction == null) {
+			this.exportAction = new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
+					try {
+						Internal localInternal = BookUtil.get(AbstractChartPanel.this.mainFrame,
+								SbConstants.BookKey.EXPORT_DIRECTORY,
+								EnvUtil.getDefaultExportDir(AbstractChartPanel.this.mainFrame));
+						File localFile1 = new File(localInternal.getStringValue());
+						JFileChooser localJFileChooser = new JFileChooser(localFile1);
+						localJFileChooser.setFileFilter(new PngFileFilter());
+						localJFileChooser.setApproveButtonText(I18N.getMsg("msg.common.export"));
+						String str = AbstractChartPanel.this.mainFrame.getDbFile().getName() + " - "
+								+ AbstractChartPanel.this.chartTitle;
+						str = IOUtil.cleanupFilename(str);
+						localJFileChooser.setSelectedFile(new File(str));
+						int i = localJFileChooser.showDialog(AbstractChartPanel.this.getThis(),
+								I18N.getMsg("msg.common.export"));
+						if (i == 1) {
+							return;
+						}
+						File localFile2 = localJFileChooser.getSelectedFile();
+						if (!localFile2.getName().endsWith(".png")) {
+							localFile2 = new File(localFile2.getPath() + ".png");
+						}
+						ScreenImage.createImage(AbstractChartPanel.this.panel, localFile2.toString());
+						JOptionPane.showMessageDialog(AbstractChartPanel.this.getThis(),
+								I18N.getMsg("msg.common.export.success"), I18N.getMsg("msg.common.export"), 1);
+					} catch (HeadlessException | IOException localException) {
+					}
+				}
+			};
+		}
+		return this.exportAction;
+	}
+
+	private AbstractChartPanel getThis() {
+		return this;
+	}
+
+	@Override
+	public void init() {
+		try {
+			initChart();
+		} catch (Exception localException) {
+		}
+	}
+
 	protected abstract void initChart();
 
 	protected abstract void initChartUi();
 
 	protected abstract void initOptionsUi();
+
+	@Override
+	public void initUi() {
+		setLayout(new MigLayout("flowy,fill,ins 0", "", ""));
+		this.panel = new JPanel(new MigLayout("flowy,fill,ins 2", "", "[][grow][]"));
+		this.panel.setBackground(Color.white);
+		initChartUi();
+		this.optionsPanel = new JPanel(new MigLayout("flowx,fill"));
+		this.optionsPanel.setBackground(Color.white);
+		this.optionsPanel.setBorder(SwingUtil.getBorderGray());
+		initOptionsUi();
+		this.scroller = new JScrollPane(this.panel);
+		SwingUtil.setMaxPreferredSize(this.scroller);
+		add(this.scroller, "grow");
+		if (this.optionsPanel.getComponentCount() > 0) {
+			add(this.optionsPanel, "growx");
+		} else {
+			add(new JLabel());
+		}
+	}
 
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent paramPropertyChangeEvent) {
@@ -106,76 +176,10 @@ public abstract class AbstractChartPanel extends AbstractPanel
 		}
 	}
 
-	@Override
-	public void init() {
-		try {
-			initChart();
-		} catch (Exception localException) {
-		}
-	}
-
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("flowy,fill,ins 0", "", ""));
-		this.panel = new JPanel(new MigLayout("flowy,fill,ins 2", "", "[][grow][]"));
-		this.panel.setBackground(Color.white);
-		initChartUi();
-		this.optionsPanel = new JPanel(new MigLayout("flowx,fill"));
-		this.optionsPanel.setBackground(Color.white);
-		this.optionsPanel.setBorder(SwingUtil.getBorderGray());
-		initOptionsUi();
-		this.scroller = new JScrollPane(this.panel);
-		SwingUtil.setMaxPreferredSize(this.scroller);
-		add(this.scroller, "grow");
-		if (this.optionsPanel.getComponentCount() > 0) {
-			add(this.optionsPanel, "growx");
-		} else {
-			add(new JLabel());
-		}
-	}
-
 	protected void refreshChart() {
 		this.panel.removeAll();
 		initChartUi();
 		this.panel.revalidate();
 		this.panel.repaint();
-	}
-
-	private AbstractChartPanel getThis() {
-		return this;
-	}
-
-	private AbstractAction getExportAction() {
-		if (this.exportAction == null) {
-			this.exportAction = new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent paramAnonymousActionEvent) {
-					try {
-						Internal localInternal = BookUtil.get(AbstractChartPanel.this.mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY, EnvUtil.getDefaultExportDir(AbstractChartPanel.this.mainFrame));
-						File localFile1 = new File(localInternal.getStringValue());
-						JFileChooser localJFileChooser = new JFileChooser(localFile1);
-						localJFileChooser.setFileFilter(new PngFileFilter());
-						localJFileChooser.setApproveButtonText(I18N.getMsg("msg.common.export"));
-						String str = AbstractChartPanel.this.mainFrame.getDbFile().getName() + " - " + AbstractChartPanel.this.chartTitle;
-						str = IOUtil.cleanupFilename(str);
-						localJFileChooser.setSelectedFile(new File(str));
-						int i = localJFileChooser.showDialog(AbstractChartPanel.this.getThis(), I18N.getMsg("msg.common.export"));
-						if (i == 1) {
-							return;
-						}
-						File localFile2 = localJFileChooser.getSelectedFile();
-						if (!localFile2.getName().endsWith(".png")) {
-							localFile2 = new File(localFile2.getPath() + ".png");
-						}
-						ScreenImage.createImage(AbstractChartPanel.this.panel, localFile2.toString());
-						JOptionPane.showMessageDialog(AbstractChartPanel.this.getThis(),
-							I18N.getMsg("msg.common.export.success"),
-							I18N.getMsg("msg.common.export"), 1);
-					} catch (HeadlessException | IOException localException) {
-					}
-				}
-			};
-		}
-		return this.exportAction;
 	}
 }

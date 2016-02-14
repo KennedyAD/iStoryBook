@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 /**
- * @hibernate.subclass
- *   discriminator-value="20"
+ * @hibernate.subclass discriminator-value="20"
  */
 public class Memo extends AbstractTag {
 

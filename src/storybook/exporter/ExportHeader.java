@@ -13,17 +13,17 @@ package storybook.exporter;
 public class ExportHeader {
 	private String name;
 	private int size;
-	
+
 	ExportHeader(String n, int s) {
-		name=n;
-		size=s;
+		name = n;
+		size = s;
 	}
-	
+
 	public String getName() {
-		return(name);
+		return (name);
 	}
-	
+
 	public int getSize() {
-		return(size);
+		return (size);
 	}
 }

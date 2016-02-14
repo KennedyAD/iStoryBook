@@ -23,8 +23,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import org.miginfocom.swing.MigLayout;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 
 /**
@@ -35,6 +35,22 @@ import storybook.toolkit.swing.htmleditor.HtmlEditor;
 public class ShefTest01 extends JFrame {
 
 	private static ShefTest01 instance;
+
+	public static ShefTest01 getInstance() {
+		if (instance == null) {
+			instance = new ShefTest01();
+		}
+		return instance;
+	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				ShefTest01.getInstance().init();
+			}
+		});
+	}
 
 	private void init() {
 		initUi();
@@ -52,21 +68,5 @@ public class ShefTest01 extends JFrame {
 
 		pack();
 		setVisible(true);
-	}
-
-	public static ShefTest01 getInstance() {
-		if (instance == null) {
-			instance = new ShefTest01();
-		}
-		return instance;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				ShefTest01.getInstance().init();
-			}
-		});
 	}
 }

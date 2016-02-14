@@ -47,6 +47,7 @@ public class ColorIcon implements Icon {
 	/**
 	 * @see javax.swing.Icon#getIconHeight()
 	 */
+	@Override
 	public int getIconHeight() {
 		return height;
 	}
@@ -54,6 +55,7 @@ public class ColorIcon implements Icon {
 	/**
 	 * @see javax.swing.Icon#getIconWidth()
 	 */
+	@Override
 	public int getIconWidth() {
 		return width;
 	}
@@ -61,6 +63,7 @@ public class ColorIcon implements Icon {
 	/**
 	 * @see javax.swing.Icon#paintIcon(Component, Graphics, int, int)
 	 */
+	@Override
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		g.setColor(color);
 		g.drawRect(x, y, width, height);

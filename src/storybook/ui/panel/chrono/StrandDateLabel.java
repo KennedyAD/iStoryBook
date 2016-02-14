@@ -34,15 +34,15 @@ public class StrandDateLabel extends DateLabel implements IRefreshable {
 		refresh();
 	}
 
+	public Strand getStrand() {
+		return strand;
+	}
+
 	@Override
 	public final void refresh() {
 		String text = getDateText();
 		setText(text);
 		setToolTipText("<html>" + text + "<br>" + strand);
-	}
-
-	public Strand getStrand() {
-		return strand;
 	}
 
 	public void setStrand(Strand strand) {

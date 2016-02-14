@@ -28,13 +28,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.SbApp;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Person;
 
-public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
-		CategoryDAO {
+public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements CategoryDAO {
 
 	public CategoryDAOImpl() {
 		super();
@@ -42,6 +42,55 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 
 	public CategoryDAOImpl(Session session) {
 		super(session);
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean checkIfNumberExists(AbstractEntity entity) {
+		try {
+			Category newCategory = (Category) entity;
+			Integer newSort = newCategory.getSort();
+
+			if (!entity.isTransient()) {
+				// update
+				CategoryDAOImpl dao = new CategoryDAOImpl(session);
+				Category oldChapter = dao.find(entity.getId());
+				Integer oldSort = oldChapter.getSort();
+				Criteria crit = session.createCriteria(Category.class);
+				crit.add(Restrictions.eq("sort", newSort));
+				List<Category> categories = crit.list();
+				Vector<Integer> numbers = new Vector<Integer>();
+				for (Category category : categories) {
+					numbers.add(category.getSort());
+				}
+				if (newSort.equals(oldSort)) {
+					numbers.remove(newSort);
+				}
+				if (numbers.size() > 0) {
+					return false;
+				}
+				return true;
+			}
+
+			// new
+			Criteria crit = session.createCriteria(Category.class);
+			crit.add(Restrictions.eq("sort", newSort));
+			List<Category> categories = crit.list();
+			if (categories.size() > 0) {
+				return false;
+			}
+
+			return true;
+		} catch (NonUniqueResultException e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Category> findAllOrderBySort() {
+		Criteria crit = session.createCriteria(Category.class);
+		crit.addOrder(Order.asc("sort"));
+		return crit.list();
 	}
 
 	public Category findCentral() {
@@ -53,10 +102,21 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Category> findAllOrderBySort() {
-		Criteria crit = session.createCriteria(Category.class);
-		crit.addOrder(Order.asc("sort"));
-		return crit.list();
+	public List<Person> findPersons(Category category) {
+		Criteria crit = session.createCriteria(Person.class);
+		crit.add(Restrictions.eq("category", category));
+		List<Person> persons = crit.list();
+		return persons;
+	}
+
+	public int getMaxSort() {
+		Query query = session.createQuery("select max(sort) from Category");
+		Integer ret = (Integer) query.uniqueResult();
+		return ret;
+	}
+
+	public int getNextSort() {
+		return getMaxSort() + 1;
 	}
 
 	public void orderCategories() {
@@ -66,6 +126,28 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 			session.update(c);
 			++i;
 		}
+	}
+
+	public void orderDownCategory(Category category) {
+		session.refresh(category);
+		int categorySort = category.getSort();
+		SbApp.trace("CategoryDAOImpl.orderDownCategory(): categorySort:" + categorySort);
+
+		Criteria crit = session.createCriteria(Category.class);
+		crit.add(Restrictions.eq("sort", category.getSort() + 1));
+		Category lower = (Category) crit.uniqueResult();
+		if (lower == null) {
+			// already on bottom
+			return;
+		}
+
+		int lowerSort = lower.getSort();
+
+		category.setSort(lowerSort);
+		lower.setSort(categorySort);
+
+		session.update(category);
+		session.update(lower);
 	}
 
 	public void orderUpCatgory(Category category) {
@@ -88,88 +170,6 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 
 		session.update(category);
 		session.update(upper);
-	}
-
-	public void orderDownCategory(Category category) {
-		session.refresh(category);
-		int categorySort = category.getSort();
-		SbApp.trace("CategoryDAOImpl.orderDownCategory(): categorySort:"+categorySort);
-
-		Criteria crit = session.createCriteria(Category.class);
-		crit.add(Restrictions.eq("sort", category.getSort() + 1));
-		Category lower = (Category) crit.uniqueResult();
-		if (lower == null) {
-			// already on bottom
-			return;
-		}
-
-		int lowerSort = lower.getSort();
-
-		category.setSort(lowerSort);
-		lower.setSort(categorySort);
-
-		session.update(category);
-		session.update(lower);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Person> findPersons(Category category) {
-		Criteria crit = session.createCriteria(Person.class);
-		crit.add(Restrictions.eq("category", category));
-		List<Person> persons = (List<Person>) crit.list();
-		return persons;
-	}
-
-	public int getNextSort() {
-		return getMaxSort() + 1;
-	}
-
-	public int getMaxSort() {
-		Query query = session.createQuery("select max(sort) from Category");
-		Integer ret = (Integer) query.uniqueResult();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public boolean checkIfNumberExists(AbstractEntity entity) {
-		try {
-			Category newCategory = (Category) entity;
-			Integer newSort = newCategory.getSort();
-
-			if (!entity.isTransient()) {
-				// update
-				CategoryDAOImpl dao = new CategoryDAOImpl(session);
-				Category oldChapter = dao.find(entity.getId());
-				Integer oldSort = oldChapter.getSort();
-				Criteria crit = session.createCriteria(Category.class);
-				crit.add(Restrictions.eq("sort", newSort));
-				List<Category> categories = (List<Category>) crit.list();
-				Vector<Integer> numbers = new Vector<Integer>();
-				for (Category category : categories) {
-					numbers.add(category.getSort());
-				}
-				if (newSort.equals(oldSort)) {
-					numbers.remove(newSort);
-				}
-				if (numbers.size() > 0) {
-					return false;
-				}
-				return true;
-			}
-
-			// new
-			Criteria crit = session.createCriteria(Category.class);
-			crit.add(Restrictions.eq("sort", newSort));
-			List<Category> categories = (List<Category>) crit.list();
-			if (categories.size() > 0) {
-				return false;
-			}
-
-			return true;
-		} catch (NonUniqueResultException e) {
-			e.printStackTrace();
-			return true;
-		}
 	}
 
 }

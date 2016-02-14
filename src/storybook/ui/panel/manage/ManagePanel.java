@@ -29,10 +29,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
@@ -48,9 +48,9 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractScrollPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.options.ManageOptionsDialog;
+import storybook.ui.panel.AbstractScrollPanel;
 
 /**
  * @author martin
@@ -60,6 +60,15 @@ import storybook.ui.options.ManageOptionsDialog;
 @SuppressWarnings("serial")
 public class ManagePanel extends AbstractScrollPanel {
 
+	private static void dispatchToChapterPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<>();
+		SwingUtil.findComponentsByClass(cont, ChapterPanel.class, ret);
+		for (Component comp : ret) {
+			ChapterPanel panel = (ChapterPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
 	private int cols;
 
 	public ManagePanel(MainFrame mainFrame) {
@@ -67,16 +76,8 @@ public class ManagePanel extends AbstractScrollPanel {
 	}
 
 	@Override
-	protected void setZoomValue(int val) {
-		BookUtil.store(mainFrame, BookKey.MANAGE_ZOOM, val);
-		mainFrame.getBookController().manageSetZoom(val);
-	}
-
-	@Override
-	protected int getZoomValue() {
-		Internal internal = BookUtil.get(mainFrame,
-				BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
-		return internal.getIntegerValue();
+	protected int getMaxZoomValue() {
+		return SbConstants.MAX_MANAGE_ZOOM;
 	}
 
 	@Override
@@ -85,8 +86,37 @@ public class ManagePanel extends AbstractScrollPanel {
 	}
 
 	@Override
-	protected int getMaxZoomValue() {
-		return SbConstants.MAX_MANAGE_ZOOM;
+	protected int getZoomValue() {
+		Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
+		return internal.getIntegerValue();
+	}
+
+	@Override
+	public void init() {
+		SbApp.trace("ManagePanel.init()");
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_COLUMNS, SbConstants.DEFAULT_MANAGE_COLUMNS);
+			cols = internal.getIntegerValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+			cols = SbConstants.DEFAULT_MANAGE_COLUMNS;
+		}
+	}
+
+	@Override
+	public void initUi() {
+		SbApp.trace("ManagePanel.initUI()");
+		setLayout(new MigLayout("flowy,fill,ins 0"));
+		panel = new JPanel();
+		panel.setBackground(SwingUtil.getBackgroundColor());
+		scroller = new JScrollPane(panel);
+		SwingUtil.setUnitIncrement(scroller);
+		SwingUtil.setMaxPreferredSize(scroller);
+
+		refresh();
+
+		registerKeyboardAction();
+		panel.addMouseWheelListener(this);
 	}
 
 	@Override
@@ -156,34 +186,6 @@ public class ManagePanel extends AbstractScrollPanel {
 	}
 
 	@Override
-	public void init() {
-		SbApp.trace("ManagePanel.init()");
-		try {
-			Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_COLUMNS, SbConstants.DEFAULT_MANAGE_COLUMNS);
-			cols = internal.getIntegerValue();
-		} catch (Exception e) {
-			e.printStackTrace();
-			cols = SbConstants.DEFAULT_MANAGE_COLUMNS;
-		}
-	}
-
-	@Override
-	public void initUi() {
-		SbApp.trace("ManagePanel.initUI()");
-		setLayout(new MigLayout("flowy,fill,ins 0"));
-		panel = new JPanel();
-		panel.setBackground(SwingUtil.getBackgroundColor());
-		scroller = new JScrollPane(panel);
-		SwingUtil.setUnitIncrement(scroller);
-		SwingUtil.setMaxPreferredSize(scroller);
-
-		refresh();
-
-		registerKeyboardAction();
-		panel.addMouseWheelListener(this);
-	}
-
-	@Override
 	public void refresh() {
 		SbApp.trace("ManagePanel.refresh()");
 		Part currentPart = mainFrame.getCurrentPart();
@@ -202,11 +204,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		add(scroller, "grow");
 
 		// chapters
-		MigLayout layout = new MigLayout(
-				"wrap " + cols,
-				"", // columns
+		MigLayout layout = new MigLayout("wrap " + cols, "", // columns
 				"[top]" // rows
-				);
+		);
 		panel.setLayout(layout);
 		panel.removeAll();
 		for (Chapter chapter : chapters) {
@@ -219,12 +219,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		repaint();
 	}
 
-	private static void dispatchToChapterPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<>();
-		SwingUtil.findComponentsByClass(cont, ChapterPanel.class, ret);
-		for (Component comp : ret) {
-			ChapterPanel panel = (ChapterPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
+	@Override
+	protected void setZoomValue(int val) {
+		BookUtil.store(mainFrame, BookKey.MANAGE_ZOOM, val);
+		mainFrame.getBookController().manageSetZoom(val);
 	}
 }

@@ -32,6 +32,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.action.EditEntityAction;
@@ -39,20 +40,18 @@ import storybook.controller.BookController;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Scene;
-import storybook.toolkit.DateUtil;
 import storybook.toolkit.BookUtil;
+import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.undo.UndoableTextArea;
-import storybook.ui.panel.AbstractScenePanel;
 import storybook.ui.MainFrame;
 import storybook.ui.label.SceneStateLabel;
+import storybook.ui.panel.AbstractScenePanel;
+import storybook.ui.panel.linkspanel.ItemLinksPanel;
 import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
-
-import org.miginfocom.swing.MigLayout;
-import storybook.ui.panel.linkspanel.ItemLinksPanel;
 
 @SuppressWarnings("serial")
 public class ChronoScenePanel extends AbstractScenePanel implements FocusListener {
@@ -75,6 +74,50 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		super(mainFrame, scene, true, Color.white, scene.getStrand().getJColor());
 		init();
 		initUi();
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() instanceof JTextComponent) {
+			JTextComponent tc = (JTextComponent) e.getSource();
+			switch (tc.getName()) {
+			case CN_TITLE:
+				scene.setTitle(tc.getText());
+				break;
+			case CN_TEXT:
+				scene.setSummary(tc.getText());
+				break;
+			}
+			mainFrame.getBookController().updateScene(scene);
+		}
+	}
+
+	@Override
+	public Scene getScene() {
+		return this.scene;
+	}
+
+	protected ChronoScenePanel getThis() {
+		return this;
+	}
+
+	@Override
+	public void init() {
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
+			setZoomedSize(internal.getIntegerValue());
+		} catch (Exception e) {
+			setZoomedSize(SbConstants.DEFAULT_CHRONO_ZOOM);
+		}
+	}
+
+	@Override
+	public void initUi() {
+		refresh();
 	}
 
 	@Override
@@ -119,25 +162,6 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 			setZoomedSize((Integer) newValue);
 			refresh();
 		}
-	}
-
-	private void setZoomedSize(int zoomValue) {
-		size = zoomValue * 7;
-	}
-
-	@Override
-	public void init() {
-		try {
-			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
-			setZoomedSize(internal.getIntegerValue());
-		} catch (Exception e) {
-			setZoomedSize(SbConstants.DEFAULT_CHRONO_ZOOM);
-		}
-	}
-
-	@Override
-	public void initUi() {
-		refresh();
 	}
 
 	@Override
@@ -198,7 +222,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		lbInformational = new JLabel("");
 		if (scene.getInformative()) {
 			lbInformational.setIcon(I18N.getIcon("icon.small.info"));
-			lbInformational.setToolTipText(I18N .getMsg("msg.common.informative"));
+			lbInformational.setToolTipText(I18N.getMsg("msg.common.informative"));
 		}
 
 		// scene time
@@ -220,7 +244,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		taTitle.setCaretPosition(0);
 		taTitle.getUndoManager().discardAllEdits();
 		taTitle.addFocusListener(this);
-		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame, scene,true));
+		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame, scene, true));
 		JScrollPane spTitle = new JScrollPane(taTitle);
 		spTitle.setPreferredSize(new Dimension(50, 35));
 
@@ -230,7 +254,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		tcText.setText(scene.getText());
 		tcText.setDragEnabled(true);
 		tcText.addFocusListener(this);
-		SwingUtil.addCtrlEnterAction(tcText, new EditEntityAction(mainFrame, scene,true));
+		SwingUtil.addCtrlEnterAction(tcText, new EditEntityAction(mainFrame, scene, true));
 		JScrollPane spText = new JScrollPane(tcText);
 		spText.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		spText.setPreferredSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
@@ -253,9 +277,8 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		upperPanel.add(lbInformational);
 		upperPanel.add(strandLinksPanel, "grow");
 		upperPanel.add(buttonPanel, "spany 4,wrap");
-		JScrollPane scroller = new JScrollPane(personLinksPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scroller = new JScrollPane(personLinksPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroller.setMinimumSize(new Dimension(20, 16));
 		scroller.setOpaque(false);
 		scroller.getViewport().setOpaque(false);
@@ -276,32 +299,7 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		taTitle.setCaretPosition(0);
 	}
 
-	protected ChronoScenePanel getThis() {
-		return this;
-	}
-
-	@Override
-	public Scene getScene() {
-		return this.scene;
-	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof JTextComponent) {
-			JTextComponent tc = (JTextComponent) e.getSource();
-			switch (tc.getName()) {
-				case CN_TITLE:
-					scene.setTitle(tc.getText());
-					break;
-				case CN_TEXT:
-					scene.setSummary(tc.getText());
-					break;
-			}
-			mainFrame.getBookController().updateScene(scene);
-		}
+	private void setZoomedSize(int zoomValue) {
+		size = zoomValue * 7;
 	}
 }

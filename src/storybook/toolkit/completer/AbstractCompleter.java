@@ -30,11 +30,11 @@ public abstract class AbstractCompleter implements KeyListener {
 
 	protected JTextComponent comp;
 
-	public abstract String getCompletedText();
-
 	public JTextComponent getComp() {
 		return comp;
 	}
+
+	public abstract String getCompletedText();
 
 	public void setComp(JTextComponent comp) {
 		this.comp = comp;

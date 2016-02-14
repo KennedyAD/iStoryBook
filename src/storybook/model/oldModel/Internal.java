@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
+
 import storybook.model.oldModel.MigrationConstants.ProjectSetting;
 
 //@Deprecated
@@ -51,8 +52,8 @@ public class Internal extends DbTable {
 	}
 
 	/**
-	 * This method must be packaged private! It is used
-	 * by {@link InternalPeer} only.
+	 * This method must be packaged private! It is used by {@link InternalPeer}
+	 * only.
 	 *
 	 * @param id
 	 *            the id
@@ -63,38 +64,51 @@ public class Internal extends DbTable {
 		isNew = false;
 	}
 
+	public Boolean getBooleanValue() {
+		return booleanValue;
+	}
+
+	public Integer getIntegerValue() {
+		return integerValue;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	@Override
+	public String getLabelText() {
+		return toString();
+	}
+
+	public ProjectSetting getProjectSetting() {
+		return ProjectSetting.valueOfText(stringValue);
+	}
+
+	public String getStringValue() {
+		return stringValue;
+	}
+
 	@Override
 	public boolean save() throws Exception {
 		try {
 			String sql;
 			if (isNew) {
 				// insert
-				sql = "insert into "
-					+ TABLE_NAME
-					+ "(" + COLUMN_KEY
-					+ ", " + COLUMN_STRING_VALUE
-					+ ", " + COLUMN_INTEGER_VALUE
-					+ ", " + COLUMN_BOOLEAN_VALUE
-					+ ") values(?, ?, ?, ?)";
+				sql = "insert into " + TABLE_NAME + "(" + COLUMN_KEY + ", " + COLUMN_STRING_VALUE + ", "
+						+ COLUMN_INTEGER_VALUE + ", " + COLUMN_BOOLEAN_VALUE + ") values(?, ?, ?, ?)";
 			} else {
 				// update
-				sql = "update " + TABLE_NAME
-					+ " set "
-					+ COLUMN_KEY + " = ?, "
-					+ COLUMN_STRING_VALUE + " = ?, "
-					+ COLUMN_INTEGER_VALUE + " = ?, "
-					+ COLUMN_BOOLEAN_VALUE + " = ? "
-					+ "where " + COLUMN_ID + " = ?";
+				sql = "update " + TABLE_NAME + " set " + COLUMN_KEY + " = ?, " + COLUMN_STRING_VALUE + " = ?, "
+						+ COLUMN_INTEGER_VALUE + " = ?, " + COLUMN_BOOLEAN_VALUE + " = ? " + "where " + COLUMN_ID
+						+ " = ?";
 			}
-			PreparedStatement stmt = ModelMigration.getInstance()
-					.getConnection().prepareStatement(sql);
+			PreparedStatement stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
 			// sets for insert & update
 			stmt.setString(1, getKey());
 			stmt.setString(2, getStringValue() == null ? "" : getStringValue());
-			stmt.setInt(3, getIntegerValue() == null ? Integer.MIN_VALUE
-					: getIntegerValue());
-			stmt.setBoolean(4, getBooleanValue() == null ? false
-					: getBooleanValue());
+			stmt.setInt(3, getIntegerValue() == null ? Integer.MIN_VALUE : getIntegerValue());
+			stmt.setBoolean(4, getBooleanValue() == null ? false : getBooleanValue());
 			if (!isNew) {
 				// sets for update only
 				stmt.setInt(5, getId());
@@ -123,46 +137,20 @@ public class Internal extends DbTable {
 		}
 	}
 
-	@Override
-	public String getLabelText(){
-		return toString();
+	public void setBooleanValue(Boolean booleanValue) {
+		this.booleanValue = booleanValue;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder buf = new StringBuilder();
-		buf.append("ID=").append(getId());
-		buf.append(", key=").append(getKey());
-		if(getStringValue() != null){
-			buf.append(", stringValue=").append(getStringValue());
-		}
-		if(getIntegerValue() != null){
-			buf.append(", integerValue=").append(getIntegerValue());
-		}
-		if(getBooleanValue() != null){
-			buf.append(", booleanValue=").append(getBooleanValue());
-		}
-		return buf.toString();
+	public void setIntegerValue(Integer integerValue) {
+		this.integerValue = integerValue;
 	}
 
-	public String getKey() {
-		return key;
+	public void setKey(ProjectSetting ps) {
+		this.key = ps.toString();
 	}
 
 	public void setKey(String key) {
 		this.key = key;
-	}
-
-	public void setKey(ProjectSetting ps){
-		this.key = ps.toString();
-	}
-
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public ProjectSetting getProjectSetting(){
-		return ProjectSetting.valueOfText(stringValue);
 	}
 
 	public void setStringValue(ProjectSetting ps) {
@@ -173,19 +161,20 @@ public class Internal extends DbTable {
 		this.stringValue = stringValue;
 	}
 
-	public Integer getIntegerValue() {
-		return integerValue;
-	}
-
-	public void setIntegerValue(Integer integerValue) {
-		this.integerValue = integerValue;
-	}
-
-	public Boolean getBooleanValue() {
-		return booleanValue;
-	}
-
-	public void setBooleanValue(Boolean booleanValue) {
-		this.booleanValue = booleanValue;
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("ID=").append(getId());
+		buf.append(", key=").append(getKey());
+		if (getStringValue() != null) {
+			buf.append(", stringValue=").append(getStringValue());
+		}
+		if (getIntegerValue() != null) {
+			buf.append(", integerValue=").append(getIntegerValue());
+		}
+		if (getBooleanValue() != null) {
+			buf.append(", booleanValue=").append(getBooleanValue());
+		}
+		return buf.toString();
 	}
 }

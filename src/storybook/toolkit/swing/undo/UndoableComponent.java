@@ -22,7 +22,9 @@ import javax.swing.AbstractAction;
 import javax.swing.undo.UndoManager;
 
 public interface UndoableComponent {
-	public UndoManager getUndoManager();
-	public AbstractAction getUndoAction();
 	public AbstractAction getRedoAction();
+
+	public AbstractAction getUndoAction();
+
+	public UndoManager getUndoManager();
 }

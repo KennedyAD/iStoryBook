@@ -26,16 +26,16 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.AttributeDAOImpl;
 import storybook.model.hbn.entity.Attribute;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -44,16 +44,67 @@ import storybook.ui.MainFrame;
 @SuppressWarnings("serial")
 public class AttributesPanel extends AbstractPanel {
 
+	class RemoveAction extends AbstractAction {
+		private JButton bt;
+		private AttributePanel panel;
+
+		public RemoveAction(JButton bt, AttributePanel panel) {
+			this.bt = bt;
+			this.panel = panel;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			attrPanels.remove(panel);
+			remove(bt);
+			remove(panel);
+			revalidate();
+			repaint();
+		}
+	}
 	private List<Attribute> attributes;
 	private List<AttributePanel> attrPanels;
+
 	private List<String> keys;
 
 	public AttributesPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	public AbstractAction getAddAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AttributePanel panel = new AttributePanel(keys);
+				attrPanels.add(panel);
+				add(panel, getComponentCount() - 1);
+				add(getRemoveButton(panel), getComponentCount() - 1);
+				revalidate();
+				repaint();
+			}
+		};
+	}
+
+	public List<Attribute> getAttributes() {
+		List<Attribute> attributes = new ArrayList<Attribute>();
+		for (AttributePanel panel : attrPanels) {
+			Attribute attr = panel.getAttribute();
+			if (attr == null) {
+				continue;
+			}
+			attributes.add(attr);
+		}
+		return attributes;
+	}
+
+	private IconButton getRemoveButton(AttributePanel panel) {
+		IconButton bt = new IconButton();
+		RemoveAction act = new RemoveAction(bt, panel);
+		bt.setAction(act);
+		bt.setIcon(I18N.getIcon("icon.small.minus"));
+		bt.setSize20x20();
+		bt.setFlat();
+		return bt;
 	}
 
 	@Override
@@ -91,62 +142,11 @@ public class AttributesPanel extends AbstractPanel {
 		add(btAdd, "newline,span,gap 0 0 10 0");
 	}
 
-	private IconButton getRemoveButton(AttributePanel panel) {
-		IconButton bt = new IconButton();
-		RemoveAction act = new RemoveAction(bt, panel);
-		bt.setAction(act);
-		bt.setIcon(I18N.getIcon("icon.small.minus"));
-		bt.setSize20x20();
-		bt.setFlat();
-		return bt;
-	}
-
-	public AbstractAction getAddAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AttributePanel panel = new AttributePanel(keys);
-				attrPanels.add(panel);
-				add(panel, getComponentCount() - 1);
-				add(getRemoveButton(panel), getComponentCount() - 1);
-				revalidate();
-				repaint();
-			}
-		};
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	public List<Attribute> getAttributes() {
-		List<Attribute> attributes = new ArrayList<Attribute>();
-		for (AttributePanel panel : attrPanels) {
-			Attribute attr = panel.getAttribute();
-			if (attr == null) {
-				continue;
-			}
-			attributes.add(attr);
-		}
-		return attributes;
-	}
-
-	class RemoveAction extends AbstractAction {
-		private JButton bt;
-		private AttributePanel panel;
-
-		public RemoveAction(JButton bt, AttributePanel panel) {
-			this.bt = bt;
-			this.panel = panel;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			attrPanels.remove(panel);
-			remove(bt);
-			remove(panel);
-			revalidate();
-			repaint();
-		}
 	}
 }

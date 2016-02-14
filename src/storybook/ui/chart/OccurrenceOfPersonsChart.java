@@ -7,6 +7,7 @@ package storybook.ui.chart;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,6 +19,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.Layer;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.dao.SceneDAOImpl;
@@ -36,16 +38,9 @@ public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 		super(paramMainFrame, "msg.report.person.occurrence.title");
 	}
 
-	@Override
-	protected void initChartUi() {
-		CategoryDataset setCategory = createDataset();
-		JFreeChart chart = createChart(setCategory);
-		this.chartPanel = new ChartPanel(chart);
-		this.panel.add(this.chartPanel, "grow");
-	}
-
 	private JFreeChart createChart(CategoryDataset setCategory) {
-		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL,
+				true, true, false);
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		ChartUtil.hideDomainAxis(plot);
 		plot.addRangeMarker(ChartUtil.getAverageMarker(this.average), Layer.FOREGROUND);
@@ -97,5 +92,13 @@ public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 			exc.printStackTrace();
 		}
 		return setCategory;
+	}
+
+	@Override
+	protected void initChartUi() {
+		CategoryDataset setCategory = createDataset();
+		JFreeChart chart = createChart(setCategory);
+		this.chartPanel = new ChartPanel(chart);
+		this.panel.add(this.chartPanel, "grow");
 	}
 }

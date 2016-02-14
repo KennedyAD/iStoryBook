@@ -34,11 +34,10 @@ import storybook.model.state.SceneState;
 public class SceneStateListCellRenderer extends DefaultListCellRenderer {
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		try {
-			JLabel label = (JLabel) super.getListCellRendererComponent(list,
-					value, index, isSelected, cellHasFocus);
+			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			SceneState state = (SceneState) value;
 			label.setIcon(state.getIcon());
 			return label;

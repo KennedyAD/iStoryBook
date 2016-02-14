@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.IdeaDAOImpl;
@@ -39,6 +39,26 @@ public class IdeaTable extends AbstractTable {
 
 	public IdeaTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		IdeaDAOImpl dao = new IdeaDAOImpl(session);
+		Idea idea = dao.find(id);
+		model.commit();
+		return idea;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Idea();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Idea");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class IdeaTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Idea idea = (Idea) getEntityFromRow(row);
-//		ctrl.setIdeaToEdit(idea);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(idea);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setIdeaToEdit((Idea) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Idea idea = (Idea) getEntityFromRow(row);
-		ctrl.deleteIdea(idea);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class IdeaTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		IdeaDAOImpl dao = new IdeaDAOImpl(session);
-		Idea idea = dao.find(id);
-		model.commit();
-		return idea;
+	protected synchronized void sendDeleteEntity(int row) {
+		Idea idea = (Idea) getEntityFromRow(row);
+		ctrl.deleteIdea(idea);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Idea();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Idea idea = (Idea) getEntityFromRow(row);
+		// ctrl.setIdeaToEdit(idea);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(idea);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Idea");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setIdeaToEdit((Idea) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

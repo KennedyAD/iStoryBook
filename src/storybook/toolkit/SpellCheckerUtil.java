@@ -27,11 +27,11 @@ import java.net.URL;
 import com.inet.jortho.FileUserDictionary;
 import com.inet.jortho.SpellChecker;
 
+import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.PreferenceKey;
 import storybook.SbConstants.Spelling;
 import storybook.model.hbn.entity.Preference;
-import storybook.SbApp;
 
 public class SpellCheckerUtil {
 
@@ -53,6 +53,25 @@ public class SpellCheckerUtil {
 		return uri.toURL();
 	}
 
+	public static File initUserDictDir() {
+		if (userDictDir == null) {
+			File dir = new File(System.getProperty("user.home"));
+			userDictDir = new File(
+					dir + File.separator + ".storybook" + File.separator + SbConstants.Directory.USER_DICTS);
+			userDictDir.mkdir();
+		}
+		return userDictDir;
+	}
+
+	public static boolean isSpellCheckActive() {
+		// String spelling =
+		// PrefManager.getInstance().getStringValue(Constants.Preference.SPELLING);
+		// if (spelling.equals(Constants.Spelling.none.name())) {
+		// return false;
+		// }
+		return true;
+	}
+
 	public static void registerDictionaries() {
 		SbApp.trace("SpellCheckerUtil.registerDictionaries()");
 		try {
@@ -68,24 +87,7 @@ public class SpellCheckerUtil {
 			FileUserDictionary fud = new FileUserDictionary(usrDictDir.toString());
 			SpellChecker.setUserDictionaryProvider(fud);
 		} catch (IOException e) {
-			SbApp.error("SpellCheckerUtil.registerDictionaries()",e);
+			SbApp.error("SpellCheckerUtil.registerDictionaries()", e);
 		}
-	}
-
-	public static File initUserDictDir() {
-		if (userDictDir == null) {
-			File dir = new File(System.getProperty("user.home"));
-			userDictDir = new File(dir + File.separator + ".storybook" + File.separator + SbConstants.Directory.USER_DICTS);
-			userDictDir.mkdir();
-		}
-		return userDictDir;
-	}
-
-	public static boolean isSpellCheckActive() {
-//		String spelling = PrefManager.getInstance().getStringValue(Constants.Preference.SPELLING);
-//		if (spelling.equals(Constants.Spelling.none.name())) {
-//			return false;
-//		}
-		return true;
 	}
 }

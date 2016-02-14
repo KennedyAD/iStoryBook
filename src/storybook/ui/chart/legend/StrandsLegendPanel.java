@@ -17,8 +17,11 @@ package storybook.ui.chart.legend;
 
 import java.awt.Dimension;
 import java.util.Iterator;
+
 import javax.swing.JLabel;
+
 import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.StrandDAOImpl;
 import storybook.model.hbn.entity.Strand;
@@ -27,30 +30,26 @@ import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 
-public class StrandsLegendPanel extends AbstractLegendPanel
-{
-  public StrandsLegendPanel(MainFrame paramMainFrame)
-  {
-    super(paramMainFrame);
-    initAll();
-  }
+public class StrandsLegendPanel extends AbstractLegendPanel {
+	public StrandsLegendPanel(MainFrame paramMainFrame) {
+		super(paramMainFrame);
+		initAll();
+	}
 
 	@Override
-  public void initUi()
-  {
-    setOpaque(false);
-    BookModel localDocumentModel = this.mainFrame.getBookModel();
-    Session localSession = localDocumentModel.beginTransaction();
-    StrandDAOImpl localStrandDAOImpl = new StrandDAOImpl(localSession);
-    add(new JLabel(I18N.getMsg("msg.report.caption.strands")), "gapright 5");
-    Iterator localIterator = localStrandDAOImpl.findAllOrderBySort().iterator();
-    while (localIterator.hasNext())
-    {
-      Strand localStrand = (Strand)localIterator.next();
-      CleverLabel localCleverLabel = new CleverLabel(localStrand.getName(), 0);
-      localCleverLabel.setPreferredSize(new Dimension(100, 20));
-      localCleverLabel.setBackground(ColorUtil.darker(localStrand.getJColor(), 0.05D));
-      add(localCleverLabel, "sg");
-    }
-  }
+	public void initUi() {
+		setOpaque(false);
+		BookModel localDocumentModel = this.mainFrame.getBookModel();
+		Session localSession = localDocumentModel.beginTransaction();
+		StrandDAOImpl localStrandDAOImpl = new StrandDAOImpl(localSession);
+		add(new JLabel(I18N.getMsg("msg.report.caption.strands")), "gapright 5");
+		Iterator localIterator = localStrandDAOImpl.findAllOrderBySort().iterator();
+		while (localIterator.hasNext()) {
+			Strand localStrand = (Strand) localIterator.next();
+			CleverLabel localCleverLabel = new CleverLabel(localStrand.getName(), 0);
+			localCleverLabel.setPreferredSize(new Dimension(100, 20));
+			localCleverLabel.setBackground(ColorUtil.darker(localStrand.getJColor(), 0.05D));
+			add(localCleverLabel, "sg");
+		}
+	}
 }

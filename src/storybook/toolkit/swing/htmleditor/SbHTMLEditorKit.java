@@ -33,12 +33,42 @@ import javax.swing.text.html.HTMLEditorKit;
 @SuppressWarnings("serial")
 public class SbHTMLEditorKit extends HTMLEditorKit {
 
+	public class SbLinkController extends LinkController {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			JEditorPane editor = (JEditorPane) e.getSource();
+			if (editor.isEditable() && SwingUtilities.isLeftMouseButton(e)) {
+				if (e.getClickCount() == 2) {
+					editor.setEditable(false);
+					super.mouseClicked(e);
+					editor.setEditable(true);
+				}
+			}
+		}
+
+		@Override
+		@SuppressWarnings("unused")
+		public void mouseMoved(MouseEvent e) {
+			JEditorPane editor = (JEditorPane) e.getSource();
+			if (editor.isEditable()) {
+				boolean isNeedCursorChange = false;
+				editor.setEditable(false);
+				isNeedCursorChange = true;
+				super.mouseMoved(e);
+				isNeedCursorChange = false;
+				editor.setEditable(true);
+				isNeedCursorChange = true;
+			}
+		}
+	}
+
 	private SbLinkController handler = new SbLinkController();
 
+	@Override
 	public void install(JEditorPane c) {
 		MouseListener[] oldMouseListeners = c.getMouseListeners();
-		MouseMotionListener[] oldMouseMotionListeners = c
-				.getMouseMotionListeners();
+		MouseMotionListener[] oldMouseMotionListeners = c.getMouseMotionListeners();
 		super.install(c);
 		// the following code removes link handler added by original
 		// HTMLEditorKit
@@ -60,33 +90,5 @@ public class SbHTMLEditorKit extends HTMLEditorKit {
 		// add out link handler instead of removed one
 		c.addMouseListener(handler);
 		c.addMouseMotionListener(handler);
-	}
-
-	public class SbLinkController extends LinkController {
-
-		public void mouseClicked(MouseEvent e) {
-			JEditorPane editor = (JEditorPane) e.getSource();
-			if (editor.isEditable() && SwingUtilities.isLeftMouseButton(e)) {
-				if (e.getClickCount() == 2) {
-					editor.setEditable(false);
-					super.mouseClicked(e);
-					editor.setEditable(true);
-				}
-			}
-		}
-
-		@SuppressWarnings("unused")
-		public void mouseMoved(MouseEvent e) {
-			JEditorPane editor = (JEditorPane) e.getSource();
-			if (editor.isEditable()) {
-				boolean isNeedCursorChange = false;
-				editor.setEditable(false);
-				isNeedCursorChange = true;
-				super.mouseMoved(e);
-				isNeedCursorChange = false;
-				editor.setEditable(true);
-				isNeedCursorChange = true;
-			}
-		}
 	}
 }

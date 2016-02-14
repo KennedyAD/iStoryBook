@@ -35,8 +35,7 @@ public class ChapterReSortAction extends AbstractEntityAction {
 	private final Chapter chapter;
 
 	public ChapterReSortAction(MainFrame mainFrame, Chapter chapter) {
-		super(mainFrame, chapter, I18N.getMsg("msg.common.re-sort"),
-				I18N.getIcon("icon.small.sort"));
+		super(mainFrame, chapter, I18N.getMsg("msg.common.re-sort"), I18N.getIcon("icon.small.sort"));
 		this.chapter = chapter;
 	}
 

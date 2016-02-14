@@ -30,8 +30,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.undo.UndoManager;
 
 @SuppressWarnings("serial")
-public class UndoableTextField extends JTextField implements
-		UndoableComponent, KeyListener, DocumentListener {
+public class UndoableTextField extends JTextField implements UndoableComponent, KeyListener, DocumentListener {
 
 	private static final int LIMIT = 100;
 
@@ -52,16 +51,28 @@ public class UndoableTextField extends JTextField implements
 		inputMap.put(KeyStroke.getKeyStroke("control Y"), redoAction);
 	}
 
-	public UndoManager getUndoManager() {
-		return undo;
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		undo.endGroup();
 	}
 
+	@Override
+	public AbstractAction getRedoAction() {
+		return redoAction;
+	}
+
+	@Override
 	public AbstractAction getUndoAction() {
 		return undoAction;
 	}
 
-	public AbstractAction getRedoAction() {
-		return redoAction;
+	@Override
+	public UndoManager getUndoManager() {
+		return undo;
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
 	}
 
 	@Override
@@ -78,15 +89,6 @@ public class UndoableTextField extends JTextField implements
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		undo.endGroup();
-	}
-
-	@Override
-	public void insertUpdate(DocumentEvent e) {
 	}
 
 	@Override

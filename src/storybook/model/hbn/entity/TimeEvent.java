@@ -35,7 +35,7 @@ public class TimeEvent extends AbstractEntity implements Comparable<TimeEvent> {
 
 	private String title;
 	private String notes;
-    private Timestamp eventTime;
+	private Timestamp eventTime;
 	private Integer timeStep;
 	private String category;
 
@@ -51,89 +51,13 @@ public class TimeEvent extends AbstractEntity implements Comparable<TimeEvent> {
 		this.category = category;
 	}
 
-	/**
-	 * @hibernate.id
-	 *   column="ID"
-	 *   generator-class="increment"
-	 *   unsaved-value="null"
-	 */
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getTitle() {
-		return this.title == null ? "" : this.title;
-	}
-
-	public String getTitle(boolean truncate) {
-		return title == null ? "" : TextUtil.truncateString(title, 30);
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getNotes() {
-		if (notes == null) {
-			return "";
+	@Override
+	public int compareTo(TimeEvent ch) {
+		if (eventTime == null) {
+			return title.compareTo(ch.title);
+		} else {
+			return eventTime.compareTo(ch.eventTime);
 		}
-		return this.notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-    public boolean hasEventTime() {
-        return eventTime != null;
-    }
-
-    public void setEventTime(Timestamp ts) {
-    	eventTime = ts;
-    }
-
-    public Timestamp getEventTime() {
-    	return (hasEventTime() ? eventTime : new Timestamp(0));
-    }
-    
-	/**
-	 * @hibernate.property
-	 */
-    public void setTimeStep(Integer state) {
-        this.timeStep = state;
-    }
-
-    public Integer getTimeStep() {
-        return this.timeStep;
-    }
-    public void setTimeStepState(TimeStepState state) {
-        this.timeStep = state.getNumber();
-    }
-
-    public TimeStepState getTimeStepState() {
-    	TimeStepStateModel model = new TimeStepStateModel();
-        return (TimeStepState) model.findByNumber(this.timeStep);
-    }
-
-	public String getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = (category == null ? "" : category);
 	}
 
 	@Override
@@ -149,33 +73,35 @@ public class TimeEvent extends AbstractEntity implements Comparable<TimeEvent> {
 		return ret;
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = super.hashCode();
-		if (title != null) {
-		   hash = hash * 31 + title.hashCode();
-		}
-		if (notes != null) {
-		   hash = hash * 31 + notes.hashCode();
-		}
-		if (eventTime != null) {
-			hash = hash * 31 +  eventTime.hashCode();
-		}
-		return hash;
+	public String getCategory() {
+		return this.category;
 	}
 
+	public Timestamp getEventTime() {
+		return (hasEventTime() ? eventTime : new Timestamp(0));
+	}
+
+	/**
+	 * @hibernate.id column="ID" generator-class="increment"
+	 *               unsaved-value="null"
+	 */
 	@Override
-	public int compareTo(TimeEvent ch) {
-		if (eventTime == null) {
-			return title.compareTo(ch.title);
-		} else {
-			return eventTime.compareTo(ch.eventTime);
+	public Long getId() {
+		return this.id;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getNotes() {
+		if (notes == null) {
+			return "";
 		}
+		return this.notes;
 	}
 
 	public String getStepFormat() {
-		switch(getTimeStep().intValue())
-		{
+		switch (getTimeStep().intValue()) {
 		case 0:
 			return "yyyy-MM-dd HH:mm";
 		case 1:
@@ -184,19 +110,92 @@ public class TimeEvent extends AbstractEntity implements Comparable<TimeEvent> {
 			return "yyyy-MM-dd";
 		case 3:
 			return "yyyy-MM";
-		default :
+		default:
 			return "yyyy";
 		}
 	}
-	
-    @Override
-    public String toString() {
-        if (isTransient()) {
-            return "";
-        }
+
+	public Integer getTimeStep() {
+		return this.timeStep;
+	}
+
+	public TimeStepState getTimeStepState() {
+		TimeStepStateModel model = new TimeStepStateModel();
+		return (TimeStepState) model.findByNumber(this.timeStep);
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getTitle() {
+		return this.title == null ? "" : this.title;
+	}
+
+	public String getTitle(boolean truncate) {
+		return title == null ? "" : TextUtil.truncateString(title, 30);
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public boolean hasEventTime() {
+		return eventTime != null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = super.hashCode();
+		if (title != null) {
+			hash = hash * 31 + title.hashCode();
+		}
+		if (notes != null) {
+			hash = hash * 31 + notes.hashCode();
+		}
+		if (eventTime != null) {
+			hash = hash * 31 + eventTime.hashCode();
+		}
+		return hash;
+	}
+
+	public void setCategory(String category) {
+		this.category = (category == null ? "" : category);
+	}
+
+	public void setEventTime(Timestamp ts) {
+		eventTime = ts;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public void setTimeStep(Integer state) {
+		this.timeStep = state;
+	}
+
+	public void setTimeStepState(TimeStepState state) {
+		this.timeStep = state.getNumber();
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Override
+	public String toString() {
+		if (isTransient()) {
+			return "";
+		}
 		SimpleDateFormat format = new SimpleDateFormat(getStepFormat());
 		String time = format.format(getEventTime());
-        return time + " - " + getTitle();
-    }
+		return time + " - " + getTitle();
+	}
 
 }

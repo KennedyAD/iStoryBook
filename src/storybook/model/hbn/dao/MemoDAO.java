@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.dao;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
+
 import storybook.model.hbn.entity.Memo;
 
 public interface MemoDAO extends GenericDAO<Memo, Long> {

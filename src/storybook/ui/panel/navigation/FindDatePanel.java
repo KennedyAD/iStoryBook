@@ -32,9 +32,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ViewName;
 import storybook.action.ScrollToStrandDateAction;
 import storybook.model.BookModel;
@@ -46,9 +46,9 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.ViewsRadioButtonPanel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
+import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.book.BookPanel;
 import storybook.ui.panel.chrono.ChronoPanel;
 
@@ -69,8 +69,43 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		initAll();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	private AbstractAction getFindAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				scrollToStrandDate();
+			}
+		};
+	}
+
+	private AbstractAction getNextAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				int index = dateCombo.getSelectedIndex();
+				++index;
+				if (index == dateCombo.getItemCount()) {
+					index = dateCombo.getItemCount() - 1;
+				}
+				dateCombo.setSelectedIndex(index);
+				scrollToStrandDate();
+			}
+		};
+	}
+
+	private AbstractAction getPreviousAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				int index = dateCombo.getSelectedIndex();
+				--index;
+				if (index == -1) {
+					index = 0;
+				}
+				dateCombo.setSelectedIndex(index);
+				scrollToStrandDate();
+			}
+		};
 	}
 
 	@Override
@@ -84,16 +119,14 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		JLabel lbChapter = new JLabel(I18N.getMsgColon("msg.common.strand"));
 		strandCombo = new JComboBox();
 		StrandEntityHandler handler = new StrandEntityHandler(mainFrame);
-		EntityUtil.fillEntityCombo(mainFrame, strandCombo, handler,
-				new Strand(), false, false);
+		EntityUtil.fillEntityCombo(mainFrame, strandCombo, handler, new Strand(), false, false);
 		strandCombo.addItemListener(this);
 
 		JLabel lbDate = new JLabel(I18N.getMsgColon("msg.common.date"));
 		dateCombo = new JComboBox();
 		refreshDateCombo();
 
-		IconButton btPrev = new IconButton("icon.small.previous",
-				getPreviousAction());
+		IconButton btPrev = new IconButton("icon.small.previous", getPreviousAction());
 		btPrev.setSize20x20();
 
 		IconButton btNext = new IconButton("icon.small.next", getNextAction());
@@ -123,6 +156,17 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		add(btFind, "right");
 	}
 
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			refreshDateCombo();
+		}
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+	}
+
 	@SuppressWarnings("unchecked")
 	private void refreshDateCombo() {
 		Strand strand = (Strand) strandCombo.getSelectedItem();
@@ -135,42 +179,6 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		for (Date date : dates) {
 			dateCombo.addItem(date);
 		}
-	}
-
-	private AbstractAction getPreviousAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				int index = dateCombo.getSelectedIndex();
-				--index;
-				if (index == -1) {
-					index = 0;
-				}
-				dateCombo.setSelectedIndex(index);
-				scrollToStrandDate();
-			}
-		};
-	}
-
-	private AbstractAction getNextAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				int index = dateCombo.getSelectedIndex();
-				++index;
-				if (index == dateCombo.getItemCount()) {
-					index = dateCombo.getItemCount() - 1;
-				}
-				dateCombo.setSelectedIndex(index);
-				scrollToStrandDate();
-			}
-		};
-	}
-
-	private AbstractAction getFindAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				scrollToStrandDate();
-			}
-		};
 	}
 
 	private void scrollToStrandDate() {
@@ -206,17 +214,9 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		if (book) {
 			delay += 100;
 		}
-		ScrollToStrandDateAction action = new ScrollToStrandDateAction(
-				container, panel, strand, date, lbWarning);
+		ScrollToStrandDateAction action = new ScrollToStrandDateAction(container, panel, strand, date, lbWarning);
 		Timer timer = new Timer(delay, action);
 		timer.setRepeats(false);
 		timer.start();
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.SELECTED) {
-			refreshDateCombo();
-		}
 	}
 }

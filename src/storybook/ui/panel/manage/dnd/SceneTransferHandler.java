@@ -28,6 +28,7 @@ import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
 import org.hibernate.Session;
+
 import storybook.SbApp;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
@@ -41,12 +42,64 @@ import storybook.ui.panel.manage.ChapterPanel;
 @SuppressWarnings("serial")
 public class SceneTransferHandler extends TransferHandler {
 
+	class SceneTransferable implements Transferable {
+		private String sceneId;
+
+		SceneTransferable(DTScenePanel pic) {
+			sceneId = Long.toString(pic.getScene().getId());
+		}
+
+		@Override
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+			if (!isDataFlavorSupported(flavor)) {
+				throw new UnsupportedFlavorException(flavor);
+			}
+			return sceneId;
+		}
+
+		@Override
+		public DataFlavor[] getTransferDataFlavors() {
+			return new DataFlavor[] { sceneFlavor };
+		}
+
+		@Override
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+			return sceneFlavor.equals(flavor);
+		}
+	}
 	private MainFrame mainFrame;
 	private DataFlavor sceneFlavor = DataFlavor.stringFlavor;
+
 	private DTScenePanel sourceScene;
 
 	public SceneTransferHandler(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
+	}
+
+	@Override
+	public boolean canImport(JComponent comp, DataFlavor[] flavors) {
+		for (int i = 0; i < flavors.length; i++) {
+			if (sceneFlavor.equals(flavors[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	protected Transferable createTransferable(JComponent comp) {
+		sourceScene = (DTScenePanel) comp;
+		return new SceneTransferable(sourceScene);
+	}
+
+	@Override
+	protected void exportDone(JComponent comp, Transferable data, int action) {
+
+	}
+
+	@Override
+	public int getSourceActions(JComponent comp) {
+		return COPY_OR_MOVE;
 	}
 
 	@Override
@@ -58,17 +111,16 @@ public class SceneTransferHandler extends TransferHandler {
 				return true;
 			}
 			try {
-				String sourceSceneIdStr = (String) t
-						.getTransferData(sceneFlavor);
+				String sourceSceneIdStr = (String) t.getTransferData(sceneFlavor);
 				long sourceSceneId = Long.parseLong(sourceSceneIdStr);
 				switch (destDtScene.getType()) {
-				case DTScenePanel.TYPE_NONE:
+				case ScenePanel.TYPE_NONE:
 					return swapScenes(sourceSceneId, destDtScene);
-				case DTScenePanel.TYPE_BEGIN:
+				case ScenePanel.TYPE_BEGIN:
 					return moveSceneToBegin(sourceSceneId, destDtScene);
-				case DTScenePanel.TYPE_NEXT:
+				case ScenePanel.TYPE_NEXT:
 					return moveScene(sourceSceneId, destDtScene);
-				case DTScenePanel.TYPE_MAKE_UNASSIGNED:
+				case ScenePanel.TYPE_MAKE_UNASSIGNED:
 					return unassignScene(sourceSceneId);
 				default:
 					break;
@@ -79,26 +131,9 @@ public class SceneTransferHandler extends TransferHandler {
 		return false;
 	}
 
-	private boolean unassignScene(long sourceSceneId) {
-		try {
-			BookModel model = mainFrame.getBookModel();
-			Session session = model.beginTransaction();
-			BookController ctrl = mainFrame.getBookController();
-			Scene scene = (Scene) session.get(Scene.class, sourceSceneId);
-			// detach scene from session
-			session.close();
-			scene.setChapter(null);
-			ctrl.updateScene(scene);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
-
 	private boolean moveScene(long sourceSceneId, DTScenePanel destDtScene) {
 		try {
-			ChapterPanel destChapterPanel = (ChapterPanel) destDtScene
-					.getParent();
+			ChapterPanel destChapterPanel = (ChapterPanel) destDtScene.getParent();
 			Chapter destChapter = destChapterPanel.getChapter();
 			int sceneNo = destDtScene.getPreviousNumber() + 1;
 			BookModel model = mainFrame.getBookModel();
@@ -117,7 +152,7 @@ public class SceneTransferHandler extends TransferHandler {
 			session = model.beginTransaction();
 			ChapterDAOImpl dao = new ChapterDAOImpl(session);
 			List<Scene> scenes = dao.findScenes(destChapter);
-			SbApp.trace("SceneTransferHandler.moveScene(): scenes:"+scenes);
+			SbApp.trace("SceneTransferHandler.moveScene(): scenes:" + scenes);
 			session.close();
 			for (Scene s : scenes) {
 				if (s.getSceneno() != null && s.getSceneno().intValue() == -99) {
@@ -142,7 +177,7 @@ public class SceneTransferHandler extends TransferHandler {
 		return true;
 	}
 
-	private boolean moveSceneToBegin(long sourceSceneId, DTScenePanel destDtScene){
+	private boolean moveSceneToBegin(long sourceSceneId, DTScenePanel destDtScene) {
 		ChapterPanel destChapterPanel = (ChapterPanel) destDtScene.getParent();
 		Chapter destChapter = destChapterPanel.getChapter();
 
@@ -178,49 +213,19 @@ public class SceneTransferHandler extends TransferHandler {
 		return true;
 	}
 
-	protected Transferable createTransferable(JComponent comp) {
-		sourceScene = (DTScenePanel) comp;
-		return new SceneTransferable(sourceScene);
-	}
-
-	public int getSourceActions(JComponent comp) {
-		return COPY_OR_MOVE;
-	}
-
-	protected void exportDone(JComponent comp, Transferable data, int action) {
-
-	}
-
-	public boolean canImport(JComponent comp, DataFlavor[] flavors) {
-		for (int i = 0; i < flavors.length; i++) {
-			if (sceneFlavor.equals(flavors[i])) {
-				return true;
-			}
+	private boolean unassignScene(long sourceSceneId) {
+		try {
+			BookModel model = mainFrame.getBookModel();
+			Session session = model.beginTransaction();
+			BookController ctrl = mainFrame.getBookController();
+			Scene scene = (Scene) session.get(Scene.class, sourceSceneId);
+			// detach scene from session
+			session.close();
+			scene.setChapter(null);
+			ctrl.updateScene(scene);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return false;
-	}
-
-	class SceneTransferable implements Transferable {
-		private String sceneId;
-
-		SceneTransferable(DTScenePanel pic) {
-			sceneId = Long.toString(pic.getScene().getId());
-		}
-
-		public Object getTransferData(DataFlavor flavor)
-				throws UnsupportedFlavorException {
-			if (!isDataFlavorSupported(flavor)) {
-				throw new UnsupportedFlavorException(flavor);
-			}
-			return sceneId;
-		}
-
-		public DataFlavor[] getTransferDataFlavors() {
-			return new DataFlavor[] { sceneFlavor };
-		}
-
-		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			return sceneFlavor.equals(flavor);
-		}
+		return true;
 	}
 }

@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ItemDAOImpl;
@@ -39,6 +39,26 @@ public class ItemTable extends AbstractTable {
 
 	public ItemTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		ItemDAOImpl dao = new ItemDAOImpl(session);
+		Item item = dao.find(id);
+		model.commit();
+		return item;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Item();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Item");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class ItemTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Item item = (Item) getEntityFromRow(row);
-//		ctrl.setItemToEdit(item);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(item);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setItemToEdit((Item) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Item item = (Item) getEntityFromRow(row);
-		ctrl.deleteItem(item);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class ItemTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		ItemDAOImpl dao = new ItemDAOImpl(session);
-		Item item = dao.find(id);
-		model.commit();
-		return item;
+	protected synchronized void sendDeleteEntity(int row) {
+		Item item = (Item) getEntityFromRow(row);
+		ctrl.deleteItem(item);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Item();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Item item = (Item) getEntityFromRow(row);
+		// ctrl.setItemToEdit(item);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(item);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Item");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setItemToEdit((Item) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

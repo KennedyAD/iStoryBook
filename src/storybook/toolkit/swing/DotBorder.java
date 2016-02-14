@@ -40,16 +40,14 @@ public class DotBorder implements Border {
 	}
 
 	@Override
-	public void paintBorder(Component c, Graphics g, int x, int y, int width,
-			int height) {
+	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.gray);
 		int w = 1;
-//		float[] dash = { 1, 3 };
+		// float[] dash = { 1, 3 };
 		float[] dash = { 1, 2 };
 		float dash_phase = 1;
-		g2.setStroke(new BasicStroke(w, BasicStroke.CAP_SQUARE,
-				BasicStroke.JOIN_MITER, 10, dash, dash_phase));
+		g2.setStroke(new BasicStroke(w, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10, dash, dash_phase));
 		g2.drawRect(x, y, width - 2, height - 2);
 	}
 }

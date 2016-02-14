@@ -50,6 +50,7 @@ public class AutoscrollSupport implements Autoscroll {
 		this.scrollUnits = scrollUnits;
 	}
 
+	@Override
 	public void autoscroll(Point cursorLoc) {
 		JViewport viewport = getViewport();
 		if (viewport == null)
@@ -60,23 +61,21 @@ public class AutoscrollSupport implements Autoscroll {
 
 		// perform scrolling
 		if ((cursorLoc.y - viewPos.y) < insets.top) { // scroll up
-			viewport.setViewPosition(new Point(viewPos.x, Math.max(viewPos.y
-					- scrollUnits.top, 0)));
+			viewport.setViewPosition(new Point(viewPos.x, Math.max(viewPos.y - scrollUnits.top, 0)));
 		} else if ((viewPos.y + viewHeight - cursorLoc.y) < insets.bottom) { // scroll
 																				// down
-			viewport.setViewPosition(new Point(viewPos.x, Math.min(viewPos.y
-					+ scrollUnits.bottom, comp.getHeight() - viewHeight)));
+			viewport.setViewPosition(
+					new Point(viewPos.x, Math.min(viewPos.y + scrollUnits.bottom, comp.getHeight() - viewHeight)));
 		} else if ((cursorLoc.x - viewPos.x) < insets.left) { // scroll left
-			viewport.setViewPosition(new Point(Math.max(viewPos.x
-					- scrollUnits.left, 0), viewPos.y));
+			viewport.setViewPosition(new Point(Math.max(viewPos.x - scrollUnits.left, 0), viewPos.y));
 		} else if ((viewPos.x + viewWidth - cursorLoc.x) < insets.right) { // scroll
 																			// right
-			viewport.setViewPosition(new Point(Math.min(viewPos.x
-					+ scrollUnits.right, comp.getWidth() - viewWidth),
-					viewPos.y));
+			viewport.setViewPosition(
+					new Point(Math.min(viewPos.x + scrollUnits.right, comp.getWidth() - viewWidth), viewPos.y));
 		}
 	}
 
+	@Override
 	public Insets getAutoscrollInsets() {
 		int height = comp.getHeight();
 		int width = comp.getWidth();
@@ -84,7 +83,6 @@ public class AutoscrollSupport implements Autoscroll {
 	}
 
 	JViewport getViewport() {
-		return (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class,
-				comp);
+		return (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, comp);
 	}
 }

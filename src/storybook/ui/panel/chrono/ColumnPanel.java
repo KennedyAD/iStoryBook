@@ -23,9 +23,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;

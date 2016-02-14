@@ -35,10 +35,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.ViewName;
@@ -54,9 +54,9 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.options.ReadingOptionsDialog;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -65,15 +65,79 @@ import storybook.ui.options.ReadingOptionsDialog;
 @SuppressWarnings("serial")
 public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 
+	private static void dispatchToStrandPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<>();
+		SwingUtil.findComponentsByClass(cont, StrandPanel.class, ret);
+		for (Component comp : ret) {
+			StrandPanel panel = (StrandPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
 	private JTextPane tpText;
 	private JScrollPane scroller;
-	private StrandPanel strandPanel;
 
+	private StrandPanel strandPanel;
 	private int scrollerWidth;
+
 	private int fontSize;
 
 	public ReadingPanel(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	public void hyperlinkUpdate(HyperlinkEvent evt) {
+		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+			try {
+				if (!evt.getDescription().isEmpty()) {
+					// anchor
+					tpText.scrollToReference(evt.getDescription().substring(1));
+				} else {
+					// external links
+					tpText.setPage(evt.getURL());
+				}
+			} catch (IOException e) {
+			}
+		}
+	}
+
+	@Override
+	public void init() {
+		strandPanel = new StrandPanel(mainFrame, this);
+		strandPanel.init();
+
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.READING_ZOOM, SbConstants.DEFAULT_READING_ZOOM);
+			setZoomedSize(internal.getIntegerValue());
+			internal = BookUtil.get(mainFrame, BookKey.READING_FONT_SIZE, SbConstants.DEFAULT_READING_FONT_SIZE);
+			setFontSize(internal.getIntegerValue());
+		} catch (Exception e) {
+			setZoomedSize(SbConstants.DEFAULT_READING_ZOOM);
+			setFontSize(SbConstants.DEFAULT_READING_FONT_SIZE);
+		}
+	}
+
+	@Override
+	public void initUi() {
+		MigLayout layout = new MigLayout("flowx", "[][fill,grow]", // columns
+				"" // rows
+		);
+		setLayout(layout);
+
+		strandPanel.initUi();
+
+		tpText = new JTextPane();
+		tpText.setEditable(false);
+		tpText.setContentType("text/html");
+		tpText.addHyperlinkListener(this);
+
+		scroller = new JScrollPane(tpText);
+		scroller.setMaximumSize(new Dimension(scrollerWidth, Short.MAX_VALUE));
+		SwingUtil.setMaxPreferredSize(scroller);
+
+		// layout
+		add(strandPanel, "aligny top");
+		add(scroller, "growy");
 	}
 
 	@Override
@@ -96,8 +160,7 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 			return;
 		}
 
-		if (BookController.ChapterProps.INIT.check(propName)
-				|| BookController.ChapterProps.UPDATE.check(propName)
+		if (BookController.ChapterProps.INIT.check(propName) || BookController.ChapterProps.UPDATE.check(propName)
 				|| BookController.SceneProps.UPDATE.check(propName)) {
 			refresh();
 			return;
@@ -135,65 +198,12 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 			return;
 		}
 
-
 		dispatchToStrandPanels(this, evt);
 
 		if (BookController.StrandProps.UPDATE.check(propName)) {
 			refresh();
-//			return;
+			// return;
 		}
-	}
-
-	private void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
-	}
-
-	private void setZoomedSize(int zoomValue) {
-		scrollerWidth = zoomValue * 10;
-	}
-
-	@Override
-	public void init() {
-		strandPanel = new StrandPanel(mainFrame, this);
-		strandPanel.init();
-
-		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.READING_ZOOM, SbConstants.DEFAULT_READING_ZOOM);
-			setZoomedSize(internal.getIntegerValue());
-			internal = BookUtil.get(mainFrame,
-					BookKey.READING_FONT_SIZE,
-					SbConstants.DEFAULT_READING_FONT_SIZE);
-			setFontSize(internal.getIntegerValue());
-		} catch (Exception e) {
-			setZoomedSize(SbConstants.DEFAULT_READING_ZOOM);
-			setFontSize(SbConstants.DEFAULT_READING_FONT_SIZE);
-		}
-	}
-
-	@Override
-	public void initUi() {
-		MigLayout layout = new MigLayout(
-				"flowx",
-				"[][fill,grow]", // columns
-				"" // rows
-				);
-		setLayout(layout);
-
-		strandPanel.initUi();
-
-		tpText = new JTextPane();
-		tpText.setEditable(false);
-		tpText.setContentType("text/html");
-		tpText.addHyperlinkListener(this);
-
-		scroller = new JScrollPane(tpText);
-		scroller.setMaximumSize(new Dimension(scrollerWidth, Short.MAX_VALUE));
-		SwingUtil.setMaxPreferredSize(scroller);
-
-		// layout
-		add(strandPanel, "aligny top");
-		add(scroller, "growy");
 	}
 
 	@Override
@@ -227,7 +237,7 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 			buf.append("</p>\n");
 		}
 
-		if(!expPartTitles && !isUsehtmlText){
+		if (!expPartTitles && !isUsehtmlText) {
 			buf.append("<p></p>\n");
 		}
 
@@ -255,29 +265,11 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		});
 	}
 
-	@Override
-	public void hyperlinkUpdate(HyperlinkEvent evt) {
-		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			try {
-				if (!evt.getDescription().isEmpty()) {
-					// anchor
-					tpText.scrollToReference(evt.getDescription().substring(1));
-				} else {
-					// external links
-					tpText.setPage(evt.getURL());
-				}
-			} catch (IOException e) {
-			}
-		}
+	private void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
 	}
 
-	private static void dispatchToStrandPanels(Container cont,
-			PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<>();
-		SwingUtil.findComponentsByClass(cont, StrandPanel.class, ret);
-		for (Component comp : ret) {
-			StrandPanel panel = (StrandPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
+	private void setZoomedSize(int zoomValue) {
+		scrollerWidth = zoomValue * 10;
 	}
 }

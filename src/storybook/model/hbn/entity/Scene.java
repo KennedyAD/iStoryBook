@@ -25,7 +25,7 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.time.DateUtils;
-import storybook.SbApp;
+
 import storybook.model.state.SceneState;
 import storybook.model.state.SceneStateModel;
 import storybook.toolkit.DateUtil;
@@ -40,563 +40,558 @@ import storybook.toolkit.html.HtmlUtil;
  */
 public class Scene extends AbstractEntity implements Comparable<Scene> {
 
-    private Chapter chapter;
-    private Strand strand;
-    private Integer sceneno;
-    private Timestamp sceneTs;
-    private String title;
-    private String summary;
-    private Integer status;
-    private Integer relativeDateDifference;
-    private Long relativeSceneId;
-    private String notes;
+	public static String tsToTime(Timestamp ts) {
+		String r = "";
+		// TODO tsToTime for new calendar
+		return (r);
+	}
+	private Chapter chapter;
+	private Strand strand;
+	private Integer sceneno;
+	private Timestamp sceneTs;
+	private String title;
+	private String summary;
+	private Integer status;
+	private Integer relativeDateDifference;
+	private Long relativeSceneId;
+	private String notes;
 	private String odf;
-    private Boolean informative;
 
-    private List<Person> persons;
-    private List<Item> items;
-    private List<Location> locations;
-    private List<Strand> strands;
+	private Boolean informative;
+	private List<Person> persons;
+	private List<Item> items;
+	private List<Location> locations;
 
-    public Scene() {
-        super();
-    }
+	private List<Strand> strands;
 
-    public Scene(Chapter chapter, Strand strand, Integer sceneno, Timestamp date,
-            String title, String summary, Integer status,
-            Integer relativeDateDifference, Long relativeSceneId,
-            String notes, Boolean informative, String odf) {
-        this.chapter = chapter;
-        this.strand = strand;
-        this.sceneno = sceneno;
-        this.sceneTs = date;
-        this.title = title;
-        this.summary = summary;
-        this.status = status;
-        this.relativeDateDifference = relativeDateDifference;
-        this.relativeSceneId = relativeSceneId;
-        this.notes = notes;
-        this.informative = informative;
-		this.odf=odf;
-    }
-
-    @Override
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Chapter getChapter() {
-        return this.chapter;
-    }
-
-    public boolean hasChapter() {
-        return chapter != null;
-    }
-
-    public void setChapter(Chapter chapter) {
-        this.chapter = chapter;
-    }
-
-    public void setChapter() {
-        this.chapter = null;
-    }
-
-    public Strand getStrand() {
-        return this.strand;
-    }
-
-    public void setStrand(Strand strand) {
-        this.strand = strand;
-    }
-
-    public Integer getSceneno() {
-        return this.sceneno;
-    }
-
-    public boolean hasSceneno() {
-        return sceneno != null;
-    }
-
-    public void setSceneno(Integer sceneno) {
-        this.sceneno = sceneno;
-    }
-
-    public Timestamp getSceneTs() {
-        return this.sceneTs;
-    }
-
-    public String getSceneTime() {
-        //TODO getSceneTime for new calendar
-        String r = "";
-        return (r);
-    }
-
-    public boolean hasSceneTs() {
-        return sceneTs != null;
-    }
-
-    public Date getDate() {
-        if (sceneTs == null) {
-            return null;
-        }
-		// OLD: return new Date(sceneTs.getTime());
-        // remove time from date
-        return DateUtil.getZeroTimeDate(new Date(sceneTs.getTime()));
-    }
-
-    public void removeSceneTs() {
-        sceneTs = null;
-    }
-
-    public String getDateStrShort() {
-        if (!hasSceneTs()) {
-            return "";
-        }
-        DateFormat formatter;
-        if (DateUtil.isZeroTimeDate(sceneTs)) {
-            formatter = I18N.getShortDateFormatter();
-        } else {
-            formatter = I18N.getDateTimeFormatter();
-        }
-        return formatter.format(sceneTs);
-    }
-
-    public String getDateStrMedium() {
-        if (!hasSceneTs()) {
-            return "";
-        }
-        DateFormat formatter;
-        if (DateUtil.isZeroTimeDate(sceneTs)) {
-            formatter = I18N.getMediumDateFormatter();
-        } else {
-            formatter = I18N.getDateTimeFormatter();
-        }
-        return formatter.format(sceneTs);
-    }
-
-    public String getDateStrLong() {
-        if (!hasSceneTs()) {
-            return "";
-        }
-        DateFormat formatter;
-        if (DateUtil.isZeroTimeDate(sceneTs)) {
-            formatter = I18N.getLongDateFormatter();
-        } else {
-            formatter = I18N.getDateTimeFormatter();
-        }
-        return formatter.format(sceneTs);
-    }
-
-    public void setDate(Date date) {
-        if (date == null) {
-            sceneTs = null;
-            return;
-        }
-        sceneTs = new Timestamp(date.getTime());
-    }
-
-    public void setSceneTs(Timestamp ts) {
-        sceneTs = ts;
-    }
-
-    public void setSceneTime(String t) {
-        //TODO setSceneTime
-    }
-
-    public void setNoSceneTs() {
-        // nothing to do
-    }
-
-    public void setNoSceneTs(String val) {
-        // nothing to do
-    }
-
-    public void getNoSceneTs() {
-        // nothing to do
-    }
-
-    public void removeNoSceneTs() {
-        // nothing to do
-    }
-
-    public boolean hasNoSceneTs() {
-        return sceneTs == null;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getTitle(boolean truncate) {
-        if (truncate) {
-            return TextUtil.ellipsize(title, 30);
-        }
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getFullTitle() {
-        return getFullTitle(false);
-    }
-
-    public String getFullTitle(boolean truncate) {
-        return getFullTitle(false, truncate);
-    }
-
-    public String getFullTitle(boolean timestamp, boolean truncate) {
-        StringBuilder buf = new StringBuilder();
-        buf.append(getChapterSceneNo());
-        buf.append(getTitle(truncate));
-        if (timestamp && hasSceneTs()) {
-            buf.append(" (");
-            buf.append(getDateStrMedium());
-            buf.append(")");
-        }
-        return buf.toString();
-    }
-
-    public String getTitleText(boolean truncate, int length) {
-        if (title == null || title.isEmpty()) {
-            return getText(truncate, length);
-        }
-        return getTitle(truncate) + ": " + getText(truncate, length);
-    }
-
-    public String getChapterSceneNo() {
-        return getChapterSceneNo(true);
-    }
-
-    public String getChapterSceneNo(boolean appendColon) {
-        StringBuilder buf = new StringBuilder();
-        if (hasChapter()) {
-            buf.append(chapter.getChapterno());
-        } else {
-            buf.append("x");
-        }
-        buf.append(".");
-        if (hasSceneno()) {
-            buf.append(sceneno);
-        } else {
-            buf.append("x");
-        }
-        if (appendColon) {
-            buf.append(": ");
-        }
-        return buf.toString();
-    }
-
-    public String getChapterSceneToolTip() {
-        if (!hasChapter()) {
-            return "";
-        }
-        StringBuilder buf = new StringBuilder("<html>");
-        buf.append(I18N.getMsgColon("msg.common.chapter"));
-        buf.append(" ").append(getChapter().toString());
-        buf.append("<br>");
-        if (getChapter().hasPart()) {
-            buf.append(I18N.getMsgColon("msg.common.part"));
-            buf.append(" ").append(getChapter().getPart().toString());
-            buf.append("<br>");
-        }
-        return buf.toString();
-    }
-	
-	public String getPartChapterSceneNo() {
-		String ret="";
-		if (!hasChapter()) {
-			ret="x.x.";
-		} else {
-			ret=chapter.getPart().getNumber()+"."+chapter.getChapterno()+".";
-		}
-		ret+=sceneno;
-		return(ret);
+	public Scene() {
+		super();
 	}
 
-    public String getSummary() {
-        return this.summary;
-    }
+	public Scene(Chapter chapter, Strand strand, Integer sceneno, Timestamp date, String title, String summary,
+			Integer status, Integer relativeDateDifference, Long relativeSceneId, String notes, Boolean informative,
+			String odf) {
+		this.chapter = chapter;
+		this.strand = strand;
+		this.sceneno = sceneno;
+		this.sceneTs = date;
+		this.title = title;
+		this.summary = summary;
+		this.status = status;
+		this.relativeDateDifference = relativeDateDifference;
+		this.relativeSceneId = relativeSceneId;
+		this.notes = notes;
+		this.informative = informative;
+		this.odf = odf;
+	}
 
-    public String getSummary(boolean truncate, int length) {
-        if (truncate) {
-            return TextUtil.truncateString(HtmlUtil.htmlToText(summary), length);
-        }
-        return this.summary;
-    }
+	@Override
+	public int compareTo(Scene o) {
+		int cmp = chapter.compareTo(o.chapter);
+		if (cmp == 0) {
+			return sceneno.compareTo(o.sceneno);
+		}
+		return cmp;
+	}
 
-    public String getText() {
-        return getSummary();
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		Scene test = (Scene) obj;
 
-    public String getText(boolean truncate, int length) {
-        return getSummary(truncate, length);
-    }
+		if (id != null ? !id.equals(test.id) : test.id != null) {
+			return false;
+		}
+		boolean ret = true;
+		ret = ret && equalsIntegerNullValue(sceneno, test.getSceneno());
+		ret = ret && equalsIntegerNullValue(status, test.getStatus());
+		ret = ret && equalsObjectNullValue(chapter, test.getChapter());
+		ret = ret && equalsObjectNullValue(strand, test.getStrand());
+		if (sceneTs != null) {
+			ret = ret && equalsTimestampNullValue(sceneTs, test.getSceneTs());
+		} else if (relativeSceneId != null) {
+			ret = ret && equalsLongNullValue(relativeSceneId, test.getRelativeSceneId());
+			ret = ret && equalsIntegerNullValue(relativeDateDifference, test.getRelativeDateDifference());
+		}
+		ret = ret && equalsStringNullValue(title, test.getTitle());
+		ret = ret && equalsStringNullValue(summary, test.getSummary());
+		ret = ret && equalsStringNullValue(notes, test.getNotes());
+		ret = ret && equalsBooleanNullValue(informative, test.getInformative());
+		ret = ret && equalsListNullValue(persons, test.getPersons());
+		ret = ret && equalsListNullValue(locations, test.getLocations());
+		ret = ret && equalsListNullValue(strands, test.getStrands());
+		return ret;
+	}
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+	public String getCalendar() {
+		String r = "";
+		if (notes.startsWith("$£€ø")) {
+			String z[] = notes.split("ø€£$");
+			String y[] = z[0].split("**");
+			r = y[0].substring("$£€ø".length());
+		}
+		return (r);
+	}
 
-    public Integer getStatus() {
-        return this.status;
-    }
+	public Chapter getChapter() {
+		return this.chapter;
+	}
 
-    public Icon getStatusIcon() {
-        return getSceneState().getIcon();
-    }
+	public String getChapterSceneNo() {
+		return getChapterSceneNo(true);
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public String getChapterSceneNo(boolean appendColon) {
+		StringBuilder buf = new StringBuilder();
+		if (hasChapter()) {
+			buf.append(chapter.getChapterno());
+		} else {
+			buf.append("x");
+		}
+		buf.append(".");
+		if (hasSceneno()) {
+			buf.append(sceneno);
+		} else {
+			buf.append("x");
+		}
+		if (appendColon) {
+			buf.append(": ");
+		}
+		return buf.toString();
+	}
 
-    public void setSceneState(SceneState state) {
-        this.status = state.getNumber();
-    }
+	public String getChapterSceneToolTip() {
+		if (!hasChapter()) {
+			return "";
+		}
+		StringBuilder buf = new StringBuilder("<html>");
+		buf.append(I18N.getMsgColon("msg.common.chapter"));
+		buf.append(" ").append(getChapter().toString());
+		buf.append("<br>");
+		if (getChapter().hasPart()) {
+			buf.append(I18N.getMsgColon("msg.common.part"));
+			buf.append(" ").append(getChapter().getPart().toString());
+			buf.append("<br>");
+		}
+		return buf.toString();
+	}
 
-    public SceneState getSceneState() {
-        SceneStateModel model = new SceneStateModel();
-        return (SceneState) model.findByNumber(this.status);
-    }
+	public Date getDate() {
+		if (sceneTs == null) {
+			return null;
+		}
+		// OLD: return new Date(sceneTs.getTime());
+		// remove time from date
+		return DateUtil.getZeroTimeDate(new Date(sceneTs.getTime()));
+	}
 
-    public Integer getRelativeDateDifference() {
-        return this.relativeDateDifference;
-    }
+	public String getDateStrLong() {
+		if (!hasSceneTs()) {
+			return "";
+		}
+		DateFormat formatter;
+		if (DateUtil.isZeroTimeDate(sceneTs)) {
+			formatter = I18N.getLongDateFormatter();
+		} else {
+			formatter = I18N.getDateTimeFormatter();
+		}
+		return formatter.format(sceneTs);
+	}
 
-    public void setRelativeDateDifference(Integer relativeDateDifference) {
-        this.relativeDateDifference = relativeDateDifference;
-    }
+	public String getDateStrMedium() {
+		if (!hasSceneTs()) {
+			return "";
+		}
+		DateFormat formatter;
+		if (DateUtil.isZeroTimeDate(sceneTs)) {
+			formatter = I18N.getMediumDateFormatter();
+		} else {
+			formatter = I18N.getDateTimeFormatter();
+		}
+		return formatter.format(sceneTs);
+	}
 
-    public Date getRelativeDate(Scene relativeScene) {
-        if (relativeScene == null) {
-            return null;
-        }
-        Date date = relativeScene.getDate();
-        if (date == null) {
-            return null;
-        }
-        return DateUtils.addDays(date, relativeDateDifference);
-    }
+	public String getDateStrShort() {
+		if (!hasSceneTs()) {
+			return "";
+		}
+		DateFormat formatter;
+		if (DateUtil.isZeroTimeDate(sceneTs)) {
+			formatter = I18N.getShortDateFormatter();
+		} else {
+			formatter = I18N.getDateTimeFormatter();
+		}
+		return formatter.format(sceneTs);
+	}
 
-    public Long getRelativeSceneId() {
-        return this.relativeSceneId;
-    }
+	public String getFullTitle() {
+		return getFullTitle(false);
+	}
 
-    public void setRelativeSceneId(Long relativeSceneId) {
-        this.relativeSceneId = relativeSceneId;
-    }
+	public String getFullTitle(boolean truncate) {
+		return getFullTitle(false, truncate);
+	}
 
-    public void setRelativeSceneId(Scene relativeScene) {
-        if (relativeScene == null) {
-            return;
-        }
-        setRelativeSceneId(relativeScene.id);
-    }
+	public String getFullTitle(boolean timestamp, boolean truncate) {
+		StringBuilder buf = new StringBuilder();
+		buf.append(getChapterSceneNo());
+		buf.append(getTitle(truncate));
+		if (timestamp && hasSceneTs()) {
+			buf.append(" (");
+			buf.append(getDateStrMedium());
+			buf.append(")");
+		}
+		return buf.toString();
+	}
 
-    public boolean hasRelativeScene() {
-        return this.relativeSceneId != null;
-    }
+	@Override
+	public Icon getIcon() {
+		return I18N.getIcon("icon.small.scene");
+	}
 
-    public void removeRelativeScene() {
-        relativeSceneId = null;
-        relativeDateDifference = null;
-    }
+	@Override
+	public Long getId() {
+		return this.id;
+	}
 
-    public String getNotes() {
-        return getNotes(false);
-    }
+	public Boolean getInformative() {
+		if (informative == null) {
+			return false;
+		}
+		return informative;
+	}
 
-    public String getNotes(boolean truncate) {
-        if (this.notes == null) {
-            return "";
-        }
-		String x=this.notes;
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public void getNoSceneTs() {
+		// nothing to do
+	}
+
+	public String getNotes() {
+		return getNotes(false);
+	}
+
+	public String getNotes(boolean truncate) {
+		if (this.notes == null) {
+			return "";
+		}
+		String x = this.notes;
 		if (notes.startsWith("<SB4")) {
-			String z[]=notes.split("</SB4>");
-			x=z[1];
+			String z[] = notes.split("</SB4>");
+			x = z[1];
 		}
 		if (truncate) {
-			x=TextUtil.truncateString(HtmlUtil.htmlToText(x), 200);
+			x = TextUtil.truncateString(HtmlUtil.htmlToText(x), 200);
 		}
-		return(x);
+		return (x);
 	}
 
-    public void setNotes(String notes) {
-		this.notes=notes;
-    }
+	public String getOdf() {
+		return (odf);
+	}
 
-    public List<Person> getPersons() {
-        return persons;
-    }
+	public String getPartChapterSceneNo() {
+		String ret = "";
+		if (!hasChapter()) {
+			ret = "x.x.";
+		} else {
+			ret = chapter.getPart().getNumber() + "." + chapter.getChapterno() + ".";
+		}
+		ret += sceneno;
+		return (ret);
+	}
 
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
+	public List<Person> getPersons() {
+		return persons;
+	}
 
-    public List<Item> getItems() {
-        return items;
-    }
+	public Date getRelativeDate(Scene relativeScene) {
+		if (relativeScene == null) {
+			return null;
+		}
+		Date date = relativeScene.getDate();
+		if (date == null) {
+			return null;
+		}
+		return DateUtils.addDays(date, relativeDateDifference);
+	}
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
+	public Integer getRelativeDateDifference() {
+		return this.relativeDateDifference;
+	}
 
-    public List<Location> getLocations() {
-        return locations;
-    }
+	public Long getRelativeSceneId() {
+		return this.relativeSceneId;
+	}
 
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
+	public Integer getSceneno() {
+		return this.sceneno;
+	}
 
-    public List<Strand> getStrands() {
-        return strands;
-    }
-	
-    public void setStrands(List<Strand> strands) {
-        this.strands = strands;
-    }
+	public SceneState getSceneState() {
+		SceneStateModel model = new SceneStateModel();
+		return (SceneState) model.findByNumber(this.status);
+	}
 
-    public Boolean getInformative() {
-        if (informative == null) {
-            return false;
-        }
-        return informative;
-    }
+	public String getSceneTime() {
+		// TODO getSceneTime for new calendar
+		String r = "";
+		return (r);
+	}
 
-    public void setInformative(Boolean informative) {
-        this.informative = informative;
-    }
+	public Timestamp getSceneTs() {
+		return this.sceneTs;
+	}
 
-    @Override
-    public Icon getIcon() {
-        return I18N.getIcon("icon.small.scene");
-    }
+	public Integer getStatus() {
+		return this.status;
+	}
 
-    @Override
-    public String toString() {
-        if (isTransient()) {
-//			return I18N.getMsg("msg.common.scene") + " [" + getTransientId() + "]";
-            return "";
-        }
-        return getFullTitle(false, true);
-    }
+	public Icon getStatusIcon() {
+		return getSceneState().getIcon();
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
-        Scene test = (Scene) obj;
+	public Strand getStrand() {
+		return this.strand;
+	}
 
-        if (id != null ? !id.equals(test.id) : test.id != null) {
-            return false;
-        }
-        boolean ret = true;
-        ret = ret && equalsIntegerNullValue(sceneno, test.getSceneno());
-        ret = ret && equalsIntegerNullValue(status, test.getStatus());
-        ret = ret && equalsObjectNullValue(chapter, test.getChapter());
-        ret = ret && equalsObjectNullValue(strand, test.getStrand());
-        if (sceneTs != null) {
-            ret = ret && equalsTimestampNullValue(sceneTs, test.getSceneTs());
-        } else if (relativeSceneId != null) {
-            ret = ret && equalsLongNullValue(relativeSceneId, test.getRelativeSceneId());
-            ret = ret && equalsIntegerNullValue(relativeDateDifference, test.getRelativeDateDifference());
-        }
-        ret = ret && equalsStringNullValue(title, test.getTitle());
-        ret = ret && equalsStringNullValue(summary, test.getSummary());
-        ret = ret && equalsStringNullValue(notes, test.getNotes());
-        ret = ret && equalsBooleanNullValue(informative, test.getInformative());
-        ret = ret && equalsListNullValue(persons, test.getPersons());
-        ret = ret && equalsListNullValue(locations, test.getLocations());
-        ret = ret && equalsListNullValue(strands, test.getStrands());
-        return ret;
-    }
+	public List<Strand> getStrands() {
+		return strands;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = super.hashCode();
-        hash = hash * 31 + (sceneno != null ? sceneno.hashCode() : 0);
-        hash = hash * 31 + (status != null ? status.hashCode() : 0);
-        hash = hash * 31 + (chapter != null ? chapter.hashCode() : 0);
-        hash = hash * 31 + (strand != null ? strand.hashCode() : 0);
-        hash = hash * 31 + (sceneTs != null ? sceneTs.hashCode() : 0);
-        hash = hash * 31 + (relativeSceneId != null ? relativeSceneId.hashCode() : 0);
-        hash = hash * 31 + (relativeDateDifference != null ? relativeDateDifference.hashCode() : 0);
-        hash = hash * 31 + (title != null ? title.hashCode() : 0);
-        hash = hash * 31 + (summary != null ? summary.hashCode() : 0);
-        hash = hash * 31 + (notes != null ? notes.hashCode() : 0);
-        hash = hash * 31 + (informative != null ? informative.hashCode() : 0);
-        hash = hash * 31 + (persons != null ? getListHashCode(persons) : 0);
-        hash = hash * 31 + (locations != null ? getListHashCode(locations) : 0);
-        hash = hash * 31 + (strands != null ? getListHashCode(strands) : 0);
-        return hash;
-    }
+	public String getSummary() {
+		return this.summary;
+	}
 
-    @Override
-    public int compareTo(Scene o) {
-        int cmp = chapter.compareTo(o.chapter);
-        if (cmp == 0) {
-            return sceneno.compareTo(o.sceneno);
-        }
-        return cmp;
-    }
+	public String getSummary(boolean truncate, int length) {
+		if (truncate) {
+			return TextUtil.truncateString(HtmlUtil.htmlToText(summary), length);
+		}
+		return this.summary;
+	}
 
-    public String getOdf() {
-        return (odf);
-    }
+	public String getText() {
+		return getSummary();
+	}
 
-    public String getCalendar() {
-        String r = "";
-        if (notes.startsWith("$£€ø")) {
-            String z[] = notes.split("ø€£$");
-            String y[] = z[0].split("**");
-            r = y[0].substring("$£€ø".length());
-        }
-        return (r);
-    }
+	public String getText(boolean truncate, int length) {
+		return getSummary(truncate, length);
+	}
 
-    public void setOdf(String nf) {
-		odf=nf;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setCalendar(String cal) {
-        /*String r = "";
-        if (notes.startsWith("$£€ø")) {
-            String nf = getODF();
-            String nt = getNotesNew();
-            notes = "$£€ø" + cal + "**" + nf + "ø€£$" + nt;
-        } else {
-            String nf = "";
-            notes = "$£€ø" + cal + "**" + nf + "ø€£$" + notes;
-		}*/
-    }
+	public String getTitle(boolean truncate) {
+		if (truncate) {
+			return TextUtil.ellipsize(title, 30);
+		}
+		return title;
+	}
 
-    public static String tsToTime(Timestamp ts) {
-        String r = "";
-        //TODO tsToTime for new calendar
-        return (r);
-    }
+	public String getTitleText(boolean truncate, int length) {
+		if (title == null || title.isEmpty()) {
+			return getText(truncate, length);
+		}
+		return getTitle(truncate) + ": " + getText(truncate, length);
+	}
 
- /*   public String sceneNotesConversion(Scene scene) {
-        String n = scene.getNotes();
-        if (!n.startsWith("$£€ø")) {
-            n = "$£€ø" + "**" + "ø€£$" + getNotes();
-        }
-        return (n);
-    }*/
+	public boolean hasChapter() {
+		return chapter != null;
+	}
 
-    public int numberOfCharacters() {
-        int nb = HtmlUtil.htmlToText(summary).length();
-        return (nb);
-    }
+	@Override
+	public int hashCode() {
+		int hash = super.hashCode();
+		hash = hash * 31 + (sceneno != null ? sceneno.hashCode() : 0);
+		hash = hash * 31 + (status != null ? status.hashCode() : 0);
+		hash = hash * 31 + (chapter != null ? chapter.hashCode() : 0);
+		hash = hash * 31 + (strand != null ? strand.hashCode() : 0);
+		hash = hash * 31 + (sceneTs != null ? sceneTs.hashCode() : 0);
+		hash = hash * 31 + (relativeSceneId != null ? relativeSceneId.hashCode() : 0);
+		hash = hash * 31 + (relativeDateDifference != null ? relativeDateDifference.hashCode() : 0);
+		hash = hash * 31 + (title != null ? title.hashCode() : 0);
+		hash = hash * 31 + (summary != null ? summary.hashCode() : 0);
+		hash = hash * 31 + (notes != null ? notes.hashCode() : 0);
+		hash = hash * 31 + (informative != null ? informative.hashCode() : 0);
+		hash = hash * 31 + (persons != null ? getListHashCode(persons) : 0);
+		hash = hash * 31 + (locations != null ? getListHashCode(locations) : 0);
+		hash = hash * 31 + (strands != null ? getListHashCode(strands) : 0);
+		return hash;
+	}
 
-    public int numberOfWords() {
-        int nb = TextUtil.countWords(summary);
-        return (nb);
-    }
+	public boolean hasNoSceneTs() {
+		return sceneTs == null;
+	}
+
+	public boolean hasRelativeScene() {
+		return this.relativeSceneId != null;
+	}
+
+	public boolean hasSceneno() {
+		return sceneno != null;
+	}
+
+	public boolean hasSceneTs() {
+		return sceneTs != null;
+	}
+
+	public int numberOfCharacters() {
+		int nb = HtmlUtil.htmlToText(summary).length();
+		return (nb);
+	}
+
+	public int numberOfWords() {
+		int nb = TextUtil.countWords(summary);
+		return (nb);
+	}
+
+	public void removeNoSceneTs() {
+		// nothing to do
+	}
+
+	public void removeRelativeScene() {
+		relativeSceneId = null;
+		relativeDateDifference = null;
+	}
+
+	public void removeSceneTs() {
+		sceneTs = null;
+	}
+
+	public void setCalendar(String cal) {
+		/*
+		 * String r = ""; if (notes.startsWith("$£€ø")) { String nf = getODF();
+		 * String nt = getNotesNew(); notes = "$£€ø" + cal + "**" + nf + "ø€£$"
+		 * + nt; } else { String nf = ""; notes = "$£€ø" + cal + "**" + nf +
+		 * "ø€£$" + notes; }
+		 */
+	}
+
+	public void setChapter() {
+		this.chapter = null;
+	}
+
+	public void setChapter(Chapter chapter) {
+		this.chapter = chapter;
+	}
+
+	public void setDate(Date date) {
+		if (date == null) {
+			sceneTs = null;
+			return;
+		}
+		sceneTs = new Timestamp(date.getTime());
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setInformative(Boolean informative) {
+		this.informative = informative;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
+	public void setNoSceneTs() {
+		// nothing to do
+	}
+
+	public void setNoSceneTs(String val) {
+		// nothing to do
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public void setOdf(String nf) {
+		odf = nf;
+	}
+
+	public void setPersons(List<Person> persons) {
+		this.persons = persons;
+	}
+
+	public void setRelativeDateDifference(Integer relativeDateDifference) {
+		this.relativeDateDifference = relativeDateDifference;
+	}
+
+	public void setRelativeSceneId(Long relativeSceneId) {
+		this.relativeSceneId = relativeSceneId;
+	}
+
+	public void setRelativeSceneId(Scene relativeScene) {
+		if (relativeScene == null) {
+			return;
+		}
+		setRelativeSceneId(relativeScene.id);
+	}
+
+	public void setSceneno(Integer sceneno) {
+		this.sceneno = sceneno;
+	}
+
+	public void setSceneState(SceneState state) {
+		this.status = state.getNumber();
+	}
+
+	public void setSceneTime(String t) {
+		// TODO setSceneTime
+	}
+
+	public void setSceneTs(Timestamp ts) {
+		sceneTs = ts;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public void setStrand(Strand strand) {
+		this.strand = strand;
+	}
+
+	public void setStrands(List<Strand> strands) {
+		this.strands = strands;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	/*
+	 * public String sceneNotesConversion(Scene scene) { String n =
+	 * scene.getNotes(); if (!n.startsWith("$£€ø")) { n = "$£€ø" + "**" + "ø€£$"
+	 * + getNotes(); } return (n); }
+	 */
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Override
+	public String toString() {
+		if (isTransient()) {
+			// return I18N.getMsg("msg.common.scene") + " [" + getTransientId()
+			// + "]";
+			return "";
+		}
+		return getFullTitle(false, true);
+	}
 }

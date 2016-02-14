@@ -16,21 +16,20 @@
 package storybook.ui.chart;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-public class WiWWTableCellRenderer
-  implements TableCellRenderer
-{
+public class WiWWTableCellRenderer implements TableCellRenderer {
 	@Override
-  public Component getTableCellRendererComponent(JTable paramJTable, Object paramObject, boolean paramBoolean1, boolean paramBoolean2, int paramInt1, int paramInt2)
-  {
-    if ((paramObject == null) || (!(paramObject instanceof WiWWContainer))) {
-		  return new JLabel("");
-	  }
-    WiWWContainer localWiWWContainer = (WiWWContainer)paramObject;
-    WiWWPanel panel = new WiWWPanel(localWiWWContainer, paramBoolean1);
-    return panel;
-  }
+	public Component getTableCellRendererComponent(JTable paramJTable, Object paramObject, boolean paramBoolean1,
+			boolean paramBoolean2, int paramInt1, int paramInt2) {
+		if ((paramObject == null) || (!(paramObject instanceof WiWWContainer))) {
+			return new JLabel("");
+		}
+		WiWWContainer localWiWWContainer = (WiWWContainer) paramObject;
+		WiWWPanel panel = new WiWWPanel(localWiWWContainer, paramBoolean1);
+		return panel;
+	}
 }

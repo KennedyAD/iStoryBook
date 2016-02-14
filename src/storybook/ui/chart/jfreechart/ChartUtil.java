@@ -15,14 +15,13 @@
  */
 package storybook.ui.chart.jfreechart;
 
-import storybook.toolkit.I18N;
-import storybook.toolkit.swing.ColorUtil;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TreeSet;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.CategoryAxis;
@@ -38,6 +37,9 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 
+import storybook.toolkit.I18N;
+import storybook.toolkit.swing.ColorUtil;
+
 /**
  *
  * @author favdb
@@ -47,7 +49,7 @@ public class ChartUtil {
 	@SuppressWarnings("unchecked")
 	public static TreeSet<Date> correctDates(TreeSet<Date> paramTreeSet) {
 		TreeSet localTreeSet = new TreeSet();
-		Date localDate1 = (Date) paramTreeSet.first();
+		Date localDate1 = paramTreeSet.first();
 		Calendar localCalendar1 = Calendar.getInstance();
 		localCalendar1.setTime(localDate1);
 		int i = localCalendar1.get(Calendar.YEAR);
@@ -64,38 +66,6 @@ public class ChartUtil {
 		return localTreeSet;
 	}
 
-	public static void hideLegend(CategoryPlot paramCategoryPlot) {
-		paramCategoryPlot.setFixedLegendItems(new LegendItemCollection());
-	}
-
-	public static void hideDomainAxis(CategoryPlot paramCategoryPlot) {
-		CategoryAxis localCategoryAxis = paramCategoryPlot.getDomainAxis();
-		localCategoryAxis.setTickMarksVisible(false);
-		localCategoryAxis.setTickLabelsVisible(false);
-	}
-
-	public static void hideRangeAxis(CategoryPlot paramCategoryPlot) {
-		ValueAxis localValueAxis = paramCategoryPlot.getRangeAxis();
-		localValueAxis.setTickMarksVisible(false);
-		localValueAxis.setTickLabelsVisible(false);
-	}
-
-	public static ItemLabelPosition getNiceItemLabelPosition() {
-		ItemLabelAnchor localItemLabelAnchor = ItemLabelAnchor.OUTSIDE6;
-		TextAnchor localTextAnchor1 = TextAnchor.BOTTOM_LEFT;
-		TextAnchor localTextAnchor2 = TextAnchor.TOP_LEFT;
-		double d = Math.toRadians(270.0D);
-		return new ItemLabelPosition(localItemLabelAnchor, localTextAnchor1, localTextAnchor2, d);
-	}
-
-	public static void setNiceSeriesColors(CategoryDataset paramCategoryDataset, AbstractRenderer paramAbstractRenderer) {
-		Color[] arrayOfColor = ColorUtil.getDarkColors(ColorUtil.getPastelColors(), 0.35D);
-		for (int i = 0; i < paramCategoryDataset.getRowCount(); i++) {
-			Color localColor = arrayOfColor[(i % arrayOfColor.length)];
-			paramAbstractRenderer.setSeriesPaint(i, localColor);
-		}
-	}
-
 	public static Marker getAverageMarker(double paramDouble) {
 		ValueMarker localValueMarker = new ValueMarker(paramDouble, Color.red, new BasicStroke(0.3F));
 		localValueMarker.setLabel(I18N.getMsg("msg.common.average"));
@@ -103,6 +73,23 @@ public class ChartUtil {
 		localValueMarker.setLabelAnchor(RectangleAnchor.TOP_RIGHT);
 		localValueMarker.setLabelTextAnchor(TextAnchor.BOTTOM_RIGHT);
 		return localValueMarker;
+	}
+
+	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2) {
+		String str = paramDate1.toString() + " - " + paramDate2.toString();
+		return getDateIntervalMarker(paramDate1, paramDate2, str);
+	}
+
+	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2, String paramString) {
+		double d1 = paramDate1.getTime();
+		double d2 = paramDate2.getTime();
+		BasicStroke localBasicStroke = new BasicStroke(0.3F);
+		IntervalMarker localIntervalMarker = new IntervalMarker(d1, d2, Color.pink, localBasicStroke, Color.black,
+				localBasicStroke, 0.5F);
+		localIntervalMarker.setLabel(paramString);
+		localIntervalMarker.setLabelAnchor(RectangleAnchor.BOTTOM);
+		localIntervalMarker.setLabelTextAnchor(TextAnchor.BOTTOM_CENTER);
+		return localIntervalMarker;
 	}
 
 	public static Marker getDateMarker(Date paramDate) {
@@ -127,19 +114,36 @@ public class ChartUtil {
 		return localValueMarker;
 	}
 
-	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2) {
-		String str = paramDate1.toString() + " - " + paramDate2.toString();
-		return getDateIntervalMarker(paramDate1, paramDate2, str);
+	public static ItemLabelPosition getNiceItemLabelPosition() {
+		ItemLabelAnchor localItemLabelAnchor = ItemLabelAnchor.OUTSIDE6;
+		TextAnchor localTextAnchor1 = TextAnchor.BOTTOM_LEFT;
+		TextAnchor localTextAnchor2 = TextAnchor.TOP_LEFT;
+		double d = Math.toRadians(270.0D);
+		return new ItemLabelPosition(localItemLabelAnchor, localTextAnchor1, localTextAnchor2, d);
 	}
 
-	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2, String paramString) {
-		double d1 = paramDate1.getTime();
-		double d2 = paramDate2.getTime();
-		BasicStroke localBasicStroke = new BasicStroke(0.3F);
-		IntervalMarker localIntervalMarker = new IntervalMarker(d1, d2, Color.pink, localBasicStroke, Color.black, localBasicStroke, 0.5F);
-		localIntervalMarker.setLabel(paramString);
-		localIntervalMarker.setLabelAnchor(RectangleAnchor.BOTTOM);
-		localIntervalMarker.setLabelTextAnchor(TextAnchor.BOTTOM_CENTER);
-		return localIntervalMarker;
+	public static void hideDomainAxis(CategoryPlot paramCategoryPlot) {
+		CategoryAxis localCategoryAxis = paramCategoryPlot.getDomainAxis();
+		localCategoryAxis.setTickMarksVisible(false);
+		localCategoryAxis.setTickLabelsVisible(false);
+	}
+
+	public static void hideLegend(CategoryPlot paramCategoryPlot) {
+		paramCategoryPlot.setFixedLegendItems(new LegendItemCollection());
+	}
+
+	public static void hideRangeAxis(CategoryPlot paramCategoryPlot) {
+		ValueAxis localValueAxis = paramCategoryPlot.getRangeAxis();
+		localValueAxis.setTickMarksVisible(false);
+		localValueAxis.setTickLabelsVisible(false);
+	}
+
+	public static void setNiceSeriesColors(CategoryDataset paramCategoryDataset,
+			AbstractRenderer paramAbstractRenderer) {
+		Color[] arrayOfColor = ColorUtil.getDarkColors(ColorUtil.getPastelColors(), 0.35D);
+		for (int i = 0; i < paramCategoryDataset.getRowCount(); i++) {
+			Color localColor = arrayOfColor[(i % arrayOfColor.length)];
+			paramAbstractRenderer.setSeriesPaint(i, localColor);
+		}
 	}
 }

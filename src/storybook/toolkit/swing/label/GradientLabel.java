@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.swing.ColorUtil;
 
-
 public class GradientLabel extends JLabel {
 	private static final long serialVersionUID = 4102708597623810186L;
 	private Color startBgColor = Color.white;
@@ -38,10 +37,8 @@ public class GradientLabel extends JLabel {
 		showBgGradient = false;
 	}
 
-	public GradientLabel(String text, int horizontalAlignment,
-			boolean showBgGradient, Color startBgColor,
-			Color endBgColor) {
-		super(text, horizontalAlignment);
+	public GradientLabel(boolean showBgGradient, Color startBgColor, Color endBgColor) {
+		super();
 		this.showBgGradient = showBgGradient;
 		this.startBgColor = startBgColor;
 		this.endBgColor = endBgColor;
@@ -52,26 +49,12 @@ public class GradientLabel extends JLabel {
 		showBgGradient = false;
 	}
 
-	public GradientLabel(boolean showBgGradient, Color startBgColor,
+	public GradientLabel(String text, int horizontalAlignment, boolean showBgGradient, Color startBgColor,
 			Color endBgColor) {
-		super();
+		super(text, horizontalAlignment);
 		this.showBgGradient = showBgGradient;
 		this.startBgColor = startBgColor;
 		this.endBgColor = endBgColor;
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		if (showBgGradient) {
-			Graphics2D g2d = (Graphics2D) g;
-			GradientPaint gradient = new GradientPaint(
-					0, 0, startBgColor,
-					this.getWidth(), this.getHeight(),
-					ColorUtil.blend(Color.white, endBgColor));
-			g2d.setPaint(gradient);
-			g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		}
-		super.paintComponent(g);
 	}
 
 	public Color getEndBgColor() {
@@ -80,5 +63,17 @@ public class GradientLabel extends JLabel {
 
 	public Color getStartBgColor() {
 		return startBgColor;
+	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		if (showBgGradient) {
+			Graphics2D g2d = (Graphics2D) g;
+			GradientPaint gradient = new GradientPaint(0, 0, startBgColor, this.getWidth(), this.getHeight(),
+					ColorUtil.blend(Color.white, endBgColor));
+			g2d.setPaint(gradient);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		}
+		super.paintComponent(g);
 	}
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.h2.jdbc.JdbcSQLException;
+
 import storybook.SbApp;
 import storybook.model.oldModel.MigrationConstants.ProjectSetting;
 
@@ -40,7 +41,7 @@ public class InternalPeer {
 		try {
 			createTable();
 		} catch (Exception e) {
-			SbApp.error("InternalPeer.create()",e);
+			SbApp.error("InternalPeer.create()", e);
 		}
 	}
 
@@ -49,24 +50,41 @@ public class InternalPeer {
 		Statement stmt;
 
 		// create
-		SbApp.trace("InternalPeer.createTable(" + Internal.TABLE_NAME+")");
-		sql = "create table IF NOT EXISTS "
-			+ Internal.TABLE_NAME
-			+ " ("
-			+ Internal.COLUMN_ID + " identity primary key,"
-			+ Internal.COLUMN_KEY + " varchar(64),"
-			+ Internal.COLUMN_STRING_VALUE + " varchar(64),"
-			+ Internal.COLUMN_INTEGER_VALUE + " int,"
-			+ Internal.COLUMN_BOOLEAN_VALUE + " bool"
-			+ ")";
+		SbApp.trace("InternalPeer.createTable(" + Internal.TABLE_NAME + ")");
+		sql = "create table IF NOT EXISTS " + Internal.TABLE_NAME + " (" + Internal.COLUMN_ID + " identity primary key,"
+				+ Internal.COLUMN_KEY + " varchar(64)," + Internal.COLUMN_STRING_VALUE + " varchar(64),"
+				+ Internal.COLUMN_INTEGER_VALUE + " int," + Internal.COLUMN_BOOLEAN_VALUE + " bool" + ")";
 
 		stmt = ModelMigration.getInstance().getConnection().createStatement();
 		stmt.execute(sql);
 	}
 
+	public static int doCount() {
+		try {
+			String sql = "select count(" + Internal.COLUMN_ID + ") from " + Internal.TABLE_NAME;
+			Statement stmt = ModelMigration.getInstance().getConnection().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) {
+			SbApp.error("InternalPeer.doCount()", e);
+		}
+		return 0;
+	}
+
+	public static boolean doDelete(Internal internal) throws Exception {
+		if (internal == null) {
+			return false;
+		}
+		String sql = "delete from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_ID + " = " + internal.getId();
+		Statement stmt = ModelMigration.getInstance().getConnection().createStatement();
+		stmt.execute(sql);
+		return true;
+	}
+
 	public static List<Internal> doSelectAll() {
 		try {
-			if(!ModelMigration.getInstance().isConnectionOpen()){
+			if (!ModelMigration.getInstance().isConnectionOpen()) {
 				return new ArrayList<>();
 			}
 
@@ -88,10 +106,8 @@ public class InternalPeer {
 	}
 
 	public static Internal doSelectById(int id) throws Exception {
-		String sql = "select * from " + Internal.TABLE_NAME + " where "
-				+ Internal.COLUMN_ID + " = ?";
-		PreparedStatement stmt = ModelMigration.getInstance()
-				.getConnection().prepareStatement(sql);
+		String sql = "select * from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_ID + " = ?";
+		PreparedStatement stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
 		stmt.setInt(1, id);
 		ResultSet rs = stmt.executeQuery();
 		Internal internal = null;
@@ -114,11 +130,8 @@ public class InternalPeer {
 	}
 
 	public static Internal doSelectByKey(String key) throws Exception {
-		String sql = "select * "
-			+ "from " + Internal.TABLE_NAME
-			+ " where " + Internal.COLUMN_KEY + " = ?";
-		PreparedStatement stmt = ModelMigration.getInstance()
-				.getConnection().prepareStatement(sql);
+		String sql = "select * " + "from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_KEY + " = ?";
+		PreparedStatement stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
 		stmt.setString(1, key);
 		ResultSet rs = stmt.executeQuery();
 		Internal internal = null;
@@ -136,19 +149,109 @@ public class InternalPeer {
 		return internal;
 	}
 
-	public static int doCount() {
+	public static String getDbModelVersion() {
 		try {
-			String sql = "select count(" + Internal.COLUMN_ID + ") from "
-					+ Internal.TABLE_NAME;
-			Statement stmt = ModelMigration.getInstance().getConnection()
-					.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			rs.next();
-			return rs.getInt(1);
-		} catch (SQLException e) {
-			SbApp.error("InternalPeer.doCount()", e);
+			Internal dbModel = doSelectByKey(KEY_DB_MODEL_VERSION);
+			if (dbModel == null) {
+				return null;
+			}
+			return dbModel.getStringValue();
+		} catch (JdbcSQLException e) {
+			try {
+				// try to get the value from an old DB model
+				String sql = "select * " + "from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_KEY + " = '"
+						+ KEY_DB_MODEL_VERSION + "'";
+				Statement stmt = ModelMigration.getInstance().getConnection().createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
+				rs.next();
+				return rs.getString(Internal.COLUMN_OLD_VALUE);
+			} catch (SQLException se) {
+				SbApp.error("InternalPeer.getDbModelVersion()", se);
+				return null;
+			}
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getDbModelVersion()", e);
+			return null;
 		}
-		return 0;
+	}
+
+	public static int getManageCols() {
+		try {
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
+			if (internal == null) {
+				return 4;
+			}
+			return internal.getIntegerValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getManageCols()", e);
+		}
+		return 4;
+	}
+
+	public static int getManageViewTextLength() {
+		try {
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
+			if (internal == null) {
+				return 100;
+			}
+			return internal.getIntegerValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getManageViewTextLength()", e);
+		}
+		return 100;
+	}
+
+	public static boolean getReadingView() {
+		try {
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
+			if (internal == null) {
+				// saveReadingView();
+				return false;
+			}
+			return internal.getBooleanValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getReadingView()", e);
+		}
+		return false;
+	}
+
+	public static int getScaleFactorBook() {
+		try {
+			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
+			if (internal == null) {
+				return MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK;
+			}
+			return internal.getIntegerValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getScaleFactorChrono()", e);
+		}
+		return MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK;
+	}
+
+	public static int getScaleFactorChrono() {
+		try {
+			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_CHRONO);
+			if (internal == null) {
+				return MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO;
+			}
+			return internal.getIntegerValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getScaleFactorChrono()", e);
+		}
+		return MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO;
+	}
+
+	public static int getScaleFactorManage() {
+		try {
+			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_MANAGE);
+			if (internal == null) {
+				return MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE;
+			}
+			return internal.getIntegerValue();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.getScaleFactorManage()", e);
+		}
+		return MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE;
 	}
 
 	private static Internal makeInternal(ResultSet rs) throws SQLException {
@@ -160,42 +263,45 @@ public class InternalPeer {
 		return internal;
 	}
 
-	public static boolean doDelete(Internal internal) throws Exception {
-		if (internal == null) {
-			return false;
+	public static void saveManageCols(int cols) {
+		try {
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
+			if (internal == null) {
+				internal = new Internal();
+				internal.setKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
+			}
+			internal.setIntegerValue(cols);
+			internal.save();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.saveManaeGols(" + cols + ")", e);
 		}
-		String sql = "delete from " + Internal.TABLE_NAME
-			+ " where " + Internal.COLUMN_ID + " = " + internal.getId();
-		Statement stmt = ModelMigration.getInstance().getConnection().createStatement();
-		stmt.execute(sql);
-		return true;
 	}
 
-	public static String getDbModelVersion() {
+	public static void saveManageViewTextLength(int textLength) {
 		try {
-			Internal dbModel = doSelectByKey(KEY_DB_MODEL_VERSION);
-			if (dbModel == null) {
-				return null;
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
+			if (internal == null) {
+				internal = new Internal();
+				internal.setKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
 			}
-			return dbModel.getStringValue();
-		} catch (JdbcSQLException e) {
-			try {
-				// try to get the value from an old DB model
-				String sql = "select * " + "from " + Internal.TABLE_NAME
-						+ " where " + Internal.COLUMN_KEY + " = '"
-						+ KEY_DB_MODEL_VERSION + "'";
-				Statement stmt = ModelMigration.getInstance()
-						.getConnection().createStatement();
-				ResultSet rs = stmt.executeQuery(sql);
-				rs.next();
-				return rs.getString(Internal.COLUMN_OLD_VALUE);
-			} catch (SQLException se) {
-				SbApp.error("InternalPeer.getDbModelVersion()", se);
-				return null;
-			}
+			internal.setIntegerValue(textLength);
+			internal.save();
 		} catch (Exception e) {
-			SbApp.error("InternalPeer.getDbModelVersion()", e);
-			return null;
+			SbApp.error("InternalPeer.saveManageViewTextLength(" + textLength + ")", e);
+		}
+	}
+
+	public static void saveReadingView(boolean readingView) {
+		try {
+			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
+			if (internal == null) {
+				internal = new Internal();
+				internal.setKey(MigrationConstants.ProjectSetting.READING_VIEW);
+			}
+			internal.setBooleanValue(readingView);
+			internal.save();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.saveReadingView(" + (readingView ? "true" : false) + ")", e);
 		}
 	}
 
@@ -217,10 +323,18 @@ public class InternalPeer {
 		}
 	}
 
-	public static void setScaleFactorDefaults(){
-		setScaleFactorBook(MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK);
-		setScaleFactorChrono(MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO);
-		setScaleFactorManage(MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE);
+	public static void setScaleFactorBook(int scaleFactor) {
+		try {
+			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
+			if (internal == null) {
+				internal = new Internal();
+				internal.setKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
+			}
+			internal.setIntegerValue(scaleFactor);
+			internal.save();
+		} catch (Exception e) {
+			SbApp.error("InternalPeer.setScaleFactorChrono(" + scaleFactor + ")", e);
+		}
 	}
 
 	public static void setScaleFactorChrono(int scaleFactor) {
@@ -233,48 +347,14 @@ public class InternalPeer {
 			internal.setIntegerValue(scaleFactor);
 			internal.save();
 		} catch (Exception e) {
-			SbApp.error("InternalPeer.setScaleFactorChrono("+scaleFactor+")", e);
+			SbApp.error("InternalPeer.setScaleFactorChrono(" + scaleFactor + ")", e);
 		}
 	}
 
-	public static int getScaleFactorChrono() {
-		try {
-			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_CHRONO);
-			if (internal == null) {
-				return MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO;
-			}
-			return internal.getIntegerValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getScaleFactorChrono()", e);
-		}
-		return MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO;
-	}
-
-	public static void setScaleFactorBook(int scaleFactor) {
-		try {
-			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
-			if (internal == null) {
-				internal = new Internal();
-				internal.setKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
-			}
-			internal.setIntegerValue(scaleFactor);
-			internal.save();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.setScaleFactorChrono("+scaleFactor+")", e);
-		}
-	}
-
-	public static int getScaleFactorBook() {
-		try {
-			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
-			if (internal == null) {
-				return MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK;
-			}
-			return internal.getIntegerValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getScaleFactorChrono()", e);
-		}
-		return MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK;
+	public static void setScaleFactorDefaults() {
+		setScaleFactorBook(MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK);
+		setScaleFactorChrono(MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO);
+		setScaleFactorManage(MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE);
 	}
 
 	public static void setScaleFactorManage(int scaleFactor) {
@@ -287,108 +367,7 @@ public class InternalPeer {
 			internal.setIntegerValue(scaleFactor);
 			internal.save();
 		} catch (Exception e) {
-			SbApp.error("InternalPeer.setScaleFactorManage("+scaleFactor+")", e);
-		}
-	}
-
-	public static int getScaleFactorManage() {
-		try {
-			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_MANAGE);
-			if (internal == null) {
-				return MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE;
-			}
-			return internal.getIntegerValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getScaleFactorManage()", e);
-		}
-		return MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE;
-	}
-
-	public static void saveManageCols(int cols) {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
-			if (internal == null) {
-				internal = new Internal();
-				internal.setKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
-			}
-			internal.setIntegerValue(cols);
-			internal.save();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.saveManaeGols("+cols+")", e);
-		}
-	}
-
-	public static int getManageCols() {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
-			if (internal == null) {
-				return 4;
-			}
-			return internal.getIntegerValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getManageCols()", e);
-		}
-		return 4;
-	}
-
-	public static void saveManageViewTextLength(int textLength) {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
-			if (internal == null) {
-				internal = new Internal();
-				internal.setKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
-			}
-			internal.setIntegerValue(textLength);
-			internal.save();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.saveManageViewTextLength("+textLength+")", e);
-		}
-	}
-
-	public static int getManageViewTextLength() {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
-			if (internal == null) {
-				return 100;
-			}
-			return internal.getIntegerValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getManageViewTextLength()", e);
-		}
-		return 100;
-	}
-
-	public static boolean getReadingView() {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
-			if (internal == null) {
-				// saveReadingView();
-				return false;
-			}
-			return internal.getBooleanValue();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.getReadingView()", e);
-		}
-		return false;
-	}
-
-	public static void saveReadingView(boolean readingView) {
-		try {
-			Internal internal = InternalPeer
-					.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
-			if (internal == null) {
-				internal = new Internal();
-				internal.setKey(MigrationConstants.ProjectSetting.READING_VIEW);
-			}
-			internal.setBooleanValue(readingView);
-			internal.save();
-		} catch (Exception e) {
-			SbApp.error("InternalPeer.saveReadingView("+(readingView?"true":false)+")", e);
+			SbApp.error("InternalPeer.setScaleFactorManage(" + scaleFactor + ")", e);
 		}
 	}
 }

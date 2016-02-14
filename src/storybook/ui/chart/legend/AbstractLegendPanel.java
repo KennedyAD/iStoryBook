@@ -17,35 +17,30 @@ package storybook.ui.chart.legend;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
-import org.miginfocom.swing.MigLayout;
-import storybook.ui.panel.AbstractPanel;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
-public abstract class AbstractLegendPanel extends AbstractPanel
-{
-  public AbstractLegendPanel()
-  {
-  }
+public abstract class AbstractLegendPanel extends AbstractPanel {
+	public AbstractLegendPanel() {
+	}
 
-  public AbstractLegendPanel(MainFrame paramMainFrame)
-  {
-    super(paramMainFrame);
-  }
+	public AbstractLegendPanel(MainFrame paramMainFrame) {
+		super(paramMainFrame);
+	}
 
 	@Override
-  public void modelPropertyChange(PropertyChangeEvent paramPropertyChangeEvent)
-  {
-  }
+	public void init() {
+	}
 
 	@Override
-  public void init()
-  {
-  }
+	public void initUi() {
+		setLayout(new MigLayout("flowx"));
+		setBackground(Color.white);
+	}
 
 	@Override
-  public void initUi()
-  {
-    setLayout(new MigLayout("flowx"));
-    setBackground(Color.white);
-  }
+	public void modelPropertyChange(PropertyChangeEvent paramPropertyChangeEvent) {
+	}
 }

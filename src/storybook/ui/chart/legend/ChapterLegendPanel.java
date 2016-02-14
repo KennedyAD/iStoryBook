@@ -17,7 +17,9 @@ package storybook.ui.chart.legend;
 
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.JLabel;
+
 import storybook.toolkit.I18N;
 
 public class ChapterLegendPanel extends AbstractLegendPanel {

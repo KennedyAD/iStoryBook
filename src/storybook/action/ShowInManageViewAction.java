@@ -35,8 +35,7 @@ import storybook.ui.MainFrame;
 public class ShowInManageViewAction extends AbstractEntityAction {
 
 	public ShowInManageViewAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.show.in.manage.view"), I18N
-				.getIcon("icon.small.manage.view"));
+		super(mainFrame, entity, I18N.getMsg("msg.show.in.manage.view"), I18N.getIcon("icon.small.manage.view"));
 	}
 
 	@Override

@@ -31,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.miginfocom.swing.MigLayout;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
@@ -39,9 +39,7 @@ import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
 @SuppressWarnings("serial")
-public abstract class AbstractFileDialog
-		extends AbstractDialog
-		implements CaretListener {
+public abstract class AbstractFileDialog extends AbstractDialog implements CaretListener {
 
 	protected JLabel lbWarning;
 	protected JButton btOk;
@@ -62,17 +60,109 @@ public abstract class AbstractFileDialog
 		initUi();
 	}
 
-	protected void initOptionsPanel() {
-	}
-
 	/**
-	 *  Add information (label / widget) to the main panel.
+	 * Add information (label / widget) to the main panel.
 	 */
 	protected void addInformationLines() {
 	}
 
 	@Override
+	public void caretUpdate(CaretEvent e) {
+		if (e.getSource() instanceof JTextField) {
+			if (tfName.getText().isEmpty() || tfDir.getText().isEmpty()) {
+				btOk.setEnabled(false);
+				return;
+			}
+			btOk.setEnabled(true);
+			lbWarning.setText(" ");
+		}
+	}
+
+	private AbstractAction getChooseFolderAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				final JFileChooser fc = new JFileChooser(tfDir.getText());
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int ret = fc.showOpenDialog(mainFrame);
+				if (ret != JFileChooser.APPROVE_OPTION) {
+					return;
+				}
+				File dir = fc.getSelectedFile();
+				tfDir.setText(dir.getAbsolutePath());
+				lbWarning.setText(" ");
+			}
+		};
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public MainFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				if (tfName.getText().isEmpty() || tfDir.getText().isEmpty()) {
+					btOk.setEnabled(false);
+					return;
+				}
+				File dir = new File(tfDir.getText());
+				if (!dir.isDirectory() || !dir.canWrite() || !dir.canExecute()) {
+					lbWarning.setText(I18N.getMsg("msg.new_file.not.writable"));
+					return;
+				}
+				String name = tfName.getText();
+				if (forceDbExt) {
+					String fileExtOld = SbConstants.Storybook.DB_FILE_EXT.toString();
+					String fileExt = SbConstants.Storybook.DB_FILE_EXT2.toString();
+					if ((!name.endsWith(fileExtOld)) && (!name.endsWith(fileExt))) {
+						name += fileExt;
+					}
+				} else {
+					name += defaultDBExt;
+				}
+				file = new File(tfDir.getText() + File.separator + name);
+				if ((file.exists()) && (askForOverwrite)) {
+					int ret = JOptionPane.showConfirmDialog(mainFrame,
+							I18N.getMsg("msg.save_file.overwrite.text", file.getName()),
+							I18N.getMsg("msg.save_file.overwrite.title"), JOptionPane.YES_NO_OPTION);
+					if (ret == JOptionPane.NO_OPTION) {
+						lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
+						return;
+					}
+				} else if (file.exists()) {
+					lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
+					return;
+				}
+				getThis().canceled = false;
+				getThis().dispose();
+			}
+		};
+	}
+
+	public JTextField getTfDir() {
+		return tfDir;
+	}
+
+	public JTextField getTfName() {
+		return tfName;
+	}
+
+	protected AbstractFileDialog getThis() {
+		return this;
+	}
+
+	@Override
 	public void init() {
+	}
+
+	protected void initOptionsPanel() {
 	}
 
 	@Override
@@ -122,13 +212,21 @@ public abstract class AbstractFileDialog
 			add(tfDir, "split 2");
 			add(btChooseDir);
 		}
-		
+
 		addInformationLines();
-		
+
 		add(optionsPanel, "span");
 		add(lbWarning, "span,gapy 10");
 		add(btOk, "sg,span,split 2,right,gapy 10");
 		add(btCancel, "sg");
+	}
+
+	public void setAskForOverwrite(boolean ask) {
+		askForOverwrite = ask;
+	}
+
+	public void setDefaultDBExt(String ext) {
+		defaultDBExt = ext;
 	}
 
 	protected void setDir(String dir) {
@@ -140,117 +238,15 @@ public abstract class AbstractFileDialog
 		tfName.selectAll();
 	}
 
-	protected AbstractFileDialog getThis() {
-		return this;
-	}
-
-	@Override
-	public void caretUpdate(CaretEvent e) {
-		if (e.getSource() instanceof JTextField) {
-			if (tfName.getText().isEmpty() || tfDir.getText().isEmpty()) {
-				btOk.setEnabled(false);
-				return;
-			}
-			btOk.setEnabled(true);
-			lbWarning.setText(" ");
-		}
-	}
-
-	public JTextField getTfDir() {
-		return tfDir;
-	}
-
-	public JTextField getTfName() {
-		return tfName;
-	}
-
-	public void setTfName(String name) {
-		tfName.setText(name);
-	}
-
-	public File getFile() {
-		return file;
+	public void setForceDbExtension(boolean forced) {
+		forceDbExt = forced;
 	}
 
 	public void setHideDir(boolean dirOnly) {
 		hideDir = dirOnly;
 	}
 
-	public void setAskForOverwrite(boolean ask) {
-		askForOverwrite = ask;
-	}
-
-	public void setForceDbExtension(boolean forced) {
-		forceDbExt = forced;
-	}
-	
-	public void setDefaultDBExt(String ext) {
-		defaultDBExt=ext;
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				if (tfName.getText().isEmpty() || tfDir.getText().isEmpty()) {
-					btOk.setEnabled(false);
-					return;
-				}
-				File dir = new File(tfDir.getText());
-				if (!dir.isDirectory() || !dir.canWrite() || !dir.canExecute()) {
-					lbWarning.setText(I18N.getMsg("msg.new_file.not.writable"));
-					return;
-				}
-				String name = tfName.getText();
-				if (forceDbExt) {
-					String fileExtOld = SbConstants.Storybook.DB_FILE_EXT.toString();
-					String fileExt = SbConstants.Storybook.DB_FILE_EXT2.toString();
-					if ((!name.endsWith(fileExtOld)) && (!name.endsWith(fileExt))) {
-						name += fileExt;
-					}
-				} else {
-					name += defaultDBExt;
-				}
-				file = new File(tfDir.getText() + File.separator + name);
-				if ((file.exists()) && (askForOverwrite)) {
-					int ret = JOptionPane.showConfirmDialog( mainFrame,
-							I18N.getMsg("msg.save_file.overwrite.text", file.getName()),
-							I18N.getMsg("msg.save_file.overwrite.title"),
-					    JOptionPane.YES_NO_OPTION);
-					if (ret == JOptionPane.NO_OPTION) {
-					    lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
-					    return;
-					}
-				}
-				else if (file.exists()) {
-					lbWarning.setText(I18N.getMsg("msg.new_file.file.exists"));
-					return;
-				}
-				getThis().canceled = false;
-				getThis().dispose();
-			}
-		};
-	}
-
-	private AbstractAction getChooseFolderAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				final JFileChooser fc = new JFileChooser(tfDir.getText());
-				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				int ret = fc.showOpenDialog(mainFrame);
-				if (ret != JFileChooser.APPROVE_OPTION) {
-					return;
-				}
-				File dir = fc.getSelectedFile();
-				tfDir.setText(dir.getAbsolutePath());
-				lbWarning.setText(" ");
-			}
-		};
-	}
-
-	public MainFrame getMainFrame() {
-		return mainFrame;
+	public void setTfName(String name) {
+		tfName.setText(name);
 	}
 }

@@ -28,70 +28,99 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.hibernate.proxy.HibernateProxyHelper;
+
 import storybook.toolkit.html.HtmlUtil;
 
 public abstract class AbstractEntity implements Serializable {
 
 	private static Long transientIdCounter = 1L;
 
-	protected Long id = -1L;
-	private Long transientId = -1L;
-
-	public AbstractEntity() {
-		super();
-		transientId = transientIdCounter++;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public boolean isTransient() {
-		return id.intValue() == -1L;
-	}
-
-	public Long getTransientId() {
-		return transientId;
-	}
-
-	public String get() {
-		return "";
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		if (isTransient()) {
-			hash = hash * 31
-					+ (transientId != null ? transientId.hashCode() : 0);
+	public static boolean equalsBooleanNullValue(Boolean b1, Boolean b2) {
+		if (b1 != null && b2 == null) {
+			return false;
 		}
-		// see https://community.jboss.org/wiki/EqualsAndHashCode
-		// else {
-		// hash = hash * 31 + (id != null ? id.hashCode() : 0);
-		// }
-		return hash;
+		if (b1 == null && b2 != null) {
+			return false;
+		}
+		if (b1 != null) {
+			if (b2 == null) {
+				return false;
+			}
+			return b1.equals(b2);
+		}
+		return true;
+	}
+	public static boolean equalsDateNullValue(Date d1, Date d2) {
+		if (d1 != null && d2 == null) {
+			return false;
+		}
+		if (d1 == null && d2 != null) {
+			return false;
+		}
+		if (d1 != null) {
+			if (d2 == null) {
+				return false;
+			}
+			return (d1.compareTo(d2) == 0);
+		}
+		return true;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public static boolean equalsIntegerNullValue(Integer n1, Integer n2) {
+		if (n1 != null && n2 == null) {
+			return false;
+		}
+		if (n1 == null && n2 != null) {
+			return false;
+		}
+		if (n1 != null) {
+			if (n2 == null) {
+				return false;
+			}
+			return n1.equals(n2);
+		}
+		return true;
+	}
+
+	public static boolean equalsListNullValue(List<? extends AbstractEntity> li1, List<? extends AbstractEntity> li2) {
+		if (li1 == null && li2 == null) {
 			return true;
 		}
-		if (obj == null) {
+		if (li1 == null || li2 == null) {
 			return false;
 		}
-		// hibernate object may have class names like Person_$$_javassist_11
-		Class<?> cl1 = HibernateProxyHelper.getClassWithoutInitializingProxy(this);
-		Class<?> cl2 = HibernateProxyHelper.getClassWithoutInitializingProxy(obj);
-		if (cl1 != cl2) {
+		if (li1.isEmpty() && li2.isEmpty()) {
+			return true;
+		}
+		if (li1.size() != li2.size()) {
 			return false;
 		}
-		AbstractEntity test = (AbstractEntity) obj;
-		// for test use getter here since hibernate may need to load it first
-		if (isTransient()) {
-			return transientId.equals(test.getTransientId());
+		List<Long> ids1 = new ArrayList<Long>();
+		for (AbstractEntity e : li1) {
+			ids1.add(e.getId());
 		}
-		return id.equals(test.getId());
+		List<Long> ids2 = new ArrayList<Long>();
+		for (AbstractEntity e : li2) {
+			ids2.add(e.getId());
+		}
+		ids1.removeAll(ids2);
+		return ids1.isEmpty();
+	}
+
+	public static boolean equalsLongNullValue(Long l1, Long l2) {
+		if (l1 != null && l2 == null) {
+			return false;
+		}
+		if (l1 == null && l2 != null) {
+			return false;
+		}
+		if (l1 != null) {
+			if (l2 == null) {
+				return false;
+			}
+			return l1.equals(l2);
+		}
+		return true;
 	}
 
 	public static boolean equalsObjectNullValue(Object o1, Object o2) {
@@ -128,54 +157,6 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
-	public static boolean equalsIntegerNullValue(Integer n1, Integer n2) {
-		if (n1 != null && n2 == null) {
-			return false;
-		}
-		if (n1 == null && n2 != null) {
-			return false;
-		}
-		if (n1 != null) {
-			if (n2 == null) {
-				return false;
-			}
-			return n1.equals(n2);
-		}
-		return true;
-	}
-
-	public static boolean equalsLongNullValue(Long l1, Long l2) {
-		if (l1 != null && l2 == null) {
-			return false;
-		}
-		if (l1 == null && l2 != null) {
-			return false;
-		}
-		if (l1 != null) {
-			if (l2 == null) {
-				return false;
-			}
-			return l1.equals(l2);
-		}
-		return true;
-	}
-
-	public static boolean equalsDateNullValue(Date d1, Date d2) {
-		if (d1 != null && d2 == null) {
-			return false;
-		}
-		if (d1 == null && d2 != null) {
-			return false;
-		}
-		if (d1 != null) {
-			if (d2 == null) {
-				return false;
-			}
-			return (d1.compareTo(d2) == 0);
-		}
-		return true;
-	}
-
 	public static boolean equalsTimestampNullValue(Timestamp ts1, Timestamp ts2) {
 		if (ts1 != null && ts2 == null) {
 			return false;
@@ -192,33 +173,6 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
-	public static boolean equalsListNullValue(
-			List<? extends AbstractEntity> li1,
-			List<? extends AbstractEntity> li2) {
-		if (li1 == null && li2 == null) {
-			return true;
-		}
-		if (li1 == null || li2 == null) {
-			return false;
-		}
-		if (li1.isEmpty() && li2.isEmpty()) {
-			return true;
-		}
-		if (li1.size() != li2.size()) {
-			return false;
-		}
-		List<Long> ids1 = new ArrayList<Long>();
-		for (AbstractEntity e : li1) {
-			ids1.add(e.getId());
-		}
-		List<Long> ids2 = new ArrayList<Long>();
-		for (AbstractEntity e : li2) {
-			ids2.add(e.getId());
-		}
-		ids1.removeAll(ids2);
-		return ids1.isEmpty();
-	}
-
 	public static int getListHashCode(List<?> list) {
 		int hash = 31;
 		for (Object o : list) {
@@ -228,20 +182,39 @@ public abstract class AbstractEntity implements Serializable {
 		return hash;
 	}
 
-	public static boolean equalsBooleanNullValue(Boolean b1, Boolean b2) {
-		if (b1 != null && b2 == null) {
+	protected Long id = -1L;
+
+	private Long transientId = -1L;
+
+	public AbstractEntity() {
+		super();
+		transientId = transientIdCounter++;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
 			return false;
 		}
-		if (b1 == null && b2 != null) {
+		// hibernate object may have class names like Person_$$_javassist_11
+		Class<?> cl1 = HibernateProxyHelper.getClassWithoutInitializingProxy(this);
+		Class<?> cl2 = HibernateProxyHelper.getClassWithoutInitializingProxy(obj);
+		if (cl1 != cl2) {
 			return false;
 		}
-		if (b1 != null) {
-			if (b2 == null) {
-				return false;
-			}
-			return b1.equals(b2);
+		AbstractEntity test = (AbstractEntity) obj;
+		// for test use getter here since hibernate may need to load it first
+		if (isTransient()) {
+			return transientId.equals(test.getTransientId());
 		}
-		return true;
+		return id.equals(test.getId());
+	}
+
+	public String get() {
+		return "";
 	}
 
 	public String getAbbr() {
@@ -250,5 +223,30 @@ public abstract class AbstractEntity implements Serializable {
 
 	public Icon getIcon() {
 		return new ImageIcon();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Long getTransientId() {
+		return transientId;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		if (isTransient()) {
+			hash = hash * 31 + (transientId != null ? transientId.hashCode() : 0);
+		}
+		// see https://community.jboss.org/wiki/EqualsAndHashCode
+		// else {
+		// hash = hash * 31 + (id != null ? id.hashCode() : 0);
+		// }
+		return hash;
+	}
+
+	public boolean isTransient() {
+		return id.intValue() == -1L;
 	}
 }

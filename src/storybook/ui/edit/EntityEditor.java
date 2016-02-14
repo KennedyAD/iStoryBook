@@ -63,15 +63,15 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.JTextComponent;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.jopendocument.dom.OOUtils;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
@@ -152,16 +152,17 @@ import storybook.ui.table.SbColumn.InputType;
 @SuppressWarnings("serial")
 public class EntityEditor extends AbstractPanel implements ActionListener, ItemListener {
 
-	public static Dimension MINIMUM_SIZE = new Dimension(440, 500);
-	private static final String ERROR_LABEL = "error_label";
-	private JCheckBox cbLeaveOpen;
-	private JTextField tfFile;
-	private JButton btChooseFile;
-
 	private enum MsgState {
 
 		ERRORS, WARNINGS, UPDATED, ADDED
 	}
+	public static Dimension MINIMUM_SIZE = new Dimension(440, 500);
+	private static final String ERROR_LABEL = "error_label";
+	private JCheckBox cbLeaveOpen;
+	private JTextField tfFile;
+
+	private JButton btChooseFile;
+
 	private boolean leaveOpen;
 	private AbstractEntityHandler entityHandler;
 	private final BookController ctrl;
@@ -197,20 +198,297 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		fromDialog = dlg;
 	}
 
+	private void abandonEntityChanges() {
+		EntityUtil.abandonEntityChanges(mainFrame, entity);
+		unloadEntity();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		SbApp.trace("EntityEditor.actionPerformed(evt)");
+		String compName = ((Component) e.getSource()).getName();
+		if (ComponentName.BT_ODT.check(compName)) {
+			openOdtFile(mainFrame, (Scene) entity);
+		} else if (ComponentName.BT_OK.check(compName)) {
+			addOrUpdateEntity();
+			if (errorState == ErrorState.ERROR) {
+				return;
+			}
+			unloadEntity();
+			refresh();
+			if (!leaveOpen) {
+				mainFrame.hideEditor();
+			}
+			if (isDialog == true) {
+				fromDialog.dispose();
+			}
+		} else if (ComponentName.BT_ADD_OR_UPDATE.check(compName)) {
+			addOrUpdateEntity();
+			if (errorState == ErrorState.ERROR) {
+			}
+		} else if (ComponentName.BT_CANCEL.check(compName)) {
+			abandonEntityChanges();
+			refresh();
+			if (!leaveOpen) {
+				mainFrame.hideEditor();
+			}
+			if (isDialog == true) {
+				fromDialog.dispose();
+			}
+		} else if (compName.equals("BtAddStrands")) {
+			mainFrame.showEditorAsDialog(new Strand());
+			reloadUi(I18N.getMsg("msg.dlg.scene.strand.links"));
+		} else if (compName.equals("BtAddPersons")) {
+			mainFrame.showEditorAsDialog(new Person());
+			reloadUi("Persons");
+		} else if (compName.equals("BtAddLocations")) {
+			mainFrame.showEditorAsDialog(new Location());
+			reloadUi("Locations");
+		}
+	}
+
+	private void addOrUpdateEntity() {
+		SbApp.trace("EntityEditor.addOrUpdateEntity()");
+		// TODO don't save if this new entity is calling from Scene entity
+		try {
+			updateEntityFromInputComponents();
+			if (entity.isTransient()) {
+				verifyInput();
+				if (errorState == ErrorState.ERROR) {
+					return;
+				}
+				ctrl.newEntity(entity);
+				if (errorState == ErrorState.OK) {
+					setMsgState(MsgState.ADDED);
+				}
+				titlePanel.refresh(entity);
+				btAddOrUpdate.setText(I18N.getMsg("msg.editor.update"));
+			} else {
+				verifyInput();
+				if (errorState == ErrorState.ERROR) {
+					return;
+				}
+				ctrl.updateEntity(entity);
+				if (errorState == ErrorState.OK) {
+					setMsgState(MsgState.UPDATED);
+				}
+			}
+			if (entity instanceof Person) {
+				EntityUtil.setEntityAttributes(mainFrame, entity, attributes);
+			}
+			if (entity instanceof Scene) {
+				Scene scene = (Scene) entity;
+				if (BookUtil.isUseLibreOffice(mainFrame)) {
+					scene.setOdf(tfFile.getText());
+				}
+			}
+			origEntity = entityHandler.createNewEntity();
+			EntityUtil.copyEntityProperties(mainFrame, entity, origEntity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void createOdtFile(File file) {
+		SbApp.trace("EntityEditor.createOdtFile(" + file.getAbsolutePath() + ")");
+		try {
+			String source = "storybook/resources/Empty.odt";
+			if (BookUtil.isUseSimpleTemplate(mainFrame)) {
+				source = "storybook/resources/Simple.odt";
+			}
+			InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
+			;
+			if (BookUtil.isUsePersonnalTemplate(mainFrame)) {
+				Internal internal = BookUtil.get(mainFrame, BookKey.USE_PERSONNAL_TEMPLATE, "");
+				source = internal.getStringValue();
+				File f = new File(source);
+				if (f.exists()) {
+					is = new FileInputStream(source);
+				}
+			}
+			Files.copy(is, file.toPath());
+		} catch (IOException ex) {
+			SbApp.error("EntityEditor.createOdtFile(...)", ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void editEntity() {
+		SbApp.trace("EntityEditor.editEntity()");
+		for (SbColumn col : entityHandler.getColumns()) {
+			try {
+				Object ret = "";
+				Method method = null;
+				if (!col.getMethodName().isEmpty()) {
+					String methodName = "get" + col.getMethodName();
+					method = entity.getClass().getMethod(methodName);
+					ret = method.invoke(entity);
+				}
+				for (JComponent comp : inputComponents) {
+					if (col.getMethodName().equals(comp.getName())) {
+						if (comp instanceof JTextComponent) {
+							if (ret == null) {
+								continue;
+							}
+							JTextComponent tf = (JTextComponent) comp;
+							tf.setText(ret.toString());
+							tf.setCaretPosition(0);
+						} else if (comp instanceof PlainTextEditor) {
+							if (ret == null) {
+								continue;
+							}
+							PlainTextEditor editor = (PlainTextEditor) comp;
+							editor.setText(ret.toString());
+						} else if (comp instanceof HtmlEditor) {
+							if (ret == null) {
+								continue;
+							}
+							HtmlEditor editor = (HtmlEditor) comp;
+							editor.setText(ret.toString());
+							editor.setCaretPosition(0);
+						} else if (comp instanceof JCheckBox) {
+							if (ret == null) {
+								continue;
+							}
+							((JCheckBox) comp).setSelected((Boolean) ret);
+						} else if (comp instanceof AutoCompleteComboBox) {
+							AbstractEntityHandler eHandler = EntityUtil.getEntityHandler(mainFrame, ret, method,
+									entity);
+							AutoCompleteComboBox autoCombo = (AutoCompleteComboBox) comp;
+							String chosen = "";
+							if (ret != null) {
+								chosen = ret.toString();
+							}
+							EntityUtil.fillAutoCombo(mainFrame, autoCombo, eHandler, chosen,
+									col.getAutoCompleteDaoMethod());
+						} else if (comp instanceof JComboBox) {
+							boolean isNew = (ret == null);
+							final JComboBox<Object> combo = (JComboBox<Object>) comp;
+							if (col.hasComboModel()) {
+								final ComboBoxModel<Object> model = col.getComboModel();
+								if (model instanceof IRefreshableComboModel) {
+									IRefreshableComboModel refModel = (IRefreshableComboModel) model;
+									refModel.setMainFrame(mainFrame);
+									refModel.refresh();
+								}
+								combo.setModel(model);
+								combo.revalidate();
+								if (ret == null && combo.getItemCount() > 0) {
+									combo.setSelectedIndex(0);
+								} else {
+									model.setSelectedItem(ret);
+								}
+								if (col.hasListCellRenderer()) {
+									combo.setRenderer(col.getListCellRenderer());
+								}
+							} else {
+								AbstractEntityHandler entityHandler2 = EntityUtil.getEntityHandler(mainFrame, ret,
+										method, entity);
+								EntityUtil.fillEntityCombo(mainFrame, combo, entityHandler2, (AbstractEntity) ret,
+										isNew, col.isEmptyComboItem());
+							}
+						} else if (comp instanceof CheckBoxPanel) {
+							CheckBoxPanel cbPanel = (CheckBoxPanel) comp;
+							AbstractEntityHandler entityHandler2 = EntityUtil.getEntityHandler(mainFrame, ret, method,
+									entity);
+							cbPanel.setEntityHandler(entityHandler2);
+							cbPanel.setEntity(entity);
+							cbPanel.setEntityList((List) ret);
+							cbPanel.setSearch(col.getSearch());
+							if (col.hasDecorator()) {
+								CbPanelDecorator decorator = col.getDecorator();
+								decorator.setPanel(cbPanel);
+								cbPanel.setDecorator(decorator);
+							}
+							cbPanel.initAll();
+						} else if (comp instanceof DateChooser) {
+							DateChooser dateChooser = (DateChooser) comp;
+							dateChooser.setDate((Date) ret);
+						} else if (comp instanceof CleverColorChooser) {
+							if (ret != null) {
+								CleverColorChooser colorChooser = (CleverColorChooser) comp;
+								colorChooser.setColor((Color) ret);
+							}
+						} else if (comp instanceof JLabel) {
+							if (ret != null) {
+								JLabel lb = (JLabel) comp;
+								if (col.getInputType() == SbColumn.InputType.ICON) {
+									lb.setIcon((Icon) ret);
+								} else if (ret instanceof Timestamp) {
+									Timestamp stamp = (Timestamp) ret;
+									SimpleDateFormat dateFormat = new SimpleDateFormat(
+											I18N.getMsg("msg.common.dateformat"));
+									lb.setText(dateFormat.format(stamp));
+								} else {
+									lb.setText(ret.toString());
+								}
+							}
+						} else if (comp instanceof AttributesPanel) {
+							AttributesPanel attrPanel = (AttributesPanel) comp;
+							attrPanel.setAttributes(EntityUtil.getEntityAttributes(mainFrame, entity));
+							attrPanel.initAll();
+						}
+					}
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			if (col.hasRadioButtonGroup()) {
+				RadioButtonGroup rbGroup = col.getRadioButtonGroup();
+				RadioButtonGroupPanel rbgPanel = rbgPanels.get(rbGroup);
+				int key = col.getRadioButtonIndex();
+				AbstractButton bt = rbgPanel.getButton(key);
+				if (rbGroup.hasAttr(entity, key)) {
+					bt.setSelected(true);
+					rbgPanel.enableSubPanel(key);
+				} else {
+					bt.setSelected(false);
+					rbgPanel.disableSubPanel(key);
+				}
+			}
+		}
+	}
+
+	private AbstractAction getChooseFileAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				final JFileChooser fc = new JFileChooser(tfFile.getText());
+				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				int ret = fc.showOpenDialog(mainFrame);
+				if (ret != JFileChooser.APPROVE_OPTION) {
+					return;
+				}
+				File dir = fc.getSelectedFile();
+				tfFile.setText(dir.getAbsolutePath());
+			}
+		};
+	}
+
+	public AbstractEntity getEntity() {
+		return entity;
+	}
+
+	public boolean hasEntityChanged() {
+		if (entity == null) {
+			return false;
+		}
+		return (!entity.equals(origEntity));
+	}
+
 	@Override
 	public final void init() {
 		SbApp.trace("EntityEditor.init()");
 		containers = new ArrayList<>();
 		inputComponents = new ArrayList<>();
 		rbgPanels = new HashMap<>();
-		/*try {
-		 Internal internal = BookUtil.get(mainFrame, BookKey.LEAVE_EDITOR_OPEN, SbConstants.DEFAULT_LEAVE_EDITOR_OPEN);
-		 if (internal != null) {
-		 leaveOpen = internal.getBooleanValue();
-		 }
-		 } catch (Exception e) {
-		 leaveOpen = SbConstants.DEFAULT_LEAVE_EDITOR_OPEN;
-		 }*/
+		/*
+		 * try { Internal internal = BookUtil.get(mainFrame,
+		 * BookKey.LEAVE_EDITOR_OPEN, SbConstants.DEFAULT_LEAVE_EDITOR_OPEN); if
+		 * (internal != null) { leaveOpen = internal.getBooleanValue(); } }
+		 * catch (Exception e) { leaveOpen =
+		 * SbConstants.DEFAULT_LEAVE_EDITOR_OPEN; }
+		 */
 	}
 
 	private void initHandler() {
@@ -273,7 +551,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			btAddOrUpdate.setText(I18N.getMsg("msg.editor.update"));
 		}
 
-		editEntity(/*evt*/);
+		editEntity(/* evt */);
 
 		if (!entity.isTransient()) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -302,7 +580,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			rbgPanels.clear();
 
 			if (entityHandler == null) {
-				JLabel lb = new JLabel(I18N.getMsg("msg.editor.nothing.to.edit"), JLabel.CENTER);
+				JLabel lb = new JLabel(I18N.getMsg("msg.editor.nothing.to.edit"), SwingConstants.CENTER);
 				SwingUtil.setMaxPreferredSize(lb);
 				add(lb, "top");
 				SwingUtil.forceRevalidate(this);
@@ -311,8 +589,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 
 			titlePanel = new TitlePanel();
 			titlePanel.refresh(entity);
-			String titleLayout="split 3, growx";
-			if (entity instanceof Idea) titleLayout="split 2, growx";
+			String titleLayout = "split 3, growx";
+			if (entity instanceof Idea)
+				titleLayout = "split 2, growx";
 			add(titlePanel, titleLayout);
 
 			JButton unicodeButton = new JButton();
@@ -346,14 +625,16 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			containers.add(new JPanel());
 			JPanel container = containers.get(containers.size() - 1);
 			container.setLayout(new MigLayout("wrap 2", "[][grow]", ""));
-			container.putClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString(), I18N.getMsg("msg.common"));
+			container.putClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString(),
+					I18N.getMsg("msg.common"));
 
 			for (SbColumn col : entityHandler.getColumns()) {
 				if (col.isShowInSeparateTab()) {
 					containers.add(new JPanel());
 					container = containers.get(containers.size() - 1);
 					container.setLayout(new MigLayout("fill,wrap", "[grow]", ""));
-					container.putClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString(), col.toString());
+					container.putClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString(),
+							col.toString());
 				}
 
 				RadioButtonGroupPanel btgPanel = null;
@@ -374,11 +655,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 					if (col.getInputType() == InputType.NONE) {
 						// skip input type "none"
 						// no => used to display information
-						//	continue;
+						// continue;
 					}
 					if (col.getInputType() == InputType.SEPARATOR) {
-						//JSeparator sep = new JSeparator();
-						//container.add(sep, "growx");
+						// JSeparator sep = new JSeparator();
+						// container.add(sep, "growx");
 					} else {
 						JLabel lb = new JLabel();
 						lb.setText(col.toString() + ":");
@@ -413,14 +694,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 					if (col.isAutoComplete()) {
 						comp = new AutoCompleteComboBox();
 					} else if (col.hasMaxLength()) {
-						AbstractDocument doc = (AbstractDocument) ((JTextField) comp)
-								.getDocument();
-						doc.setDocumentFilter(new DocumentSizeFilter(col
-								.getMaxLength()));
+						AbstractDocument doc = (AbstractDocument) ((JTextField) comp).getDocument();
+						doc.setDocumentFilter(new DocumentSizeFilter(col.getMaxLength()));
 					}
 				} else if (inputType == InputType.TEXTAREA) {
-					if (col.getMethodName().equals("Description")
-							|| col.getMethodName().equals("Notes")) {
+					if (col.getMethodName().equals("Description") || col.getMethodName().equals("Notes")) {
 						if (BookUtil.isUseHtmlDescr(mainFrame)) {
 							comp = new HtmlEditor();
 							((HtmlEditor) comp).setMaxLength(col.getMaxLength());
@@ -532,7 +810,8 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			tabbedPane = new JTabbedPane();
 			int i = 0;
 			for (JPanel container2 : containers) {
-				String title = (String) container2.getClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString());
+				String title = (String) container2
+						.getClientProperty(SbConstants.ClientPropertyName.COMPONENT_TITLE.toString());
 				container2.setName(title);
 				if (i == 0) {
 					// put the first panel into a scroller (for small screens)
@@ -606,7 +885,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 					add(btODT, "sg");
 				}
 			}
-			//add(cbLeaveOpen, "gap push");
+			// add(cbLeaveOpen, "gap push");
 
 			SwingUtil.forceRevalidate(this);
 		} catch (Exception e) {
@@ -616,42 +895,15 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
-	private void setMsgState(MsgState state) {
-		String text = "";
-		Icon icon = null;
-		switch (state) {
-			case ERRORS:
-				text = I18N.getMsg("msg.common.error");
-				icon = IconUtil.StateIcon.ERROR.getIcon();
-				break;
-			case WARNINGS:
-				text = I18N.getMsg("msg.common.warning");
-				icon = IconUtil.StateIcon.WARNING.getIcon();
-				break;
-			case ADDED:
-				text = I18N.getMsg("msg.editor.added");
-				icon = IconUtil.StateIcon.OK.getIcon();
-				break;
-			case UPDATED:
-				text = I18N.getMsg("msg.editor.updated");
-				icon = IconUtil.StateIcon.OK.getIcon();
-				break;
-		}
-		lbMsgState.setVisible(true);
-		lbMsgState.setText(text);
-		lbMsgState.setIcon(icon);
+	public boolean isEntityLoaded() {
+		return entity != null;
+	}
 
-		if (state == MsgState.ADDED || state == MsgState.UPDATED) {
-			Timer timer = new Timer(1500, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					lbMsgState.setText("");
-					lbMsgState.setIcon(null);
-				}
-			});
-			timer.setRepeats(false);
-			timer.start();
-		}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		JCheckBox cb = (JCheckBox) e.getSource();
+		leaveOpen = cb.isSelected();
+		BookUtil.store(mainFrame, BookKey.LEAVE_EDITOR_OPEN, leaveOpen);
 	}
 
 	@Override
@@ -659,7 +911,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		SbApp.trace("EntityEditor.modelPropertyChange(evt)");
 		String propName = evt.getPropertyName();
 		if (propName.startsWith("Delete")) {
-			if (entity != null && entity.equals((AbstractEntity) evt.getOldValue())) {
+			if (entity != null && entity.equals(evt.getOldValue())) {
 				entityHandler = null;
 				initUi();
 			}
@@ -727,158 +979,137 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
-	private void showHasErrorWarning() {
-		mainFrame.showEditor();
-		JOptionPane.showMessageDialog(this,
-				I18N.getMsg("msg.common.editor.has.error"),
-				I18N.getMsg("msg.common.warning"), JOptionPane.WARNING_MESSAGE);
+	private void openOdtFile(MainFrame mainFrame, Scene scene) {
+		String name;
+		if ((tfFile.getText() == null) || (tfFile.getText().isEmpty())) {
+			name = ODTUtils.getFilePath(mainFrame, scene);
+			scene.setOdf(name);
+		} else {
+			name = tfFile.getText();
+		}
+		File file = new File(name);
+		if (!file.exists()) {
+			if (JOptionPane.showConfirmDialog(null, I18N.getMsg("msg.libreoffice.filenotexist"),
+					I18N.getMsg("msg.libreoffice.launching"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+				createOdtFile(file);
+				scene.setOdf(file.getName());
+			}
+		}
+		try {
+			OOUtils.open(file);
+		} catch (IOException e) {
+			SbApp.error("execLibreOffice(mainFrame,...)", e);
+		}
+	}
+
+	private JPanel panelLibreOffice(Scene scene) {
+		JPanel p = new JPanel();
+		p.setLayout(new MigLayout("wrap 2", "[][grow]", ""));
+		p.setName(I18N.getMsg("msg.libreoffice.parameters"));
+		JLabel l = new JLabel(I18N.getMsg("msg.libreoffice.file"));
+		p.add(l);
+		JLabel lEmpty = new JLabel(" ");
+		p.add(lEmpty);
+		tfFile = new JTextField(30);
+		tfFile.setName("file");
+		tfFile.setText(scene.getOdf());
+		p.add(tfFile);
+
+		btChooseFile = new JButton();
+		btChooseFile.setAction(getChooseFileAction());
+		btChooseFile.setText(I18N.getMsg("msg.libreoffice.open"));
+		p.add(btChooseFile);
+		JButton btResetFile = new JButton();
+		btResetFile.setAction(resetFileAction());
+		btResetFile.setText(I18N.getMsg("msg.libreoffice.reset"));
+		p.add(btResetFile);
+		return (p);
+	}
+
+	private void reloadUi(String focus) {
+		AbstractEntity saveEntity = entityHandler.createNewEntity();
+		EntityUtil.copyEntityProperties(mainFrame, entity, saveEntity);
+		int c = tabbedPane.getSelectedIndex();
+		// addOrUpdateEntity();
+		init();
+		initHandler();
+		cbLeaveOpen.setVisible(false);
+		EntityUtil.copyEntityProperties(mainFrame, saveEntity, entity);
+		tabbedPane.setSelectedIndex(c);
+	}
+
+	private AbstractAction resetFileAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				tfFile.setText(ODTUtils.getFilePath(mainFrame, (Scene) entity));
+			}
+		};
+	}
+
+	private void setMsgState(MsgState state) {
+		String text = "";
+		Icon icon = null;
+		switch (state) {
+		case ERRORS:
+			text = I18N.getMsg("msg.common.error");
+			icon = IconUtil.StateIcon.ERROR.getIcon();
+			break;
+		case WARNINGS:
+			text = I18N.getMsg("msg.common.warning");
+			icon = IconUtil.StateIcon.WARNING.getIcon();
+			break;
+		case ADDED:
+			text = I18N.getMsg("msg.editor.added");
+			icon = IconUtil.StateIcon.OK.getIcon();
+			break;
+		case UPDATED:
+			text = I18N.getMsg("msg.editor.updated");
+			icon = IconUtil.StateIcon.OK.getIcon();
+			break;
+		}
+		lbMsgState.setVisible(true);
+		lbMsgState.setText(text);
+		lbMsgState.setIcon(icon);
+
+		if (state == MsgState.ADDED || state == MsgState.UPDATED) {
+			Timer timer = new Timer(1500, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					lbMsgState.setText("");
+					lbMsgState.setIcon(null);
+				}
+			});
+			timer.setRepeats(false);
+			timer.start();
+		}
 	}
 
 	private int showConfirmation() {
 		mainFrame.showEditor();
-		final Object[] options = {I18N.getMsg("msg.common.save.changes"),
-			I18N.getMsg("msg.common.discard.changes"),
-			I18N.getMsg("msg.common.cancel")};
-		int n = JOptionPane.showOptionDialog(
-				mainFrame,
-				I18N.getMsg("msg.common.save.or.discard.changes") + "\n\n"
-				+ EntityUtil.getEntityTitle(entity) + ": "
-				+ entity.toString() + "\n\n",
-				I18N.getMsg("msg.common.save.changes.title"),
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, options, options[2]);
+		final Object[] options = { I18N.getMsg("msg.common.save.changes"), I18N.getMsg("msg.common.discard.changes"),
+				I18N.getMsg("msg.common.cancel") };
+		int n = JOptionPane.showOptionDialog(mainFrame,
+				I18N.getMsg("msg.common.save.or.discard.changes") + "\n\n" + EntityUtil.getEntityTitle(entity) + ": "
+						+ entity.toString() + "\n\n",
+				I18N.getMsg("msg.common.save.changes.title"), JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
 		return n;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void editEntity() {
-		SbApp.trace("EntityEditor.editEntity()");
-		for (SbColumn col : entityHandler.getColumns()) {
-			try {
-				Object ret = "";
-				Method method = null;
-				if (!col.getMethodName().isEmpty()) {
-					String methodName = "get" + col.getMethodName();
-					method = entity.getClass().getMethod(methodName);
-					ret = method.invoke(entity);
-				}
-				for (JComponent comp : inputComponents) {
-					if (col.getMethodName().equals(comp.getName())) {
-						if (comp instanceof JTextComponent) {
-							if (ret == null) {
-								continue;
-							}
-							JTextComponent tf = (JTextComponent) comp;
-							tf.setText(ret.toString());
-							tf.setCaretPosition(0);
-						} else if (comp instanceof PlainTextEditor) {
-							if (ret == null) {
-								continue;
-							}
-							PlainTextEditor editor = (PlainTextEditor) comp;
-							editor.setText(ret.toString());
-						} else if (comp instanceof HtmlEditor) {
-							if (ret == null) {
-								continue;
-							}
-							HtmlEditor editor = (HtmlEditor) comp;
-							editor.setText(ret.toString());
-							editor.setCaretPosition(0);
-						} else if (comp instanceof JCheckBox) {
-							if (ret == null) {
-								continue;
-							}
-							((JCheckBox) comp).setSelected((Boolean) ret);
-						} else if (comp instanceof AutoCompleteComboBox) {
-							AbstractEntityHandler eHandler = EntityUtil.getEntityHandler(mainFrame, ret, method, entity);
-							AutoCompleteComboBox autoCombo = (AutoCompleteComboBox) comp;
-							String chosen = "";
-							if (ret != null) {
-								chosen = ret.toString();
-							}
-							EntityUtil.fillAutoCombo(mainFrame, autoCombo, eHandler, chosen, col.getAutoCompleteDaoMethod());
-						} else if (comp instanceof JComboBox) {
-							boolean isNew = (ret == null);
-							final JComboBox<Object> combo = (JComboBox<Object>) comp;
-							if (col.hasComboModel()) {
-								final ComboBoxModel<Object> model = col.getComboModel();
-								if (model instanceof IRefreshableComboModel) {
-									IRefreshableComboModel refModel = (IRefreshableComboModel) model;
-									refModel.setMainFrame(mainFrame);
-									refModel.refresh();
-								}
-								combo.setModel(model);
-								combo.revalidate();
-								if (ret == null && combo.getItemCount() > 0) {
-									combo.setSelectedIndex(0);
-								} else {
-									model.setSelectedItem(ret);
-								}
-								if (col.hasListCellRenderer()) {
-									combo.setRenderer(col.getListCellRenderer());
-								}
-							} else {
-								AbstractEntityHandler entityHandler2 = EntityUtil.getEntityHandler(mainFrame, ret, method, entity);
-								EntityUtil.fillEntityCombo(mainFrame, combo, entityHandler2, (AbstractEntity) ret, isNew, col.isEmptyComboItem());
-							}
-						} else if (comp instanceof CheckBoxPanel) {
-							CheckBoxPanel cbPanel = (CheckBoxPanel) comp;
-							AbstractEntityHandler entityHandler2 = EntityUtil.getEntityHandler(mainFrame, ret, method, entity);
-							cbPanel.setEntityHandler(entityHandler2);
-							cbPanel.setEntity(entity);
-							cbPanel.setEntityList((List) ret);
-							cbPanel.setSearch(col.getSearch());
-							if (col.hasDecorator()) {
-								CbPanelDecorator decorator = col.getDecorator();
-								decorator.setPanel(cbPanel);
-								cbPanel.setDecorator(decorator);
-							}
-							cbPanel.initAll();
-						} else if (comp instanceof DateChooser) {
-							DateChooser dateChooser = (DateChooser) comp;
-							dateChooser.setDate((Date) ret);
-						} else if (comp instanceof CleverColorChooser) {
-							if (ret != null) {
-								CleverColorChooser colorChooser = (CleverColorChooser) comp;
-								colorChooser.setColor((Color) ret);
-							}
-						} else if (comp instanceof JLabel) {
-							if (ret != null) {
-								JLabel lb = (JLabel) comp;
-								if (col.getInputType() == SbColumn.InputType.ICON) {
-									lb.setIcon((Icon) ret);
-								} else if (ret instanceof Timestamp) {
-									Timestamp stamp = (Timestamp) ret;
-									SimpleDateFormat dateFormat = new SimpleDateFormat(I18N.getMsg("msg.common.dateformat"));
-									lb.setText(dateFormat.format(stamp));
-								} else {
-									lb.setText(ret.toString());
-								}
-							}
-						} else if (comp instanceof AttributesPanel) {
-							AttributesPanel attrPanel = (AttributesPanel) comp;
-							attrPanel.setAttributes(EntityUtil.getEntityAttributes(mainFrame, entity));
-							attrPanel.initAll();
-						}
-					}
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-			if (col.hasRadioButtonGroup()) {
-				RadioButtonGroup rbGroup = col.getRadioButtonGroup();
-				RadioButtonGroupPanel rbgPanel = rbgPanels.get(rbGroup);
-				int key = col.getRadioButtonIndex();
-				AbstractButton bt = rbgPanel.getButton(key);
-				if (rbGroup.hasAttr(entity, key)) {
-					bt.setSelected(true);
-					rbgPanel.enableSubPanel(key);
-				} else {
-					bt.setSelected(false);
-					rbgPanel.disableSubPanel(key);
-				}
-			}
-		}
+	private void showHasErrorWarning() {
+		mainFrame.showEditor();
+		JOptionPane.showMessageDialog(this, I18N.getMsg("msg.common.editor.has.error"),
+				I18N.getMsg("msg.common.warning"), JOptionPane.WARNING_MESSAGE);
+	}
+
+	private void unloadEntity() {
+		SbApp.trace("EntityEditor.unloadEntity()");
+		entity = null;
+		entityHandler = null;
+		containers.clear();
+		inputComponents.clear();
+		rbgPanels.clear();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -959,8 +1190,8 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 				Object val = null;
 				Class<?>[] types = null;
 				if (type == Long.class) {
-					val = (Scene) objVal;
-					types = new Class[]{Scene.class};
+					val = objVal;
+					types = new Class[] { Scene.class };
 				} else if (type == Integer.class) {
 					if (objVal != null) {
 						if (objVal.toString().isEmpty()) {
@@ -969,22 +1200,22 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 							val = Integer.parseInt(objVal.toString());
 						}
 					}
-					types = new Class[]{Integer.class};
+					types = new Class[] { Integer.class };
 				} else if (type == String.class) {
 					val = objVal;
-					types = new Class[]{String.class};
+					types = new Class[] { String.class };
 				} else if (type == Boolean.class) {
 					val = objVal;
-					types = new Class[]{Boolean.class};
+					types = new Class[] { Boolean.class };
 				} else if (type == Person.class) {
 					if (objVal instanceof String) {
 						if (((String) objVal).length() == 0) {
 							val = null;
 						}
 					} else {
-						val = (Person) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Person.class};
+					types = new Class[] { Person.class };
 
 				} else if (type == Location.class) {
 					if (objVal instanceof String) {
@@ -992,96 +1223,96 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 							val = null;
 						}
 					} else {
-						val = (Location) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Location.class};
+					types = new Class[] { Location.class };
 				} else if (type == Scene.class) {
 					if (objVal instanceof String) {
 						if (((String) objVal).length() == 0) {
 							val = null;
 						}
 					} else {
-						val = (Scene) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Scene.class};
+					types = new Class[] { Scene.class };
 				} else if (type == Chapter.class) {
 					if (objVal instanceof String) {
 						if (((String) objVal).length() == 0) {
 							val = null;
 						}
 					} else {
-						val = (Chapter) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Chapter.class};
+					types = new Class[] { Chapter.class };
 				} else if (type == Part.class) {
 					if (objVal instanceof String) {
 						if (((String) objVal).length() == 0) {
 							val = null;
 						}
 					} else {
-						val = (Part) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Part.class};
+					types = new Class[] { Part.class };
 				} else if (type == Gender.class) {
-					val = (Gender) objVal;
-					types = new Class[]{Gender.class};
+					val = objVal;
+					types = new Class[] { Gender.class };
 				} else if (type == Category.class) {
 					if (objVal instanceof String) {
 						if (((String) objVal).length() == 0) {
 							val = null;
 						}
 					} else {
-						val = (Category) objVal;
+						val = objVal;
 					}
-					types = new Class[]{Category.class};
+					types = new Class[] { Category.class };
 				} else if (type == Strand.class) {
-					val = (Strand) objVal;
-					types = new Class[]{Strand.class};
+					val = objVal;
+					types = new Class[] { Strand.class };
 				} else if (type == Idea.class) {
-					val = (Idea) objVal;
-					types = new Class[]{Idea.class};
+					val = objVal;
+					types = new Class[] { Idea.class };
 				} else if (type == Tag.class) {
-					val = (Tag) objVal;
-					types = new Class[]{Tag.class};
+					val = objVal;
+					types = new Class[] { Tag.class };
 				} else if (type == AbstractTag.class) {
-					val = (AbstractTag) objVal;
-					types = new Class[]{AbstractTag.class};
+					val = objVal;
+					types = new Class[] { AbstractTag.class };
 				} else if (type == Item.class) {
-					val = (Item) objVal;
-					types = new Class[]{Item.class};
+					val = objVal;
+					types = new Class[] { Item.class };
 				} else if (type == TagLink.class) {
-					val = (TagLink) objVal;
-					types = new Class[]{TagLink.class};
+					val = objVal;
+					types = new Class[] { TagLink.class };
 				} else if (type == ItemLink.class) {
-					val = (ItemLink) objVal;
-					types = new Class[]{ItemLink.class};
+					val = objVal;
+					types = new Class[] { ItemLink.class };
 				} else if (type == TimeEvent.class) {
-					val = (TimeEvent) objVal;
-					types = new Class[]{TimeEvent.class};
+					val = objVal;
+					types = new Class[] { TimeEvent.class };
 				} else if (type == Date.class) {
-					val = (Date) objVal;
-					types = new Class[]{Date.class};
+					val = objVal;
+					types = new Class[] { Date.class };
 				} else if (type == Timestamp.class) {
-					val = (Timestamp) objVal;
-					types = new Class[]{Timestamp.class};
+					val = objVal;
+					types = new Class[] { Timestamp.class };
 				} else if (type == Color.class) {
-					val = (Color) objVal;
-					types = new Class[]{Color.class};
+					val = objVal;
+					types = new Class[] { Color.class };
 				} else if (type == SceneState.class) {
-					val = (SceneState) objVal;
-					types = new Class[]{SceneState.class};
+					val = objVal;
+					types = new Class[] { SceneState.class };
 				} else if (type == TimeStepState.class) {
-					val = (TimeStepState) objVal;
-					types = new Class[]{TimeStepState.class};
+					val = objVal;
+					types = new Class[] { TimeStepState.class };
 				} else if (type == IdeaState.class) {
-					val = (IdeaState) objVal;
-					types = new Class[]{IdeaState.class};
+					val = objVal;
+					types = new Class[] { IdeaState.class };
 				} else if (type == List.class) {
-					val = (List<?>) objVal;
-					types = new Class[]{List.class};
+					val = objVal;
+					types = new Class[] { List.class };
 				} else if (type == Icon.class) {
-					val = (Icon) objVal;
-					types = new Class[]{Icon.class};
+					val = objVal;
+					types = new Class[] { Icon.class };
 				}
 				if (col.getInputType() != InputType.ATTRIBUTES && col.getInputType() != InputType.NONE) {
 					if (!col.getMethodName().isEmpty()) {
@@ -1193,236 +1424,6 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void addOrUpdateEntity() {
-		SbApp.trace("EntityEditor.addOrUpdateEntity()");
-		//TODO don't save if this new entity is calling from Scene entity
-		try {
-			updateEntityFromInputComponents();
-			if (entity.isTransient()) {
-				verifyInput();
-				if (errorState == ErrorState.ERROR) {
-					return;
-				}
-				ctrl.newEntity(entity);
-				if (errorState == ErrorState.OK) {
-					setMsgState(MsgState.ADDED);
-				}
-				titlePanel.refresh(entity);
-				btAddOrUpdate.setText(I18N.getMsg("msg.editor.update"));
-			} else {
-				verifyInput();
-				if (errorState == ErrorState.ERROR) {
-					return;
-				}
-				ctrl.updateEntity(entity);
-				if (errorState == ErrorState.OK) {
-					setMsgState(MsgState.UPDATED);
-				}
-			}
-			if (entity instanceof Person) {
-				EntityUtil.setEntityAttributes(mainFrame, entity, attributes);
-			}
-			if (entity instanceof Scene) {
-				Scene scene = (Scene) entity;
-				if (BookUtil.isUseLibreOffice(mainFrame)) {
-					scene.setOdf(tfFile.getText());
-				}
-			}
-			origEntity = entityHandler.createNewEntity();
-			EntityUtil.copyEntityProperties(mainFrame, entity, origEntity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void abandonEntityChanges() {
-		EntityUtil.abandonEntityChanges(mainFrame, entity);
-		unloadEntity();
-	}
-
-	private void unloadEntity() {
-		SbApp.trace("EntityEditor.unloadEntity()");
-		entity = null;
-		entityHandler = null;
-		containers.clear();
-		inputComponents.clear();
-		rbgPanels.clear();
-	}
-
-	public AbstractEntity getEntity() {
-		return entity;
-	}
-
-	public boolean isEntityLoaded() {
-		return entity != null;
-	}
-
-	public boolean hasEntityChanged() {
-		if (entity == null) {
-			return false;
-		}
-		return (!entity.equals(origEntity));
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		SbApp.trace("EntityEditor.actionPerformed(evt)");
-		String compName = ((Component) e.getSource()).getName();
-		if (ComponentName.BT_ODT.check(compName)) {
-			openOdtFile(mainFrame, (Scene) entity);
-		} else if (ComponentName.BT_OK.check(compName)) {
-			addOrUpdateEntity();
-			if (errorState == ErrorState.ERROR) {
-				return;
-			}
-			unloadEntity();
-			refresh();
-			if (!leaveOpen) {
-				mainFrame.hideEditor();
-			}
-			if (isDialog == true) {
-				fromDialog.dispose();
-			}
-		} else if (ComponentName.BT_ADD_OR_UPDATE.check(compName)) {
-			addOrUpdateEntity();
-			if (errorState == ErrorState.ERROR) {
-			}
-		} else if (ComponentName.BT_CANCEL.check(compName)) {
-			abandonEntityChanges();
-			refresh();
-			if (!leaveOpen) {
-				mainFrame.hideEditor();
-			}
-			if (isDialog == true) {
-				fromDialog.dispose();
-			}
-		} else if (compName.equals("BtAddStrands")) {
-			mainFrame.showEditorAsDialog(new Strand());
-			reloadUi(I18N.getMsg("msg.dlg.scene.strand.links"));
-		} else if (compName.equals("BtAddPersons")) {
-			mainFrame.showEditorAsDialog(new Person());
-			reloadUi("Persons");
-		} else if (compName.equals("BtAddLocations")) {
-			mainFrame.showEditorAsDialog(new Location());
-			reloadUi("Locations");
-		}
-	}
-
-	private void reloadUi(String focus) {
-		AbstractEntity saveEntity = entityHandler.createNewEntity();
-		EntityUtil.copyEntityProperties(mainFrame, entity, saveEntity);
-		int c = tabbedPane.getSelectedIndex();
-		//addOrUpdateEntity();
-		init();
-		initHandler();
-		cbLeaveOpen.setVisible(false);
-		EntityUtil.copyEntityProperties(mainFrame, saveEntity, entity);
-		tabbedPane.setSelectedIndex(c);
-	}
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		JCheckBox cb = (JCheckBox) e.getSource();
-		leaveOpen = cb.isSelected();
-		BookUtil.store(mainFrame, BookKey.LEAVE_EDITOR_OPEN, leaveOpen);
-	}
-
-	private void openOdtFile(MainFrame mainFrame, Scene scene) {
-		String name;
-		if ((tfFile.getText() == null) || (tfFile.getText().isEmpty())) {
-			name = ODTUtils.getFilePath(mainFrame, scene);
-			scene.setOdf(name);
-		} else {
-			name = tfFile.getText();
-		}
-		File file = new File(name);
-		if (!file.exists()) {
-			if (JOptionPane.showConfirmDialog(null,
-					I18N.getMsg("msg.libreoffice.filenotexist"),
-					I18N.getMsg("msg.libreoffice.launching"),
-					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-				createOdtFile(file);
-				scene.setOdf(file.getName());
-			}
-		}
-		try {
-			OOUtils.open(file);
-		} catch (IOException e) {
-			SbApp.error("execLibreOffice(mainFrame,...)", e);
-		}
-	}
-
-	private void createOdtFile(File file) {
-		SbApp.trace("EntityEditor.createOdtFile(" + file.getAbsolutePath() + ")");
-		try {
-			String source = "storybook/resources/Empty.odt";
-			if (BookUtil.isUseSimpleTemplate(mainFrame)) {
-				source = "storybook/resources/Simple.odt";
-			}
-			InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);;
-			if (BookUtil.isUsePersonnalTemplate(mainFrame)) {
-				Internal internal = BookUtil.get(mainFrame, BookKey.USE_PERSONNAL_TEMPLATE, "");
-				source = internal.getStringValue();
-				File f = new File(source);
-				if (f.exists()) {
-					is = new FileInputStream(source);
-				}
-			}
-			Files.copy(is, file.toPath());
-		} catch (IOException ex) {
-			SbApp.error("EntityEditor.createOdtFile(...)", ex);
-		}
-	}
-
-	private JPanel panelLibreOffice(Scene scene) {
-		JPanel p = new JPanel();
-		p.setLayout(new MigLayout("wrap 2", "[][grow]", ""));
-		p.setName(I18N.getMsg("msg.libreoffice.parameters"));
-		JLabel l = new JLabel(I18N.getMsg("msg.libreoffice.file"));
-		p.add(l);
-		JLabel lEmpty = new JLabel(" ");
-		p.add(lEmpty);
-		tfFile = new JTextField(30);
-		tfFile.setName("file");
-		tfFile.setText(scene.getOdf());
-		p.add(tfFile);
-
-		btChooseFile = new JButton();
-		btChooseFile.setAction(getChooseFileAction());
-		btChooseFile.setText(I18N.getMsg("msg.libreoffice.open"));
-		p.add(btChooseFile);
-		JButton btResetFile = new JButton();
-		btResetFile.setAction(resetFileAction());
-		btResetFile.setText(I18N.getMsg("msg.libreoffice.reset"));
-		p.add(btResetFile);
-		return (p);
-	}
-
-	private AbstractAction resetFileAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				tfFile.setText(ODTUtils.getFilePath(mainFrame, (Scene) entity));
-			}
-		};
-	}
-
-	private AbstractAction getChooseFileAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				final JFileChooser fc = new JFileChooser(tfFile.getText());
-				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				int ret = fc.showOpenDialog(mainFrame);
-				if (ret != JFileChooser.APPROVE_OPTION) {
-					return;
-				}
-				File dir = fc.getSelectedFile();
-				tfFile.setText(dir.getAbsolutePath());
-			}
-		};
 	}
 
 }

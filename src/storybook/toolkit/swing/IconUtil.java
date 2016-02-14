@@ -29,13 +29,16 @@ import storybook.toolkit.I18N;
 public class IconUtil {
 
 	public enum StateIcon {
-		ERROR("icon.small.error"),
-		OK("icon.small.ok"),
-		WARNING("icon.small.warning"),
-		INFO("icon.small.info");
+		ERROR("icon.small.error"), OK("icon.small.ok"), WARNING("icon.small.warning"), INFO("icon.small.info");
 		final private Icon icon;
-		private StateIcon(String iconKey) { this.icon = I18N.getImageIcon(iconKey); }
-		public Icon getIcon() { return icon; };
+
+		private StateIcon(String iconKey) {
+			this.icon = I18N.getImageIcon(iconKey);
+		}
+
+		public Icon getIcon() {
+			return icon;
+		};
 	}
 
 }

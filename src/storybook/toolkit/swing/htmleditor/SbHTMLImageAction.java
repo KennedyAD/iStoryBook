@@ -6,30 +6,39 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Action;
-import static javax.swing.Action.SMALL_ICON;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTML;
 
-import storybook.toolkit.swing.SwingUtil;
-
-//import shef.i18n.I18n;
-import shef.ui.UIUtils;
-import shef.ui.text.HTMLUtils;
-import shef.ui.text.actions.HTMLTextEditAction;
-import shef.ui.text.dialogs.ImageDialog;
+import net.atlanticbb.tantlinger.ui.UIUtils;
+import net.atlanticbb.tantlinger.ui.text.HTMLUtils;
+import net.atlanticbb.tantlinger.ui.text.actions.HTMLTextEditAction;
+import net.atlanticbb.tantlinger.ui.text.dialogs.ImageDialog;
 import storybook.toolkit.I18N;
+import storybook.toolkit.swing.SwingUtil;
 
 @SuppressWarnings("serial")
 public class SbHTMLImageAction extends HTMLTextEditAction {
 
-//	private static final I18n i18n = I18n.getInstance("storybook.toolkit.shef.shef");
+	// private static final I18n i18n =
+	// I18n.getInstance("storybook.toolkit.shef.shef");
 
 	public SbHTMLImageAction() {
 		super(I18N.getMsg("shef.image_")); //$NON-NLS-1$
 		putValue(SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "image.png")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, getValue(Action.NAME));
+	}
+
+	protected ImageDialog createDialog(JTextComponent ed) {
+		Window w = SwingUtilities.getWindowAncestor(ed);
+		ImageDialog d = null;
+		if (w != null && w instanceof Frame)
+			d = new ImageDialog((Frame) w);
+		else if (w != null && w instanceof Dialog)
+			d = new ImageDialog((Dialog) w);
+
+		return d;
 	}
 
 	@Override
@@ -70,16 +79,5 @@ public class SbHTMLImageAction extends HTMLTextEditAction {
 			tag = HTML.Tag.A;
 
 		HTMLUtils.insertHTML(tagText, tag, editor);
-	}
-
-	protected ImageDialog createDialog(JTextComponent ed) {
-		Window w = SwingUtilities.getWindowAncestor(ed);
-		ImageDialog d = null;
-		if (w != null && w instanceof Frame)
-			d = new ImageDialog((Frame) w);
-		else if (w != null && w instanceof Dialog)
-			d = new ImageDialog((Dialog) w);
-
-		return d;
 	}
 }

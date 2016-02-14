@@ -35,8 +35,7 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 
-public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
-		PartDAO {
+public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO {
 
 	public PartDAOImpl() {
 		super();
@@ -44,66 +43,6 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
 
 	public PartDAOImpl(Session session) {
 		super(session);
-	}
-
-	public Part findFirst() {
-		List<Part> ret = findAll();
-		return ret.get(0);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Part> findAll() {
-		Query query = session.createQuery("from Part order by number");
-		List<Part> ret = (List<Part>) query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Part> findAllRoots() {
-		String sql = "select id"
-				+ " from part"
-				+ " where part_id is NULL"
-				+ " order by number";
-		Query query = session.createSQLQuery(sql);
-		List<Object> qret = query.list();
-		List<Part> parts = new ArrayList<Part>();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		for (int i = 0; i < qret.size(); ++i) {
-			Object oa = (Object) qret.get(i);
-			long subId = ((BigInteger) oa).longValue();
-			Part subPart = dao.find(subId);
-			parts.add(subPart);
-		}
-		return parts;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Chapter> findChapters(Part part) {
-		Criteria crit = session.createCriteria(Chapter.class);
-		crit.add(Restrictions.eq("part", part));
-		crit.addOrder(Order.asc("chapterno"));
-		List<Chapter> chapters = (List<Chapter>) crit.list();
-		return chapters;
-	}
-
-	public List<Chapter> findAllChapters(Part part) {
-		List<Chapter> chapters = findChapters(part);
-		List<Part> subparts = getParts(part);
-		for (Part subpart : subparts) {
-			chapters.addAll(findAllChapters(subpart));
-		}
-		return chapters;
-	}
-
-	public int getNextPartNumber() {
-		return getMaxPartNumber() + 1;
-	}
-
-	public int getMaxPartNumber() {
-		Query query = session.createQuery("select max(number) from Part");
-		Integer ret = (Integer) query.uniqueResult();
-		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -119,11 +58,11 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
 				Integer oldNumber = oldPart.getNumber();
 				Criteria crit = session.createCriteria(Part.class);
 				crit.add(Restrictions.eq("number", newNumber));
-				List<Part> parts = (List<Part>) crit.list();
+				List<Part> parts = crit.list();
 				Vector<Integer> numbers = new Vector<Integer>();
 				for (Part part : parts) {
 					if (AbstractEntity.equalsObjectNullValue(part.getSuperpart(), newPart.getSuperpart())) {
-					    numbers.add(part.getNumber());
+						numbers.add(part.getNumber());
 					}
 				}
 				if (newNumber.equals(oldNumber)) {
@@ -138,7 +77,7 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
 			// new
 			Criteria crit = session.createCriteria(Part.class);
 			crit.add(Restrictions.eq("number", newNumber));
-			List<Part> parts = (List<Part>) crit.list();
+			List<Part> parts = crit.list();
 			if (parts.size() > 0) {
 				return false;
 			}
@@ -149,82 +88,68 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
 			return true;
 		}
 	}
-	
-	public String getPartsIds(Part part)
-	{
-		String ret = "" + part.getId();
-		String sql = "select id"
-				+ " from part"
-				+ " where part_id=" + part.getId();
-		Query query = session.createSQLQuery(sql);
-		@SuppressWarnings("unchecked")
-		List<Object> qret = query.list();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		for (int i = 0; i < qret.size(); ++i) {
-			Object oa = (Object) qret.get(i);
-			long subId = ((BigInteger) oa).longValue();
-			Part subPart = dao.find(subId);
-			String subs = getPartsIds(subPart);
-			if (!subs.isEmpty())
-			{
-				ret += "," + subs;
-			}
-		}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Part> findAll() {
+		Query query = session.createQuery("from Part order by number");
+		List<Part> ret = query.list();
 		return ret;
 	}
-	
-	public List<Part> getParts(Part part)
-	{
-		String sql = "select id"
-				+ " from part"
-				+ " where part_id=" + part.getId();
+
+	public List<Chapter> findAllChapters(Part part) {
+		List<Chapter> chapters = findChapters(part);
+		List<Part> subparts = getParts(part);
+		for (Part subpart : subparts) {
+			chapters.addAll(findAllChapters(subpart));
+		}
+		return chapters;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Part> findAllRoots() {
+		String sql = "select id" + " from part" + " where part_id is NULL" + " order by number";
 		Query query = session.createSQLQuery(sql);
-		@SuppressWarnings("unchecked")
 		List<Object> qret = query.list();
 		List<Part> parts = new ArrayList<Part>();
 		PartDAOImpl dao = new PartDAOImpl(session);
 		for (int i = 0; i < qret.size(); ++i) {
-			Object oa = (Object) qret.get(i);
+			Object oa = qret.get(i);
 			long subId = ((BigInteger) oa).longValue();
 			Part subPart = dao.find(subId);
 			parts.add(subPart);
 		}
 		return parts;
 	}
-	
-	public int getOverallSize() {
-		List<Part> parts = findAll();
-		int ret = 0;
-		for (Part part : parts) {
-			List<Chapter> chapters = findChapters(part);
-			for (Chapter chapter : chapters) {
-			   ret += chapter.getObjectiveChars();
-			}
-		}
+
+	@SuppressWarnings("unchecked")
+	public List<Chapter> findChapters(Part part) {
+		Criteria crit = session.createCriteria(Chapter.class);
+		crit.add(Restrictions.eq("part", part));
+		crit.addOrder(Order.asc("chapterno"));
+		List<Chapter> chapters = crit.list();
+		return chapters;
+	}
+
+	public Part findFirst() {
+		List<Part> ret = findAll();
+		return ret.get(0);
+	}
+
+	public int getMaxPartNumber() {
+		Query query = session.createQuery("select max(number) from Part");
+		Integer ret = (Integer) query.uniqueResult();
 		return ret;
 	}
-	
-	public int getOverallSize(Part headpart) {
-		int ret = 0;
-		// get all children's size
-		List<Part> parts = getParts(headpart);
-		for (Part part : parts) {
-			ret += getOverallSize(part);
-		}
-		
-		// add all self-included chapters size
-		List<Chapter> chapters = findChapters(headpart);
-		for (Chapter chapter : chapters) {
-			// TODO replace with real size
-	        ret += chapter.getObjectiveChars();
-		}
-		return ret;
+
+	public int getNextPartNumber() {
+		return getMaxPartNumber() + 1;
 	}
-	
+
 	public int getObjectiveSize(Part headpart) {
 		int headObjective = 0;
 		int partsObjective = 0;
-		
+
 		if ((headpart.getObjectiveChars() != null) && (!headpart.getObjectiveChars().equals(new Integer(0)))) {
 			headObjective = headpart.getObjectiveChars();
 		}
@@ -234,11 +159,75 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements
 			partsObjective += getObjectiveSize(part);
 		}
 		int ret = Math.max(headObjective, partsObjective);
-		
+
 		// add all self-included chapters size
 		List<Chapter> chapters = findChapters(headpart);
 		for (Chapter chapter : chapters) {
 			ret += chapter.getObjectiveChars();
+		}
+		return ret;
+	}
+
+	public int getOverallSize() {
+		List<Part> parts = findAll();
+		int ret = 0;
+		for (Part part : parts) {
+			List<Chapter> chapters = findChapters(part);
+			for (Chapter chapter : chapters) {
+				ret += chapter.getObjectiveChars();
+			}
+		}
+		return ret;
+	}
+
+	public int getOverallSize(Part headpart) {
+		int ret = 0;
+		// get all children's size
+		List<Part> parts = getParts(headpart);
+		for (Part part : parts) {
+			ret += getOverallSize(part);
+		}
+
+		// add all self-included chapters size
+		List<Chapter> chapters = findChapters(headpart);
+		for (Chapter chapter : chapters) {
+			// TODO replace with real size
+			ret += chapter.getObjectiveChars();
+		}
+		return ret;
+	}
+
+	public List<Part> getParts(Part part) {
+		String sql = "select id" + " from part" + " where part_id=" + part.getId();
+		Query query = session.createSQLQuery(sql);
+		@SuppressWarnings("unchecked")
+		List<Object> qret = query.list();
+		List<Part> parts = new ArrayList<Part>();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		for (int i = 0; i < qret.size(); ++i) {
+			Object oa = qret.get(i);
+			long subId = ((BigInteger) oa).longValue();
+			Part subPart = dao.find(subId);
+			parts.add(subPart);
+		}
+		return parts;
+	}
+
+	public String getPartsIds(Part part) {
+		String ret = "" + part.getId();
+		String sql = "select id" + " from part" + " where part_id=" + part.getId();
+		Query query = session.createSQLQuery(sql);
+		@SuppressWarnings("unchecked")
+		List<Object> qret = query.list();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		for (int i = 0; i < qret.size(); ++i) {
+			Object oa = qret.get(i);
+			long subId = ((BigInteger) oa).longValue();
+			Part subPart = dao.find(subId);
+			String subs = getPartsIds(subPart);
+			if (!subs.isEmpty()) {
+				ret += "," + subs;
+			}
 		}
 		return ret;
 	}

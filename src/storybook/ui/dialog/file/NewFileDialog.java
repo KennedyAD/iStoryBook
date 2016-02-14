@@ -20,9 +20,9 @@ package storybook.ui.dialog.file;
 
 import javax.swing.JCheckBox;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.apache.commons.io.FileUtils;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 
 @SuppressWarnings("serial")
@@ -35,6 +35,14 @@ public class NewFileDialog extends AbstractFileDialog {
 		super(null);
 		setTitle(I18N.getMsg("msg.welcome.new.project"));
 		setDir(FileUtils.getUserDirectoryPath());
+	}
+
+	public boolean getUseHtmlDescr() {
+		return cbUseHtmlDescr.isSelected();
+	}
+
+	public boolean getUseHtmlScenes() {
+		return cbUseHtmlScenes.isSelected();
 	}
 
 	@Override
@@ -51,13 +59,5 @@ public class NewFileDialog extends AbstractFileDialog {
 
 		optionsPanel.add(cbUseHtmlScenes);
 		optionsPanel.add(cbUseHtmlDescr);
-	}
-
-	public boolean getUseHtmlScenes() {
-		return cbUseHtmlScenes.isSelected();
-	}
-
-	public boolean getUseHtmlDescr() {
-		return cbUseHtmlDescr.isSelected();
 	}
 }

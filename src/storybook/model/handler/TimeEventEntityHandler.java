@@ -23,7 +23,6 @@ import java.util.Date;
 
 import storybook.model.hbn.dao.TimeEventDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
-import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.TimeEvent;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;

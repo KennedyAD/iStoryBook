@@ -6,11 +6,13 @@
 
 package storybook.exporter;
 
-import com.itextpdf.text.Font;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import com.itextpdf.text.Font;
+
 import storybook.SbApp;
 
 /**
@@ -27,14 +29,23 @@ public class ExportCsv {
 	String author;
 	private final Export parent;
 
-	ExportCsv(Export parent, String report, String fileName, List<ExportHeader> headers,String author) {
-		this.parent=parent;	
-		this.report=report;
-		this.fileName=fileName;
-		this.headers=headers;
-		this.author=author;
+	ExportCsv(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
+		this.parent = parent;
+		this.report = report;
+		this.fileName = fileName;
+		this.headers = headers;
+		this.author = author;
 	}
-	
+
+	public void close() {
+		try {
+			outStream.flush();
+			outStream.close();
+		} catch (IOException ex) {
+			SbApp.error("ExportCsv.close()", ex);
+		}
+	}
+
 	public void open() {
 		try {
 			try {
@@ -42,52 +53,47 @@ public class ExportCsv {
 			} catch (IOException ex) {
 				SbApp.error("ExportCsv.open()", ex);
 			}
-			if (headers==null) return;
-			String str="";
+			if (headers == null)
+				return;
+			String str = "";
 			for (ExportHeader header : headers) {
 				str += "\"" + header.getName() + "\";";
 			}
-			str+="\n";
-			outStream.write(str,0,str.length());
+			str += "\n";
+			outStream.write(str, 0, str.length());
 			outStream.flush();
 		} catch (IOException ex) {
 			SbApp.error("ExportCsv.open()", ex);
 		}
 	}
-	
+
 	public void writeRow(String[] body) {
 		try {
-			String str="";
-			String quotes="'", comma=";";
-			if (parent.parent.paramExport.csvDoubleQuotes) quotes="\"";
-			if (parent.parent.paramExport.csvNoQuotes) quotes="";
-			if (parent.parent.paramExport.csvComma) quotes=",";
-			for(String s : body) {
-				str += quotes + ("".equals(s)?" ":s) + quotes + comma;
+			String str = "";
+			String quotes = "'", comma = ";";
+			if (parent.parent.paramExport.csvDoubleQuotes)
+				quotes = "\"";
+			if (parent.parent.paramExport.csvNoQuotes)
+				quotes = "";
+			if (parent.parent.paramExport.csvComma)
+				quotes = ",";
+			for (String s : body) {
+				str += quotes + ("".equals(s) ? " " : s) + quotes + comma;
 			}
 			str += "\n";
-			outStream.write(str,0,str.length());
+			outStream.write(str, 0, str.length());
 			outStream.flush();
 		} catch (IOException ex) {
 			SbApp.error("ExportCsv.writeRow()", ex);
 		}
 	}
-	
+
 	void writeText(String str) {
 		try {
-			outStream.write(str+"\n",0,str.length()+1);
+			outStream.write(str + "\n", 0, str.length() + 1);
 			outStream.flush();
 		} catch (IOException ex) {
-			SbApp.error("ExportCsv.writeText("+str+")", ex);
-		}
-	}
-	
-	public void close() {
-		try {
-			outStream.flush();
-			outStream.close();
-		} catch (IOException ex) {
-			SbApp.error("ExportCsv.close()", ex);
+			SbApp.error("ExportCsv.writeText(" + str + ")", ex);
 		}
 	}
 

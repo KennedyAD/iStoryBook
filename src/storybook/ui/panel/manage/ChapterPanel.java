@@ -29,9 +29,9 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
@@ -47,10 +47,11 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.label.VerticalLabelUI;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
+import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.manage.dnd.DTScenePanel;
+import storybook.ui.panel.manage.dnd.ScenePanel;
 import storybook.ui.panel.manage.dnd.SceneTransferHandler;
 
 /*
@@ -74,58 +75,28 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		initAll();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		Object newValue = evt.getNewValue();
-		Object oldValue = evt.getOldValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.ManageViewProps.ZOOM.check(propName)) {
-			refresh();
-			return;
-		}
-
-		if (BookController.StrandProps.UPDATE.check(propName)) {
-			refresh();
-			return;
-		}
-
-		if (BookController.ChapterProps.UPDATE.check(propName)) {
-			if(chapter == null){
-				return;
-			}
-			Chapter newChapter = (Chapter) newValue;
-			if (!newChapter.getId().equals(chapter.getId())) {
-				return;
-			}
-			chapter = newChapter;
-			refresh();
-			return;
-		}
-
-		if (BookController.SceneProps.UPDATE.check(propName)) {
-			Chapter newSceneChapter = ((Scene) newValue).getChapter();
-			Chapter oldSceneChapter = ((Scene) oldValue).getChapter();
-			if (newSceneChapter == null && chapter == null) {
-				refresh();
-				return;
-			}
-			if (chapter == null || newSceneChapter == null
-					|| oldSceneChapter == null) {
-				refresh();
-				return;
-			}
-			if (!newSceneChapter.getId().equals(chapter.getId())
-					&& !oldSceneChapter.getId().equals(chapter.getId())) {
-				return;
-			}
-			refresh();
-			return;
-		}
+	public Chapter getChapter() {
+		return chapter;
 	}
 
-	private void setZoomedSize(int zoomValue) {
-		prefWidth = 50 + zoomValue * 10;
+	/**
+	 * Gets all {@link DTScenePanel} that have a scene assigned.
+	 *
+	 * @return a list of all {@link DTScenePanel}
+	 * @see DTScenePanel
+	 */
+	public List<DTScenePanel> getDTScenePanels() {
+		List<DTScenePanel> list = new ArrayList<DTScenePanel>();
+		for (Component comp : getComponents()) {
+			if (comp instanceof DTScenePanel && ((DTScenePanel) comp).getScene() != null) {
+				list.add((DTScenePanel) comp);
+			}
+		}
+		return list;
+	}
+
+	protected ChapterPanel getThis() {
+		return this;
 	}
 
 	@Override
@@ -145,16 +116,11 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		SbApp.trace("ChapterPanel.initUI()");
 		MigLayout layout;
 		if (isForUnassignedScene()) {
-			layout = new MigLayout(
-					"flowx",
-					"[]", // columns
+			layout = new MigLayout("flowx", "[]", // columns
 					"[fill]" // rows
-					);
+			);
 		} else {
-			layout = new MigLayout(
-					"flowy",
-					"[]",
-					"[]4[]0[]");
+			layout = new MigLayout("flowy", "[]", "[]4[]0[]");
 		}
 		setLayout(layout);
 		setBorder(SwingUtil.getBorderDefault());
@@ -188,18 +154,18 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		if (chapter == null) {
 			// show all unassigned scenes
 			for (Scene scene : scenes) {
-				DTScenePanel dtScene = new DTScenePanel(mainFrame, scene, DTScenePanel.TYPE_UNASSIGNED);
+				DTScenePanel dtScene = new DTScenePanel(mainFrame, scene, ScenePanel.TYPE_UNASSIGNED);
 				dtScene.setTransferHandler(sceneTransferHandler);
 				SwingUtil.setForcedSize(dtScene, new Dimension(prefWidth - 10, 140));
 				add(dtScene, "growy");
 			}
 			// to make a scene unassigned
-			DTScenePanel makeUnassigned = new DTScenePanel(mainFrame, DTScenePanel.TYPE_MAKE_UNASSIGNED);
+			DTScenePanel makeUnassigned = new DTScenePanel(mainFrame, ScenePanel.TYPE_MAKE_UNASSIGNED);
 			makeUnassigned.setTransferHandler(sceneTransferHandler);
 			makeUnassigned.setPreferredSize(new Dimension(280, 140));
 			add(makeUnassigned, "grow");
 		} else {
-			DTScenePanel begin = new DTScenePanel(mainFrame, DTScenePanel.TYPE_BEGIN);
+			DTScenePanel begin = new DTScenePanel(mainFrame, ScenePanel.TYPE_BEGIN);
 			begin.setTransferHandler(sceneTransferHandler);
 			if (scenes.isEmpty()) {
 				SwingUtil.setMaxPreferredSize(begin);
@@ -216,7 +182,7 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 				add(dtScene, "growx");
 
 				// move next
-				DTScenePanel next = new DTScenePanel(mainFrame, DTScenePanel.TYPE_NEXT);
+				DTScenePanel next = new DTScenePanel(mainFrame, ScenePanel.TYPE_NEXT);
 				if (scene.getSceneno() != null) {
 					next.setPreviousNumber(scene.getSceneno());
 				}
@@ -236,28 +202,52 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		return chapter == null;
 	}
 
-	protected ChapterPanel getThis() {
-		return this;
-	}
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		Object newValue = evt.getNewValue();
+		Object oldValue = evt.getOldValue();
+		String propName = evt.getPropertyName();
 
-	public Chapter getChapter() {
-		return chapter;
-	}
-
-	/**
-	 * Gets all {@link DTScenePanel} that have a scene assigned.
-	 *
-	 * @return a list of all {@link DTScenePanel}
-	 * @see DTScenePanel
-	 */
-	public List<DTScenePanel> getDTScenePanels() {
-		List<DTScenePanel> list = new ArrayList<DTScenePanel>();
-		for (Component comp : getComponents()) {
-			if (comp instanceof DTScenePanel && ((DTScenePanel) comp).getScene() != null) {
-				list.add((DTScenePanel) comp);
-			}
+		if (BookController.ManageViewProps.ZOOM.check(propName)) {
+			refresh();
+			return;
 		}
-		return list;
+
+		if (BookController.StrandProps.UPDATE.check(propName)) {
+			refresh();
+			return;
+		}
+
+		if (BookController.ChapterProps.UPDATE.check(propName)) {
+			if (chapter == null) {
+				return;
+			}
+			Chapter newChapter = (Chapter) newValue;
+			if (!newChapter.getId().equals(chapter.getId())) {
+				return;
+			}
+			chapter = newChapter;
+			refresh();
+			return;
+		}
+
+		if (BookController.SceneProps.UPDATE.check(propName)) {
+			Chapter newSceneChapter = ((Scene) newValue).getChapter();
+			Chapter oldSceneChapter = ((Scene) oldValue).getChapter();
+			if (newSceneChapter == null && chapter == null) {
+				refresh();
+				return;
+			}
+			if (chapter == null || newSceneChapter == null || oldSceneChapter == null) {
+				refresh();
+				return;
+			}
+			if (!newSceneChapter.getId().equals(chapter.getId()) && !oldSceneChapter.getId().equals(chapter.getId())) {
+				return;
+			}
+			refresh();
+			return;
+		}
 	}
 
 	@Override
@@ -267,28 +257,32 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		}
 		requestFocusInWindow();
 		if (e.getClickCount() == 2) {
-			EditEntityAction act = new EditEntityAction(mainFrame, getChapter(),false);
+			EditEntityAction act = new EditEntityAction(mainFrame, getChapter(), false);
 			act.actionPerformed(null);
 		}
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		
-	}
-
-	@Override
 	public void mouseEntered(MouseEvent e) {
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	private void setZoomedSize(int zoomValue) {
+		prefWidth = 50 + zoomValue * 10;
 	}
 }

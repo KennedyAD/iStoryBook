@@ -27,11 +27,10 @@ import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.panel.AbstractPanel;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -50,7 +49,24 @@ public class PlainTextEditor extends AbstractPanel implements CaretListener {
 	}
 
 	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	public void caretUpdate(CaretEvent e) {
+		if (maxLength > 0) {
+			int len = maxLength - getText().length() - 1;
+			if (len < 0) {
+				lbMessage.setForeground(Color.red);
+			} else {
+				lbMessage.setForeground(Color.black);
+			}
+			lbMessage.setText(I18N.getMsg("msg.editor.letters.left", len));
+		}
+	}
+
+	public int getMaxLength() {
+		return maxLength;
+	}
+
+	public String getText() {
+		return ta.getText();
 	}
 
 	@Override
@@ -77,28 +93,11 @@ public class PlainTextEditor extends AbstractPanel implements CaretListener {
 	}
 
 	@Override
-	public void caretUpdate(CaretEvent e) {
-		if (maxLength > 0) {
-			int len = maxLength - getText().length() - 1;
-			if (len < 0) {
-				lbMessage.setForeground(Color.red);
-			} else {
-				lbMessage.setForeground(Color.black);
-			}
-			lbMessage.setText(I18N.getMsg("msg.editor.letters.left", len));
-		}
-	}
-
-	public int getMaxLength() {
-		return maxLength;
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
-	}
-
-	public String getText() {
-		return ta.getText();
 	}
 
 	public void setText(String txt) {

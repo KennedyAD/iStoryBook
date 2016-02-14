@@ -28,10 +28,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.ViewName;
@@ -46,10 +46,10 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractScrollPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
 import storybook.ui.options.BookOptionsDialog;
+import storybook.ui.panel.AbstractScrollPanel;
 
 /**
  * @author martin
@@ -58,22 +58,32 @@ import storybook.ui.options.BookOptionsDialog;
 @SuppressWarnings("serial")
 public class BookPanel extends AbstractScrollPanel {
 
+	private static void dispatchToBookInfoPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<>();
+		SwingUtil.findComponentsByClass(cont, BookInfoPanel.class, ret);
+		for (Component comp : ret) {
+			BookInfoPanel panel = (BookInfoPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
+	private static void dispatchToBookTextPanels(Container cont, PropertyChangeEvent evt) {
+		List<Component> ret = new ArrayList<>();
+		SwingUtil.findComponentsByClass(cont, BookTextPanel.class, ret);
+		for (Component comp : ret) {
+			BookTextPanel panel = (BookTextPanel) comp;
+			panel.modelPropertyChange(evt);
+		}
+	}
+
 	public BookPanel(MainFrame mainFrame) {
 		// don't call super constructor here!
 		this.mainFrame = mainFrame;
 	}
 
 	@Override
-	protected void setZoomValue(int val){
-		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);
-		mainFrame.getBookController().bookSetZoom(val);
-	}
-
-	@Override
-	protected int getZoomValue(){
-		Internal internal = BookUtil.get(mainFrame,
-				BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
-		return internal.getIntegerValue();
+	protected int getMaxZoomValue() {
+		return SbConstants.MAX_BOOK_ZOOM;
 	}
 
 	@Override
@@ -81,9 +91,40 @@ public class BookPanel extends AbstractScrollPanel {
 		return SbConstants.MIN_BOOK_ZOOM;
 	}
 
+	public JPanel getPanel() {
+		return panel;
+	}
+
 	@Override
-	protected int getMaxZoomValue() {
-		return SbConstants.MAX_BOOK_ZOOM;
+	protected int getZoomValue() {
+		Internal internal = BookUtil.get(mainFrame, BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
+		return internal.getIntegerValue();
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		setLayout(new MigLayout("flowy, ins 0"));
+		MigLayout layout = new MigLayout("flowy", "[grow,center]", "");
+		panel = new JPanel(layout);
+		panel.setBackground(SwingUtil.getBackgroundColor());
+		scroller = new JScrollPane(panel);
+
+		SwingUtil.setUnitIncrement(scroller);
+		SwingUtil.setMaxPreferredSize(scroller);
+		add(scroller, "grow");
+
+		refresh();
+		ViewUtil.scrollToTop(scroller, 800);
+
+		registerKeyboardAction();
+		panel.addMouseWheelListener(this);
+
+		revalidate();
+		repaint();
 	}
 
 	@Override
@@ -157,32 +198,6 @@ public class BookPanel extends AbstractScrollPanel {
 	}
 
 	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("flowy, ins 0"));
-		MigLayout layout  = new MigLayout("flowy", "[grow,center]", "");
-		panel = new JPanel(layout);
-		panel.setBackground(SwingUtil.getBackgroundColor());
-		scroller = new JScrollPane(panel);
-
-		SwingUtil.setUnitIncrement(scroller);
-		SwingUtil.setMaxPreferredSize(scroller);
-		add(scroller, "grow");
-
-		refresh();
-		ViewUtil.scrollToTop(scroller, 800);
-
-		registerKeyboardAction();
-		panel.addMouseWheelListener(this);
-
-		revalidate();
-		repaint();
-	}
-
-	@Override
 	public void refresh() {
 		Part currentPart = mainFrame.getCurrentPart();
 		BookModel model = mainFrame.getBookModel();
@@ -208,25 +223,9 @@ public class BookPanel extends AbstractScrollPanel {
 		panel.revalidate();
 	}
 
-	private static void dispatchToBookInfoPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<>();
-		SwingUtil.findComponentsByClass(cont, BookInfoPanel.class, ret);
-		for (Component comp : ret) {
-			BookInfoPanel panel = (BookInfoPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	private static void dispatchToBookTextPanels(Container cont, PropertyChangeEvent evt) {
-		List<Component> ret = new ArrayList<>();
-		SwingUtil.findComponentsByClass(cont, BookTextPanel.class, ret);
-		for (Component comp : ret) {
-			BookTextPanel panel = (BookTextPanel) comp;
-			panel.modelPropertyChange(evt);
-		}
-	}
-
-	public JPanel getPanel(){
-		return panel;
+	@Override
+	protected void setZoomValue(int val) {
+		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);
+		mainFrame.getBookController().bookSetZoom(val);
 	}
 }

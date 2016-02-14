@@ -18,14 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.action;
 
-import java.awt.Component;
+import static storybook.toolkit.swing.SwingUtil.showModalDialog;
+
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
@@ -33,10 +34,8 @@ import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.I18N;
-import static storybook.toolkit.swing.SwingUtil.showModalDialog;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.dlgConfirmDelete;
-import storybook.ui.edit.EntityEditor;
 
 /**
  * @author martin
@@ -45,8 +44,7 @@ import storybook.ui.edit.EntityEditor;
 public class DeleteEntityAction extends AbstractEntityAction {
 
 	public DeleteEntityAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.common.delete"), I18N
-				.getIcon("icon.small.delete"));
+		super(mainFrame, entity, I18N.getMsg("msg.common.delete"), I18N.getIcon("icon.small.delete"));
 		this.mainFrame = mainFrame;
 		this.entity = entity;
 	}
@@ -56,32 +54,25 @@ public class DeleteEntityAction extends AbstractEntityAction {
 		// check if read only
 		List<Long> readOnlyIds = EntityUtil.getReadOnlyIds(entity);
 		if (readOnlyIds.contains(entity.getId())) {
-			JOptionPane.showMessageDialog(mainFrame,
-					I18N.getMsg("msg.common.no.delete"),
-					I18N.getMsg("msg.common.warning"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mainFrame, I18N.getMsg("msg.common.no.delete"),
+					I18N.getMsg("msg.common.warning"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		// check if an entity is loaded
 		/*
-		Component comp = mainFrame.getView(ViewName.EDITOR).getComponent();
-		if (comp != null && comp instanceof EntityEditor) {
-			EntityEditor editor = (EntityEditor) comp;
-			if (editor.isEntityLoaded()) {
-				System.out
-						.println("DeleteEntityAction.actionPerformed(): entity:"
-								+ editor.getEntity());
-				mainFrame.showEditor();
-				String str = EntityUtil.getEntityTitle(editor.getEntity())
-						+ ": " + editor.getEntity().toString();
-				JOptionPane.showMessageDialog(mainFrame,
-						I18N.getMsg("msg.common.editor.delete.warning", str),
-						I18N.getMsg("msg.common.warning"),
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-		}*/
+		 * Component comp = mainFrame.getView(ViewName.EDITOR).getComponent();
+		 * if (comp != null && comp instanceof EntityEditor) { EntityEditor
+		 * editor = (EntityEditor) comp; if (editor.isEntityLoaded()) {
+		 * System.out .println("DeleteEntityAction.actionPerformed(): entity:" +
+		 * editor.getEntity()); mainFrame.showEditor(); String str =
+		 * EntityUtil.getEntityTitle(editor.getEntity()) + ": " +
+		 * editor.getEntity().toString();
+		 * JOptionPane.showMessageDialog(mainFrame,
+		 * I18N.getMsg("msg.common.editor.delete.warning", str),
+		 * I18N.getMsg("msg.common.warning"), JOptionPane.ERROR_MESSAGE);
+		 * return; } }
+		 */
 
 		dlgConfirmDelete dlg = new dlgConfirmDelete(mainFrame, entity);
 		showModalDialog(dlg, mainFrame, true);
@@ -97,8 +88,7 @@ public class DeleteEntityAction extends AbstractEntityAction {
 				PartDAOImpl dao = new PartDAOImpl(session);
 				Part firstPart = dao.findFirst();
 				model.commit();
-				ChangePartAction act = new ChangePartAction("fsd",
-						mainFrame.getActionController(), firstPart);
+				ChangePartAction act = new ChangePartAction("fsd", mainFrame.getActionController(), firstPart);
 				act.actionPerformed(null);
 			}
 		}

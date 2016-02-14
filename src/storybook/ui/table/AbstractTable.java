@@ -37,14 +37,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
 
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.ActionCommand;
@@ -85,6 +84,54 @@ import storybook.ui.table.renderer.DateTableCellRenderer;
 @SuppressWarnings("serial")
 public abstract class AbstractTable extends AbstractPanel implements ActionListener, ListSelectionListener {
 
+	private class MyMouseAdapter extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			DefaultListSelectionModel selectionModel = (DefaultListSelectionModel) table.getSelectionModel();
+			if (e.getClickCount() == 2) {
+				int count = selectionModel.getMaxSelectionIndex() - selectionModel.getMinSelectionIndex() + 1;
+				if (count > 1) {
+					return;
+				}
+				int row = selectionModel.getMinSelectionIndex();
+				sendSetEntityToEdit(row);
+			} else {
+				BookController ctrl = mainFrame.getBookController();
+				ctrl.showInfo(getEntityFromRow(selectionModel.getMinSelectionIndex()));
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				showPopup(e);
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if (e.isPopupTrigger()) {
+				showPopup(e);
+			}
+		}
+
+		private void showPopup(MouseEvent e) {
+			if (!(e.getSource() instanceof JXTable)) {
+				return;
+			}
+			JXTable source = (JXTable) e.getSource();
+			int row = source.rowAtPoint(e.getPoint());
+			int column = source.columnAtPoint(e.getPoint());
+			if (!source.isRowSelected(row)) {
+				source.changeSelection(row, column, false, false);
+			}
+			AbstractEntity entity = getEntityFromRow(row);
+			if (entity != null) {
+				JPopupMenu popup = EntityUtil.createPopupMenu(mainFrame, entity);
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		}
+	}
 	protected List<SbColumn> columns;
 	protected BookController ctrl;
 	protected JPanel optionsPanel;
@@ -98,6 +145,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 	private JButton btCopy;
 	private IconButton btOrderUp;
 	private IconButton btOrderDown;
+
 	private JLabel totalObjectif;
 
 	public AbstractTable(MainFrame mainFrame) {
@@ -105,27 +153,74 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		ctrl = mainFrame.getBookController();
 	}
 
-	abstract protected AbstractEntity getNewEntity();
+	@Override
+	public synchronized void actionPerformed(ActionEvent e) {
+		SbApp.trace("AbstractTable.actionPerformed(" + e.toString() + ")");
+		String actCmd = e.getActionCommand();
+		Component comp = (Component) e.getSource();
+		String compName = comp.getName();
+		int row = table.getSelectedRow();
+		SbApp.trace("actCmd=" + actCmd + ",comp=" + compName + ",row=" + row);
+		if (ComponentName.BT_EDIT.check(compName) || ActionCommand.EDIT.check(actCmd)) {
+			sendSetEntityToEdit(row);
+			return;
+		}
+		if (ComponentName.BT_NEW.check(compName) || ActionCommand.NEW.check(actCmd)) {
+			table.clearSelection();
+			sendSetNewEntityToEdit(getNewEntity());
+			return;
+		}
+		if (ComponentName.BT_COPY.check(compName) || ActionCommand.COPY.check(actCmd)) {
+			AbstractEntity entity = getEntityFromRow(row);
+			EntityUtil.copyEntity(mainFrame, entity);
+			return;
+		}
+		if (ComponentName.BT_DELETE.check(compName) || ActionCommand.DELETE.check(actCmd)) {
+			if (table.getSelectedRowCount() == 1) {
+				// delete one entity
+				AbstractEntity entity = getEntityFromRow(row);
+				DeleteEntityAction act = new DeleteEntityAction(mainFrame, entity);
+				act.actionPerformed(null);
+				return;
+			}
+			if (table.getSelectedRowCount() > 1) {
+				// delete multiple entities
+				List<AbstractEntity> entities = new ArrayList<>();
+				int[] rows = table.getSelectedRows();
+				for (int row2 : rows) {
+					AbstractEntity entity = getEntityFromRow(row2);
+					List<Long> readOnlyIds = EntityUtil.getReadOnlyIds(entity);
+					if (!readOnlyIds.contains(entity.getId())) {
+						entities.add(entity);
+					}
+				}
+				dlgConfirmDelete dlg = new dlgConfirmDelete(mainFrame, entities);
+				showModalDialog(dlg, mainFrame, true);
+				if (dlg.isCanceled()) {
+					return;
+				}
+				sendDeleteEntities(rows);
+				return;
+			}
+		}
 
-	abstract protected AbstractEntity getEntity(Long id);
-
-	abstract protected void sendSetEntityToEdit(int row);
-
-	abstract protected void sendSetNewEntityToEdit(AbstractEntity entity);
-
-	abstract protected void sendDeleteEntity(int row);
-
-	abstract protected void sendDeleteEntities(int[] rows);
-
-	abstract protected void modelPropertyChangeLocal(PropertyChangeEvent evt);
-
-	protected void sendOrderUpEntity(int row) {
+		if (ComponentName.BT_ORDER_UP.check(compName)) {
+			sendOrderUpEntity(row);
+		} else if (ComponentName.BT_ORDER_DOWN.check(compName)) {
+			sendOrderDownEntity(row);
+		}
 	}
 
-	protected void sendOrderDownEntity(int row) {
-	}
-
-	protected void initOptionsPanel() {
+	protected synchronized void deleteEntity(PropertyChangeEvent evt) {
+		AbstractEntity entity = (AbstractEntity) evt.getOldValue();
+		for (int row = 0; row < tableModel.getRowCount(); ++row) {
+			Long id = Long.parseLong((String) tableModel.getValueAt(row, 0));
+			if (id.equals(entity.getId())) {
+				tableModel.removeRow(row);
+				break;
+			}
+		}
+		tableModel.fireTableDataChanged();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -141,46 +236,144 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return ret;
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		SbApp.trace("AbstractTable.modelPropertyChange(evt)");
-		String propName = evt.getPropertyName();
-		if (BookController.CommonProps.REFRESH.check(propName)) {
-			View newView = (View) evt.getNewValue();
-			View view = (View) getParent().getParent();
-			if (view == newView) {
-				HashMap<Integer, Boolean> visible = new HashMap<>();
-				for (SbColumn col : getColumns()) {
-					if (col.getInputType() == InputType.SEPARATOR) {
-						continue;
+	private List<String> getColumnNames() {
+		List<String> cols = new ArrayList<>();
+		for (SbColumn col : getColumns()) {
+			cols.add(col.toString());
+		}
+		return cols;
+	}
+
+	protected List<SbColumn> getColumns() {
+		List<SbColumn> ret = new ArrayList<>();
+		for (SbColumn column : columns) {
+			if (column.getInputType() != InputType.SEPARATOR) {
+				ret.add(column);
+			}
+		}
+		return ret;
+	}
+
+	abstract protected AbstractEntity getEntity(Long id);
+
+	protected synchronized AbstractEntity getEntityFromRow(int row) {
+		SbApp.trace("AbstractTable.getEntityFromRow(" + row + ")");
+		if (row == -1) {
+			return null;
+		}
+		try {
+			int modelIndex = table.getRowSorter().convertRowIndexToModel(row);
+			@SuppressWarnings("unchecked")
+			List<List<String>> dataVector = tableModel.getDataVector();
+			Long id = Long.parseLong(dataVector.get(modelIndex).get(0));
+			return getEntity(id);
+		} catch (NumberFormatException ex) {
+			SbApp.error("AbstractTable.getEntityFromRow(" + row + ")", ex);
+		}
+		return null;
+	}
+
+	abstract protected AbstractEntity getNewEntity();
+
+	protected List<Object> getRow(AbstractEntity entity) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		session.refresh(entity);
+		List<Object> cols = new ArrayList<>();
+		for (SbColumn col : getColumns()) {
+			if (col.getInputType() == InputType.SEPARATOR) {
+				continue;
+			}
+			try {
+				String methodName = "get" + col.getMethodName();
+				Method method = entity.getClass().getMethod(methodName);
+				Object ret = method.invoke(entity);
+				if (ret == null) {
+					cols.add("");
+				} else if (ret instanceof Timestamp) {
+					Timestamp ts = (Timestamp) ret;
+					if (entity instanceof TimeEvent) {
+						SimpleDateFormat format = new SimpleDateFormat(((TimeEvent) entity).getStepFormat());
+						String val = format.format(ts);
+						cols.add(val);
+					} else {
+						Date date = new Date(ts.getTime());
+						cols.add(date);
 					}
-					TableColumnExt ext = table.getColumnExt(col.toString());
-					if (ext != null) {
-						visible.put(col.getColId(), ext.isVisible());
+				} else if (ret instanceof Date || ret instanceof Color || ret instanceof SceneState
+						|| ret instanceof TimeStepState || ret instanceof IdeaState || ret instanceof Strand
+						|| ret instanceof Chapter || ret instanceof Part || ret instanceof Gender
+						|| ret instanceof Category || ret instanceof Person || ret instanceof Icon) {
+					cols.add(ret);
+				} else if (ret instanceof List) {
+					@SuppressWarnings("unchecked")
+					List<AbstractEntity> list = (List<AbstractEntity>) ret;
+					cols.add(list);
+				} else if (ret instanceof Long) {
+					if (col.hasTableCellRenderer()) {
+						cols.add(ret);
+					} else {
+						cols.add(ret.toString());
 					}
+				} else {
+					cols.add(ret.toString());
 				}
-				refresh();
-				for (SbColumn col : getColumns()) {
-					if (col.getInputType() == InputType.SEPARATOR) {
-						continue;
-					}
-					TableColumnExt ext = table.getColumnExt(col.toString());
-					if (ext == null) {
-						continue;
-					}
-					int key = col.getColId();
-					if (visible.containsKey(key)) {
-						if (visible.get(key)) {
-							ext.setVisible(true);
-						} else {
-							ext.setVisible(false);
+			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException ex) {
+			}
+		}
+		model.commit();
+		return cols;
+	}
+
+	public JXTable getTable() {
+		return table;
+	}
+
+	abstract public String getTableName();
+
+	protected void initOptionsPanel() {
+	}
+
+	protected void initTableModel(PropertyChangeEvent evt) {
+		SbApp.trace("AbstractTable.initTableModel(evt)");
+		table.putClientProperty(ClientPropertyName.MAIN_FRAME.toString(), mainFrame);
+		// clear table
+		for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
+			tableModel.removeRow(i);
+		}
+		// fill in data
+		try {
+			List<AbstractEntity> entities = getAllEntities();
+			Integer nbTotalObjectif = 0;
+
+			for (AbstractEntity entity : entities) {
+				// show only scenes from current part
+				if (entity instanceof Scene) {
+					Part currentPart = mainFrame.getCurrentPart();
+					Scene scene = (Scene) entity;
+					if (scene.hasChapter()) {
+						if (!scene.getChapter().getPart().isPartOfPart(currentPart)) {
+							continue;
 						}
 					}
 				}
+				List<Object> cols = getRow(entity);
+				tableModel.addRow(cols.toArray());
+				if (entity instanceof Chapter) {
+					nbTotalObjectif += ((Chapter) entity).getObjectiveChars();
+				}
 			}
+			if (nbTotalObjectif > 0) {
+				totalObjectif.setText(I18N.getMsg("msg.dlg.mng.size.objective.total") + nbTotalObjectif + " "
+						+ I18N.getMsg("msg.common.characters"));
+				totalObjectif.setVisible(true);
+			} else {
+				totalObjectif.setVisible(false);
+			}
+		} catch (ClassCastException e) {
 		}
-		modelPropertyChangeLocal(evt);
-		SwingUtil.forceRevalidate(this);
+		// table.packAll();
 	}
 
 	@Override
@@ -194,7 +387,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		tableModel = new DefaultTableModel(colNames.toArray(), 0);
 		table = new JXTable();
 		table.setModel(tableModel);
-		
+
 		// renderer and comparators
 		for (SbColumn col : getColumns()) {
 			if (col.getInputType() == InputType.SEPARATOR) {
@@ -202,7 +395,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 			TableColumn tcol = table.getColumn(col.toString());
 			TableCellRenderer renderer = null;
-			if ((col.getInputType() == InputType.DATE) &&(! this.getClass().equals(TimeEventTable.class))) {
+			if ((col.getInputType() == InputType.DATE) && (!this.getClass().equals(TimeEventTable.class))) {
 				renderer = new DateTableCellRenderer();
 			} else if (col.getInputType() == InputType.COLOR) {
 				renderer = new ColorTableCellRenderer();
@@ -256,14 +449,14 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		table.getSelectionModel().addListSelectionListener(this);
 
 		// hot keys
-		table.registerKeyboardAction(this, SbConstants.ActionCommand.EDIT.toString(),
-				SwingUtil.getKeyStrokeEnter(), JComponent.WHEN_FOCUSED);
-		table.registerKeyboardAction(this, SbConstants.ActionCommand.NEW.toString(),
-				SwingUtil.getKeyStrokeInsert(), JComponent.WHEN_FOCUSED);
-		table.registerKeyboardAction(this, SbConstants.ActionCommand.COPY.toString(),
-				SwingUtil.getKeyStrokeCopy(), JComponent.WHEN_FOCUSED);
-		table.registerKeyboardAction(this, SbConstants.ActionCommand.DELETE.toString(),
-				SwingUtil.getKeyStrokeDelete(), JComponent.WHEN_FOCUSED);
+		table.registerKeyboardAction(this, SbConstants.ActionCommand.EDIT.toString(), SwingUtil.getKeyStrokeEnter(),
+				JComponent.WHEN_FOCUSED);
+		table.registerKeyboardAction(this, SbConstants.ActionCommand.NEW.toString(), SwingUtil.getKeyStrokeInsert(),
+				JComponent.WHEN_FOCUSED);
+		table.registerKeyboardAction(this, SbConstants.ActionCommand.COPY.toString(), SwingUtil.getKeyStrokeCopy(),
+				JComponent.WHEN_FOCUSED);
+		table.registerKeyboardAction(this, SbConstants.ActionCommand.DELETE.toString(), SwingUtil.getKeyStrokeDelete(),
+				JComponent.WHEN_FOCUSED);
 
 		// column widths
 		for (SbColumn col : getColumns()) {
@@ -272,7 +465,7 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 			try {
 				TableColumn tcol = table.getColumn(col.toString());
-				//tcol.setPreferredWidth(col.getWidth());
+				// tcol.setPreferredWidth(col.getWidth());
 				tcol.setMinWidth(40);
 			} catch (IllegalArgumentException e) {
 				// ignore;
@@ -334,135 +527,89 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			add(btOrderUp, "gap push,sg 2");
 			add(btOrderDown, "sg 2");
 		}
-		totalObjectif=new JLabel();
+		totalObjectif = new JLabel();
 		totalObjectif.setText("O");
 		totalObjectif.setVisible(false);
-		add(totalObjectif,"sg");
+		add(totalObjectif, "sg");
 	}
 
-	protected void initTableModel(PropertyChangeEvent evt) {
-		SbApp.trace("AbstractTable.initTableModel(evt)");
-		table.putClientProperty(ClientPropertyName.MAIN_FRAME.toString(), mainFrame);
-		// clear table
-		for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
-			tableModel.removeRow(i);
-		}
-		// fill in data
-		try {
-			List<AbstractEntity> entities = getAllEntities();
-			Integer nbTotalObjectif=0;
-
-			for (AbstractEntity entity : entities) {
-				// show only scenes from current part
-				if (entity instanceof Scene) {
-					Part currentPart = mainFrame.getCurrentPart();
-					Scene scene = (Scene) entity;
-					if (scene.hasChapter()) {
-						if (!scene.getChapter().getPart().isPartOfPart(currentPart)) {
-							continue;
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		SbApp.trace("AbstractTable.modelPropertyChange(evt)");
+		String propName = evt.getPropertyName();
+		if (BookController.CommonProps.REFRESH.check(propName)) {
+			View newView = (View) evt.getNewValue();
+			View view = (View) getParent().getParent();
+			if (view == newView) {
+				HashMap<Integer, Boolean> visible = new HashMap<>();
+				for (SbColumn col : getColumns()) {
+					if (col.getInputType() == InputType.SEPARATOR) {
+						continue;
+					}
+					TableColumnExt ext = table.getColumnExt(col.toString());
+					if (ext != null) {
+						visible.put(col.getColId(), ext.isVisible());
+					}
+				}
+				refresh();
+				for (SbColumn col : getColumns()) {
+					if (col.getInputType() == InputType.SEPARATOR) {
+						continue;
+					}
+					TableColumnExt ext = table.getColumnExt(col.toString());
+					if (ext == null) {
+						continue;
+					}
+					int key = col.getColId();
+					if (visible.containsKey(key)) {
+						if (visible.get(key)) {
+							ext.setVisible(true);
+						} else {
+							ext.setVisible(false);
 						}
 					}
 				}
-				List<Object> cols = getRow(entity);
-				tableModel.addRow(cols.toArray());
-				if (entity instanceof Chapter) {
-				    nbTotalObjectif+=((Chapter)entity).getObjectiveChars();
-				}
-			}
-			if (nbTotalObjectif>0) {
-			    totalObjectif.setText(I18N.getMsg("msg.dlg.mng.size.objective.total")
-				    + nbTotalObjectif + " " + I18N.getMsg("msg.common.characters"));
-			    totalObjectif.setVisible(true);
-			} else {
-			    totalObjectif.setVisible(false);
-			}
-		} catch (ClassCastException e) {
-		}
-		//table.packAll();
-	}
-	
-	public JXTable getTable() {
-		return table;
-	}
-	
-	abstract public String getTableName();
-
-	protected List<SbColumn> getColumns() {
-		List<SbColumn> ret = new ArrayList<>();
-		for (SbColumn column : columns)
-		{
-			if (column.getInputType() != InputType.SEPARATOR) {
-				ret.add(column);
 			}
 		}
-		return ret;
+		modelPropertyChangeLocal(evt);
+		SwingUtil.forceRevalidate(this);
 	}
 
-	private List<String> getColumnNames() {
-		List<String> cols = new ArrayList<>();
-		for (SbColumn col : getColumns()) {
-			cols.add(col.toString());
-		}
-		return cols;
+	abstract protected void modelPropertyChangeLocal(PropertyChangeEvent evt);
+
+	protected void newEntity(PropertyChangeEvent evt) {
+		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
+		List<Object> cols = getRow(entity);
+		tableModel.addRow(cols.toArray());
+		tableModel.fireTableDataChanged();
 	}
 
-	protected List<Object> getRow(AbstractEntity entity) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		session.refresh(entity);
-		List<Object> cols = new ArrayList<>();
-		for (SbColumn col : getColumns()) {
-			if (col.getInputType() == InputType.SEPARATOR) {
-				continue;
-			}
-			try {
-				String methodName = "get" + col.getMethodName();
-				Method method = entity.getClass().getMethod(methodName);
-				Object ret = method.invoke(entity);
-				if (ret == null) {
-					cols.add("");
-				} else if (ret instanceof Timestamp) {
-					Timestamp ts = (Timestamp) ret;
-					if (entity instanceof TimeEvent) {
-						SimpleDateFormat format = new SimpleDateFormat(((TimeEvent)entity).getStepFormat());
-						String val = format.format(ts);
-						cols.add(val);
-					} else {
-						Date date = new Date(ts.getTime());
-						cols.add(date);
-					}
-				} else if (ret instanceof Date
-						|| ret instanceof Color
-						|| ret instanceof SceneState
-						|| ret instanceof TimeStepState
-						|| ret instanceof IdeaState
-						|| ret instanceof Strand
-						|| ret instanceof Chapter
-						|| ret instanceof Part
-						|| ret instanceof Gender
-						|| ret instanceof Category
-						|| ret instanceof Person
-						|| ret instanceof Icon) {
-					cols.add(ret);
-				} else if (ret instanceof List) {
-					@SuppressWarnings("unchecked")
-					List<AbstractEntity> list = (List<AbstractEntity>) ret;
-					cols.add(list);
-				} else if (ret instanceof Long) {
-					if (col.hasTableCellRenderer()) {
-						cols.add(ret);
-					} else {
-						cols.add(ret.toString());
-					}
-				} else {
-					cols.add(ret.toString());
-				}
-			} catch (NoSuchMethodException | SecurityException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException ex) {
-			}
-		}
-		model.commit();
-		return cols;
+	protected void orderDownEntity(PropertyChangeEvent evt) {
+	}
+
+	protected void orderUpEntity(PropertyChangeEvent evt) {
+	}
+
+	abstract protected void sendDeleteEntities(int[] rows);
+
+	abstract protected void sendDeleteEntity(int row);
+
+	protected void sendOrderDownEntity(int row) {
+	}
+
+	protected void sendOrderUpEntity(int row) {
+	}
+
+	abstract protected void sendSetEntityToEdit(int row);
+
+	abstract protected void sendSetNewEntityToEdit(AbstractEntity entity);
+
+	protected void sortByColumn(int col) {
+		DefaultRowSorter<?, ?> sorter = ((DefaultRowSorter<?, ?>) table.getRowSorter());
+		ArrayList<SortKey> list = new ArrayList<>();
+		list.add(new RowSorter.SortKey(col, SortOrder.ASCENDING));
+		sorter.setSortKeys(list);
+		sorter.sort();
 	}
 
 	protected void updateEntity(PropertyChangeEvent evt) {
@@ -478,114 +625,6 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 				tableModel.setValueAt(val, row, col);
 				++col;
 			}
-		}
-	}
-
-	protected void orderUpEntity(PropertyChangeEvent evt) {
-	}
-
-	protected void orderDownEntity(PropertyChangeEvent evt) {
-	}
-
-	protected void sortByColumn(int col) {
-		DefaultRowSorter<?, ?> sorter = ((DefaultRowSorter<?, ?>) table.getRowSorter());
-		ArrayList<SortKey> list = new ArrayList<>();
-		list.add(new RowSorter.SortKey(col, SortOrder.ASCENDING));
-		sorter.setSortKeys(list);
-		sorter.sort();
-	}
-
-	protected void newEntity(PropertyChangeEvent evt) {
-		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
-		List<Object> cols = getRow(entity);
-		tableModel.addRow(cols.toArray());
-		tableModel.fireTableDataChanged();
-	}
-
-	protected synchronized void deleteEntity(PropertyChangeEvent evt) {
-		AbstractEntity entity = (AbstractEntity) evt.getOldValue();
-		for (int row = 0; row < tableModel.getRowCount(); ++row) {
-			Long id = Long.parseLong((String) tableModel.getValueAt(row, 0));
-			if (id.equals(entity.getId())) {
-				tableModel.removeRow(row);
-				break;
-			}
-		}
-		tableModel.fireTableDataChanged();
-	}
-
-	protected synchronized AbstractEntity getEntityFromRow(int row) {
-		SbApp.trace("AbstractTable.getEntityFromRow("+row+")");
-		if (row == -1) {
-			return null;
-		}
-		try {
-			int modelIndex = table.getRowSorter().convertRowIndexToModel(row);
-			@SuppressWarnings("unchecked")
-			List<List<String>> dataVector = tableModel.getDataVector();
-			Long id = Long.parseLong(dataVector.get(modelIndex).get(0));
-			return getEntity(id);
-		} catch (NumberFormatException ex) {
-			SbApp.error("AbstractTable.getEntityFromRow("+row+")", ex);
-		}
-		return null;
-	}
-
-	@Override
-	public synchronized void actionPerformed(ActionEvent e) {
-		SbApp.trace("AbstractTable.actionPerformed("+e.toString()+")");
-		String actCmd = e.getActionCommand();
-		Component comp = (Component) e.getSource();
-		String compName = comp.getName();
-		int row = table.getSelectedRow();
-		SbApp.trace("actCmd=" + actCmd + ",comp="+compName + ",row="+row);
-		if (ComponentName.BT_EDIT.check(compName) || ActionCommand.EDIT.check(actCmd)) {
-			sendSetEntityToEdit(row);
-			return;
-		}
-		if (ComponentName.BT_NEW.check(compName) || ActionCommand.NEW.check(actCmd)) {
-			table.clearSelection();
-			sendSetNewEntityToEdit(getNewEntity());
-			return;
-		}
-		if (ComponentName.BT_COPY.check(compName) || ActionCommand.COPY.check(actCmd)) {
-			AbstractEntity entity = (AbstractEntity) getEntityFromRow(row);
-			EntityUtil.copyEntity(mainFrame, entity);
-			return;
-		}
-		if (ComponentName.BT_DELETE.check(compName) || ActionCommand.DELETE.check(actCmd)) {
-			if (table.getSelectedRowCount() == 1) {
-				// delete one entity
-				AbstractEntity entity = (AbstractEntity) getEntityFromRow(row);
-				DeleteEntityAction act = new DeleteEntityAction(mainFrame, entity);
-				act.actionPerformed(null);
-				return;
-			}
-			if (table.getSelectedRowCount() > 1) {
-				// delete multiple entities
-				List<AbstractEntity> entities = new ArrayList<>();
-				int[] rows = table.getSelectedRows();
-				for (int row2 : rows) {
-					AbstractEntity entity = getEntityFromRow(row2);
-					List<Long> readOnlyIds = EntityUtil.getReadOnlyIds(entity);
-					if (!readOnlyIds.contains(entity.getId())) {
-						entities.add(entity);
-					}
-				}
-				dlgConfirmDelete dlg = new dlgConfirmDelete(mainFrame, entities);
-				showModalDialog(dlg, mainFrame, true);
-				if (dlg.isCanceled()) {
-					return;
-				}
-				sendDeleteEntities(rows);
-				return;
-			}
-		}
-
-		if (ComponentName.BT_ORDER_UP.check(compName)) {
-			sendOrderUpEntity(row);
-		} else if (ComponentName.BT_ORDER_DOWN.check(compName)) {
-			sendOrderDownEntity(row);
 		}
 	}
 
@@ -605,63 +644,15 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		}
 		int row = selectionModel.getMinSelectionIndex();
 		AbstractEntity entity = getEntityFromRow(row);
-		boolean b=true;
-		if (entity == null) b=false;
+		boolean b = true;
+		if (entity == null)
+			b = false;
 		btEdit.setEnabled(b);
 		btCopy.setEnabled(b);
 		btDelete.setEnabled(b);
 		if (hasOrder) {
 			btOrderUp.setEnabled(b);
 			btOrderDown.setEnabled(b);
-		}
-	}
-
-	private class MyMouseAdapter extends MouseAdapter {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			DefaultListSelectionModel selectionModel = (DefaultListSelectionModel) table.getSelectionModel();
-			if (e.getClickCount() == 2) {
-				int count = selectionModel.getMaxSelectionIndex() - selectionModel.getMinSelectionIndex() + 1;
-				if (count > 1) {
-					return;
-				}
-				int row = selectionModel.getMinSelectionIndex();
-				sendSetEntityToEdit(row);
-			} else {
-				BookController ctrl = mainFrame.getBookController();
-				ctrl.showInfo(getEntityFromRow(selectionModel.getMinSelectionIndex()));
-			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				showPopup(e);
-			}
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				showPopup(e);
-			}
-		}
-
-		private void showPopup(MouseEvent e) {
-			if (!(e.getSource() instanceof JXTable)) {
-				return;
-			}
-			JXTable source = (JXTable) e.getSource();
-			int row = source.rowAtPoint(e.getPoint());
-			int column = source.columnAtPoint(e.getPoint());
-			if (!source.isRowSelected(row)) {
-				source.changeSelection(row, column, false, false);
-			}
-			AbstractEntity entity = getEntityFromRow(row);
-			if (entity != null) {
-				JPopupMenu popup = EntityUtil.createPopupMenu(mainFrame, entity);
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
 		}
 	}
 }

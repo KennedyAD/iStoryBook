@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.LocationDAOImpl;
@@ -39,6 +39,26 @@ public class LocationTable extends AbstractTable {
 
 	public LocationTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		LocationDAOImpl dao = new LocationDAOImpl(session);
+		Location location = dao.find(id);
+		model.commit();
+		return location;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Location();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Location");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class LocationTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Location location = (Location) getEntityFromRow(row);
-//		ctrl.setLocationToEdit(location);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(location);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setLocationToEdit((Location) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Location location = (Location) getEntityFromRow(row);
-		ctrl.deleteLocation(location);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class LocationTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		LocationDAOImpl dao = new LocationDAOImpl(session);
-		Location location = dao.find(id);
-		model.commit();
-		return location;
+	protected synchronized void sendDeleteEntity(int row) {
+		Location location = (Location) getEntityFromRow(row);
+		ctrl.deleteLocation(location);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Location();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Location location = (Location) getEntityFromRow(row);
+		// ctrl.setLocationToEdit(location);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(location);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Location");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setLocationToEdit((Location) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

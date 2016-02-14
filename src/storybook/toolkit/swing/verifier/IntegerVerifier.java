@@ -57,14 +57,12 @@ public class IntegerVerifier extends AbstractInputVerifier {
 				int i = Integer.parseInt(tf.getText());
 				if (onlyPositive) {
 					if (i < 0) {
-						throw new NumberFormatException(
-								I18N.getMsg("msg.verifier.integer.positive"));
+						throw new NumberFormatException(I18N.getMsg("msg.verifier.integer.positive"));
 					}
 				}
 				return true;
 			} catch (NumberFormatException e) {
-				setErrorText(I18N.getMsg("msg.verifier.wrong.format") + " "
-						+ e.getLocalizedMessage());
+				setErrorText(I18N.getMsg("msg.verifier.wrong.format") + " " + e.getLocalizedMessage());
 			}
 		}
 		return false;

@@ -30,17 +30,15 @@ import java.util.Date;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 
-import storybook.SbConstants.ViewName;
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class SpacePanel extends AbstractPanel implements MouseListener {
@@ -60,13 +58,30 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		refresh();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		String propName = evt.getPropertyName();
-		if (BookController.StrandProps.UPDATE.check(propName)) {
-			EntityUtil.refresh(mainFrame, strand);
-			refresh();
+	public Date getDate() {
+		return date;
+	}
+
+	private AbstractAction getNewAction() {
+		if (newSceneAction == null) {
+			newSceneAction = new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					BookController ctrl = mainFrame.getBookController();
+					Scene scene = new Scene();
+					scene.setStrand(strand);
+					scene.setDate(date);
+					ctrl.setSceneToEdit(scene);
+					// mainFrame.showView(ViewName.EDITOR);
+					mainFrame.showEditorAsDialog(scene);
+				}
+			};
 		}
+		return newSceneAction;
+	}
+
+	public Strand getStrand() {
+		return strand;
 	}
 
 	@Override
@@ -88,29 +103,19 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		setBorder(BorderFactory.createLineBorder(color, 2));
 		setOpaque(false);
 
-		IconButton btNewScene = new IconButton("icon.small.plus",
-				getNewAction());
+		IconButton btNewScene = new IconButton("icon.small.plus", getNewAction());
 		btNewScene.setFlat();
 		btNewScene.setToolTipText(I18N.getMsg("msg.space.panel.add.new"));
 		add(btNewScene, "ax center");
 	}
 
-	private AbstractAction getNewAction() {
-		if (newSceneAction == null) {
-			newSceneAction = new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					BookController ctrl = mainFrame.getBookController();
-					Scene scene = new Scene();
-					scene.setStrand(strand);
-					scene.setDate(date);
-					ctrl.setSceneToEdit(scene);
-//					mainFrame.showView(ViewName.EDITOR);
-					mainFrame.showEditorAsDialog(scene);
-				}
-			};
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		String propName = evt.getPropertyName();
+		if (BookController.StrandProps.UPDATE.check(propName)) {
+			EntityUtil.refresh(mainFrame, strand);
+			refresh();
 		}
-		return newSceneAction;
 	}
 
 	@Override
@@ -121,14 +126,6 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
@@ -136,11 +133,11 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 	}
 
-	public Strand getStrand() {
-		return strand;
+	@Override
+	public void mousePressed(MouseEvent e) {
 	}
 
-	public Date getDate() {
-		return date;
+	@Override
+	public void mouseReleased(MouseEvent e) {
 	}
 }

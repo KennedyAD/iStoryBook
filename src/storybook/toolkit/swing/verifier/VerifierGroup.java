@@ -47,6 +47,16 @@ public class VerifierGroup extends AbstractInputVerifier {
 	}
 
 	@Override
+	public boolean isMandatory() {
+		for (AbstractInputVerifier verifier : verifiers) {
+			if (verifier.isMandatory()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public boolean isNumber() {
 		for (AbstractInputVerifier verifier : verifiers) {
 			if (verifier.isNumber()) {
@@ -83,15 +93,5 @@ public class VerifierGroup extends AbstractInputVerifier {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public boolean isMandatory() {
-		for (AbstractInputVerifier verifier : verifiers) {
-			if (verifier.isMandatory()) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

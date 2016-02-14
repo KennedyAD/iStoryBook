@@ -41,12 +41,41 @@ public abstract class AbstractInputVerifier extends InputVerifier {
 		this.acceptEmpty = acceptEmpty;
 	}
 
+	public ErrorState getErrorState() {
+		return errorState;
+	}
+
+	public String getErrorText() {
+		return errorText;
+	}
+
+	public boolean isCheckOnlyOnNewEntities() {
+		return checkOnlyOnNewEntities;
+	}
+
 	public boolean isMandatory() {
 		return !acceptEmpty;
 	}
 
 	public boolean isNumber() {
 		return false;
+	}
+
+	public void setCheckOnlyOnNewEntities(boolean checkOnlyOnNewEntities) {
+		this.checkOnlyOnNewEntities = checkOnlyOnNewEntities;
+	}
+
+	public void setErrorState(ErrorState errorState) {
+		this.errorState = errorState;
+	}
+
+	public void setErrorText(String errorText) {
+		this.errorText = errorText;
+	}
+
+	@Override
+	public boolean shouldYieldFocus(JComponent input) {
+		return true;
 	}
 
 	@Override
@@ -60,34 +89,5 @@ public abstract class AbstractInputVerifier extends InputVerifier {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public boolean shouldYieldFocus(JComponent input) {
-		return true;
-	}
-
-	public String getErrorText() {
-		return errorText;
-	}
-
-	public void setErrorText(String errorText) {
-		this.errorText = errorText;
-	}
-
-	public boolean isCheckOnlyOnNewEntities() {
-		return checkOnlyOnNewEntities;
-	}
-
-	public void setCheckOnlyOnNewEntities(boolean checkOnlyOnNewEntities) {
-		this.checkOnlyOnNewEntities = checkOnlyOnNewEntities;
-	}
-
-	public ErrorState getErrorState() {
-		return errorState;
-	}
-
-	public void setErrorState(ErrorState errorState) {
-		this.errorState = errorState;
 	}
 }

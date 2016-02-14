@@ -24,33 +24,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import storybook.SbApp;
 
+import storybook.SbApp;
 import storybook.SbConstants;
 
 public class NetUtil {
 
 	private static String googleMapUrl;
-
-	public static void openBrowser(String path) {
-		SbApp.trace("NetUtil.openBrowser("+path+")");
-		try {
-			Desktop.getDesktop().browse(new URI(path));
-		} catch (URISyntaxException | IOException e) {
-			SbApp.error("NetUtil.openBrowser("+path+")", e);
-		}
-	}
-
-	public static void openGoogleMap(String query) {
-		SbApp.trace("NetUtil.openGoogleMap("+query+")");
-		try {
-			String queryEnc = URLEncoder.encode(query, "UTF-8");
-			String path = getGoogleMapsUrl() + "/?q=" + queryEnc;
-			openBrowser(path);
-		} catch (UnsupportedEncodingException e) {
-			SbApp.error("NetUtil.openGoogleMap("+query+")", e);
-		}
-	}
 
 	public static String getGoogleMapsUrl() {
 		SbApp.trace("NetUtil.getGoogleMapsUrl()");
@@ -60,8 +40,28 @@ public class NetUtil {
 		return googleMapUrl;
 	}
 
+	public static void openBrowser(String path) {
+		SbApp.trace("NetUtil.openBrowser(" + path + ")");
+		try {
+			Desktop.getDesktop().browse(new URI(path));
+		} catch (URISyntaxException | IOException e) {
+			SbApp.error("NetUtil.openBrowser(" + path + ")", e);
+		}
+	}
+
+	public static void openGoogleMap(String query) {
+		SbApp.trace("NetUtil.openGoogleMap(" + query + ")");
+		try {
+			String queryEnc = URLEncoder.encode(query, "UTF-8");
+			String path = getGoogleMapsUrl() + "/?q=" + queryEnc;
+			openBrowser(path);
+		} catch (UnsupportedEncodingException e) {
+			SbApp.error("NetUtil.openGoogleMap(" + query + ")", e);
+		}
+	}
+
 	public static void setGoogleMapUrl(String url) {
-		SbApp.trace("NetUtil.setGoogleMapUrl("+url+")");
+		SbApp.trace("NetUtil.setGoogleMapUrl(" + url + ")");
 		NetUtil.googleMapUrl = url;
 	}
 

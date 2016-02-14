@@ -24,8 +24,8 @@ import storybook.model.hbn.dao.GenderDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Gender;
 import storybook.ui.MainFrame;
-import storybook.ui.table.SbColumnFactory;
 import storybook.ui.combo.GenderListCellRenderer;
+import storybook.ui.table.SbColumnFactory;
 
 /**
  * @author martin
@@ -50,13 +50,13 @@ public class GenderEntityHandler extends AbstractEntityHandler {
 	}
 
 	@Override
-	public ListCellRenderer getListCellRenderer() {
-		return new GenderListCellRenderer();
-	}
-
-	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Gender.class;
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		return new GenderListCellRenderer();
 	}
 }

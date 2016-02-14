@@ -32,6 +32,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Location;
@@ -41,8 +42,7 @@ import storybook.toolkit.DateUtil;
 import storybook.toolkit.LangUtil;
 import storybook.toolkit.comparator.DateComparator;
 
-public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
-		ChapterDAO {
+public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements ChapterDAO {
 
 	public ChapterDAOImpl() {
 		super();
@@ -50,6 +50,48 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 
 	public ChapterDAOImpl(Session session) {
 		super(session);
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean checkIfNumberExists(AbstractEntity entity) {
+		try {
+			Chapter newChapter = (Chapter) entity;
+			Integer newChapterNo = newChapter.getChapterno();
+
+			if (!entity.isTransient()) {
+				// update
+				ChapterDAOImpl dao = new ChapterDAOImpl(session);
+				Chapter oldChapter = dao.find(entity.getId());
+				Integer oldChapterNo = oldChapter.getChapterno();
+				Criteria crit = session.createCriteria(Chapter.class);
+				crit.add(Restrictions.eq("chapterno", newChapterNo));
+				List<Chapter> chapters = crit.list();
+				Vector<Integer> numbers = new Vector<Integer>();
+				for (Chapter chapter : chapters) {
+					numbers.add(chapter.getChapterno());
+				}
+				if (newChapterNo.equals(oldChapterNo)) {
+					numbers.remove(newChapterNo);
+				}
+				if (numbers.size() > 0) {
+					return false;
+				}
+				return true;
+			}
+
+			// new
+			Criteria crit = session.createCriteria(Chapter.class);
+			crit.add(Restrictions.eq("chapterno", newChapterNo));
+			List<Chapter> chapters = crit.list();
+			if (chapters.size() > 0) {
+				return false;
+			}
+
+			return true;
+		} catch (NonUniqueResultException e) {
+			e.printStackTrace();
+			return true;
+		}
 	}
 
 	@Override
@@ -68,7 +110,7 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 		if (part != null) {
 			query.setEntity("part", part);
 		}
-		List<Chapter> ret = (List<Chapter>) query.list();
+		List<Chapter> ret = query.list();
 		return ret;
 	}
 
@@ -86,8 +128,20 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 		return crit.list();
 	}
 
-	public List<Scene> findUnassignedScenes() {
-		return findScenes(null);
+	@SuppressWarnings("unchecked")
+	public List<Date> findDates(Chapter chapter) {
+		Query query = session.createQuery("select s.sceneTs from Scene as s" + " join s.chapter as ch"
+				+ " where s.chapter=:chapter" + " order by ch.chapterno, s.sceneno");
+		query.setEntity("chapter", chapter);
+		List<Timestamp> tsList = query.list();
+		List<Date> dates = new ArrayList<Date>();
+		for (Timestamp ts : tsList) {
+			Date date = DateUtil.getZeroTimeDate(ts);
+			dates.add(date);
+		}
+		dates = LangUtil.removeNullAndDuplicates(dates);
+		Collections.sort(dates, new DateComparator());
+		return dates;
 	}
 
 	public Scene findFirstScene(Chapter chapter) {
@@ -99,6 +153,16 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Location> findLocations(Chapter chapter) {
+		Query query = session.createQuery("select s.locations from Scene as s" + " join s.chapter as ch"
+				+ " where s.chapter=:chapter" + " order by ch.chapterno, s.sceneno");
+		query.setEntity("chapter", chapter);
+		List<Location> locations = query.list();
+		locations = LangUtil.removeNullAndDuplicates(locations);
+		return locations;
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Scene> findScenes(Chapter chapter) {
 		Criteria crit = session.createCriteria(Scene.class);
 		if (chapter != null) {
@@ -107,7 +171,7 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 			crit.add(Restrictions.isNull("chapter"));
 		}
 		crit.addOrder(Order.asc("sceneno"));
-		List<Scene> scenes = (List<Scene>) crit.list();
+		List<Scene> scenes = crit.list();
 		return scenes;
 	}
 
@@ -120,44 +184,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 			crit.add(Restrictions.isNull("chapter"));
 		}
 		crit.addOrder(Order.asc("sceneTs"));
-		List<Scene> scenes = (List<Scene>) crit.list();
+		List<Scene> scenes = crit.list();
 		return scenes;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Location> findLocations(Chapter chapter) {
-		Query query = session
-				.createQuery("select s.locations from Scene as s"
-						+ " join s.chapter as ch"
-						+ " where s.chapter=:chapter"
-						+ " order by ch.chapterno, s.sceneno");
-		query.setEntity("chapter", chapter);
-		List<Location> locations = (List<Location>) query.list();
-		locations = LangUtil.removeNullAndDuplicates(locations);
-		return locations;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Date> findDates(Chapter chapter) {
-		Query query = session
-				.createQuery("select s.sceneTs from Scene as s"
-						+ " join s.chapter as ch"
-						+ " where s.chapter=:chapter"
-						+ " order by ch.chapterno, s.sceneno");
-		query.setEntity("chapter", chapter);
-		List<Timestamp> tsList = (List<Timestamp>) query.list();
-		List<Date> dates = new ArrayList<Date>();
-		for(Timestamp ts:tsList){
-			Date date=DateUtil.getZeroTimeDate(ts);
-			dates.add(date);
-		}
-		dates = LangUtil.removeNullAndDuplicates(dates);
-		Collections.sort(dates, new DateComparator());
-		return dates;
-	}
-
-	public int getNextChapterNumber() {
-		return getMaxChapterNumber() + 1;
+	public List<Scene> findUnassignedScenes() {
+		return findScenes(null);
 	}
 
 	public int getMaxChapterNumber() {
@@ -169,45 +201,7 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean checkIfNumberExists(AbstractEntity entity) {
-		try {
-			Chapter newChapter = (Chapter) entity;
-			Integer newChapterNo = newChapter.getChapterno();
-
-			if (!entity.isTransient()) {
-				// update
-				ChapterDAOImpl dao = new ChapterDAOImpl(session);
-				Chapter oldChapter = dao.find(entity.getId());
-				Integer oldChapterNo = oldChapter.getChapterno();
-				Criteria crit = session.createCriteria(Chapter.class);
-				crit.add(Restrictions.eq("chapterno", newChapterNo));
-				List<Chapter> chapters = (List<Chapter>) crit.list();
-				Vector<Integer> numbers = new Vector<Integer>();
-				for (Chapter chapter : chapters) {
-					numbers.add(chapter.getChapterno());
-				}
-				if (newChapterNo.equals(oldChapterNo)) {
-					numbers.remove(newChapterNo);
-				}
-				if (numbers.size() > 0) {
-					return false;
-				}
-				return true;
-			}
-
-			// new
-			Criteria crit = session.createCriteria(Chapter.class);
-			crit.add(Restrictions.eq("chapterno", newChapterNo));
-			List<Chapter> chapters = (List<Chapter>) crit.list();
-			if (chapters.size() > 0) {
-				return false;
-			}
-
-			return true;
-		} catch (NonUniqueResultException e) {
-			e.printStackTrace();
-			return true;
-		}
+	public int getNextChapterNumber() {
+		return getMaxChapterNumber() + 1;
 	}
 }

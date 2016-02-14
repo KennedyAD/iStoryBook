@@ -24,11 +24,10 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -50,10 +49,6 @@ public class ViewsRadioButtonPanel extends AbstractPanel {
 		super(mainFrame);
 		this.showManage = showManage;
 		initAll();
-	}
-
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	@Override
@@ -94,15 +89,19 @@ public class ViewsRadioButtonPanel extends AbstractPanel {
 		}
 	}
 
-	public boolean isChronoSelected() {
-		return rbChrono.isSelected();
-	}
-
 	public boolean isBookSelected() {
 		return rbBook.isSelected();
 	}
 
+	public boolean isChronoSelected() {
+		return rbChrono.isSelected();
+	}
+
 	public boolean isManageSelected() {
 		return rbManage.isSelected();
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 }

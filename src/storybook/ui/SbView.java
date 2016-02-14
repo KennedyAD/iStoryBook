@@ -42,12 +42,12 @@ public class SbView extends View {
 		this(title, null, null);
 	}
 
-	public SbView(String title, Icon icon) {
-		this(title, icon, null);
-	}
-
 	public SbView(String title, Component comp) {
 		this(title, null, comp);
+	}
+
+	public SbView(String title, Icon icon) {
+		this(title, icon, null);
 	}
 
 	public SbView(String title, Icon icon, Component comp) {
@@ -56,42 +56,12 @@ public class SbView extends View {
 		number = counter++;
 	}
 
-	public void load(JComponent comp) {
-		super.setComponent(comp);
-		loaded = true;
-	}
-
-	public void unload() {
-		super.setComponent(null);
-		loaded = false;
-	}
-
-	public boolean isLoaded() {
-		return loaded;
-	}
-
-	public boolean isWindowShowing() {
-		return getRootWindow() != null;
-	}
-
 	public void cleverRestoreFocus() {
 		setVisible(true);
 		if (!isMinimized()) {
 			restore();
 		}
 		restoreFocus();
-	}
-
-	@Override
-	public String toString() {
-		return "View " + number + ": " + getTitle();
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 7;
-		hash = hash * 31 + number.hashCode();
-		return hash;
 	}
 
 	@Override
@@ -104,5 +74,35 @@ public class SbView extends View {
 		}
 		SbView test = (SbView) obj;
 		return Objects.equals(number, test.number);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = hash * 31 + number.hashCode();
+		return hash;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public boolean isWindowShowing() {
+		return getRootWindow() != null;
+	}
+
+	public void load(JComponent comp) {
+		super.setComponent(comp);
+		loaded = true;
+	}
+
+	@Override
+	public String toString() {
+		return "View " + number + ": " + getTitle();
+	}
+
+	public void unload() {
+		super.setComponent(null);
+		loaded = false;
 	}
 }

@@ -28,9 +28,9 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.toolkit.html.HtmlSelection;
@@ -50,6 +50,17 @@ public class ExceptionDialog extends AbstractDialog {
 		super();
 		this.e = e;
 		initAll();
+	}
+
+	private AbstractAction getCopyTextAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				HtmlSelection selection = new HtmlSelection(ta.getText());
+				Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+				clbrd.setContents(selection, selection);
+			}
+		};
 	}
 
 	@Override
@@ -86,16 +97,5 @@ public class ExceptionDialog extends AbstractDialog {
 		add(getCloseButton(), "sg");
 
 		ViewUtil.scrollToTop(scroller);
-	}
-
-	private AbstractAction getCopyTextAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				HtmlSelection selection = new HtmlSelection(ta.getText());
-				Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-				clbrd.setContents(selection, selection);
-			}
-		};
 	}
 }

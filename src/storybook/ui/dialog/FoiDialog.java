@@ -24,13 +24,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.model.hbn.entity.Idea;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -44,6 +43,26 @@ public class FoiDialog extends AbstractDialog {
 	public FoiDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
+	}
+
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				canceled = false;
+				dispose();
+				Idea idea = new Idea();
+				idea.setStatus(0);
+				idea.setCategory(I18N.getMsg("msg.foi.title"));
+				idea.setNotes(ideaEditor.getText());
+				mainFrame.getBookController().newIdea(idea);
+			}
+		};
+	}
+
+	public String getText() {
+		return ideaEditor.getText();
 	}
 
 	@Override
@@ -68,25 +87,5 @@ public class FoiDialog extends AbstractDialog {
 		add(ideaEditor, "grow");
 		add(getOkButton(), "split 2,sg,right");
 		add(getCancelButton(), "sg");
-	}
-
-	public String getText() {
-		return ideaEditor.getText();
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				canceled = false;
-				dispose();
-				Idea idea = new Idea();
-				idea.setStatus(0);
-				idea.setCategory(I18N.getMsg("msg.foi.title"));
-				idea.setNotes(ideaEditor.getText());
-				mainFrame.getBookController().newIdea(idea);
-			}
-		};
 	}
 }

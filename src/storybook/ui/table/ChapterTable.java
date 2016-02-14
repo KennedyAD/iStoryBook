@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ChapterDAOImpl;
@@ -40,6 +40,26 @@ public class ChapterTable extends AbstractTable {
 
 	public ChapterTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		ChapterDAOImpl dao = new ChapterDAOImpl(session);
+		Chapter chapter = dao.find(id);
+		model.commit();
+		return chapter;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Chapter();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Chapter");
 	}
 
 	@Override
@@ -67,40 +87,6 @@ public class ChapterTable extends AbstractTable {
 		}
 	}
 
-	private void updateParts(PropertyChangeEvent evt) {
-		Part oldPart = (Part) evt.getOldValue();
-		Part newPart = (Part) evt.getNewValue();
-		for (int row = 0; row < tableModel.getRowCount(); ++row) {
-			if (oldPart.equals(newPart)) {
-				tableModel.setValueAt(newPart, row, 1);
-			}
-		}
-	}
-
-	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Chapter chapter = (Chapter) getEntityFromRow(row);
-//		ctrl.setChapterToEdit(chapter);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(chapter);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setChapterToEdit((Chapter) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Chapter chapter = (Chapter) getEntityFromRow(row);
-		ctrl.deleteChapter(chapter);
-	}
-
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<>();
@@ -112,22 +98,36 @@ public class ChapterTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		ChapterDAOImpl dao = new ChapterDAOImpl(session);
-		Chapter chapter = dao.find(id);
-		model.commit();
-		return chapter;
+	protected synchronized void sendDeleteEntity(int row) {
+		Chapter chapter = (Chapter) getEntityFromRow(row);
+		ctrl.deleteChapter(chapter);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Chapter();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Chapter chapter = (Chapter) getEntityFromRow(row);
+		// ctrl.setChapterToEdit(chapter);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(chapter);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Chapter");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setChapterToEdit((Chapter) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
+	}
+
+	private void updateParts(PropertyChangeEvent evt) {
+		Part oldPart = (Part) evt.getOldValue();
+		Part newPart = (Part) evt.getNewValue();
+		for (int row = 0; row < tableModel.getRowCount(); ++row) {
+			if (oldPart.equals(newPart)) {
+				tableModel.setValueAt(newPart, row, 1);
+			}
+		}
 	}
 }

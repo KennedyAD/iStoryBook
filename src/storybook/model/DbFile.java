@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model;
 
 import java.io.File;
-import storybook.SbApp;
 
+import storybook.SbApp;
 import storybook.SbConstants;
 
 /**
@@ -33,13 +33,8 @@ public class DbFile {
 	private String dbName;
 	private String name;
 
-	public DbFile(String dbName) {
-		this(new File(dbName));
-		SbApp.trace("DbFile(dbName="+dbName);
-	}
-
 	public DbFile(File file) {
-		SbApp.trace("DbFile(file="+file.getAbsolutePath());
+		SbApp.trace("DbFile(file=" + file.getAbsolutePath());
 		this.file = file;
 		String absPath = file.getAbsolutePath();
 		String ext = SbConstants.Storybook.DB_FILE_EXT.toString();
@@ -55,20 +50,9 @@ public class DbFile {
 		name = fileName.substring(0, idx);
 	}
 
-	public File getFile() {
-		return file;
-	}
-
-	public String getPath() {
-		return dbName.substring(0, dbName.lastIndexOf(File.separator));
-	}
-
-	public String getDbName() {
-		return dbName;
-	}
-
-	public String getName() {
-		return name;
+	public DbFile(String dbName) {
+		this(new File(dbName));
+		SbApp.trace("DbFile(dbName=" + dbName);
 	}
 
 	@Override
@@ -83,6 +67,27 @@ public class DbFile {
 
 	}
 
+	public String getDbName() {
+		return dbName;
+	}
+
+	public String getExt() {
+		int beginIndex = file.getName().indexOf(".");
+		return (file.getName().substring(beginIndex));
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPath() {
+		return dbName.substring(0, dbName.lastIndexOf(File.separator));
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -93,10 +98,5 @@ public class DbFile {
 	@Override
 	public String toString() {
 		return file.getPath();
-	}
-
-	public String getExt() {
-		int beginIndex=file.getName().indexOf(".");
-		return(file.getName().substring(beginIndex));
 	}
 }

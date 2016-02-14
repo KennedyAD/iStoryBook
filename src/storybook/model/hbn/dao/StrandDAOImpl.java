@@ -31,12 +31,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 
-public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements
-		StrandDAO {
+public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements StrandDAO {
 
 	public StrandDAOImpl() {
 		super();
@@ -44,6 +44,48 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements
 
 	public StrandDAOImpl(Session session) {
 		super(session);
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean checkIfNumberExists(AbstractEntity entity) {
+		try {
+			Strand newStrand = (Strand) entity;
+			Integer newSort = newStrand.getSort();
+
+			if (!entity.isTransient()) {
+				// update
+				StrandDAOImpl dao = new StrandDAOImpl(session);
+				Strand oldStrand = dao.find(entity.getId());
+				Integer oldSort = oldStrand.getSort();
+				Criteria crit = session.createCriteria(Strand.class);
+				crit.add(Restrictions.eq("sort", newSort));
+				List<Strand> strands = crit.list();
+				Vector<Integer> numbers = new Vector<Integer>();
+				for (Strand strand : strands) {
+					numbers.add(strand.getSort());
+				}
+				if (newSort.equals(oldSort)) {
+					numbers.remove(newSort);
+				}
+				if (numbers.size() > 0) {
+					return false;
+				}
+				return true;
+			}
+
+			// new
+			Criteria crit = session.createCriteria(Strand.class);
+			crit.add(Restrictions.eq("sort", newSort));
+			List<Strand> strands = crit.list();
+			if (strands.size() > 0) {
+				return false;
+			}
+
+			return true;
+		} catch (NonUniqueResultException e) {
+			e.printStackTrace();
+			return true;
+		}
 	}
 
 	public long countByDate(Date date, Strand strand) {
@@ -62,6 +104,46 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements
 		Criteria crit = session.createCriteria(Strand.class);
 		crit.addOrder(Order.asc("sort"));
 		return crit.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findScenes(Strand strand) {
+		Query query = session.createQuery("select s from Scene as s left join s.chapter as ch"
+				+ " where s.strand=:strand" + " order by ch.chapterno, s.sceneno");
+		query.setEntity("strand", strand);
+		List<Scene> ret = query.list();
+		return ret;
+	}
+
+	public int getMaxSort() {
+		Query query = session.createQuery("select max(sort) from Strand");
+		Integer ret = (Integer) query.uniqueResult();
+		return ret;
+	}
+
+	public int getNextSort() {
+		return getMaxSort() + 1;
+	}
+
+	public void orderDownStrand(Strand strand) {
+		session.refresh(strand);
+		int strandSort = strand.getSort();
+
+		Criteria crit = session.createCriteria(Strand.class);
+		crit.add(Restrictions.eq("sort", strand.getSort() + 1));
+		Strand lower = (Strand) crit.uniqueResult();
+		if (lower == null) {
+			// already on bottom
+			return;
+		}
+
+		int lowerSort = lower.getSort();
+
+		strand.setSort(lowerSort);
+		lower.setSort(strandSort);
+
+		session.update(strand);
+		session.update(lower);
 	}
 
 	public void orderStrands() {
@@ -93,90 +175,6 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements
 
 		session.update(strand);
 		session.update(upper);
-	}
-
-	public void orderDownStrand(Strand strand) {
-		session.refresh(strand);
-		int strandSort = strand.getSort();
-
-		Criteria crit = session.createCriteria(Strand.class);
-		crit.add(Restrictions.eq("sort", strand.getSort() + 1));
-		Strand lower = (Strand) crit.uniqueResult();
-		if (lower == null) {
-			// already on bottom
-			return;
-		}
-
-		int lowerSort = lower.getSort();
-
-		strand.setSort(lowerSort);
-		lower.setSort(strandSort);
-
-		session.update(strand);
-		session.update(lower);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findScenes(Strand strand) {
-		Query query = session
-				.createQuery("select s from Scene as s left join s.chapter as ch"
-						+ " where s.strand=:strand"
-						+ " order by ch.chapterno, s.sceneno");
-		query.setEntity("strand", strand);
-		List<Scene> ret = (List<Scene>) query.list();
-		return ret;
-	}
-
-	public int getNextSort() {
-		return getMaxSort() + 1;
-	}
-
-	public int getMaxSort() {
-		Query query = session.createQuery("select max(sort) from Strand");
-		Integer ret = (Integer) query.uniqueResult();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public boolean checkIfNumberExists(AbstractEntity entity) {
-		try {
-			Strand newStrand = (Strand) entity;
-			Integer newSort = newStrand.getSort();
-
-			if (!entity.isTransient()) {
-				// update
-				StrandDAOImpl dao = new StrandDAOImpl(session);
-				Strand oldStrand = dao.find(entity.getId());
-				Integer oldSort = oldStrand.getSort();
-				Criteria crit = session.createCriteria(Strand.class);
-				crit.add(Restrictions.eq("sort", newSort));
-				List<Strand> strands = (List<Strand>) crit.list();
-				Vector<Integer> numbers = new Vector<Integer>();
-				for (Strand strand : strands) {
-					numbers.add(strand.getSort());
-				}
-				if (newSort.equals(oldSort)) {
-					numbers.remove(newSort);
-				}
-				if (numbers.size() > 0) {
-					return false;
-				}
-				return true;
-			}
-
-			// new
-			Criteria crit = session.createCriteria(Strand.class);
-			crit.add(Restrictions.eq("sort", newSort));
-			List<Strand> strands = (List<Strand>) crit.list();
-			if (strands.size() > 0) {
-				return false;
-			}
-
-			return true;
-		} catch (NonUniqueResultException e) {
-			e.printStackTrace();
-			return true;
-		}
 	}
 
 }

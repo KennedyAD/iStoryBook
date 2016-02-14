@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 /**
- * @hibernate.subclass
- *   discriminator-value="0"
+ * @hibernate.subclass discriminator-value="0"
  */
 public class TagLink extends AbstractTagLink {
 
@@ -31,20 +30,6 @@ public class TagLink extends AbstractTagLink {
 
 	public TagLink(Tag tag, Integer type, Scene startScene, Scene endScene, Person person, Location location) {
 		super(type, startScene, endScene, person, location);
-		this.tag = tag;
-	}
-
-	/**
-	 * @return 
-	 * @hibernate.many-to-one
-	 *   column="tag_id"
-	 *   cascade="none"
-	 */
-	public Tag getTag() {
-		return this.tag;
-	}
-
-	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
 
@@ -59,10 +44,22 @@ public class TagLink extends AbstractTagLink {
 		return ret;
 	}
 
+	/**
+	 * @return
+	 * @hibernate.many-to-one column="tag_id" cascade="none"
+	 */
+	public Tag getTag() {
+		return this.tag;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
 		hash = hash * 31 + tag.hashCode();
 		return hash;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
 }

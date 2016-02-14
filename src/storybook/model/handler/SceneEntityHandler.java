@@ -24,8 +24,8 @@ import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
-import storybook.ui.table.SbColumnFactory;
 import storybook.ui.combo.SceneListCellRenderer;
+import storybook.ui.table.SbColumnFactory;
 
 /**
  * @author martin
@@ -38,14 +38,26 @@ public class SceneEntityHandler extends AbstractEntityHandler {
 	}
 
 	@Override
-	public ListCellRenderer getListCellRenderer() {
-		return new SceneListCellRenderer();
-	}
-
-	@Override
 	public AbstractEntity createNewEntity() {
 		Scene scene = new Scene();
 		return scene;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> getDAOClass() {
+		return (Class<T>) SceneDAOImpl.class;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> getEntityClass() {
+		return (Class<T>) Scene.class;
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		return new SceneListCellRenderer();
 	}
 
 	@Override
@@ -62,17 +74,5 @@ public class SceneEntityHandler extends AbstractEntityHandler {
 			scene.setChapter(orig.getChapter());
 		}
 		return scene;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> Class<T> getDAOClass() {
-		return (Class<T>) SceneDAOImpl.class;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> Class<T> getEntityClass() {
-		return (Class<T>) Scene.class;
 	}
 }

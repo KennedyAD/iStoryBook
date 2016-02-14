@@ -19,8 +19,10 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+
 import storybook.SbConstants;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Category;
@@ -34,6 +36,12 @@ public abstract class AbstractPersonsChart extends AbstractChartPanel {
 
 	public AbstractPersonsChart(MainFrame paramMainFrame, String paramString) {
 		super(paramMainFrame, paramString);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent paramActionEvent) {
+		updateSelectedCategories();
+		refreshChart();
 	}
 
 	@Override
@@ -54,18 +62,14 @@ public abstract class AbstractPersonsChart extends AbstractChartPanel {
 		}
 	}
 
-	public void actionPerformed(ActionEvent paramActionEvent) {
-		updateSelectedCategories();
-		refreshChart();
-	}
-
 	private void updateSelectedCategories() {
 		this.selectedCategories.clear();
 		Iterator localIterator = this.categoryCbList.iterator();
 		while (localIterator.hasNext()) {
 			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
 			if (localJCheckBox.isSelected()) {
-				Category localCategory = (Category) localJCheckBox.getClientProperty(SbConstants.ComponentName.CB_CATEGORY);
+				Category localCategory = (Category) localJCheckBox
+						.getClientProperty(SbConstants.ComponentName.CB_CATEGORY);
 				this.selectedCategories.add(localCategory);
 			}
 		}

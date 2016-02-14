@@ -40,13 +40,13 @@ public class LoadDockingLayoutAction extends AbstractAction {
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		DockingWindowUtil.loadLayout(mainFrame, name);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override

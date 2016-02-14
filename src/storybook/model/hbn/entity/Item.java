@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 /**
- * @hibernate.subclass
- *   discriminator-value="1"
+ * @hibernate.subclass discriminator-value="1"
  */
 public class Item extends AbstractTag implements Comparable<Item> {
 

@@ -36,12 +36,13 @@ public abstract class SbGenericDAOImpl<T, ID extends Serializable> extends Gener
 		setSessionFactory(session.getSessionFactory());
 	}
 
+	@Override
+	public Session getSession() {
+		return session;
+	}
+
 	public void setSession(Session session) {
 		this.session = session;
 		setSessionFactory(session.getSessionFactory());
-	}
-
-	public Session getSession() {
-		return session;
 	}
 }

@@ -39,10 +39,9 @@ public class ColorTableCellRenderer extends DefaultTableCellRenderer {
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table,
-				value, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		if (value == null) {
 			return lbText;
 		}

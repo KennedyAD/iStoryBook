@@ -41,10 +41,11 @@ public class ExportBookFileDialog extends AbstractFileDialog {
 		file = dbFile.getFile();
 		setDir(file.getParent());
 		setFilename(dbFile.getName() + ".odt");
-		
+
 		setAskForOverwrite(true);
 	}
 
+	@Override
 	protected void addInformationLines() {
 
 		JLabel lbName = new JLabel(I18N.getMsgColon("msg.common.title"));
@@ -72,7 +73,7 @@ public class ExportBookFileDialog extends AbstractFileDialog {
 		add(author);
 
 		JLabel lbSeparator = new JLabel("separator");
-	    separator = new JTextField(30);
+		separator = new JTextField(30);
 		separator.setText("***");
 		separator.addCaretListener(this);
 

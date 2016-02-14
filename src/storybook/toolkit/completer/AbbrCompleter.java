@@ -57,22 +57,6 @@ public class AbbrCompleter extends AbstractCompleter {
 		return "";
 	}
 
-	public JTextComponent getSourceComp1() {
-		return sourceComp1;
-	}
-
-	public void setSourceComp1(JTextComponent sourceComp1) {
-		this.sourceComp1 = sourceComp1;
-	}
-
-	public JTextComponent getSourceComp2() {
-		return sourceComp2;
-	}
-
-	public void setSourceComp2(JTextComponent sourceComp2) {
-		this.sourceComp2 = sourceComp2;
-	}
-
 	public String getCompName1() {
 		return compName1;
 	}
@@ -81,9 +65,12 @@ public class AbbrCompleter extends AbstractCompleter {
 		return compName2;
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		comp.setText(getCompletedText());
+	public JTextComponent getSourceComp1() {
+		return sourceComp1;
+	}
+
+	public JTextComponent getSourceComp2() {
+		return sourceComp2;
 	}
 
 	@Override
@@ -92,6 +79,19 @@ public class AbbrCompleter extends AbstractCompleter {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		comp.setText(getCompletedText());
+	}
+
+	public void setSourceComp1(JTextComponent sourceComp1) {
+		this.sourceComp1 = sourceComp1;
+	}
+
+	public void setSourceComp2(JTextComponent sourceComp2) {
+		this.sourceComp2 = sourceComp2;
 	}
 
 }

@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import storybook.model.hbn.entity.Preference;
-
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
+
+import storybook.model.hbn.entity.Preference;
 
 public interface PreferenceDAO extends GenericDAO<Preference, Long> {
 

@@ -4,19 +4,12 @@
  */
 package storybook.ui.chart;
 
-import storybook.model.BookModel;
-import storybook.model.hbn.dao.SceneDAOImpl;
-import storybook.model.hbn.dao.StrandDAOImpl;
-import storybook.model.hbn.entity.Part;
-import storybook.model.hbn.entity.Strand;
-import storybook.toolkit.swing.ColorUtil;
-import storybook.ui.MainFrame;
-import storybook.ui.chart.jfreechart.ChartUtil;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -27,6 +20,15 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.Layer;
+
+import storybook.model.BookModel;
+import storybook.model.hbn.dao.SceneDAOImpl;
+import storybook.model.hbn.dao.StrandDAOImpl;
+import storybook.model.hbn.entity.Part;
+import storybook.model.hbn.entity.Strand;
+import storybook.toolkit.swing.ColorUtil;
+import storybook.ui.MainFrame;
+import storybook.ui.chart.jfreechart.ChartUtil;
 
 public class StrandsByDateChart extends AbstractChartPanel {
 
@@ -43,24 +45,9 @@ public class StrandsByDateChart extends AbstractChartPanel {
 	public void actionPerformed(ActionEvent e) {
 	}
 
-	@Override
-	protected void initChart() {
-		CategoryDataset setCategory = createDataset();
-		JFreeChart chart = createChart(setCategory);
-		this.chartPanel = new ChartPanel(chart);
-	}
-
-	@Override
-	protected void initChartUi() {
-		this.panel.add(this.chartPanel, "grow");
-	}
-
-	@Override
-	protected void initOptionsUi() {
-	}
-
 	private JFreeChart createChart(CategoryDataset setCategory) {
-		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL,
+				true, true, false);
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		plot.addRangeMarker(ChartUtil.getAverageMarker(this.average), Layer.FOREGROUND);
 		BookModel model = this.mainFrame.getBookModel();
@@ -76,7 +63,7 @@ public class StrandsByDateChart extends AbstractChartPanel {
 			colors[i] = ColorUtil.darker(strand.getJColor(), 0.25D);
 			i++;
 		}
-		iObject = (BarRenderer) plot.getRenderer();
+		iObject = plot.getRenderer();
 		for (int j = 0; j < setCategory.getRowCount(); j++) {
 			Color color = colors[(j % colors.length)];
 			((BarRenderer) iObject).setSeriesPaint(j, color);
@@ -109,8 +96,24 @@ public class StrandsByDateChart extends AbstractChartPanel {
 			model.commit();
 			this.average = (d / (strands.size() + scenes.size()));
 		} catch (Exception exc) {
-			System.err.println("StrandsByDateChart.createDataset() Exception : "+exc.getMessage());
+			System.err.println("StrandsByDateChart.createDataset() Exception : " + exc.getMessage());
 		}
 		return setCategory;
+	}
+
+	@Override
+	protected void initChart() {
+		CategoryDataset setCategory = createDataset();
+		JFreeChart chart = createChart(setCategory);
+		this.chartPanel = new ChartPanel(chart);
+	}
+
+	@Override
+	protected void initChartUi() {
+		this.panel.add(this.chartPanel, "grow");
+	}
+
+	@Override
+	protected void initOptionsUi() {
 	}
 }

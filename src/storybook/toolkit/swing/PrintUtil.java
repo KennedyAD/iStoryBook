@@ -33,11 +33,21 @@ import javax.swing.RepaintManager;
  *
  */
 public class PrintUtil implements Printable {
-	private Component componentToBePrinted;
+	public static void disableDoubleBuffering(Component c) {
+		RepaintManager currentManager = RepaintManager.currentManager(c);
+		currentManager.setDoubleBufferingEnabled(false);
+	}
+
+	public static void enableDoubleBuffering(Component c) {
+		RepaintManager currentManager = RepaintManager.currentManager(c);
+		currentManager.setDoubleBufferingEnabled(true);
+	}
 
 	public static void printComponent(Component c) {
 		new PrintUtil(c).print();
 	}
+
+	private Component componentToBePrinted;
 
 	public PrintUtil(Component componentToBePrinted) {
 		this.componentToBePrinted = componentToBePrinted;
@@ -61,22 +71,11 @@ public class PrintUtil implements Printable {
 			return (NO_SUCH_PAGE);
 		} else {
 			Graphics2D g2d = (Graphics2D) g;
-			g2d.translate(pageFormat.getImageableX(),
-					pageFormat.getImageableY());
+			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 			disableDoubleBuffering(componentToBePrinted);
 			componentToBePrinted.paint(g2d);
 			enableDoubleBuffering(componentToBePrinted);
 			return (PAGE_EXISTS);
 		}
-	}
-
-	public static void disableDoubleBuffering(Component c) {
-		RepaintManager currentManager = RepaintManager.currentManager(c);
-		currentManager.setDoubleBufferingEnabled(false);
-	}
-
-	public static void enableDoubleBuffering(Component c) {
-		RepaintManager currentManager = RepaintManager.currentManager(c);
-		currentManager.setDoubleBufferingEnabled(true);
 	}
 }

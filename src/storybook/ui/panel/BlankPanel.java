@@ -25,11 +25,10 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
-
-import org.miginfocom.swing.MigLayout;
 import storybook.ui.MainFrame;
 
 /**
@@ -41,10 +40,6 @@ public class BlankPanel extends AbstractPanel {
 
 	public BlankPanel(MainFrame mainFrame) {
 		super(mainFrame);
-	}
-
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	@Override
@@ -71,5 +66,9 @@ public class BlankPanel extends AbstractPanel {
 
 		revalidate();
 		repaint();
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 }

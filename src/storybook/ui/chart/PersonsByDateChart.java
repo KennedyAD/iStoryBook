@@ -4,21 +4,11 @@
  */
 package storybook.ui.chart;
 
-import storybook.model.BookModel;
-import storybook.model.hbn.dao.ChapterDAOImpl;
-import storybook.model.hbn.dao.PersonDAOImpl;
-import storybook.model.hbn.entity.Chapter;
-import storybook.model.hbn.entity.Part;
-import storybook.model.hbn.entity.Person;
-import storybook.model.hbn.entity.Scene;
-import storybook.toolkit.I18N;
-import storybook.ui.MainFrame;
-import storybook.ui.chart.jfreechart.ChartUtil;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
-import javax.swing.JPanel;
+
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -36,6 +26,17 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.Week;
 import org.jfree.ui.TextAnchor;
 
+import storybook.model.BookModel;
+import storybook.model.hbn.dao.ChapterDAOImpl;
+import storybook.model.hbn.dao.PersonDAOImpl;
+import storybook.model.hbn.entity.Chapter;
+import storybook.model.hbn.entity.Part;
+import storybook.model.hbn.entity.Person;
+import storybook.model.hbn.entity.Scene;
+import storybook.toolkit.I18N;
+import storybook.ui.MainFrame;
+import storybook.ui.chart.jfreechart.ChartUtil;
+
 public class PersonsByDateChart extends AbstractPersonsChart {
 
 	private ChartPanel chartPanel;
@@ -47,15 +48,9 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 		this.partRelated = true;
 	}
 
-	protected void initChartUi() {
-		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();
-		JFreeChart localJFreeChart = createChart(localIntervalCategoryDataset);
-		this.chartPanel = new ChartPanel(localJFreeChart);
-		this.panel.add(this.chartPanel, "grow");
-	}
-
 	private JFreeChart createChart(IntervalCategoryDataset paramIntervalCategoryDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createGanttChart(this.chartTitle, this.domainAxisLabel, this.rangeAxisLabel, paramIntervalCategoryDataset, true, true, false);
+		JFreeChart localJFreeChart = ChartFactory.createGanttChart(this.chartTitle, this.domainAxisLabel,
+				this.rangeAxisLabel, paramIntervalCategoryDataset, true, true, false);
 		CategoryPlot localCategoryPlot = (CategoryPlot) localJFreeChart.getPlot();
 		GanttRenderer localGanttRenderer = (GanttRenderer) localCategoryPlot.getRenderer();
 		ChartUtil.hideLegend(localCategoryPlot);
@@ -89,7 +84,7 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 				Object localObject3;
 				Object localObject4;
 				while (((Iterator) localObject1).hasNext()) {
-					localObject2 = (Chapter) ((Iterator) localObject1).next();
+					localObject2 = ((Iterator) localObject1).next();
 					localObject3 = localChapterDAOImpl.findScenes((Chapter) localObject2);
 					localObject4 = ((List) localObject3).iterator();
 					while (((Iterator) localObject4).hasNext()) {
@@ -106,7 +101,7 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 					localObject1 = new Task(localPerson.toString(), new Week((Date) localTreeSet.first()));
 					localObject2 = localTreeSet.iterator();
 					while (((Iterator) localObject2).hasNext()) {
-						localObject3 = (Date) ((Iterator) localObject2).next();
+						localObject3 = ((Iterator) localObject2).next();
 						localObject4 = new Task(localPerson.toString(), new Day((Date) localObject3));
 						((Task) localObject1).addSubtask((Task) localObject4);
 					}
@@ -118,5 +113,13 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 		} catch (Exception localException) {
 		}
 		return localTaskSeriesCollection;
+	}
+
+	@Override
+	protected void initChartUi() {
+		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();
+		JFreeChart localJFreeChart = createChart(localIntervalCategoryDataset);
+		this.chartPanel = new ChartPanel(localJFreeChart);
+		this.panel.add(this.chartPanel, "grow");
 	}
 }

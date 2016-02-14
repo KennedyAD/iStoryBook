@@ -17,8 +17,10 @@ package storybook.exporter;
 
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
+
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
@@ -27,52 +29,6 @@ import storybook.ui.MainFrame;
  * @author favdb
  */
 public class Printing {
-
-	MainFrame mainFrame;
-	private boolean background, interactive;
-	private String headerField, footerField;
-	private javax.swing.JEditorPane guideText;
-
-	public Printing(MainFrame m) {
-		mainFrame=m;
-		interactive=false;
-		background=false;
-	}
-
-	public void init(String str) {
-		guideText = new javax.swing.JEditorPane();
-        guideText.setContentType("text/html");
-        guideText.setEditable(false);
-        guideText.setOpaque(true);
-		guideText.setText(str);
-	}
-
-	public void setInteractive(boolean b) {
-		interactive=b;
-	}
-
-	public void setBackground(boolean b) {
-		background=b;
-	}
-
-	public void setHeader(String str) {
-		headerField=str;
-	}
-
-	public void setFooter(String str) {
-		footerField=str;
-	}
-
-	public void doPrint() {
-		MessageFormat header = createFormat(headerField);
-		MessageFormat footer = createFormat(footerField);
-		PrintingTask task = new PrintingTask(header, footer, interactive);
-		if (background) {
-			task.execute();
-		} else {
-			task.run();
-		}
-	}
 
 	private class PrintingTask extends SwingWorker<Object, Object> {
 		private final MessageFormat headerFormat;
@@ -92,7 +48,7 @@ public class Printing {
 			try {
 				complete = guideText.print(headerFormat, footerFormat, true, null, null, interactive);
 				message = I18N.getMsg("msg.printing") + " "
-					+ (complete ? I18N.getMsg("msg.printing.complete") : I18N.getMsg("msg.printing.canceled"));
+						+ (complete ? I18N.getMsg("msg.printing.complete") : I18N.getMsg("msg.printing.canceled"));
 			} catch (PrinterException ex) {
 				message = I18N.getMsg("msg.printing.error");
 			} catch (SecurityException ex) {
@@ -106,26 +62,71 @@ public class Printing {
 			message(!complete, message);
 		}
 	}
+	MainFrame mainFrame;
+	private boolean background, interactive;
+	private String headerField, footerField;
+
+	private javax.swing.JEditorPane guideText;
+
+	public Printing(MainFrame m) {
+		mainFrame = m;
+		interactive = false;
+		background = false;
+	}
 
 	private MessageFormat createFormat(String source) {
-        if (source != null && source.length() > 0) {
-            try {
-                return new MessageFormat(source);
-            } catch (IllegalArgumentException e) {
-                error(I18N.getMsg("msg.printing.formaterror"));
-            }
-        }
-        return null;
-    }
+		if (source != null && source.length() > 0) {
+			try {
+				return new MessageFormat(source);
+			} catch (IllegalArgumentException e) {
+				error(I18N.getMsg("msg.printing.formaterror"));
+			}
+		}
+		return null;
+	}
 
-    private void message(boolean error, String msg) {
-        int type = (error ? JOptionPane.ERROR_MESSAGE :
-                            JOptionPane.INFORMATION_MESSAGE);
-        JOptionPane.showMessageDialog(mainFrame, msg, I18N.getMsg("msg.printing"), type);
-    }
+	public void doPrint() {
+		MessageFormat header = createFormat(headerField);
+		MessageFormat footer = createFormat(footerField);
+		PrintingTask task = new PrintingTask(header, footer, interactive);
+		if (background) {
+			task.execute();
+		} else {
+			task.run();
+		}
+	}
 
-    private void error(String msg) {
-        message(true, msg);
-    }
+	private void error(String msg) {
+		message(true, msg);
+	}
+
+	public void init(String str) {
+		guideText = new javax.swing.JEditorPane();
+		guideText.setContentType("text/html");
+		guideText.setEditable(false);
+		guideText.setOpaque(true);
+		guideText.setText(str);
+	}
+
+	private void message(boolean error, String msg) {
+		int type = (error ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(mainFrame, msg, I18N.getMsg("msg.printing"), type);
+	}
+
+	public void setBackground(boolean b) {
+		background = b;
+	}
+
+	public void setFooter(String str) {
+		footerField = str;
+	}
+
+	public void setHeader(String str) {
+		headerField = str;
+	}
+
+	public void setInteractive(boolean b) {
+		interactive = b;
+	}
 
 }

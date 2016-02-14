@@ -35,8 +35,7 @@ import storybook.ui.MainFrame;
 public class ShowInChronoViewAction extends AbstractEntityAction {
 
 	public ShowInChronoViewAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.show.in.chrono.view"), I18N
-				.getIcon("icon.small.chrono.view"));
+		super(mainFrame, entity, I18N.getMsg("msg.show.in.chrono.view"), I18N.getIcon("icon.small.chrono.view"));
 	}
 
 	@Override

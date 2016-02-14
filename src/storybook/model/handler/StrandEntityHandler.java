@@ -23,13 +23,14 @@ import java.awt.Color;
 import javax.swing.ListCellRenderer;
 
 import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.StrandDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Strand;
 import storybook.ui.MainFrame;
-import storybook.ui.table.SbColumnFactory;
 import storybook.ui.combo.StrandListCellRenderer;
+import storybook.ui.table.SbColumnFactory;
 
 /**
  * @author martin

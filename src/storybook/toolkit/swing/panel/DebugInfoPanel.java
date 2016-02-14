@@ -26,19 +26,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IPaintable;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
  *
  */
 @SuppressWarnings("serial")
-public class DebugInfoPanel extends JPanel implements IPaintable,
-		ActionListener {
+public class DebugInfoPanel extends JPanel implements IPaintable, ActionListener {
 
 	private MainFrame mainFrame;
 	private Timer timer;
@@ -48,6 +46,14 @@ public class DebugInfoPanel extends JPanel implements IPaintable,
 		this.mainFrame = mainFrame;
 		init();
 		initUi();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		BookController ctrl = mainFrame.getBookController();
+		int n = ctrl.getNumberOfAttachedViews();
+		lbAttachedViews.setText("Attached Views: " + Integer.toString(n));
+		lbAttachedViews.setToolTipText("<html>" + ctrl.getInfoAttachedViews(true));
 	}
 
 	@Override
@@ -62,13 +68,5 @@ public class DebugInfoPanel extends JPanel implements IPaintable,
 		setPreferredSize(new Dimension(200, 30));
 		lbAttachedViews = new JLabel();
 		add(lbAttachedViews);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		BookController ctrl = mainFrame.getBookController();
-		int n = ctrl.getNumberOfAttachedViews();
-		lbAttachedViews.setText("Attached Views: " + Integer.toString(n));
-		lbAttachedViews.setToolTipText("<html>"+ctrl.getInfoAttachedViews(true));
 	}
 }

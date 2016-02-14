@@ -22,10 +22,9 @@ import java.awt.Color;
 
 import javax.swing.JScrollPane;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.ui.dialog.AbstractDialog;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

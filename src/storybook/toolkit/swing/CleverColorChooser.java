@@ -40,166 +40,39 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.ui.interfaces.IRefreshable;
 
-import org.miginfocom.swing.MigLayout;
-
 @SuppressWarnings("serial")
-public class CleverColorChooser extends JPanel implements IRefreshable,
-		MouseListener {
+public class CleverColorChooser extends JPanel implements IRefreshable, MouseListener {
 
-	public static final String COMP_NAME_BT_PALETTE = "bt:palette";
+	private class ColorLabel extends JLabel {
+		private static final long serialVersionUID = 7299513480525524900L;
 
-	private IconButton btPalette;
-	private JButton btColorChooser;
-	private IconButton btClearColor;
-	private ColorLabel lbShowColor;
-	private Color[] colors;
-	private boolean allowNoColor;
-	private Color startColor;
-	private String title;
+		// public ColorLabel() {
+		// this(null);
+		// }
 
-	public CleverColorChooser() {
-		this("", null, null, true);
-	}
-
-	public CleverColorChooser(String title, Color startColor, Color[] colors,
-			boolean allowNoColor) {
-		this.title = title;
-		this.startColor = startColor;
-		this.colors = colors;
-		this.allowNoColor = allowNoColor;
-		initGUI();
-	}
-
-	private void initGUI() {
-		MigLayout layout = new MigLayout("insets 0");
-		setLayout(layout);
-
-		// shows the selected color
-		lbShowColor = new ColorLabel(startColor);
-
-		// custom palette
-		if (colors != null) {
-			btPalette = new IconButton("icon.small.palette",
-					getShowPalettePopupAction());
-			btPalette.setSize20x20();
-			btPalette.setName(COMP_NAME_BT_PALETTE);
-			lbShowColor.setComponentPopupMenu(createPalettePopupMenu());
+		public ColorLabel(Color color) {
+			super("", SwingConstants.CENTER);
+			Dimension dim = new Dimension(50, 20);
+			setPreferredSize(dim);
+			setMinimumSize(dim);
+			setMaximumSize(dim);
+			setOpaque(true);
+			setBorder(BorderFactory.createLineBorder(Color.black));
+			setBackground(color);
 		}
 
-		// the color chooser
-		btColorChooser = new JButton();
-		btColorChooser.setAction(getShowColorChooserAction());
-
-		// button to clear the color
-		if (allowNoColor) {
-			btClearColor = new IconButton("icon.small.delete",
-					getClearColorAction());
-			btClearColor.setSize20x20();
-		}
-
-		add(lbShowColor);
-		if (colors != null) {
-			add(btPalette);
-		}
-		if (allowNoColor) {
-			add(btClearColor);
-		}
-		add(btColorChooser);
-	}
-
-	@Override
-	public void refresh() {
-		removeAll();
-		initGUI();
-	}
-
-	private AbstractAction getShowColorChooserAction() {
-		return new AbstractAction(title) {
-			public void actionPerformed(ActionEvent evt) {
-				Component parent = getThis().getParent();
-				if (parent == null) {
-					parent = getThis();
-				}
-				Color color = JColorChooser.showDialog(parent, title,
-						lbShowColor.getBackground());
-				if (color != null) {
-					lbShowColor.setBackground(color);
-				}
+		@Override
+		public void setBackground(Color bg) {
+			super.setBackground(bg);
+			if (bg == null) {
+				setText("X");
+			} else {
+				setText("");
 			}
-		};
-	}
-
-	private AbstractAction getClearColorAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				lbShowColor.setBackground(null);
-			}
-		};
-	}
-
-	private AbstractAction getShowPalettePopupAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				JComponent comp = (JComponent) evt.getSource();
-				JPopupMenu menu = createPalettePopupMenu();
-				menu.show(comp, 10, 10);
-			}
-		};
-	}
-
-	private JPopupMenu createPalettePopupMenu() {
-		JPopupMenu menu = new JPopupMenu();
-		menu.add(new ColorsPanel());
-		return menu;
-	}
-
-	/**
-	 * Returns its self for use within anonymous objects that require references
-	 * to this object without being able to use <code>this</code> keyword.
-	 */
-	protected CleverColorChooser getThis() {
-		return this;
-	}
-
-	public Color getColor() {
-		if (!lbShowColor.getText().isEmpty()) {
-			return null;
 		}
-		return lbShowColor.getBackground();
-	}
-
-	public void setColor(Color color) {
-		lbShowColor.setBackground(color);
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent evt) {
-		Object source = evt.getSource();
-		if (source instanceof JLabel) {
-			JComponent comp = (JComponent) source;
-			JComponent parent1 = (JComponent) comp.getParent();
-			JComponent parent2 = (JComponent) parent1.getParent();
-			JPopupMenu menu = (JPopupMenu) parent2;
-			menu.setVisible(false);
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
 	}
 
 	private class ColorsPanel extends JPanel implements MouseListener {
@@ -255,33 +128,157 @@ public class CleverColorChooser extends JPanel implements IRefreshable,
 		public void mouseReleased(MouseEvent e) {
 		}
 	}
+	public static final String COMP_NAME_BT_PALETTE = "bt:palette";
+	private IconButton btPalette;
+	private JButton btColorChooser;
+	private IconButton btClearColor;
+	private ColorLabel lbShowColor;
+	private Color[] colors;
+	private boolean allowNoColor;
 
-	private class ColorLabel extends JLabel {
-		private static final long serialVersionUID = 7299513480525524900L;
+	private Color startColor;
 
-		// public ColorLabel() {
-		// this(null);
-		// }
+	private String title;
 
-		public ColorLabel(Color color) {
-			super("", SwingConstants.CENTER);
-			Dimension dim = new Dimension(50, 20);
-			setPreferredSize(dim);
-			setMinimumSize(dim);
-			setMaximumSize(dim);
-			setOpaque(true);
-			setBorder(BorderFactory.createLineBorder(Color.black));
-			setBackground(color);
-		}
+	public CleverColorChooser() {
+		this("", null, null, true);
+	}
 
-		@Override
-		public void setBackground(Color bg) {
-			super.setBackground(bg);
-			if (bg == null) {
-				setText("X");
-			} else {
-				setText("");
+	public CleverColorChooser(String title, Color startColor, Color[] colors, boolean allowNoColor) {
+		this.title = title;
+		this.startColor = startColor;
+		this.colors = colors;
+		this.allowNoColor = allowNoColor;
+		initGUI();
+	}
+
+	private JPopupMenu createPalettePopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
+		menu.add(new ColorsPanel());
+		return menu;
+	}
+
+	private AbstractAction getClearColorAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				lbShowColor.setBackground(null);
 			}
+		};
+	}
+
+	public Color getColor() {
+		if (!lbShowColor.getText().isEmpty()) {
+			return null;
 		}
+		return lbShowColor.getBackground();
+	}
+
+	private AbstractAction getShowColorChooserAction() {
+		return new AbstractAction(title) {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				Component parent = getThis().getParent();
+				if (parent == null) {
+					parent = getThis();
+				}
+				Color color = JColorChooser.showDialog(parent, title, lbShowColor.getBackground());
+				if (color != null) {
+					lbShowColor.setBackground(color);
+				}
+			}
+		};
+	}
+
+	private AbstractAction getShowPalettePopupAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				JComponent comp = (JComponent) evt.getSource();
+				JPopupMenu menu = createPalettePopupMenu();
+				menu.show(comp, 10, 10);
+			}
+		};
+	}
+
+	/**
+	 * Returns its self for use within anonymous objects that require references
+	 * to this object without being able to use <code>this</code> keyword.
+	 */
+	protected CleverColorChooser getThis() {
+		return this;
+	}
+
+	private void initGUI() {
+		MigLayout layout = new MigLayout("insets 0");
+		setLayout(layout);
+
+		// shows the selected color
+		lbShowColor = new ColorLabel(startColor);
+
+		// custom palette
+		if (colors != null) {
+			btPalette = new IconButton("icon.small.palette", getShowPalettePopupAction());
+			btPalette.setSize20x20();
+			btPalette.setName(COMP_NAME_BT_PALETTE);
+			lbShowColor.setComponentPopupMenu(createPalettePopupMenu());
+		}
+
+		// the color chooser
+		btColorChooser = new JButton();
+		btColorChooser.setAction(getShowColorChooserAction());
+
+		// button to clear the color
+		if (allowNoColor) {
+			btClearColor = new IconButton("icon.small.delete", getClearColorAction());
+			btClearColor.setSize20x20();
+		}
+
+		add(lbShowColor);
+		if (colors != null) {
+			add(btPalette);
+		}
+		if (allowNoColor) {
+			add(btClearColor);
+		}
+		add(btColorChooser);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent evt) {
+		Object source = evt.getSource();
+		if (source instanceof JLabel) {
+			JComponent comp = (JComponent) source;
+			JComponent parent1 = (JComponent) comp.getParent();
+			JComponent parent2 = (JComponent) parent1.getParent();
+			JPopupMenu menu = (JPopupMenu) parent2;
+			menu.setVisible(false);
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void refresh() {
+		removeAll();
+		initGUI();
+	}
+
+	public void setColor(Color color) {
+		lbShowColor.setBackground(color);
 	}
 }

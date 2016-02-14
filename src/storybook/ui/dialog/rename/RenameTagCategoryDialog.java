@@ -21,6 +21,7 @@ package storybook.ui.dialog.rename;
 import java.util.List;
 
 import org.hibernate.Session;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.TagDAOImpl;
@@ -33,6 +34,11 @@ public class RenameTagCategoryDialog extends AbstractRenameDialog {
 
 	public RenameTagCategoryDialog(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected String getDlgTitle() {
+		return I18N.getMsg("msg.tag.rename.category");
 	}
 
 	@Override
@@ -57,10 +63,5 @@ public class RenameTagCategoryDialog extends AbstractRenameDialog {
 			tag.setCategory(newValue);
 			ctrl.updateTag(tag);
 		}
-	}
-
-	@Override
-	protected String getDlgTitle() {
-		return I18N.getMsg("msg.tag.rename.category");
 	}
 }

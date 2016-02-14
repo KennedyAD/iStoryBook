@@ -21,10 +21,10 @@ package storybook.model.hbn.dao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Internal;
 
-public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
-		InternalDAO {
+public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements InternalDAO {
 
 	public InternalDAOImpl() {
 		super();
@@ -42,6 +42,39 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		Criteria crit = session.createCriteria(Internal.class);
 		crit.add(Restrictions.eq("key", key));
 		return (Internal) crit.uniqueResult();
+	}
+
+	public void saveOrUpdate(String key, Boolean value) {
+		Internal internal = findByKey(key);
+		if (internal == null) {
+			internal = new Internal(key, value);
+			session.save(internal);
+		} else {
+			internal.setBooleanValue(value);
+			session.update(internal);
+		}
+	}
+
+	public void saveOrUpdate(String key, byte[] value) {
+		Internal internal = findByKey(key);
+		if (internal == null) {
+			internal = new Internal(key, value);
+			session.save(internal);
+		} else {
+			internal.setBinValue(value);
+			session.update(internal);
+		}
+	}
+
+	public void saveOrUpdate(String key, Integer value) {
+		Internal internal = findByKey(key);
+		if (internal == null) {
+			internal = new Internal(key, value);
+			session.save(internal);
+		} else {
+			internal.setIntegerValue(value);
+			session.update(internal);
+		}
 	}
 
 	public void saveOrUpdate(String key, Object val) {
@@ -63,28 +96,6 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		}
 	}
 
-	public void saveOrUpdate(String key, Boolean value) {
-		Internal internal = findByKey(key);
-		if (internal == null) {
-			internal = new Internal(key, value);
-			session.save(internal);
-		} else {
-			internal.setBooleanValue(value);
-			session.update(internal);
-		}
-	}
-
-	public void saveOrUpdate(String key, Integer value) {
-		Internal internal = findByKey(key);
-		if (internal == null) {
-			internal = new Internal(key, value);
-			session.save(internal);
-		} else {
-			internal.setIntegerValue(value);
-			session.update(internal);
-		}
-	}
-
 	public void saveOrUpdate(String key, String value) {
 		Internal internal = findByKey(key);
 		if (internal == null) {
@@ -92,17 +103,6 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 			session.save(internal);
 		} else {
 			internal.setStringValue(value);
-			session.update(internal);
-		}
-	}
-
-	public void saveOrUpdate(String key, byte[] value) {
-		Internal internal = findByKey(key);
-		if (internal == null) {
-			internal = new Internal(key, value);
-			session.save(internal);
-		} else {
-			internal.setBinValue(value);
 			session.update(internal);
 		}
 	}

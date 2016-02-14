@@ -6,9 +6,10 @@
 
 package storybook.exporter;
 
-import com.itextpdf.text.Font;
 import java.io.BufferedWriter;
 import java.util.List;
+
+import com.itextpdf.text.Font;
 
 /**
  *
@@ -25,39 +26,39 @@ class ExportOdf {
 	BufferedWriter outStream;
 	String author;
 
-	ExportOdf(Export parent, String report, String fileName, List<ExportHeader> headers,String author) {
-		this.parent=parent;	
-		this.report=report;
-		this.fileName=fileName;
-		this.headers=headers;
-		this.author=author;
+	ExportOdf(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
+		this.parent = parent;
+		this.report = report;
+		this.fileName = fileName;
+		this.headers = headers;
+		this.author = author;
 	}
-	
+
+	public void close() {
+	}
+
 	public void open() {
 	}
-	
+
+	void writeChapter(String chapter) {
+
+	}
+
+	void writePart(String part) {
+
+	}
+
 	public void writeRow(String data) {
-	}
-	
-	void writeText(String str) {
-	}
-	
-	public void close() {
 	}
 
 	void writeRow(String[] body) {
 	}
 
-	void writePart(String part) {
-		
-	}
-
-	void writeChapter(String chapter) {
-		
-	}
-
 	void writeScene(String scene) {
-		
+
+	}
+
+	void writeText(String str) {
 	}
 
 }

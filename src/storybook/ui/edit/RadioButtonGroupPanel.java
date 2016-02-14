@@ -29,10 +29,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.RadioButtonGroup;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -66,6 +65,33 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		}
 	}
 
+	public void disableSubPanel(Integer key) {
+		if (key == null) {
+			return;
+		}
+		JPanel panel = getSubPanel(key);
+		SwingUtil.enableContainerChildren(panel, false);
+	}
+
+	public void enableSubPanel(Integer key) {
+		if (key == null) {
+			return;
+		}
+		JPanel panel = getSubPanel(key);
+		SwingUtil.enableContainerChildren(panel, true);
+	}
+
+	public AbstractButton getButton(Integer key) {
+		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
+		while (buttons.hasMoreElements()) {
+			AbstractButton bt = buttons.nextElement();
+			if (bt.getName().equals(key.toString())) {
+				return bt;
+			}
+		}
+		return null;
+	}
+
 	public ArrayList<AbstractButton> getNotSelectedButtons() {
 		ArrayList<AbstractButton> btList = new ArrayList<AbstractButton>();
 		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
@@ -89,35 +115,8 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		return null;
 	}
 
-	public AbstractButton getButton(Integer key) {
-		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
-		while (buttons.hasMoreElements()) {
-			AbstractButton bt = buttons.nextElement();
-			if (bt.getName().equals(key.toString())) {
-				return bt;
-			}
-		}
-		return null;
-	}
-
 	public JPanel getSubPanel(Integer key) {
 		return panelMap.get(key);
-	}
-
-	public void enableSubPanel(Integer key) {
-		if (key == null) {
-			return;
-		}
-		JPanel panel = getSubPanel(key);
-		SwingUtil.enableContainerChildren(panel, true);
-	}
-
-	public void disableSubPanel(Integer key) {
-		if (key == null) {
-			return;
-		}
-		JPanel panel = getSubPanel(key);
-		SwingUtil.enableContainerChildren(panel, false);
 	}
 
 	@Override

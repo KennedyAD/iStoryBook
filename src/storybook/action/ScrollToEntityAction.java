@@ -40,8 +40,7 @@ public class ScrollToEntityAction implements ActionListener {
 	private JPanel panel;
 	private AbstractEntity entity;
 
-	public ScrollToEntityAction(AbstractPanel container, JPanel panel,
-			AbstractEntity entity) {
+	public ScrollToEntityAction(AbstractPanel container, JPanel panel, AbstractEntity entity) {
 		this.container = container;
 		this.panel = panel;
 		this.entity = entity;

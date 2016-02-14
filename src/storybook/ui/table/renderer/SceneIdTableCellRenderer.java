@@ -25,9 +25,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ClientPropertyName;
 import storybook.model.BookModel;
 import storybook.model.hbn.entity.Scene;
@@ -37,10 +37,9 @@ import storybook.ui.MainFrame;
 public class SceneIdTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table,
-				null, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table, null, isSelected, hasFocus, row, column);
 		JPanel panel = new JPanel(new MigLayout("insets 2"));
 		panel.setOpaque(true);
 		panel.setBackground(lbText.getBackground());
@@ -49,8 +48,7 @@ public class SceneIdTableCellRenderer extends DefaultTableCellRenderer {
 			return panel;
 		}
 		try {
-			MainFrame mainFrame = (MainFrame) table
-					.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
+			MainFrame mainFrame = (MainFrame) table.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
 			Long id = (Long) value;

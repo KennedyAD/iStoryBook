@@ -24,14 +24,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 
-public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
-		ItemLinkDAO {
+public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements ItemLinkDAO {
 
 	public ItemLinkDAOImpl() {
 		super();
@@ -45,7 +45,23 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 	public List<ItemLink> findByItem(Item item) {
 		Criteria crit = session.createCriteria(ItemLink.class);
 		crit.add(Restrictions.eq("item", item));
-		List<ItemLink> itemLinks = (List<ItemLink>) crit.list();
+		List<ItemLink> itemLinks = crit.list();
+		return itemLinks;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ItemLink> findByLocation(Location location) {
+		Criteria crit = session.createCriteria(ItemLink.class);
+		crit.add(Restrictions.eq("location", location));
+		List<ItemLink> itemLinks = crit.list();
+		return itemLinks;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ItemLink> findByPerson(Person person) {
+		Criteria crit = session.createCriteria(ItemLink.class);
+		crit.add(Restrictions.eq("person", person));
+		List<ItemLink> itemLinks = crit.list();
 		return itemLinks;
 	}
 
@@ -53,7 +69,7 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 	public List<ItemLink> findByScene(Scene scene) {
 		Criteria crit = session.createCriteria(ItemLink.class);
 		crit.add(Restrictions.eq("startScene", scene));
-		List<ItemLink> itemLinks = (List<ItemLink>) crit.list();
+		List<ItemLink> itemLinks = crit.list();
 		return itemLinks;
 	}
 
@@ -63,23 +79,7 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 		Criterion cr1 = Restrictions.eq("startScene", scene);
 		Criterion cr2 = Restrictions.eq("endScene", scene);
 		crit.add(Restrictions.or(cr1, cr2));
-		List<ItemLink> itemLinks = (List<ItemLink>) crit.list();
-		return itemLinks;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<ItemLink> findByPerson(Person person) {
-		Criteria crit = session.createCriteria(ItemLink.class);
-		crit.add(Restrictions.eq("person", person));
-		List<ItemLink> itemLinks = (List<ItemLink>) crit.list();
-		return itemLinks;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<ItemLink> findByLocation(Location location) {
-		Criteria crit = session.createCriteria(ItemLink.class);
-		crit.add(Restrictions.eq("location", location));
-		List<ItemLink> itemLinks = (List<ItemLink>) crit.list();
+		List<ItemLink> itemLinks = crit.list();
 		return itemLinks;
 	}
 }

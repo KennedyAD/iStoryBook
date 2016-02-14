@@ -24,12 +24,12 @@ import java.awt.datatransfer.StringSelection;
  * @author favdb
  */
 public class ExportToClipboard {
-    public static void setAsText(String text) {
+	public static void setAsText(String text) {
 		if (text != null) {
 			StringSelection contents = new StringSelection(text);
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(contents, null);
 		}
-    }
+	}
 
 }

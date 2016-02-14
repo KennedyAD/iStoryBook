@@ -25,10 +25,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Item;
 
-public class ItemDAOImpl extends SbGenericDAOImpl<Item, Long> implements
-		ItemDAO {
+public class ItemDAOImpl extends SbGenericDAOImpl<Item, Long> implements ItemDAO {
 
 	public ItemDAOImpl() {
 		super();
@@ -39,18 +39,17 @@ public class ItemDAOImpl extends SbGenericDAOImpl<Item, Long> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> findCategories() {
-		Query query = session
-				.createQuery("select distinct(i.category) from Item as i order by i.category");
-		return (List<String>) query.list();
-	}
-
-	@SuppressWarnings("unchecked")
 	public List<Item> findByCategory(String category) {
 		Criteria crit = session.createCriteria(Item.class);
 		crit.add(Restrictions.eq("category", category));
 		crit.addOrder(Order.asc("name"));
-		List<Item> items = (List<Item>) crit.list();
+		List<Item> items = crit.list();
 		return items;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findCategories() {
+		Query query = session.createQuery("select distinct(i.category) from Item as i order by i.category");
+		return query.list();
 	}
 }

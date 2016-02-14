@@ -35,8 +35,7 @@ import storybook.ui.MainFrame;
 public class ShowInfoAction extends AbstractEntityAction {
 
 	public ShowInfoAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.show.in.info.view"), I18N
-				.getIcon("icon.small.info"));
+		super(mainFrame, entity, I18N.getMsg("msg.show.in.info.view"), I18N.getIcon("icon.small.info"));
 	}
 
 	@Override

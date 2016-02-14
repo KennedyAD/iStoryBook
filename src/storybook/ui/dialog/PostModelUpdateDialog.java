@@ -24,13 +24,12 @@ import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.BookKey;
 import storybook.model.EntityUtil;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -45,6 +44,22 @@ public class PostModelUpdateDialog extends AbstractDialog {
 	public PostModelUpdateDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
+	}
+
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BookUtil.store(mainFrame, BookKey.USE_HTML_SCENES, cbUseHtmlScenes.isSelected());
+				BookUtil.store(mainFrame, BookKey.USE_HTML_DESCR, cbUseHtmlDescr.isSelected());
+				mainFrame.setWaitingCursor();
+				EntityUtil.convertPlainTextToHtml(mainFrame);
+				mainFrame.setDefaultCursor();
+				dispose();
+				mainFrame.refresh();
+			}
+		};
 	}
 
 	@Override
@@ -74,21 +89,5 @@ public class PostModelUpdateDialog extends AbstractDialog {
 		add(cbUseHtmlDescr);
 
 		add(getOkButton());
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				BookUtil.store(mainFrame,BookKey.USE_HTML_SCENES,cbUseHtmlScenes.isSelected());
-				BookUtil.store(mainFrame, BookKey.USE_HTML_DESCR,cbUseHtmlDescr.isSelected());
-				mainFrame.setWaitingCursor();
-				EntityUtil.convertPlainTextToHtml(mainFrame);
-				mainFrame.setDefaultCursor();
-				dispose();
-				mainFrame.refresh();
-			}
-		};
 	}
 }

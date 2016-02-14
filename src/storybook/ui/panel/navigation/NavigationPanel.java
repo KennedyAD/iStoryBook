@@ -22,13 +22,12 @@ import java.beans.PropertyChangeEvent;
 
 import javax.swing.JTabbedPane;
 
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.toolkit.I18N;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
-
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -41,6 +40,20 @@ public class NavigationPanel extends AbstractPanel {
 
 	public NavigationPanel(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		setLayout(new MigLayout("wrap,fill,ins 0"));
+
+		tabbedPane = new JTabbedPane();
+		tabbedPane.addTab(I18N.getMsg("msg.menu.navigate.goto.chapter"), new FindChapterPanel(mainFrame));
+		tabbedPane.addTab(I18N.getMsg("msg.menu.navigate.goto.date"), new FindDatePanel(mainFrame));
+		add(tabbedPane, "grow");
 	}
 
 	@Override
@@ -58,12 +71,11 @@ public class NavigationPanel extends AbstractPanel {
 			return;
 		}
 
-		if (propName.startsWith("Edit") || propName.startsWith("Init")){
+		if (propName.startsWith("Edit") || propName.startsWith("Init")) {
 			return;
 		}
 
-		if (propName.contains("Scene") || propName.contains("Chapter")
-				|| propName.contains("Strand")) {
+		if (propName.contains("Scene") || propName.contains("Chapter") || propName.contains("Strand")) {
 			refresh();
 			return;
 		}
@@ -74,21 +86,5 @@ public class NavigationPanel extends AbstractPanel {
 		int index = tabbedPane.getSelectedIndex();
 		super.refresh();
 		tabbedPane.setSelectedIndex(index);
-	}
-
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("wrap,fill,ins 0"));
-
-		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab(I18N.getMsg("msg.menu.navigate.goto.chapter"),
-				new FindChapterPanel(mainFrame));
-		tabbedPane.addTab(I18N.getMsg("msg.menu.navigate.goto.date"),
-				new FindDatePanel(mainFrame));
-		add(tabbedPane, "grow");
 	}
 }

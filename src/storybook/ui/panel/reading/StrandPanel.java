@@ -14,17 +14,17 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.StrandDAOImpl;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class StrandPanel extends AbstractPanel implements ItemListener {
@@ -39,12 +39,44 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		this.bookReading = booReading;
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		String propName = evt.getPropertyName();
-		if (BookController.StrandProps.UPDATE.check(propName)) {
-			refresh();
+	private void addAllStrands() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		List<Strand> list = dao.findAll();
+		for (Strand strand : list) {
+			strandIds.add(strand.getId());
 		}
+	}
+
+	private AbstractAction getSelectAllAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAllStrands();
+				for (JCheckBox cb : cbList) {
+					cb.setSelected(true);
+				}
+				bookReading.refresh();
+			}
+		};
+	}
+
+	private AbstractAction getSelectNoneAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				strandIds.clear();
+				for (JCheckBox cb : cbList) {
+					cb.setSelected(false);
+				}
+				bookReading.refresh();
+			}
+		};
+	}
+
+	public HashSet<Long> getStrandIds() {
+		return strandIds;
 	}
 
 	@Override
@@ -91,42 +123,6 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		add(cbNone, "sg");
 	}
 
-	private AbstractAction getSelectAllAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				addAllStrands();
-				for (JCheckBox cb : cbList) {
-					cb.setSelected(true);
-				}
-				bookReading.refresh();
-			}
-		};
-	}
-
-	private AbstractAction getSelectNoneAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				strandIds.clear();
-				for (JCheckBox cb : cbList) {
-					cb.setSelected(false);
-				}
-				bookReading.refresh();
-			}
-		};
-	}
-
-	private void addAllStrands() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		List<Strand> list = dao.findAll();
-		for (Strand strand : list) {
-			strandIds.add(strand.getId());
-		}
-	}
-
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		try {
@@ -143,7 +139,11 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		}
 	}
 
-	public HashSet<Long> getStrandIds() {
-		return strandIds;
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		String propName = evt.getPropertyName();
+		if (BookController.StrandProps.UPDATE.check(propName)) {
+			refresh();
+		}
 	}
 }

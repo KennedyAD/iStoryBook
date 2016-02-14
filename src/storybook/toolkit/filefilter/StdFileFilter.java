@@ -22,26 +22,29 @@ import java.io.File;
  * @author favdb
  */
 public class StdFileFilter extends javax.swing.filechooser.FileFilter {
-	String ext="";
-	String desc="";
+	String ext = "";
+	String desc = "";
+
 	public StdFileFilter(String extension, String description) {
 		if (extension.indexOf(".") == -1) {
 			extension = "." + extension;
 		}
-		this.ext  = extension;
+		this.ext = extension;
 		this.desc = description;
 	}
+
 	@Override
-    public boolean accept(File file) {
+	public boolean accept(File file) {
 		if (file.isDirectory()) {
 			return true;
 		}
-        String filename = file.getName();
-        return filename.endsWith(ext);
-    }
+		String filename = file.getName();
+		return filename.endsWith(ext);
+	}
+
 	@Override
-    public String getDescription() {
-        return(desc+" ("+ext+")");
-    }
+	public String getDescription() {
+		return (desc + " (" + ext + ")");
+	}
 
 }

@@ -21,9 +21,7 @@ package storybook.action;
 
 import java.awt.event.ActionEvent;
 
-import storybook.SbConstants.ViewName;
 import storybook.SbApp;
-import storybook.controller.BookController;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
@@ -39,18 +37,18 @@ public class EditEntityAction extends AbstractEntityAction {
 	public EditEntityAction(MainFrame mainFrame, AbstractEntity entity, boolean b) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.edit"), I18N.getIcon("icon.small.edit"));
 		saveBeforeEdit = b;
-		SbApp.trace("EditEntityAction("+mainFrame.getName()+","+entity.toString()+","+b+")");
+		SbApp.trace("EditEntityAction(" + mainFrame.getName() + "," + entity.toString() + "," + b + ")");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SbApp.trace("EditEntityAction.actionPerformed(...) entity="+entity.toString());
+		SbApp.trace("EditEntityAction.actionPerformed(...) entity=" + entity.toString());
 		if (this.saveBeforeEdit) {
 			mainFrame.getActionController().handleFileSave();
 		}
-		//BookController ctrl = mainFrame.getBookController();
-		//ctrl.setEntityToEdit(entity);
-		//mainFrame.showView(ViewName.EDITOR);
+		// BookController ctrl = mainFrame.getBookController();
+		// ctrl.setEntityToEdit(entity);
+		// mainFrame.showView(ViewName.EDITOR);
 		mainFrame.showEditorAsDialog(entity);
 	}
 }

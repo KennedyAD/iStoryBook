@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model;
 
-
 import org.apache.commons.beanutils.Converter;
 
 /**
@@ -29,7 +28,7 @@ public class NullConverter implements Converter {
 
 	/**
 	 * @see org.apache.commons.beanutils.Converter#convert(java.lang.Class,
-	 * java.lang.Object)
+	 *      java.lang.Object)
 	 */
 	@Override
 	public Object convert(@SuppressWarnings("rawtypes") final Class type, final Object value) {

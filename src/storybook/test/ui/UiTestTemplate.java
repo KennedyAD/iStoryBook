@@ -23,7 +23,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import org.miginfocom.swing.MigLayout;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -33,6 +34,22 @@ import org.miginfocom.swing.MigLayout;
 public class UiTestTemplate extends JFrame {
 
 	private static UiTestTemplate instance;
+
+	public static UiTestTemplate getInstance() {
+		if (instance == null) {
+			instance = new UiTestTemplate();
+		}
+		return instance;
+	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				UiTestTemplate.getInstance().init();
+			}
+		});
+	}
 
 	private void init() {
 		initUi();
@@ -49,21 +66,5 @@ public class UiTestTemplate extends JFrame {
 
 		pack();
 		setVisible(true);
-	}
-
-	public static UiTestTemplate getInstance() {
-		if (instance == null) {
-			instance = new UiTestTemplate();
-		}
-		return instance;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				UiTestTemplate.getInstance().init();
-			}
-		});
 	}
 }

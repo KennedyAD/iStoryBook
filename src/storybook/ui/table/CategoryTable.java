@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
+
 import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
@@ -44,6 +45,26 @@ public class CategoryTable extends AbstractTable {
 	}
 
 	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		Category category = dao.find(id);
+		model.commit();
+		return category;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Category();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Category");
+	}
+
+	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getCategoryColumns();
 	}
@@ -60,11 +81,9 @@ public class CategoryTable extends AbstractTable {
 				newEntity(evt);
 			} else if (BookController.CategoryProps.DELETE.check(propName)) {
 				deleteEntity(evt);
-			} else if (BookController.CategoryProps.ORDER_UP
-					.check(propName)) {
+			} else if (BookController.CategoryProps.ORDER_UP.check(propName)) {
 				orderUpEntity(evt);
-			} else if (BookController.CategoryProps.ORDER_DOWN
-					.check(propName)) {
+			} else if (BookController.CategoryProps.ORDER_DOWN.check(propName)) {
 				orderDownEntity(evt);
 			}
 		} catch (Exception e) {
@@ -72,50 +91,9 @@ public class CategoryTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendOrderUpEntity(int row) {
-		if (row == -1) {
-			return;
-		}
-		Category category = (Category) getEntityFromRow(row);
-		ctrl.orderUpCategory(category);
-	}
-
-	@Override
-	protected void sendOrderDownEntity(int row) {
-		if (row == -1) {
-			return;
-		}
-		Category category = (Category) getEntityFromRow(row);
-		ctrl.orderDownCategory(category);
-	}
-
-	@Override
-	protected void orderUpEntity(PropertyChangeEvent evt) {
-		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
-		Category category = (Category)entity;
-
-		BookModel model = mainFrame.getBookModel();
-
-		Session session = model.beginTransaction();
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		dao.orderCategories();
-		model.commit();
-
-		session = model.beginTransaction();
-		dao = new CategoryDAOImpl(session);
-		dao.orderUpCatgory(category);
-		model.commit();
-
-		SbView view = mainFrame.getView(ViewName.CATEGORIES);
-		mainFrame.getBookController().refresh(view);
-
-		sortByColumn(2);
-	}
-
-	@Override
 	protected void orderDownEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
-		Category category = (Category)entity;
+		Category category = (Category) entity;
 
 		BookModel model = mainFrame.getBookModel();
 
@@ -136,27 +114,26 @@ public class CategoryTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Category category = (Category) getEntityFromRow(row);
-//		ctrl.setCategoryToEdit(category);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(category);
-	}
+	protected void orderUpEntity(PropertyChangeEvent evt) {
+		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
+		Category category = (Category) entity;
 
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setCategoryToEdit((Category) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
+		BookModel model = mainFrame.getBookModel();
 
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Category category = (Category) getEntityFromRow(row);
-		ctrl.deleteCategory(category);
+		Session session = model.beginTransaction();
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		dao.orderCategories();
+		model.commit();
+
+		session = model.beginTransaction();
+		dao = new CategoryDAOImpl(session);
+		dao.orderUpCatgory(category);
+		model.commit();
+
+		SbView view = mainFrame.getView(ViewName.CATEGORIES);
+		mainFrame.getBookController().refresh(view);
+
+		sortByColumn(2);
 	}
 
 	@Override
@@ -170,22 +147,44 @@ public class CategoryTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		Category category = dao.find(id);
-		model.commit();
-		return category;
+	protected synchronized void sendDeleteEntity(int row) {
+		Category category = (Category) getEntityFromRow(row);
+		ctrl.deleteCategory(category);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Category();
+	protected void sendOrderDownEntity(int row) {
+		if (row == -1) {
+			return;
+		}
+		Category category = (Category) getEntityFromRow(row);
+		ctrl.orderDownCategory(category);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Category");
+	protected void sendOrderUpEntity(int row) {
+		if (row == -1) {
+			return;
+		}
+		Category category = (Category) getEntityFromRow(row);
+		ctrl.orderUpCategory(category);
+	}
+
+	@Override
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Category category = (Category) getEntityFromRow(row);
+		// ctrl.setCategoryToEdit(category);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(category);
+	}
+
+	@Override
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setCategoryToEdit((Category) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

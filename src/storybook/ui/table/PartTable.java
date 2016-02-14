@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.PartDAOImpl;
@@ -40,6 +40,26 @@ public class PartTable extends AbstractTable {
 	public PartTable(MainFrame mainFrame) {
 		super(mainFrame);
 		allowMultiDelete = false;
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		Part part = dao.find(id);
+		model.commit();
+		return part;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Part();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Part");
 	}
 
 	@Override
@@ -65,30 +85,6 @@ public class PartTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Part part = (Part) getEntityFromRow(row);
-//		ctrl.setPartToEdit(part);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(part);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setPartToEdit((Part) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Part part = (Part) getEntityFromRow(row);
-		ctrl.deletePart(part);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -99,22 +95,26 @@ public class PartTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		Part part = dao.find(id);
-		model.commit();
-		return part;
+	protected synchronized void sendDeleteEntity(int row) {
+		Part part = (Part) getEntityFromRow(row);
+		ctrl.deletePart(part);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Part();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Part part = (Part) getEntityFromRow(row);
+		// ctrl.setPartToEdit(part);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(part);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Part");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setPartToEdit((Part) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

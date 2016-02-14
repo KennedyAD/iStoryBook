@@ -21,8 +21,8 @@ package storybook.toolkit.swing.splash;
 import java.awt.Frame;
 
 import javax.swing.JDialog;
-import org.miginfocom.swing.MigLayout;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.ui.interfaces.IPaintable;
 
 @SuppressWarnings("serial")

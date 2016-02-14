@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.GenderDAOImpl;
@@ -39,6 +39,26 @@ public class GenderTable extends AbstractTable {
 
 	public GenderTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		GenderDAOImpl dao = new GenderDAOImpl(session);
+		Gender gender = dao.find(id);
+		model.commit();
+		return gender;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Gender();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Gender");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class GenderTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Gender gender = (Gender) getEntityFromRow(row);
-//		ctrl.setGenderToEdit(gender);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(gender);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setGenderToEdit((Gender) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Gender gender = (Gender) getEntityFromRow(row);
-		ctrl.deleteGender(gender);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class GenderTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		GenderDAOImpl dao = new GenderDAOImpl(session);
-		Gender gender = dao.find(id);
-		model.commit();
-		return gender;
+	protected synchronized void sendDeleteEntity(int row) {
+		Gender gender = (Gender) getEntityFromRow(row);
+		ctrl.deleteGender(gender);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Gender();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Gender gender = (Gender) getEntityFromRow(row);
+		// ctrl.setGenderToEdit(gender);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(gender);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Gender");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setGenderToEdit((Gender) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

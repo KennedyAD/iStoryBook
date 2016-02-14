@@ -22,8 +22,8 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
-import storybook.SbApp;
 
+import storybook.SbApp;
 import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
 
@@ -34,27 +34,26 @@ public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 	private MouseEvent firstMouseEvent = null;
 	private int previousNumber = 0;
 
-	public DTScenePanel(MainFrame mainFrame, Scene scene) {
-		this(mainFrame, scene, TYPE_NONE);
-		SbApp.trace("DTScenePanel_scene(" + mainFrame.getName() + "," + scene.getFullTitle() + ")");
-	}
-
 	public DTScenePanel(MainFrame mainFrame, int type) {
 		this(mainFrame, null, type);
 		SbApp.trace("DTScenePanel_type(" + mainFrame.getName() + "," + type + ")");
 	}
 
+	public DTScenePanel(MainFrame mainFrame, Scene scene) {
+		this(mainFrame, scene, TYPE_NONE);
+		SbApp.trace("DTScenePanel_scene(" + mainFrame.getName() + "," + scene.getFullTitle() + ")");
+	}
+
 	public DTScenePanel(MainFrame mainFrame, Scene scene, int type) {
 		super(mainFrame, scene, type);
-		SbApp.trace("DTScenePanel_full(" + mainFrame.getName() + ","
-				+ ((scene!=null)?scene.getFullTitle():"null") + "," + type + ")");
+		SbApp.trace("DTScenePanel_full(" + mainFrame.getName() + "," + ((scene != null) ? scene.getFullTitle() : "null")
+				+ "," + type + ")");
 		addMouseMotionListener(this);
 		setAutoscrolls(true);
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		firstMouseEvent = null;
+	public int getPreviousNumber() {
+		return previousNumber;
 	}
 
 	@Override
@@ -102,8 +101,9 @@ public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 		e.consume();
 	}
 
-	public int getPreviousNumber() {
-		return previousNumber;
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		firstMouseEvent = null;
 	}
 
 	public void setPreviousNumber(int previousNumber) {

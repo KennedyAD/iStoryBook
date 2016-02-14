@@ -35,8 +35,7 @@ import storybook.ui.MainFrame;
 public class ShowInMemoriaAction extends AbstractEntityAction {
 
 	public ShowInMemoriaAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.show.in.memoria"), I18N
-				.getIcon("icon.small.memoria"));
+		super(mainFrame, entity, I18N.getMsg("msg.show.in.memoria"), I18N.getIcon("icon.small.memoria"));
 	}
 
 	@Override

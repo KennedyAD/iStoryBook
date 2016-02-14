@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.TagLinkDAOImpl;
@@ -39,6 +39,26 @@ public class TagLinkTable extends AbstractTable {
 
 	public TagLinkTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
+		TagLink tagLink = dao.find(id);
+		model.commit();
+		return tagLink;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new TagLink();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("TagLink");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class TagLinkTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		TagLink tagLink = (TagLink) getEntityFromRow(row);
-//		ctrl.setTagLinkToEdit(tagLink);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(tagLink);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setTagLinkToEdit((TagLink) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		TagLink tagLink = (TagLink) getEntityFromRow(row);
-		ctrl.deleteTagLink(tagLink);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class TagLinkTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
-		TagLink tagLink = dao.find(id);
-		model.commit();
-		return tagLink;
+	protected synchronized void sendDeleteEntity(int row) {
+		TagLink tagLink = (TagLink) getEntityFromRow(row);
+		ctrl.deleteTagLink(tagLink);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new TagLink();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		TagLink tagLink = (TagLink) getEntityFromRow(row);
+		// ctrl.setTagLinkToEdit(tagLink);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(tagLink);
 	}
 
 	@Override
-	public String getTableName() {
-		return("TagLink");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setTagLinkToEdit((TagLink) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

@@ -10,14 +10,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.html.HTMLDocument;
 
 /**
  * This class provides the functionality to insert an special character into the
@@ -31,9 +27,49 @@ import javax.swing.text.html.HTMLDocument;
  */
 public class UnicodeDialogButton extends Button implements ActionListener {
 
+	/**
+	 * Inner class that extends JButton. Each special character button is an
+	 * instance of this class. This allows for customized handling of buttons.
+	 * Ie. in this case, when a button is clicked, it simple has it's background
+	 * colour changed to reflect which special character will be inserted.
+	 */
+	protected class MyButton extends JButton implements ActionListener, FocusListener {
+		/**
+		 * Construct this button with the given special character as a label.
+		 * 
+		 * @param label
+		 *            The special character to be inserted if this button is
+		 *            clicked.
+		 */
+		public MyButton(String label) {
+			super(label);
+
+			this.setMargin(new Insets(0, 0, 0, 0));
+			this.setFocusPainted(false);
+			addActionListener(this);
+			addFocusListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			specialChar = this.getText();
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			this.setBackground(Color.yellow);
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			this.setBackground(null);
+		}
+
+	}
 	private static final long serialVersionUID = 1L;
 	private final String[] labels;
 	private JPanel p;
+
 	private String specialChar;
 
 	/**
@@ -77,8 +113,7 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 		p = new JPanel(grid);
 
 		// create a border around the panel
-		p.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED),
+		p.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED),
 				"Special Characters"));
 
 		// add the buttons and their labels
@@ -91,15 +126,15 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 	 * When a user presses the insert special character button this method is
 	 * called.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object[] messages = { p };
 
-		Object[] options = { new String("Insert Character"),
-				new String("Cancel") };
+		Object[] options = { new String("Insert Character"), new String("Cancel") };
 
 		// show the dialog
 		int result = JOptionPane.showOptionDialog(this,
-		// The parent that the dialog blocks
+				// The parent that the dialog blocks
 				messages, // The dialog message arry
 				"Insert Special Character", // The title of the dialog window
 				JOptionPane.DEFAULT_OPTION, // option type
@@ -111,54 +146,16 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 
 		if (result == 0) { // user pressed the insert button
 			System.out.println("char : " + specialChar);
-//			HTMLDocument doc = (HTMLDocument) textPane.getDocument();
-//			final int pos = textPane.getCaretPosition();
-//
-//			AttributeSet as = textPane.getInputAttributes();
-//
-//			try {
-//				doc.insertString(pos, specialChar, as);
-//			} catch (BadLocationException aaa) {
-//			}
+			// HTMLDocument doc = (HTMLDocument) textPane.getDocument();
+			// final int pos = textPane.getCaretPosition();
+			//
+			// AttributeSet as = textPane.getInputAttributes();
+			//
+			// try {
+			// doc.insertString(pos, specialChar, as);
+			// } catch (BadLocationException aaa) {
+			// }
 		}
-	}
-
-	/**
-	 * Inner class that extends JButton. Each special character button is an
-	 * instance of this class. This allows for customized handling of buttons.
-	 * Ie. in this case, when a button is clicked, it simple has it's background
-	 * colour changed to reflect which special character will be inserted.
-	 */
-	protected class MyButton extends JButton implements ActionListener,
-			FocusListener {
-		/**
-		 * Construct this button with the given special character as a label.
-		 * 
-		 * @param label
-		 *            The special character to be inserted if this button is
-		 *            clicked.
-		 */
-		public MyButton(String label) {
-			super(label);
-
-			this.setMargin(new Insets(0, 0, 0, 0));
-			this.setFocusPainted(false);
-			addActionListener(this);
-			addFocusListener(this);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			specialChar = this.getText();
-		}
-
-		public void focusGained(FocusEvent e) {
-			this.setBackground(Color.yellow);
-		}
-
-		public void focusLost(FocusEvent e) {
-			this.setBackground(null);
-		}
-
 	}
 
 	public String getDescription() {

@@ -20,8 +20,6 @@ package storybook.model.state;
 
 import java.util.Vector;
 
-
-
 /**
  * @author martin
  *

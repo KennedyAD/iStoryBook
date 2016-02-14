@@ -42,8 +42,7 @@ public class ChapterOrderByTimestampAction extends AbstractEntityAction {
 	private final Chapter chapter;
 
 	public ChapterOrderByTimestampAction(MainFrame mainFrame, Chapter chapter) {
-		super(mainFrame, chapter, I18N.getMsg("msg.common.order.by.time"), I18N
-				.getIcon("icon.small.sort"));
+		super(mainFrame, chapter, I18N.getMsg("msg.common.order.by.time"), I18N.getIcon("icon.small.sort"));
 		this.chapter = chapter;
 	}
 

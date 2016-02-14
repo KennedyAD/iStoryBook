@@ -29,8 +29,8 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import storybook.SbConstants;
 import storybook.SbApp;
+import storybook.SbConstants;
 import storybook.model.DbFile;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
@@ -42,6 +42,13 @@ public class ModelMigration {
 
 	private static ModelMigration thePersistenceManager;
 
+	public static ModelMigration getInstance() {
+		SbApp.trace("ModelMigration.getInstance()");
+		if (thePersistenceManager == null) {
+			thePersistenceManager = new ModelMigration();
+		}
+		return thePersistenceManager;
+	}
 	private String databaseName;
 	private boolean init;
 	private boolean openOnlyIfExists;
@@ -50,6 +57,7 @@ public class ModelMigration {
 	private Statement stmt;
 	private MainFrame mainFrame;
 	private String oldDbVersion;
+
 	private String newDbVersion;
 
 	private ModelMigration() {
@@ -57,204 +65,6 @@ public class ModelMigration {
 		init = false;
 		connection = null;
 		databaseName = null;
-	}
-
-	public void open(DbFile dbFile) {
-		SbApp.trace("ModelMigration.open("+dbFile.getDbName()+")");
-		this.file = dbFile.getFile();
-		this.databaseName = dbFile.getDbName();
-		this.openOnlyIfExists = true;
-		this.init = true;
-		try {
-			getConnection();
-		} catch (Exception e) {
-			SbApp.error("ModelMigration.open(" + dbFile.getName() + ")", e);
-		}
-		SbApp.trace("ModelMigration.open(" + this.databaseName+")");
-	}
-
-	public static ModelMigration getInstance() {
-		SbApp.trace("ModelMigration.getInstance()");
-		if (thePersistenceManager == null) {
-			thePersistenceManager = new ModelMigration();
-		}
-		return thePersistenceManager;
-	}
-
-	public Connection getConnection() {
-		SbApp.trace("ModelMigration.getConnection()");
-		if (!init) {
-			return null;
-		}
-		if (connection == null) {
-			String connectionStr = "jdbc:h2:" + databaseName;
-			if (openOnlyIfExists) {
-				connectionStr = connectionStr + ";IFEXISTS=TRUE";
-			}
-			if (SbApp.getTraceHibernate()) {
-				connectionStr+=";TRACE_LEVEL_FILE=3;TRACE_LEVEL_SYSTEM_OUT=3";
-			} else {
-				connectionStr+=";TRACE_LEVEL_FILE=0;TRACE_LEVEL_SYSTEM_OUT=0";
-			}
-			SbApp.trace("ModelMigration.getConnection() to " + connectionStr);
-			try {
-				Class.forName("org.h2.Driver");
-				connection = DriverManager.getConnection(connectionStr, "sa", "");
-			} catch (ClassNotFoundException | SQLException e) {
-				SbApp.error("ModelMigration.getConnection()", e);
-			}
-		}
-		return connection;
-	}
-
-	public void closeConnection() {
-		SbApp.trace("ModelMigration.closeConnection()");
-		if (!isConnectionOpen()) {
-			return;
-		}
-		try {
-			this.connection.close();
-			this.init = false;
-			this.connection = null;
-			this.databaseName = null;
-		} catch (SQLException e) {
-			SbApp.error("ModelMigration.closeConnection()", e);
-		}
-	}
-
-	public String getDatabaseName() {
-		return databaseName;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public boolean isConnectionOpen() {
-		return connection != null;
-	}
-
-	/**
-	 * Closes the result set
-	 *
-	 * @param result The ResultSet that needs to close
-	 */
-	public void closeResultSet(ResultSet result) {
-		try {
-			if (result != null) {
-				result.close();
-			}
-		} catch (SQLException se) {
-			SbApp.error("*** ModelMigration.closeResultSet(" + result.toString() + ")", se);
-		}
-	}
-
-	/**
-	 * Closes the prepare statement
-	 *
-	 * @param prepare The PreparedStatement that needs to close
-	 */
-	public void closePrepareStatement(PreparedStatement prepare) {
-		try {
-			if (prepare != null) {
-				prepare.close();
-			}
-		} catch (SQLException se) {
-			SbApp.error("*** ModelMigration.closePrepareStatement(" + prepare.toString() + ")", se);
-		}
-	}
-
-	/**
-	 * Closes the statement
-	 *
-	 * @param stmt The Statement that needs to close
-	 */
-	public void closeStatement(Statement stmt) {
-		try {
-			if (stmt != null) {
-				stmt.close();
-			}
-		} catch (SQLException se) {
-			SbApp.error("*** ModelMigration.closeStatement(" + stmt.toString() + ")", se);
-		}
-	}
-
-	public int getGeneratedId(PreparedStatement stmt) throws SQLException {
-		int retour = -1;
-		ResultSet rs = null;
-		try {
-			rs = stmt.getGeneratedKeys();
-			int count = 0;
-			while (rs.next()) {
-				if (count > 0) {
-					throw new SQLException("error: got more than one id");
-				}
-				retour = rs.getInt(1);
-				++count;
-			}
-		} catch (SQLException exc) {
-			SbApp.error("*** ModelMigration.getGeneratedId(" + stmt.toString() + ")", exc);
-		} finally {
-			this.closeResultSet(rs);
-		}
-		return retour;
-	}
-
-	public boolean checkAndAlterModel() throws Exception {
-		oldDbVersion = InternalPeer.getDbModelVersion();
-		if (oldDbVersion == null) {
-			return true;
-		}
-		newDbVersion = SbConstants.Storybook.DB_VERSION.toString();
-
-		if (oldDbVersion.equals(newDbVersion)) {
-			// model matches, nothing to do
-			return true;
-		}
-
-		// alter models
-		stmt = ModelMigration.getInstance().getConnection().createStatement();
-		// old versions
-		if (oldDbVersion.equals("0") || oldDbVersion.equals("0.1")
-			|| oldDbVersion.equals("0.1") || oldDbVersion.equals("0.2")
-			|| oldDbVersion.equals("0.3") || oldDbVersion.equals("0.4")
-			|| oldDbVersion.equals("0.5") || oldDbVersion.equals("0.6")
-			|| oldDbVersion.equals("0.7") || oldDbVersion.equals("0.8")
-			|| oldDbVersion.equals("0.9") || oldDbVersion.equals("1.0")
-			|| oldDbVersion.equals("1.1") || oldDbVersion.equals("1.2")
-			|| oldDbVersion.equals("1.3") || oldDbVersion.equals("1.4")) {
-			throw new Exception(
-				"File version too old. Update to the latest version of Storybook 3 first.");
-		}
-
-		// backup current file
-		String fn = FilenameUtils.removeExtension(file.getAbsolutePath());
-		fn = fn + ".bak";
-		File backupFile = new File(fn);
-		try {
-			if (backupFile.exists()) {
-				backupFile.delete();
-			}
-			FileUtils.copyFile(file, backupFile);
-		} catch (IOException e1) {
-			int n = JOptionPane.showConfirmDialog(
-				mainFrame,
-				I18N.getMsg("msg.migration.error.backup") + "\n"
-				+ backupFile.getAbsolutePath()
-				+ "\n"+I18N.getMsg("msg.migration.wanttocontinue"),
-				"Backup failed",
-				JOptionPane.YES_NO_OPTION);
-			if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
-				return false;
-			}
-		}
-
-		if (oldDbVersion.equals("1.5")) {
-			// 1.5 -> 4.0
-			alterFrom1_5to4_0();
-		}
-
-		return true;
 	}
 
 	private void alterFrom1_5to4_0() throws Exception {
@@ -402,8 +212,123 @@ public class ModelMigration {
 		InternalPeer.setDbModelVersion(SbConstants.Storybook.DB_VERSION.toString());
 	}
 
+	public boolean checkAndAlterModel() throws Exception {
+		oldDbVersion = InternalPeer.getDbModelVersion();
+		if (oldDbVersion == null) {
+			return true;
+		}
+		newDbVersion = SbConstants.Storybook.DB_VERSION.toString();
+
+		if (oldDbVersion.equals(newDbVersion)) {
+			// model matches, nothing to do
+			return true;
+		}
+
+		// alter models
+		stmt = ModelMigration.getInstance().getConnection().createStatement();
+		// old versions
+		if (oldDbVersion.equals("0") || oldDbVersion.equals("0.1") || oldDbVersion.equals("0.1")
+				|| oldDbVersion.equals("0.2") || oldDbVersion.equals("0.3") || oldDbVersion.equals("0.4")
+				|| oldDbVersion.equals("0.5") || oldDbVersion.equals("0.6") || oldDbVersion.equals("0.7")
+				|| oldDbVersion.equals("0.8") || oldDbVersion.equals("0.9") || oldDbVersion.equals("1.0")
+				|| oldDbVersion.equals("1.1") || oldDbVersion.equals("1.2") || oldDbVersion.equals("1.3")
+				|| oldDbVersion.equals("1.4")) {
+			throw new Exception("File version too old. Update to the latest version of Storybook 3 first.");
+		}
+
+		// backup current file
+		String fn = FilenameUtils.removeExtension(file.getAbsolutePath());
+		fn = fn + ".bak";
+		File backupFile = new File(fn);
+		try {
+			if (backupFile.exists()) {
+				backupFile.delete();
+			}
+			FileUtils.copyFile(file, backupFile);
+		} catch (IOException e1) {
+			int n = JOptionPane
+					.showConfirmDialog(mainFrame,
+							I18N.getMsg("msg.migration.error.backup") + "\n" + backupFile.getAbsolutePath() + "\n"
+									+ I18N.getMsg("msg.migration.wanttocontinue"),
+							"Backup failed", JOptionPane.YES_NO_OPTION);
+			if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+				return false;
+			}
+		}
+
+		if (oldDbVersion.equals("1.5")) {
+			// 1.5 -> 4.0
+			alterFrom1_5to4_0();
+		}
+
+		return true;
+	}
+
+	public void closeConnection() {
+		SbApp.trace("ModelMigration.closeConnection()");
+		if (!isConnectionOpen()) {
+			return;
+		}
+		try {
+			this.connection.close();
+			this.init = false;
+			this.connection = null;
+			this.databaseName = null;
+		} catch (SQLException e) {
+			SbApp.error("ModelMigration.closeConnection()", e);
+		}
+	}
+
+	/**
+	 * Closes the prepare statement
+	 *
+	 * @param prepare
+	 *            The PreparedStatement that needs to close
+	 */
+	public void closePrepareStatement(PreparedStatement prepare) {
+		try {
+			if (prepare != null) {
+				prepare.close();
+			}
+		} catch (SQLException se) {
+			SbApp.error("*** ModelMigration.closePrepareStatement(" + prepare.toString() + ")", se);
+		}
+	}
+
+	/**
+	 * Closes the result set
+	 *
+	 * @param result
+	 *            The ResultSet that needs to close
+	 */
+	public void closeResultSet(ResultSet result) {
+		try {
+			if (result != null) {
+				result.close();
+			}
+		} catch (SQLException se) {
+			SbApp.error("*** ModelMigration.closeResultSet(" + result.toString() + ")", se);
+		}
+	}
+
+	/**
+	 * Closes the statement
+	 *
+	 * @param stmt
+	 *            The Statement that needs to close
+	 */
+	public void closeStatement(Statement stmt) {
+		try {
+			if (stmt != null) {
+				stmt.close();
+			}
+		} catch (SQLException se) {
+			SbApp.error("*** ModelMigration.closeStatement(" + stmt.toString() + ")", se);
+		}
+	}
+
 	private void executeSQLStatement(String sql, Statement stmt) {
-		SbApp.trace("ModelMigration.executeSQLStatement("+sql.toString()+","+stmt.toString()+")");
+		SbApp.trace("ModelMigration.executeSQLStatement(" + sql.toString() + "," + stmt.toString() + ")");
 		try {
 			stmt.execute(sql);
 		} catch (SQLException e) {
@@ -413,20 +338,71 @@ public class ModelMigration {
 		}
 	}
 
+	public Connection getConnection() {
+		SbApp.trace("ModelMigration.getConnection()");
+		if (!init) {
+			return null;
+		}
+		if (connection == null) {
+			String connectionStr = "jdbc:h2:" + databaseName;
+			if (openOnlyIfExists) {
+				connectionStr = connectionStr + ";IFEXISTS=TRUE";
+			}
+			if (SbApp.getTraceHibernate()) {
+				connectionStr += ";TRACE_LEVEL_FILE=3;TRACE_LEVEL_SYSTEM_OUT=3";
+			} else {
+				connectionStr += ";TRACE_LEVEL_FILE=0;TRACE_LEVEL_SYSTEM_OUT=0";
+			}
+			SbApp.trace("ModelMigration.getConnection() to " + connectionStr);
+			try {
+				Class.forName("org.h2.Driver");
+				connection = DriverManager.getConnection(connectionStr, "sa", "");
+			} catch (ClassNotFoundException | SQLException e) {
+				SbApp.error("ModelMigration.getConnection()", e);
+			}
+		}
+		return connection;
+	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public int getGeneratedId(PreparedStatement stmt) throws SQLException {
+		int retour = -1;
+		ResultSet rs = null;
+		try {
+			rs = stmt.getGeneratedKeys();
+			int count = 0;
+			while (rs.next()) {
+				if (count > 0) {
+					throw new SQLException("error: got more than one id");
+				}
+				retour = rs.getInt(1);
+				++count;
+			}
+		} catch (SQLException exc) {
+			SbApp.error("*** ModelMigration.getGeneratedId(" + stmt.toString() + ")", exc);
+		} finally {
+			this.closeResultSet(rs);
+		}
+		return retour;
+	}
+
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
-	public void setMainFrame(MainFrame mainFrame) {
-		this.mainFrame = mainFrame;
+	public String getNewDbVersion() {
+		return newDbVersion;
 	}
 
 	public String getOldDbVersion() {
 		return oldDbVersion;
-	}
-
-	public String getNewDbVersion() {
-		return newDbVersion;
 	}
 
 	public boolean hasAlteredDbModel() {
@@ -434,5 +410,27 @@ public class ModelMigration {
 			return false;
 		}
 		return !oldDbVersion.equals(newDbVersion);
+	}
+
+	public boolean isConnectionOpen() {
+		return connection != null;
+	}
+
+	public void open(DbFile dbFile) {
+		SbApp.trace("ModelMigration.open(" + dbFile.getDbName() + ")");
+		this.file = dbFile.getFile();
+		this.databaseName = dbFile.getDbName();
+		this.openOnlyIfExists = true;
+		this.init = true;
+		try {
+			getConnection();
+		} catch (Exception e) {
+			SbApp.error("ModelMigration.open(" + dbFile.getName() + ")", e);
+		}
+		SbApp.trace("ModelMigration.open(" + this.databaseName + ")");
+	}
+
+	public void setMainFrame(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
 	}
 }

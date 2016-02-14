@@ -26,32 +26,73 @@ import javax.swing.text.JTextComponent;
 
 import storybook.toolkit.I18N;
 
-
 /**
  * This class provides the functionality to insert an special character into the
- * document through a dedicated dialog.
- * Selected character may be passed to listeners if one or more are defined. If
- * no listener is defined, then  the character will be sent to the current text
- * element with focus - or at least the last selected one, if it was in the same
- * frame as the button launching the dialog.
+ * document through a dedicated dialog. Selected character may be passed to
+ * listeners if one or more are defined. If no listener is defined, then the
+ * character will be sent to the current text element with focus - or at least
+ * the last selected one, if it was in the same frame as the button launching
+ * the dialog.
  *
  * based for character display on work from Leighton Weymouth
  */
 public class UnicodeDialog {
 
+	/**
+	 * Inner class that extends JButton. Each special character button is an
+	 * instance of this class. This allows for customized handling of buttons.
+	 * Ie. in this case, when a button is clicked, it simple has it's background
+	 * colour changed to reflect which special character will be inserted.
+	 */
+	protected class UnicodeButton extends JButton implements ActionListener, FocusListener {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Construct this button with the given special character as a label.
+		 * 
+		 * @param label
+		 *            The special character to be inserted if this button is
+		 *            clicked.
+		 */
+		public UnicodeButton(String label) {
+			super(label);
+
+			this.setMargin(new Insets(0, 0, 0, 0));
+			this.setFocusPainted(false);
+			addActionListener(this);
+			addFocusListener(this);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			specialChar = this.getText();
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			this.setBackground(Color.yellow);
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			this.setBackground(null);
+		}
+
+	}
+
 	// Listeners
 	private List<UnicodeDialogListener> listeners = new ArrayList<UnicodeDialogListener>();
-
 	private final String[] labels;
 	private JPanel p;
 	private String specialChar;
-	private JFrame parent;
 
+	private JFrame parent;
 	// component to insert character into.
 	private JTextComponent textComponent;
+
 	// Position on last caret - where to insert character.
 	private int lastPosition = 0;
-	
+
 	// Flag to indicate that the last frame change was to make dialog appear.
 	// In such case, we shall not consider that we change the current frame.
 	private boolean itIsMe = false;
@@ -59,7 +100,8 @@ public class UnicodeDialog {
 	/**
 	 * Constructs this panel and sets the icon and action listeners.
 	 * 
-	 * @param parent frame.
+	 * @param parent
+	 *            frame.
 	 */
 	public UnicodeDialog(JFrame parent) {
 		this.parent = parent;
@@ -93,16 +135,14 @@ public class UnicodeDialog {
 		p = new JPanel(grid);
 
 		// create a border around the panel
-		p.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED),
+		p.setBorder(BorderFactory.createTitledBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED),
 				I18N.getMsg("msg.unicode.group")));
 
 		// add the buttons and their labels
 		for (int i = 0; i < labels.length; i++)
 			p.add(new UnicodeButton(labels[i]));
 
-		KeyboardFocusManager focusManager = KeyboardFocusManager
-				.getCurrentKeyboardFocusManager();
+		KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		focusManager.addPropertyChangeListener((evt) -> {
 			Object nObj = evt.getNewValue();
 			if ((nObj != null) && (nObj instanceof JTextComponent)) {
@@ -110,24 +150,49 @@ public class UnicodeDialog {
 				textComponent = ((JTextComponent) nObj);
 				lastPosition = textComponent.getCaretPosition();
 			} else {
-			    Object oObj = evt.getOldValue();
-			   if ((oObj != null) && (oObj instanceof JTextComponent)) {
+				Object oObj = evt.getOldValue();
+				if ((oObj != null) && (oObj instanceof JTextComponent)) {
 					// Old focused element is a text
-			   	   textComponent = ((JTextComponent) oObj);
-				   lastPosition = textComponent.getCaretPosition();
-			   } else if ((textComponent != null) && (nObj != null)) {
-				   // changing frame ?
-				   Component c = (Component)nObj;
-			       Window newFrame = (Window) SwingUtilities.getRoot(c);
-			       Window oldFrame = (Window) SwingUtilities.getRoot(textComponent);
-			       if ((!itIsMe) && (! newFrame.equals(oldFrame)))
-			       {
-			    	   // yes : forget previous focus
-			    	   textComponent = null;
-			       }
-			   }
+					textComponent = ((JTextComponent) oObj);
+					lastPosition = textComponent.getCaretPosition();
+				} else if ((textComponent != null) && (nObj != null)) {
+					// changing frame ?
+					Component c = (Component) nObj;
+					Window newFrame = (Window) SwingUtilities.getRoot(c);
+					Window oldFrame = (Window) SwingUtilities.getRoot(textComponent);
+					if ((!itIsMe) && (!newFrame.equals(oldFrame))) {
+						// yes : forget previous focus
+						textComponent = null;
+					}
+				}
 			}
 		});
+	}
+
+	/**
+	 * Add a listener.
+	 * 
+	 * @param listener
+	 */
+	public void addListener(UnicodeDialogListener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
+	}
+
+	public String getDescription() {
+		return "Special characters";
+	}
+
+	/**
+	 * Remove a listener.
+	 * 
+	 * @param listener
+	 */
+	public void removeListener(UnicodeDialogListener listener) {
+		if (listeners.contains(listener)) {
+			listeners.remove(listener);
+		}
 	}
 
 	/**
@@ -143,9 +208,10 @@ public class UnicodeDialog {
 		// show the dialog
 		itIsMe = true;
 		int result = JOptionPane.showOptionDialog(parent,
-		// The parent that the dialog blocks
+				// The parent that the dialog blocks
 				messages, // The dialog message arry
-				I18N.getMsg("msg.unicode.title"), // The title of the dialog window
+				I18N.getMsg("msg.unicode.title"), // The title of the dialog
+													// window
 				JOptionPane.DEFAULT_OPTION, // option type
 				JOptionPane.PLAIN_MESSAGE, // message type
 				/* ic */
@@ -159,10 +225,10 @@ public class UnicodeDialog {
 				for (UnicodeDialogListener listener : listeners) {
 					listener.characterSelected(specialChar);
 				}
-			} else if (textComponent != null){
+			} else if (textComponent != null) {
 				textComponent.requestFocusInWindow();
-				((JTextComponent) textComponent).setCaretPosition(lastPosition);
-				Document doc = ((JTextComponent) textComponent).getDocument();
+				textComponent.setCaretPosition(lastPosition);
+				Document doc = textComponent.getDocument();
 				try {
 					doc.insertString(lastPosition, specialChar, null);
 				} catch (BadLocationException e) {
@@ -170,71 +236,5 @@ public class UnicodeDialog {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Add a listener.
-	 * 
-	 * @param listener
-	 */
-	public void addListener(UnicodeDialogListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
-	}
-
-	/**
-	 * Remove a listener.
-	 * 
-	 * @param listener
-	 */
-	public void removeListener(UnicodeDialogListener listener) {
-		if (listeners.contains(listener)) {
-			listeners.remove(listener);
-		}
-	}
-
-	/**
-	 * Inner class that extends JButton. Each special character button is an
-	 * instance of this class. This allows for customized handling of buttons.
-	 * Ie. in this case, when a button is clicked, it simple has it's background
-	 * colour changed to reflect which special character will be inserted.
-	 */
-	protected class UnicodeButton extends JButton implements ActionListener,
-			FocusListener {
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * Construct this button with the given special character as a label.
-		 * 
-		 * @param label
-		 *            The special character to be inserted if this button is
-		 *            clicked.
-		 */
-		public UnicodeButton(String label) {
-			super(label);
-
-			this.setMargin(new Insets(0, 0, 0, 0));
-			this.setFocusPainted(false);
-			addActionListener(this);
-			addFocusListener(this);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			specialChar = this.getText();
-		}
-
-		public void focusGained(FocusEvent e) {
-			this.setBackground(Color.yellow);
-		}
-
-		public void focusLost(FocusEvent e) {
-			this.setBackground(null);
-		}
-
-	}
-
-	public String getDescription() {
-		return "Special characters";
 	}
 }

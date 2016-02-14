@@ -41,14 +41,18 @@ import storybook.SbApp;
 public class I18N {
 
 	public final static String TIME_FORMAT = "HH:mm:ss";
-	//public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	// public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static ResourceBundle iconResourceBundle = null;
 	private static ResourceBundle messageResourceBundle = null;
 
-	public static boolean isEnglish() {
-		Locale locale = Locale.getDefault();
-		Locale de = new Locale("en", "US");
-		return locale.equals(de);
+	public static ImageIcon createImageIcon(Class<?> c, String path) {
+		java.net.URL imgURL = c.getResource(path);
+		if (imgURL != null) {
+			return new ImageIcon(imgURL);
+		} else {
+			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
 	}
 
 	public static String getCountryLanguage(Locale locale) {
@@ -58,35 +62,75 @@ public class I18N {
 	public static String getDateTime(Date date) {
 		return DateUtil.simpleDateTimeToString(date);
 	}
-	
+
 	public static DateFormat getDateTimeFormatter() {
 		return DateFormat.getDateTimeInstance();
 	}
 
-	public static DateFormat getShortDateFormatter() {
-		return DateFormat.getDateInstance(DateFormat.SHORT);
+	public static String getExtMsg(String resourceKey) {
+		File f = new File(SbApp.getI18nFile() + ".properties");
+		if (!f.exists()) {
+			SbApp.setI18nFile("");
+			return (getMessageResourceBundle().getString(resourceKey));
+		}
+		Properties prop = new Properties();
+		InputStream input = null;
+		try {
+			input = new FileInputStream(SbApp.getI18nFile() + ".properties");
+			prop.load(input);
+			input.close();
+			return (prop.getProperty(resourceKey));
+		} catch (IOException ex) {
+			System.out.println("default msg " + resourceKey);
+			return (getMessageResourceBundle().getString(resourceKey));
+		}
 	}
-				
 
-	public static DateFormat getMediumDateFormatter() {
-		return DateFormat.getDateInstance(DateFormat.MEDIUM);
+	public static Icon getIcon(String resourceKey) {
+		return getImageIcon(resourceKey);
+	}
+
+	public static Icon getIconExternal(String filename) {
+		ImageIcon iconext = new ImageIcon(filename);
+		return (iconext);
+	}
+
+	public static Image getIconImage(String resourceKey) {
+		ImageIcon icon = (ImageIcon) I18N.getIcon(resourceKey);
+		return icon.getImage();
+	}
+
+	public static JLabel getIconLabel(String resourceKey) {
+		return new JLabel(getIcon(resourceKey));
+	}
+
+	public static final ResourceBundle getIconResourceBundle() {
+		if (iconResourceBundle == null) {
+			iconResourceBundle = ResourceBundle.getBundle("storybook.resources.icons.icons", Locale.getDefault());
+		}
+		return iconResourceBundle;
+	}
+
+	public static ImageIcon getImageIcon(String resourceKey) {
+		ResourceBundle rb = getIconResourceBundle();
+		String name = rb.getString(resourceKey);
+		ImageIcon icon = createImageIcon(SbApp.class, name);
+		return icon;
 	}
 
 	public static DateFormat getLongDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.LONG);
 	}
 
-	public static final String getMsg(String resourceKey, Object arg) {
-		Object[] args = new Object[]{arg};
-		return getMsg(resourceKey, args);
+	public static DateFormat getMediumDateFormatter() {
+		return DateFormat.getDateInstance(DateFormat.MEDIUM);
 	}
 
-	public static final String getMsg(String resourceKey, Object[] args) {
-		MessageFormat formatter = new MessageFormat("");
-		formatter.setLocale(Locale.getDefault());
-		String pattern = getMsg(resourceKey);//getMessageResourceBundle().getString(resourceKey);
-		formatter.applyPattern(pattern);
-		return formatter.format(args);
+	public static final ResourceBundle getMessageResourceBundle() {
+		if (messageResourceBundle == null) {
+			messageResourceBundle = ResourceBundle.getBundle("storybook.msg.messages", Locale.getDefault());
+		}
+		return messageResourceBundle;
 	}
 
 	public static char getMnemonic(String key) {
@@ -97,70 +141,12 @@ public class I18N {
 		return '!';
 	}
 
-	public static final void setMnemonic(JMenuItem menuItem, int englishKey) {
-		setMnemonic(menuItem, englishKey, englishKey);
-	}
-
-	public static final void setMnemonic(JMenuItem menuItem, int englishKey, int germanKey) {
-		if (Locale.getDefault() == Locale.GERMANY) {
-			menuItem.setMnemonic(germanKey);
-		} else {
-			menuItem.setMnemonic(englishKey);
-		}
-	}
-
-	public static final void setMnemonic(JMenu menu, int englishKey) {
-		setMnemonic(menu, englishKey, englishKey);
-	}
-
-	public static final void setMnemonic(JMenu menu, int englishKey, int germanKey) {
-		if (Locale.getDefault() == Locale.GERMANY) {
-			menu.setMnemonic(germanKey);
-		} else {
-			menu.setMnemonic(englishKey);
-		}
-	}
-
-	public static final void initResourceBundles(Locale locale) {
-		ResourceBundle.clearCache();
-		messageResourceBundle = null;
-		Locale.setDefault(locale);
-		UIManager.getDefaults().setDefaultLocale(locale);
-		SbApp.getInstance().setLocale(locale);
-	}
-
-	public static final ResourceBundle getMessageResourceBundle() {
-		if (messageResourceBundle == null) {
-			messageResourceBundle = ResourceBundle.getBundle("storybook.msg.messages", Locale.getDefault());
-		}
-		return messageResourceBundle;
-	}
-
-	public static String getExtMsg(String resourceKey) {
-		File f=new File(SbApp.getI18nFile()+".properties");
-		if (!f.exists()) {
-			SbApp.setI18nFile("");
-			return(getMessageResourceBundle().getString(resourceKey));
-		}
-		Properties prop = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream(SbApp.getI18nFile()+".properties");
-			prop.load(input);
-			input.close();
-			return(prop.getProperty(resourceKey));
-		} catch (IOException ex) {
-			System.out.println("default msg "+resourceKey);
-			return(getMessageResourceBundle().getString(resourceKey));
-		}
-	}
-
 	public static String getMsg(String resourceKey) {
-		if (SbApp.getI18nFile()!=null) {
-			return(getExtMsg(resourceKey));
+		if (SbApp.getI18nFile() != null) {
+			return (getExtMsg(resourceKey));
 		}
 		ResourceBundle rb = getMessageResourceBundle();
-		try{
+		try {
 			return rb.getString(resourceKey);
 		} catch (Exception ex) {
 			return '!' + resourceKey + '!';
@@ -177,12 +163,21 @@ public class I18N {
 		return buf.toString();
 	}
 
-	public static String getMsgColon(String resourceKey) {
-		return getMsgColon(resourceKey, false);
+	public static final String getMsg(String resourceKey, Object arg) {
+		Object[] args = new Object[] { arg };
+		return getMsg(resourceKey, args);
 	}
 
-	public static String getMsgDot(String resourceKey) {
-		return getMsg(resourceKey) + "...";
+	public static final String getMsg(String resourceKey, Object[] args) {
+		MessageFormat formatter = new MessageFormat("");
+		formatter.setLocale(Locale.getDefault());
+		String pattern = getMsg(resourceKey);// getMessageResourceBundle().getString(resourceKey);
+		formatter.applyPattern(pattern);
+		return formatter.format(args);
+	}
+
+	public static String getMsgColon(String resourceKey) {
+		return getMsgColon(resourceKey, false);
 	}
 
 	public static String getMsgColon(String resourceKey, boolean required) {
@@ -196,45 +191,49 @@ public class I18N {
 		return buf.toString();
 	}
 
-	public static final ResourceBundle getIconResourceBundle() {
-		if (iconResourceBundle == null) {
-			iconResourceBundle = ResourceBundle.getBundle("storybook.resources.icons.icons", Locale.getDefault());
-		}
-		return iconResourceBundle;
+	public static String getMsgDot(String resourceKey) {
+		return getMsg(resourceKey) + "...";
 	}
 
-	public static JLabel getIconLabel(String resourceKey) {
-		return new JLabel(getIcon(resourceKey));
+	public static DateFormat getShortDateFormatter() {
+		return DateFormat.getDateInstance(DateFormat.SHORT);
 	}
 
-	public static Icon getIcon(String resourceKey) {
-		return getImageIcon(resourceKey);
+	public static final void initResourceBundles(Locale locale) {
+		ResourceBundle.clearCache();
+		messageResourceBundle = null;
+		Locale.setDefault(locale);
+		UIManager.getDefaults().setDefaultLocale(locale);
+		SbApp.getInstance().setLocale(locale);
 	}
 
-	public static ImageIcon getImageIcon(String resourceKey) {
-		ResourceBundle rb = getIconResourceBundle();
-		String name = rb.getString(resourceKey);
-		ImageIcon icon = createImageIcon(SbApp.class, name);
-		return icon;
+	public static boolean isEnglish() {
+		Locale locale = Locale.getDefault();
+		Locale de = new Locale("en", "US");
+		return locale.equals(de);
 	}
 
-	public static ImageIcon createImageIcon(Class<?> c, String path) {
-		java.net.URL imgURL = c.getResource(path);
-		if (imgURL != null) {
-			return new ImageIcon(imgURL);
+	public static final void setMnemonic(JMenu menu, int englishKey) {
+		setMnemonic(menu, englishKey, englishKey);
+	}
+
+	public static final void setMnemonic(JMenu menu, int englishKey, int germanKey) {
+		if (Locale.getDefault() == Locale.GERMANY) {
+			menu.setMnemonic(germanKey);
 		} else {
-			System.err.println("Couldn't find file: " + path);
-			return null;
+			menu.setMnemonic(englishKey);
 		}
 	}
 
-	public static Image getIconImage(String resourceKey) {
-		ImageIcon icon = (ImageIcon) I18N.getIcon(resourceKey);
-		return icon.getImage();
+	public static final void setMnemonic(JMenuItem menuItem, int englishKey) {
+		setMnemonic(menuItem, englishKey, englishKey);
 	}
-	
-	public static Icon getIconExternal(String filename) {
-		ImageIcon iconext = new ImageIcon(filename);
-		return(iconext);
+
+	public static final void setMnemonic(JMenuItem menuItem, int englishKey, int germanKey) {
+		if (Locale.getDefault() == Locale.GERMANY) {
+			menuItem.setMnemonic(germanKey);
+		} else {
+			menuItem.setMnemonic(englishKey);
+		}
 	}
 }

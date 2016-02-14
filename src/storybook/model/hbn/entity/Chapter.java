@@ -36,18 +36,16 @@ public class Chapter extends AbstractEntity implements Comparable<Chapter> {
 	private String title;
 	private String description;
 	private String notes;
-    private Timestamp creationTime;
-    private Timestamp objectiveTime;
-    private Timestamp doneTime;
-    private Integer objectiveChars;
+	private Timestamp creationTime;
+	private Timestamp objectiveTime;
+	private Timestamp doneTime;
+	private Integer objectiveChars;
 
 	public Chapter() {
 	}
 
-	public Chapter(Part part, Integer chapterno, String title,
-			String description, String notes,
-			Timestamp creationTime, Timestamp objectiveTime,
-			Timestamp doneTime, Integer objectiveChars) {
+	public Chapter(Part part, Integer chapterno, String title, String description, String notes, Timestamp creationTime,
+			Timestamp objectiveTime, Timestamp doneTime, Integer objectiveChars) {
 		this.part = part;
 		this.chapterno = chapterno;
 		this.title = title;
@@ -59,157 +57,9 @@ public class Chapter extends AbstractEntity implements Comparable<Chapter> {
 		this.objectiveChars = objectiveChars;
 	}
 
-	/**
-	 * @hibernate.id
-	 *   column="ID"
-	 *   generator-class="increment"
-	 *   unsaved-value="null"
-	 */
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @hibernate.many-to-one
-	 *   column="part_id"
-	 *   cascade="none"
-	 */
-	public Part getPart() {
-		return part;
-	}
-
-	public boolean hasPart() {
-		return part != null;
-	}
-
-	public void setPart(Part part) {
-		this.part = part;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public Integer getChapterno() {
-		return this.chapterno == null ? -1 : this.chapterno;
-	}
-
-	public void setChapterno(Integer chapterno) {
-		this.chapterno = chapterno;
-	}
-
-	public String getChapternoStr() {
-		return getChapterno().toString();
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getTitle() {
-		return this.title == null ? "" : this.title;
-	}
-
-	public String getTitle(boolean truncate) {
-		return title == null ? "" : TextUtil.truncateString(title, 30);
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getNotes() {
-		if (notes == null) {
-			return "";
-		}
-		return this.notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-    public boolean hasCreationTime() {
-        return creationTime != null;
-    }
-
-    public void setCreationTime(Timestamp ts) {
-    	creationTime = ts;
-    }
-
-    public Timestamp getCreationTime() {
-    	return creationTime;
-    }
-
-	/**
-	 * @hibernate.property
-	 */
-    public boolean hasObjectiveTime() {
-        return objectiveTime != null;
-    }
-
-    public void setObjectiveTime(Timestamp ts) {
-    	objectiveTime = ts;
-    }
-
-    public Timestamp getObjectiveTime() {
-    	return objectiveTime;
-    }
-
-	/**
-	 * @hibernate.property
-	 */
-    public boolean isDone() {
-        return hasDoneTime();
-    }
-    public boolean hasDoneTime() {
-        return doneTime != null;
-    }
-
-    public void setDoneTime(Timestamp ts) {
-    	doneTime = ts;
-    }
-
-    public Timestamp getDoneTime() {
-    	return doneTime;
-    }
-
-	/**
-	 * @hibernate.property
-	 */
-	public Integer getObjectiveChars() {
-		return (this.objectiveChars == null) ? 0 : this.objectiveChars;
-	}
-
-	public void setObjectiveChars(Integer objectiveChars) {
-		this.objectiveChars = objectiveChars;
-	}
-
 	@Override
-	public String toString() {
-		if (chapterno == null) {
-			return I18N.getMsg("msg.unassigned.scenes");
-		}
-		return getChapterno() + ": " + getTitle();
+	public int compareTo(Chapter ch) {
+		return chapterno.compareTo(ch.chapterno);
 	}
 
 	@Override
@@ -227,6 +77,91 @@ public class Chapter extends AbstractEntity implements Comparable<Chapter> {
 		return ret;
 	}
 
+	/**
+	 * @hibernate.property
+	 */
+	public Integer getChapterno() {
+		return this.chapterno == null ? -1 : this.chapterno;
+	}
+
+	public String getChapternoStr() {
+		return getChapterno().toString();
+	}
+
+	public Timestamp getCreationTime() {
+		return creationTime;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	public Timestamp getDoneTime() {
+		return doneTime;
+	}
+
+	/**
+	 * @hibernate.id column="ID" generator-class="increment"
+	 *               unsaved-value="null"
+	 */
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getNotes() {
+		if (notes == null) {
+			return "";
+		}
+		return this.notes;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public Integer getObjectiveChars() {
+		return (this.objectiveChars == null) ? 0 : this.objectiveChars;
+	}
+
+	public Timestamp getObjectiveTime() {
+		return objectiveTime;
+	}
+
+	/**
+	 * @hibernate.many-to-one column="part_id" cascade="none"
+	 */
+	public Part getPart() {
+		return part;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getTitle() {
+		return this.title == null ? "" : this.title;
+	}
+
+	public String getTitle(boolean truncate) {
+		return title == null ? "" : TextUtil.truncateString(title, 30);
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public boolean hasCreationTime() {
+		return creationTime != null;
+	}
+
+	public boolean hasDoneTime() {
+		return doneTime != null;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -238,8 +173,69 @@ public class Chapter extends AbstractEntity implements Comparable<Chapter> {
 		return hash;
 	}
 
+	/**
+	 * @hibernate.property
+	 */
+	public boolean hasObjectiveTime() {
+		return objectiveTime != null;
+	}
+
+	public boolean hasPart() {
+		return part != null;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public boolean isDone() {
+		return hasDoneTime();
+	}
+
+	public void setChapterno(Integer chapterno) {
+		this.chapterno = chapterno;
+	}
+
+	public void setCreationTime(Timestamp ts) {
+		creationTime = ts;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setDoneTime(Timestamp ts) {
+		doneTime = ts;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public void setObjectiveChars(Integer objectiveChars) {
+		this.objectiveChars = objectiveChars;
+	}
+
+	public void setObjectiveTime(Timestamp ts) {
+		objectiveTime = ts;
+	}
+
+	public void setPart(Part part) {
+		this.part = part;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
-	public int compareTo(Chapter ch) {
-		return chapterno.compareTo(ch.chapterno);
+	public String toString() {
+		if (chapterno == null) {
+			return I18N.getMsg("msg.unassigned.scenes");
+		}
+		return getChapterno() + ": " + getTitle();
 	}
 }

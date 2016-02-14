@@ -40,8 +40,7 @@ public class FontUtil {
 		if (font == null) {
 			return;
 		}
-		SwingUtil.setUIFont(new javax.swing.plaf.FontUIResource(font.getName(),
-				font.getStyle(), font.getSize()));
+		SwingUtil.setUIFont(new javax.swing.plaf.FontUIResource(font.getName(), font.getStyle(), font.getSize()));
 		defaultFont = font;
 	}
 }

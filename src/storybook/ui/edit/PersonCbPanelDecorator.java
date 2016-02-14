@@ -38,8 +38,7 @@ public class PersonCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
-	public void decorateBeforeFirstEntity() {
-		oldCat = "";
+	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
 	@Override
@@ -55,15 +54,16 @@ public class PersonCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
+	public void decorateBeforeFirstEntity() {
+		oldCat = "";
+	}
+
+	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		Person p = (Person) entity;
 		JLabel lbIcon = new JLabel(p.getIcon());
 		lbIcon.setToolTipText(p.getGender().getName());
 		panel.add(lbIcon, "split 2");
 		panel.add(cb);
-	}
-
-	@Override
-	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 }

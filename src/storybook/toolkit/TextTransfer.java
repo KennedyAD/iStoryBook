@@ -22,47 +22,44 @@ import java.util.logging.Logger;
  */
 public final class TextTransfer implements ClipboardOwner {
 
-   /**
-   * Empty implementation of the ClipboardOwner interface.
-   */
-   @Override
-   public void lostOwnership(Clipboard aClipboard, Transferable aContents){
-     //do nothing
-   }
-
-  /**
-  * Place a String on the clipboard, and make this class the
-  * owner of the Clipboard's contents.
-  */
-  public void setClipboardContents(String aString){
-    StringSelection stringSelection = new StringSelection(aString);
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents(stringSelection, this);
-  }
-
-  /**
-  * Get the String residing on the clipboard.
-  *
-  * @return any text found on the Clipboard; if none found, return an
-  * empty String.
-  */
-  public String getClipboardContents() {
-    String result = "";
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    //odd: the Object param of getContents is not currently used
-    Transferable contents = clipboard.getContents(null);
-    boolean hasTransferableText =
-      (contents != null) &&
-      contents.isDataFlavorSupported(DataFlavor.stringFlavor)
-    ;
-    if (hasTransferableText) {
-		try {
-			result = (String)contents.getTransferData(DataFlavor.stringFlavor);
-		} catch (UnsupportedFlavorException | IOException ex) {
-			Logger.getLogger(TextTransfer.class.getName()).log(Level.SEVERE, null, ex);
+	/**
+	 * Get the String residing on the clipboard.
+	 *
+	 * @return any text found on the Clipboard; if none found, return an empty
+	 *         String.
+	 */
+	public String getClipboardContents() {
+		String result = "";
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		// odd: the Object param of getContents is not currently used
+		Transferable contents = clipboard.getContents(null);
+		boolean hasTransferableText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+		if (hasTransferableText) {
+			try {
+				result = (String) contents.getTransferData(DataFlavor.stringFlavor);
+			} catch (UnsupportedFlavorException | IOException ex) {
+				Logger.getLogger(TextTransfer.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		}
-    }
-    return result;
-  }
+		return result;
+	}
+
+	/**
+	 * Empty implementation of the ClipboardOwner interface.
+	 */
+	@Override
+	public void lostOwnership(Clipboard aClipboard, Transferable aContents) {
+		// do nothing
+	}
+
+	/**
+	 * Place a String on the clipboard, and make this class the owner of the
+	 * Clipboard's contents.
+	 */
+	public void setClipboardContents(String aString) {
+		StringSelection stringSelection = new StringSelection(aString);
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard.setContents(stringSelection, this);
+	}
 
 }

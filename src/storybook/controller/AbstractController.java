@@ -32,7 +32,6 @@ import storybook.SbApp;
 import storybook.model.AbstractModel;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
-import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
 public abstract class AbstractController implements PropertyChangeListener {
@@ -47,21 +46,14 @@ public abstract class AbstractController implements PropertyChangeListener {
 	}
 
 	public void attachModel(AbstractModel model) {
-		SbApp.trace("AbstractController.attachModel("+model.toString()+")");
+		SbApp.trace("AbstractController.attachModel(" + model.toString() + ")");
 		attachedModels.add(model);
 		model.addPropertyChangeListener(this);
 		printAttachedModels();
 	}
 
-	public void detachModel(AbstractModel model) {
-		SbApp.trace("AbstractController.detachModel("+model.toString()+")");
-		attachedModels.remove(model);
-		model.removePropertyChangeListener(this);
-		printAttachedModels();
-	}
-
 	public void attachView(Component view) {
-		SbApp.trace("AbstractController.attachView(" + view.toString()+")");
+		SbApp.trace("AbstractController.attachView(" + view.toString() + ")");
 		synchronized (attachedViews) {
 			attachedViews.add(view);
 		}
@@ -71,23 +63,34 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	public void detachModel(AbstractModel model) {
+		SbApp.trace("AbstractController.detachModel(" + model.toString() + ")");
+		attachedModels.remove(model);
+		model.removePropertyChangeListener(this);
+		printAttachedModels();
+	}
+
 	public void detachView(Component view) {
-		SbApp.trace("AbstractController.detachView("+view.getName()+")");
+		SbApp.trace("AbstractController.detachView(" + view.getName() + ")");
 		synchronized (attachedViews) {
 			attachedViews.remove(view);
 		}
 		printAttachedViews();
 	}
 
-	public void printNumberOfAttachedViews() {
-		SbApp.trace("AbstractController.printNumberOfAttachedViews():" + " attached views size: " + attachedViews.size());
+	public synchronized void fireAgain() {
+		SbApp.trace("AbstractController.fireAgain()");
+		for (AbstractModel model : attachedModels) {
+			model.fireAgain();
+		}
 	}
 
-	public void printAttachedViews() {
-		SbApp.trace("AbstractController.printAttachedViews()");
-		synchronized(attachedViews) {
-			SbApp.trace(getInfoAttachedViews());
-		}
+	public List<AbstractModel> getAttachedModels() {
+		return attachedModels;
+	}
+
+	public ArrayList<Component> getAttachedViews() {
+		return (ArrayList<Component>) attachedViews;
 	}
 
 	public String getInfoAttachedViews() {
@@ -99,10 +102,8 @@ public abstract class AbstractController implements PropertyChangeListener {
 		int i = 0;
 		int size = attachedViews.size();
 		for (Component view : attachedViews) {
-			buf.append("attached view ")
-				.append(i).append("/")
-				.append(size).append(": ")
-				.append(view.getClass().getSimpleName());
+			buf.append("attached view ").append(i).append("/").append(size).append(": ")
+					.append(view.getClass().getSimpleName());
 			if (html) {
 				buf.append("\n<br>");
 			} else {
@@ -111,6 +112,10 @@ public abstract class AbstractController implements PropertyChangeListener {
 			++i;
 		}
 		return buf.toString();
+	}
+
+	public int getNumberOfAttachedViews() {
+		return attachedViews.size();
 	}
 
 	public void printAttachedModels() {
@@ -122,25 +127,35 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	public void printAttachedViews() {
+		SbApp.trace("AbstractController.printAttachedViews()");
+		synchronized (attachedViews) {
+			SbApp.trace(getInfoAttachedViews());
+		}
+	}
+
+	public void printNumberOfAttachedViews() {
+		SbApp.trace(
+				"AbstractController.printNumberOfAttachedViews():" + " attached views size: " + attachedViews.size());
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		SbApp.trace("AbstractController.propertyChange("+evt.toString()+")");
+		SbApp.trace("AbstractController.propertyChange(" + evt.toString() + ")");
 		synchronized (attachedViews) {
 			// must be in synchronized block
 			for (Component comp : attachedViews) {
 				if (comp instanceof AbstractPanel) {
-					SbApp.trace("---> AbstractPanel:"+((AbstractPanel) comp).toString());
+					SbApp.trace("---> AbstractPanel:" + ((AbstractPanel) comp).toString());
 					((AbstractPanel) comp).modelPropertyChange(evt);
-				}
-				else if (comp instanceof JMenuBar) {
+				} else if (comp instanceof JMenuBar) {
 					SbApp.trace("---> JMenuBar");
 					JMenuBar mb = (JMenuBar) comp;
 					PropertyChangeListener[] pcls = mb.getPropertyChangeListeners();
 					for (PropertyChangeListener pcl : pcls) {
 						pcl.propertyChange(evt);
 					}
-				}
-				else if (comp instanceof SbApp) {
+				} else if (comp instanceof SbApp) {
 					SbApp.trace("---> SbApp");
 					((SbApp) comp).modelPropertyChange(evt);
 				}
@@ -148,17 +163,21 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
-	public synchronized void fireAgain() {
-		SbApp.trace("AbstractController.fireAgain()");
+	protected synchronized void setModelProperty(String propertyName) {
+		SbApp.trace("AbstractController.setModelProperty(" + propertyName + ")");
 		for (AbstractModel model : attachedModels) {
-			model.fireAgain();
+			try {
+				Method method = model.getClass().getMethod("set" + propertyName);
+				method.invoke(model);
+			} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException ex) {
+			}
 		}
 	}
 
 	protected synchronized void setModelProperty(String propertyName, Object newValue) {
 		if (newValue != null) {
-			SbApp.trace("AbstractControler.setModelProperty(" + propertyName
-					+ "," + newValue.toString() + ")");
+			SbApp.trace("AbstractControler.setModelProperty(" + propertyName + "," + newValue.toString() + ")");
 			for (AbstractModel model : attachedModels) {
 				Method method = null;
 				Class<?>[] classes = null;
@@ -171,9 +190,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 						classes = new Class[] { newValue.getClass() };
 					}
 					method = model.getClass().getMethod("set" + propertyName, classes);
-					SbApp.trace("method : "+"set" + propertyName + classes.toString());
+					SbApp.trace("method : " + "set" + propertyName + classes.toString());
 					if (newValue != null) {
-						SbApp.trace("newValue != null after method="+method.toString());
+						SbApp.trace("newValue != null after method=" + method.toString());
 						method.invoke(model, newValue);
 					} else {
 						SbApp.trace("newValue == null after method");
@@ -181,44 +200,17 @@ public abstract class AbstractController implements PropertyChangeListener {
 					}
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException e) {
-					if (e.getCause()!=null) {
-						String emsg=(e.getCause()==null?"null":e.getCause().toString());
-						String emethod=(method==null?"null":method.getName());
-						String eclasses=(classes.getClass()==null?"null":classes.getClass().toString());
-						System.err.println("*** : AbstractController.setModelProperty()"
-										+ "\nmsg=" + emsg
-										+ "\nmethod:" + emethod
-										+ "\nclasses:" + eclasses);
+					if (e.getCause() != null) {
+						String emsg = (e.getCause() == null ? "null" : e.getCause().toString());
+						String emethod = (method == null ? "null" : method.getName());
+						String eclasses = (classes.getClass() == null ? "null" : classes.getClass().toString());
+						System.err.println("*** : AbstractController.setModelProperty()" + "\nmsg=" + emsg + "\nmethod:"
+								+ emethod + "\nclasses:" + eclasses);
 					} else {
-						System.err.println("*** : AbstractController.setModelProperty()"+
-								e.toString());
+						System.err.println("*** : AbstractController.setModelProperty()" + e.toString());
 					}
 				}
 			}
 		}
-	}
-
-	protected synchronized void setModelProperty(String propertyName) {
-		SbApp.trace("AbstractController.setModelProperty(" + propertyName + ")");
-		for (AbstractModel model : attachedModels) {
-			try {
-				Method method = model.getClass().getMethod("set" + propertyName);
-				method.invoke(model);
-			} catch (NoSuchMethodException | SecurityException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException ex) {
-			}
-		}
-	}
-
-	public int getNumberOfAttachedViews() {
-		return attachedViews.size();
-	}
-
-	public ArrayList<Component> getAttachedViews() {
-		return (ArrayList<Component>) attachedViews;
-	}
-
-	public List<AbstractModel> getAttachedModels() {
-		return attachedModels;
 	}
 }

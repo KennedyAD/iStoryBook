@@ -1,6 +1,5 @@
 package storybook.ui.panel.linkspanel;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.util.Collections;
@@ -8,18 +7,18 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Item;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.swing.label.CleverLabel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class ItemLinksPanel extends AbstractPanel {
@@ -38,25 +37,8 @@ public class ItemLinksPanel extends AbstractPanel {
 		refresh();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		// Object oldValue = evt.getOldValue();
-		Object newValue = evt.getNewValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.SceneProps.UPDATE.check(propName)) {
-			if (!((Scene) newValue).getId().equals(scene.getId())) {
-				// not this scene
-				return;
-			}
-			refresh();
-			return;
-		}
-
-		if (BookController.PersonProps.UPDATE.check(propName)) {
-			refresh();
-			return;
-		}
+	public Scene getScene() {
+		return scene;
 	}
 
 	@Override
@@ -86,15 +68,15 @@ public class ItemLinksPanel extends AbstractPanel {
 				e.printStackTrace();
 				continue;
 			}
-			//Color color = item.getJColor();
+			// Color color = item.getJColor();
 			JLabel lbName = new JLabel(item.getName());
 			CleverLabel lbAbbr = new CleverLabel(item.getAbbr());
 			lbAbbr.setToolTipText(EntityUtil.getToolTip(item, scene.getDate()));
-			//if (color != null) {
-			//	lbAbbr.setBackground(color);
-			//} else {
-				lbAbbr.setOpaque(false);
-			//}
+			// if (color != null) {
+			// lbAbbr.setBackground(color);
+			// } else {
+			lbAbbr.setOpaque(false);
+			// }
 			if (vertical) {
 				add(lbAbbr);
 				add(lbName);
@@ -109,7 +91,24 @@ public class ItemLinksPanel extends AbstractPanel {
 		return vertical;
 	}
 
-	public Scene getScene() {
-		return scene;
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		// Object oldValue = evt.getOldValue();
+		Object newValue = evt.getNewValue();
+		String propName = evt.getPropertyName();
+
+		if (BookController.SceneProps.UPDATE.check(propName)) {
+			if (!((Scene) newValue).getId().equals(scene.getId())) {
+				// not this scene
+				return;
+			}
+			refresh();
+			return;
+		}
+
+		if (BookController.PersonProps.UPDATE.check(propName)) {
+			refresh();
+			return;
+		}
 	}
 }

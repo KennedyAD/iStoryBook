@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
+
 import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
@@ -44,6 +45,26 @@ public class StrandTable extends AbstractTable {
 	}
 
 	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		Strand strand = dao.find(id);
+		model.commit();
+		return strand;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Strand();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Strand");
+	}
+
+	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getStrandColumns();
 		hasOrder = true;
@@ -63,8 +84,7 @@ public class StrandTable extends AbstractTable {
 				deleteEntity(evt);
 			} else if (BookController.StrandProps.ORDER_UP.check(propName)) {
 				orderUpEntity(evt);
-			} else if (BookController.StrandProps.ORDER_DOWN
-					.check(propName)) {
+			} else if (BookController.StrandProps.ORDER_DOWN.check(propName)) {
 				orderDownEntity(evt);
 			}
 		} catch (Exception e) {
@@ -72,50 +92,9 @@ public class StrandTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendOrderUpEntity(int row) {
-		if (row == -1) {
-			return;
-		}
-		Strand strand = (Strand) getEntityFromRow(row);
-		ctrl.orderUpStrand(strand);
-	}
-
-	@Override
-	protected void sendOrderDownEntity(int row) {
-		if (row == -1) {
-			return;
-		}
-		Strand strand = (Strand) getEntityFromRow(row);
-		ctrl.orderDownStrand(strand);
-	}
-
-	@Override
-	protected void orderUpEntity(PropertyChangeEvent evt) {
-		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
-		Strand strand = (Strand)entity;
-
-		BookModel model = mainFrame.getBookModel();
-
-		Session session = model.beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		dao.orderStrands();
-		model.commit();
-
-		session = model.beginTransaction();
-		dao = new StrandDAOImpl(session);
-		dao.orderUpStrand(strand);
-		model.commit();
-
-		SbView view = mainFrame.getView(ViewName.STRANDS);
-		mainFrame.getBookController().refresh(view);
-
-		sortByColumn(4);
-	}
-
-	@Override
 	protected void orderDownEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
-		Strand strand = (Strand)entity;
+		Strand strand = (Strand) entity;
 
 		BookModel model = mainFrame.getBookModel();
 
@@ -136,27 +115,26 @@ public class StrandTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Strand strand = (Strand) getEntityFromRow(row);
-//		ctrl.setStrandToEdit(strand);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(strand);
-	}
+	protected void orderUpEntity(PropertyChangeEvent evt) {
+		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
+		Strand strand = (Strand) entity;
 
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setStrandToEdit((Strand) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
+		BookModel model = mainFrame.getBookModel();
 
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Strand strand = (Strand) getEntityFromRow(row);
-		ctrl.deleteStrand(strand);
+		Session session = model.beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		dao.orderStrands();
+		model.commit();
+
+		session = model.beginTransaction();
+		dao = new StrandDAOImpl(session);
+		dao.orderUpStrand(strand);
+		model.commit();
+
+		SbView view = mainFrame.getView(ViewName.STRANDS);
+		mainFrame.getBookController().refresh(view);
+
+		sortByColumn(4);
 	}
 
 	@Override
@@ -170,22 +148,44 @@ public class StrandTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		Strand strand = dao.find(id);
-		model.commit();
-		return strand;
+	protected synchronized void sendDeleteEntity(int row) {
+		Strand strand = (Strand) getEntityFromRow(row);
+		ctrl.deleteStrand(strand);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Strand();
+	protected void sendOrderDownEntity(int row) {
+		if (row == -1) {
+			return;
+		}
+		Strand strand = (Strand) getEntityFromRow(row);
+		ctrl.orderDownStrand(strand);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Strand");
+	protected void sendOrderUpEntity(int row) {
+		if (row == -1) {
+			return;
+		}
+		Strand strand = (Strand) getEntityFromRow(row);
+		ctrl.orderUpStrand(strand);
+	}
+
+	@Override
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Strand strand = (Strand) getEntityFromRow(row);
+		// ctrl.setStrandToEdit(strand);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(strand);
+	}
+
+	@Override
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setStrandToEdit((Strand) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

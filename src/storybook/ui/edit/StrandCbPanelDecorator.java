@@ -34,7 +34,7 @@ public class StrandCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
-	public void decorateBeforeFirstEntity() {
+	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
 	@Override
@@ -42,13 +42,13 @@ public class StrandCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
+	public void decorateBeforeFirstEntity() {
+	}
+
+	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		Strand strand = (Strand) entity;
 		panel.add(new JLabel(strand.getColorIcon()), "split 2");
 		panel.add(cb);
-	}
-
-	@Override
-	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 }

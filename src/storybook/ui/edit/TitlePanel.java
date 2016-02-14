@@ -22,11 +22,10 @@ import java.beans.PropertyChangeEvent;
 
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.panel.AbstractPanel;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -43,10 +42,6 @@ public class TitlePanel extends AbstractPanel {
 	}
 
 	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-	}
-
-	@Override
 	public void init() {
 	}
 
@@ -58,6 +53,10 @@ public class TitlePanel extends AbstractPanel {
 		add(lbIcon);
 		lbTitle = new JLabel();
 		add(lbTitle);
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	public void refresh(AbstractEntity entity) {

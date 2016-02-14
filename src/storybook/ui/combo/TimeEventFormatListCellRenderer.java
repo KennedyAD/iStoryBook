@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 
 import storybook.model.state.TimeStepState;
-import storybook.toolkit.I18N;
 
 /**
  * @author jean
@@ -36,11 +35,10 @@ public class TimeEventFormatListCellRenderer extends DefaultListCellRenderer {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		try {
-			JLabel label = (JLabel) super.getListCellRendererComponent(list,
-					value, index, isSelected, cellHasFocus);
+			JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			TimeStepState state = (TimeStepState) value;
 			label.setText(state.getName());
 			return label;

@@ -23,19 +23,16 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import storybook.SbConstants.ViewName;
 import storybook.action.DeleteEntityAction;
 import storybook.action.EditEntityAction;
-import storybook.controller.BookController;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.I18N;
-import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.IconButton;
 import storybook.ui.MainFrame;
 
 @SuppressWarnings("serial")
 abstract public class AbstractScenePanel extends AbstractGradientPanel {
-	private boolean trace=false;
+	private boolean trace = false;
 	protected Scene scene;
 
 	protected AbstractAction newAction;
@@ -49,51 +46,23 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		this.scene = scene;
 	}
 
-	public AbstractScenePanel(MainFrame mainFrame, Scene scene,
-			boolean showBgGradient, Color startBgcolor, Color endBgColor) {
-		super(mainFrame, showBgGradient, scene.getInformative() ? Color.white
-				: startBgcolor, scene.getInformative() ? Color.white
-				: endBgColor);
+	public AbstractScenePanel(MainFrame mainFrame, Scene scene, boolean showBgGradient, Color startBgcolor,
+			Color endBgColor) {
+		super(mainFrame, showBgGradient, scene.getInformative() ? Color.white : startBgcolor,
+				scene.getInformative() ? Color.white : endBgColor);
 		this.scene = scene;
 	}
 
-	public Scene getScene() {
-		return scene;
-	}
-
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-
-	protected AbstractAction getNewAction() {
-		if (newAction == null) {
-			newAction = new AbstractAction() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					//BookController ctrl = mainFrame.getBookController();
-					Scene newScene = new Scene();
-					newScene.setStrand(scene.getStrand());
-					newScene.setSceneTs(scene.getSceneTs());
-					if (scene.hasChapter()) {
-						newScene.setChapter(scene.getChapter());
-					}
-					//ctrl.setSceneToEdit(newScene);
-					mainFrame.showEditorAsDialog(newScene);
-				}
-			};
+	@Override
+	public boolean equals(Object other) {
+		if (other == null || !(other instanceof AbstractScenePanel)) {
+			return false;
 		}
-		return newAction;
-	}
-
-	protected IconButton getEditButton() {
-		if (btEdit != null) {
-			return btEdit;
+		AbstractScenePanel asp = (AbstractScenePanel) other;
+		if (asp.getScene() == null || scene == null) {
+			return false;
 		}
-		btEdit = new IconButton("icon.small.edit", new EditEntityAction(mainFrame, scene,false));
-		btEdit.setText("");
-		btEdit.setSize32x20();
-		btEdit.setToolTipText(I18N.getMsg("msg.common.edit"));
-		return btEdit;
+		return asp.getScene().getId().equals(scene.getId());
 	}
 
 	protected IconButton getDeleteButton() {
@@ -107,6 +76,37 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return btDelete;
 	}
 
+	protected IconButton getEditButton() {
+		if (btEdit != null) {
+			return btEdit;
+		}
+		btEdit = new IconButton("icon.small.edit", new EditEntityAction(mainFrame, scene, false));
+		btEdit.setText("");
+		btEdit.setSize32x20();
+		btEdit.setToolTipText(I18N.getMsg("msg.common.edit"));
+		return btEdit;
+	}
+
+	protected AbstractAction getNewAction() {
+		if (newAction == null) {
+			newAction = new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// BookController ctrl = mainFrame.getBookController();
+					Scene newScene = new Scene();
+					newScene.setStrand(scene.getStrand());
+					newScene.setSceneTs(scene.getSceneTs());
+					if (scene.hasChapter()) {
+						newScene.setChapter(scene.getChapter());
+					}
+					// ctrl.setSceneToEdit(newScene);
+					mainFrame.showEditorAsDialog(newScene);
+				}
+			};
+		}
+		return newAction;
+	}
+
 	protected IconButton getNewButton() {
 		if (btNew != null) {
 			return btNew;
@@ -117,15 +117,11 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return btNew;
 	}
 
-	@Override
-	public boolean equals(Object other) {
-		if (other == null || !(other instanceof AbstractScenePanel)) {
-			return false;
-		}
-		AbstractScenePanel asp = (AbstractScenePanel) other;
-		if (asp.getScene() == null || scene == null) {
-			return false;
-		}
-		return asp.getScene().getId().equals(scene.getId());
+	public Scene getScene() {
+		return scene;
+	}
+
+	public void setScene(Scene scene) {
+		this.scene = scene;
 	}
 }

@@ -15,6 +15,15 @@
  */
 package storybook.exporter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import storybook.SbConstants;
 /**
  *
  * @author favdb
@@ -25,23 +34,14 @@ import storybook.toolkit.EnvUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.filefilter.HtmlFileFilter;
 import storybook.toolkit.filefilter.TextFileFilter;
-import storybook.ui.MainFrame;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import storybook.SbConstants;
 import storybook.toolkit.html.HtmlUtil;
+import storybook.ui.MainFrame;
 
 public abstract class AbstractExporter {
 
 	private String fileName;
 	private boolean onlyHtmlExport;
 	protected MainFrame mainFrame;
-
-	public abstract StringBuffer getContent();
 
 	public AbstractExporter(MainFrame m) {
 		this(m, false);
@@ -53,47 +53,13 @@ public abstract class AbstractExporter {
 		this.fileName = "";
 	}
 
-	public boolean exportToTxtFile() {
-		Internal internal = BookUtil.get(this.mainFrame,
-			SbConstants.BookKey.EXPORT_DIRECTORY,
-			EnvUtil.getDefaultExportDir(this.mainFrame));
-		File file1 = new File(internal.getStringValue());
-		JFileChooser chooser = new JFileChooser(file1);
-		chooser.setApproveButtonText(I18N.getMsg("msg.common.export"));
-		chooser.setSelectedFile(new File(getFileName()));
-		chooser.setFileFilter(new TextFileFilter());
-		int i = chooser.showOpenDialog(this.mainFrame);
-		if (i == 1) {
-			return false;
-		}
-		File outFile = chooser.getSelectedFile();
-		if (!outFile.getName().endsWith(".txt")) {
-			outFile = new File(outFile.getPath() + ".txt");
-		}
-		StringBuffer buffer = getContent();
-		try {
-			try (BufferedWriter outStream = new BufferedWriter(new FileWriter(outFile))) {
-				String str = buffer.toString();
-				outStream.write(HtmlUtil.htmlToText(str,true));
-			}
-		} catch (IOException e) {
-			return false;
-		}
-		JOptionPane.showMessageDialog(this.mainFrame,
-			I18N.getMsg("msg.common.export.success")
-			+ "\n"
-			+ outFile.getAbsolutePath(),
-			I18N.getMsg("msg.common.export"), 1);
-		return true;
-	}
 	public boolean exportToHtmlFile() {
 		boolean bool = BookUtil.isUseHtmlScenes(this.mainFrame);
 		if (this.onlyHtmlExport) {
 			bool = true;
 		}
-		Internal internal = BookUtil.get(this.mainFrame,
-			SbConstants.BookKey.EXPORT_DIRECTORY,
-			EnvUtil.getDefaultExportDir(this.mainFrame));
+		Internal internal = BookUtil.get(this.mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY,
+				EnvUtil.getDefaultExportDir(this.mainFrame));
 		File file1 = new File(internal.getStringValue());
 		JFileChooser chooser = new JFileChooser(file1);
 		chooser.setApproveButtonText(I18N.getMsg("msg.common.export"));
@@ -125,12 +91,43 @@ public abstract class AbstractExporter {
 			return false;
 		}
 		JOptionPane.showMessageDialog(this.mainFrame,
-			I18N.getMsg("msg.common.export.success")
-			+ "\n"
-			+ outFile.getAbsolutePath(),
-			I18N.getMsg("msg.common.export"), 1);
+				I18N.getMsg("msg.common.export.success") + "\n" + outFile.getAbsolutePath(),
+				I18N.getMsg("msg.common.export"), 1);
 		return true;
 	}
+
+	public boolean exportToTxtFile() {
+		Internal internal = BookUtil.get(this.mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY,
+				EnvUtil.getDefaultExportDir(this.mainFrame));
+		File file1 = new File(internal.getStringValue());
+		JFileChooser chooser = new JFileChooser(file1);
+		chooser.setApproveButtonText(I18N.getMsg("msg.common.export"));
+		chooser.setSelectedFile(new File(getFileName()));
+		chooser.setFileFilter(new TextFileFilter());
+		int i = chooser.showOpenDialog(this.mainFrame);
+		if (i == 1) {
+			return false;
+		}
+		File outFile = chooser.getSelectedFile();
+		if (!outFile.getName().endsWith(".txt")) {
+			outFile = new File(outFile.getPath() + ".txt");
+		}
+		StringBuffer buffer = getContent();
+		try {
+			try (BufferedWriter outStream = new BufferedWriter(new FileWriter(outFile))) {
+				String str = buffer.toString();
+				outStream.write(HtmlUtil.htmlToText(str, true));
+			}
+		} catch (IOException e) {
+			return false;
+		}
+		JOptionPane.showMessageDialog(this.mainFrame,
+				I18N.getMsg("msg.common.export.success") + "\n" + outFile.getAbsolutePath(),
+				I18N.getMsg("msg.common.export"), 1);
+		return true;
+	}
+
+	public abstract StringBuffer getContent();
 
 	public String getFileName() {
 		return this.fileName;

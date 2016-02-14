@@ -32,20 +32,19 @@ public class ToggleIconButton extends JToggleButton {
 		super();
 	}
 
-	public ToggleIconButton(String resourceIcon) {
-		this(resourceIcon, null);
-	}
-
 	public ToggleIconButton(Action action) {
 		this(null, null, action);
+	}
+
+	public ToggleIconButton(String resourceIcon) {
+		this(resourceIcon, null);
 	}
 
 	public ToggleIconButton(String resourceIcon, Action action) {
 		this(resourceIcon, null, action);
 	}
 
-	public ToggleIconButton(String resourceIcon, String resourceToolTip,
-			Action action) {
+	public ToggleIconButton(String resourceIcon, String resourceToolTip, Action action) {
 		if (action != null) {
 			setAction(action);
 		}
@@ -57,10 +56,19 @@ public class ToggleIconButton extends JToggleButton {
 		}
 	}
 
+	public void setControlButton() {
+		this.setSize16x16();
+		this.setNoBorder();
+	}
+
 	public void setIcon(String resourceIcon) {
 		if (resourceIcon != null) {
 			setIcon(I18N.getIcon(resourceIcon));
 		}
+	}
+
+	public void setNoBorder() {
+		this.setBorder(null);
 	}
 
 	public void setSize16x16() {
@@ -71,24 +79,15 @@ public class ToggleIconButton extends JToggleButton {
 		SwingUtil.setForcedSize(this, new Dimension(20, 20));
 	}
 
-	public void setSize32x20() {
-		SwingUtil.setForcedSize(this, new Dimension(32, 20));
-	}
-
 	public void setSize22x22() {
 		SwingUtil.setForcedSize(this, new Dimension(22, 22));
 	}
 
+	public void setSize32x20() {
+		SwingUtil.setForcedSize(this, new Dimension(32, 20));
+	}
+
 	public void setSize72x72() {
 		SwingUtil.setForcedSize(this, new Dimension(72, 72));
-	}
-
-	public void setNoBorder() {
-		this.setBorder(null);
-	}
-
-	public void setControlButton() {
-		this.setSize16x16();
-		this.setNoBorder();
 	}
 }

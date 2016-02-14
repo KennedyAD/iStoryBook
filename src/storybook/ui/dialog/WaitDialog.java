@@ -33,18 +33,18 @@ public class WaitDialog extends SplashDialog {
 		this("");
 	}
 
-	public WaitDialog(String text) {
-		super();
-		this.text = text;
-		initGUI();
-	}
-
 	public WaitDialog(Frame owner) {
 		this(owner, "");
 	}
 
 	public WaitDialog(Frame owner, String text) {
 		super(owner);
+		this.text = text;
+		initGUI();
+	}
+
+	public WaitDialog(String text) {
+		super();
 		this.text = text;
 		initGUI();
 	}

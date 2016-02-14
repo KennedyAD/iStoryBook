@@ -5,15 +5,25 @@
  */
 package storybook.exporter;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.html.simpleparser.StyleSheet;
-import com.itextpdf.text.pdf.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.html.simpleparser.StyleSheet;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import storybook.SbApp;
 
 /**
@@ -41,13 +51,6 @@ public class ExportPDF {
 		this.author = author;
 	}
 
-	public void writeRow(String[] strings) {
-		SbApp.trace("ExportPDF.writeRow()");
-		for (String str : strings) {
-			table.addCell(str);
-		}
-	}
-
 	private void addMetaData() {
 		SbApp.trace("ExportPDF.addMetaData()");
 		outDoc.addTitle(report);
@@ -57,16 +60,43 @@ public class ExportPDF {
 		outDoc.addCreator(System.getProperty("user.name"));
 	}
 
+	public void close() {
+		SbApp.trace("ExportPDF.close()");
+		try {
+			if (headers != null)
+				outDoc.add(table);
+		} catch (DocumentException ex) {
+			SbApp.error("ExportPDF.close()", ex);
+		}
+		outDoc.close();
+	}
+
+	@SuppressWarnings("deprecation")
+	public void HtmlToPdf(String source) {
+		StyleSheet styles = null;
+		try {
+			List<Element> elements = com.itextpdf.text.html.simpleparser.HTMLWorker
+					.parseToList(new FileReader(source), styles);
+			for (Element el : elements) {
+				outDoc.add(el);
+			}
+			File wx = new File(source);
+			wx.delete();
+		} catch (IOException | DocumentException ex) {
+			SbApp.error("ExportPDF.HtmlToPdf(" + source + ")", ex);
+		}
+	}
+
 	public void open() {
 		SbApp.trace("ExportPDF.open()");
 		outDoc = new Document();
-		Rectangle rectangle=new Rectangle(PageSize.getRectangle(parent.parent.paramExport.pdfPageSize));
+		Rectangle rectangle = new Rectangle(PageSize.getRectangle(parent.parent.paramExport.pdfPageSize));
 		if (parent.parent.paramExport.pdfLandscape) {
-			rectangle=new Rectangle(PageSize.getRectangle(parent.parent.paramExport.pdfPageSize).rotate());
+			rectangle = new Rectangle(PageSize.getRectangle(parent.parent.paramExport.pdfPageSize).rotate());
 		}
 		outDoc.setPageSize(rectangle);
 		try {
-			writer=PdfWriter.getInstance(outDoc, new FileOutputStream(fileName));
+			writer = PdfWriter.getInstance(outDoc, new FileOutputStream(fileName));
 		} catch (FileNotFoundException | DocumentException ex) {
 			SbApp.error(ExportPDF.class.getName(), ex);
 		}
@@ -74,8 +104,8 @@ public class ExportPDF {
 
 		addMetaData();
 		try {
-			outDoc.add(new Phrase(parent.bookTitle+" - "+parent.exportData.getKey()+"\n"
-					, FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
+			outDoc.add(new Phrase(parent.bookTitle + " - " + parent.exportData.getKey() + "\n",
+					FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD)));
 		} catch (DocumentException ex) {
 			SbApp.error("ExportPDF.open()", ex);
 		}
@@ -95,40 +125,19 @@ public class ExportPDF {
 		}
 	}
 
-	void writeText(String str) {
-		SbApp.trace("ExportPDF.writeText("+str+")");
-		try {
-			outDoc.add(new Phrase(str+"\n", FontFactory.getFont(FontFactory.HELVETICA, 10)));
-		} catch (DocumentException ex) {
-			SbApp.error("ExportPDF.writeText(" + str + ")", ex);
+	public void writeRow(String[] strings) {
+		SbApp.trace("ExportPDF.writeRow()");
+		for (String str : strings) {
+			table.addCell(str);
 		}
 	}
 
-	public void close() {
-		SbApp.trace("ExportPDF.close()");
+	void writeText(String str) {
+		SbApp.trace("ExportPDF.writeText(" + str + ")");
 		try {
-			if (headers != null)
-				outDoc.add(table);
+			outDoc.add(new Phrase(str + "\n", FontFactory.getFont(FontFactory.HELVETICA, 10)));
 		} catch (DocumentException ex) {
-			SbApp.error("ExportPDF.close()", ex);
-		}
-		outDoc.close();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void HtmlToPdf(String source) {
-		StyleSheet styles=null;
-		try {
-			List<Element> elements =
-					(List<Element>) com.itextpdf.text.html.simpleparser
-							.HTMLWorker.parseToList(new FileReader(source), styles);
-			for (Element el : elements) {
-				outDoc.add(el);
-			}
-			File wx=new File(source);
-			wx.delete();
-		} catch (IOException | DocumentException ex) {
-			SbApp.error("ExportPDF.HtmlToPdf("+source+")", ex);
+			SbApp.error("ExportPDF.writeText(" + str + ")", ex);
 		}
 	}
 

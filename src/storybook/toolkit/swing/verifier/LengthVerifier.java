@@ -54,8 +54,7 @@ public class LengthVerifier extends AbstractInputVerifier {
 		if (comp instanceof JComboBox) {
 			JComboBox combo = (JComboBox) comp;
 			Object item = combo.getSelectedItem();
-			if (item == null
-					|| (item != null && item.toString().length() < length)) {
+			if (item == null || (item != null && item.toString().length() < length)) {
 				return true;
 			}
 			setErrorText(errorMsg);

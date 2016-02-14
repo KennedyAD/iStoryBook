@@ -20,9 +20,6 @@
 package storybook.action;
 
 import java.awt.Desktop;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +38,6 @@ import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.ViewName;
-import storybook.exporter.BookExporter;
 import storybook.model.BookModel;
 import storybook.model.DbFile;
 import storybook.model.EntityUtil;
@@ -49,18 +45,13 @@ import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.BookUtil;
-import storybook.toolkit.DockingWindowUtil;
 import storybook.toolkit.EnvUtil;
 import storybook.toolkit.I18N;
-import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
-import storybook.ui.SbView;
-import storybook.ui.dialog.AboutDialog;
 import storybook.ui.dialog.BookPropertiesDialog;
 import storybook.ui.dialog.CreateChaptersDialog;
-import storybook.ui.dialog.ManageLayoutsDialog;
 import storybook.ui.dialog.PreferencesDialog;
 import storybook.ui.dialog.WaitDialog;
 import storybook.ui.dialog.file.ExportBookFileDialog;
@@ -83,35 +74,108 @@ public class ActionHandler {
 		mainFrame = mainframe;
 	}
 
-	/*public void handleCheckUpdate() {//new OK
-		if (Updater.checkForUpdate()) {
-			JOptionPane.showMessageDialog(mainFrame,
-				I18N.getMsg("msg.update.no.text"),
-				I18N.getMsg("msg.update.no.title"),
-				JOptionPane.INFORMATION_MESSAGE);
-		}
-	}*/
+	/*
+	 * public void handleCheckUpdate() {//new OK if (Updater.checkForUpdate()) {
+	 * JOptionPane.showMessageDialog(mainFrame,
+	 * I18N.getMsg("msg.update.no.text"), I18N.getMsg("msg.update.no.title"),
+	 * JOptionPane.INFORMATION_MESSAGE); } }
+	 */
 
-	public void handleOpenExportFolder() {
-		try {
-			Internal internal = BookUtil.get(mainFrame,
-				BookKey.EXPORT_DIRECTORY,
-				EnvUtil.getDefaultExportDir(mainFrame));
-			Desktop.getDesktop().open(new File(internal.getStringValue()));
-		} catch (IOException | Error ex) {
-			SbApp.error("ActionHandler.handleExportDir()", (Exception) ex);
-		}
+	public void handleBookProperties() {// new OK
+		BookPropertiesDialog dlg = new BookPropertiesDialog(mainFrame);
+		SwingUtil.showModalDialog(dlg, mainFrame);
 	}
 
-	public void handleText2Html() {
-		int n = SwingUtil.showBetaDialog(mainFrame);
-		if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+	public void handleChangePart(Part part) {
+		mainFrame.setWaitingCursor();
+		Part currentPart = mainFrame.getCurrentPart();
+		if (currentPart.getId().equals(part.getId())) {
+			// same part
 			return;
 		}
-		mainFrame.setWaitingCursor();
-		EntityUtil.convertPlainTextToHtml(mainFrame);
-		mainFrame.refresh();
+		mainFrame.setCurrentPart(part);
+		mainFrame.setTitle();
+		mainFrame.getBookController().changePart(part);
 		mainFrame.setDefaultCursor();
+	}
+
+	public void handleClose() {
+		mainFrame.close(true);
+	}
+
+	public void handleCreateChapters() {
+		CreateChaptersDialog dlg = new CreateChaptersDialog(mainFrame);
+		SwingUtil.showModalDialog(dlg, mainFrame);
+	}
+
+	public void handleDummy() {
+		SbApp.trace("ActionHandler.handleDummy(): ");
+		/*
+		 * try { SbView view = mainFrame.getView(SbConstants.ViewName.EDITOR);
+		 * mainFrame.getViewFactory().unloadView(view); } catch (Exception ex) {
+		 * SbApp.error("ActionHandler.handleDummy()",ex); }
+		 */
+	}
+
+	public void handleDumpAttachedViews() {
+		mainFrame.getBookController().printAttachedViews();
+	}
+	/*
+	 * suppression du garbage collector public void handleRunGC() {
+	 * SwingUtil.printMemoryUsage(); System.out.println(
+	 * "ActionHandler.handleRunGC(): running GC...");
+	 * SbApp.getInstance().runGC(); SwingUtil.printMemoryUsage(); }
+	 */
+
+	public void handleFileExportBook() {
+		ExportBookFileDialog dlg = new ExportBookFileDialog(mainFrame);
+		SwingUtil.showModalDialog(dlg, mainFrame);
+		if (dlg.isCanceled()) {
+			return;
+		}
+		File outFile = dlg.getFile();
+		String sceneSeparator = dlg.getSceneSeparator();
+		ODTUtils.createBookFile(mainFrame, outFile, sceneSeparator);
+	}
+
+	public void handleFileRename() {
+		RenameFileDialog dlg = new RenameFileDialog(mainFrame);
+		dlg.setForceDbExtension(false);
+		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
+		SwingUtil.showModalDialog(dlg, mainFrame);
+		if (dlg.isCanceled()) {
+			return;
+		}
+		File outFile = dlg.getFile();
+		SbApp.getInstance().renameFile(mainFrame, outFile);
+	}
+
+	public void handleFileSave() {// new OK
+		WaitDialog dlg = new WaitDialog(mainFrame, I18N.getMsg("msg.file.saving"));
+		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
+		timer.setRepeats(false);
+		timer.start();
+		SwingUtil.showModalDialog(dlg, mainFrame);
+	}
+
+	public void handleFileSaveAs() {
+		SaveAsFileDialog dlg = new SaveAsFileDialog(mainFrame);
+		dlg.setForceDbExtension(false);
+		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
+		SwingUtil.showModalDialog(dlg, mainFrame);
+		if (dlg.isCanceled()) {
+			return;
+		}
+		File outFile = dlg.getFile();
+		File inFile = mainFrame.getDbFile().getFile();
+		mainFrame.close(false);
+		try {
+			FileUtils.copyFile(inFile, outFile);
+		} catch (IOException ioe) {
+			System.err.println("ActionHandler.handleSaveAs() IOex : " + ioe.getMessage());
+		}
+		DbFile dbFile = new DbFile(outFile);
+		SbApp.getInstance().openFile(dbFile);
 	}
 
 	public void handleHtml2Text() {
@@ -125,15 +189,58 @@ public class ActionHandler {
 		mainFrame.setDefaultCursor();
 	}
 
-	public void handleCreateChapters() {
-		CreateChaptersDialog dlg = new CreateChaptersDialog(mainFrame);
+	public void handleNextPart() {
+		Part currentPart = mainFrame.getCurrentPart();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Part> parts = dao.findAll();
+		int index = parts.indexOf(currentPart);
+		if (index == parts.size() - 1) {
+			// already last part
+			return;
+		}
+		++index;
+		handleChangePart(parts.get(index));
+	}
+
+	public void handleOpenExportFolder() {
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.EXPORT_DIRECTORY,
+					EnvUtil.getDefaultExportDir(mainFrame));
+			Desktop.getDesktop().open(new File(internal.getStringValue()));
+		} catch (IOException | Error ex) {
+			SbApp.error("ActionHandler.handleExportDir()", (Exception) ex);
+		}
+	}
+
+	public void handlePreferences() {// new OK
+		PreferencesDialog dlg = new PreferencesDialog();
 		SwingUtil.showModalDialog(dlg, mainFrame);
+	}
+
+	public void handlePreviousPart() {
+		Part currentPart = mainFrame.getCurrentPart();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Part> parts = dao.findAll();
+		int index = parts.indexOf(currentPart);
+		if (index == 0) {
+			// already first part
+			return;
+		}
+		--index;
+		handleChangePart(parts.get(index));
+	}
+
+	public void handleRecentClear() {
+		SbApp.getInstance().clearRecentFiles();
 	}
 
 	public void handleRenameCity() {
 		RenameCityDialog dlg = new RenameCityDialog(mainFrame);
-		ActionManager actMngr = mainFrame.getSbActionManager()
-			.getActionManager();
+		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
 		Action act = actMngr.getAction("rename-city-command");
 		Object obj = act.getValue(SbConstants.ActionKey.CATEGORY.toString());
 		if (obj != null) {
@@ -145,21 +252,8 @@ public class ActionHandler {
 
 	public void handleRenameCountry() {
 		RenameCountryDialog dlg = new RenameCountryDialog(mainFrame);
-		ActionManager actMngr = mainFrame.getSbActionManager()
-			.getActionManager();
-		Action act = actMngr.getAction("rename-country-command");
-		Object obj = act.getValue(SbConstants.ActionKey.CATEGORY.toString());
-		if (obj != null) {
-			dlg.setSelectedItem(obj);
-		}
-		SwingUtil.showModalDialog(dlg, mainFrame);
-		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
-	}
-
-	public void handleRenameTagCategory() {
-		RenameTagCategoryDialog dlg = new RenameTagCategoryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
-		Action act = actMngr.getAction("rename-tag-category-command");
+		Action act = actMngr.getAction("rename-country-command");
 		Object obj = act.getValue(SbConstants.ActionKey.CATEGORY.toString());
 		if (obj != null) {
 			dlg.setSelectedItem(obj);
@@ -180,169 +274,130 @@ public class ActionHandler {
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
-	public void handlePreviousPart() {
-		Part currentPart = mainFrame.getCurrentPart();
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		List<Part> parts = dao.findAll();
-		int index = parts.indexOf(currentPart);
-		if (index == 0) {
-			// already first part
-			return;
+	public void handleRenameTagCategory() {
+		RenameTagCategoryDialog dlg = new RenameTagCategoryDialog(mainFrame);
+		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
+		Action act = actMngr.getAction("rename-tag-category-command");
+		Object obj = act.getValue(SbConstants.ActionKey.CATEGORY.toString());
+		if (obj != null) {
+			dlg.setSelectedItem(obj);
 		}
-		--index;
-		handleChangePart(parts.get(index));
-	}
-
-	public void handleNextPart() {
-		Part currentPart = mainFrame.getCurrentPart();
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		List<Part> parts = dao.findAll();
-		int index = parts.indexOf(currentPart);
-		if (index == parts.size() - 1) {
-			// already last part
-			return;
-		}
-		++index;
-		handleChangePart(parts.get(index));
-	}
-
-	public void handleChangePart(Part part) {
-		mainFrame.setWaitingCursor();
-		Part currentPart = mainFrame.getCurrentPart();
-		if (currentPart.getId().equals(part.getId())) {
-			// same part
-			return;
-		}
-		mainFrame.setCurrentPart(part);
-		mainFrame.setTitle();
-		mainFrame.getBookController().changePart(part);
-		mainFrame.setDefaultCursor();
-	}
-
-	public void handleShowChronoView() {//new OK
-		showAndFocus(ViewName.CHRONO);
+		SwingUtil.showModalDialog(dlg, mainFrame);
+		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
 	public void handleShowAttributesView() {
 		showAndFocus(ViewName.ATTRIBUTES);
 	}
 
-	public void handleShowBookView() {//new OK
+	public void handleShowBookView() {// new OK
 		showAndFocus(ViewName.BOOK);
-	}
-
-	public void handleShowManageView() {//new OK
-		showAndFocus(ViewName.MANAGE);
-	}
-
-	public void handleShowReadingView() {//new OK
-		showAndFocus(ViewName.READING);
-	}
-
-	public void handleShowMemoria() {
-		showAndFocus(ViewName.MEMORIA);
-	}
-
-	public void handleShowEditor() {
-		mainFrame.showEditor();
-	}
-
-	public void handleShowTree() {
-		showAndFocus(ViewName.TREE);
-	}
-
-	public void handleShowInfo() {
-		showAndFocus(ViewName.INFO);
-	}
-
-	public void handleShowMemo() {
-		showAndFocus(ViewName.MEMOS);
-	}
-
-	public void handleShowNavigation() {
-		showAndFocus(ViewName.NAVIGATION);
-	}
-
-	public void handleDumpAttachedViews() {
-		mainFrame.getBookController().printAttachedViews();
-	}
-	/* suppression du garbage collector
-	 public void handleRunGC() {
-	 SwingUtil.printMemoryUsage();
-	 System.out.println("ActionHandler.handleRunGC(): running GC...");
-	 SbApp.getInstance().runGC();
-	 SwingUtil.printMemoryUsage();
-	 }
-	 */
-
-	public void handleDummy() {
-		SbApp.trace("ActionHandler.handleDummy(): ");
-		/*try {
-			SbView view = mainFrame.getView(SbConstants.ViewName.EDITOR);
-			mainFrame.getViewFactory().unloadView(view);
-		} catch (Exception ex) {
-			SbApp.error("ActionHandler.handleDummy()",ex);
-		}*/
-	}
-
-	public void handleShowInternals() {
-		showAndFocus(ViewName.INTERNALS);
-	}
-
-	public void handleShowScenes() {
-		showAndFocus(ViewName.SCENES);
-	}
-
-	public void handleShowTags() {
-		showAndFocus(ViewName.TAGS);
-	}
-
-	public void handleShowTagLinks() {
-		showAndFocus(ViewName.TAGLINKS);
-	}
-
-	public void handleShowItems() {
-		showAndFocus(ViewName.ITEMS);
-	}
-
-	public void handleShowItemLinks() {
-		showAndFocus(ViewName.ITEMLINKS);
-	}
-
-	public void handleShowIdeas() {
-		showAndFocus(ViewName.IDEAS);
-	}
-
-	public void handleShowStrands() {
-		showAndFocus(ViewName.STRANDS);
 	}
 
 	public void handleShowCategories() {
 		showAndFocus(ViewName.CATEGORIES);
 	}
 
+	public void handleShowChapters() {
+		showAndFocus(ViewName.CHAPTERS);
+	}
+
+	public void handleShowChronoView() {// new OK
+		showAndFocus(ViewName.CHRONO);
+	}
+
+	public void handleShowEditor() {
+		mainFrame.showEditor();
+	}
+
 	public void handleShowGenders() {
 		showAndFocus(ViewName.GENDERS);
 	}
 
-	public void handleShowPersons() {
-		showAndFocus(ViewName.PERSONS);
+	public void handleShowIdeas() {
+		showAndFocus(ViewName.IDEAS);
+	}
+
+	public void handleShowInfo() {
+		showAndFocus(ViewName.INFO);
+	}
+
+	public void handleShowInternals() {
+		showAndFocus(ViewName.INTERNALS);
+	}
+
+	public void handleShowItemLinks() {
+		showAndFocus(ViewName.ITEMLINKS);
+	}
+
+	public void handleShowItems() {
+		showAndFocus(ViewName.ITEMS);
 	}
 
 	public void handleShowLocations() {
 		showAndFocus(ViewName.LOCATIONS);
 	}
 
-	public void handleShowChapters() {
-		showAndFocus(ViewName.CHAPTERS);
+	public void handleShowManageView() {// new OK
+		showAndFocus(ViewName.MANAGE);
+	}
+
+	public void handleShowMemo() {
+		showAndFocus(ViewName.MEMOS);
+	}
+
+	public void handleShowMemoria() {
+		showAndFocus(ViewName.MEMORIA);
+	}
+
+	public void handleShowNavigation() {
+		showAndFocus(ViewName.NAVIGATION);
 	}
 
 	public void handleShowParts() {
 		showAndFocus(ViewName.PARTS);
+	}
+
+	public void handleShowPersons() {
+		showAndFocus(ViewName.PERSONS);
+	}
+
+	public void handleShowReadingView() {// new OK
+		showAndFocus(ViewName.READING);
+	}
+
+	public void handleShowScenes() {
+		showAndFocus(ViewName.SCENES);
+	}
+
+	public void handleShowStrands() {
+		showAndFocus(ViewName.STRANDS);
+	}
+
+	public void handleShowTagLinks() {
+		showAndFocus(ViewName.TAGLINKS);
+	}
+
+	public void handleShowTags() {
+		showAndFocus(ViewName.TAGS);
+	}
+
+	public void handleShowTree() {
+		showAndFocus(ViewName.TREE);
+	}
+
+	public void handleText2Html() {
+		int n = SwingUtil.showBetaDialog(mainFrame);
+		if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+			return;
+		}
+		mainFrame.setWaitingCursor();
+		EntityUtil.convertPlainTextToHtml(mainFrame);
+		mainFrame.refresh();
+		mainFrame.setDefaultCursor();
+	}
+
+	public void handleViewStatus(boolean selected) {
 	}
 
 	private void showAndFocus(ViewName viewName) {
@@ -351,89 +406,16 @@ public class ActionHandler {
 		view.restoreFocus();
 	}
 
-	public void handleRecentClear() {
-		SbApp.getInstance().clearRecentFiles();
-	}
-
-	public void handleFileSave() {//new OK
-		WaitDialog dlg = new WaitDialog(mainFrame,I18N.getMsg("msg.file.saving"));
-		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
-		timer.setRepeats(false);
-		timer.start();
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handleFileSaveAs() {
-		SaveAsFileDialog dlg = new SaveAsFileDialog(mainFrame);
-		dlg.setForceDbExtension(false);
-		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
-		SwingUtil.showModalDialog(dlg, mainFrame);
-		if (dlg.isCanceled()) {
-			return;
-		}
-		File outFile = dlg.getFile();
-		File inFile=mainFrame.getDbFile().getFile();
-		mainFrame.close(false);
-		try {
-			FileUtils.copyFile(inFile, outFile);
-		} catch (IOException ioe) {
-			System.err.println("ActionHandler.handleSaveAs() IOex : "+ioe.getMessage());
-		}
-		DbFile dbFile = new DbFile(outFile);
-		SbApp.getInstance().openFile(dbFile);
-	}
-
-	public void handleFileExportBook() {
-		ExportBookFileDialog dlg = new ExportBookFileDialog(mainFrame);
-		SwingUtil.showModalDialog(dlg, mainFrame);
-		if (dlg.isCanceled()) {
-			return;
-		}
-		File outFile = dlg.getFile();
-		String sceneSeparator = dlg.getSceneSeparator();
-	    ODTUtils.createBookFile(mainFrame, outFile, sceneSeparator);
-	}
-
-	public void handleFileRename() {
-		RenameFileDialog dlg = new RenameFileDialog(mainFrame);
-		dlg.setForceDbExtension(false);
-		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
-		SwingUtil.showModalDialog(dlg, mainFrame);
-		if (dlg.isCanceled()) {
-			return;
-		}
-		File outFile = dlg.getFile();
-		SbApp.getInstance().renameFile(mainFrame, outFile);
-	}
-
-	public void handleClose() {
-		mainFrame.close(true);
-	}
-
-	public void handleBookProperties() {//new OK
-		BookPropertiesDialog dlg = new BookPropertiesDialog(mainFrame);
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handlePreferences() {//new OK
-		PreferencesDialog dlg = new PreferencesDialog();
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
-
-	public void handleViewStatus(boolean selected) {
-	}
-
-	/*public void handleCopyBookText() {//new OK
-		BookExporter exp = new BookExporter(mainFrame);
-		exp.setExportForOpenOffice(false);
-		exp.exportToClipboard();
-	}
-
-	public void handleCopyBlurb() {//new OK
-		Internal internal = BookUtil.get(mainFrame,BookKey.BLURB, "");
-		StringSelection selection = new StringSelection(internal.getStringValue() + "\n");
-		Clipboard clbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clbrd.setContents(selection, selection);
-	}*/
+	/*
+	 * public void handleCopyBookText() {//new OK BookExporter exp = new
+	 * BookExporter(mainFrame); exp.setExportForOpenOffice(false);
+	 * exp.exportToClipboard(); }
+	 * 
+	 * public void handleCopyBlurb() {//new OK Internal internal =
+	 * BookUtil.get(mainFrame,BookKey.BLURB, ""); StringSelection selection =
+	 * new StringSelection(internal.getStringValue() + "\n"); Clipboard clbrd =
+	 * Toolkit.getDefaultToolkit().getSystemClipboard();
+	 * clbrd.setContents(selection, selection); }
+	 */
 
 }

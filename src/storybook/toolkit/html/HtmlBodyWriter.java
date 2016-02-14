@@ -40,6 +40,16 @@ public class HtmlBodyWriter extends HTMLWriter {
 		super(writer, doc);
 	}
 
+	@Override
+	protected void endTag(Element elem) throws IOException {
+		if (isBody(elem)) {
+			inBody = false;
+		}
+		if (inBody) {
+			super.endTag(elem);
+		}
+	}
+
 	private boolean isBody(Element elem) {
 		// copied from HTMLWriter.startTag()
 		AttributeSet attr = elem.getAttributes();
@@ -54,23 +64,12 @@ public class HtmlBodyWriter extends HTMLWriter {
 	}
 
 	@Override
-	protected void startTag(Element elem) throws IOException,
-			BadLocationException {
+	protected void startTag(Element elem) throws IOException, BadLocationException {
 		if (inBody) {
 			super.startTag(elem);
 		}
 		if (isBody(elem)) {
 			inBody = true;
-		}
-	}
-
-	@Override
-	protected void endTag(Element elem) throws IOException {
-		if (isBody(elem)) {
-			inBody = false;
-		}
-		if (inBody) {
-			super.endTag(elem);
 		}
 	}
 }

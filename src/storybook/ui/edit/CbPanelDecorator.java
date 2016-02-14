@@ -32,14 +32,14 @@ abstract public class CbPanelDecorator {
 
 	public CbPanelDecorator() {
 	}
-	
-	abstract public void decorateBeforeFirstEntity();
+
+	abstract public void decorateAfterEntity(AbstractEntity entity);
 
 	abstract public void decorateBeforeEntity(AbstractEntity entity);
 
-	abstract public void decorateEntity(JCheckBox cb, AbstractEntity entity);
+	abstract public void decorateBeforeFirstEntity();
 
-	abstract public void decorateAfterEntity(AbstractEntity entity);
+	abstract public void decorateEntity(JCheckBox cb, AbstractEntity entity);
 
 	public CheckBoxPanel getPanel() {
 		return panel;

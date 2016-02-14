@@ -43,8 +43,7 @@ public class ScrollToStrandDateAction implements ActionListener {
 	private Date date;
 	private JLabel lbWarning;
 
-	public ScrollToStrandDateAction(AbstractPanel container, JPanel panel,
-			Strand strand, Date date, JLabel lbWarning) {
+	public ScrollToStrandDateAction(AbstractPanel container, JPanel panel, Strand strand, Date date, JLabel lbWarning) {
 		this.container = container;
 		this.panel = panel;
 		this.strand = strand;

@@ -35,9 +35,7 @@ public class RunAttesoroAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			String cmd = "java -Duser.language=en"
-					+ " -jar lib/attesoro.1.8.01.jar"
-					+ " resources/messages.properties";
+			String cmd = "java -Duser.language=en" + " -jar lib/attesoro.1.8.01.jar" + " resources/messages.properties";
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e1) {
 			e1.printStackTrace();

@@ -26,24 +26,16 @@ import storybook.toolkit.I18N;
  */
 public class TimeStepStateModel extends AbstractStateModel {
 
-	public enum State { MINUTE, HOUR, DAY, MONTH, YEAR };
+	public enum State {
+		MINUTE, HOUR, DAY, MONTH, YEAR
+	};
 
 	public TimeStepStateModel() {
 		super();
-		states.add(new TimeStepState(State.MINUTE.ordinal(),
-				I18N.getMsg("msg.timeevent.combo.MINUTE"),
-				null));
-		states.add(new TimeStepState(State.HOUR.ordinal(),
-				I18N.getMsg("msg.timeevent.combo.HOUR"),
-				null));
-		states.add(new TimeStepState(State.DAY.ordinal(),
-				I18N.getMsg("msg.timeevent.combo.DAY"),
-				null));
-		states.add(new TimeStepState(State.MONTH.ordinal(), 
-				I18N.getMsg("msg.timeevent.combo.MONTH"),
-				null));
-		states.add(new TimeStepState(State.YEAR.ordinal(),
-				I18N.getMsg("msg.timeevent.combo.YEAR"),
-				null));
+		states.add(new TimeStepState(State.MINUTE.ordinal(), I18N.getMsg("msg.timeevent.combo.MINUTE"), null));
+		states.add(new TimeStepState(State.HOUR.ordinal(), I18N.getMsg("msg.timeevent.combo.HOUR"), null));
+		states.add(new TimeStepState(State.DAY.ordinal(), I18N.getMsg("msg.timeevent.combo.DAY"), null));
+		states.add(new TimeStepState(State.MONTH.ordinal(), I18N.getMsg("msg.timeevent.combo.MONTH"), null));
+		states.add(new TimeStepState(State.YEAR.ordinal(), I18N.getMsg("msg.timeevent.combo.YEAR"), null));
 	}
 }

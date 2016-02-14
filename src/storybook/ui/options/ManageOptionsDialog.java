@@ -22,6 +22,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 
 import storybook.SbConstants;
@@ -55,12 +56,9 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 		setZoomMinValue(SbConstants.MIN_MANAGE_ZOOM);
 		setZoomMaxValue(SbConstants.MAX_MANAGE_ZOOM);
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
 			zoomValue = internal.getIntegerValue();
-			internal = BookUtil.get(mainFrame,
-					BookKey.MANAGE_COLUMNS,
-					SbConstants.DEFAULT_MANAGE_COLUMNS);
+			internal = BookUtil.get(mainFrame, BookKey.MANAGE_COLUMNS, SbConstants.DEFAULT_MANAGE_COLUMNS);
 			columns = internal.getIntegerValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,7 +71,7 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 	public void initUi() {
 		// columns
 		JLabel lbColumns = new JLabel(I18N.getMsgColon("msg.common.columns"));
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 20, columns);
+		JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 1, 20, columns);
 		slider.setName(CN_COLUMNS);
 		slider.setMajorTickSpacing(10);
 		slider.setMinorTickSpacing(5);
@@ -93,8 +91,7 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 			JSlider slider = (JSlider) e.getSource();
 			if (!slider.getValueIsAdjusting()) {
 				int val = slider.getValue();
-				BookUtil.store(mainFrame, BookKey.MANAGE_COLUMNS,
-						val);
+				BookUtil.store(mainFrame, BookKey.MANAGE_COLUMNS, val);
 				mainFrame.getBookController().manageSetColumns(val);
 				return;
 			}

@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+
 import storybook.model.hbn.entity.Attribute;
 
-public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implements
-		AttributeDAO {
+public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implements AttributeDAO {
 
 	public AttributeDAOImpl() {
 		super();
@@ -35,32 +35,30 @@ public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implemen
 		super(session);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Attribute> findAll() {
-		Query query = session.createQuery("select from Attribute order by key");
-		List<Attribute> ret = (List<Attribute>) query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findKeys() {
-		Query query = session.createQuery("select distinct key from Attribute order by key");
-		List<String> ret = (List<String>) query.list();
-		return ret;
-	}
-
 	public int deleteOrphans() {
 		try {
-			String sql = "delete from attribute where id in ("
-					+ " select id from attribute as a"
-					+ " left join person_attribute pa on a.id=pa.attribute_ID"
-					+ " where pa.person_id is null" + " )";
+			String sql = "delete from attribute where id in (" + " select id from attribute as a"
+					+ " left join person_attribute pa on a.id=pa.attribute_ID" + " where pa.person_id is null" + " )";
 			Query query = session.createSQLQuery(sql);
 			return query.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Attribute> findAll() {
+		Query query = session.createQuery("select from Attribute order by key");
+		List<Attribute> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findKeys() {
+		Query query = session.createQuery("select distinct key from Attribute order by key");
+		List<String> ret = query.list();
+		return ret;
 	}
 }

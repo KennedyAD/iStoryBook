@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.handler;
 
 import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.CategoryDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
@@ -58,6 +59,6 @@ public class CategoryEntityHandler extends AbstractEntityHandler {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
-		return (Class<T>)Category.class;
+		return (Class<T>) Category.class;
 	}
 }

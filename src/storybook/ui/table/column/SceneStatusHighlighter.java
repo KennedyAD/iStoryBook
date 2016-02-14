@@ -25,6 +25,7 @@ import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
+
 import storybook.toolkit.swing.label.DateLabel;
 import storybook.ui.combo.SceneStateComboModel;
 
@@ -51,8 +52,8 @@ public class SceneStatusHighlighter implements Highlighter {
 		lb.setBackground(bg);
 		Integer val = Integer.parseInt(compAdapter.getValue().toString());
 		SceneStateComboModel model = new SceneStateComboModel();
-//		SceneStatus st = model.findByNumber(val);
-//		lb.setText(st.getName());
+		// SceneStatus st = model.findByNumber(val);
+		// lb.setText(st.getName());
 		return lb;
 	}
 

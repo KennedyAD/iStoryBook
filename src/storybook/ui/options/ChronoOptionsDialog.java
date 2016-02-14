@@ -36,8 +36,7 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class ChronoOptionsDialog extends AbstractOptionsDialog implements
-		ItemListener {
+public class ChronoOptionsDialog extends AbstractOptionsDialog implements ItemListener {
 
 	private final String CN_LAYOUT_DIRECTION = "CbLayoutDirection";
 	private final String CN_DATE_DIFFERENCE = "CbDateDifference";
@@ -58,15 +57,12 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements
 		setZoomMinValue(SbConstants.MIN_CHRONO_ZOOM);
 		setZoomMaxValue(SbConstants.MAX_CHRONO_ZOOM);
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
 			zoomValue = internal.getIntegerValue();
-			internal = BookUtil.get(mainFrame,
-					BookKey.CHRONO_LAYOUT_DIRECTION,
+			internal = BookUtil.get(mainFrame, BookKey.CHRONO_LAYOUT_DIRECTION,
 					SbConstants.DEFAULT_CHRONO_LAYOUT_DIRECTION);
 			layoutDirection = internal.getBooleanValue();
-			internal = BookUtil.get(mainFrame,
-					BookKey.CHRONO_SHOW_DATE_DIFFERENCE,
+			internal = BookUtil.get(mainFrame, BookKey.CHRONO_SHOW_DATE_DIFFERENCE,
 					SbConstants.DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE);
 			showDateDifference = internal.getBooleanValue();
 		} catch (Exception e) {
@@ -80,13 +76,11 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements
 	@Override
 	public void initUi() {
 		// layout direction
-		JLabel lbLayoutDirection = new JLabel(
-				I18N.getMsgColon("msg.statusbar.change.layout.direction"));
+		JLabel lbLayoutDirection = new JLabel(I18N.getMsgColon("msg.statusbar.change.layout.direction"));
 		JCheckBox cbLayoutDirection = new JCheckBox();
 		cbLayoutDirection.setName(CN_LAYOUT_DIRECTION);
 		cbLayoutDirection.addItemListener(this);
-		cbLayoutDirection
-				.setText(I18N.getMsg("msg.common.horizontal.vertical"));
+		cbLayoutDirection.setText(I18N.getMsg("msg.common.horizontal.vertical"));
 		cbLayoutDirection.setOpaque(false);
 		cbLayoutDirection.setSelected(layoutDirection);
 
@@ -107,29 +101,26 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements
 	}
 
 	@Override
-	protected void zoom(int val) {
-		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);
-		mainFrame.getBookController().chronoSetZoom(val);
-	}
-
-	@Override
 	public void itemStateChanged(ItemEvent e) {
 		JCheckBox cb = (JCheckBox) e.getSource();
 		boolean val = cb.isSelected();
 
 		if (cb.getName().equals(CN_LAYOUT_DIRECTION)) {
 			mainFrame.getBookController().chronoSetLayoutDirection(val);
-			BookUtil.store(mainFrame, BookKey.CHRONO_LAYOUT_DIRECTION,
-					val);
+			BookUtil.store(mainFrame, BookKey.CHRONO_LAYOUT_DIRECTION, val);
 			return;
 		}
 
 		if (cb.getName().equals(CN_DATE_DIFFERENCE)) {
-			mainFrame.getBookController().chronoSetShowDateDifference(
-					cb.isSelected());
-			BookUtil.store(mainFrame,
-					BookKey.CHRONO_SHOW_DATE_DIFFERENCE, val);
+			mainFrame.getBookController().chronoSetShowDateDifference(cb.isSelected());
+			BookUtil.store(mainFrame, BookKey.CHRONO_SHOW_DATE_DIFFERENCE, val);
 			return;
 		}
+	}
+
+	@Override
+	protected void zoom(int val) {
+		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);
+		mainFrame.getBookController().chronoSetZoom(val);
 	}
 }

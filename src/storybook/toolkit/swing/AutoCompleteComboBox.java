@@ -25,9 +25,9 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.ui.panel.AbstractPanel;
 
 /**
@@ -54,9 +54,17 @@ public class AutoCompleteComboBox extends AbstractPanel {
 		initAll();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		// not used
+	public AbstractAction getClearAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				combo.setSelectedItem("");
+			}
+		};
+	}
+
+	public JComboBox getJComboBox() {
+		return combo;
 	}
 
 	@Override
@@ -87,16 +95,8 @@ public class AutoCompleteComboBox extends AbstractPanel {
 		}
 	}
 
-	public AbstractAction getClearAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				combo.setSelectedItem("");
-			}
-		};
-	}
-
-	public JComboBox getJComboBox() {
-		return combo;
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		// not used
 	}
 }

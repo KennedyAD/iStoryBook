@@ -46,11 +46,10 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ViewName;
 import storybook.action.EditEntityAction;
 import storybook.controller.BookController;
@@ -133,69 +132,61 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		super(mainFrame);
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		Object oldValue = evt.getOldValue();
-		Object newValue = evt.getNewValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.CommonProps.REFRESH.check(propName)) {
-			View newView = (View) newValue;
-			View view = (View) getParent().getParent();
-			if (view == newView) {
-				refreshTree();
-			}
-			return;
-		}
-
-		if (BookController.CommonProps.SHOW_INFO.check(propName)) {
-			return;
-		}
-
-		if (newValue instanceof AbstractEntity) {
-			boolean ret = refreshNode((AbstractEntity) newValue,
-					(AbstractEntity) oldValue);
-			if (!ret) {
-				refreshTree();
-			}
-			return;
-		}
-		if (oldValue instanceof AbstractEntity) {
-			refreshTree();
-//			return;
-		}
+	private void changeTreeNode(TreeNode node) {
+		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+		model.nodeChanged(node);
 	}
 
-	private boolean refreshNode(AbstractEntity updEntity,AbstractEntity oldEntity) {
-		TreePath[] paths = getPaths(tree, false);
-		for (TreePath path : paths) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-			if (node.isLeaf()) {
-				Object o = node.getUserObject();
-				if (o instanceof AbstractEntity) {
-					AbstractEntity entity = (AbstractEntity) o;
-					if (entity.getId().equals(updEntity.getId())) {
-						if (EntityUtil.hasHierarchyChanged(oldEntity, updEntity)) {
-							return false;
-						}
-						changeTreeNode(node);
-						return true;
+	private DefaultMutableTreeNode createPartNode(Map<Part, DefaultMutableTreeNode> partMap, Part part,
+			DefaultMutableTreeNode root) {
+		DefaultMutableTreeNode node = partMap.get(part);
+		if (node == null) {
+			DefaultMutableTreeNode supernode = root;
+			if (part.hasSuperpart()) {
+				Part superPart = part.getSuperpart();
+				supernode = createPartNode(partMap, superPart, root);
+			}
+			node = new DefaultMutableTreeNode(part);
+			supernode.add(node);
+			partMap.put(part, node);
+		}
+		return node;
+	}
+
+	private AbstractAction getCollapseAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				DefaultMutableTreeNode currentNode = topNode.getNextNode();
+				do {
+					if (currentNode.getLevel() == 1) {
+						tree.collapsePath(new TreePath(currentNode.getPath()));
 					}
+					currentNode = currentNode.getNextNode();
+				} while (currentNode != null);
+			}
+		};
+	}
+
+	private AbstractAction getExpandAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (int i = 0; i < tree.getRowCount(); i++) {
+					tree.expandRow(i);
 				}
 			}
-		}
-		return false;
+		};
 	}
 
 	public TreePath[] getPaths(JTree tree, boolean expanded) {
 		TreeNode root = (TreeNode) tree.getModel().getRoot();
 		List<Object> list = new ArrayList<>();
 		getPaths(tree, new TreePath(root), expanded, list);
-		return (TreePath[]) list.toArray(new TreePath[list.size()]);
+		return list.toArray(new TreePath[list.size()]);
 	}
 
-	public void getPaths(JTree tree, TreePath parent, boolean expanded,
-			List<Object> list) {
+	public void getPaths(JTree tree, TreePath parent, boolean expanded, List<Object> list) {
 		if (expanded && !tree.isVisible(parent)) {
 			return;
 		}
@@ -210,8 +201,153 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	private DefaultMutableTreeNode getPersonsByCategoryNodeOwner(Map<Category, DefaultMutableTreeNode> categoryMap,
+			Category category) {
+		DefaultMutableTreeNode categoryNode = categoryMap.get(category);
+		if (categoryNode == null) {
+			categoryNode = new DefaultMutableTreeNode(category);
+			DefaultMutableTreeNode supCategoryNode = personsByCategoryNode;
+			Category supCategory = category.getSup();
+			if (supCategory != null) {
+				supCategoryNode = categoryMap.get(supCategory);
+				if (supCategoryNode == null) {
+					supCategoryNode = getPersonsByCategoryNodeOwner(categoryMap, supCategory);
+				}
+			}
+			supCategoryNode.add(categoryNode);
+			categoryMap.put(category, categoryNode);
+		}
+		return categoryNode;
+	}
+
+	private AbstractAction getShowAllAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (ToggleIconButton button : toggleButtonList) {
+					button.setSelected(true);
+				}
+				refreshTree();
+			}
+		};
+	}
+
+	private AbstractAction getShowNoneAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (ToggleIconButton button : toggleButtonList) {
+					button.setSelected(false);
+				}
+				refreshTree();
+			}
+		};
+	}
+
+	private AbstractAction getToggleIdeaAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleIdeas);
+			}
+		};
+	}
+
+	private AbstractAction getToggleItemsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleItems);
+			}
+		};
+	}
+
+	private AbstractAction getToggleLocationsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleLocations);
+			}
+		};
+	}
+
+	private AbstractAction getTogglePartsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleParts);
+			}
+		};
+	}
+
+	private AbstractAction getTogglePersonsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btTooglePersons);
+			}
+		};
+	}
+
+	private AbstractAction getToggleScenesAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleScenes);
+			}
+		};
+	}
+
+	private AbstractAction getToggleStrandsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleStrands);
+			}
+		};
+	}
+
+	private AbstractAction getToggleTagsAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toggleSingle(btToogleTags);
+			}
+		};
+	}
+
 	@Override
 	public void init() {
+	}
+
+	private void initToolbar() {
+		if (toolbar != null) {
+			return;
+		}
+		toolbar = new JToolBar();
+		MigLayout layout = new MigLayout("ins 0,gapx 2", "[][][][][][][][]push[][][][]", "");
+		toolbar.setLayout(layout);
+		toolbar.setFloatable(false);
+
+		// toggle buttons
+		for (ToggleIconButton button : toggleButtonList) {
+			button.setSize22x22();
+			toolbar.add(button);
+		}
+
+		// tree control buttons
+		IconButton btShowAll = new IconButton("icon.small.all", "msg.tree.show.all", getShowAllAction());
+		btShowAll.setControlButton();
+		toolbar.add(btShowAll, "top,gap push");
+		IconButton btShowNone = new IconButton("icon.small.none", "msg.tree.show.none", getShowNoneAction());
+		btShowNone.setControlButton();
+		toolbar.add(btShowNone, "top");
+		IconButton btExpand = new IconButton("icon.small.expand", "msg.tree.expand.all", getExpandAction());
+		btExpand.setControlButton();
+		toolbar.add(btExpand, "top");
+		IconButton btCollapse = new IconButton("icon.small.collapse", "msg.tree.collapse.all", getCollapseAction());
+		btCollapse.setControlButton();
+		toolbar.add(btCollapse, "top");
 	}
 
 	@Override
@@ -221,11 +357,13 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 
 		toggleButtonList = new ArrayList<>();
 
-		btTooglePersons = new ToggleIconButton("icon.small.person", "msg.tree.show.characters", getTogglePersonsAction());
+		btTooglePersons = new ToggleIconButton("icon.small.person", "msg.tree.show.characters",
+				getTogglePersonsAction());
 		btTooglePersons.setSelected(true);
 		toggleButtonList.add(btTooglePersons);
 
-		btToogleLocations = new ToggleIconButton("icon.small.location", "msg.tree.show.locations", getToggleLocationsAction());
+		btToogleLocations = new ToggleIconButton("icon.small.location", "msg.tree.show.locations",
+				getToggleLocationsAction());
 		btToogleLocations.setSelected(true);
 		toggleButtonList.add(btToogleLocations);
 
@@ -250,7 +388,6 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 
 		btToogleParts = new ToggleIconButton("icon.small.part", "msg.tree.show.parts", getTogglePartsAction());
 		toggleButtonList.add(btToogleParts);
-
 
 		for (ToggleIconButton button : toggleButtonList) {
 			button.addMouseListener(new MouseAdapter() {
@@ -283,34 +420,339 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		tree.addMouseListener(this);
 	}
 
-	private void initToolbar() {
-		if (toolbar != null) {
+	private DefaultMutableTreeNode insertLocation(Location location, DefaultMutableTreeNode cityNode,
+			Map<Location, DefaultMutableTreeNode> sites) {
+		// already inserted
+		if (sites.get(location) != null)
+			return sites.get(location);
+
+		DefaultMutableTreeNode locationNode = new DefaultMutableTreeNode(location);
+		if (location.hasSite()) {
+			DefaultMutableTreeNode siteNode = sites.get(location.getSite());
+			if (siteNode == null) {
+				siteNode = insertLocation(location.getSite(), cityNode, sites);
+			}
+			siteNode.add(locationNode);
+		} else {
+			cityNode.add(locationNode);
+		}
+		sites.put(location, locationNode);
+		return locationNode;
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		Object oldValue = evt.getOldValue();
+		Object newValue = evt.getNewValue();
+		String propName = evt.getPropertyName();
+
+		if (BookController.CommonProps.REFRESH.check(propName)) {
+			View newView = (View) newValue;
+			View view = (View) getParent().getParent();
+			if (view == newView) {
+				refreshTree();
+			}
 			return;
 		}
-		toolbar = new JToolBar();
-		MigLayout layout = new MigLayout("ins 0,gapx 2", "[][][][][][][][]push[][][][]", "");
-		toolbar.setLayout(layout);
-		toolbar.setFloatable(false);
 
-		// toggle buttons
-		for (ToggleIconButton button : toggleButtonList) {
-			button.setSize22x22();
-			toolbar.add(button);
+		if (BookController.CommonProps.SHOW_INFO.check(propName)) {
+			return;
 		}
 
-		// tree control buttons
-		IconButton btShowAll = new IconButton("icon.small.all", "msg.tree.show.all", getShowAllAction());
-		btShowAll.setControlButton();
-		toolbar.add(btShowAll, "top,gap push");
-		IconButton btShowNone = new IconButton("icon.small.none", "msg.tree.show.none", getShowNoneAction());
-		btShowNone.setControlButton();
-		toolbar.add(btShowNone, "top");
-		IconButton btExpand = new IconButton("icon.small.expand", "msg.tree.expand.all", getExpandAction());
-		btExpand.setControlButton();
-		toolbar.add(btExpand, "top");
-		IconButton btCollapse = new IconButton("icon.small.collapse", "msg.tree.collapse.all", getCollapseAction());
-		btCollapse.setControlButton();
-		toolbar.add(btCollapse, "top");
+		if (newValue instanceof AbstractEntity) {
+			boolean ret = refreshNode((AbstractEntity) newValue, (AbstractEntity) oldValue);
+			if (!ret) {
+				refreshTree();
+			}
+			return;
+		}
+		if (oldValue instanceof AbstractEntity) {
+			refreshTree();
+			// return;
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent evt) {
+		// see also valueChanged()
+		if (evt.getClickCount() != 2) {
+			return;
+		}
+
+		// double click
+		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
+		DefaultMutableTreeNode selectedNode = null;
+		try {
+			selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+		} catch (Exception ex) {
+			// ignore
+		}
+		if (selectedNode == null) {
+			return;
+		}
+		// tree.setSelectionPath(selectedPath);
+		if (selectedNode.isLeaf()) {
+			Object value = selectedNode.getUserObject();
+			if (value instanceof AbstractEntity) {
+				AbstractEntity entity = (AbstractEntity) value;
+				EditEntityAction act = new EditEntityAction(mainFrame, entity, false);
+				act.actionPerformed(null);
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			showPopupMenu(e);
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (e.isPopupTrigger()) {
+			showPopupMenu(e);
+		}
+	}
+
+	private void refreshIdeas() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		IdeaDAOImpl dao = new IdeaDAOImpl(session);
+		IdeaStateModel stateModel = new IdeaStateModel();
+		for (AbstractState state : stateModel.getStates()) {
+			DefaultMutableTreeNode stateNode = new DefaultMutableTreeNode(state.getName());
+			ideasNode.add(stateNode);
+			List<Idea> ideas = dao.findByStatus(state.getNumber());
+			for (Idea idea : ideas) {
+				DefaultMutableTreeNode node = new DefaultMutableTreeNode(idea);
+				stateNode.add(node);
+			}
+		}
+		model.commit();
+	}
+
+	private void refreshItems() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		ItemDAOImpl itemDao = new ItemDAOImpl(session);
+		ItemLinkDAOImpl itemLinkDao = new ItemLinkDAOImpl(session);
+		List<String> categories = itemDao.findCategories();
+		for (String category : categories) {
+			String categoryName = category;
+			if (category == null || category.isEmpty()) {
+				categoryName = "-";
+			}
+			ItemCategory cat = new ItemCategory(categoryName);
+			DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(cat);
+			itemsNode.add(categoryNode);
+			List<Item> items = itemDao.findByCategory(category);
+			for (Item item : items) {
+				DefaultMutableTreeNode itemNode = new DefaultMutableTreeNode(item);
+				categoryNode.add(itemNode);
+				List<ItemLink> links = itemLinkDao.findByItem(item);
+				for (ItemLink link : links) {
+					DefaultMutableTreeNode linkNode = new DefaultMutableTreeNode(link);
+					itemNode.add(linkNode);
+				}
+			}
+		}
+		model.commit();
+	}
+
+	private void refreshLocations() {
+		Map<Location, DefaultMutableTreeNode> sites = new HashMap<Location, DefaultMutableTreeNode>();
+		Map<String, DefaultMutableTreeNode> nodes = new HashMap<String, DefaultMutableTreeNode>();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		LocationDAOImpl locationDao = new LocationDAOImpl(session);
+		List<String> countries = locationDao.findCountries();
+		for (String country : countries) {
+			DefaultMutableTreeNode countryNode = locationsNode;
+			if ((country != null && (!country.isEmpty()))) {
+				if (nodes.get(country) != null) {
+					countryNode = nodes.get(country);
+				} else {
+					CountryCategory cat1 = new CountryCategory(country);
+					countryNode = new DefaultMutableTreeNode(cat1);
+					locationsNode.add(countryNode);
+					nodes.put(country, countryNode);
+				}
+			}
+			List<String> cities = locationDao.findCitiesByCountry(country);
+			for (String city : cities) {
+				DefaultMutableTreeNode cityNode = countryNode;
+				if (city != null && (!city.isEmpty())) {
+					if (nodes.get(city) != null) {
+						cityNode = nodes.get(city);
+					} else {
+						CityCategory cat2 = new CityCategory(city);
+						cityNode = new DefaultMutableTreeNode(cat2);
+						countryNode.add(cityNode);
+						nodes.put(city, cityNode);
+					}
+				}
+				List<Location> locations = locationDao.findByCountryCity(country, city);
+				for (Location location : locations) {
+					DefaultMutableTreeNode node = insertLocation(location, cityNode, sites);
+					nodes.put(location.getName(), node);
+				}
+			}
+		}
+		model.commit();
+	}
+
+	private boolean refreshNode(AbstractEntity updEntity, AbstractEntity oldEntity) {
+		TreePath[] paths = getPaths(tree, false);
+		for (TreePath path : paths) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+			if (node.isLeaf()) {
+				Object o = node.getUserObject();
+				if (o instanceof AbstractEntity) {
+					AbstractEntity entity = (AbstractEntity) o;
+					if (entity.getId().equals(updEntity.getId())) {
+						if (EntityUtil.hasHierarchyChanged(oldEntity, updEntity)) {
+							return false;
+						}
+						changeTreeNode(node);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private void refreshParts() {
+		Map<Part, DefaultMutableTreeNode> partMap = new HashMap<Part, DefaultMutableTreeNode>();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Part> parts = dao.findAll();
+		for (Part part : parts) {
+			createPartNode(partMap, part, partsNode);
+		}
+		model.commit();
+	}
+
+	private void refreshPersonsByCategory() {
+		Map<Category, DefaultMutableTreeNode> categoryMap = new HashMap<Category, DefaultMutableTreeNode>();
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		CategoryDAOImpl categroyDao = new CategoryDAOImpl(session);
+		List<Category> categories = categroyDao.findAll();
+		PersonDAOImpl personDao = new PersonDAOImpl(session);
+		for (Category category : categories) {
+			getPersonsByCategoryNodeOwner(categoryMap, category);
+		}
+		for (Category category : categories) {
+			DefaultMutableTreeNode categoryNode = categoryMap.get(category);
+			List<Person> persons = personDao.findByCategory(category);
+			for (Person person : persons) {
+				DefaultMutableTreeNode personNode = new DefaultMutableTreeNode(person);
+				categoryNode.add(personNode);
+			}
+		}
+		model.commit();
+	}
+
+	private void refreshPersonsByGender() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		GenderDAOImpl genderDao = new GenderDAOImpl(session);
+		List<Gender> genders = genderDao.findAll();
+		for (Gender gender : genders) {
+			DefaultMutableTreeNode genderNode = new DefaultMutableTreeNode(gender);
+			personsByGendersNode.add(genderNode);
+			List<Person> persons = genderDao.findPersons(gender);
+			for (Person person : persons) {
+				DefaultMutableTreeNode personNode = new DefaultMutableTreeNode(person);
+				genderNode.add(personNode);
+			}
+		}
+		model.commit();
+	}
+
+	private void refreshScenes() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+
+		ChapterDAOImpl chapterDao = new ChapterDAOImpl(session);
+
+		// unassigned scenes
+		DefaultMutableTreeNode unassignedNode = new DefaultMutableTreeNode(new Chapter());
+		scenesNode.add(unassignedNode);
+		List<Scene> unassignedScenes = chapterDao.findUnassignedScenes();
+		for (Scene scene : unassignedScenes) {
+			DefaultMutableTreeNode sceneNode = new DefaultMutableTreeNode(scene);
+			unassignedNode.add(sceneNode);
+		}
+
+		Map<Part, DefaultMutableTreeNode> partMap = new HashMap<Part, DefaultMutableTreeNode>();
+		PartDAOImpl partDao = new PartDAOImpl(session);
+		List<Part> parts = partDao.findAll();
+		for (Part part : parts) {
+			DefaultMutableTreeNode partNode = createPartNode(partMap, part, scenesNode);
+			List<Chapter> chapters = partDao.findChapters(part);
+			for (Chapter chapter : chapters) {
+				DefaultMutableTreeNode chapterNode = new DefaultMutableTreeNode(chapter);
+				partNode.add(chapterNode);
+				List<Scene> scenes = chapterDao.findScenes(chapter);
+				for (Scene scene : scenes) {
+					DefaultMutableTreeNode sceneNode = new DefaultMutableTreeNode(scene);
+					chapterNode.add(sceneNode);
+				}
+			}
+		}
+		model.commit();
+	}
+
+	private void refreshStrands() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		List<Strand> strands = dao.findAll();
+		for (Strand strand : strands) {
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode(strand);
+			strandsNode.add(node);
+		}
+		model.commit();
+	}
+
+	private void refreshTags() {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		TagDAOImpl tagDao = new TagDAOImpl(session);
+		TagLinkDAOImpl tagLinkDao = new TagLinkDAOImpl(session);
+		List<String> categories = tagDao.findCategories();
+		for (String category : categories) {
+			String categoryName = category;
+			if (category == null || category.isEmpty()) {
+				categoryName = "-";
+			}
+			TagCategory cat = new TagCategory(categoryName);
+			DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(cat);
+			tagsNode.add(categoryNode);
+			List<Tag> tags = tagDao.findByCategory(category);
+			for (Tag tag : tags) {
+				DefaultMutableTreeNode tagNode = new DefaultMutableTreeNode(tag);
+				categoryNode.add(tagNode);
+				List<TagLink> links = tagLinkDao.findByTag(tag);
+				for (TagLink link : links) {
+					DefaultMutableTreeNode linkNode = new DefaultMutableTreeNode(link);
+					tagNode.add(linkNode);
+				}
+			}
+		}
+		model.commit();
 	}
 
 	private void refreshTree() {
@@ -364,281 +806,62 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		TreeUtil.restoreExpanstionState(tree, 0, treeState);
 	}
 
-	private void changeTreeNode(TreeNode node) {
-		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-		model.nodeChanged(node);
-	}
-
 	private void reloadTreeModel() {
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		model.reload();
 	}
 
-	private void refreshStrands() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		List<Strand> strands = dao.findAll();
-		for (Strand strand : strands) {
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode(strand);
-			strandsNode.add(node);
+	private void showPopupMenu(MouseEvent evt) {
+		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
+		DefaultMutableTreeNode selectedNode = null;
+		try {
+			selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+		} catch (Exception e) {
+			// ignore
 		}
-		model.commit();
+		if (selectedNode == null) {
+			return;
+		}
+		Object userObj = selectedNode.getUserObject();
+		if (!(userObj instanceof AbstractEntity || userObj instanceof AbstractStringCategory)) {
+			return;
+		}
+		JPopupMenu menu = null;
+		if (userObj instanceof AbstractStringCategory) {
+			AbstractStringCategory cat = (AbstractStringCategory) userObj;
+			menu = StringCategoryUtil.createPopupMenu(mainFrame, cat);
+		}
+		if (userObj instanceof AbstractEntity) {
+			AbstractEntity entity = (AbstractEntity) userObj;
+			menu = EntityUtil.createPopupMenu(mainFrame, entity);
+		}
+		if (menu == null) {
+			return;
+		}
+		tree.setSelectionPath(selectedPath);
+		JComponent comp = (JComponent) tree.getComponentAt(evt.getPoint());
+		Point p = SwingUtilities.convertPoint(comp, evt.getPoint(), this);
+		menu.show(this, p.x, p.y);
+		evt.consume();
 	}
 
-	private void refreshParts() {
-		Map<Part, DefaultMutableTreeNode> partMap = new HashMap<Part, DefaultMutableTreeNode>();
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		List<Part> parts = dao.findAll();
-		for (Part part : parts) {
-			createPartNode(partMap, part, partsNode);
-		}
-		model.commit();
-	}
-	
-	private DefaultMutableTreeNode createPartNode(Map<Part, DefaultMutableTreeNode> partMap, Part part, DefaultMutableTreeNode root) {
-		DefaultMutableTreeNode node = partMap.get(part);
-		if (node == null) {
-			DefaultMutableTreeNode supernode = root;
-			if (part.hasSuperpart())
-			{
-			   Part superPart = part.getSuperpart();
-			   supernode = createPartNode(partMap, superPart, root);
+	private void toggle(ToggleIconButton button) {
+		int count = 0;
+		for (ToggleIconButton bt : toggleButtonList) {
+			if (bt.isSelected()) {
+				++count;
 			}
-			node = new DefaultMutableTreeNode(part);
-			supernode.add(node);
-			partMap.put(part, node);
 		}
-		return node;
+		refreshTree();
+		if (count == 1) {
+			getExpandAction().actionPerformed(null);
+		}
+		button.requestFocus();
 	}
 
-	private void refreshIdeas() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		IdeaDAOImpl dao = new IdeaDAOImpl(session);
-		IdeaStateModel stateModel = new IdeaStateModel();
-		for (AbstractState state : stateModel.getStates()) {
-			DefaultMutableTreeNode stateNode = new DefaultMutableTreeNode(state.getName());
-			ideasNode.add(stateNode);
-			List<Idea> ideas = dao.findByStatus(state.getNumber());
-			for (Idea idea : ideas) {
-				DefaultMutableTreeNode node = new DefaultMutableTreeNode(idea);
-				stateNode.add(node);
-			}
-		}
-		model.commit();
-	}
-
-	private void refreshPersonsByCategory() {
-		Map<Category, DefaultMutableTreeNode> categoryMap = new HashMap<Category, DefaultMutableTreeNode>();
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		CategoryDAOImpl categroyDao = new CategoryDAOImpl(session);
-		List<Category> categories = categroyDao.findAll();
-		PersonDAOImpl personDao = new PersonDAOImpl(session);
-		for (Category category : categories) {
-			getPersonsByCategoryNodeOwner(categoryMap, category);
-		}
-		for (Category category : categories) {
-			DefaultMutableTreeNode categoryNode = categoryMap.get(category);
-			List<Person> persons = personDao.findByCategory(category);
-			for (Person person : persons) {
-				DefaultMutableTreeNode personNode = new DefaultMutableTreeNode(person);
-				categoryNode.add(personNode);
-			}
-		}
-		model.commit();
-	}
-		
-	private DefaultMutableTreeNode getPersonsByCategoryNodeOwner(
-			Map<Category, DefaultMutableTreeNode> categoryMap, Category category) {
-		DefaultMutableTreeNode categoryNode = categoryMap.get(category);
-		if ( categoryNode == null ) {
-			categoryNode = new DefaultMutableTreeNode(category);
-			DefaultMutableTreeNode supCategoryNode = personsByCategoryNode;
-			Category supCategory = category.getSup();
-			if (supCategory != null) {
-			    supCategoryNode = categoryMap.get(supCategory);
-			    if (supCategoryNode == null) {
-				   supCategoryNode = getPersonsByCategoryNodeOwner(categoryMap, supCategory);
-			    }
-			}
-			supCategoryNode.add(categoryNode);
-		    categoryMap.put(category, categoryNode);
-		}
-		return categoryNode;
-	}
-
-	private void refreshPersonsByGender() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		GenderDAOImpl genderDao = new GenderDAOImpl(session);
-		List<Gender> genders = genderDao.findAll();
-		for (Gender gender : genders) {
-			DefaultMutableTreeNode genderNode = new DefaultMutableTreeNode(gender);
-			personsByGendersNode.add(genderNode);
-			List<Person> persons = genderDao.findPersons(gender);
-			for (Person person : persons) {
-				DefaultMutableTreeNode personNode = new DefaultMutableTreeNode(person);
-				genderNode.add(personNode);
-			}
-		}
-		model.commit();
-	}
-
-	private void refreshLocations() {
-		Map<Location, DefaultMutableTreeNode> sites = new HashMap<Location, DefaultMutableTreeNode>();
-		Map<String, DefaultMutableTreeNode> nodes = new HashMap<String, DefaultMutableTreeNode>();
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		LocationDAOImpl locationDao = new LocationDAOImpl(session);
-		List<String> countries = locationDao.findCountries();
-		for (String country : countries) {
-			DefaultMutableTreeNode countryNode = locationsNode;
-			if ((country != null && (! country.isEmpty()))) {
-				if (nodes.get(country) != null) {
-					countryNode = nodes.get(country);
-				} else {
-					CountryCategory cat1 = new CountryCategory(country);
-					countryNode = new DefaultMutableTreeNode(cat1);
-					locationsNode.add(countryNode);
-					nodes.put(country, countryNode);
-				}
-			}
-			List<String> cities = locationDao.findCitiesByCountry(country);
-			for (String city : cities) {
-				DefaultMutableTreeNode cityNode = countryNode;
-				if (city != null && (! city.isEmpty())) {
-					if (nodes.get(city) != null) {
-						cityNode = nodes.get(city);
-					} else {
-					    CityCategory cat2 = new CityCategory(city);
-					    cityNode = new DefaultMutableTreeNode(cat2);
-					    countryNode.add(cityNode);
-					    nodes.put(city, cityNode);
-					}
-				}
-				List<Location> locations = locationDao.findByCountryCity(
-						country, city);
-				for (Location location : locations) {					
-					DefaultMutableTreeNode node = insertLocation(location, cityNode, sites);
-					nodes.put(location.getName(), node);
-				}
-			}
-		}
-		model.commit();
-	}
-	
-	private DefaultMutableTreeNode insertLocation(Location location, DefaultMutableTreeNode cityNode,
-			Map<Location, DefaultMutableTreeNode> sites) {
-		// already inserted
-		if (sites.get(location) != null)
-			return sites.get(location);
-		
-		DefaultMutableTreeNode locationNode = new DefaultMutableTreeNode(location);
-		if (location.hasSite()) {
-			DefaultMutableTreeNode siteNode = sites.get(location.getSite());
-			if (siteNode == null) {
-				siteNode = insertLocation(location.getSite(), cityNode, sites);
-			}
-			siteNode.add(locationNode);
-		} else {
-		   cityNode.add(locationNode);
-		}
-		sites.put(location, locationNode);
-		return locationNode;
-	}
-
-	private void refreshScenes() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-
-		ChapterDAOImpl chapterDao = new ChapterDAOImpl(session);
-
-		// unassigned scenes
-		DefaultMutableTreeNode unassignedNode = new DefaultMutableTreeNode(new Chapter());
-		scenesNode.add(unassignedNode);
-		List<Scene> unassignedScenes = chapterDao.findUnassignedScenes();
-		for (Scene scene : unassignedScenes) {
-			DefaultMutableTreeNode sceneNode = new DefaultMutableTreeNode(scene);
-			unassignedNode.add(sceneNode);
-		}
-
-		Map<Part, DefaultMutableTreeNode> partMap = new HashMap<Part, DefaultMutableTreeNode>();
-		PartDAOImpl partDao = new PartDAOImpl(session);
-		List<Part> parts = partDao.findAll();
-		for (Part part : parts) {
-			DefaultMutableTreeNode partNode = createPartNode(partMap, part, scenesNode);
-			List<Chapter> chapters = partDao.findChapters(part);
-			for (Chapter chapter : chapters) {
-				DefaultMutableTreeNode chapterNode = new DefaultMutableTreeNode(chapter);
-				partNode.add(chapterNode);
-				List<Scene> scenes = chapterDao.findScenes(chapter);
-				for (Scene scene : scenes) {
-					DefaultMutableTreeNode sceneNode = new DefaultMutableTreeNode(scene);
-					chapterNode.add(sceneNode);
-				}
-			}
-		}
-		model.commit();
-	}
-
-	private void refreshTags() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		TagDAOImpl tagDao = new TagDAOImpl(session);
-		TagLinkDAOImpl tagLinkDao = new TagLinkDAOImpl(session);
-		List<String> categories = tagDao.findCategories();
-		for (String category : categories) {
-			String categoryName = category;
-			if (category == null || category.isEmpty()) {
-				categoryName = "-";
-			}
-			TagCategory cat = new TagCategory(categoryName);
-			DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(cat);
-			tagsNode.add(categoryNode);
-			List<Tag> tags = tagDao.findByCategory(category);
-			for (Tag tag : tags) {
-				DefaultMutableTreeNode tagNode = new DefaultMutableTreeNode(tag);
-				categoryNode.add(tagNode);
-				List<TagLink> links = tagLinkDao.findByTag(tag);
-				for (TagLink link : links) {
-					DefaultMutableTreeNode linkNode = new DefaultMutableTreeNode(link);
-					tagNode.add(linkNode);
-				}
-			}
-		}
-		model.commit();
-	}
-
-	private void refreshItems() {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		ItemDAOImpl itemDao = new ItemDAOImpl(session);
-		ItemLinkDAOImpl itemLinkDao = new ItemLinkDAOImpl(session);
-		List<String> categories = itemDao.findCategories();
-		for (String category : categories) {
-			String categoryName = category;
-			if (category == null || category.isEmpty()) {
-				categoryName = "-";
-			}
-			ItemCategory cat = new ItemCategory(categoryName);
-			DefaultMutableTreeNode categoryNode = new DefaultMutableTreeNode(cat);
-			itemsNode.add(categoryNode);
-			List<Item> items = itemDao.findByCategory(category);
-			for (Item item : items) {
-				DefaultMutableTreeNode itemNode = new DefaultMutableTreeNode(item);
-				categoryNode.add(itemNode);
-				List<ItemLink> links = itemLinkDao.findByItem(item);
-				for (ItemLink link : links) {
-					DefaultMutableTreeNode linkNode = new DefaultMutableTreeNode(link);
-					itemNode.add(linkNode);
-				}
-			}
-		}
-		model.commit();
+	private void toggleSingle(ToggleIconButton button) {
+		// getShowNoneAction().actionPerformed(null);
+		toggle(button);
 	}
 
 	@Override
@@ -663,233 +886,5 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		AbstractEntity entity = (AbstractEntity) value;
 		BookController ctrl = mainFrame.getBookController();
 		ctrl.showInfo(entity);
-	}
-
-	private AbstractAction getTogglePersonsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btTooglePersons);
-			}
-		};
-	}
-
-	private AbstractAction getToggleLocationsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleLocations);
-			}
-		};
-	}
-
-	private AbstractAction getToggleTagsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleTags);
-			}
-		};
-	}
-
-	private AbstractAction getToggleItemsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleItems);
-			}
-		};
-	}
-
-	private AbstractAction getToggleScenesAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleScenes);
-			}
-		};
-	}
-
-	private AbstractAction getToggleStrandsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleStrands);
-			}
-		};
-	}
-
-	private AbstractAction getTogglePartsAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleParts);
-			}
-		};
-	}
-
-	private AbstractAction getToggleIdeaAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				toggleSingle(btToogleIdeas);
-			}
-		};
-	}
-
-	private void toggleSingle(ToggleIconButton button) {
-		// getShowNoneAction().actionPerformed(null);
-		toggle(button);
-	}
-
-	private void toggle(ToggleIconButton button) {
-		int count = 0;
-		for (ToggleIconButton bt : toggleButtonList) {
-			if (bt.isSelected()) {
-				++count;
-			}
-		}
-		refreshTree();
-		if (count == 1) {
-			getExpandAction().actionPerformed(null);
-		}
-		button.requestFocus();
-	}
-
-	private AbstractAction getShowAllAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				for (ToggleIconButton button : toggleButtonList) {
-					button.setSelected(true);
-				}
-				refreshTree();
-			}
-		};
-	}
-
-	private AbstractAction getShowNoneAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				for (ToggleIconButton button : toggleButtonList) {
-					button.setSelected(false);
-				}
-				refreshTree();
-			}
-		};
-	}
-
-	private AbstractAction getExpandAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				for (int i = 0; i < tree.getRowCount(); i++) {
-					tree.expandRow(i);
-				}
-			}
-		};
-	}
-
-	private AbstractAction getCollapseAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				DefaultMutableTreeNode currentNode = topNode.getNextNode();
-				do {
-					if (currentNode.getLevel() == 1) {
-						tree.collapsePath(new TreePath(currentNode.getPath()));
-					}
-					currentNode = currentNode.getNextNode();
-				} while (currentNode != null);
-			}
-		};
-	}
-
-	private void showPopupMenu(MouseEvent evt) {
-		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
-		DefaultMutableTreeNode selectedNode = null;
-		try {
-			selectedNode = (DefaultMutableTreeNode) selectedPath
-					.getLastPathComponent();
-		} catch (Exception e) {
-			// ignore
-		}
-		if (selectedNode == null) {
-			return;
-		}
-		Object userObj = selectedNode.getUserObject();
-		if (!(userObj instanceof AbstractEntity
-			|| userObj instanceof AbstractStringCategory)) {
-			return;
-		}
-		JPopupMenu menu = null;
-		if (userObj instanceof AbstractStringCategory) {
-			AbstractStringCategory cat = (AbstractStringCategory) userObj;
-			menu = StringCategoryUtil.createPopupMenu(mainFrame, cat);
-		}
-		if (userObj instanceof AbstractEntity) {
-			AbstractEntity entity = (AbstractEntity) userObj;
-			menu = EntityUtil.createPopupMenu(mainFrame, entity);
-		}
-		if (menu == null) {
-			return;
-		}
-		tree.setSelectionPath(selectedPath);
-		JComponent comp = (JComponent) tree.getComponentAt(evt.getPoint());
-		Point p = SwingUtilities.convertPoint(comp, evt.getPoint(), this);
-		menu.show(this, p.x, p.y);
-		evt.consume();
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent evt) {
-		// see also valueChanged()
-		if (evt.getClickCount() != 2) {
-			return;
-		}
-
-		// double click
-		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
-		DefaultMutableTreeNode selectedNode = null;
-		try {
-			selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
-		} catch (Exception ex) {
-			// ignore
-		}
-		if (selectedNode == null) {
-			return;
-		}
-		// tree.setSelectionPath(selectedPath);
-		if (selectedNode.isLeaf()) {
-			Object value = selectedNode.getUserObject();
-			if (value instanceof AbstractEntity) {
-				AbstractEntity entity = (AbstractEntity) value;
-				EditEntityAction act = new EditEntityAction(mainFrame, entity,false);
-				act.actionPerformed(null);
-			}
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			showPopupMenu(e);
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			showPopupMenu(e);
-		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
 	}
 }

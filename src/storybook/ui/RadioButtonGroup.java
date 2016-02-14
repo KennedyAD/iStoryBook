@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+
 import storybook.model.hbn.entity.AbstractEntity;
 
 /**
@@ -41,23 +42,12 @@ public class RadioButtonGroup {
 		groupMap.put(number, new ImmutablePair<String, String>(attr, name));
 	}
 
-	public HashMap<Integer, ImmutablePair<String, String>> getGroupMap() {
-		return groupMap;
+	private String getAttrName(Integer key) {
+		return groupMap.get(key).getLeft();
 	}
 
-	public void removeAttr(AbstractEntity entity, Integer key) {
-		String attrName = getAttrName(key);
-		String methodName = "remove" + WordUtils.capitalize(attrName);
-		Method method;
-		try {
-			method = entity.getClass().getMethod(methodName);
-			method.invoke(entity);
-		} catch (NoSuchMethodException
-			| SecurityException
-			| IllegalAccessException
-			| IllegalArgumentException
-			| InvocationTargetException e) {
-		}
+	public HashMap<Integer, ImmutablePair<String, String>> getGroupMap() {
+		return groupMap;
 	}
 
 	public Boolean hasAttr(AbstractEntity entity, Integer key) {
@@ -68,16 +58,21 @@ public class RadioButtonGroup {
 			method = entity.getClass().getMethod(methodName);
 			Object ret = method.invoke(entity);
 			return (Boolean) ret;
-		} catch (NoSuchMethodException
-			| SecurityException
-			| IllegalAccessException
-			| IllegalArgumentException
-			| InvocationTargetException e) {
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
 		}
 		return null;
 	}
 
-	private String getAttrName(Integer key) {
-		return (String) groupMap.get(key).getLeft();
+	public void removeAttr(AbstractEntity entity, Integer key) {
+		String attrName = getAttrName(key);
+		String methodName = "remove" + WordUtils.capitalize(attrName);
+		Method method;
+		try {
+			method = entity.getClass().getMethod(methodName);
+			method.invoke(entity);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+		}
 	}
 }

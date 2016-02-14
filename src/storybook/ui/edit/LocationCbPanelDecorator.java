@@ -22,6 +22,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import org.apache.commons.lang3.text.WordUtils;
+
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Location;
 
@@ -38,10 +39,7 @@ public class LocationCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
-	public void decorateBeforeFirstEntity() {
-		oldCity = "";
-		oldCountry = "";
-		oldSite = "";
+	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
 	@Override
@@ -58,10 +56,10 @@ public class LocationCbPanelDecorator extends CbPanelDecorator {
 			buf.append("<html>");
 			buf.append("<p style='margin-top:5px'>");
 			if (!site.isEmpty()) {
-			     buf.append("<b>").append(site).append("</b>&nbsp;:&nbsp;");
+				buf.append("<b>").append(site).append("</b>&nbsp;:&nbsp;");
 			}
 			if (!city.isEmpty()) {
-			     buf.append("<b>").append(city).append("</b>");
+				buf.append("<b>").append(city).append("</b>");
 			}
 			if (!country.isEmpty()) {
 				if (!city.isEmpty()) {
@@ -86,14 +84,17 @@ public class LocationCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
+	public void decorateBeforeFirstEntity() {
+		oldCity = "";
+		oldCountry = "";
+		oldSite = "";
+	}
+
+	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		if (!oldCountry.isEmpty() || !oldCity.isEmpty()) {
 			panel.add(new JLabel("<html><p style='margin-left:5px'>&nbsp;"), "split 2");
 		}
 		panel.add(cb);
-	}
-
-	@Override
-	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 }

@@ -37,8 +37,7 @@ public class BooleanTableCellRenderer extends DefaultTableCellRenderer {
 	public void setValue(Object value) {
 		try {
 			if (value != null && value instanceof String) {
-				setText(value.equals("true") ? I18N.getMsg("msg.common.yes")
-						: I18N.getMsg("msg.common.no"));
+				setText(value.equals("true") ? I18N.getMsg("msg.common.yes") : I18N.getMsg("msg.common.no"));
 			} else {
 				setText("");
 			}

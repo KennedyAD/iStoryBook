@@ -85,71 +85,6 @@ public class BookModel extends AbstractModel {
 		super(m);
 	}
 
-	public synchronized void initEntites() {
-		SbApp.trace("BookModel.initEntities()");
-		Session session = beginTransaction();
-
-		// default strand
-		Strand strand = new Strand();
-		strand.setName(I18N.getMsg("db.init.strand.name"));
-		strand.setAbbreviation(I18N.getMsg("db.init.strand.abbr"));
-		strand.setSort(1);
-		strand.setJColor(ColorUtil.getNiceBlue());
-		strand.setNotes("");
-		session.save(strand);
-
-		// default part
-		Part part = new Part(1, I18N.getMsg("db.init.part"), "", null,
-				new Timestamp(new Date().getTime()), null, null);
-		session.save(part);
-
-		// first chapter
-		Chapter chapter = new Chapter();
-		chapter.setPart(part);
-		chapter.setChapterno(1);
-		chapter.setTitle(I18N.getMsg("msg.common.chapter") + " 1");
-		chapter.setDescription("");
-		chapter.setNotes("");
-		chapter.setCreationTime(new Timestamp(new Date().getTime()));
-		chapter.setObjectiveTime(null);
-		chapter.setDoneTime(null);
-		session.save(chapter);
-
-		// first scene
-		Scene scene = EntityUtil.createScene(strand, chapter);
-		session.save(scene);
-
-		// default genders
-		Gender male = new Gender(I18N.getMsg("msg.dlg.person.gender.male"), 12, 6, 47, 14);
-		session.save(male);
-		Gender female = new Gender(I18N.getMsg("msg.dlg.person.gender.female"), 12, 6, 47, 14);
-		session.save(female);
-
-		// default categories
-		Category major = new Category(1, I18N.getMsg("msg.category.central.character"), null);
-		session.save(major);
-		Category minor = new Category(2, I18N.getMsg("msg.category.minor.character"), null);
-		session.save(minor);
-
-		commit();
-	}
-
-	@Override
-	public synchronized void initSession(String dbName) {
-		SbApp.trace("BookModel.initSession("+dbName+")");
-		try {
-			super.initSession(dbName);
-			Session session = beginTransaction();
-			// test queries
-			sessionFactory.query(new PartDAOImpl(session));
-			sessionFactory.query(new ChapterDAOImpl(session));
-			commit();
-			SbApp.trace("test query OK");
-		} catch (Exception e) {
-			SbApp.trace("test query not OK");
-		}
-	}
-
 	@Override
 	public void fireAgain() {
 		SbApp.trace("BookModel.fireAgain()");
@@ -174,7 +109,7 @@ public class BookModel extends AbstractModel {
 	}
 
 	public void fireAgain(SbView view) {
-		SbApp.trace("BookModel.fireAgain("+view.getName()+")");
+		SbApp.trace("BookModel.fireAgain(" + view.getName() + ")");
 		if (ViewName.CHRONO.compare(view)) {
 			fireAgainScenes();
 		} else if (ViewName.BOOK.compare(view)) {
@@ -222,13 +157,13 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
-	private void fireAgainScenes() {
-		SbApp.trace("BookModel.fireAgainScenes()");
+	private void fireAgainCategories() {
+		SbApp.trace("BookModel.fireAgainCategories()");
 		Session session = beginTransaction();
-		SceneDAOImpl dao = new SceneDAOImpl(session);
-		List<Scene> scenes = dao.findAll();
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		List<Category> categories = dao.findAll();
 		commit();
-		firePropertyChange(BookController.SceneProps.INIT.toString(), null, scenes);
+		firePropertyChange(BookController.CategoryProps.INIT.toString(), null, categories);
 	}
 
 	private void fireAgainChapters() {
@@ -240,42 +175,6 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChapterProps.INIT.toString(), null, chapters);
 	}
 
-	private void fireAgainParts() {
-		SbApp.trace("BookModel.fireAgainParts()");
-		Session session = beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		List<Part> parts = dao.findAll();
-		commit();
-		firePropertyChange(BookController.PartProps.INIT.toString(), null, parts);
-	}
-
-	private void fireAgainLocations() {
-		SbApp.trace("BookModel.fireAgainLocations()");
-		Session session = beginTransaction();
-		LocationDAOImpl dao = new LocationDAOImpl(session);
-		List<Location> locations = dao.findAll();
-		commit();
-		firePropertyChange(BookController.LocationProps.INIT.toString(), null, locations);
-	}
-
-	private void fireAgainPersons() {
-		SbApp.trace("BookModel.fireAgainPersons()");
-		Session session = beginTransaction();
-		PersonDAOImpl dao = new PersonDAOImpl(session);
-		List<Person> persons = dao.findAll();
-		commit();
-		firePropertyChange(BookController.PersonProps.INIT.toString(), null, persons);
-	}
-
-	private void fireAgainRelationships() {
-		SbApp.trace("BookModel.fireAgainRelationships()");
-		Session session = beginTransaction();
-		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
-		List<Relationship> relationships = dao.findAll();
-		commit();
-		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
-	}
-
 	private void fireAgainGenders() {
 		SbApp.trace("BookModel.fireAgainGenders()");
 		Session session = beginTransaction();
@@ -283,24 +182,6 @@ public class BookModel extends AbstractModel {
 		List<Gender> genders = dao.findAll();
 		commit();
 		firePropertyChange(BookController.GenderProps.INIT.toString(), null, genders);
-	}
-
-	private void fireAgainCategories() {
-		SbApp.trace("BookModel.fireAgainCategories()");
-		Session session = beginTransaction();
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		List<Category> categories = dao.findAll();
-		commit();
-		firePropertyChange(BookController.CategoryProps.INIT.toString(), null, categories);
-	}
-
-	private void fireAgainStrands() {
-		SbApp.trace("BookModel.fireAgainStrands()");
-		Session session = beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		List<Strand> strands = dao.findAll();
-		commit();
-		firePropertyChange(BookController.StrandProps.INIT.toString(), null, strands);
 	}
 
 	private void fireAgainIdeas() {
@@ -312,40 +193,13 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.IdeaProps.INIT.toString(), null, ideas);
 	}
 
-	private void fireAgainMemos() {
-		SbApp.trace("BookModel.fireAgainMemos()");
+	private void fireAgainInternals() {
+		SbApp.trace("BookModel.fireAgainInternals()");
 		Session session = beginTransaction();
-		MemoDAOImpl dao = new MemoDAOImpl(session);
-		List<Memo> memos = dao.findAll();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		List<Internal> internals = dao.findAll();
 		commit();
-		firePropertyChange(BookController.MemoProps.INIT.toString(), null, memos);
-	}
-
-	private void fireAgainTags() {
-		SbApp.trace("BookModel.fireAgainTags()");
-		Session session = beginTransaction();
-		TagDAOImpl dao = new TagDAOImpl(session);
-		List<Tag> tags = dao.findAll();
-		commit();
-		firePropertyChange(BookController.TagProps.INIT.toString(), null, tags);
-	}
-
-	private void fireAgainItems() {
-		SbApp.trace("BookModel.fireAgainItems()");
-		Session session = beginTransaction();
-		ItemDAOImpl dao = new ItemDAOImpl(session);
-		List<Item> items = dao.findAll();
-		commit();
-		firePropertyChange(BookController.ItemProps.INIT.toString(), null, items);
-	}
-
-	private void fireAgainTagLinks() {
-		SbApp.trace("BookModel.fireAgainTagLinks()");
-		Session session = beginTransaction();
-		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
-		List<TagLink> tagLinks = dao.findAll();
-		commit();
-		firePropertyChange(BookController.TagLinkProps.INIT.toString(), null, tagLinks);
+		firePropertyChange(BookController.InternalProps.INIT.toString(), null, internals);
 	}
 
 	private void fireAgainItemLinks() {
@@ -357,16 +211,97 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.INIT.toString(), null, itemLinks);
 	}
 
-	private void fireAgainInternals() {
-		SbApp.trace("BookModel.fireAgainInternals()");
+	private void fireAgainItems() {
+		SbApp.trace("BookModel.fireAgainItems()");
 		Session session = beginTransaction();
-		InternalDAOImpl dao = new InternalDAOImpl(session);
-		List<Internal> internals = dao.findAll();
+		ItemDAOImpl dao = new ItemDAOImpl(session);
+		List<Item> items = dao.findAll();
 		commit();
-		firePropertyChange(BookController.InternalProps.INIT.toString(), null, internals);
+		firePropertyChange(BookController.ItemProps.INIT.toString(), null, items);
+	}
+
+	private void fireAgainLocations() {
+		SbApp.trace("BookModel.fireAgainLocations()");
+		Session session = beginTransaction();
+		LocationDAOImpl dao = new LocationDAOImpl(session);
+		List<Location> locations = dao.findAll();
+		commit();
+		firePropertyChange(BookController.LocationProps.INIT.toString(), null, locations);
+	}
+
+	private void fireAgainMemos() {
+		SbApp.trace("BookModel.fireAgainMemos()");
+		Session session = beginTransaction();
+		MemoDAOImpl dao = new MemoDAOImpl(session);
+		List<Memo> memos = dao.findAll();
+		commit();
+		firePropertyChange(BookController.MemoProps.INIT.toString(), null, memos);
+	}
+
+	private void fireAgainParts() {
+		SbApp.trace("BookModel.fireAgainParts()");
+		Session session = beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Part> parts = dao.findAll();
+		commit();
+		firePropertyChange(BookController.PartProps.INIT.toString(), null, parts);
+	}
+
+	private void fireAgainPersons() {
+		SbApp.trace("BookModel.fireAgainPersons()");
+		Session session = beginTransaction();
+		PersonDAOImpl dao = new PersonDAOImpl(session);
+		List<Person> persons = dao.findAll();
+		commit();
+		firePropertyChange(BookController.PersonProps.INIT.toString(), null, persons);
 	}
 
 	private void fireAgainPlan() {
+	}
+
+	private void fireAgainRelationships() {
+		SbApp.trace("BookModel.fireAgainRelationships()");
+		Session session = beginTransaction();
+		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
+		List<Relationship> relationships = dao.findAll();
+		commit();
+		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
+	}
+
+	private void fireAgainScenes() {
+		SbApp.trace("BookModel.fireAgainScenes()");
+		Session session = beginTransaction();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		List<Scene> scenes = dao.findAll();
+		commit();
+		firePropertyChange(BookController.SceneProps.INIT.toString(), null, scenes);
+	}
+
+	private void fireAgainStrands() {
+		SbApp.trace("BookModel.fireAgainStrands()");
+		Session session = beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		List<Strand> strands = dao.findAll();
+		commit();
+		firePropertyChange(BookController.StrandProps.INIT.toString(), null, strands);
+	}
+
+	private void fireAgainTagLinks() {
+		SbApp.trace("BookModel.fireAgainTagLinks()");
+		Session session = beginTransaction();
+		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
+		List<TagLink> tagLinks = dao.findAll();
+		commit();
+		firePropertyChange(BookController.TagLinkProps.INIT.toString(), null, tagLinks);
+	}
+
+	private void fireAgainTags() {
+		SbApp.trace("BookModel.fireAgainTags()");
+		Session session = beginTransaction();
+		TagDAOImpl dao = new TagDAOImpl(session);
+		List<Tag> tags = dao.findAll();
+		commit();
+		firePropertyChange(BookController.TagProps.INIT.toString(), null, tags);
 	}
 
 	private void fireAgainTimeEvent() {
@@ -378,155 +313,89 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TimeEventProps.INIT.toString(), null, internals);
 	}
 
+	public synchronized void initEntites() {
+		SbApp.trace("BookModel.initEntities()");
+		Session session = beginTransaction();
 
-	// common
-	public void setRefresh(SbView view) {
-		SbApp.trace("BookModel.setRefresh("+view.getName()+")");
-		firePropertyChange(BookController.CommonProps.REFRESH.toString(), null, view);
+		// default strand
+		Strand strand = new Strand();
+		strand.setName(I18N.getMsg("db.init.strand.name"));
+		strand.setAbbreviation(I18N.getMsg("db.init.strand.abbr"));
+		strand.setSort(1);
+		strand.setJColor(ColorUtil.getNiceBlue());
+		strand.setNotes("");
+		session.save(strand);
+
+		// default part
+		Part part = new Part(1, I18N.getMsg("db.init.part"), "", null, new Timestamp(new Date().getTime()), null, null);
+		session.save(part);
+
+		// first chapter
+		Chapter chapter = new Chapter();
+		chapter.setPart(part);
+		chapter.setChapterno(1);
+		chapter.setTitle(I18N.getMsg("msg.common.chapter") + " 1");
+		chapter.setDescription("");
+		chapter.setNotes("");
+		chapter.setCreationTime(new Timestamp(new Date().getTime()));
+		chapter.setObjectiveTime(null);
+		chapter.setDoneTime(null);
+		session.save(chapter);
+
+		// first scene
+		Scene scene = EntityUtil.createScene(strand, chapter);
+		session.save(scene);
+
+		// default genders
+		Gender male = new Gender(I18N.getMsg("msg.dlg.person.gender.male"), 12, 6, 47, 14);
+		session.save(male);
+		Gender female = new Gender(I18N.getMsg("msg.dlg.person.gender.female"), 12, 6, 47, 14);
+		session.save(female);
+
+		// default categories
+		Category major = new Category(1, I18N.getMsg("msg.category.central.character"), null);
+		session.save(major);
+		Category minor = new Category(2, I18N.getMsg("msg.category.minor.character"), null);
+		session.save(minor);
+
+		commit();
+	}
+
+	@Override
+	public synchronized void initSession(String dbName) {
+		SbApp.trace("BookModel.initSession(" + dbName + ")");
 		try {
-			if (view.getComponentCount() == 0) {
-				return;
-			}
-			Component comp = view.getComponent();
-			if (comp instanceof ChronoPanel || comp instanceof BookPanel
-					|| comp instanceof ManagePanel
-					|| comp instanceof ReadingPanel) {
-				// these views don't need a "fire again"
-				return;
-			}
-			fireAgain(view);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			// ignore
+			super.initSession(dbName);
+			Session session = beginTransaction();
+			// test queries
+			sessionFactory.query(new PartDAOImpl(session));
+			sessionFactory.query(new ChapterDAOImpl(session));
+			commit();
+			SbApp.trace("test query OK");
+		} catch (Exception e) {
+			SbApp.trace("test query not OK");
 		}
 	}
 
-	public void setShowOptions(SbView view) {
-		firePropertyChange(BookController.CommonProps.SHOW_OPTIONS.toString(), null,view);
+	public void setBookHeightFactor(Integer val) {
+		firePropertyChange(BookController.BookViewProps.HEIGHT_FACTOR.toString(), null, val);
 	}
 
-	public void setShowInfo(Scene scene) {
-		setShowInfo((AbstractEntity)scene);
+	public void setBookShowEntity(Chapter chapter) {
+		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, chapter);
 	}
 
-	public void setShowInfo(Chapter chapter) {
-		setShowInfo((AbstractEntity)chapter);
+	public void setBookShowEntity(Scene scene) {
+		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, scene);
 	}
 
-	public void setShowInfo(Part part) {
-		setShowInfo((AbstractEntity)part);
+	// book view
+	public void setBookZoom(Integer val) {
+		firePropertyChange(BookController.BookViewProps.ZOOM.toString(), null, val);
 	}
 
-	public void setShowInfo(Person person) {
-		setShowInfo((AbstractEntity)person);
-	}
-
-	public void setShowInfo(Relationship entity) {
-		setShowInfo((AbstractEntity)entity);
-	}
-
-	public void setShowInfo(Category category) {
-		setShowInfo((AbstractEntity)category);
-	}
-
-	public void setShowInfo(Gender gender) {
-		setShowInfo((AbstractEntity)gender);
-	}
-
-	public void setShowInfo(Location location) {
-		setShowInfo((AbstractEntity)location);
-	}
-
-	public void setShowInfo(Tag tag) {
-		setShowInfo((AbstractEntity)tag);
-	}
-
-	public void setShowInfo(TagLink tagLink) {
-		setShowInfo((AbstractEntity)tagLink);
-	}
-
-	public void setShowInfo(Item item) {
-		setShowInfo((AbstractEntity)item);
-	}
-
-	public void setShowInfo(ItemLink itemLink) {
-		setShowInfo((AbstractEntity)itemLink);
-	}
-
-	public void setShowInfo(Strand strand) {
-		setShowInfo((AbstractEntity) strand);
-	}
-
-	public void setShowInfo(Idea idea) {
-		setShowInfo((AbstractEntity) idea);
-	}
-
-	public void setShowInfo(AbstractEntity entity) {
-		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, entity);
-	}
-
-	public void setShowInfo(TimeEvent event) {
-		setShowInfo((AbstractEntity) event);
-	}
-
-	public void setShowInfo(DbFile dbFile) {
-		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, dbFile);
-	}
-
-	public void setShowMemo(AbstractEntity entity) {
-		firePropertyChange(BookController.CommonProps.SHOW_MEMO.toString(), null, entity);
-	}
-
-	public void setShowInMemoria(Person person) {
-		setShowInMemoria((AbstractEntity) person);
-	}
-
-	public void setShowInMemoria(Relationship p) {
-		setShowInMemoria((AbstractEntity) p);
-	}
-
-	public void setShowInMemoria(Location location) {
-		setShowInMemoria((AbstractEntity) location);
-	}
-
-	public void setShowInMemoria(Scene scene) {
-		setShowInMemoria((AbstractEntity) scene);
-	}
-
-	public void setShowInMemoria(Tag tag) {
-		setShowInMemoria((AbstractEntity) tag);
-	}
-
-	public void setShowInMemoria(Item item) {
-		setShowInMemoria((AbstractEntity) item);
-	}
-
-	public void setShowInMemoria(AbstractEntity entity) {
-		firePropertyChange(BookController.CommonProps.SHOW_IN_MEMORIA.toString(), null, entity);
-	}
-
-	public void setUnloadEditor() {
-		firePropertyChange(BookController.CommonProps.UNLOAD_EDITOR.toString(), null, null);
-	}
-
-	public void setFilterScenes(SceneState state) {
-		firePropertyChange(BookController.SceneProps.FILTER.toString(), null, state);
-	}
-
-	public void setFilterStrand(String strand) {
-		firePropertyChange(BookController.SceneProps.FILTERSTRAND.toString(), null, strand);
-	}
-
-	public void setPrint(SbView view) {
-		firePropertyChange(BookController.CommonProps.PRINT.toString(), null, view);
-	}
-
-	public void setExport(SbView view) {
-		firePropertyChange(BookController.CommonProps.EXPORT.toString(), null, view);
-	}
-
-	// chrono view
-	public void setChronoZoom(Integer val) {
-		firePropertyChange(BookController.ChronoViewProps.ZOOM.toString(), null, val);
+	public synchronized void setChangePart(Part part) {
+		firePropertyChange(BookController.PartProps.CHANGE.toString(), null, part);
 	}
 
 	public void setChronoLayoutDirection(Boolean val) {
@@ -537,84 +406,38 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChronoViewProps.SHOW_DATE_DIFFERENCE.toString(), null, val);
 	}
 
-	public void setChronoShowEntity(Scene scene) {
-		firePropertyChange(BookController.ChronoViewProps.SHOW_ENTITY.toString(), null, scene);
-	}
-
 	public void setChronoShowEntity(Chapter chapter) {
 		firePropertyChange(BookController.ChronoViewProps.SHOW_ENTITY.toString(), null, chapter);
 	}
 
-	// book view
-	public void setBookZoom(Integer val) {
-		firePropertyChange(BookController.BookViewProps.ZOOM.toString(), null, val);
+	public void setChronoShowEntity(Scene scene) {
+		firePropertyChange(BookController.ChronoViewProps.SHOW_ENTITY.toString(), null, scene);
 	}
 
-	public void setBookHeightFactor(Integer val) {
-		firePropertyChange(BookController.BookViewProps.HEIGHT_FACTOR.toString(), null, val);
+	// chrono view
+	public void setChronoZoom(Integer val) {
+		firePropertyChange(BookController.ChronoViewProps.ZOOM.toString(), null, val);
 	}
 
-	public void setBookShowEntity(Scene scene) {
-		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, scene);
-	}
-
-	public void setBookShowEntity(Chapter chapter) {
-		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, chapter);
-	}
-
-	// manage view
-	public void setManageZoom(Integer val) {
-		firePropertyChange(BookController.ManageViewProps.ZOOM.toString(), null, val);
-	}
-
-	public void setManageColumns(Integer val) {
-		firePropertyChange(BookController.ManageViewProps.COLUMNS.toString(), null, val);
-	}
-
-	public void setManageShowEntity(Scene scene) {
-		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, scene);
-	}
-
-	public void setManageShowEntity(Chapter chapter) {
-		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, chapter);
-	}
-
-	// reading view
-	public void setReadingZoom(Integer val) {
-		firePropertyChange(BookController.ReadingViewProps.ZOOM.toString(), null, val);
-	}
-
-	public void setReadingFontSize(Integer val) {
-		firePropertyChange(BookController.ReadingViewProps.FONT_SIZE.toString(), null, val);
-	}
-
-	// memoria view
-	public void setMemoriaBalloon(Boolean val) {
-		firePropertyChange(BookController.MemoriaViewProps.BALLOON.toString(), null, val);
-	}
-
-	// chapter
-	public void setEditChapter(Chapter entity) {
-		//firePropertyChange(BookController.ChapterProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateChapter(Chapter chapter) {
+	public synchronized void setDeleteCategory(Category category) {
+		if (category.getId() == null) {
+			return;
+		}
+		// set category of affected persons to "minor"
 		Session session = beginTransaction();
-		ChapterDAOImpl dao = new ChapterDAOImpl(session);
-		Chapter old = dao.find(chapter.getId());
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		Category minor = dao.findMinor();
+		List<Person> persons = dao.findPersons(category);
 		commit();
+		for (Person person : persons) {
+			person.setCategory(minor);
+			setUpdatePerson(person);
+		}
+		// delete category
 		session = beginTransaction();
-		session.update(chapter);
+		session.delete(category);
 		commit();
-		firePropertyChange(BookController.ChapterProps.UPDATE.toString(), old, chapter);
-	}
-
-	public synchronized void setNewChapter(Chapter chapter) {
-		Session session = beginTransaction();
-		session.save(chapter);
-		commit();
-		firePropertyChange(BookController.ChapterProps.NEW.toString(), null, chapter);
+		firePropertyChange(BookController.CategoryProps.DELETE.toString(), category, null);
 	}
 
 	public synchronized void setDeleteChapter(Chapter chapter) {
@@ -635,304 +458,6 @@ public class BookModel extends AbstractModel {
 		session.delete(chapter);
 		commit();
 		firePropertyChange(BookController.ChapterProps.DELETE.toString(), chapter, null);
-	}
-
-	public synchronized void setDeleteMultiChapters(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			ChapterDAOImpl dao = new ChapterDAOImpl(session);
-			Chapter old = dao.find(id);
-			commit();
-			session = beginTransaction();
-			dao = new ChapterDAOImpl(session);
-			dao.removeById(id);
-			commit();
-			firePropertyChange(BookController.ChapterProps.DELETE.toString(), old, null);
-		}
-	}
-
-	// part
-	public void setEditPart(Part entity) {
-		//firePropertyChange(BookController.PartProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdatePart(Part part) {
-		Session session = beginTransaction();
-		PartDAOImpl dao = new PartDAOImpl(session);
-		Part old = dao.find(part.getId());
-		commit();
-		session = beginTransaction();
-		session.update(part);
-		commit();
-		firePropertyChange(BookController.PartProps.UPDATE.toString(), old, part);
-	}
-
-	public synchronized void setNewPart(Part part) {
-		Session session = beginTransaction();
-		session.save(part);
-		commit();
-		firePropertyChange(BookController.PartProps.NEW.toString(), null, part);
-	}
-
-	public synchronized void setDeletePart(Part part) {
-		if (part.getId() == null) {
-			return;
-		}
-		Session session = beginTransaction();
-		// delete chapters
-		PartDAOImpl dao = new PartDAOImpl(session);
-		List<Chapter> chapters = dao.findChapters(part);
-		commit();
-		for (Chapter chapter : chapters) {
-			setDeleteChapter(chapter);
-		}
-		// delete part
-		session = beginTransaction();
-		session.delete(part);
-		commit();
-		firePropertyChange(BookController.PartProps.DELETE.toString(), part, null);
-	}
-
-	public synchronized void setDeleteMultiParts(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			PartDAOImpl dao = new PartDAOImpl(session);
-			Part old = dao.find(id);
-			commit();
-			setDeletePart(old);
-		}
-	}
-
-	public synchronized void setChangePart(Part part) {
-		firePropertyChange(BookController.PartProps.CHANGE.toString(), null, part);
-	}
-
-	// location
-	public void setEditLocation(Location entity) {
-		//firePropertyChange(BookController.LocationProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateLocation(Location location) {
-		Session session = beginTransaction();
-		LocationDAOImpl dao = new LocationDAOImpl(session);
-		Location old = dao.find(location.getId());
-		commit();
-		session = beginTransaction();
-		session.update(location);
-		commit();
-		firePropertyChange(BookController.LocationProps.UPDATE.toString(), old, location);
-	}
-
-	public synchronized void setNewLocation(Location location) {
-		Session session = beginTransaction();
-		session.save(location);
-		commit();
-		firePropertyChange(BookController.LocationProps.NEW.toString(), null, location);
-	}
-
-	public synchronized void setDeleteLocation(Location location) {
-		if (location.getId() == null) {
-			return;
-		}
-		try {
-			// delete scene links
-			Session session = beginTransaction();
-			SceneDAOImpl dao = new SceneDAOImpl(session);
-			List<Scene> scenes = dao.findByLocationLink(location);
-			for (Scene scene : scenes) {
-				scene.getLocations().remove(location);
-				session.update(scene);
-			}
-			commit();
-			for (Scene scene : scenes) {
-				setUpdateScene(scene);
-			}
-			// delete tag / item links
-			EntityUtil.deleteTagAndItemLinks(this, location);
-			// delete relationship
-			session = beginTransaction();
-			RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
-			List<Relationship> relations = daoR.findByLocationLink(location);
-			commit();
-			for (Relationship relation : relations) {
-				relation.getLocations().remove(location);
-				session.update(relation);
-			}
-			// delete location
-			session = beginTransaction();
-			session.delete(location);
-			commit();
-		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeleteLocation("+location.getName()+")", e);
-		}
-		firePropertyChange(BookController.LocationProps.DELETE.toString(),location, null);
-	}
-
-	public synchronized void setDeleteMultiLocations(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			LocationDAOImpl dao = new LocationDAOImpl(session);
-			Location old = dao.find(id);
-			commit();
-			setDeleteLocation(old);
-		}
-	}
-
-	// person
-	public void setEditPerson(Person entity) {
-		//firePropertyChange(BookController.PersonProps.EDIT.toString(),null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdatePerson(Person person) {
-		Session session = beginTransaction();
-		PersonDAOImpl dao = new PersonDAOImpl(session);
-		Person old = dao.find(person.getId());
-		commit();
-		session = beginTransaction();
-		session.update(person);
-		commit();
-		firePropertyChange(BookController.PersonProps.UPDATE.toString(), old, person);
-	}
-
-	public synchronized void setNewPerson(Person person) {
-		try {
-		Session session = beginTransaction();
-		session.save(person);
-		commit();
-		firePropertyChange(BookController.PersonProps.NEW.toString(), null, person);
-		}
-		catch( Exception e) {
-				e.printStackTrace();
-				throw e;
-		}
-	}
-
-	public synchronized void setDeletePerson(Person person) {
-		if (person.getId() == null) {
-			return;
-		}
-		try {
-			// delete scene links
-			Session session = beginTransaction();
-			SceneDAOImpl dao = new SceneDAOImpl(session);
-			List<Scene> scenes = dao.findByPersonLink(person);
-			for (Scene scene : scenes) {
-				scene.getPersons().remove(person);
-				session.update(scene);
-			}
-			commit();
-			for (Scene scene : scenes) {
-				setUpdateScene(scene);
-			}
-			// delete tag / item links
-			EntityUtil.deleteTagAndItemLinks(this, person);
-			// delete relationship
-			session = beginTransaction();
-			RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
-			List<Relationship> relations = daoR.findByPersonLink(person);
-			commit();
-			for (Relationship relation : relations) {
-				relation.getPersons().remove(person);
-				session.update(relation);
-			}
-			// delete person
-			session = beginTransaction();
-			session.delete(person);
-			commit();
-		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeletePerson("+person.getFullName()+")", e);
-		}
-		firePropertyChange(BookController.PersonProps.DELETE.toString(),person, null);
-	}
-
-	public synchronized void setDeleteMultiPersons(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			PersonDAOImpl dao = new PersonDAOImpl(session);
-			Person old = dao.find(id);
-			commit();
-			setDeletePerson(old);
-		}
-	}
-
-	// relationship
-	public void setEditRelationship(Relationship entity) {
-		//firePropertyChange(BookController.RelationshipProps.EDIT.toString(),null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateRelationship(Relationship relationship) {
-		Session session = beginTransaction();
-		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
-		Relationship old = dao.find(relationship.getId());
-		commit();
-		session = beginTransaction();
-		session.update(relationship);
-		commit();
-		firePropertyChange(BookController.RelationshipProps.UPDATE.toString(), old, relationship);
-	}
-
-	public synchronized void setNewRelationship(Relationship r) {
-		Session session = beginTransaction();
-		session.save(r);
-		commit();
-		firePropertyChange(BookController.RelationshipProps.NEW.toString(), null, r);
-	}
-
-	public synchronized void setDeleteRelationship(Relationship r) {
-		if (r.getId() == null) {
-			return;
-		}
-		try {
-			// delete scene links
-			// delete Relationship
-			Session session = beginTransaction();
-			session.delete(r);
-			commit();
-		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeleteRelationship("+r.getPerson1()+"-"+r.getPerson2()+")", e);
-		}
-		firePropertyChange(BookController.RelationshipProps.DELETE.toString(),r, null);
-	}
-
-	public synchronized void setDeleteMultiRelationships(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
-			Relationship old = dao.find(id);
-			commit();
-			setDeleteRelationship(old);
-		}
-	}
-
-	// gender
-	public void setEditGender(Gender entity) {
-		//firePropertyChange(BookController.GenderProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateGender(Gender gender) {
-		Session session = beginTransaction();
-		GenderDAOImpl dao = new GenderDAOImpl(session);
-		Gender old = dao.find(gender.getId());
-		commit();
-
-		session = beginTransaction();
-		session.update(gender);
-		commit();
-
-		firePropertyChange(BookController.GenderProps.UPDATE.toString(), old, gender);
-	}
-
-	public synchronized void setNewGender(Gender gender) {
-		Session session = beginTransaction();
-		session.save(gender);
-		commit();
-
-		firePropertyChange(BookController.GenderProps.NEW.toString(), null, gender);
 	}
 
 	public synchronized void setDeleteGender(Gender gender) {
@@ -957,63 +482,111 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.GenderProps.DELETE.toString(), gender, null);
 	}
 
-	public synchronized void setDeleteMultiGenders(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			GenderDAOImpl dao = new GenderDAOImpl(session);
-			Gender old = dao.find(id);
-			commit();
-			session = beginTransaction();
-			dao = new GenderDAOImpl(session);
-			dao.removeById(id);
-			commit();
-			firePropertyChange(BookController.GenderProps.DELETE.toString(), old, null);
-		}
-	}
-
-	// category
-	public void setEditCategory(Category entity) {
-		//firePropertyChange(BookController.CategoryProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateCategory(Category category) {
-		Session session = beginTransaction();
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		Category old = dao.find(category.getId());
-		commit();
-		session = beginTransaction();
-		session.update(category);
-		commit();
-		firePropertyChange(BookController.CategoryProps.UPDATE.toString(), old, category);
-	}
-
-	public synchronized void setNewCategory(Category category) {
-		Session session = beginTransaction();
-		session.save(category);
-		commit();
-		firePropertyChange(BookController.CategoryProps.NEW.toString(), null, category);
-	}
-
-	public synchronized void setDeleteCategory(Category category) {
-		if (category.getId() == null) {
+	public synchronized void setDeleteIdea(Idea idea) {
+		if (idea.getId() == null) {
 			return;
 		}
-		// set category of affected persons to "minor"
 		Session session = beginTransaction();
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		Category minor = dao.findMinor();
-		List<Person> persons = dao.findPersons(category);
+		session.delete(idea);
 		commit();
-		for (Person person : persons) {
-			person.setCategory(minor);
-			setUpdatePerson(person);
+		firePropertyChange(BookController.IdeaProps.DELETE.toString(), idea, null);
+	}
+
+	public synchronized void setDeleteInternal(Internal internal) {
+		if (internal.getId() == null) {
+			return;
 		}
-		// delete category
-		session = beginTransaction();
-		session.delete(category);
+		Session session = beginTransaction();
+		session.delete(internal);
 		commit();
-		firePropertyChange(BookController.CategoryProps.DELETE.toString(), category, null);
+		firePropertyChange(BookController.InternalProps.DELETE.toString(), internal, null);
+	}
+
+	public synchronized void setDeleteItem(Item item) {
+		if (item.getId() == null) {
+			return;
+		}
+		// delete item assignments
+		Session session = beginTransaction();
+		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
+		List<ItemLink> links = dao.findByItem(item);
+		commit();
+		for (ItemLink link : links) {
+			setDeleteItemLink(link);
+		}
+		// delete relationship
+		session = beginTransaction();
+		RelationshipDAOImpl daoR = new RelationshipDAOImpl(session);
+		List<Relationship> relations = daoR.findByItemLink(item);
+		commit();
+		for (Relationship relation : relations) {
+			relation.getItems().remove(item);
+			session.update(relation);
+		}
+		// delete item
+		session = beginTransaction();
+		session.delete(item);
+		commit();
+		firePropertyChange(BookController.ItemProps.DELETE.toString(), item, null);
+	}
+
+	public synchronized void setDeleteItemLink(ItemLink itemLink) {
+		if (itemLink.getId() == null) {
+			return;
+		}
+		Session session = beginTransaction();
+		session.delete(itemLink);
+		commit();
+		firePropertyChange(BookController.ItemLinkProps.DELETE.toString(), itemLink, null);
+	}
+
+	public synchronized void setDeleteLocation(Location location) {
+		if (location.getId() == null) {
+			return;
+		}
+		try {
+			// delete scene links
+			Session session = beginTransaction();
+			SceneDAOImpl dao = new SceneDAOImpl(session);
+			List<Scene> scenes = dao.findByLocationLink(location);
+			for (Scene scene : scenes) {
+				scene.getLocations().remove(location);
+				session.update(scene);
+			}
+			commit();
+			for (Scene scene : scenes) {
+				setUpdateScene(scene);
+			}
+			// delete tag / item links
+			EntityUtil.deleteTagAndItemLinks(this, location);
+			// delete relationship
+			session = beginTransaction();
+			RelationshipDAOImpl daoR = new RelationshipDAOImpl(session);
+			List<Relationship> relations = daoR.findByLocationLink(location);
+			commit();
+			for (Relationship relation : relations) {
+				relation.getLocations().remove(location);
+				session.update(relation);
+			}
+			// delete location
+			session = beginTransaction();
+			session.delete(location);
+			commit();
+		} catch (ConstraintViolationException e) {
+			SbApp.error("BookModel.setDeleteLocation(" + location.getName() + ")", e);
+		}
+		firePropertyChange(BookController.LocationProps.DELETE.toString(), location, null);
+	}
+
+	public synchronized void setDeleteMemo(Memo memo) {
+		if (memo.getId() == null) {
+			return;
+		}
+		// delete memo
+		Session session = beginTransaction();
+		session.delete(memo);
+		commit();
+		firePropertyChange(BookController.MemoProps.DELETE.toString(), memo, null);
 	}
 
 	public synchronized void setDeleteMultiCategories(ArrayList<Long> ids) {
@@ -1030,36 +603,261 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
-	public synchronized void setOrderUpCategory(Category category) {
-		firePropertyChange(BookController.CategoryProps.ORDER_UP.toString(), null, category);
+	public synchronized void setDeleteMultiChapters(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			ChapterDAOImpl dao = new ChapterDAOImpl(session);
+			Chapter old = dao.find(id);
+			commit();
+			session = beginTransaction();
+			dao = new ChapterDAOImpl(session);
+			dao.removeById(id);
+			commit();
+			firePropertyChange(BookController.ChapterProps.DELETE.toString(), old, null);
+		}
 	}
 
-	public synchronized void setOrderDownCategory(Category category) {
-		firePropertyChange(BookController.CategoryProps.ORDER_DOWN.toString(), null, category);
+	public synchronized void setDeleteMultiGenders(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			GenderDAOImpl dao = new GenderDAOImpl(session);
+			Gender old = dao.find(id);
+			commit();
+			session = beginTransaction();
+			dao = new GenderDAOImpl(session);
+			dao.removeById(id);
+			commit();
+			firePropertyChange(BookController.GenderProps.DELETE.toString(), old, null);
+		}
 	}
 
-	// strand
-	public void setEditStrand(Strand entity) {
-		//firePropertyChange(BookController.StrandProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
+	public synchronized void setDeleteMultiIdeas(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			IdeaDAOImpl dao = new IdeaDAOImpl(session);
+			Idea old = dao.find(id);
+			commit();
+			session = beginTransaction();
+			dao = new IdeaDAOImpl(session);
+			dao.removeById(id);
+			commit();
+			firePropertyChange(BookController.IdeaProps.DELETE.toString(), old, null);
+		}
 	}
 
-	public synchronized void setUpdateStrand(Strand strand) {
+	public synchronized void setDeleteMultiInternals(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			InternalDAOImpl dao = new InternalDAOImpl(session);
+			Internal old = dao.find(id);
+			commit();
+			setDeleteInternal(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiItemLinks(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
+			ItemLink old = dao.find(id);
+			commit();
+			setDeleteItemLink(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiItems(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			ItemDAOImpl dao = new ItemDAOImpl(session);
+			Item old = dao.find(id);
+			commit();
+			setDeleteItem(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiLocations(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			LocationDAOImpl dao = new LocationDAOImpl(session);
+			Location old = dao.find(id);
+			commit();
+			setDeleteLocation(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiMemos(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			MemoDAOImpl dao = new MemoDAOImpl(session);
+			Memo old = dao.find(id);
+			commit();
+			setDeleteMemo(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiParts(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			PartDAOImpl dao = new PartDAOImpl(session);
+			Part old = dao.find(id);
+			commit();
+			setDeletePart(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiPersons(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			PersonDAOImpl dao = new PersonDAOImpl(session);
+			Person old = dao.find(id);
+			commit();
+			setDeletePerson(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiRelationships(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
+			Relationship old = dao.find(id);
+			commit();
+			setDeleteRelationship(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiScenes(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			SceneDAOImpl dao = new SceneDAOImpl(session);
+			Scene old = dao.find(id);
+			commit();
+			setDeleteScene(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiStrands(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			StrandDAOImpl dao = new StrandDAOImpl(session);
+			Strand old = dao.find(id);
+			commit();
+			setDeleteStrand(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiTagLinks(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
+			TagLink old = dao.find(id);
+			commit();
+			setDeleteTagLink(old);
+		}
+	}
+
+	public synchronized void setDeleteMultiTags(ArrayList<Long> ids) {
+		for (Long id : ids) {
+			Session session = beginTransaction();
+			TagDAOImpl dao = new TagDAOImpl(session);
+			Tag old = dao.find(id);
+			commit();
+			setDeleteTag(old);
+		}
+	}
+
+	public synchronized void setDeletePart(Part part) {
+		if (part.getId() == null) {
+			return;
+		}
 		Session session = beginTransaction();
-		StrandDAOImpl dao = new StrandDAOImpl(session);
-		Strand old = dao.find(strand.getId());
+		// delete chapters
+		PartDAOImpl dao = new PartDAOImpl(session);
+		List<Chapter> chapters = dao.findChapters(part);
 		commit();
+		for (Chapter chapter : chapters) {
+			setDeleteChapter(chapter);
+		}
+		// delete part
 		session = beginTransaction();
-		session.update(strand);
+		session.delete(part);
 		commit();
-		firePropertyChange(BookController.StrandProps.UPDATE.toString(), old, strand);
+		firePropertyChange(BookController.PartProps.DELETE.toString(), part, null);
 	}
 
-	public synchronized void setNewStrand(Strand strand) {
+	public synchronized void setDeletePerson(Person person) {
+		if (person.getId() == null) {
+			return;
+		}
+		try {
+			// delete scene links
+			Session session = beginTransaction();
+			SceneDAOImpl dao = new SceneDAOImpl(session);
+			List<Scene> scenes = dao.findByPersonLink(person);
+			for (Scene scene : scenes) {
+				scene.getPersons().remove(person);
+				session.update(scene);
+			}
+			commit();
+			for (Scene scene : scenes) {
+				setUpdateScene(scene);
+			}
+			// delete tag / item links
+			EntityUtil.deleteTagAndItemLinks(this, person);
+			// delete relationship
+			session = beginTransaction();
+			RelationshipDAOImpl daoR = new RelationshipDAOImpl(session);
+			List<Relationship> relations = daoR.findByPersonLink(person);
+			commit();
+			for (Relationship relation : relations) {
+				relation.getPersons().remove(person);
+				session.update(relation);
+			}
+			// delete person
+			session = beginTransaction();
+			session.delete(person);
+			commit();
+		} catch (ConstraintViolationException e) {
+			SbApp.error("BookModel.setDeletePerson(" + person.getFullName() + ")", e);
+		}
+		firePropertyChange(BookController.PersonProps.DELETE.toString(), person, null);
+	}
+
+	public synchronized void setDeleteRelationship(Relationship r) {
+		if (r.getId() == null) {
+			return;
+		}
+		try {
+			// delete scene links
+			// delete Relationship
+			Session session = beginTransaction();
+			session.delete(r);
+			commit();
+		} catch (ConstraintViolationException e) {
+			SbApp.error("BookModel.setDeleteRelationship(" + r.getPerson1() + "-" + r.getPerson2() + ")", e);
+		}
+		firePropertyChange(BookController.RelationshipProps.DELETE.toString(), r, null);
+	}
+
+	public synchronized void setDeleteScene(Scene scene) {
+		if (scene.getId() == null) {
+			return;
+		}
+		// delete tag / item links
+		EntityUtil.deleteTagAndItemLinks(this, scene);
+		// remove relative scene of affected scenes
 		Session session = beginTransaction();
-		session.save(strand);
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		List<Scene> scenes = dao.findScenesWithRelativeSceneId(scene);
 		commit();
-		firePropertyChange(BookController.StrandProps.NEW.toString(), null, strand);
+		for (Scene scene2 : scenes) {
+			scene2.removeRelativeScene();
+			setUpdateScene(scene2);
+		}
+		// delete scene
+		session = beginTransaction();
+		session.delete(scene);
+		commit();
+		firePropertyChange(BookController.SceneProps.DELETE.toString(), scene, null);
 	}
 
 	public synchronized void setDeleteStrand(Strand strand) {
@@ -1092,99 +890,9 @@ public class BookModel extends AbstractModel {
 			session.delete(strand);
 			commit();
 		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setDeleteStrand("+strand.getName()+")", e);
+			SbApp.error("BookModel.setDeleteStrand(" + strand.getName() + ")", e);
 		}
-		firePropertyChange(BookController.StrandProps.DELETE.toString(),strand, null);
-	}
-
-	public synchronized void setDeleteMultiStrands(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			StrandDAOImpl dao = new StrandDAOImpl(session);
-			Strand old = dao.find(id);
-			commit();
-			setDeleteStrand(old);
-		}
-	}
-
-	public synchronized void setOrderUpStrand(Strand strand) {
-		firePropertyChange(BookController.StrandProps.ORDER_UP.toString(),null, strand);
-	}
-
-	public synchronized void setOrderDownStrand(Strand strand) {
-		firePropertyChange(BookController.StrandProps.ORDER_DOWN.toString(), null,strand);
-	}
-
-	// idea
-	public void setEditIdea(Idea entity) {
-		//firePropertyChange(BookController.IdeaProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateIdea(Idea idea) {
-		Session session = beginTransaction();
-		IdeaDAOImpl dao = new IdeaDAOImpl(session);
-		Idea old = dao.find(idea.getId());
-		commit();
-		session = beginTransaction();
-		session.update(idea);
-		commit();
-		firePropertyChange(BookController.IdeaProps.UPDATE.toString(), old,idea);
-	}
-
-	public synchronized void setNewIdea(Idea idea) {
-		Session session = beginTransaction();
-		session.save(idea);
-		commit();
-		firePropertyChange(BookController.IdeaProps.NEW.toString(), null,idea);
-	}
-
-	public synchronized void setDeleteIdea(Idea idea) {
-		if (idea.getId() == null) {
-			return;
-		}
-		Session session = beginTransaction();
-		session.delete(idea);
-		commit();
-		firePropertyChange(BookController.IdeaProps.DELETE.toString(),idea, null);
-	}
-	
-	public synchronized void setDeleteMultiIdeas(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			IdeaDAOImpl dao = new IdeaDAOImpl(session);
-			Idea old = dao.find(id);
-			commit();
-			session = beginTransaction();
-			dao = new IdeaDAOImpl(session);
-			dao.removeById(id);
-			commit();
-			firePropertyChange(BookController.IdeaProps.DELETE.toString(),old, null);
-		}
-	}
-
-	// tags
-	public void setEditTag(Tag entity) {
-		//firePropertyChange(BookController.TagProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateTag(Tag tag) {
-		Session session = beginTransaction();
-		TagDAOImpl dao = new TagDAOImpl(session);
-		Tag old = dao.find(tag.getId());
-		commit();
-		session = beginTransaction();
-		session.update(tag);
-		commit();
-		firePropertyChange(BookController.TagProps.UPDATE.toString(), old, tag);
-	}
-
-	public synchronized void setNewTag(Tag tag) {
-		Session session = beginTransaction();
-		session.save(tag);
-		commit();
-		firePropertyChange(BookController.TagProps.NEW.toString(), null, tag);
+		firePropertyChange(BookController.StrandProps.DELETE.toString(), strand, null);
 	}
 
 	public synchronized void setDeleteTag(Tag tag) {
@@ -1206,147 +914,6 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagProps.DELETE.toString(), tag, null);
 	}
 
-	public synchronized void setDeleteMultiTags(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			TagDAOImpl dao = new TagDAOImpl(session);
-			Tag old = dao.find(id);
-			commit();
-			setDeleteTag(old);
-		}
-	}
-
-	// memos
-	public void setEditMemo(Memo entity) {
-		//firePropertyChange(BookController.TagProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateMemo(Memo memo) {
-		Session session = beginTransaction();
-		MemoDAOImpl dao = new MemoDAOImpl(session);
-		Memo old = dao.find(memo.getId());
-		commit();
-		session = beginTransaction();
-		session.update(memo);
-		commit();
-		firePropertyChange(BookController.MemoProps.UPDATE.toString(), old, memo);
-	}
-
-	public synchronized void setNewMemo(Memo memo) {
-		Session session = beginTransaction();
-		session.save(memo);
-		commit();
-		firePropertyChange(BookController.MemoProps.NEW.toString(), null, memo);
-	}
-
-	public synchronized void setDeleteMemo(Memo memo) {
-		if (memo.getId() == null) {
-			return;
-		}
-		// delete memo
-		Session session = beginTransaction();
-		session.delete(memo);
-		commit();
-		firePropertyChange(BookController.MemoProps.DELETE.toString(), memo, null);
-	}
-
-	public synchronized void setDeleteMultiMemos(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			MemoDAOImpl dao = new MemoDAOImpl(session);
-			Memo old = dao.find(id);
-			commit();
-			setDeleteMemo(old);
-		}
-	}
-
-	// items
-	public void setEditItem(Item entity) {
-		//firePropertyChange(BookController.ItemProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateItem(Item item) {
-		Session session = beginTransaction();
-		ItemDAOImpl dao = new ItemDAOImpl(session);
-		Item old = dao.find(item.getId());
-		commit();
-		session = beginTransaction();
-		session.update(item);
-		commit();
-		firePropertyChange(BookController.ItemProps.UPDATE.toString(), old, item);
-	}
-
-	public synchronized void setNewItem(Item item) {
-		Session session = beginTransaction();
-		session.save(item);
-		commit();
-		firePropertyChange(BookController.ItemProps.NEW.toString(), null, item);
-	}
-
-	public synchronized void setDeleteItem(Item item) {
-		if (item.getId() == null) {
-			return;
-		}
-		// delete item assignments
-		Session session = beginTransaction();
-		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
-		List<ItemLink> links = dao.findByItem(item);
-		commit();
-		for (ItemLink link : links) {
-			setDeleteItemLink(link);
-		}
-		// delete relationship
-		session = beginTransaction();
-		RelationshipDAOImpl daoR=new RelationshipDAOImpl(session);
-		List<Relationship> relations = daoR.findByItemLink(item);
-		commit();
-		for (Relationship relation : relations) {
-			relation.getItems().remove(item);
-			session.update(relation);
-		}
-		// delete item
-		session = beginTransaction();
-		session.delete(item);
-		commit();
-		firePropertyChange(BookController.ItemProps.DELETE.toString(), item, null);
-	}
-
-	public synchronized void setDeleteMultiItems(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			ItemDAOImpl dao = new ItemDAOImpl(session);
-			Item old = dao.find(id);
-			commit();
-			setDeleteItem(old);
-		}
-	}
-
-	// tag links
-	public void setEditTagLink(TagLink entity) {
-		//firePropertyChange(BookController.TagLinkProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateTagLink(TagLink tagLink) {
-		Session session = beginTransaction();
-		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
-		TagLink old = dao.find(tagLink.getId());
-		commit();
-		session = beginTransaction();
-		session.update(tagLink);
-		commit();
-		firePropertyChange(BookController.TagLinkProps.UPDATE.toString(), old, tagLink);
-	}
-
-	public synchronized void setNewTagLink(TagLink tagLink) {
-		Session session = beginTransaction();
-		session.save(tagLink);
-		commit();
-		firePropertyChange(BookController.TagLinkProps.NEW.toString(), null, tagLink);
-	}
-
 	public synchronized void setDeleteTagLink(TagLink tagLink) {
 		if (tagLink.getId() == null) {
 			return;
@@ -1357,31 +924,210 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagLinkProps.DELETE.toString(), tagLink, null);
 	}
 
-	public synchronized void setDeleteMultiTagLinks(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
-			TagLink old = dao.find(id);
-			commit();
-			setDeleteTagLink(old);
+	public synchronized void setDeleteTimeEvent(TimeEvent entity) {
+		if (entity.getId() == null) {
+			return;
 		}
+		// delete chapter
+		Session session = beginTransaction();
+		session.delete(entity);
+		commit();
+		firePropertyChange(BookController.TimeEventProps.DELETE.toString(), entity, null);
+	}
+
+	// category
+	public void setEditCategory(Category entity) {
+		// firePropertyChange(BookController.CategoryProps.EDIT.toString(),
+		// null, entity);
+		editEntity(entity);
+	}
+
+	// chapter
+	public void setEditChapter(Chapter entity) {
+		// firePropertyChange(BookController.ChapterProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// gender
+	public void setEditGender(Gender entity) {
+		// firePropertyChange(BookController.GenderProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// idea
+	public void setEditIdea(Idea entity) {
+		// firePropertyChange(BookController.IdeaProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// internals
+	public void setEditInternal(Internal internal) {
+		// firePropertyChange(BookController.InternalProps.EDIT.toString(),
+		// null, entity);
+		editEntity(internal);
+	}
+
+	// items
+	public void setEditItem(Item entity) {
+		// firePropertyChange(BookController.ItemProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
 	}
 
 	// item links
 	public void setEditItemLink(ItemLink entity) {
-		//firePropertyChange(BookController.ItemLinkProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)entity);
+		// firePropertyChange(BookController.ItemLinkProps.EDIT.toString(),
+		// null, entity);
+		editEntity(entity);
 	}
 
-	public synchronized void setUpdateItemLink(ItemLink itemLink) {
+	// location
+	public void setEditLocation(Location entity) {
+		// firePropertyChange(BookController.LocationProps.EDIT.toString(),
+		// null, entity);
+		editEntity(entity);
+	}
+
+	// memos
+	public void setEditMemo(Memo entity) {
+		// firePropertyChange(BookController.TagProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// part
+	public void setEditPart(Part entity) {
+		// firePropertyChange(BookController.PartProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// person
+	public void setEditPerson(Person entity) {
+		// firePropertyChange(BookController.PersonProps.EDIT.toString(),null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// relationship
+	public void setEditRelationship(Relationship entity) {
+		// firePropertyChange(BookController.RelationshipProps.EDIT.toString(),null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// scenes
+	public void setEditScene(Scene entity) {
+		SbApp.trace("BookModel.setEditScene(" + entity.toString() + ")");
+		// firePropertyChange(BookController.SceneProps.EDIT.toString(), null,
+		// editScene);
+		editEntity(entity);
+	}
+
+	// strand
+	public void setEditStrand(Strand entity) {
+		// firePropertyChange(BookController.StrandProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// tags
+	public void setEditTag(Tag entity) {
+		// firePropertyChange(BookController.TagProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// tag links
+	public void setEditTagLink(TagLink entity) {
+		// firePropertyChange(BookController.TagLinkProps.EDIT.toString(), null,
+		// entity);
+		editEntity(entity);
+	}
+
+	// chapter
+	public void setEditTimeEvent(TimeEvent entity) {
+		editEntity(entity);
+	}
+
+	public void setExport(SbView view) {
+		firePropertyChange(BookController.CommonProps.EXPORT.toString(), null, view);
+	}
+
+	public void setFilterScenes(SceneState state) {
+		firePropertyChange(BookController.SceneProps.FILTER.toString(), null, state);
+	}
+
+	public void setFilterStrand(String strand) {
+		firePropertyChange(BookController.SceneProps.FILTERSTRAND.toString(), null, strand);
+	}
+
+	public void setManageColumns(Integer val) {
+		firePropertyChange(BookController.ManageViewProps.COLUMNS.toString(), null, val);
+	}
+
+	public void setManageShowEntity(Chapter chapter) {
+		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, chapter);
+	}
+
+	public void setManageShowEntity(Scene scene) {
+		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, scene);
+	}
+
+	// manage view
+	public void setManageZoom(Integer val) {
+		firePropertyChange(BookController.ManageViewProps.ZOOM.toString(), null, val);
+	}
+
+	// memoria view
+	public void setMemoriaBalloon(Boolean val) {
+		firePropertyChange(BookController.MemoriaViewProps.BALLOON.toString(), null, val);
+	}
+
+	public synchronized void setNewCategory(Category category) {
 		Session session = beginTransaction();
-		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
-		ItemLink old = dao.find(itemLink.getId());
+		session.save(category);
 		commit();
-		session = beginTransaction();
-		session.update(itemLink);
+		firePropertyChange(BookController.CategoryProps.NEW.toString(), null, category);
+	}
+
+	public synchronized void setNewChapter(Chapter chapter) {
+		Session session = beginTransaction();
+		session.save(chapter);
 		commit();
-		firePropertyChange(BookController.ItemLinkProps.UPDATE.toString(), old, itemLink);
+		firePropertyChange(BookController.ChapterProps.NEW.toString(), null, chapter);
+	}
+
+	public synchronized void setNewGender(Gender gender) {
+		Session session = beginTransaction();
+		session.save(gender);
+		commit();
+
+		firePropertyChange(BookController.GenderProps.NEW.toString(), null, gender);
+	}
+
+	public synchronized void setNewIdea(Idea idea) {
+		Session session = beginTransaction();
+		session.save(idea);
+		commit();
+		firePropertyChange(BookController.IdeaProps.NEW.toString(), null, idea);
+	}
+
+	public synchronized void setNewInternal(Internal internal) {
+		Session session = beginTransaction();
+		session.save(internal);
+		commit();
+		firePropertyChange(BookController.InternalProps.NEW.toString(), null, internal);
+	}
+
+	public synchronized void setNewItem(Item item) {
+		Session session = beginTransaction();
+		session.save(item);
+		commit();
+		firePropertyChange(BookController.ItemProps.NEW.toString(), null, item);
 	}
 
 	public synchronized void setNewItemLink(ItemLink itemLink) {
@@ -1391,46 +1137,44 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.NEW.toString(), null, itemLink);
 	}
 
-	public synchronized void setDeleteItemLink(ItemLink itemLink) {
-		if (itemLink.getId() == null) {
-			return;
-		}
+	public synchronized void setNewLocation(Location location) {
 		Session session = beginTransaction();
-		session.delete(itemLink);
+		session.save(location);
 		commit();
-		firePropertyChange(BookController.ItemLinkProps.DELETE.toString(), itemLink, null);
+		firePropertyChange(BookController.LocationProps.NEW.toString(), null, location);
 	}
 
-	public synchronized void setDeleteMultiItemLinks(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
-			ItemLink old = dao.find(id);
-			commit();
-			setDeleteItemLink(old);
-		}
-	}
-
-	// scenes
-	public void setEditScene(Scene entity) {
-		SbApp.trace("BookModel.setEditScene("+entity.toString()+")");
-		//firePropertyChange(BookController.SceneProps.EDIT.toString(), null, editScene);
-		editEntity((AbstractEntity)entity);
-	}
-
-	public synchronized void setUpdateScene(Scene scene) {
-		// needed, see ChronoPanel.modelPropertyChange()
+	public synchronized void setNewMemo(Memo memo) {
 		Session session = beginTransaction();
-		Scene old = (Scene) session.get(Scene.class, scene.getId());
+		session.save(memo);
 		commit();
+		firePropertyChange(BookController.MemoProps.NEW.toString(), null, memo);
+	}
+
+	public synchronized void setNewPart(Part part) {
+		Session session = beginTransaction();
+		session.save(part);
+		commit();
+		firePropertyChange(BookController.PartProps.NEW.toString(), null, part);
+	}
+
+	public synchronized void setNewPerson(Person person) {
 		try {
-			session = beginTransaction();
-			session.update(scene);
+			Session session = beginTransaction();
+			session.save(person);
 			commit();
-		} catch (ConstraintViolationException e) {
-			SbApp.error("BookModel.setUpdateScene("+scene.getTitle()+")", e);
+			firePropertyChange(BookController.PersonProps.NEW.toString(), null, person);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
 		}
-		firePropertyChange(BookController.SceneProps.UPDATE.toString(), old, scene);
+	}
+
+	public synchronized void setNewRelationship(Relationship r) {
+		Session session = beginTransaction();
+		session.save(r);
+		commit();
+		firePropertyChange(BookController.RelationshipProps.NEW.toString(), null, r);
 	}
 
 	public synchronized void setNewScene(Scene scene) {
@@ -1440,42 +1184,235 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.SceneProps.NEW.toString(), null, scene);
 	}
 
-	public synchronized void setDeleteScene(Scene scene) {
-		if (scene.getId() == null) {
-			return;
-		}
-		// delete tag / item links
-		EntityUtil.deleteTagAndItemLinks(this, scene);
-		// remove relative scene of affected scenes
+	public synchronized void setNewStrand(Strand strand) {
 		Session session = beginTransaction();
-		SceneDAOImpl dao = new SceneDAOImpl(session);
-		List<Scene> scenes = dao.findScenesWithRelativeSceneId(scene);
+		session.save(strand);
 		commit();
-		for (Scene scene2 : scenes) {
-			scene2.removeRelativeScene();
-			setUpdateScene(scene2);
+		firePropertyChange(BookController.StrandProps.NEW.toString(), null, strand);
+	}
+
+	public synchronized void setNewTag(Tag tag) {
+		Session session = beginTransaction();
+		session.save(tag);
+		commit();
+		firePropertyChange(BookController.TagProps.NEW.toString(), null, tag);
+	}
+
+	public synchronized void setNewTagLink(TagLink tagLink) {
+		Session session = beginTransaction();
+		session.save(tagLink);
+		commit();
+		firePropertyChange(BookController.TagLinkProps.NEW.toString(), null, tagLink);
+	}
+
+	public synchronized void setNewTimeEvent(TimeEvent entity) {
+		Session session = beginTransaction();
+		session.save(entity);
+		commit();
+		firePropertyChange(BookController.TimeEventProps.NEW.toString(), null, entity);
+	}
+
+	public synchronized void setOrderDownCategory(Category category) {
+		firePropertyChange(BookController.CategoryProps.ORDER_DOWN.toString(), null, category);
+	}
+
+	public synchronized void setOrderDownStrand(Strand strand) {
+		firePropertyChange(BookController.StrandProps.ORDER_DOWN.toString(), null, strand);
+	}
+
+	public synchronized void setOrderUpCategory(Category category) {
+		firePropertyChange(BookController.CategoryProps.ORDER_UP.toString(), null, category);
+	}
+
+	public synchronized void setOrderUpStrand(Strand strand) {
+		firePropertyChange(BookController.StrandProps.ORDER_UP.toString(), null, strand);
+	}
+
+	public void setPrint(SbView view) {
+		firePropertyChange(BookController.CommonProps.PRINT.toString(), null, view);
+	}
+
+	public void setReadingFontSize(Integer val) {
+		firePropertyChange(BookController.ReadingViewProps.FONT_SIZE.toString(), null, val);
+	}
+
+	// reading view
+	public void setReadingZoom(Integer val) {
+		firePropertyChange(BookController.ReadingViewProps.ZOOM.toString(), null, val);
+	}
+
+	// common
+	public void setRefresh(SbView view) {
+		SbApp.trace("BookModel.setRefresh(" + view.getName() + ")");
+		firePropertyChange(BookController.CommonProps.REFRESH.toString(), null, view);
+		try {
+			if (view.getComponentCount() == 0) {
+				return;
+			}
+			Component comp = view.getComponent();
+			if (comp instanceof ChronoPanel || comp instanceof BookPanel || comp instanceof ManagePanel
+					|| comp instanceof ReadingPanel) {
+				// these views don't need a "fire again"
+				return;
+			}
+			fireAgain(view);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// ignore
 		}
-		// delete scene
+	}
+
+	public void setShowInfo(AbstractEntity entity) {
+		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, entity);
+	}
+
+	public void setShowInfo(Category category) {
+		setShowInfo((AbstractEntity) category);
+	}
+
+	public void setShowInfo(Chapter chapter) {
+		setShowInfo((AbstractEntity) chapter);
+	}
+
+	public void setShowInfo(DbFile dbFile) {
+		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, dbFile);
+	}
+
+	public void setShowInfo(Gender gender) {
+		setShowInfo((AbstractEntity) gender);
+	}
+
+	public void setShowInfo(Idea idea) {
+		setShowInfo((AbstractEntity) idea);
+	}
+
+	public void setShowInfo(Item item) {
+		setShowInfo((AbstractEntity) item);
+	}
+
+	public void setShowInfo(ItemLink itemLink) {
+		setShowInfo((AbstractEntity) itemLink);
+	}
+
+	public void setShowInfo(Location location) {
+		setShowInfo((AbstractEntity) location);
+	}
+
+	public void setShowInfo(Part part) {
+		setShowInfo((AbstractEntity) part);
+	}
+
+	public void setShowInfo(Person person) {
+		setShowInfo((AbstractEntity) person);
+	}
+
+	public void setShowInfo(Relationship entity) {
+		setShowInfo((AbstractEntity) entity);
+	}
+
+	public void setShowInfo(Scene scene) {
+		setShowInfo((AbstractEntity) scene);
+	}
+
+	public void setShowInfo(Strand strand) {
+		setShowInfo((AbstractEntity) strand);
+	}
+
+	public void setShowInfo(Tag tag) {
+		setShowInfo((AbstractEntity) tag);
+	}
+
+	public void setShowInfo(TagLink tagLink) {
+		setShowInfo((AbstractEntity) tagLink);
+	}
+
+	public void setShowInfo(TimeEvent event) {
+		setShowInfo((AbstractEntity) event);
+	}
+
+	public void setShowInMemoria(AbstractEntity entity) {
+		firePropertyChange(BookController.CommonProps.SHOW_IN_MEMORIA.toString(), null, entity);
+	}
+
+	public void setShowInMemoria(Item item) {
+		setShowInMemoria((AbstractEntity) item);
+	}
+
+	public void setShowInMemoria(Location location) {
+		setShowInMemoria((AbstractEntity) location);
+	}
+
+	public void setShowInMemoria(Person person) {
+		setShowInMemoria((AbstractEntity) person);
+	}
+
+	public void setShowInMemoria(Relationship p) {
+		setShowInMemoria((AbstractEntity) p);
+	}
+
+	public void setShowInMemoria(Scene scene) {
+		setShowInMemoria((AbstractEntity) scene);
+	}
+
+	public void setShowInMemoria(Tag tag) {
+		setShowInMemoria((AbstractEntity) tag);
+	}
+
+	public void setShowMemo(AbstractEntity entity) {
+		firePropertyChange(BookController.CommonProps.SHOW_MEMO.toString(), null, entity);
+	}
+
+	public void setShowOptions(SbView view) {
+		firePropertyChange(BookController.CommonProps.SHOW_OPTIONS.toString(), null, view);
+	}
+
+	public void setUnloadEditor() {
+		firePropertyChange(BookController.CommonProps.UNLOAD_EDITOR.toString(), null, null);
+	}
+
+	public synchronized void setUpdateCategory(Category category) {
+		Session session = beginTransaction();
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		Category old = dao.find(category.getId());
+		commit();
 		session = beginTransaction();
-		session.delete(scene);
+		session.update(category);
 		commit();
-		firePropertyChange(BookController.SceneProps.DELETE.toString(), scene, null);
+		firePropertyChange(BookController.CategoryProps.UPDATE.toString(), old, category);
 	}
 
-	public synchronized void setDeleteMultiScenes(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			SceneDAOImpl dao = new SceneDAOImpl(session);
-			Scene old = dao.find(id);
-			commit();
-			setDeleteScene(old);
-		}
+	public synchronized void setUpdateChapter(Chapter chapter) {
+		Session session = beginTransaction();
+		ChapterDAOImpl dao = new ChapterDAOImpl(session);
+		Chapter old = dao.find(chapter.getId());
+		commit();
+		session = beginTransaction();
+		session.update(chapter);
+		commit();
+		firePropertyChange(BookController.ChapterProps.UPDATE.toString(), old, chapter);
 	}
 
-	// internals
-	public void setEditInternal(Internal internal) {
-		//firePropertyChange(BookController.InternalProps.EDIT.toString(), null, entity);
-		editEntity((AbstractEntity)internal);
+	public synchronized void setUpdateGender(Gender gender) {
+		Session session = beginTransaction();
+		GenderDAOImpl dao = new GenderDAOImpl(session);
+		Gender old = dao.find(gender.getId());
+		commit();
+
+		session = beginTransaction();
+		session.update(gender);
+		commit();
+
+		firePropertyChange(BookController.GenderProps.UPDATE.toString(), old, gender);
+	}
+
+	public synchronized void setUpdateIdea(Idea idea) {
+		Session session = beginTransaction();
+		IdeaDAOImpl dao = new IdeaDAOImpl(session);
+		Idea old = dao.find(idea.getId());
+		commit();
+		session = beginTransaction();
+		session.update(idea);
+		commit();
+		firePropertyChange(BookController.IdeaProps.UPDATE.toString(), old, idea);
 	}
 
 	public synchronized void setUpdateInternal(Internal internal) {
@@ -1489,36 +1426,129 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.InternalProps.UPDATE.toString(), old, internal);
 	}
 
-	public synchronized void setNewInternal(Internal internal) {
+	public synchronized void setUpdateItem(Item item) {
 		Session session = beginTransaction();
-		session.save(internal);
+		ItemDAOImpl dao = new ItemDAOImpl(session);
+		Item old = dao.find(item.getId());
 		commit();
-		firePropertyChange(BookController.InternalProps.NEW.toString(), null, internal);
+		session = beginTransaction();
+		session.update(item);
+		commit();
+		firePropertyChange(BookController.ItemProps.UPDATE.toString(), old, item);
 	}
 
-	public synchronized void setDeleteInternal(Internal internal) {
-		if (internal.getId() == null) {
-			return;
-		}
+	public synchronized void setUpdateItemLink(ItemLink itemLink) {
 		Session session = beginTransaction();
-		session.delete(internal);
+		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
+		ItemLink old = dao.find(itemLink.getId());
 		commit();
-		firePropertyChange(BookController.InternalProps.DELETE.toString(), internal, null);
+		session = beginTransaction();
+		session.update(itemLink);
+		commit();
+		firePropertyChange(BookController.ItemLinkProps.UPDATE.toString(), old, itemLink);
 	}
 
-	public synchronized void setDeleteMultiInternals(ArrayList<Long> ids) {
-		for (Long id : ids) {
-			Session session = beginTransaction();
-			InternalDAOImpl dao = new InternalDAOImpl(session);
-			Internal old = dao.find(id);
+	public synchronized void setUpdateLocation(Location location) {
+		Session session = beginTransaction();
+		LocationDAOImpl dao = new LocationDAOImpl(session);
+		Location old = dao.find(location.getId());
+		commit();
+		session = beginTransaction();
+		session.update(location);
+		commit();
+		firePropertyChange(BookController.LocationProps.UPDATE.toString(), old, location);
+	}
+
+	public synchronized void setUpdateMemo(Memo memo) {
+		Session session = beginTransaction();
+		MemoDAOImpl dao = new MemoDAOImpl(session);
+		Memo old = dao.find(memo.getId());
+		commit();
+		session = beginTransaction();
+		session.update(memo);
+		commit();
+		firePropertyChange(BookController.MemoProps.UPDATE.toString(), old, memo);
+	}
+
+	public synchronized void setUpdatePart(Part part) {
+		Session session = beginTransaction();
+		PartDAOImpl dao = new PartDAOImpl(session);
+		Part old = dao.find(part.getId());
+		commit();
+		session = beginTransaction();
+		session.update(part);
+		commit();
+		firePropertyChange(BookController.PartProps.UPDATE.toString(), old, part);
+	}
+
+	public synchronized void setUpdatePerson(Person person) {
+		Session session = beginTransaction();
+		PersonDAOImpl dao = new PersonDAOImpl(session);
+		Person old = dao.find(person.getId());
+		commit();
+		session = beginTransaction();
+		session.update(person);
+		commit();
+		firePropertyChange(BookController.PersonProps.UPDATE.toString(), old, person);
+	}
+
+	public synchronized void setUpdateRelationship(Relationship relationship) {
+		Session session = beginTransaction();
+		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
+		Relationship old = dao.find(relationship.getId());
+		commit();
+		session = beginTransaction();
+		session.update(relationship);
+		commit();
+		firePropertyChange(BookController.RelationshipProps.UPDATE.toString(), old, relationship);
+	}
+
+	public synchronized void setUpdateScene(Scene scene) {
+		// needed, see ChronoPanel.modelPropertyChange()
+		Session session = beginTransaction();
+		Scene old = (Scene) session.get(Scene.class, scene.getId());
+		commit();
+		try {
+			session = beginTransaction();
+			session.update(scene);
 			commit();
-			setDeleteInternal(old);
+		} catch (ConstraintViolationException e) {
+			SbApp.error("BookModel.setUpdateScene(" + scene.getTitle() + ")", e);
 		}
+		firePropertyChange(BookController.SceneProps.UPDATE.toString(), old, scene);
 	}
 
-	// chapter
-	public void setEditTimeEvent(TimeEvent entity) {
-		editEntity((AbstractEntity)entity);
+	public synchronized void setUpdateStrand(Strand strand) {
+		Session session = beginTransaction();
+		StrandDAOImpl dao = new StrandDAOImpl(session);
+		Strand old = dao.find(strand.getId());
+		commit();
+		session = beginTransaction();
+		session.update(strand);
+		commit();
+		firePropertyChange(BookController.StrandProps.UPDATE.toString(), old, strand);
+	}
+
+	public synchronized void setUpdateTag(Tag tag) {
+		Session session = beginTransaction();
+		TagDAOImpl dao = new TagDAOImpl(session);
+		Tag old = dao.find(tag.getId());
+		commit();
+		session = beginTransaction();
+		session.update(tag);
+		commit();
+		firePropertyChange(BookController.TagProps.UPDATE.toString(), old, tag);
+	}
+
+	public synchronized void setUpdateTagLink(TagLink tagLink) {
+		Session session = beginTransaction();
+		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
+		TagLink old = dao.find(tagLink.getId());
+		commit();
+		session = beginTransaction();
+		session.update(tagLink);
+		commit();
+		firePropertyChange(BookController.TagLinkProps.UPDATE.toString(), old, tagLink);
 	}
 
 	public synchronized void setUpdateTimeEvent(TimeEvent entity) {
@@ -1530,23 +1560,5 @@ public class BookModel extends AbstractModel {
 		session.update(entity);
 		commit();
 		firePropertyChange(BookController.TimeEventProps.UPDATE.toString(), old, entity);
-	}
-
-	public synchronized void setNewTimeEvent(TimeEvent entity) {
-		Session session = beginTransaction();
-		session.save(entity);
-		commit();
-		firePropertyChange(BookController.TimeEventProps.NEW.toString(), null, entity);
-	}
-
-	public synchronized void setDeleteTimeEvent(TimeEvent entity) {
-		if (entity.getId() == null) {
-			return;
-		}
-		// delete chapter
-		Session session = beginTransaction();
-		session.delete(entity);
-		commit();
-		firePropertyChange(BookController.TimeEventProps.DELETE.toString(), entity, null);
 	}
 }

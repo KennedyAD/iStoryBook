@@ -30,19 +30,17 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-import org.miginfocom.swing.MigLayout;
-
 @SuppressWarnings("serial")
-abstract public class AbstractRenameDialog extends AbstractDialog implements
-		ActionListener {
+abstract public class AbstractRenameDialog extends AbstractDialog implements ActionListener {
 
 	private JTextField tfNewName;
-//	protected MainFrame mainFrame;
+	// protected MainFrame mainFrame;
 	protected JComboBox combo;
 
 	public AbstractRenameDialog(MainFrame mainFrame) {
@@ -51,11 +49,62 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements
 		initAll();
 	}
 
-	abstract protected List<String> getList();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JComboBox cb = (JComboBox) e.getSource();
+		String val = (String) cb.getSelectedItem();
+		tfNewName.setText(val);
 
-	abstract protected void rename(String oldValue, String newValue);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				tfNewName.requestFocusInWindow();
+				tfNewName.selectAll();
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	private JComboBox createCategoryCombo(List<String> list) {
+		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		for (String category : list) {
+			model.addElement(category);
+		}
+		JComboBox cob = new JComboBox();
+		cob.setModel(model);
+		return cob;
+	}
+
+	@Override
+	protected AbstractAction getCancelAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				getThis().dispose();
+			}
+		};
+	}
 
 	abstract protected String getDlgTitle();
+
+	abstract protected List<String> getList();
+
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				String oldValue = (String) combo.getSelectedItem();
+				String newValue = tfNewName.getText();
+				rename(oldValue, newValue);
+				getThis().dispose();
+			}
+		};
+	}
+
+	private AbstractRenameDialog getThis() {
+		return this;
+	}
 
 	@Override
 	public void init() {
@@ -107,64 +156,13 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements
 		add(btCancel, "sg");
 	}
 
+	abstract protected void rename(String oldValue, String newValue);
+
 	public void setSelectedItem(Object obj) {
 		combo.setSelectedItem(obj);
 	}
 
-	@SuppressWarnings("unchecked")
-	private JComboBox createCategoryCombo(List<String> list) {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
-		for (String category : list) {
-			model.addElement(category);
-		}
-		JComboBox cob = new JComboBox();
-		cob.setModel(model);
-		return cob;
-	}
-
-	@Override
-	protected AbstractAction getCancelAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				getThis().dispose();
-			}
-		};
-	}
-
-	private AbstractRenameDialog getThis() {
-		return this;
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				String oldValue = (String) combo.getSelectedItem();
-				String newValue = tfNewName.getText();
-				rename(oldValue, newValue);
-				getThis().dispose();
-			}
-		};
-	}
-
 	public void setValue(String value) {
 		combo.setSelectedItem(value);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JComboBox cb = (JComboBox) e.getSource();
-		String val = (String) cb.getSelectedItem();
-		tfNewName.setText(val);
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				tfNewName.requestFocusInWindow();
-				tfNewName.selectAll();
-			}
-		});
 	}
 }

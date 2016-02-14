@@ -29,18 +29,18 @@ import storybook.SbApp;
 //@Deprecated
 public abstract class DbTable implements Serializable {
 
-    private static int volatileId = -100;
-    boolean isVolatile = false;
+	private static int volatileId = -100;
+	boolean isVolatile = false;
 
-    protected String tableName;
-    protected int id = -1;
-    protected int realId = -1;
-    protected boolean isNew;
-    protected boolean toStringUsedForList;
+	protected String tableName;
+	protected int id = -1;
+	protected int realId = -1;
+	protected boolean isNew;
+	protected boolean toStringUsedForList;
 
-    public DbTable(String tableName) {
-        this.tableName = tableName;
-    }
+	public DbTable(String tableName) {
+		this.tableName = tableName;
+	}
 
 	public DbTable(String tableName, boolean isVolatile) {
 		this(tableName);
@@ -48,85 +48,35 @@ public abstract class DbTable implements Serializable {
 		this.id = DbTable.volatileId--;
 	}
 
-    public abstract boolean save() throws Exception;
-
-    public abstract String getLabelText();
-
-    public void setToStringUsedForList(boolean toStringUsedForList) {
-        this.toStringUsedForList = toStringUsedForList;
-    }
-
-    public boolean isToStringUsedForList() {
-        return toStringUsedForList;
-    }
-
-    public boolean isVolatile() {
-    	return this.isVolatile;
-    }
-
-	public boolean isClone() {
-		return id <= -1000;
+	public boolean changeId(int newId) {
+		PreparedStatement stmt = null;
+		boolean retour = false;
+		try {
+			if (newId == getId()) {
+				retour = true;
+			} else {
+				int oldId = getId();
+				this.id = newId;
+				String sql = "update " + getTablename() + " set id = ? where id = ?";
+				stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
+				stmt.setInt(1, newId);
+				stmt.setInt(2, oldId);
+				if (stmt.executeUpdate() != 1) {
+					this.id = oldId;
+					throw new SQLException("update failed, newId: " + newId);
+				}
+				SbApp.trace("ID manually changed: oldId=" + oldId + ", newId=" + getId() + " " + this.getTablename());
+				retour = true;
+			}
+		} catch (SQLException e) {
+			SbApp.error("oldModel.DbTable.changeId(" + newId + ")", e);
+		} finally {
+			ModelMigration.getInstance().closePrepareStatement(stmt);
+		}
+		return retour;
 	}
 
-	public int getRealId() {
-		return realId;
-	}
-
-    public void markAsExpired() {
-        id = -1;
-    }
-
-	public boolean isMarkedAsExpired() {
-		return (id == -1);
-	}
-
-    public int getId() {
-        return id;
-    }
-
-    public boolean isNew() {
-        return isNew;
-    }
-
-    public String getTablename() {
-        return tableName;
-    }
-
-    public boolean changeId(int newId) {
-        PreparedStatement stmt = null;
-        boolean retour = false;
-        try {
-            if (newId == getId()) {
-                retour = true;
-            } else {
-                int oldId = getId();
-                this.id = newId;
-                String sql = "update " + getTablename()
-                        + " set id = ? where id = ?";
-                stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
-                stmt.setInt(1, newId);
-                stmt.setInt(2, oldId);
-                if (stmt.executeUpdate() != 1) {
-                    this.id = oldId;
-                    throw new SQLException("update failed, newId: " + newId);
-                }
-                SbApp.trace("ID manually changed: oldId=" + oldId + ", newId=" + getId() + " " + this.getTablename());
-                retour = true;
-            }
-        } catch (SQLException e) {
-            SbApp.error("oldModel.DbTable.changeId("+newId+")",e);
-        } finally {
-            ModelMigration.getInstance().closePrepareStatement(stmt);
-        }
-        return retour;
-    }
-
-    @Override
-    public String toString() {
-        return "" + getId();
-    }
-
-    @Override
+	@Override
 	public boolean equals(Object obj) {
 		if (this == null || obj == null) {
 			return false;
@@ -134,12 +84,26 @@ public abstract class DbTable implements Serializable {
 		try {
 			return this.getId() == ((DbTable) obj).getId();
 		} catch (ClassCastException e) {
-			SbApp.error("oldModel.DbTable.equals("+obj.toString()+")",e);
+			SbApp.error("oldModel.DbTable.equals(" + obj.toString() + ")", e);
 		}
 		return false;
 	}
 
-    @Override
+	public int getId() {
+		return id;
+	}
+
+	public abstract String getLabelText();
+
+	public int getRealId() {
+		return realId;
+	}
+
+	public String getTablename() {
+		return tableName;
+	}
+
+	@Override
 	public int hashCode() {
 		// int hash = 1;
 		// hash = hash * 31 + getTablename().hashCode() + getId();
@@ -149,5 +113,40 @@ public abstract class DbTable implements Serializable {
 		hash = hash * 31 + getTablename().hashCode();
 		hash = hash * 31 + new Integer(getId()).hashCode();
 		return hash;
+	}
+
+	public boolean isClone() {
+		return id <= -1000;
+	}
+
+	public boolean isMarkedAsExpired() {
+		return (id == -1);
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public boolean isToStringUsedForList() {
+		return toStringUsedForList;
+	}
+
+	public boolean isVolatile() {
+		return this.isVolatile;
+	}
+
+	public void markAsExpired() {
+		id = -1;
+	}
+
+	public abstract boolean save() throws Exception;
+
+	public void setToStringUsedForList(boolean toStringUsedForList) {
+		this.toStringUsedForList = toStringUsedForList;
+	}
+
+	@Override
+	public String toString() {
+		return "" + getId();
 	}
 }

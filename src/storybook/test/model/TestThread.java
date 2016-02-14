@@ -1,6 +1,7 @@
 package storybook.test.model;
 
 import org.hibernate.Session;
+
 import storybook.model.hbn.SbSessionFactory;
 import storybook.model.hbn.dao.ChapterDAOImpl;
 

@@ -28,13 +28,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import org.hibernate.Session;
+
 import storybook.SbApp;
 import storybook.SbConstants;
-import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
-import storybook.model.hbn.dao.LocationDAOImpl;
-import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.dao.StrandDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
@@ -65,11 +63,25 @@ public class SceneTable extends AbstractTable {
 	}
 
 	@Override
-	public void init() {
-		columns = SbColumnFactory.getInstance().getSceneColumns();
+	public synchronized void actionPerformed(ActionEvent e) {
+		SbApp.trace("SceneTable.actionPerformed(" + e.toString() + ")");
+		if (e.getSource() instanceof JComboBox) {
+			JComboBox cb = (JComboBox) e.getSource();
+			if (SbConstants.ComponentName.COMBO_SCENE_STATES.toString().equals(cb.getName())) {
+				SceneState state = (SceneState) sceneStateCombo.getSelectedItem();
+				mainFrame.getBookController().filterScenes(state);
+				return;
+			}
+			if (SbConstants.ComponentName.COMBO_SCENE_STRAND.toString().equals(cb.getName())) {
+				String strand = (String) sceneStrandCombo.getSelectedItem();
+				mainFrame.getBookController().filterScenesStrand(strand);
+				return;
+			}
+		}
+		super.actionPerformed(e);
 	}
 
-	@SuppressWarnings({"unchecked"})
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	protected List<AbstractEntity> getAllEntities() {
 		SbApp.trace("getAllEntities()");
@@ -80,22 +92,46 @@ public class SceneTable extends AbstractTable {
 		List<?> ret;
 		if (state.getNumber().equals(SceneStateModel.State.ALL.ordinal())) {
 			ret = dao.findAll();
-		}
-		else {
+		} else {
 			ret = dao.findBySceneState(state);
 		}
-		if (sceneStrandCombo.getSelectedIndex()!=0) {
-			String selStrand=(String)sceneStrandCombo.getSelectedItem();
-			Iterator iScene=ret.iterator();
+		if (sceneStrandCombo.getSelectedIndex() != 0) {
+			String selStrand = (String) sceneStrandCombo.getSelectedItem();
+			Iterator iScene = ret.iterator();
 			Scene scene;
 			while (iScene.hasNext()) {
-				scene=(Scene)iScene.next();
-				if ((sceneStrandCombo.getSelectedIndex()!=0)
-						&&(!scene.getStrand().getName().equals(selStrand))) iScene.remove();
+				scene = (Scene) iScene.next();
+				if ((sceneStrandCombo.getSelectedIndex() != 0) && (!scene.getStrand().getName().equals(selStrand)))
+					iScene.remove();
 			}
 		}
 		model.commit();
 		return (List<AbstractEntity>) ret;
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		SceneDAOImpl dao = new SceneDAOImpl(session);
+		Scene scene = dao.find(id);
+		model.commit();
+		return scene;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Scene();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Scene");
+	}
+
+	@Override
+	public void init() {
+		columns = SbColumnFactory.getInstance().getSceneColumns();
 	}
 
 	@Override
@@ -118,43 +154,25 @@ public class SceneTable extends AbstractTable {
 		sceneStrandCombo = new JComboBox();
 		sceneStrandCombo.setName(SbConstants.ComponentName.COMBO_SCENE_STRAND.toString());
 		Session session = model.beginTransaction();
-		StrandDAOImpl strandDAO=new StrandDAOImpl(session);
-		List<Strand> strands=strandDAO.findAll();
+		StrandDAOImpl strandDAO = new StrandDAOImpl(session);
+		List<Strand> strands = strandDAO.findAll();
 		model.commit();
 		sceneStrandCombo.addItem(I18N.getMsg("msg.status.all"));
-		for (Strand strand : strands) sceneStrandCombo.addItem(strand.getName());
+		for (Strand strand : strands)
+			sceneStrandCombo.addItem(strand.getName());
 		sceneStrandCombo.addActionListener(this);
 		sceneStrandCombo.setSelectedIndex(0);
 		optionsPanel.add(sceneStrandCombo);
-		
-	}
 
-	@Override
-	public synchronized void actionPerformed(ActionEvent e) {
-		SbApp.trace("SceneTable.actionPerformed("+e.toString()+")");
-		if (e.getSource() instanceof JComboBox) {
-			JComboBox cb = (JComboBox) e.getSource();
-			if (SbConstants.ComponentName.COMBO_SCENE_STATES.toString().equals(cb.getName())) {
-				SceneState state = (SceneState) sceneStateCombo.getSelectedItem();
-				mainFrame.getBookController().filterScenes(state);
-				return;
-			}
-			if (SbConstants.ComponentName.COMBO_SCENE_STRAND.toString().equals(cb.getName())) {
-				String strand = (String) sceneStrandCombo.getSelectedItem();
-				mainFrame.getBookController().filterScenesStrand(strand);
-				return;
-			}
-		}
-		super.actionPerformed(e);
 	}
 
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
-		SbApp.trace("SceneTable.modelPropertyChangeLocal("+evt.getPropertyName()+")");
+		SbApp.trace("SceneTable.modelPropertyChangeLocal(" + evt.getPropertyName() + ")");
 		try {
 			String propName = evt.getPropertyName();
 			Object newValue = evt.getNewValue();
-//			Object oldValue = evt.getOldValue();
+			// Object oldValue = evt.getOldValue();
 			if (BookController.SceneProps.INIT.check(propName)) {
 				initTableModel(evt);
 				return;
@@ -174,56 +192,60 @@ public class SceneTable extends AbstractTable {
 			if (BookController.SceneProps.FILTER.check(propName)) {
 				initTableModel(evt);
 				if (newValue instanceof SceneState) {
-					sceneStateCombo.setSelectedItem((SceneState) newValue);
+					sceneStateCombo.setSelectedItem(newValue);
 				}
 				return;
 			}
 			if (BookController.SceneProps.FILTERSTRAND.check(propName)) {
 				initTableModel(evt);
 				if (newValue instanceof String) {
-					sceneStrandCombo.setSelectedItem((String) newValue);
+					sceneStrandCombo.setSelectedItem(newValue);
 				}
 				return;
 			}
 
 			// show only scenes from current part
 			if (BookController.PartProps.CHANGE.check(propName)) {
-//				BookModel model = mainFrame.getBookModel();
-//				Session session = model.beginTransaction();
-//				SceneDAOImpl dao = new SceneDAOImpl(session);
-//				Part curPart = mainFrame.getCurrentPart();
-//				List<Scene> scenes = dao.findByPart(curPart);
-//				model.commit();
-//				PropertyChangeEvent evt2 = new PropertyChangeEvent(evt.getSource(), evt.getPropertyName(), null, scenes);
-//				initTableModel(evt2);
+				// BookModel model = mainFrame.getBookModel();
+				// Session session = model.beginTransaction();
+				// SceneDAOImpl dao = new SceneDAOImpl(session);
+				// Part curPart = mainFrame.getCurrentPart();
+				// List<Scene> scenes = dao.findByPart(curPart);
+				// model.commit();
+				// PropertyChangeEvent evt2 = new
+				// PropertyChangeEvent(evt.getSource(), evt.getPropertyName(),
+				// null, scenes);
+				// initTableModel(evt2);
 			}
 		} catch (Exception e) {
 		}
 	}
 
-	@Override
-	protected void sendSetEntityToEdit(int row) {
-		SbApp.trace("SceneTable.sendSetEntityToEdit("+row+")");
-		if (row == -1) {
-			return;
+	private boolean sceneHasItem(Scene scene, String sel) {
+		List<Item> ls = scene.getItems();
+		for (Item s : ls) {
+			if (s.getName().equals(sel))
+				return (true);
 		}
-		Scene scene = (Scene) getEntityFromRow(row);
-//		ctrl.setSceneToEdit(scene);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(scene);
+		return (false);
 	}
 
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setSceneToEdit((Scene) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
+	private boolean sceneHasLocation(Scene scene, String selLocation) {
+		List<Location> ls = scene.getLocations();
+		for (Location s : ls) {
+			if (s.getName().equals(selLocation))
+				return (true);
+		}
+		return (false);
 	}
 
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Scene scene = (Scene) getEntityFromRow(row);
-		ctrl.deleteScene(scene);
+	private boolean sceneHasPerson(Scene scene, String selPerson) {
+		List<Person> ls = scene.getPersons();
+		for (Person s : ls) {
+			if (s.getFullName().equals(selPerson))
+				return (true);
+		}
+		return (false);
 	}
 
 	@Override
@@ -237,47 +259,28 @@ public class SceneTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		SceneDAOImpl dao = new SceneDAOImpl(session);
-		Scene scene = dao.find(id);
-		model.commit();
-		return scene;
+	protected synchronized void sendDeleteEntity(int row) {
+		Scene scene = (Scene) getEntityFromRow(row);
+		ctrl.deleteScene(scene);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Scene();
-	}
-
-	private boolean sceneHasPerson(Scene scene, String selPerson) {
-		List<Person> ls=scene.getPersons();
-		for (Person s : ls) {
-			if (s.getFullName().equals(selPerson)) return(true);
+	protected void sendSetEntityToEdit(int row) {
+		SbApp.trace("SceneTable.sendSetEntityToEdit(" + row + ")");
+		if (row == -1) {
+			return;
 		}
-		return(false);
-	}
-
-	private boolean sceneHasItem(Scene scene, String sel) {
-		List<Item> ls=scene.getItems();
-		for (Item s : ls) {
-			if (s.getName().equals(sel)) return(true);
-		}
-		return(false);
-	}
-
-	private boolean sceneHasLocation(Scene scene, String selLocation) {
-		List<Location> ls=scene.getLocations();
-		for (Location s : ls) {
-			if (s.getName().equals(selLocation)) return(true);
-		}
-		return(false);
+		Scene scene = (Scene) getEntityFromRow(row);
+		// ctrl.setSceneToEdit(scene);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(scene);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Scene");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setSceneToEdit((Scene) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 
 }

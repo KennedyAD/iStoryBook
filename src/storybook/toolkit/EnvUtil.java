@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.toolkit;
 
 import java.io.File;
-import java.sql.Timestamp;
-import storybook.model.hbn.entity.Scene;
 
 import storybook.ui.MainFrame;
 
@@ -30,12 +28,12 @@ import storybook.ui.MainFrame;
  */
 public class EnvUtil {
 
+	public static String getDefaultExportDir(MainFrame mainFrame) {
+		return mainFrame.getDbFile().getFile().getParent();
+	}
+
 	public static File getHomeDir() {
 		return new File(System.getProperty("user.home"));
 	}
 
-	public static String getDefaultExportDir(MainFrame mainFrame) {
-		return mainFrame.getDbFile().getFile().getParent();
-	}
-	
 }

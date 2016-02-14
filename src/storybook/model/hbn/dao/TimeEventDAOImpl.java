@@ -28,8 +28,7 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.TimeEvent;
 
-public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implements
-		TimeEventDAO {
+public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implements TimeEventDAO {
 
 	public TimeEventDAOImpl() {
 		super();
@@ -45,15 +44,8 @@ public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implemen
 		buf.append(" order by event_ts, title");
 		Query query = session.createQuery(buf.toString());
 		@SuppressWarnings("unchecked")
-		List<TimeEvent> ret = (List<TimeEvent>) query.list();
+		List<TimeEvent> ret = query.list();
 		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findCategories() {
-		Query query = session
-				.createQuery("select distinct(t.category) from TimeEvent as t order by t.category");
-		return (List<String>) query.list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -61,7 +53,13 @@ public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implemen
 		Criteria crit = session.createCriteria(TimeEvent.class);
 		crit.add(Restrictions.eq("category", category));
 		crit.addOrder(Order.asc("name"));
-		List<TimeEvent> tags = (List<TimeEvent>) crit.list();
+		List<TimeEvent> tags = crit.list();
 		return tags;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findCategories() {
+		Query query = session.createQuery("select distinct(t.category) from TimeEvent as t order by t.category");
+		return query.list();
 	}
 }

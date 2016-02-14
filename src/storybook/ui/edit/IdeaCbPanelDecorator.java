@@ -38,7 +38,7 @@ public class IdeaCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
-	public void decorateBeforeFirstEntity() {
+	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
 	@Override
@@ -54,14 +54,14 @@ public class IdeaCbPanelDecorator extends CbPanelDecorator {
 	}
 
 	@Override
+	public void decorateBeforeFirstEntity() {
+	}
+
+	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		Idea p = (Idea) entity;
 		JLabel lbIcon = new JLabel(p.getIcon());
 		panel.add(lbIcon, "split 2");
 		panel.add(cb);
-	}
-
-	@Override
-	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 }

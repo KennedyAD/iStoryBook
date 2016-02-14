@@ -39,6 +39,6 @@ public abstract class AbstractEntityAction extends AbstractAction {
 		super(name, icon);
 		this.mainFrame = mainframe;
 		this.entity = entity;
-		SbApp.trace("AbstractEntityAction("+mainFrame.getName()+","+entity.getAbbr()+","+name+",icon)");
+		SbApp.trace("AbstractEntityAction(" + mainFrame.getName() + "," + entity.getAbbr() + "," + name + ",icon)");
 	}
 }

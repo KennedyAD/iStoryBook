@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.LazyInitializationException;
 import org.hibernate.Session;
+
 import storybook.SbConstants.ClientPropertyName;
 import storybook.model.BookModel;
 import storybook.model.hbn.entity.Item;
@@ -37,10 +38,9 @@ import storybook.ui.MainFrame;
 public class ItemsTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table,
-				null, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table, null, isSelected, hasFocus, row, column);
 		if (value instanceof String) {
 			return lbText;
 		}

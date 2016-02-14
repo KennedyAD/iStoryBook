@@ -27,7 +27,7 @@ import storybook.ui.interfaces.IRefreshable;
  */
 public interface IRefreshableComboModel extends IRefreshable {
 
-	void setMainFrame(MainFrame mainFrame);
-
 	MainFrame getMainFrame();
+
+	void setMainFrame(MainFrame mainFrame);
 }

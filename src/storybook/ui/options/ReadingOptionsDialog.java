@@ -22,6 +22,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 
 import storybook.SbConstants;
@@ -56,12 +57,9 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 		setZoomMaxValue(200);
 
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.READING_ZOOM, SbConstants.DEFAULT_READING_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.READING_ZOOM, SbConstants.DEFAULT_READING_ZOOM);
 			zoomValue = internal.getIntegerValue();
-			internal = BookUtil.get(mainFrame,
-					BookKey.READING_FONT_SIZE,
-					SbConstants.DEFAULT_READING_FONT_SIZE);
+			internal = BookUtil.get(mainFrame, BookKey.READING_FONT_SIZE, SbConstants.DEFAULT_READING_FONT_SIZE);
 			fontSize = internal.getIntegerValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,7 +72,7 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 	public void initUi() {
 		// font size
 		JLabel lbFontSize = new JLabel(I18N.getMsgColon("msg.common.font.size"));
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 6, 40, fontSize);
+		JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 6, 40, fontSize);
 		slider.setName(CN_FONT_SIZE);
 		slider.setMajorTickSpacing(10);
 		slider.setMinorTickSpacing(5);
@@ -95,8 +93,7 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 			if (!slider.getValueIsAdjusting()) {
 				int val = slider.getValue();
 				mainFrame.getBookController().readingSetFontSize(val);
-				BookUtil.store(mainFrame,
-						BookKey.READING_FONT_SIZE, val);
+				BookUtil.store(mainFrame, BookKey.READING_FONT_SIZE, val);
 				return;
 			}
 		}

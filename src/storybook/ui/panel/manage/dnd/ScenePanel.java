@@ -28,6 +28,8 @@ import javax.accessibility.Accessible;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
+import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.action.EditEntityAction;
@@ -39,12 +41,9 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractScenePanel;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
-
-import org.miginfocom.swing.MigLayout;
-import storybook.SbApp;
+import storybook.ui.panel.AbstractScenePanel;
 
 @SuppressWarnings("serial")
 public class ScenePanel extends AbstractScenePanel implements MouseListener, Accessible, IRefreshable {
@@ -55,18 +54,19 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 	public final static int TYPE_NEXT = 4;
 
 	private int type = TYPE_NONE;
-//	private Scene scene;
+	// private Scene scene;
 	private JLabel lbScene;
 	private int textLength;
 
 	public ScenePanel(MainFrame mainFrame, Scene scene) {
 		this(mainFrame, scene, TYPE_NONE);
-		SbApp.trace("ScenePanel("+mainFrame.getName()+", "+scene.getFullTitle()+", "+type);
+		SbApp.trace("ScenePanel(" + mainFrame.getName() + ", " + scene.getFullTitle() + ", " + type);
 	}
 
 	public ScenePanel(MainFrame mainFrame, Scene scene, int type) {
 		super(mainFrame, scene);
-		SbApp.trace("ScenePanel("+mainFrame.getName()+", "+((scene!=null)?scene.getFullTitle():"null")+", "+type+")");
+		SbApp.trace("ScenePanel(" + mainFrame.getName() + ", " + ((scene != null) ? scene.getFullTitle() : "null")
+				+ ", " + type + ")");
 		this.scene = scene;
 		this.type = type;
 		initAll();
@@ -74,24 +74,23 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		addMouseListener(this);
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	protected ScenePanel getThis() {
+		return this;
+	}
+
+	public int getType() {
+		return type;
 	}
 
 	@Override
 	public void init() {
 		SbApp.trace("ScenePanel.init()");
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
 			setZoomedSize(internal.getIntegerValue());
 		} catch (Exception e) {
 			setZoomedSize(SbConstants.DEFAULT_MANAGE_ZOOM);
 		}
-	}
-
-	private void setZoomedSize(int zoomValue) {
-		textLength = 10 + zoomValue * 8;
 	}
 
 	@Override
@@ -149,20 +148,20 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 	}
 
 	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+	}
+
+	@Override
 	public void mouseClicked(MouseEvent evt) {
 		if (scene == null) {
 			return;
 		}
 		requestFocusInWindow();
 		if (evt.getClickCount() == 2) {
-			EditEntityAction act = new EditEntityAction(mainFrame, scene,false);
+			EditEntityAction act = new EditEntityAction(mainFrame, scene, false);
 			act.actionPerformed(null);
 			return;
 		}
-	}
-
-	protected ScenePanel getThis() {
-		return this;
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 	public void mouseReleased(MouseEvent e) {
 	}
 
-	public int getType() {
-		return type;
+	private void setZoomedSize(int zoomValue) {
+		textLength = 10 + zoomValue * 8;
 	}
 }

@@ -42,8 +42,12 @@ public class HtmlSelection implements Transferable, ClipboardOwner {
 	}
 
 	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		// System.out.println("HtmlSelection.lostOwnership(): ");
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+		if (flavor.equals(htmlFlavor)) {
+			return new ByteArrayInputStream(htmlText.getBytes());
+		} else {
+			throw new UnsupportedFlavorException(htmlFlavor);
+		}
 	}
 
 	@Override
@@ -57,12 +61,7 @@ public class HtmlSelection implements Transferable, ClipboardOwner {
 	}
 
 	@Override
-	public Object getTransferData(DataFlavor flavor)
-			throws UnsupportedFlavorException, IOException {
-		if (flavor.equals(htmlFlavor)) {
-			return new ByteArrayInputStream(htmlText.getBytes());
-		} else {
-			throw new UnsupportedFlavorException(htmlFlavor);
-		}
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		// System.out.println("HtmlSelection.lostOwnership(): ");
 	}
 }

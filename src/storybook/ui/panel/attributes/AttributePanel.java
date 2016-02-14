@@ -24,11 +24,10 @@ import java.util.List;
 
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.model.hbn.entity.Attribute;
 import storybook.toolkit.swing.AutoCompleteComboBox;
 import storybook.ui.panel.AbstractPanel;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -42,18 +41,23 @@ public class AttributePanel extends AbstractPanel {
 	private JTextField tfValue;
 	private List<String> keys;
 
-	public AttributePanel(List<String> keys) {
-		this(null, keys);
-	}
-
 	public AttributePanel(Attribute attribute, List<String> keys) {
 		this.attribute = attribute;
 		this.keys = keys;
 		initAll();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	public AttributePanel(List<String> keys) {
+		this(null, keys);
+	}
+
+	public Attribute getAttribute() {
+		String key = (String) combo.getJComboBox().getSelectedItem();
+		String value = tfValue.getText();
+		if (key.isEmpty() || value.isEmpty()) {
+			return null;
+		}
+		return new Attribute(key, value);
 	}
 
 	@Override
@@ -85,12 +89,7 @@ public class AttributePanel extends AbstractPanel {
 		add(tfValue, "growx");
 	}
 
-	public Attribute getAttribute() {
-		String key = (String) combo.getJComboBox().getSelectedItem();
-		String value = tfValue.getText();
-		if (key.isEmpty() || value.isEmpty()) {
-			return null;
-		}
-		return new Attribute(key, value);
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 }

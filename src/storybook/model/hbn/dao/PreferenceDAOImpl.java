@@ -19,13 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.dao;
 
 import org.hibernate.Session;
-import storybook.model.hbn.entity.Preference;
 
 import com.googlecode.genericdao.search.Filter;
 import com.googlecode.genericdao.search.Search;
 
-public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long>
-		implements PreferenceDAO {
+import storybook.model.hbn.entity.Preference;
+
+public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implements PreferenceDAO {
 
 	public PreferenceDAOImpl() {
 		super();
@@ -40,6 +40,46 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long>
 		Search search = new Search();
 		search.addFilter(filter);
 		return searchUnique(search);
+	}
+
+	public void remove(String key) {
+		Preference pref = findByKey(key);
+		if (pref != null) {
+			session.delete(pref);
+		}
+	}
+
+	public void saveOrUpdate(String key, Boolean value) {
+		Preference pref = findByKey(key);
+		if (pref == null) {
+			pref = new Preference(key, value);
+			session.save(pref);
+		} else {
+			pref.setBooleanValue(value);
+			session.update(pref);
+		}
+	}
+
+	public void saveOrUpdate(String key, byte[] value) {
+		Preference pref = findByKey(key);
+		if (pref == null) {
+			pref = new Preference(key, value);
+			session.save(pref);
+		} else {
+			pref.setBinValue(value);
+			session.update(pref);
+		}
+	}
+
+	public void saveOrUpdate(String key, Integer value) {
+		Preference pref = findByKey(key);
+		if (pref == null) {
+			pref = new Preference(key, value);
+			session.save(pref);
+		} else {
+			pref.setIntegerValue(value);
+			session.update(pref);
+		}
 	}
 
 	public void saveOrUpdate(String key, Object value) {
@@ -69,46 +109,6 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long>
 		} else {
 			pref.setStringValue(value);
 			session.update(pref);
-		}
-	}
-
-	public void saveOrUpdate(String key, Integer value) {
-		Preference pref = findByKey(key);
-		if (pref == null) {
-			pref = new Preference(key, value);
-			session.save(pref);
-		} else {
-			pref.setIntegerValue(value);
-			session.update(pref);
-		}
-	}
-
-	public void saveOrUpdate(String key, Boolean value) {
-		Preference pref = findByKey(key);
-		if (pref == null) {
-			pref = new Preference(key, value);
-			session.save(pref);
-		} else {
-			pref.setBooleanValue(value);
-			session.update(pref);
-		}
-	}
-
-	public void saveOrUpdate(String key, byte[] value) {
-		Preference pref = findByKey(key);
-		if (pref == null) {
-			pref = new Preference(key, value);
-			session.save(pref);
-		} else {
-			pref.setBinValue(value);
-			session.update(pref);
-		}
-	}
-
-	public void remove(String key) {
-		Preference pref = findByKey(key);
-		if (pref != null) {
-			session.delete(pref);
 		}
 	}
 }

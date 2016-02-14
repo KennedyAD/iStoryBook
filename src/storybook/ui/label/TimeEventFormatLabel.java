@@ -42,14 +42,14 @@ public class TimeEventFormatLabel extends JLabel implements IRefreshable {
 		refresh();
 	}
 
-	@Override
-	public void refresh() {
-	    setText(state.toString());
-		setToolTipText(I18N.getMsgColon("msg.status") + " " + state);
-	}
-
 	public TimeStepState getState() {
 		return state;
+	}
+
+	@Override
+	public void refresh() {
+		setText(state.toString());
+		setToolTipText(I18N.getMsgColon("msg.status") + " " + state);
 	}
 
 	public void setState(TimeStepState state) {

@@ -4,13 +4,28 @@
  */
 package storybook.ui.chart;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.TableColumn;
+
+import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
-import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.I18N;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.swing.ColorUtil;
@@ -23,27 +38,8 @@ import storybook.toolkit.swing.table.HeaderTableCellRenderer;
 import storybook.toolkit.swing.table.ToolTipHeader;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.legend.StrandsLegendPanel;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
-import org.hibernate.Session;
 
-public class PersonsBySceneChart extends AbstractPersonsChart
-	implements ChangeListener {
+public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeListener {
 
 	private JTable table;
 	private JSlider colSlider;
@@ -53,44 +49,6 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 	public PersonsBySceneChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.report.person.scene.title");
 		this.partRelated = true;
-	}
-
-	protected void initChartUi() {
-		JLabel localJLabel = new JLabel(this.chartTitle);
-		localJLabel.setFont(FontUtil.getBoldFont());
-		this.table = createTable();
-		FixedColumnScrollPane localFixedColumnScrollPane = new FixedColumnScrollPane(this.table, 1);
-		localFixedColumnScrollPane.getRowHeader().setPreferredSize(new Dimension(200, 20));
-		this.panel.add(localJLabel, "center");
-		this.panel.add(localFixedColumnScrollPane, "grow, h pref-20");
-		this.panel.add(new StrandsLegendPanel(this.mainFrame), "gap push");
-	}
-
-	protected void initOptionsUi() {
-		super.initOptionsUi();
-		this.cbShowUnusedPersons = new JCheckBox();
-		this.cbShowUnusedPersons.setSelected(true);
-		this.cbShowUnusedPersons.setText(I18N.getMsg("msg.chart.common.unused.characters"));
-		this.cbShowUnusedPersons.setOpaque(false);
-		this.cbShowUnusedPersons.addActionListener(this);
-		JLabel localJLabel = new JLabel(I18N.getIcon("icon.small.size"));
-		this.colSlider = SwingUtil.createSafeSlider(0, 5, 200, this.colWidth);
-		this.colSlider.setMinorTickSpacing(1);
-		this.colSlider.setMajorTickSpacing(2);
-		this.colSlider.setSnapToTicks(false);
-		this.colSlider.addChangeListener(this);
-		this.colSlider.setOpaque(false);
-		this.optionsPanel.add(this.cbShowUnusedPersons, "right,gap push");
-		this.optionsPanel.add(localJLabel, "gap 20");
-		this.optionsPanel.add(this.colSlider);
-	}
-
-	@Override
-	public void refresh() {
-		this.colWidth = this.colSlider.getValue();
-		super.refresh();
-		this.colSlider.setValue(this.colWidth);
-		setTableColumnWidth();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -109,7 +67,7 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 		Object scenesIterator = scenes.iterator();
 		while (((Iterator) scenesIterator).hasNext()) {
 			Scene scene = (Scene) ((Iterator) scenesIterator).next();
-			string1[i] = ((Scene) scene).getChapterSceneNo(false);
+			string1[i] = scene.getChapterSceneNo(false);
 			i++;
 		}
 		scenesIterator = new ArrayList();
@@ -141,11 +99,11 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 		Object[][] localObject31 = new Object[((List) scenesIterator).size()][];
 		i = 0;
 		Iterator localObject4 = ((List) scenesIterator).iterator();
-		while (((Iterator) localObject4).hasNext()) {
-			Object[] arrayOfObject1 = (Object[]) ((Iterator) localObject4).next();
+		while (localObject4.hasNext()) {
+			Object[] arrayOfObject1 = (Object[]) localObject4.next();
 			localObject31[(i++)] = arrayOfObject1;
 		}
-		JTable ntable = new ReadOnlyTable((Object[][]) localObject31, string1);
+		JTable ntable = new ReadOnlyTable(localObject31, string1);
 		if (ntable.getModel().getRowCount() == 0) {
 			return ntable;
 		}
@@ -163,14 +121,49 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 		ntable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		ntable.getTableHeader().setReorderingAllowed(false);
 		ToolTipHeader localToolTipHeader = new ToolTipHeader(ntable.getColumnModel());
-		localToolTipHeader.setToolTipStrings((String[]) string2);
+		localToolTipHeader.setToolTipStrings(string2);
 		localToolTipHeader.setToolTipText("Default ToolTip TEXT");
 		ntable.setTableHeader(localToolTipHeader);
 		return ntable;
 	}
 
 	@Override
-	public void stateChanged(ChangeEvent paramChangeEvent) {
+	protected void initChartUi() {
+		JLabel localJLabel = new JLabel(this.chartTitle);
+		localJLabel.setFont(FontUtil.getBoldFont());
+		this.table = createTable();
+		FixedColumnScrollPane localFixedColumnScrollPane = new FixedColumnScrollPane(this.table, 1);
+		localFixedColumnScrollPane.getRowHeader().setPreferredSize(new Dimension(200, 20));
+		this.panel.add(localJLabel, "center");
+		this.panel.add(localFixedColumnScrollPane, "grow, h pref-20");
+		this.panel.add(new StrandsLegendPanel(this.mainFrame), "gap push");
+	}
+
+	@Override
+	protected void initOptionsUi() {
+		super.initOptionsUi();
+		this.cbShowUnusedPersons = new JCheckBox();
+		this.cbShowUnusedPersons.setSelected(true);
+		this.cbShowUnusedPersons.setText(I18N.getMsg("msg.chart.common.unused.characters"));
+		this.cbShowUnusedPersons.setOpaque(false);
+		this.cbShowUnusedPersons.addActionListener(this);
+		JLabel localJLabel = new JLabel(I18N.getIcon("icon.small.size"));
+		this.colSlider = SwingUtil.createSafeSlider(0, 5, 200, this.colWidth);
+		this.colSlider.setMinorTickSpacing(1);
+		this.colSlider.setMajorTickSpacing(2);
+		this.colSlider.setSnapToTicks(false);
+		this.colSlider.addChangeListener(this);
+		this.colSlider.setOpaque(false);
+		this.optionsPanel.add(this.cbShowUnusedPersons, "right,gap push");
+		this.optionsPanel.add(localJLabel, "gap 20");
+		this.optionsPanel.add(this.colSlider);
+	}
+
+	@Override
+	public void refresh() {
+		this.colWidth = this.colSlider.getValue();
+		super.refresh();
+		this.colSlider.setValue(this.colWidth);
 		setTableColumnWidth();
 	}
 
@@ -180,5 +173,10 @@ public class PersonsBySceneChart extends AbstractPersonsChart
 			TableColumn localTableColumn = this.table.getColumnModel().getColumn(i);
 			localTableColumn.setPreferredWidth(this.colWidth);
 		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent paramChangeEvent) {
+		setTableColumnWidth();
 	}
 }

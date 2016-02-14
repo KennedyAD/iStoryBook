@@ -20,8 +20,31 @@ public class LocationCopier extends AbstractCopier<Location> {
 	}
 
 	@Override
+	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Location originElt,
+			Location destElt) {
+	}
+
+	@Override
+	protected List<Location> getAllElements(Session session, MainFrame origin) {
+		LocationDAOImpl dao = new LocationDAOImpl(session);
+		List<Location> ret = dao.findAll();
+
+		return ret;
+	}
+
+	@Override
+	protected CbPanelDecorator getDecorator() {
+		return new LocationCbPanelDecorator();
+	}
+
+	@Override
+	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
+		return new LocationEntityHandler(mainFrame);
+	}
+
+	@Override
 	protected void prepareTransfer(MainFrame origin, MainFrame destination, Location originElt, Location destElt) {
-		
+
 		setLocation(destination, originElt, destElt);
 	}
 
@@ -47,28 +70,6 @@ public class LocationCopier extends AbstractCopier<Location> {
 				destElt.setSite(destCat);
 			}
 		}
-	}
-
-	@Override
-	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Location originElt, Location destElt) {
-	}
-
-	@Override
-	protected List<Location> getAllElements(Session session, MainFrame origin) {
-		LocationDAOImpl dao = new LocationDAOImpl(session);
-		List<Location> ret = dao.findAll();
-		
-		return ret;
-	}
-	
-	@Override
-	protected CbPanelDecorator getDecorator() {
-		return new LocationCbPanelDecorator();
-	}
-
-	@Override
-	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
-		return new LocationEntityHandler(mainFrame);
 	}
 
 }

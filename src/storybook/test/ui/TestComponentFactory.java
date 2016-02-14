@@ -33,7 +33,14 @@ public class TestComponentFactory {
 
 	private static int counter = 0;
 
+	public static TestComponentFactory getInstance() {
+		if (instance == null) {
+			instance = new TestComponentFactory();
+		}
+		return instance;
+	}
 	private View view0;
+
 	private View view1;
 
 	private TestComponentFactory() {
@@ -49,23 +56,16 @@ public class TestComponentFactory {
 		return new JLabel("error");
 	}
 
-	public static TestComponentFactory getInstance() {
-		if (instance == null) {
-			instance = new TestComponentFactory();
-		}
-		return instance;
-	}
-
 	public View getView0() {
 		return view0;
 	}
 
-	public void setView0(View view0) {
-		this.view0 = view0;
-	}
-
 	public View getView1() {
 		return view1;
+	}
+
+	public void setView0(View view0) {
+		this.view0 = view0;
 	}
 
 	public void setView1(View view1) {

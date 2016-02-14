@@ -25,10 +25,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
-
-import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class BrowserPanel extends JEditorPane implements HyperlinkListener {
@@ -58,6 +57,17 @@ public class BrowserPanel extends JEditorPane implements HyperlinkListener {
 		addHyperlinkListener(this);
 	}
 
+	@Override
+	public void hyperlinkUpdate(HyperlinkEvent evt) {
+		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+			try {
+				NetUtil.openBrowser(evt.getURL().toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private void initGUI() {
 		MigLayout layout = new MigLayout("wrap,fill", "[]", "[]");
 		setLayout(layout);
@@ -69,17 +79,6 @@ public class BrowserPanel extends JEditorPane implements HyperlinkListener {
 			setPage(url);
 		} catch (Exception e) {
 			setText(I18N.getMsg("msg.error.internet.connection.failed", url) + "\n");
-		}
-	}
-
-	@Override
-	public void hyperlinkUpdate(HyperlinkEvent evt) {
-		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			try {
-				NetUtil.openBrowser(evt.getURL().toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }

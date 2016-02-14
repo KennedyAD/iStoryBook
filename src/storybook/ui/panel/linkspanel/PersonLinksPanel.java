@@ -8,18 +8,18 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.swing.label.CleverLabel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class PersonLinksPanel extends AbstractPanel {
@@ -38,25 +38,8 @@ public class PersonLinksPanel extends AbstractPanel {
 		refresh();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		// Object oldValue = evt.getOldValue();
-		Object newValue = evt.getNewValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.SceneProps.UPDATE.check(propName)) {
-			if (!((Scene) newValue).getId().equals(scene.getId())) {
-				// not this scene
-				return;
-			}
-			refresh();
-			return;
-		}
-
-		if (BookController.PersonProps.UPDATE.check(propName)) {
-			refresh();
-			return;
-		}
+	public Scene getScene() {
+		return scene;
 	}
 
 	@Override
@@ -109,7 +92,24 @@ public class PersonLinksPanel extends AbstractPanel {
 		return vertical;
 	}
 
-	public Scene getScene() {
-		return scene;
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		// Object oldValue = evt.getOldValue();
+		Object newValue = evt.getNewValue();
+		String propName = evt.getPropertyName();
+
+		if (BookController.SceneProps.UPDATE.check(propName)) {
+			if (!((Scene) newValue).getId().equals(scene.getId())) {
+				// not this scene
+				return;
+			}
+			refresh();
+			return;
+		}
+
+		if (BookController.PersonProps.UPDATE.check(propName)) {
+			refresh();
+			return;
+		}
 	}
 }

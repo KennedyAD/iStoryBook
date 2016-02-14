@@ -7,6 +7,7 @@
 package storybook.model.handler;
 
 import javax.swing.ListCellRenderer;
+
 import storybook.model.hbn.dao.AttributeDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Attribute;
@@ -25,15 +26,9 @@ public class AttributeEntityHandler extends AbstractEntityHandler {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public <T> Class<T> getEntityClass() {
-		return (Class<T>) Attribute.class;
-	}
-
-	@Override
 	public AbstractEntity createNewEntity() {
-		Attribute attribute=new Attribute();
-		return(attribute);
+		Attribute attribute = new Attribute();
+		return (attribute);
 	}
 
 	@Override
@@ -41,7 +36,13 @@ public class AttributeEntityHandler extends AbstractEntityHandler {
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) AttributeDAOImpl.class;
 	}
-	
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> getEntityClass() {
+		return (Class<T>) Attribute.class;
+	}
+
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new AttributeListCellRenderer();

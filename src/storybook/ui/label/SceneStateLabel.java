@@ -44,6 +44,10 @@ public class SceneStateLabel extends JLabel implements IRefreshable {
 		refresh();
 	}
 
+	public SceneState getState() {
+		return state;
+	}
+
 	@Override
 	public void refresh() {
 		if (!iconOnly) {
@@ -51,10 +55,6 @@ public class SceneStateLabel extends JLabel implements IRefreshable {
 		}
 		setIcon(state.getIcon());
 		setToolTipText(I18N.getMsgColon("msg.status") + " " + state);
-	}
-
-	public SceneState getState() {
-		return state;
 	}
 
 	public void setState(SceneState state) {

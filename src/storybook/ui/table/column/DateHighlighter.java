@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
+
 import storybook.toolkit.swing.label.DateLabel;
 
 /**

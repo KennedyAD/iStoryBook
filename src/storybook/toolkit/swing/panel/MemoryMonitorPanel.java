@@ -27,20 +27,19 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.interfaces.IPaintable;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
  *
  */
 @SuppressWarnings("serial")
-public class MemoryMonitorPanel extends JPanel implements IPaintable,
-		ActionListener {
+public class MemoryMonitorPanel extends JPanel implements IPaintable, ActionListener {
 
 	private Timer timer;
 	private JLabel lbText;
@@ -48,6 +47,11 @@ public class MemoryMonitorPanel extends JPanel implements IPaintable,
 	public MemoryMonitorPanel() {
 		init();
 		initUi();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		repaint();
 	}
 
 	@Override
@@ -59,7 +63,7 @@ public class MemoryMonitorPanel extends JPanel implements IPaintable,
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowx,ins 1"));
-		lbText = new JLabel("X", JLabel.CENTER);
+		lbText = new JLabel("X", SwingConstants.CENTER);
 		lbText.setPreferredSize(new Dimension(200, 16));
 		add(lbText);
 	}
@@ -92,15 +96,10 @@ public class MemoryMonitorPanel extends JPanel implements IPaintable,
 		g2d.fillRect(xUsed + xFree, 0, xUsed + xFree + xMax, h);
 
 		g2d.setColor(Color.gray);
-		g2d.drawRect(0,0,w-1,h-1);
+		g2d.drawRect(0, 0, w - 1, h - 1);
 
 		// g2d.setPaint(new GradientPaint(0, 0, Color.white, 0, height, new
 		// Color(
 		// 0x0072B6)));
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		repaint();
 	}
 }

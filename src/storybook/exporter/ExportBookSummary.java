@@ -26,23 +26,62 @@ public class ExportBookSummary {
 		parent = m;
 	}
 
+	public String debut() {
+		String str = "";
+		switch (parent.format) {
+		case "html":
+			html.open(true);
+			break;
+		case "csv":
+			csv.open();
+			break;// no header
+		case "txt":
+			txt.open();
+			break;// no header
+		case "pdf":
+			pdf.open();
+			break;
+		case "odf":
+			odf.open();
+			break;
+		}
+		return (str);
+	}
+
+	private void fin() {
+		switch (parent.format) {
+		case "html":
+			html.close(true);
+			break;
+		case "pdf":
+			pdf.close();
+			break;
+		case "csv":
+			csv.close();
+			break;
+		case "txt":
+			txt.close();
+			break;
+		}
+	}
+
 	public String get() {
 		switch (parent.format) {
-			case "html":
-				html=new ExportHtml(parent,"BookSummary",parent.file.getAbsolutePath(),null,parent.author);
-				break;
-			case "csv":
-				csv=new ExportCsv(parent,"BookSummary",parent.file.getAbsolutePath(),null,parent.author);
-				break;
-			case "txt":
-				txt=new ExportTxt(parent,"BookSummary",parent.file.getAbsolutePath(),null,parent.author);
-				break;
-			case "pdf":
-				pdf=new ExportPDF(parent,"BookSummary",parent.file.getAbsolutePath(),null,parent.author);
-				break;
-			case "odf":
-				odf=new ExportOdf(parent,"BookSummary",parent.file.getAbsolutePath(),null,parent.author);
-				break;
+		case "html":
+			html = new ExportHtml(parent, "BookSummary", parent.file.getAbsolutePath(), null, parent.author);
+			break;
+		case "csv":
+			csv = new ExportCsv(parent, "BookSummary", parent.file.getAbsolutePath(), null, parent.author);
+			break;
+		case "txt":
+			txt = new ExportTxt(parent, "BookSummary", parent.file.getAbsolutePath(), null, parent.author);
+			break;
+		case "pdf":
+			pdf = new ExportPDF(parent, "BookSummary", parent.file.getAbsolutePath(), null, parent.author);
+			break;
+		case "odf":
+			odf = new ExportOdf(parent, "BookSummary", parent.file.getAbsolutePath(), null, parent.author);
+			break;
 		}
 		String str = debut();
 		ligne(I18N.getMsgColon("msg.common.title"),
@@ -61,64 +100,25 @@ public class ExportBookSummary {
 		return (str);
 	}
 
-	public String debut() {
-		String str = "";
-		switch (parent.format) {
-			case "html":
-				html.open(true);
-				break;
-			case "csv":
-				csv.open();
-				break;//no header
-			case "txt":
-				txt.open();
-				break;//no header
-			case "pdf":
-				pdf.open();
-				break;
-			case "odf":
-				odf.open();
-				break;
-		}
-		return (str);
-	}
-
 	private void ligne(String lib, String data) {
-		String str=lib+" "+data;
+		String str = lib + " " + data;
 		switch (parent.format) {
-			case "html":
-				str = "<b>"+lib+"</b> "+data;
-				html.writeText(str,true);
-				break;
-			case "csv":
-				csv.writeText(str);
-				break;
-			case "txt":
-				txt.writeText(str);
-				break;
-			case "pdf":
-				pdf.writeText(str);
-				break;
-			case "odf":
-				odf.writeText(str);
-				break;
-		}
-	}
-
-	private void fin() {
-		switch(parent.format) {
-			case "html":
-				html.close(true);
-				break;
-			case "pdf":
-				pdf.close();
-				break;
-			case "csv":
-				csv.close();
-				break;
-			case "txt":
-				txt.close();
-				break;
+		case "html":
+			str = "<b>" + lib + "</b> " + data;
+			html.writeText(str, true);
+			break;
+		case "csv":
+			csv.writeText(str);
+			break;
+		case "txt":
+			txt.writeText(str);
+			break;
+		case "pdf":
+			pdf.writeText(str);
+			break;
+		case "odf":
+			odf.writeText(str);
+			break;
 		}
 	}
 }

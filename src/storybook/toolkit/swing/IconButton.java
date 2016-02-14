@@ -37,12 +37,12 @@ public class IconButton extends JButton {
 		super();
 	}
 
-	public IconButton(String resourceIcon) {
-		this(resourceIcon, null);
-	}
-
 	public IconButton(Action action) {
 		this(null, null, action);
+	}
+
+	public IconButton(String resourceIcon) {
+		this(resourceIcon, null);
 	}
 
 	public IconButton(String resourceIcon, Action action) {
@@ -61,16 +61,37 @@ public class IconButton extends JButton {
 		}
 	}
 
+	public Dimension getSize16x16() {
+		return size16x16;
+	}
+
+	public Dimension getSize20x20() {
+		return size20x20;
+	}
+
+	public Dimension getSize72x72() {
+		return size72x72;
+	}
+
+	public void setControlButton() {
+		this.setSize16x16();
+		this.setNoBorder();
+	}
+
+	public void setFlat() {
+		setBorderPainted(false);
+		setOpaque(false);
+		setContentAreaFilled(false);
+	}
+
 	public void setIcon(String resourceIcon) {
 		if (resourceIcon != null) {
 			setIcon(I18N.getIcon(resourceIcon));
 		}
 	}
 
-	public void setFlat(){
-		setBorderPainted(false);
-		setOpaque(false);
-		setContentAreaFilled(false);
+	public void setNoBorder() {
+		this.setBorder(null);
 	}
 
 	public void setSize16x16() {
@@ -87,26 +108,5 @@ public class IconButton extends JButton {
 
 	public void setSize72x72() {
 		SwingUtil.setForcedSize(this, size72x72);
-	}
-
-	public Dimension getSize16x16() {
-		return size16x16;
-	}
-
-	public Dimension getSize20x20() {
-		return size20x20;
-	}
-
-	public Dimension getSize72x72() {
-		return size72x72;
-	}
-
-	public void setNoBorder() {
-		this.setBorder(null);
-	}
-
-	public void setControlButton() {
-		this.setSize16x16();
-		this.setNoBorder();
 	}
 }

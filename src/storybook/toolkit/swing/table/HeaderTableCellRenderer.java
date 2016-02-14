@@ -32,9 +32,7 @@ import storybook.toolkit.swing.SwingUtil;
 public class HeaderTableCellRenderer implements TableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(
-			JTable table, Object value,
-			boolean isSelected, boolean hasFocus,
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		if (value == null) {
 			return new JLabel("");

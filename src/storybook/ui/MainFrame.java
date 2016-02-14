@@ -43,7 +43,8 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
-import org.miginfocom.swing.MigLayout;
+
+import org.hibernate.Session;
 
 import net.infonode.docking.DockingWindow;
 import net.infonode.docking.DockingWindowAdapter;
@@ -59,9 +60,7 @@ import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.MixedViewHandler;
 import net.infonode.docking.util.StringViewMap;
 import net.infonode.util.Direction;
-
-import org.hibernate.Session;
-
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
@@ -100,6 +99,70 @@ import storybook.ui.panel.BlankPanel;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame implements IPaintable {
 
+	private static class DynamicView extends View {
+
+		private final int id;
+
+		DynamicView(String title, Icon icon, Component component, int id) {
+			super(title, icon, component);
+			this.id = id;
+		}
+
+		public int getId() {
+			return id;
+		}
+	}
+	private class MainDockingWindowAdapter extends DockingWindowAdapter {
+
+		@Override
+		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
+			SbApp.trace("MainDockingWindowAdapter.windowAdded(" + addedToWindow.getName() + ", " + addedWindow.getName()
+					+ ")");
+			if (addedWindow != null && addedWindow instanceof SbView) {
+				SbView view = (SbView) addedWindow;
+				if (!view.isLoaded()) {
+					viewFactory.loadView(view);
+					bookController.attachView(view.getComponent());
+					bookModel.fireAgain(view);
+				}
+			}
+		}
+
+		@Override
+		public void windowClosed(DockingWindow window) {
+			SbApp.trace("MainDockingWindowAdapter.windowClosed(" + window.getName() + ")");
+			if (window != null && window instanceof SbView) {
+				SbView view = (SbView) window;
+				/*
+				 * suppression editorView if
+				 * (ViewName.EDITOR.toString().equals(view.getName())) { //
+				 * don't detach / unload the editor return; }
+				 */
+				if (!view.isLoaded()) {
+					return;
+				}
+				bookController.detachView(view.getComponent());
+				viewFactory.unloadView(view);
+				/*
+				 * suppression du garbage collector SbApp.getInstance().runGC();
+				 */
+			}
+		}
+	}
+	private class MainFrameWindowAdaptor extends WindowAdapter {
+
+		@Override
+		public void windowClosing(WindowEvent evt) {
+			close(true);
+		}
+	}
+	private static JComponent createDummyViewComponent(String text) {
+		StringBuilder sb = new StringBuilder();
+		for (int j = 0; j < 100; j++) {
+			sb.append(text).append(". This is line ").append(j).append("\n");
+		}
+		return new JScrollPane(new JTextArea(sb.toString()));
+	}
 	private BookModel bookModel;
 	private BookController bookController;
 	private SbActionManager sbActionManager;
@@ -108,13 +171,151 @@ public class MainFrame extends JFrame implements IPaintable {
 	private RootWindow rootWindow;
 	private StatusBarPanel statusBar;
 	private HashMap<Integer, JComponent> dynamicViews = new HashMap<Integer, JComponent>();
+
 	private DbFile dbFile;
+
 	private Part currentPart;
+
 	private boolean EditorModless;
+
 	private UnicodeDialog unicodeDialog;
 
 	public MainFrame() {
 		FontUtil.setDefaultFont(new Font("Arial", Font.PLAIN, 12));
+	}
+
+	public void close(boolean exitIfEmpty) {
+		if (!isBlank()) {
+			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
+			if (pref.getBooleanValue()) {
+				int n = JOptionPane.showConfirmDialog(getThis(), I18N.getMsg("msg.common.want.close"),
+						I18N.getMsg("msg.common.close"), JOptionPane.YES_NO_OPTION);
+				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+					return;
+				}
+			}
+			// save
+			getSbActionManager().getActionHandler().handleFileSave();
+			// save dimension, location, maximized
+			Dimension dim = getSize();
+			PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
+			PrefUtil.set(PreferenceKey.SIZE_HEIGHT, dim.height);
+			PrefUtil.set(PreferenceKey.POS_X, getLocationOnScreen().x);
+			PrefUtil.set(PreferenceKey.POS_Y, getLocationOnScreen().y);
+			PrefUtil.set(PreferenceKey.MAXIMIZED, isMaximized());
+			// save layout
+			DockingWindowUtil.saveLayout(this, SbConstants.BookKey.LAST_USED_LAYOUT.toString());
+			// save last used part
+			BookUtil.store(this, BookKey.LAST_USED_PART.toString(), ((int) (long) getCurrentPart().getId()));
+		}
+
+		bookModel.closeSession();
+		SbApp app = SbApp.getInstance();
+		app.removeMainFrame(this);
+		dispose();
+		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
+			app.exit();
+		}
+	}
+
+	public void closeView(ViewName viewName) {
+		SbApp.trace("MainFrame.closeView(" + viewName.name() + ")");
+		SbView view = getView(viewName);
+		view.close();
+	}
+
+	public ActionHandler getActionController() {
+		return sbActionManager.getActionController();
+	}
+
+	public BookController getBookController() {
+		return bookController;
+	}
+
+	public BookModel getBookModel() {
+		return bookModel;
+	}
+
+	public Part getCurrentPart() {
+		try {
+			Session session = bookModel.beginTransaction();
+			if (currentPart == null) {
+				PartDAOImpl dao = new PartDAOImpl(session);
+				currentPart = dao.findFirst();
+			} else {
+				session.refresh(currentPart);
+			}
+			bookModel.commit();
+			return currentPart;
+		} catch (NullPointerException e) {
+		}
+		return null;
+	}
+
+	public DbFile getDbFile() {
+		return dbFile;
+	}
+
+	private View getDynamicView(int id) {
+		View view = (View) dynamicViews.get(new Integer(id));
+		if (view == null) {
+			view = new DynamicView("Dynamic View " + id, null, createDummyViewComponent("Dynamic View " + id), id);
+		}
+		return view;
+	}
+
+	public JToolBar getMainToolBar() {
+		return mainToolBar;
+	}
+
+	public RootWindow getRootWindow() {
+		return rootWindow;
+	}
+
+	public SbActionManager getSbActionManager() {
+		return sbActionManager;
+	}
+
+	private MainFrame getThis() {
+		return this;
+	}
+
+	public SbView getView(String viewName) {
+		return viewFactory.getView(viewName);
+	}
+
+	public SbView getView(ViewName viewName) {
+		return viewFactory.getView(viewName);
+	}
+
+	public ViewFactory getViewFactory() {
+		return viewFactory;
+	}
+
+	public boolean hasCurrentPart() {
+		return currentPart != null;
+	}
+
+	public void hideEditor() {
+		/*
+		 * Timer timer = new Timer(200, new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 */
+		// View editorView = getView(ViewName.EDITOR);
+		// if (!editorView.isShowing()) {
+		// return;
+		// }
+		/*
+		 * if (editorView.isMinimized()) { WindowBar bar =
+		 * rootWindow.getWindowBar(Direction.RIGHT); bar.setSelectedTab(-1); }
+		 * else {
+		 */
+		// editorView.close();
+		/* } */
+		/*
+		 * } }); timer.setRepeats(false); timer.start();
+		 */
 	}
 
 	@Override
@@ -147,8 +348,9 @@ public class MainFrame extends JFrame implements IPaintable {
 			}
 			bookController.attachModel(bookModel);
 			// Google maps
-			//Preference pref = PrefUtil.get(PreferenceKey.GOOGLE_MAPS_URL, SbConstants.DEFAULT_GOOGLE_MAPS_URL);
-			//NetUtil.setGoogleMapUrl(pref.getStringValue());
+			// Preference pref = PrefUtil.get(PreferenceKey.GOOGLE_MAPS_URL,
+			// SbConstants.DEFAULT_GOOGLE_MAPS_URL);
+			// NetUtil.setGoogleMapUrl(pref.getStringValue());
 			// spell checker
 			SpellCheckerUtil.registerDictionaries();
 			// listener
@@ -157,6 +359,84 @@ public class MainFrame extends JFrame implements IPaintable {
 		} catch (Exception e) {
 			SbApp.error("MainFrame.init(" + dbF.getName() + ")", e);
 		}
+	}
+
+	private void initAfterPack() {
+		unicodeDialog = new UnicodeDialog(this);
+		SbView scenesView = getView(ViewName.SCENES);
+		SbView locationsView = getView(ViewName.LOCATIONS);
+		SbView personsView = getView(ViewName.PERSONS);
+		SbView chronoView = getView(ViewName.CHRONO);
+		SbView treeView = getView(ViewName.TREE);
+		SbView quickInfoView = getView(ViewName.INFO);
+		SbView navigationView = getView(ViewName.NAVIGATION);
+		// add docking window adapter to all views (except editor)
+		MainDockingWindowAdapter dockingAdapter = new MainDockingWindowAdapter();
+		for (int i = 0; i < viewFactory.getViewMap().getViewCount(); ++i) {
+			View view = viewFactory.getViewMap().getViewAtIndex(i);
+			/*
+			 * if (view.getName().equals(ViewName.EDITOR.toString())) {
+			 * continue; }
+			 */
+			view.addListener(dockingAdapter);
+		}
+		// load initially shown views here
+		SbView[] views2 = { scenesView, personsView, locationsView, chronoView, treeView, quickInfoView,
+				navigationView };
+		for (SbView view : views2) {
+			viewFactory.loadView(view);
+			bookController.attachView(view.getComponent());
+			bookModel.fireAgain(view);
+		}
+		quickInfoView.restoreFocus();
+		chronoView.restoreFocus();
+	}
+
+	public void initBlankUi() {
+		dbFile = null;
+		setTitle(Storybook.PRODUCT_FULL_NAME.toString());
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		SbApp.getInstance().resetUiFont();
+		sbActionManager.reloadMenuToolbar();
+		BlankPanel blankPanel = new BlankPanel(this);
+		blankPanel.initAll();
+		add(blankPanel);
+		pack();
+		setVisible(true);
+	}
+
+	private void initRootWindow() {
+		SbApp.trace("MainFrame.initRootWindow()");
+		StringViewMap viewMap = viewFactory.getViewMap();
+		MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
+			@Override
+			public View readView(ObjectInputStream in) throws IOException {
+				return getDynamicView(in.readInt());
+			}
+
+			@Override
+			public void writeView(View view, ObjectOutputStream out) throws IOException {
+				out.writeInt(((DynamicView) view).getId());
+			}
+		});
+		rootWindow = DockingUtil.createRootWindow(viewMap, handler, true);
+		rootWindow.setName("rootWindow");
+		rootWindow.setPreferredSize(new Dimension(4096, 2048));
+		// suppression du editorView
+		// SbView editorView = viewFactory.getEditorView();
+		// bookController.attachView(editorView.getComponent());
+		// set theme
+		DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
+		RootWindowProperties properties = new RootWindowProperties();
+		properties.addSuperObject(currentTheme.getRootWindowProperties());
+		// Our properties object is the super object of the root window
+		// properties object, so all property values of the
+		// theme and in our property object will be used by the root window
+		rootWindow.getRootWindowProperties().addSuperObject(properties);
+		rootWindow.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
 	@Override
@@ -209,64 +489,61 @@ public class MainFrame extends JFrame implements IPaintable {
 		} catch (Exception e) {
 			SbApp.trace("exiting try in MainFrame.initUi()");
 		}
-		//		bookController.attachView(this);
+		// bookController.attachView(this);
 		SbApp.trace("<<< MainFrame.initUi()");
 	}
 
-//	public void modelPropertyChange(PropertyChangeEvent evt) {
-//		Object oldValue = evt.getOldValue();
-//		Object newValue = evt.getNewValue();
-//		String propName = evt.getPropertyName();
-//	}
-	public void setTitle() {
-		SbApp.trace("MainFrame.setTitle()");
-		String prodFullTitle = Storybook.PRODUCT_FULL_NAME.toString();
-		if (dbFile != null) {
-			Part part = getCurrentPart();
-			String partName = "";
-			if (part != null) {
-				partName = part.getNumberName();
-			}
-			String title = dbFile.getName();
-			Internal internal = BookUtil.get(this, BookKey.TITLE, "");
-			if (internal != null && !internal.getStringValue().isEmpty()) {
-				title = internal.getStringValue();
-			}
-			setTitle(title + " [" + I18N.getMsg("msg.common.part") + " " + partName + "]" + " - " + prodFullTitle);
-		} else {
-			setTitle(prodFullTitle);
+	public boolean isBlank() {
+		return dbFile == null;
+	}
+
+	public boolean isMaximized() {
+		return (getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
+	}
+
+	public void refresh() {
+		setWaitingCursor();
+		for (int i = 0; i < viewFactory.getViewMap().getViewCount(); ++i) {
+			SbView view = (SbView) viewFactory.getViewMap().getViewAtIndex(i);
+			getBookController().refresh(view);
+		}
+		setDefaultCursor();
+	}
+
+	public void refreshStatusBar() {
+		statusBar.refresh();
+	}
+
+	private void restoreDimension() {
+		int w = PrefUtil.get(PreferenceKey.SIZE_WIDTH, SbConstants.DEFAULT_SIZE_WIDTH).getIntegerValue();
+		int h = PrefUtil.get(PreferenceKey.SIZE_HEIGHT, SbConstants.DEFAULT_SIZE_HEIGHT).getIntegerValue();
+		setPreferredSize(new Dimension(w, h));
+		int x = PrefUtil.get(PreferenceKey.POS_X, SbConstants.DEFAULT_POS_X).getIntegerValue();
+		int y = PrefUtil.get(PreferenceKey.POS_Y, SbConstants.DEFAULT_POS_Y).getIntegerValue();
+
+		// Do not put it out of screen
+		Dimension size = this.getToolkit().getScreenSize();
+		if ((x >= 0) && (y >= 0) && (x < size.width) && (y < size.height)) {
+			setLocation(x, y);
+		}
+		boolean maximized = PrefUtil.get(PreferenceKey.MAXIMIZED, false).getBooleanValue();
+		if (maximized) {
+			setMaximized();
 		}
 	}
 
-	private void initRootWindow() {
-		SbApp.trace("MainFrame.initRootWindow()");
-		StringViewMap viewMap = viewFactory.getViewMap();
-		MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
-			@Override
-			public void writeView(View view, ObjectOutputStream out) throws IOException {
-				out.writeInt(((DynamicView) view).getId());
-			}
+	public void saveAllTableDesign() {
+		viewFactory.saveAllTableDesign();
+	}
 
-			@Override
-			public View readView(ObjectInputStream in) throws IOException {
-				return getDynamicView(in.readInt());
-			}
-		});
-		rootWindow = DockingUtil.createRootWindow(viewMap, handler, true);
-		rootWindow.setName("rootWindow");
-		rootWindow.setPreferredSize(new Dimension(4096, 2048));
-		// suppression du editorView
-		//SbView editorView = viewFactory.getEditorView();
-		//bookController.attachView(editorView.getComponent());
-		// set theme
-		DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
-		RootWindowProperties properties = new RootWindowProperties();
-		properties.addSuperObject(currentTheme.getRootWindowProperties());
-		// Our properties object is the super object of the root window
-		// properties object, so all property values of the
-		// theme and in our property object will be used by the root window
-		rootWindow.getRootWindowProperties().addSuperObject(properties);
-		rootWindow.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+	public void setCurrentPart(Part currentPart) {
+		if (currentPart != null) {
+			this.currentPart = currentPart;
+		}
+	}
+
+	public void setDefaultCursor() {
+		SwingUtil.setDefaultCursor(this);
 	}
 
 	public void setDefaultLayout() {
@@ -300,30 +577,27 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbView chartOccurrenceOfPersons = getView(ViewName.CHART_OCCURRENCE_OF_PERSONS);
 		SbView chartOccurrenceOfLocations = getView(ViewName.CHART_OCCURRENCE_OF_LOCATIONS);
 		SbView chartGantt = getView(ViewName.CHART_GANTT);
-//		SbView editorView = getView(ViewName.EDITOR);
+		// SbView editorView = getView(ViewName.EDITOR);
 		SbView treeView = getView(ViewName.TREE);
 		SbView infoView = getView(ViewName.INFO);
 		SbView navigationView = getView(ViewName.NAVIGATION);
 		SbView planView = getView(ViewName.PLAN);
 		SbView timeEventView = getView(ViewName.TIMEEVENT);
-		TabWindow tabInfoNavi = new TabWindow(new SbView[]{infoView, navigationView});
+		TabWindow tabInfoNavi = new TabWindow(new SbView[] { infoView, navigationView });
 		tabInfoNavi.setName("tabInfoNaviWindow");
 		SplitWindow swTreeInfo = new SplitWindow(false, 0.6f, treeView, tabInfoNavi);
 		swTreeInfo.setName("swTreeInfo");
-		TabWindow tabWindow = new TabWindow(new SbView[]{chronoView,
-			bookView, manageView, readingView, memoriaView, scenesView,
-			personsView, relationshipView, locationsView, chaptersView, gendersView,
-			categoriesView, partsView, strandsView, ideasView, tagsView,
-			itemsView, tagLinksView, itemLinksView,
-			internalsView, listAttributes,
-			chartPersonsByDate, chartPersonsByScene, chartWiWW,
-			chartStrandsByDate, chartOccurrenceOfPersons,
-			chartOccurrenceOfLocations, chartGantt, planView, timeEventView});
+		TabWindow tabWindow = new TabWindow(new SbView[] { chronoView, bookView, manageView, readingView, memoriaView,
+				scenesView, personsView, relationshipView, locationsView, chaptersView, gendersView, categoriesView,
+				partsView, strandsView, ideasView, tagsView, itemsView, tagLinksView, itemLinksView, internalsView,
+				listAttributes, chartPersonsByDate, chartPersonsByScene, chartWiWW, chartStrandsByDate,
+				chartOccurrenceOfPersons, chartOccurrenceOfLocations, chartGantt, planView, timeEventView });
 		tabWindow.setName("tabWindow");
 		SplitWindow swTabWinMemo = new SplitWindow(true, 0.60f, tabWindow, memosView);
 		swTabWinMemo.setName("swTabWinMemos");
 		SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, swTabWinMemo);
-		//SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo, tabWindow);
+		// SplitWindow swMain = new SplitWindow(true, 0.20f, swTreeInfo,
+		// tabWindow);
 		swMain.setName("swMain");
 		rootWindow.setWindow(swMain);
 		bookView.close();
@@ -354,364 +628,14 @@ public class MainFrame extends JFrame implements IPaintable {
 		planView.close();
 		timeEventView.close();
 		memosView.close();
-		//memoView.minimize(Direction.RIGHT);
-		//WindowBar windowBar = rootWindow.getWindowBar(Direction.RIGHT);
-		//windowBar.setContentPanelSize(EntityEditor.MINIMUM_SIZE.width + 20);
+		// memoView.minimize(Direction.RIGHT);
+		// WindowBar windowBar = rootWindow.getWindowBar(Direction.RIGHT);
+		// windowBar.setContentPanelSize(EntityEditor.MINIMUM_SIZE.width + 20);
 		infoView.restoreFocus();
 		chronoView.restoreFocus();
 		rootWindow.getWindowBar(Direction.RIGHT).setEnabled(true);
 		DockingWindowUtil.setRespectMinimumSize(this);
 		SbApp.trace("end of MainFrame.setDefaultLayout()");
-	}
-
-	private void initAfterPack() {
-		unicodeDialog = new UnicodeDialog(this);
-		SbView scenesView = getView(ViewName.SCENES);
-		SbView locationsView = getView(ViewName.LOCATIONS);
-		SbView personsView = getView(ViewName.PERSONS);
-		SbView chronoView = getView(ViewName.CHRONO);
-		SbView treeView = getView(ViewName.TREE);
-		SbView quickInfoView = getView(ViewName.INFO);
-		SbView navigationView = getView(ViewName.NAVIGATION);
-		// add docking window adapter to all views (except editor)
-		MainDockingWindowAdapter dockingAdapter = new MainDockingWindowAdapter();
-		for (int i = 0; i < viewFactory.getViewMap().getViewCount(); ++i) {
-			View view = viewFactory.getViewMap().getViewAtIndex(i);
-			/*if (view.getName().equals(ViewName.EDITOR.toString())) {
-			 continue;
-			 }*/
-			view.addListener(dockingAdapter);
-		}
-		// load initially shown views here
-		SbView[] views2 = {scenesView, personsView, locationsView, chronoView, treeView, quickInfoView, navigationView};
-		for (SbView view : views2) {
-			viewFactory.loadView(view);
-			bookController.attachView(view.getComponent());
-			bookModel.fireAgain(view);
-		}
-		quickInfoView.restoreFocus();
-		chronoView.restoreFocus();
-	}
-
-	public SbView getView(String viewName) {
-		return viewFactory.getView(viewName);
-	}
-
-	public SbView getView(ViewName viewName) {
-		return viewFactory.getView(viewName);
-	}
-
-	public void showView(ViewName viewName) {
-		SbApp.trace("MainFrame.showView(" + viewName.name() + ")");
-//		if (viewName.equals(SbConstants.ViewName.EDITOR)) {
-//			return;
-//		}
-		setWaitingCursor();
-		SbView view = getView(viewName);
-		if (view.getRootWindow() != null) {
-			view.restoreFocus();
-		} else {
-			SbApp.trace(">>> RootWindow=null");
-			DockingUtil.addWindow(view, rootWindow);
-		}
-		view.requestFocusInWindow();
-		DockingWindowUtil.setRespectMinimumSize(this);
-		setDefaultCursor();
-		/*if (viewName.equals(SbConstants.ViewName.EDITOR)) {
-		 showEditor();
-		 }*/
-	}
-
-	public void showAndFocus(ViewName viewName) {
-		SbApp.trace("MainFrame.showAndFocus(" + viewName.name() + ")");
-		View view = getView(viewName);
-		view.restore();
-		view.restoreFocus();
-	}
-
-	public void closeView(ViewName viewName) {
-		SbApp.trace("MainFrame.closeView(" + viewName.name() + ")");
-		SbView view = getView(viewName);
-		view.close();
-	}
-
-	public void refresh() {
-		setWaitingCursor();
-		for (int i = 0; i < viewFactory.getViewMap().getViewCount(); ++i) {
-			SbView view = (SbView) viewFactory.getViewMap().getViewAtIndex(i);
-			getBookController().refresh(view);
-		}
-		setDefaultCursor();
-	}
-
-	public void refreshStatusBar() {
-		statusBar.refresh();
-	}
-
-	public void showEditor() {
-		SbApp.trace("MainFrame.showEditor()");
-		/*SwingUtilities.invokeLater(new Runnable() {
-		 @Override
-		 public void run() {
-		 SbApp.trace("MainFrame.showEditor()-->run");
-		 SbView editorView = getView(ViewName.EDITOR);
-		 editorView.cleverRestoreFocus();
-		 }
-		 });*/
-		SbApp.trace("no MainFrame.showEditor()");
-	}
-
-	public void hideEditor() {
-		/*Timer timer = new Timer(200, new ActionListener() {
-		 @Override
-		 public void actionPerformed(ActionEvent e) {*/
-//		View editorView = getView(ViewName.EDITOR);
-//		 if (!editorView.isShowing()) {
-//		 return;
-//		 }
-/*
-		 if (editorView.isMinimized()) {
-		 WindowBar bar = rootWindow.getWindowBar(Direction.RIGHT);
-		 bar.setSelectedTab(-1);
-		 } else {*/
-//		 editorView.close();
-		 /*}*/
-		/*}
-		 });
-		 timer.setRepeats(false);
-		 timer.start();*/
-	}
-
-	public void initBlankUi() {
-		dbFile = null;
-		setTitle(Storybook.PRODUCT_FULL_NAME.toString());
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		SbApp.getInstance().resetUiFont();
-		sbActionManager.reloadMenuToolbar();
-		BlankPanel blankPanel = new BlankPanel(this);
-		blankPanel.initAll();
-		add(blankPanel);
-		pack();
-		setVisible(true);
-	}
-
-	public void setDefaultCursor() {
-		SwingUtil.setDefaultCursor(this);
-	}
-
-	public void setWaitingCursor() {
-		SwingUtil.setWaitingCursor(this);
-	}
-
-	public DbFile getDbFile() {
-		return dbFile;
-	}
-
-	public boolean isBlank() {
-		return dbFile == null;
-	}
-
-	public BookController getBookController() {
-		return bookController;
-	}
-
-	public BookModel getBookModel() {
-		return bookModel;
-	}
-
-	public RootWindow getRootWindow() {
-		return rootWindow;
-	}
-
-	public SbActionManager getSbActionManager() {
-		return sbActionManager;
-	}
-
-	public ActionHandler getActionController() {
-		return sbActionManager.getActionController();
-	}
-
-	public ViewFactory getViewFactory() {
-		return viewFactory;
-	}
-
-	private MainFrame getThis() {
-		return this;
-	}
-
-	public boolean isMaximized() {
-		return (getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
-	}
-
-	public void setMaximized() {
-		setExtendedState(Frame.MAXIMIZED_BOTH);
-	}
-
-	public void close(boolean exitIfEmpty) {
-		if (!isBlank()) {
-			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
-			if (pref.getBooleanValue()) {
-				int n = JOptionPane.showConfirmDialog(getThis(),
-						I18N.getMsg("msg.common.want.close"),
-						I18N.getMsg("msg.common.close"),
-						JOptionPane.YES_NO_OPTION);
-				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
-					return;
-				}
-			}
-			// save
-			getSbActionManager().getActionHandler().handleFileSave();
-			// save dimension, location, maximized
-			Dimension dim = getSize();
-			PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
-			PrefUtil.set(PreferenceKey.SIZE_HEIGHT, dim.height);
-			PrefUtil.set(PreferenceKey.POS_X, getLocationOnScreen().x);
-			PrefUtil.set(PreferenceKey.POS_Y, getLocationOnScreen().y);
-			PrefUtil.set(PreferenceKey.MAXIMIZED, isMaximized());
-			// save layout
-			DockingWindowUtil.saveLayout(this, SbConstants.BookKey.LAST_USED_LAYOUT.toString());
-			// save last used part
-			BookUtil.store(this, BookKey.LAST_USED_PART.toString(), (Integer) ((int) (long) getCurrentPart().getId()));
-		}
-
-		bookModel.closeSession();
-		SbApp app = SbApp.getInstance();
-		app.removeMainFrame(this);
-		dispose();
-		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
-			app.exit();
-		}
-	}
-
-	private View getDynamicView(int id) {
-		View view = (View) dynamicViews.get(new Integer(id));
-		if (view == null) {
-			view = new DynamicView("Dynamic View " + id, null, createDummyViewComponent("Dynamic View " + id), id);
-		}
-		return view;
-	}
-
-	private static JComponent createDummyViewComponent(String text) {
-		StringBuilder sb = new StringBuilder();
-		for (int j = 0; j < 100; j++) {
-			sb.append(text).append(". This is line ").append(j).append("\n");
-		}
-		return new JScrollPane(new JTextArea(sb.toString()));
-	}
-
-	private void restoreDimension() {
-		int w = PrefUtil.get(PreferenceKey.SIZE_WIDTH, SbConstants.DEFAULT_SIZE_WIDTH).getIntegerValue();
-		int h = PrefUtil.get(PreferenceKey.SIZE_HEIGHT, SbConstants.DEFAULT_SIZE_HEIGHT).getIntegerValue();
-		setPreferredSize(new Dimension(w, h));
-		int x = PrefUtil.get(PreferenceKey.POS_X, SbConstants.DEFAULT_POS_X).getIntegerValue();
-		int y = PrefUtil.get(PreferenceKey.POS_Y, SbConstants.DEFAULT_POS_Y).getIntegerValue();
-		
-		// Do not put it out of screen
-		Dimension size = this.getToolkit().getScreenSize();
-		if ((x >= 0) && (y >= 0 ) && (x < size.width) && (y < size.height)) {
-		    setLocation(x, y);
-		}
-		boolean maximized = PrefUtil.get(PreferenceKey.MAXIMIZED, false).getBooleanValue();
-		if (maximized) {
-			setMaximized();
-		}
-	}
-
-	public void updateStat() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	public void saveAllTableDesign() {
-		viewFactory.saveAllTableDesign();
-	}
-
-	private static class DynamicView extends View {
-
-		private final int id;
-
-		DynamicView(String title, Icon icon, Component component, int id) {
-			super(title, icon, component);
-			this.id = id;
-		}
-
-		public int getId() {
-			return id;
-		}
-	}
-
-	private class MainFrameWindowAdaptor extends WindowAdapter {
-
-		@Override
-		public void windowClosing(WindowEvent evt) {
-			close(true);
-		}
-	}
-
-	private class MainDockingWindowAdapter extends DockingWindowAdapter {
-
-		@Override
-		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
-			SbApp.trace("MainDockingWindowAdapter.windowAdded(" + addedToWindow.getName() + ", " + addedWindow.getName() + ")");
-			if (addedWindow != null && addedWindow instanceof SbView) {
-				SbView view = (SbView) addedWindow;
-				if (!view.isLoaded()) {
-					viewFactory.loadView(view);
-					bookController.attachView(view.getComponent());
-					bookModel.fireAgain(view);
-				}
-			}
-		}
-
-		@Override
-		public void windowClosed(DockingWindow window) {
-			SbApp.trace("MainDockingWindowAdapter.windowClosed(" + window.getName() + ")");
-			if (window != null && window instanceof SbView) {
-				SbView view = (SbView) window;
-				/* suppression editorView
-				 if (ViewName.EDITOR.toString().equals(view.getName())) {
-				 // don't detach / unload the editor
-				 return;
-				 }
-				 */
-				if (!view.isLoaded()) {
-					return;
-				}
-				bookController.detachView((AbstractPanel) view.getComponent());
-				viewFactory.unloadView(view);
-				/* suppression du garbage collector
-				 SbApp.getInstance().runGC();
-				 */
-			}
-		}
-	}
-
-	public Part getCurrentPart() {
-		try {
-			Session session = bookModel.beginTransaction();
-			if (currentPart == null) {
-				PartDAOImpl dao = new PartDAOImpl(session);
-				currentPart = dao.findFirst();
-			} else {
-				session.refresh(currentPart);
-			}
-			bookModel.commit();
-			return currentPart;
-		} catch (NullPointerException e) {
-		}
-		return null;
-	}
-
-	public void setCurrentPart(Part currentPart) {
-		if (currentPart != null) {
-			this.currentPart = currentPart;
-		}
-	}
-
-	public boolean hasCurrentPart() {
-		return currentPart != null;
 	}
 
 	public void setMainToolBar(JToolBar toolBar) {
@@ -723,13 +647,62 @@ public class MainFrame extends JFrame implements IPaintable {
 		getContentPane().add(mainToolBar, BorderLayout.NORTH);
 	}
 
-	public JToolBar getMainToolBar() {
-		return mainToolBar;
+	public void setMaximized() {
+		setExtendedState(Frame.MAXIMIZED_BOTH);
+	}
+
+	// public void modelPropertyChange(PropertyChangeEvent evt) {
+	// Object oldValue = evt.getOldValue();
+	// Object newValue = evt.getNewValue();
+	// String propName = evt.getPropertyName();
+	// }
+	public void setTitle() {
+		SbApp.trace("MainFrame.setTitle()");
+		String prodFullTitle = Storybook.PRODUCT_FULL_NAME.toString();
+		if (dbFile != null) {
+			Part part = getCurrentPart();
+			String partName = "";
+			if (part != null) {
+				partName = part.getNumberName();
+			}
+			String title = dbFile.getName();
+			Internal internal = BookUtil.get(this, BookKey.TITLE, "");
+			if (internal != null && !internal.getStringValue().isEmpty()) {
+				title = internal.getStringValue();
+			}
+			setTitle(title + " [" + I18N.getMsg("msg.common.part") + " " + partName + "]" + " - " + prodFullTitle);
+		} else {
+			setTitle(prodFullTitle);
+		}
+	}
+
+	public void setWaitingCursor() {
+		SwingUtil.setWaitingCursor(this);
+	}
+
+	public void showAndFocus(ViewName viewName) {
+		SbApp.trace("MainFrame.showAndFocus(" + viewName.name() + ")");
+		View view = getView(viewName);
+		view.restore();
+		view.restoreFocus();
+	}
+
+	public void showEditor() {
+		SbApp.trace("MainFrame.showEditor()");
+		/*
+		 * SwingUtilities.invokeLater(new Runnable() {
+		 * 
+		 * @Override public void run() {
+		 * SbApp.trace("MainFrame.showEditor()-->run"); SbView editorView =
+		 * getView(ViewName.EDITOR); editorView.cleverRestoreFocus(); } });
+		 */
+		SbApp.trace("no MainFrame.showEditor()");
 	}
 
 	public void showEditorAsDialog(AbstractEntity entity) {
-		JDialog dlg = new JDialog((Frame) this, true);
-		if (EditorModless) dlg.setModalityType(Dialog.ModalityType.MODELESS);
+		JDialog dlg = new JDialog(this, true);
+		if (EditorModless)
+			dlg.setModalityType(Dialog.ModalityType.MODELESS);
 		EntityEditor editor = new EntityEditor(this, entity, dlg);
 		dlg.setTitle(I18N.getMsg("msg.common.editor"));
 		dlg.setSize(this.getWidth() / 2, 680);
@@ -739,8 +712,41 @@ public class MainFrame extends JFrame implements IPaintable {
 		dlg.setVisible(true);
 	}
 
-	public void showUnicodeDialog()
-	{
+	public void showUnicodeDialog() {
 		unicodeDialog.show();
+	}
+
+	public void showView(ViewName viewName) {
+		SbApp.trace("MainFrame.showView(" + viewName.name() + ")");
+		// if (viewName.equals(SbConstants.ViewName.EDITOR)) {
+		// return;
+		// }
+		setWaitingCursor();
+		SbView view = getView(viewName);
+		if (view.getRootWindow() != null) {
+			view.restoreFocus();
+		} else {
+			SbApp.trace(">>> RootWindow=null");
+			DockingUtil.addWindow(view, rootWindow);
+		}
+		view.requestFocusInWindow();
+		DockingWindowUtil.setRespectMinimumSize(this);
+		setDefaultCursor();
+		/*
+		 * if (viewName.equals(SbConstants.ViewName.EDITOR)) { showEditor(); }
+		 */
+	}
+
+	public void updateStat() {
+		throw new UnsupportedOperationException("Not supported yet."); // To
+																		// change
+																		// body
+																		// of
+																		// generated
+																		// methods,
+																		// choose
+																		// Tools
+																		// |
+																		// Templates.
 	}
 }

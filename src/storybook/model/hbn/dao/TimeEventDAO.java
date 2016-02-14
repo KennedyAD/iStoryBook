@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import storybook.model.hbn.entity.TimeEvent;
-
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
+
+import storybook.model.hbn.entity.TimeEvent;
 
 public interface TimeEventDAO extends GenericDAO<TimeEvent, Long> {
 

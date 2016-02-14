@@ -17,26 +17,23 @@ package storybook.ui.chart.jfreechart;
 
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.data.category.CategoryDataset;
+
 import storybook.model.hbn.entity.AbstractEntity;
 
-public class DbTableCategoryItemLabelGenerator
-  implements CategoryItemLabelGenerator
-{
+public class DbTableCategoryItemLabelGenerator implements CategoryItemLabelGenerator {
 	@Override
-  public String generateColumnLabel(CategoryDataset paramCategoryDataset, int paramInt)
-  {
-    return "NOT USED";
-  }
+	public String generateColumnLabel(CategoryDataset paramCategoryDataset, int paramInt) {
+		return "NOT USED";
+	}
 
 	@Override
-  public String generateLabel(CategoryDataset paramCategoryDataset, int paramInt1, int paramInt2)
-  {
-    AbstractEntity localAbstractEntity = (AbstractEntity)paramCategoryDataset.getRowKey(paramInt1);
-    return localAbstractEntity.toString();
-  }
+	public String generateLabel(CategoryDataset paramCategoryDataset, int paramInt1, int paramInt2) {
+		AbstractEntity localAbstractEntity = (AbstractEntity) paramCategoryDataset.getRowKey(paramInt1);
+		return localAbstractEntity.toString();
+	}
 
-  public String generateRowLabel(CategoryDataset paramCategoryDataset, int paramInt)
-  {
-    return "NOT USED";
-  }
+	@Override
+	public String generateRowLabel(CategoryDataset paramCategoryDataset, int paramInt) {
+		return "NOT USED";
+	}
 }

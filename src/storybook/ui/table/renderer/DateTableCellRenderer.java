@@ -18,12 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.ui.table.renderer;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import javax.swing.table.DefaultTableCellRenderer;
 
-import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
 
 /**
@@ -41,7 +39,7 @@ public class DateTableCellRenderer extends DefaultTableCellRenderer {
 	public void setValue(Object value) {
 		try {
 			if (value instanceof Date) {
-				setText(I18N.getDateTime((Date)value));
+				setText(I18N.getDateTime((Date) value));
 			} else {
 				setText("");
 			}

@@ -31,8 +31,8 @@ import org.hibernate.Session;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.PreferenceKey;
-import storybook.model.DbFile;
 import storybook.model.BookModel;
+import storybook.model.DbFile;
 import storybook.model.hbn.dao.InternalDAOImpl;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Preference;
@@ -45,149 +45,8 @@ import storybook.ui.MainFrame;
  */
 public class BookUtil {
 
-	public static boolean isUseSimpleTemplate(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.USE_SIMPLE_TEMPLATE,
-				SbConstants.DEFAULT_USE_SIMPLE_TEMPLATE);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isUseLibreOffice(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.USE_LIBREOFFICE,
-				SbConstants.DEFAULT_USE_LIBREOFFICE);
-		return internal.getBooleanValue();
-	}
-	
-	public static boolean isUsePersonnalTemplate(MainFrame mainFrame) {
-		Internal internal = get(mainFrame, BookKey.USE_PERSONNAL_TEMPLATE, "");
-		return !"".equals(internal.getStringValue());
-	}
-
-	public static boolean isUseHtmlScenes(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.USE_HTML_SCENES,
-				SbConstants.DEFAULT_USE_HTML_SCENES);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isUseHtmlDescr(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.USE_HTML_DESCR, SbConstants.DEFAULT_USE_HTML_DESCR);
-		return internal.getBooleanValue();
-	}
-	
-	public static boolean isExportBookHtmlMulti(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.HTML_BOOK_MULTI, false);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportChapterNumbers(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_CHAPTER_NUMBERS,
-				SbConstants.DEFAULT_EXPORT_CHAPTER_NUMBERS);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportRomanNumerals(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_ROMAN_NUMERALS,
-				SbConstants.DEFAULT_EXPORT_ROMAN_NUMERALS);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportChapterTitles(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_CHAPTER_TITLES,
-				SbConstants.DEFAULT_EXPORT_CHAPTER_TITLES);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportChapterDatesLocations(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_CHAPTER_DATES_LOCATIONS,
-				SbConstants.DEFAULT_EXPORT_CHAPTER_DATES_LOCATIONS);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportSceneTitle(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_SCENE_TITLES,
-				SbConstants.DEFAULT_EXPORT_SCENE_TITLES);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportSceneSeparator(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_SCENE_SEPARATOR,
-				SbConstants.DEFAULT_EXPORT_SCENE_SEPARATOR);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isExportPartTitles(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EXPORT_PART_TITLES,
-				SbConstants.DEFAULT_EXPORT_PART_TITLES);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isEditorFullToolbar(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EDITOR_FULL_TOOLBAR,
-				SbConstants.DEFAULT_EDITOR_FULL_TOOLBAR);
-		return internal.getBooleanValue();
-	}
-
-	public static boolean isEditorModless(MainFrame mainFrame) {
-		Internal internal = get(mainFrame,
-				BookKey.EDITOR_MODLESS,
-				SbConstants.DEFAULT_EDITOR_MODLESS);
-		return internal.getBooleanValue();
-	}
-
-	public static Date getBookCreationDate(MainFrame mainFrame) {
-		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
-		Internal internal = get(mainFrame,
-				BookKey.BOOK_CREATION_DATE,
-				format.format(new Date()));
-		String dateStr = internal.getStringValue();
-		Date date = new Date();
-		try {
-			date = format.parse(dateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return date;
-	}
-
-	public static void store(MainFrame mainFrame, BookKey key, Object val) {
-		store(mainFrame,key.toString(),val);
-	}
-
-	public static void store(MainFrame mainFrame, String strKey, Object val) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		InternalDAOImpl dao = new InternalDAOImpl(session);
-		dao.saveOrUpdate(strKey, val);
-		model.commit();
-	}
-	
-	public static boolean isKeyExist(MainFrame mainFrame, String strKey) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		InternalDAOImpl dao = new InternalDAOImpl(session);
-		Internal internal = dao.findByKey(strKey);
-		boolean b;
-		if (internal == null) {
-			b=false;
-		} else b=true;
-		model.commit();
-		return b;		
-	}
-
 	public static Internal get(MainFrame mainFrame, BookKey key, Object val) {
-		return(get(mainFrame,key.toString(),val));
+		return (get(mainFrame, key.toString(), val));
 	}
 
 	public static Internal get(MainFrame mainFrame, String strKey, Object val) {
@@ -203,6 +62,113 @@ public class BookUtil {
 		return internal;
 	}
 
+	public static Date getBookCreationDate(MainFrame mainFrame) {
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+		Internal internal = get(mainFrame, BookKey.BOOK_CREATION_DATE, format.format(new Date()));
+		String dateStr = internal.getStringValue();
+		Date date = new Date();
+		try {
+			date = format.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	public static String getHomeDir() {
+		return System.getProperty("user.home");
+	}
+
+	public static boolean isEditorFullToolbar(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EDITOR_FULL_TOOLBAR, SbConstants.DEFAULT_EDITOR_FULL_TOOLBAR);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isEditorModless(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EDITOR_MODLESS, SbConstants.DEFAULT_EDITOR_MODLESS);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportBookHtmlMulti(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.HTML_BOOK_MULTI, false);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportChapterDatesLocations(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_CHAPTER_DATES_LOCATIONS,
+				SbConstants.DEFAULT_EXPORT_CHAPTER_DATES_LOCATIONS);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportChapterNumbers(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_CHAPTER_NUMBERS, SbConstants.DEFAULT_EXPORT_CHAPTER_NUMBERS);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportChapterTitles(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_CHAPTER_TITLES, SbConstants.DEFAULT_EXPORT_CHAPTER_TITLES);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportPartTitles(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_PART_TITLES, SbConstants.DEFAULT_EXPORT_PART_TITLES);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportRomanNumerals(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_ROMAN_NUMERALS, SbConstants.DEFAULT_EXPORT_ROMAN_NUMERALS);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportSceneSeparator(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_SCENE_SEPARATOR, SbConstants.DEFAULT_EXPORT_SCENE_SEPARATOR);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isExportSceneTitle(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.EXPORT_SCENE_TITLES, SbConstants.DEFAULT_EXPORT_SCENE_TITLES);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isKeyExist(MainFrame mainFrame, String strKey) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		Internal internal = dao.findByKey(strKey);
+		boolean b;
+		if (internal == null) {
+			b = false;
+		} else
+			b = true;
+		model.commit();
+		return b;
+	}
+
+	public static boolean isUseHtmlDescr(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.USE_HTML_DESCR, SbConstants.DEFAULT_USE_HTML_DESCR);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isUseHtmlScenes(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.USE_HTML_SCENES, SbConstants.DEFAULT_USE_HTML_SCENES);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isUseLibreOffice(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.USE_LIBREOFFICE, SbConstants.DEFAULT_USE_LIBREOFFICE);
+		return internal.getBooleanValue();
+	}
+
+	public static boolean isUsePersonnalTemplate(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.USE_PERSONNAL_TEMPLATE, "");
+		return !"".equals(internal.getStringValue());
+	}
+
+	public static boolean isUseSimpleTemplate(MainFrame mainFrame) {
+		Internal internal = get(mainFrame, BookKey.USE_SIMPLE_TEMPLATE, SbConstants.DEFAULT_USE_SIMPLE_TEMPLATE);
+		return internal.getBooleanValue();
+	}
+
 	public static DbFile openDocumentDialog() {
 		final JFileChooser fc = new JFileChooser();
 		Preference pref = PrefUtil.get(PreferenceKey.LAST_OPEN_DIR, getHomeDir());
@@ -214,10 +180,8 @@ public class BookUtil {
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			if (!file.exists()) {
-				JOptionPane.showMessageDialog(null,
-						I18N.getMsg("msg.dlg.project.not.exits.text", file),
-						I18N.getMsg("msg.dlg.project.not.exits.title"),
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, I18N.getMsg("msg.dlg.project.not.exits.text", file),
+						I18N.getMsg("msg.dlg.project.not.exits.title"), JOptionPane.ERROR_MESSAGE);
 				return null;
 			}
 			DbFile dbFile = new DbFile(file);
@@ -225,9 +189,17 @@ public class BookUtil {
 		}
 		return null;
 	}
-	
-	public static String getHomeDir() {
-		return System.getProperty("user.home");
+
+	public static void store(MainFrame mainFrame, BookKey key, Object val) {
+		store(mainFrame, key.toString(), val);
+	}
+
+	public static void store(MainFrame mainFrame, String strKey, Object val) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		dao.saveOrUpdate(strKey, val);
+		model.commit();
 	}
 
 }

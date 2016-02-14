@@ -29,11 +29,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.ui.dialog.AbstractDialog;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -42,95 +41,22 @@ import org.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class SbImageDialog extends AbstractDialog {
 
-	private JTextField tfFilename;
-	private JTextField tfWidth;
-	private JTextField tfHeight;
-	private double ratio = 1.0;
-	private int imageWidth = 0;
-	private int imageHeight = 0;
-
-	public SbImageDialog(JComponent parent) {
-		super(parent);
-		initAll();
-	}
-
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("wrap 2,fill", "[][]", ""));
-		setTitle(I18N.getMsg("msg.editor.insert.image"));
-
-		JLabel lbFilename = new JLabel(
-				I18N.getMsgColon("msg.file.info.filename"));
-		tfFilename = new JTextField();
-		tfFilename.setColumns(20);
-		IconButton btChooseFile = new IconButton("icon.small.open",
-				new ChooseImageFileAction());
-		btChooseFile.setSize32x20();
-
-		JLabel lbWidth = new JLabel(I18N.getMsgColon("msg.common.width"));
-
-		tfWidth = new JTextField();
-		tfWidth.setColumns(10);
-
-		IconButton btCalcWidth = new IconButton("icon.small.calc",
-				new CalcWidthAction());
-		btCalcWidth.setSize20x20();
-
-		JLabel lbHeight = new JLabel(I18N.getMsgColon("msg.common.height"));
-		tfHeight = new JTextField();
-		tfHeight.setColumns(10);
-
-		IconButton btCalcHeight = new IconButton("icon.small.calc",
-				new CalcHeightAction());
-		btCalcHeight.setSize20x20();
-
-		// layout
-		add(lbFilename);
-		add(tfFilename, "grow,split 2");
-		add(btChooseFile);
-		add(lbWidth);
-		add(tfWidth, "split 2");
-		add(btCalcWidth);
-		add(lbHeight);
-		add(tfHeight, "split 2");
-		add(btCalcHeight);
-		add(getOkButton(), "gaptop 20,span,right,split 2,sg");
-		add(getCancelButton(), "sg");
-	}
-
-	public String getHTML() {
-		String fn = tfFilename.getText();
-		String w = tfWidth.getText();
-		String h = tfHeight.getText();
-		return "<img src='" + fn + "' width='" + w + "' height='" + h + "'>";
-	}
-
-	protected SbImageDialog getThis() {
-		return this;
-	}
-
-	private class CalcWidthAction extends AbstractAction {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			int n = Integer.parseInt(tfHeight.getText());
-			String val = Integer.toString((int) ((double) n * ratio));
-			tfWidth.setText(val);
-		}
-	}
-
 	private class CalcHeightAction extends AbstractAction {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int n = Integer.parseInt(tfWidth.getText());
-			String val = Integer.toString((int) ((double) n / ratio));
+			String val = Integer.toString((int) (n / ratio));
 			tfHeight.setText(val);
 		}
 	}
-
+	private class CalcWidthAction extends AbstractAction {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int n = Integer.parseInt(tfHeight.getText());
+			String val = Integer.toString((int) (n * ratio));
+			tfWidth.setText(val);
+		}
+	}
 	private class ChooseImageFileAction extends AbstractAction {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -150,5 +76,74 @@ public class SbImageDialog extends AbstractDialog {
 				}
 			}
 		}
+	}
+	private JTextField tfFilename;
+	private JTextField tfWidth;
+	private JTextField tfHeight;
+
+	private double ratio = 1.0;
+
+	private int imageWidth = 0;
+
+	private int imageHeight = 0;
+
+	public SbImageDialog(JComponent parent) {
+		super(parent);
+		initAll();
+	}
+
+	public String getHTML() {
+		String fn = tfFilename.getText();
+		String w = tfWidth.getText();
+		String h = tfHeight.getText();
+		return "<img src='" + fn + "' width='" + w + "' height='" + h + "'>";
+	}
+
+	protected SbImageDialog getThis() {
+		return this;
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		setLayout(new MigLayout("wrap 2,fill", "[][]", ""));
+		setTitle(I18N.getMsg("msg.editor.insert.image"));
+
+		JLabel lbFilename = new JLabel(I18N.getMsgColon("msg.file.info.filename"));
+		tfFilename = new JTextField();
+		tfFilename.setColumns(20);
+		IconButton btChooseFile = new IconButton("icon.small.open", new ChooseImageFileAction());
+		btChooseFile.setSize32x20();
+
+		JLabel lbWidth = new JLabel(I18N.getMsgColon("msg.common.width"));
+
+		tfWidth = new JTextField();
+		tfWidth.setColumns(10);
+
+		IconButton btCalcWidth = new IconButton("icon.small.calc", new CalcWidthAction());
+		btCalcWidth.setSize20x20();
+
+		JLabel lbHeight = new JLabel(I18N.getMsgColon("msg.common.height"));
+		tfHeight = new JTextField();
+		tfHeight.setColumns(10);
+
+		IconButton btCalcHeight = new IconButton("icon.small.calc", new CalcHeightAction());
+		btCalcHeight.setSize20x20();
+
+		// layout
+		add(lbFilename);
+		add(tfFilename, "grow,split 2");
+		add(btChooseFile);
+		add(lbWidth);
+		add(tfWidth, "split 2");
+		add(btCalcWidth);
+		add(lbHeight);
+		add(tfHeight, "split 2");
+		add(btCalcHeight);
+		add(getOkButton(), "gaptop 20,span,right,split 2,sg");
+		add(getCancelButton(), "sg");
 	}
 }

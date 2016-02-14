@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import storybook.model.hbn.entity.Relationship;
-
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
+
+import storybook.model.hbn.entity.Relationship;
 
 public interface RelationshipDAO extends GenericDAO<Relationship, Long> {
 

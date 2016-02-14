@@ -37,8 +37,7 @@ public class ParamExport {
 	}
 
 	void load() {
-		String x = BookUtil
-				.get(mainFrame, SbConstants.BookKey.CSV_QUOTES, "010").getStringValue();
+		String x = BookUtil.get(mainFrame, SbConstants.BookKey.CSV_QUOTES, "010").getStringValue();
 		csvSingleQuotes = false;
 		csvDoubleQuotes = true;
 		csvNoQuotes = false;
@@ -50,40 +49,31 @@ public class ParamExport {
 			else if ("1".equals(x.substring(2)))
 				csvNoQuotes = true;
 		}
-		csvComma = BookUtil
-				.get(mainFrame, SbConstants.BookKey.CSV_COMMA, false).getBooleanValue();
-		txtTab = BookUtil
-				.get(mainFrame, SbConstants.BookKey.TXT_TAB, true).getBooleanValue();
+		csvComma = BookUtil.get(mainFrame, SbConstants.BookKey.CSV_COMMA, false).getBooleanValue();
+		txtTab = BookUtil.get(mainFrame, SbConstants.BookKey.TXT_TAB, true).getBooleanValue();
 		if (!txtTab)
-			txtSeparator = BookUtil
-					.get(mainFrame, SbConstants.BookKey.TXT_OTHER, "").getStringValue();
+			txtSeparator = BookUtil.get(mainFrame, SbConstants.BookKey.TXT_OTHER, "").getStringValue();
 		else
 			txtSeparator = "";
-		htmlUseCss = BookUtil
-				.get(mainFrame, SbConstants.BookKey.HTML_USE_CSS, false).getBooleanValue();
+		htmlUseCss = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_USE_CSS, false).getBooleanValue();
 		if (htmlUseCss)
-			htmlCssFile = BookUtil
-					.get(mainFrame, SbConstants.BookKey.HTML_CSS_FILE, "").getStringValue();
+			htmlCssFile = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_CSS_FILE, "").getStringValue();
 		else
 			htmlCssFile = "";
-		htmlBookMulti = BookUtil
-				.get(mainFrame, SbConstants.BookKey.HTML_BOOK_MULTI, false).getBooleanValue();
-		isExportChapterNumbers = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_NUMBERS, false).getBooleanValue();
-		isExportChapterNumbersRoman = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_ROMAN_NUMERALS, false).getBooleanValue();
-		isExportChapterTitles = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_TITLES, false).getBooleanValue();
-		isExportChapterDatesLocs = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_DATES_LOCATIONS, false).getBooleanValue();
-		isExportSceneTitles = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_SCENE_TITLES, false).getBooleanValue();
-		isExportSceneSeparator = BookUtil
-				.get(mainFrame, SbConstants.BookKey.EXPORT_SCENE_SEPARATOR, false).getBooleanValue();
-		pdfPageSize = BookUtil
-				.get(mainFrame, SbConstants.BookKey.PDF_PAGE_SIZE, "A4").getStringValue();
-		pdfLandscape = BookUtil
-				.get(mainFrame, SbConstants.BookKey.PDF_LANDSCAPE, false).getBooleanValue();
+		htmlBookMulti = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_BOOK_MULTI, false).getBooleanValue();
+		isExportChapterNumbers = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_NUMBERS, false)
+				.getBooleanValue();
+		isExportChapterNumbersRoman = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_ROMAN_NUMERALS, false)
+				.getBooleanValue();
+		isExportChapterTitles = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_TITLES, false)
+				.getBooleanValue();
+		isExportChapterDatesLocs = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_DATES_LOCATIONS, false)
+				.getBooleanValue();
+		isExportSceneTitles = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_SCENE_TITLES, false).getBooleanValue();
+		isExportSceneSeparator = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_SCENE_SEPARATOR, false)
+				.getBooleanValue();
+		pdfPageSize = BookUtil.get(mainFrame, SbConstants.BookKey.PDF_PAGE_SIZE, "A4").getStringValue();
+		pdfLandscape = BookUtil.get(mainFrame, SbConstants.BookKey.PDF_LANDSCAPE, false).getBooleanValue();
 	}
 
 	void save() {
@@ -98,11 +88,12 @@ public class ParamExport {
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_NUMBERS.toString(), isExportChapterNumbers);
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_ROMAN_NUMERALS.toString(), isExportChapterNumbersRoman);
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_TITLES.toString(), isExportChapterTitles);
-		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_DATES_LOCATIONS.toString(), isExportChapterDatesLocs);
+		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_DATES_LOCATIONS.toString(),
+				isExportChapterDatesLocs);
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_SCENE_TITLES.toString(), isExportSceneTitles);
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_SCENE_SEPARATOR.toString(), isExportSceneSeparator);
 		BookUtil.store(mainFrame, SbConstants.BookKey.PDF_PAGE_SIZE.toString(), pdfPageSize);
 		BookUtil.store(mainFrame, SbConstants.BookKey.PDF_LANDSCAPE.toString(), pdfLandscape);
 	}
-	
+
 }

@@ -41,8 +41,7 @@ import storybook.model.state.SceneState;
 import storybook.toolkit.LangUtil;
 import storybook.toolkit.comparator.DateComparator;
 
-public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
-		SceneDAO {
+public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements SceneDAO {
 
 	public SceneDAOImpl() {
 		super();
@@ -52,47 +51,82 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 		super(session);
 	}
 
-	public Date findFirstDate() {
-		List<Date> dates = findDistinctDates();
-		if (dates.isEmpty()) {
-			return new Date();
-		}
-		return dates.get(0);
+	public long countByLocation(Location location) {
+		Query query = session
+				.createQuery("select count(s) from Scene as s" + " join s.locations as l" + " where l=:location");
+		query.setEntity("location", location);
+		return (Long) query.uniqueResult();
 	}
 
-	public Date findLastDate() {
-		List<Date> dates = findDistinctDates();
-		if (dates.isEmpty()) {
-			return new Date();
-		}
-		return dates.get(dates.size() - 1);
+	public long countByPerson(Person person) {
+		Query query = session
+				.createQuery("select count(s) from Scene as s" + " join s.persons as p" + " where p=:person");
+		query.setEntity("person", person);
+		return (Long) query.uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Scene> findAll() {
-		Query query = session
-				.createQuery("select s from Scene as s left join s.chapter as ch"
-						+ " order by ch.chapterno, s.sceneno");
-		List<Scene> ret = (List<Scene>) query.list();
+		Query query = session.createQuery(
+				"select s from Scene as s left join s.chapter as ch" + " order by ch.chapterno, s.sceneno");
+		List<Scene> ret = query.list();
 		return ret;
 	}
 
+	public List<Scene> findByChapter(Chapter chapter) {
+		ChapterDAOImpl dao = new ChapterDAOImpl(session);
+		return dao.findScenes(chapter);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findByDate(Date date) {
+		if (date == null) {
+			return new ArrayList<>();
+		}
+		Query query = session.createQuery("select s from Scene as s" + " where s.sceneTs between :tsStart and :tsEnd"
+				+ " order by s.sceneTs, s.sceneno");
+		Timestamp tsStart = new Timestamp(date.getTime());
+		date = DateUtils.addDays(date, 1);
+		date = DateUtils.addMilliseconds(date, -1);
+		Timestamp tsEnd = new Timestamp(date.getTime());
+		query.setTimestamp("tsStart", tsStart);
+		query.setTimestamp("tsEnd", tsEnd);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findByItemLink(Item item) {
+		Query query = session.createQuery("select s from Scene as s" + " join s.items as l" + " where l=:item");
+		query.setParameter("item", item);
+		List<Scene> ret = query.list();
+		return ret;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findByLocationLink(Location location) {
+		Query query = session.createQuery("select s from Scene as s" + " join s.locations as l" + " where l=:location");
+		query.setParameter("location", location);
+		List<Scene> ret = query.list();
+		return ret;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByPart(Part part) {
-		Query query = session.createQuery("select scene from Scene as scene"
-				+ " inner join scene.chapter as chapter"
-				+ " inner join chapter.part as part"
-				+ " where chapter.part=:part"
+		Query query = session.createQuery("select scene from Scene as scene" + " inner join scene.chapter as chapter"
+				+ " inner join chapter.part as part" + " where chapter.part=:part"
 				+ " order by part.number, chapter.chapterno, scene.sceneno");
 		query.setEntity("part", part);
 		List<Scene> ret = query.list();
 		return ret;
 	}
 
-	public List<Scene> findBySceneState(SceneState state) {
-		return findBySceneState(state.getNumber());
+	@SuppressWarnings("unchecked")
+	public List<Scene> findByPersonLink(Person person) {
+		Query query = session.createQuery("select s from Scene as s" + " join s.persons as p" + " where p=:person");
+		query.setParameter("person", person);
+		List<Scene> ret = query.list();
+		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -107,79 +141,70 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 		}
 		Criteria crit = session.createCriteria(Scene.class);
 		crit.add(Restrictions.eq("status", state));
-		List<Scene> scenes = (List<Scene>) crit.list();
+		List<Scene> scenes = crit.list();
 		return scenes;
+	}
+
+	public List<Scene> findBySceneState(SceneState state) {
+		return findBySceneState(state.getNumber());
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Scene> findStateInProgress() {
-		Criteria crit = session.createCriteria(Scene.class);
-		crit.add(Restrictions.ne("status", 5));
-		List<Scene> scenes = (List<Scene>) crit.list();
-		return scenes;
+	public List<Scene> findByStrand(Strand strand) {
+		Query query = session.createQuery("select s from Scene as s" + " where s.strand=:strand");
+		query.setParameter("strand", strand);
+		List<Scene> ret = query.list();
+		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Scene> findScenesWithRelativeSceneId() {
-		Criteria crit = session.createCriteria(Scene.class);
-		crit.add(Restrictions.isNotNull("relativeSceneId"));
-		List<Scene> scenes = (List<Scene>) crit.list();
-		return scenes;
+	public List<Scene> findByStrandAndDate(Strand strand, Date date) {
+		if (date == null) {
+			return new ArrayList<>();
+		}
+		// OLD: Query query = session
+		// .createQuery("from Scene s where s.sceneTs = :sceneTs and
+		// s.strand=:strand order by s.sceneTs");
+		Query query = session.createQuery("select s from Scene as s" + " left join s.chapter as ch"
+				+ " where s.sceneTs between :tsStart and :tsEnd and s.strand=:strand"
+				+ " order by s.sceneTs, ch.chapterno, s.sceneno");
+		Timestamp tsStart = new Timestamp(date.getTime());
+		Date date2 = DateUtils.addDays(date, 1);
+		date2 = DateUtils.addMilliseconds(date2, -1);
+		Timestamp tsEnd = new Timestamp(date2.getTime());
+		query.setTimestamp("tsStart", tsStart);
+		query.setTimestamp("tsEnd", tsEnd);
+		query.setEntity("strand", strand);
+		List<Scene> ret = query.list();
+		// find scenes with relative date
+		List<Scene> scenes = findScenesWithRelativeSceneId();
+		for (Scene scene : scenes) {
+			if (!scene.getStrand().getId().equals(strand.getId())) {
+				continue;
+			}
+			Scene relativeScene = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
+			Date sceneDate = scene.getRelativeDate(relativeScene);
+			if (sceneDate == null) {
+				continue;
+			}
+			if (sceneDate.compareTo(date) != 0) {
+				continue;
+			}
+			ret.add(scene);
+		}
+		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Scene> findScenesWithRelativeSceneId(Scene scene) {
-		Criteria crit = session.createCriteria(Scene.class);
-		crit.add(Restrictions.eq("relativeSceneId", scene.getId()));
-		List<Scene> scenes = (List<Scene>) crit.list();
-		return scenes;
-	}
-
-	public long countByPerson(Person person) {
-		Query query = session.createQuery(
-				"select count(s) from Scene as s"
-				+ " join s.persons as p"
-				+ " where p=:person");
-		query.setEntity("person", person);
-		return (Long) query.uniqueResult();
-	}
-
-	public long countByLocation(Location location) {
-		Query query = session.createQuery(
-				"select count(s) from Scene as s"
-				+ " join s.locations as l"
-				+ " where l=:location");
-		query.setEntity("location", location);
-		return (Long) query.uniqueResult();
-	}
-
-	public Scene getRelativeScene(Scene scene) {
-		Scene s = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
-		return s;
+	public List<Scene> findByStrandLink(Strand strand) {
+		Query query = session.createQuery("select s from Scene as s" + " join s.strands as st" + " where st=:strand");
+		query.setParameter("strand", strand);
+		List<Scene> ret = query.list();
+		return ret;
 	}
 
 	public List<Date> findDistinctDates() {
 		return findDistinctDates(null);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Date> findDistinctDatesByStrand(Strand strand) {
-		// native SQL
-		String sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts"
-				+ " from scene s"
-				+ " where s.strand_id=:strand_id"
-				+ " order by s.scene_ts";
-		Query query = session.createSQLQuery(sql);
-		query.setParameter("strand_id", strand.getId());
-		List<Object> ret = query.list();
-		List<Date> dates = new ArrayList<>();
-		for (int i = 0; i < ret.size(); ++i) {
-			Object[] oa = (Object[]) ret.get(i);
-			dates.add((Date) oa[0]);
-		}
-		dates = LangUtil.removeNullAndDuplicates(dates);
-		Collections.sort(dates, new DateComparator());
-		return dates;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -189,16 +214,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 		if (part != null) {
 			PartDAOImpl partDAO = new PartDAOImpl(session);
 			String partIds = partDAO.getPartsIds(part);
-			sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts"
-					+ " from scene s"
-					+ " left outer join chapter cha on s.chapter_id = cha.id"
-					+ " where cha.part_id in (" + partIds + ")"
-					+ " or s.chapter_id is null"
-					+ " order by s.scene_ts";
+			sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts" + " from scene s"
+					+ " left outer join chapter cha on s.chapter_id = cha.id" + " where cha.part_id in (" + partIds
+					+ ")" + " or s.chapter_id is null" + " order by s.scene_ts";
 		} else {
-			sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts"
-					+ " from scene s"
-					+ " order by s.scene_ts";
+			sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts" + " from scene s" + " order by s.scene_ts";
 		}
 		Query query = session.createSQLQuery(sql);
 		List<Object> ret = query.list();
@@ -228,139 +248,90 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Scene> findByDate(Date date) {
-		if (date == null) {
-			return new ArrayList<>();
+	public List<Date> findDistinctDatesByStrand(Strand strand) {
+		// native SQL
+		String sql = "select distinct cast(s.scene_ts as DATE), s.scene_ts" + " from scene s"
+				+ " where s.strand_id=:strand_id" + " order by s.scene_ts";
+		Query query = session.createSQLQuery(sql);
+		query.setParameter("strand_id", strand.getId());
+		List<Object> ret = query.list();
+		List<Date> dates = new ArrayList<>();
+		for (int i = 0; i < ret.size(); ++i) {
+			Object[] oa = (Object[]) ret.get(i);
+			dates.add((Date) oa[0]);
 		}
-		Query query = session.createQuery("select s from Scene as s"
-				+ " where s.sceneTs between :tsStart and :tsEnd"
-				+ " order by s.sceneTs, s.sceneno");
-		Timestamp tsStart = new Timestamp(date.getTime());
-		date = DateUtils.addDays(date, 1);
-		date = DateUtils.addMilliseconds(date, -1);
-		Timestamp tsEnd = new Timestamp(date.getTime());
-		query.setTimestamp("tsStart", tsStart);
-		query.setTimestamp("tsEnd", tsEnd);
-		return (List<Scene>) query.list();
+		dates = LangUtil.removeNullAndDuplicates(dates);
+		Collections.sort(dates, new DateComparator());
+		return dates;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByPersonLink(Person person) {
-		Query query = session.createQuery("select s from Scene as s"
-				+ " join s.persons as p"
-				+ " where p=:person");
-		query.setParameter("person", person);
-		List<Scene> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByLocationLink(Location location) {
-		Query query = session.createQuery("select s from Scene as s"
-				+ " join s.locations as l"
-				+ " where l=:location");
-		query.setParameter("location", location);
-		List<Scene> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByItemLink(Item item) {
-		Query query = session.createQuery("select s from Scene as s"
-				+ " join s.items as l"
-				+ " where l=:item");
-		query.setParameter("item", item);
-		List<Scene> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByStrandLink(Strand strand) {
-		Query query = session.createQuery("select s from Scene as s"
-				+ " join s.strands as st"
-				+ " where st=:strand");
-		query.setParameter("strand", strand);
-		List<Scene> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByStrand(Strand strand) {
-		Query query = session.createQuery("select s from Scene as s"
-				+ " where s.strand=:strand");
-		query.setParameter("strand", strand);
-		List<Scene> ret = query.list();
-		return ret;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Scene> findByStrandAndDate(Strand strand, Date date) {
-		if (date == null) {
-			return new ArrayList<>();
+	public Date findFirstDate() {
+		List<Date> dates = findDistinctDates();
+		if (dates.isEmpty()) {
+			return new Date();
 		}
-		// OLD: Query query = session
-		// .createQuery("from Scene s where s.sceneTs = :sceneTs and s.strand=:strand order by s.sceneTs");
-		Query query = session
-				.createQuery("select s from Scene as s"
-						+ " left join s.chapter as ch"
-						+ " where s.sceneTs between :tsStart and :tsEnd and s.strand=:strand"
-						+ " order by s.sceneTs, ch.chapterno, s.sceneno");
-		Timestamp tsStart = new Timestamp(date.getTime());
-		Date date2 = DateUtils.addDays(date, 1);
-		date2 = DateUtils.addMilliseconds(date2, -1);
-		Timestamp tsEnd = new Timestamp(date2.getTime());
-		query.setTimestamp("tsStart", tsStart);
-		query.setTimestamp("tsEnd", tsEnd);
-		query.setEntity("strand", strand);
-		List<Scene> ret = query.list();
-		// find scenes with relative date
-		List<Scene> scenes = findScenesWithRelativeSceneId();
-		for (Scene scene : scenes) {
-			if (!scene.getStrand().getId().equals(strand.getId())) {
-				continue;
-			}
-			Scene relativeScene = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
-			Date sceneDate = scene.getRelativeDate(relativeScene);
-			if (sceneDate == null) {
-				continue;
-			}
-			if (sceneDate.compareTo(date) != 0) {
-				continue;
-			}
-			ret.add(scene);
-		}
-		return ret;
+		return dates.get(0);
 	}
 
-	public List<Scene> findByChapter(Chapter chapter) {
-		ChapterDAOImpl dao = new ChapterDAOImpl(session);
-		return dao.findScenes(chapter);
+	public Date findLastDate() {
+		List<Date> dates = findDistinctDates();
+		if (dates.isEmpty()) {
+			return new Date();
+		}
+		return dates.get(dates.size() - 1);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenesToExport() {
-		Query query = session.createQuery("select scene from Scene as scene"
-				+ " inner join scene.chapter as chapter"
-				+ " inner join chapter.part as part"
-				+ " order by part.number, chapter.chapterno, scene.sceneno");
+		Query query = session.createQuery("select scene from Scene as scene" + " inner join scene.chapter as chapter"
+				+ " inner join chapter.part as part" + " order by part.number, chapter.chapterno, scene.sceneno");
 		List<Scene> ret = query.list();
 		return ret;
 	}
 
-//	public int getMaxScenesByDate(Date date) {
-//		StrandDAOImpl strandDao = new StrandDAOImpl(session);
-//		List<Strand> strandList = strandDao.findAll();
-//		int max = 0;
-//		for (Strand strand : strandList) {
-//			Criteria crit = session.createCriteria(Scene.class);
-//			crit.setProjection(Projections.rowCount());
-//			crit.add(Restrictions.eq("strand", strand));
-//			crit.add(Restrictions.eq("date", date));
-//			int count = (Integer) crit.uniqueResult();
-//			if (count > max) {
-//				max = count;
-//			}
-//		}
-//		return max;
-//	}
+	@SuppressWarnings("unchecked")
+	public List<Scene> findScenesWithRelativeSceneId() {
+		Criteria crit = session.createCriteria(Scene.class);
+		crit.add(Restrictions.isNotNull("relativeSceneId"));
+		List<Scene> scenes = crit.list();
+		return scenes;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findScenesWithRelativeSceneId(Scene scene) {
+		Criteria crit = session.createCriteria(Scene.class);
+		crit.add(Restrictions.eq("relativeSceneId", scene.getId()));
+		List<Scene> scenes = crit.list();
+		return scenes;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Scene> findStateInProgress() {
+		Criteria crit = session.createCriteria(Scene.class);
+		crit.add(Restrictions.ne("status", 5));
+		List<Scene> scenes = crit.list();
+		return scenes;
+	}
+
+	public Scene getRelativeScene(Scene scene) {
+		Scene s = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
+		return s;
+	}
+
+	// public int getMaxScenesByDate(Date date) {
+	// StrandDAOImpl strandDao = new StrandDAOImpl(session);
+	// List<Strand> strandList = strandDao.findAll();
+	// int max = 0;
+	// for (Strand strand : strandList) {
+	// Criteria crit = session.createCriteria(Scene.class);
+	// crit.setProjection(Projections.rowCount());
+	// crit.add(Restrictions.eq("strand", strand));
+	// crit.add(Restrictions.eq("date", date));
+	// int count = (Integer) crit.uniqueResult();
+	// if (count > max) {
+	// max = count;
+	// }
+	// }
+	// return max;
+	// }
 }

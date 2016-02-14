@@ -24,8 +24,8 @@ import storybook.model.hbn.dao.LocationDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Location;
 import storybook.ui.MainFrame;
-import storybook.ui.table.SbColumnFactory;
 import storybook.ui.combo.LocationListCellRenderer;
+import storybook.ui.table.SbColumnFactory;
 
 /**
  * @author martin
@@ -35,11 +35,6 @@ public class LocationEntityHandler extends AbstractEntityHandler {
 
 	public LocationEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getLocationColumns());
-	}
-
-	@Override
-	public ListCellRenderer getListCellRenderer() {
-		return new LocationListCellRenderer();
 	}
 
 	@Override
@@ -58,5 +53,10 @@ public class LocationEntityHandler extends AbstractEntityHandler {
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Location.class;
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		return new LocationListCellRenderer();
 	}
 }

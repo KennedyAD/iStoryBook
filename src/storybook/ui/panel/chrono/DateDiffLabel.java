@@ -21,8 +21,10 @@ package storybook.ui.panel.chrono;
 import java.util.Date;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.time.FastDateFormat;
+
 import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
 
@@ -37,12 +39,11 @@ public class DateDiffLabel extends JLabel {
 	}
 
 	public DateDiffLabel(Date date1, Date date2, boolean isVertical) {
-		super("", JLabel.CENTER);
+		super("", SwingConstants.CENTER);
 		this.date1 = date1;
 		this.date2 = date2;
 		String text = I18N.getMsgColon("msg.pref.datediff") + " " + getDays();
-		FastDateFormat fdf = FastDateFormat
-				.getDateInstance(FastDateFormat.SHORT);
+		FastDateFormat fdf = FastDateFormat.getDateInstance(FastDateFormat.SHORT);
 		String dateStr1 = fdf.format(date1);
 		String dateStr2 = fdf.format(date2);
 		String text2 = "(" + dateStr1 + " - " + dateStr2 + ")";

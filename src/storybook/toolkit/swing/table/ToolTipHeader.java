@@ -31,6 +31,7 @@ public class ToolTipHeader extends JTableHeader {
 		super(model);
 	}
 
+	@Override
 	public String getToolTipText(MouseEvent evt) {
 		try {
 			int col = columnAtPoint(evt.getPoint());

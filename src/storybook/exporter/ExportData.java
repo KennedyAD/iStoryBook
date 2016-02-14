@@ -16,12 +16,20 @@ public class ExportData {
 	private String reportName;
 	private String resourceKey;
 
+	public ExportData() {
+	}
+
 	public ExportData(String reportName, String key) {
 		this.reportName = reportName;
 		resourceKey = I18N.getMsg(key);
 	}
 
-	public ExportData() {
+	public String getExportName() {
+		return reportName;
+	}
+
+	public String getKey() {
+		return (resourceKey);
 	}
 
 	public void setExportName(String reportName) {
@@ -37,13 +45,4 @@ public class ExportData {
 		return getKey();
 	}
 
-	public String getExportName() {
-		return reportName;
-	}
-
-	public String getKey() {
-		return (resourceKey);
-	}
-
-		
 }

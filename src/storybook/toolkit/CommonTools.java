@@ -20,35 +20,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.toolkit;
 
 import java.io.File;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+
 import storybook.SbConstants;
-import storybook.SbApp;
 
 /**
  * Common tools
+ * 
  * @author favdb
  */
 public class CommonTools {
 
 	/**
-	 * Get the home directory
-	 * @return CommonTools object for System user home directory
-	 */
-	public static File getHomeDir() {
-		return new File(System.getProperty("user.home"));
-	}
-
-	/**
-	 * Get the user directory
-	 * @return File object for System user home directory
-	 */
-	public static File getUserDir() {
-		return new File(System.getProperty("user.dir"));
-	}
-
-	/**
 	 * Get the default export directory
+	 * 
 	 * @return File object for the directory
 	 */
 	public static File getDefaultExportDir() {
@@ -56,22 +40,39 @@ public class CommonTools {
 	}
 
 	/**
+	 * Get the home directory
+	 * 
+	 * @return CommonTools object for System user home directory
+	 */
+	public static File getHomeDir() {
+		return new File(System.getProperty("user.home"));
+	}
+
+	/**
 	 * Get the complete name for the preference config file
+	 * 
 	 * @return File object for the file
 	 */
 	public static File getPrefConfig() {
-		return new File(getHomeDir()
-			+ File.separator
-			+ SbConstants.Storybook.USER_HOME_DIR.toString()
-			+ File.separator + "preference.cfg.xml"
-			);
+		return new File(getHomeDir() + File.separator + SbConstants.Storybook.USER_HOME_DIR.toString() + File.separator
+				+ "preference.cfg.xml");
 	}
 
 	/**
 	 * Get the complete name for the preference DB file
+	 * 
 	 * @return File object for the file
 	 */
 	public static File getPrefDBName() {
 		return new File(getHomeDir() + File.separator + "preference.h2.db");
+	}
+
+	/**
+	 * Get the user directory
+	 * 
+	 * @return File object for System user home directory
+	 */
+	public static File getUserDir() {
+		return new File(System.getProperty("user.dir"));
 	}
 }

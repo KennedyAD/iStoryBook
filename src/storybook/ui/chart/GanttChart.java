@@ -4,23 +4,15 @@
  */
 package storybook.ui.chart;
 
-import storybook.model.BookModel;
-import storybook.model.EntityUtil;
-import storybook.model.hbn.dao.PersonDAOImpl;
-import storybook.model.hbn.dao.SceneDAOImpl;
-import storybook.model.hbn.entity.Gender;
-import storybook.model.hbn.entity.Person;
-import storybook.toolkit.I18N;
-import storybook.ui.MainFrame;
-import storybook.ui.chart.jfreechart.ChartUtil;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import org.miginfocom.swing.MigLayout;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
@@ -34,7 +26,18 @@ import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.ui.Layer;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
+import storybook.model.BookModel;
+import storybook.model.EntityUtil;
+import storybook.model.hbn.dao.PersonDAOImpl;
+import storybook.model.hbn.dao.SceneDAOImpl;
+import storybook.model.hbn.entity.Gender;
+import storybook.model.hbn.entity.Person;
+import storybook.toolkit.I18N;
+import storybook.ui.MainFrame;
+import storybook.ui.chart.jfreechart.ChartUtil;
 
 public class GanttChart extends AbstractPersonsChart {
 
@@ -45,35 +48,6 @@ public class GanttChart extends AbstractPersonsChart {
 
 	public GanttChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.chart.gantt.characters.title");
-	}
-
-	@Override
-	protected void initChart() {
-		super.initChart();
-		refreshPersonCbList();
-		this.cbShowPeriodsOfLife = new JCheckBox(I18N.getMsg("msg.chart.gantt.periods.life"));
-		this.cbShowPeriodsOfLife.setOpaque(false);
-		this.cbShowPeriodsOfLife.setSelected(true);
-		this.cbShowPeriodsOfLife.addActionListener(this);
-	}
-
-	@Override
-	protected void initChartUi() {
-		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();
-		JFreeChart localJFreeChart = createChart(localIntervalCategoryDataset);
-		this.chartPanel = new ChartPanel(localJFreeChart);
-		this.panel.add(this.chartPanel, "grow");
-	}
-
-	@Override
-	protected void initOptionsUi() {
-		super.initOptionsUi();
-		this.optionsPanel.add(this.cbShowPeriodsOfLife, "right,gap push");
-		this.personsPanel = new JPanel(new MigLayout("flowx"));
-		this.personsPanel.setOpaque(false);
-		this.panel.setOpaque(false);
-		refreshPersonsPanel();
-		this.optionsPanel.add(this.personsPanel, "newline,span");
 	}
 
 	@Override
@@ -89,35 +63,10 @@ public class GanttChart extends AbstractPersonsChart {
 		}
 	}
 
-	private void refreshPersonCbList() {
-		this.personCbList = EntityUtil.createPersonCheckBoxes(this.mainFrame, this.categoryCbList, this);
-	}
-
-	private void refreshPersonsPanel() {
-		List localList = getSelectedPersons();
-		refreshPersonCbList();
-		this.personsPanel.removeAll();
-		int i = 0;
-		Iterator localIterator = this.personCbList.iterator();
-		while (localIterator.hasNext()) {
-			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
-			Person localPerson = (Person) localJCheckBox.getClientProperty(SbConstants.ComponentName.CB_PERSON);
-			if (localList.contains(localPerson)) {
-				localJCheckBox.setSelected(true);
-			}
-			String str = "";
-			if (i % 5 == 0) {
-				str = "newline";
-			}
-			this.personsPanel.add(localJCheckBox, str);
-			i++;
-		}
-		this.personsPanel.revalidate();
-		this.personsPanel.repaint();
-	}
-
 	private JFreeChart createChart(IntervalCategoryDataset paramIntervalCategoryDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createGanttChart(I18N.getMsg("msg.chart.gantt.characters.title"), I18N.getMsg("msg.common.person"), I18N.getMsg("msg.common.date"), paramIntervalCategoryDataset, true, true, false);
+		JFreeChart localJFreeChart = ChartFactory.createGanttChart(I18N.getMsg("msg.chart.gantt.characters.title"),
+				I18N.getMsg("msg.common.person"), I18N.getMsg("msg.common.date"), paramIntervalCategoryDataset, true,
+				true, false);
 		CategoryPlot localCategoryPlot = (CategoryPlot) localJFreeChart.getPlot();
 		GanttRenderer localGanttRenderer = (GanttRenderer) localCategoryPlot.getRenderer();
 		BookModel localDocumentModel = this.mainFrame.getBookModel();
@@ -126,7 +75,8 @@ public class GanttChart extends AbstractPersonsChart {
 		Date localDate1 = localSceneDAOImpl.findFirstDate();
 		Date localDate2 = localSceneDAOImpl.findLastDate();
 		localDocumentModel.commit();
-		localCategoryPlot.addRangeMarker(ChartUtil.getDateIntervalMarker(localDate1, localDate2, I18N.getMsg("msg.chart.common.project.duration")), Layer.BACKGROUND);
+		localCategoryPlot.addRangeMarker(ChartUtil.getDateIntervalMarker(localDate1, localDate2,
+				I18N.getMsg("msg.chart.common.project.duration")), Layer.BACKGROUND);
 		ChartUtil.setNiceSeriesColors(paramIntervalCategoryDataset, localGanttRenderer);
 		return localJFreeChart;
 	}
@@ -183,12 +133,12 @@ public class GanttChart extends AbstractPersonsChart {
 			}
 		}
 		TaskSeriesCollection localObj = new TaskSeriesCollection();
-		((TaskSeriesCollection) localObj).add(lifeTime);
+		localObj.add(lifeTime);
 		if (this.cbShowPeriodsOfLife.isSelected()) {
-			((TaskSeriesCollection) localObj).add(childHood);
-			((TaskSeriesCollection) localObj).add(adolescence);
-			((TaskSeriesCollection) localObj).add(adultHood);
-			((TaskSeriesCollection) localObj).add(retirement);
+			localObj.add(childHood);
+			localObj.add(adolescence);
+			localObj.add(adultHood);
+			localObj.add(retirement);
 		}
 		return localObj;
 	}
@@ -205,5 +155,61 @@ public class GanttChart extends AbstractPersonsChart {
 			}
 		}
 		return localArrayList;
+	}
+
+	@Override
+	protected void initChart() {
+		super.initChart();
+		refreshPersonCbList();
+		this.cbShowPeriodsOfLife = new JCheckBox(I18N.getMsg("msg.chart.gantt.periods.life"));
+		this.cbShowPeriodsOfLife.setOpaque(false);
+		this.cbShowPeriodsOfLife.setSelected(true);
+		this.cbShowPeriodsOfLife.addActionListener(this);
+	}
+
+	@Override
+	protected void initChartUi() {
+		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();
+		JFreeChart localJFreeChart = createChart(localIntervalCategoryDataset);
+		this.chartPanel = new ChartPanel(localJFreeChart);
+		this.panel.add(this.chartPanel, "grow");
+	}
+
+	@Override
+	protected void initOptionsUi() {
+		super.initOptionsUi();
+		this.optionsPanel.add(this.cbShowPeriodsOfLife, "right,gap push");
+		this.personsPanel = new JPanel(new MigLayout("flowx"));
+		this.personsPanel.setOpaque(false);
+		this.panel.setOpaque(false);
+		refreshPersonsPanel();
+		this.optionsPanel.add(this.personsPanel, "newline,span");
+	}
+
+	private void refreshPersonCbList() {
+		this.personCbList = EntityUtil.createPersonCheckBoxes(this.mainFrame, this.categoryCbList, this);
+	}
+
+	private void refreshPersonsPanel() {
+		List localList = getSelectedPersons();
+		refreshPersonCbList();
+		this.personsPanel.removeAll();
+		int i = 0;
+		Iterator localIterator = this.personCbList.iterator();
+		while (localIterator.hasNext()) {
+			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
+			Person localPerson = (Person) localJCheckBox.getClientProperty(SbConstants.ComponentName.CB_PERSON);
+			if (localList.contains(localPerson)) {
+				localJCheckBox.setSelected(true);
+			}
+			String str = "";
+			if (i % 5 == 0) {
+				str = "newline";
+			}
+			this.personsPanel.add(localJCheckBox, str);
+			i++;
+		}
+		this.personsPanel.revalidate();
+		this.personsPanel.repaint();
 	}
 }

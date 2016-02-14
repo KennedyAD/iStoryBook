@@ -25,6 +25,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Tag;
 
 public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
@@ -38,10 +39,12 @@ public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<String> findCategories() {
-		Query query = session
-				.createQuery("select distinct(t.category) from Tag as t order by t.category");
-		return (List<String>) query.list();
+	public List<Tag> findAllMemo() {
+		Criteria crit = session.createCriteria(Tag.class);
+		crit.add(Restrictions.eq("type", "20"));
+		crit.addOrder(Order.asc("name"));
+		List<Tag> tags = crit.list();
+		return tags;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,16 +52,13 @@ public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 		Criteria crit = session.createCriteria(Tag.class);
 		crit.add(Restrictions.eq("category", category));
 		crit.addOrder(Order.asc("name"));
-		List<Tag> tags = (List<Tag>) crit.list();
+		List<Tag> tags = crit.list();
 		return tags;
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Tag> findAllMemo() {
-		Criteria crit = session.createCriteria(Tag.class);
-		crit.add(Restrictions.eq("type", "20"));
-		crit.addOrder(Order.asc("name"));
-		List<Tag> tags = (List<Tag>) crit.list();
-		return tags;
+	public List<String> findCategories() {
+		Query query = session.createQuery("select distinct(t.category) from Tag as t order by t.category");
+		return query.list();
 	}
 }

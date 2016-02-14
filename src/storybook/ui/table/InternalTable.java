@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.InternalDAOImpl;
@@ -39,6 +39,26 @@ public class InternalTable extends AbstractTable {
 
 	public InternalTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		InternalDAOImpl dao = new InternalDAOImpl(session);
+		Internal internal = dao.find(id);
+		model.commit();
+		return internal;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Internal();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Internal");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class InternalTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Internal internal = (Internal) getEntityFromRow(row);
-//		ctrl.setInternalToEdit(internal);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(internal);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setInternalToEdit((Internal) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Internal internal = (Internal) getEntityFromRow(row);
-		ctrl.deleteInternal(internal);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class InternalTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		InternalDAOImpl dao = new InternalDAOImpl(session);
-		Internal internal = dao.find(id);
-		model.commit();
-		return internal;
+	protected synchronized void sendDeleteEntity(int row) {
+		Internal internal = (Internal) getEntityFromRow(row);
+		ctrl.deleteInternal(internal);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Internal();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Internal internal = (Internal) getEntityFromRow(row);
+		// ctrl.setInternalToEdit(internal);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(internal);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Internal");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setInternalToEdit((Internal) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

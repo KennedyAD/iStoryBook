@@ -25,19 +25,22 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.swing.ColorUtil;
 
-
 @SuppressWarnings("serial")
 public class CleverLabel extends JLabel {
 	public CleverLabel() {
 		super();
 	}
 
+	public CleverLabel(Icon image) {
+		super(image);
+	}
+
 	public CleverLabel(Icon image, int horizontalAlignment) {
 		super(image, horizontalAlignment);
 	}
 
-	public CleverLabel(Icon image) {
-		super(image);
+	public CleverLabel(String text) {
+		super(text);
 	}
 
 	public CleverLabel(String text, Icon icon, int horizontalAlignment) {
@@ -46,10 +49,6 @@ public class CleverLabel extends JLabel {
 
 	public CleverLabel(String text, int horizontalAlignment) {
 		super(text, horizontalAlignment);
-	}
-
-	public CleverLabel(String text) {
-		super(text);
 	}
 
 	@Override

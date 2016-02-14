@@ -24,9 +24,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import org.miginfocom.swing.MigLayout;
-
-import storybook.ui.SbView;
 
 import net.infonode.docking.DockingWindow;
 import net.infonode.docking.DockingWindowAdapter;
@@ -37,11 +34,69 @@ import net.infonode.docking.View;
 import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.infonode.util.Direction;
+import net.miginfocom.swing.MigLayout;
+import storybook.ui.SbView;
 
 @SuppressWarnings({ "serial" })
 public class IdwTest03 extends JFrame {
 
+	private class MainDockingWindowAdapter extends DockingWindowAdapter {
+		@Override
+		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
+			System.out.println("IdwTest03.MainDockingWindowAdapter.windowAdded(): addedWindow:" + addedWindow);
+			System.out.println("IdwTest03.MainDockingWindowAdapter.windowAdded(): addedWindow is view:"
+					+ (addedWindow instanceof View));
+			if (addedWindow != null && addedWindow instanceof SbView) {
+				SbView view = (SbView) addedWindow;
+				if (!view.isLoaded()) {
+					System.out.println("IdwTest03.MainDockingWindowAdapter.windowRemoved(): set component");
+					TestComponentFactory factory = TestComponentFactory.getInstance();
+					JComponent comp = factory.getComponent(view);
+					view.load(comp);
+				}
+			}
+		}
+
+		@Override
+		public void windowClosed(DockingWindow window) {
+			System.out.println("IdwTest03.MainDockingWindowAdapter.windowClosed(): window:" + window);
+			if (window != null && window instanceof SbView) {
+				System.out.println("IdwTest03.MainDockingWindowAdapter.windowClosed(): remove component");
+				SbView view = (SbView) window;
+				view.unload();
+			}
+		}
+
+		@Override
+		public void windowClosing(DockingWindow window) throws OperationAbortedException {
+		}
+
+		@Override
+		public void windowRemoved(DockingWindow removedFromWindow, DockingWindow removedWindow) {
+		}
+
+		@Override
+		public void windowShown(DockingWindow window) {
+		}
+	}
+
 	private static IdwTest03 instance;
+
+	public static IdwTest03 getInstance() {
+		if (instance == null) {
+			instance = new IdwTest03();
+		}
+		return instance;
+	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				IdwTest03.getInstance().init();
+			}
+		});
+	}
 
 	private void init() {
 		initUi();
@@ -79,72 +134,5 @@ public class IdwTest03 extends JFrame {
 
 		pack();
 		setVisible(true);
-	}
-
-	private class MainDockingWindowAdapter extends DockingWindowAdapter {
-		@Override
-		public void windowAdded(DockingWindow addedToWindow,
-				DockingWindow addedWindow) {
-			System.out
-					.println("IdwTest03.MainDockingWindowAdapter.windowAdded(): addedWindow:"
-							+ addedWindow);
-			System.out
-					.println("IdwTest03.MainDockingWindowAdapter.windowAdded(): addedWindow is view:"
-							+ (addedWindow instanceof View));
-			if (addedWindow != null && addedWindow instanceof SbView) {
-				SbView view = (SbView) addedWindow;
-				if (!view.isLoaded()) {
-					System.out
-							.println("IdwTest03.MainDockingWindowAdapter.windowRemoved(): set component");
-					TestComponentFactory factory = TestComponentFactory
-							.getInstance();
-					JComponent comp = factory.getComponent(view);
-					view.load(comp);
-				}
-			}
-		}
-
-		@Override
-		public void windowClosed(DockingWindow window) {
-			System.out
-					.println("IdwTest03.MainDockingWindowAdapter.windowClosed(): window:"
-							+ window);
-			if (window != null && window instanceof SbView) {
-				System.out
-						.println("IdwTest03.MainDockingWindowAdapter.windowClosed(): remove component");
-				SbView view = (SbView) window;
-				view.unload();
-			}
-		}
-
-		@Override
-		public void windowClosing(DockingWindow window)
-				throws OperationAbortedException {
-		}
-
-		@Override
-		public void windowRemoved(DockingWindow removedFromWindow,
-				DockingWindow removedWindow) {
-		}
-
-		@Override
-		public void windowShown(DockingWindow window) {
-		}
-	}
-
-	public static IdwTest03 getInstance() {
-		if (instance == null) {
-			instance = new IdwTest03();
-		}
-		return instance;
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				IdwTest03.getInstance().init();
-			}
-		});
 	}
 }

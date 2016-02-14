@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 import java.util.List;
+
 import storybook.toolkit.I18N;
 import storybook.toolkit.Period;
 
@@ -31,13 +32,14 @@ public class Relationship extends AbstractEntity {
 	Scene endScene;
 	String notes;
 	private List<Person> persons;
-    private List<Item> items;
-    private List<Location> locations;
-    
+	private List<Item> items;
+	private List<Location> locations;
+
 	public Relationship() {
 	}
 
-	public Relationship(Person person1, Person person2, String description, Scene startScene, Scene endScene, String notes) {
+	public Relationship(Person person1, Person person2, String description, Scene startScene, Scene endScene,
+			String notes) {
 		this.person1 = person1;
 		this.person2 = person2;
 		this.description = description;
@@ -47,85 +49,36 @@ public class Relationship extends AbstractEntity {
 	}
 
 	@Override
-	public Long getId() {return this.id;}
-
-	public void setId(Long id) {this.id = id;}
-
-	public Person getPerson1() {return this.person1;}
-
-	public boolean hasPerson1() {return person1 != null;}
-
-	public void setPerson1(Person person) {this.person1 = person;}
-
-	public void setPerson1() {this.person1 = null;}
-
-	public Person getPerson2() {return this.person2;}
-
-	public boolean hasPerson2() {return person2 != null;}
-
-	public void setPerson2(Person person) {this.person2 = person;}
-
-	public void setPerson2() {this.person2 = null;}
-
-	public String getDescription() {return this.description;}
-
-	public void setDescription(String description) {this.description = description;}
-
-	public Scene getStartScene() {return this.startScene;}
-
-	public boolean hasStartScene() {return this.startScene != null;}
-
-	public void setStartScene(Scene startScene) {this.startScene = startScene;}
-
-	public Scene getEndScene() {return this.endScene;}
-
-	public boolean hasEndScene() {return endScene != null;}
-
-	public void setEndScene(Scene endScene) {this.endScene = endScene;}
-
-	    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
-	
-	public int numberOfPersons() {return(persons.size());}
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-	public int numberOfItems() {return(items.size());}
-
-	public List<Location> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<Location> locations) {
-        this.locations = locations;
-    }
-
-	public int numberOfLocations() {return(locations.size());}
-
-	public boolean hasOnlyScene() {
-		return startScene != null
-				&& endScene == null
-				&& person1 == null
-				&& person2 == null
-				&& description == null
-				&& numberOfPersons() == 0
-				&& numberOfItems() == 0
-				&& numberOfLocations() == 0;
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) {
+			return false;
+		}
+		return (this.toString().equals(obj.toString()));
 	}
 
-	public boolean hasPeriod() {
-		return (this.getStartScene() != null && this.getEndScene() != null);
+	public String getDescription() {
+		return this.description;
+	}
+
+	public Scene getEndScene() {
+		return this.endScene;
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public List<Location> getLocations() {
+		return locations;
+	}
+
+	public String getNotes() {
+		return this.notes;
 	}
 
 	public Period getPeriod() {
@@ -138,9 +91,118 @@ public class Relationship extends AbstractEntity {
 		return null;
 	}
 
-	public String getNotes() {return this.notes;}
+	public Person getPerson1() {
+		return this.person1;
+	}
 
-	public void setNotes(String notes) {this.notes = notes;}
+	public Person getPerson2() {
+		return this.person2;
+	}
+
+	public List<Person> getPersons() {
+		return persons;
+	}
+
+	public Scene getStartScene() {
+		return this.startScene;
+	}
+
+	public boolean hasEndScene() {
+		return endScene != null;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = super.hashCode();
+		hash = hash * 31 + (person1 != null ? person1.hashCode() : 0);
+		hash = hash * 31 + (person2 != null ? person2.hashCode() : 0);
+		hash = hash * 31 + (description != null ? description.hashCode() : 0);
+		hash = hash * 31 + (startScene != null ? startScene.hashCode() : 0);
+		hash = hash * 31 + (endScene != null ? endScene.hashCode() : 0);
+		hash = hash * 31 + (notes != null ? notes.hashCode() : 0);
+		return hash;
+	}
+
+	public boolean hasOnlyScene() {
+		return startScene != null && endScene == null && person1 == null && person2 == null && description == null
+				&& numberOfPersons() == 0 && numberOfItems() == 0 && numberOfLocations() == 0;
+	}
+
+	public boolean hasPeriod() {
+		return (this.getStartScene() != null && this.getEndScene() != null);
+	}
+
+	public boolean hasPerson1() {
+		return person1 != null;
+	}
+
+	public boolean hasPerson2() {
+		return person2 != null;
+	}
+
+	public boolean hasStartScene() {
+		return this.startScene != null;
+	}
+
+	public int numberOfItems() {
+		return (items.size());
+	}
+
+	public int numberOfLocations() {
+		return (locations.size());
+	}
+
+	public int numberOfPersons() {
+		return (persons.size());
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setEndScene(Scene endScene) {
+		this.endScene = endScene;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public void setPerson1() {
+		this.person1 = null;
+	}
+
+	public void setPerson1(Person person) {
+		this.person1 = person;
+	}
+
+	public void setPerson2() {
+		this.person2 = null;
+	}
+
+	public void setPerson2(Person person) {
+		this.person2 = person;
+	}
+
+	public void setPersons(List<Person> persons) {
+		this.persons = persons;
+	}
+
+	public void setStartScene(Scene startScene) {
+		this.startScene = startScene;
+	}
 
 	@Override
 	public String toString() {
@@ -148,16 +210,12 @@ public class Relationship extends AbstractEntity {
 			return "";
 		}
 		StringBuilder buf = new StringBuilder();
-		/*if (hasPerson1()) {
-			buf.append(person1.toString());
-		}
-		if (hasPerson2()) {
-			if (buf.length() > 0) {
-				buf.append(", ");
-			}
-			buf.append(person2.toString());
-		}*/
-		if (this.description!=null) {
+		/*
+		 * if (hasPerson1()) { buf.append(person1.toString()); } if
+		 * (hasPerson2()) { if (buf.length() > 0) { buf.append(", "); }
+		 * buf.append(person2.toString()); }
+		 */
+		if (this.description != null) {
 			if (buf.length() > 0) {
 				buf.append(", ");
 			}
@@ -191,25 +249,5 @@ public class Relationship extends AbstractEntity {
 			}
 		}
 		return buf.toString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!super.equals(obj)) {
-			return false;
-		}
-		return(this.toString().equals(obj.toString()));
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = super.hashCode();
-		hash = hash * 31 + (person1 != null ? person1.hashCode() : 0);
-		hash = hash * 31 + (person2 != null ? person2.hashCode() : 0);
-		hash = hash * 31 + (description != null ? description.hashCode() : 0);
-		hash = hash * 31 + (startScene != null ? startScene.hashCode() : 0);
-		hash = hash * 31 + (endScene != null ? endScene.hashCode() : 0);
-		hash = hash * 31 + (notes != null ? notes.hashCode() : 0);
-		return hash;
 	}
 }

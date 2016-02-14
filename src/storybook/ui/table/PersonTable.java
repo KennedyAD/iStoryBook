@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.PersonDAOImpl;
@@ -41,6 +41,26 @@ public class PersonTable extends AbstractTable {
 
 	public PersonTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		PersonDAOImpl dao = new PersonDAOImpl(session);
+		Person person = dao.find(id);
+		model.commit();
+		return person;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Person();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Persons");
 	}
 
 	@Override
@@ -70,6 +90,40 @@ public class PersonTable extends AbstractTable {
 		}
 	}
 
+	@Override
+	protected synchronized void sendDeleteEntities(int[] rows) {
+		ArrayList<Long> ids = new ArrayList<>();
+		for (int row : rows) {
+			Person person = (Person) getEntityFromRow(row);
+			ids.add(person.getId());
+		}
+		ctrl.deleteMultiPersons(ids);
+	}
+
+	@Override
+	protected synchronized void sendDeleteEntity(int row) {
+		Person person = (Person) getEntityFromRow(row);
+		ctrl.deletePerson(person);
+	}
+
+	@Override
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Person person = (Person) getEntityFromRow(row);
+		// ctrl.setPersonToEdit(person);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(person);
+	}
+
+	@Override
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setPersonToEdit((Person) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
+	}
+
 	private void updateCategories(PropertyChangeEvent evt) {
 		Category oldCategory = (Category) evt.getOldValue();
 		Category newCategory = (Category) evt.getNewValue();
@@ -90,58 +144,4 @@ public class PersonTable extends AbstractTable {
 		}
 	}
 
-	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Person person = (Person) getEntityFromRow(row);
-//		ctrl.setPersonToEdit(person);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(person);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setPersonToEdit((Person) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Person person = (Person) getEntityFromRow(row);
-		ctrl.deletePerson(person);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntities(int[] rows) {
-		ArrayList<Long> ids = new ArrayList<>();
-		for (int row : rows) {
-			Person person = (Person) getEntityFromRow(row);
-			ids.add(person.getId());
-		}
-		ctrl.deleteMultiPersons(ids);
-	}
-
-	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		PersonDAOImpl dao = new PersonDAOImpl(session);
-		Person person = dao.find(id);
-		model.commit();
-		return person;
-	}
-
-	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Person();
-	}
-	
-	@Override
-	public String getTableName() {
-		return("Persons");
-	}
-	
 }

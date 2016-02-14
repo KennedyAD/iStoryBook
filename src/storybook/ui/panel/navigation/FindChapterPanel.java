@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.EntityUtil;
@@ -35,10 +36,8 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.ViewsRadioButtonPanel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -55,8 +54,43 @@ public class FindChapterPanel extends AbstractPanel {
 		initAll();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	private AbstractAction getFindAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				scrollToChapter();
+			}
+		};
+	}
+
+	private AbstractAction getNextAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				int index = chapterCombo.getSelectedIndex();
+				++index;
+				if (index == chapterCombo.getItemCount()) {
+					index = chapterCombo.getItemCount() - 1;
+				}
+				chapterCombo.setSelectedIndex(index);
+				scrollToChapter();
+			}
+		};
+	}
+
+	private AbstractAction getPreviousAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				int index = chapterCombo.getSelectedIndex();
+				--index;
+				if (index == -1) {
+					index = 0;
+				}
+				chapterCombo.setSelectedIndex(index);
+				scrollToChapter();
+			}
+		};
 	}
 
 	@Override
@@ -72,12 +106,10 @@ public class FindChapterPanel extends AbstractPanel {
 		chapterCombo = new JComboBox();
 		ChapterEntityHandler handler = new ChapterEntityHandler(mainFrame);
 		Chapter chapter = new Chapter();
-		EntityUtil.fillEntityCombo(mainFrame, chapterCombo, handler, chapter,
-				false, false);
+		EntityUtil.fillEntityCombo(mainFrame, chapterCombo, handler, chapter, false, false);
 		SwingUtil.setMaxWidth(chapterCombo, 200);
 
-		IconButton btPrev = new IconButton("icon.small.previous",
-				getPreviousAction());
+		IconButton btPrev = new IconButton("icon.small.previous", getPreviousAction());
 		btPrev.setSize20x20();
 
 		IconButton btNext = new IconButton("icon.small.next", getNextAction());
@@ -102,40 +134,8 @@ public class FindChapterPanel extends AbstractPanel {
 		add(btFind, "span,right");
 	}
 
-	private AbstractAction getPreviousAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				int index = chapterCombo.getSelectedIndex();
-				--index;
-				if (index == -1) {
-					index = 0;
-				}
-				chapterCombo.setSelectedIndex(index);
-				scrollToChapter();
-			}
-		};
-	}
-
-	private AbstractAction getNextAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				int index = chapterCombo.getSelectedIndex();
-				++index;
-				if (index == chapterCombo.getItemCount()) {
-					index = chapterCombo.getItemCount() - 1;
-				}
-				chapterCombo.setSelectedIndex(index);
-				scrollToChapter();
-			}
-		};
-	}
-
-	private AbstractAction getFindAction() {
-		return new AbstractAction() {
-			public void actionPerformed(ActionEvent evt) {
-				scrollToChapter();
-			}
-		};
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
 	private void scrollToChapter() {

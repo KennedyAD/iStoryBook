@@ -36,27 +36,20 @@ public class SceneStateModel extends AbstractStateModel {
 
 	public SceneStateModel(boolean addPseudoStates) {
 		super();
-		states.add(new SceneState(State.OUTLINE.ordinal(),
-				I18N.getMsg("msg.status.outline"),
+		states.add(new SceneState(State.OUTLINE.ordinal(), I18N.getMsg("msg.status.outline"),
 				I18N.getIcon("icon.small.status.outline")));
-		states.add(new SceneState(State.DRAFT.ordinal(),
-				I18N.getMsg("msg.status.draft"),
+		states.add(new SceneState(State.DRAFT.ordinal(), I18N.getMsg("msg.status.draft"),
 				I18N.getIcon("icon.small.status.draft")));
-		states.add(new SceneState(State.EDIT1.ordinal(),
-				I18N.getMsg("msg.status.1st.edit"),
+		states.add(new SceneState(State.EDIT1.ordinal(), I18N.getMsg("msg.status.1st.edit"),
 				I18N.getIcon("icon.small.status.edit1")));
-		states.add(new SceneState(State.EDIT2.ordinal(), 
-				I18N.getMsg("msg.status.2nd.edit"),
+		states.add(new SceneState(State.EDIT2.ordinal(), I18N.getMsg("msg.status.2nd.edit"),
 				I18N.getIcon("icon.small.status.edit2")));
-		states.add(new SceneState(State.DONE.ordinal(),
-				I18N.getMsg("msg.status.done"),
+		states.add(new SceneState(State.DONE.ordinal(), I18N.getMsg("msg.status.done"),
 				I18N.getIcon("icon.small.status.done")));
 		if (addPseudoStates) {
-			states.add(new SceneState(State.IN_PROGRESS.ordinal(),
-					I18N.getMsg("msg.status.in.progress"),
+			states.add(new SceneState(State.IN_PROGRESS.ordinal(), I18N.getMsg("msg.status.in.progress"),
 					I18N.getIcon("icon.small.status.inprogess")));
-			states.add(new SceneState(State.ALL.ordinal(),
-					I18N.getMsg("msg.status.all"),
+			states.add(new SceneState(State.ALL.ordinal(), I18N.getMsg("msg.status.all"),
 					I18N.getIcon("icon.small.status.all")));
 		}
 	}

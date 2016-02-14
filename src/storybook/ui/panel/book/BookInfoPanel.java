@@ -24,22 +24,22 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.label.CleverLabel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.chrono.StrandDateLabel;
+import storybook.ui.panel.linkspanel.ItemLinksPanel;
 import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
-
-import org.miginfocom.swing.MigLayout;
-import storybook.ui.panel.linkspanel.ItemLinksPanel;
 
 /**
  * @author martin
@@ -62,6 +62,56 @@ public class BookInfoPanel extends AbstractPanel {
 		this.scene = scene;
 		init();
 		initUi();
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		LayoutManager layout = new MigLayout("fillx,wrap,gapy 15", "", "");
+		setLayout(layout);
+		setOpaque(false);
+		setBorder(SwingUtil.getBorderDefault());
+
+		Strand strand = scene.getStrand();
+
+		// strand
+		lbStrand = new CleverLabel(strand.toString(), SwingConstants.CENTER);
+		lbStrand.setBackground(strand.getJColor());
+
+		// date
+		lbDate = new StrandDateLabel(strand, scene.getSceneTs());
+		lbDate.setOpaque(false);
+
+		// person links
+		personLinksPanel = new PersonLinksPanel(mainFrame, scene, true);
+
+		// location links
+		locationLinksPanel = new LocationLinksPanel(mainFrame, scene, false);
+
+		// item links
+		itemLinksPanel = new ItemLinksPanel(mainFrame, scene, false);
+
+		// strand links
+		JLabel lbStrandLinks = new JLabel(I18N.getMsgColon("msg.dlg.scene.strand.links"));
+		strandLinksPanel = new StrandLinksPanel(mainFrame, scene, false);
+
+		// layout
+		add(lbStrand, "growx");
+		add(lbDate, "");
+		Icon personIcon = I18N.getIcon("icon.small.person");
+		add(new JLabel(personIcon), "aligny top,split 2");
+		add(personLinksPanel);
+		Icon itemIcon = I18N.getIcon("icon.small.item");
+		add(new JLabel(itemIcon), "aligny top,split 2");
+		add(itemLinksPanel);
+		Icon icon = I18N.getIcon("icon.small.location");
+		add(new JLabel(icon), "aligny top,split 2");
+		add(locationLinksPanel, "growx");
+		add(lbStrandLinks, "split 2");
+		add(strandLinksPanel);
 	}
 
 	@Override
@@ -95,58 +145,5 @@ public class BookInfoPanel extends AbstractPanel {
 			strandLinksPanel.refresh();
 			return;
 		}
-	}
-
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		LayoutManager layout = new MigLayout(
-				"fillx,wrap,gapy 15",
-				"",
-				"");
-		setLayout(layout);
-		setOpaque(false);
-		setBorder(SwingUtil.getBorderDefault());
-
-		Strand strand = scene.getStrand();
-
-		// strand
-		lbStrand = new CleverLabel(strand.toString(), JLabel.CENTER);
-		lbStrand.setBackground(strand.getJColor());
-
-		// date
-		lbDate = new StrandDateLabel(strand, scene.getSceneTs());
-		lbDate.setOpaque(false);
-
-		// person links
-		personLinksPanel = new PersonLinksPanel(mainFrame, scene, true);
-
-		// location links
-		locationLinksPanel = new LocationLinksPanel(mainFrame, scene, false);
-
-		// item links
-		itemLinksPanel = new ItemLinksPanel(mainFrame, scene, false);
-
-		// strand links
-		JLabel lbStrandLinks = new JLabel(I18N.getMsgColon("msg.dlg.scene.strand.links"));
-		strandLinksPanel = new StrandLinksPanel(mainFrame, scene, false);
-
-		// layout
-		add(lbStrand, "growx");
-		add(lbDate, "");
-		Icon personIcon = (ImageIcon) I18N.getIcon("icon.small.person");
-		add(new JLabel(personIcon), "aligny top,split 2");
-		add(personLinksPanel);
-		Icon itemIcon = (ImageIcon) I18N.getIcon("icon.small.item");
-		add(new JLabel(itemIcon), "aligny top,split 2");
-		add(itemLinksPanel);
-		Icon icon = (ImageIcon) I18N.getIcon("icon.small.location");
-		add(new JLabel(icon), "aligny top,split 2");
-		add(locationLinksPanel, "growx");
-		add(lbStrandLinks, "split 2");
-		add(strandLinksPanel);
 	}
 }

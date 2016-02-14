@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.TagDAOImpl;
@@ -39,6 +39,26 @@ public class TagTable extends AbstractTable {
 
 	public TagTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		TagDAOImpl dao = new TagDAOImpl(session);
+		Tag tag = dao.find(id);
+		model.commit();
+		return tag;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new Tag();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("Tag");
 	}
 
 	@Override
@@ -65,30 +85,6 @@ public class TagTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Tag tag = (Tag) getEntityFromRow(row);
-//		ctrl.setTagToEdit(tag);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(tag);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setTagToEdit((Tag) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		Tag tag = (Tag) getEntityFromRow(row);
-		ctrl.deleteTag(tag);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -99,22 +95,26 @@ public class TagTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		TagDAOImpl dao = new TagDAOImpl(session);
-		Tag tag = dao.find(id);
-		model.commit();
-		return tag;
+	protected synchronized void sendDeleteEntity(int row) {
+		Tag tag = (Tag) getEntityFromRow(row);
+		ctrl.deleteTag(tag);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Tag();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Tag tag = (Tag) getEntityFromRow(row);
+		// ctrl.setTagToEdit(tag);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(tag);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Tag");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setTagToEdit((Tag) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

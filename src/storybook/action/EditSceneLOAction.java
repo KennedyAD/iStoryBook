@@ -45,30 +45,24 @@ import storybook.ui.MainFrame;
 public class EditSceneLOAction extends AbstractEntityAction {
 
 	public EditSceneLOAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity, I18N.getMsg("msg.common.editlo"), I18N
-				.getIcon("icon.small.edit"));
-		SbApp.trace("EditSceneLOAction(" + mainFrame.getName() + ","
-				+ entity.toString() + ")");
+		super(mainFrame, entity, I18N.getMsg("msg.common.editlo"), I18N.getIcon("icon.small.edit"));
+		SbApp.trace("EditSceneLOAction(" + mainFrame.getName() + "," + entity.toString() + ")");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SbApp.trace("EditSceneLOAction.actionPerformed(...) entity="
-				+ entity.toString());
+		SbApp.trace("EditSceneLOAction.actionPerformed(...) entity=" + entity.toString());
 		String name = ODTUtils.getFilePath(mainFrame, (Scene) entity);
 		File file = new File(name);
 		if (!file.exists()) {
-			if (JOptionPane.showConfirmDialog(null,
-					I18N.getMsg("msg.libreoffice.filenotexist"),
-					I18N.getMsg("msg.libreoffice.launching"),
-					JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+			if (JOptionPane.showConfirmDialog(null, I18N.getMsg("msg.libreoffice.filenotexist"),
+					I18N.getMsg("msg.libreoffice.launching"), JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
 				try {
 					String source = "storybook/resources/Empty.odt";
 					if (BookUtil.isUseSimpleTemplate(mainFrame)) {
 						source = "storybook/resources/Simple.odt";
 					}
-					InputStream is = this.getClass().getClassLoader()
-							.getResourceAsStream(source);
+					InputStream is = this.getClass().getClassLoader().getResourceAsStream(source);
 					Files.copy(is, file.toPath());
 				} catch (IOException ex) {
 					SbApp.error("EntityEditor.createOdtFile(...)", ex);

@@ -19,8 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.model.hbn.entity;
 
 /**
- * @hibernate.subclass
- *   discriminator-value="0"
+ * @hibernate.subclass discriminator-value="0"
  */
 public class Tag extends AbstractTag {
 

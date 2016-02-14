@@ -37,8 +37,7 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class MemoriaOptionsDialog extends AbstractOptionsDialog implements
-		ItemListener {
+public class MemoriaOptionsDialog extends AbstractOptionsDialog implements ItemListener {
 
 	private boolean balloon;
 	private JRadioButton rbBalloon;
@@ -50,9 +49,7 @@ public class MemoriaOptionsDialog extends AbstractOptionsDialog implements
 	@Override
 	public void init() {
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.MEMORIA_BALLOON,
-					SbConstants.DEFAULT_MEMORIA_BALLOON);
+			Internal internal = BookUtil.get(mainFrame, BookKey.MEMORIA_BALLOON, SbConstants.DEFAULT_MEMORIA_BALLOON);
 			balloon = internal.getBooleanValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,8 +68,7 @@ public class MemoriaOptionsDialog extends AbstractOptionsDialog implements
 			rbBalloon.setSelected(true);
 		}
 		bgPresentation.add(rbBalloon);
-		JRadioButton rbTree = new JRadioButton(
-				I18N.getMsg("msg.graph.pres.tree"));
+		JRadioButton rbTree = new JRadioButton(I18N.getMsg("msg.graph.pres.tree"));
 		bgPresentation.add(rbTree);
 		if (!balloon) {
 			rbTree.setSelected(true);

@@ -4,6 +4,28 @@
  */
 package storybook.ui.chart;
 
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.hibernate.Session;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.Layer;
+
+import net.miginfocom.swing.MigLayout;
 /**
  *
  * @author favdb
@@ -17,25 +39,6 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 import storybook.ui.chart.jfreechart.DbTableCategoryItemLabelGenerator;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.miginfocom.swing.MigLayout;
-import org.hibernate.Session;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.labels.ItemLabelPosition;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.Layer;
 
 public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 
@@ -49,54 +52,14 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	protected void initChart() {
-		this.countryCbList = EntityUtil.createCountryCheckBoxes(this.mainFrame, this);
-		this.selectedCountries = new ArrayList();
-		updateSelectedCountries();
-	}
-
-	@Override
-	protected void initChartUi() {
-		CategoryDataset localCategoryDataset = createDataset();
-		JFreeChart localJFreeChart = createChart(localCategoryDataset);
-		this.chartPanel = new ChartPanel(localJFreeChart);
-		this.panel.add(this.chartPanel, "grow");
-	}
-
-	@Override
-	protected void initOptionsUi() {
-		JPanel localJPanel = new JPanel(new MigLayout("flowx"));
-		localJPanel.setOpaque(false);
-		JLabel localJLabel = new JLabel(I18N.getMsgColon("msg.dlg.location.country"));
-		localJPanel.add(localJLabel);
-		Iterator localIterator = this.countryCbList.iterator();
-		while (localIterator.hasNext()) {
-			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
-			localJPanel.add(localJCheckBox);
-		}
-		this.optionsPanel.add(localJPanel);
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		updateSelectedCountries();
 		refreshChart();
 	}
 
-	private void updateSelectedCountries() {
-		this.selectedCountries.clear();
-		Iterator localIterator = this.countryCbList.iterator();
-		while (localIterator.hasNext()) {
-			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
-			if (localJCheckBox.isSelected()) {
-				this.selectedCountries.add(localJCheckBox.getText());
-			}
-		}
-	}
-
 	private JFreeChart createChart(CategoryDataset paramCategoryDataset) {
-		JFreeChart localJFreeChart = ChartFactory.createBarChart(this.chartTitle, "", "", paramCategoryDataset, PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart localJFreeChart = ChartFactory.createBarChart(this.chartTitle, "", "", paramCategoryDataset,
+				PlotOrientation.VERTICAL, true, true, false);
 		CategoryPlot localCategoryPlot = (CategoryPlot) localJFreeChart.getPlot();
 		ChartUtil.hideDomainAxis(localCategoryPlot);
 		localCategoryPlot.addRangeMarker(ChartUtil.getAverageMarker(this.average), Layer.FOREGROUND);
@@ -132,5 +95,46 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		} catch (Exception localException) {
 		}
 		return localDefaultCategoryDataset;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected void initChart() {
+		this.countryCbList = EntityUtil.createCountryCheckBoxes(this.mainFrame, this);
+		this.selectedCountries = new ArrayList();
+		updateSelectedCountries();
+	}
+
+	@Override
+	protected void initChartUi() {
+		CategoryDataset localCategoryDataset = createDataset();
+		JFreeChart localJFreeChart = createChart(localCategoryDataset);
+		this.chartPanel = new ChartPanel(localJFreeChart);
+		this.panel.add(this.chartPanel, "grow");
+	}
+
+	@Override
+	protected void initOptionsUi() {
+		JPanel localJPanel = new JPanel(new MigLayout("flowx"));
+		localJPanel.setOpaque(false);
+		JLabel localJLabel = new JLabel(I18N.getMsgColon("msg.dlg.location.country"));
+		localJPanel.add(localJLabel);
+		Iterator localIterator = this.countryCbList.iterator();
+		while (localIterator.hasNext()) {
+			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
+			localJPanel.add(localJCheckBox);
+		}
+		this.optionsPanel.add(localJPanel);
+	}
+
+	private void updateSelectedCountries() {
+		this.selectedCountries.clear();
+		Iterator localIterator = this.countryCbList.iterator();
+		while (localIterator.hasNext()) {
+			JCheckBox localJCheckBox = (JCheckBox) localIterator.next();
+			if (localJCheckBox.isSelected()) {
+				this.selectedCountries.add(localJCheckBox.getText());
+			}
+		}
 	}
 }

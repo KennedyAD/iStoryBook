@@ -21,6 +21,8 @@ package storybook.toolkit;
 import javax.swing.Action;
 import javax.swing.JPopupMenu;
 
+import com.sun.jaf.ui.ActionManager;
+
 import storybook.SbConstants;
 import storybook.model.stringcategory.AbstractStringCategory;
 import storybook.model.stringcategory.CityCategory;
@@ -29,22 +31,18 @@ import storybook.model.stringcategory.ItemCategory;
 import storybook.model.stringcategory.TagCategory;
 import storybook.ui.MainFrame;
 
-import com.sun.jaf.ui.ActionManager;
-
 /**
  * @author martin
  *
  */
 public class StringCategoryUtil {
 
-	public static JPopupMenu createPopupMenu(MainFrame mainFrame,
-			AbstractStringCategory cat) {
+	public static JPopupMenu createPopupMenu(MainFrame mainFrame, AbstractStringCategory cat) {
 		JPopupMenu menu = new JPopupMenu();
 		if (cat == null) {
 			return null;
 		}
-		ActionManager actMngr = mainFrame.getSbActionManager()
-				.getActionManager();
+		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
 		Action act = null;
 		if (cat instanceof TagCategory) {
 			act = actMngr.getAction("rename-tag-category-command");

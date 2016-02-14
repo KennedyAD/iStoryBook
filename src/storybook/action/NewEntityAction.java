@@ -21,7 +21,6 @@ package storybook.action;
 
 import java.awt.event.ActionEvent;
 
-import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.EntityUtil;
 import storybook.model.handler.AbstractEntityHandler;
@@ -36,10 +35,8 @@ import storybook.ui.MainFrame;
 public class NewEntityAction extends AbstractEntityAction {
 
 	public NewEntityAction(MainFrame mainFrame, AbstractEntity entity) {
-		super(mainFrame, entity,
-			I18N.getMsg("msg.common.new") + " "
-				+ EntityUtil.getEntityTitle(entity),
-			I18N.getIcon("icon.small.new"));
+		super(mainFrame, entity, I18N.getMsg("msg.common.new") + " " + EntityUtil.getEntityTitle(entity),
+				I18N.getIcon("icon.small.new"));
 	}
 
 	@Override
@@ -47,7 +44,7 @@ public class NewEntityAction extends AbstractEntityAction {
 		BookController ctrl = mainFrame.getBookController();
 		AbstractEntityHandler entityHandler = EntityUtil.getEntityHandler(mainFrame, entity);
 		ctrl.setEntityToEdit(entityHandler.createNewEntity());
-		//mainFrame.showView(ViewName.EDITOR);
+		// mainFrame.showView(ViewName.EDITOR);
 		mainFrame.showEditorAsDialog(entity);
 	}
 }

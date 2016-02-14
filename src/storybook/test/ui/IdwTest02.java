@@ -82,85 +82,6 @@ import net.infonode.util.Direction;
  */
 @SuppressWarnings({ "rawtypes", "serial" })
 public class IdwTest02 {
-	private static final int ICON_SIZE = 8;
-
-	/**
-	 * Custom view icon.
-	 */
-	private static final Icon VIEW_ICON = new Icon() {
-		public int getIconHeight() {
-			return ICON_SIZE;
-		}
-
-		public int getIconWidth() {
-			return ICON_SIZE;
-		}
-
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			Color oldColor = g.getColor();
-
-			g.setColor(new Color(70, 70, 70));
-			g.fillRect(x, y, ICON_SIZE, ICON_SIZE);
-
-			g.setColor(new Color(100, 230, 100));
-			g.fillRect(x + 1, y + 1, ICON_SIZE - 2, ICON_SIZE - 2);
-
-			g.setColor(oldColor);
-		}
-	};
-
-	/**
-	 * Custom view button icon.
-	 */
-	private static final Icon BUTTON_ICON = new Icon() {
-		public int getIconHeight() {
-			return ICON_SIZE;
-		}
-
-		public int getIconWidth() {
-			return ICON_SIZE;
-		}
-
-		public void paintIcon(Component c, Graphics g, int x, int y) {
-			Color oldColor = g.getColor();
-
-			g.setColor(Color.BLACK);
-			g.fillOval(x, y, ICON_SIZE, ICON_SIZE);
-
-			g.setColor(oldColor);
-		}
-	};
-
-	/**
-	 * The one and only root window
-	 */
-	private RootWindow rootWindow;
-
-	/**
-	 * An array of the static views
-	 */
-	private View[] views = new View[10];
-
-	/**
-	 * Contains all the static views
-	 */
-	private ViewMap viewMap = new ViewMap();
-
-	/**
-	 * The view menu items
-	 */
-	private JMenuItem[] viewItems = new JMenuItem[views.length];
-
-	/**
-	 * Contains the dynamic views that has been added to the root window
-	 */
-	private HashMap dynamicViews = new HashMap();
-
-	/**
-	 * The currently applied docking windows theme
-	 */
-	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
-
 	/**
 	 * A dynamically created view containing an id.
 	 */
@@ -194,6 +115,120 @@ public class IdwTest02 {
 		}
 	}
 
+	private static final int ICON_SIZE = 8;
+
+	/**
+	 * Custom view icon.
+	 */
+	private static final Icon VIEW_ICON = new Icon() {
+		@Override
+		public int getIconHeight() {
+			return ICON_SIZE;
+		}
+
+		@Override
+		public int getIconWidth() {
+			return ICON_SIZE;
+		}
+
+		@Override
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			Color oldColor = g.getColor();
+
+			g.setColor(new Color(70, 70, 70));
+			g.fillRect(x, y, ICON_SIZE, ICON_SIZE);
+
+			g.setColor(new Color(100, 230, 100));
+			g.fillRect(x + 1, y + 1, ICON_SIZE - 2, ICON_SIZE - 2);
+
+			g.setColor(oldColor);
+		}
+	};
+
+	/**
+	 * Custom view button icon.
+	 */
+	private static final Icon BUTTON_ICON = new Icon() {
+		@Override
+		public int getIconHeight() {
+			return ICON_SIZE;
+		}
+
+		@Override
+		public int getIconWidth() {
+			return ICON_SIZE;
+		}
+
+		@Override
+		public void paintIcon(Component c, Graphics g, int x, int y) {
+			Color oldColor = g.getColor();
+
+			g.setColor(Color.BLACK);
+			g.fillOval(x, y, ICON_SIZE, ICON_SIZE);
+
+			g.setColor(oldColor);
+		}
+	};
+
+	/**
+	 * Creates a view component containing the specified text.
+	 *
+	 * @param text
+	 *            the text
+	 * @return the view component
+	 */
+	private static JComponent createViewComponent(String text) {
+		StringBuffer sb = new StringBuffer();
+
+		for (int j = 0; j < 100; j++)
+			sb.append(text + ". This is line " + j + "\n");
+
+		return new JScrollPane(new JTextArea(sb.toString()));
+	}
+
+	public static void main(String[] args) throws Exception {
+		// Set InfoNode Look and Feel
+		// UIManager.setLookAndFeel(new InfoNodeLookAndFeel());
+
+		// Docking windows should be run in the Swing thread
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new IdwTest02();
+			}
+		});
+	}
+
+	/**
+	 * The one and only root window
+	 */
+	private RootWindow rootWindow;
+
+	/**
+	 * An array of the static views
+	 */
+	private View[] views = new View[10];
+
+	/**
+	 * Contains all the static views
+	 */
+	private ViewMap viewMap = new ViewMap();
+
+	/**
+	 * The view menu items
+	 */
+	private JMenuItem[] viewItems = new JMenuItem[views.length];
+
+	/**
+	 * Contains the dynamic views that has been added to the root window
+	 */
+	private HashMap dynamicViews = new HashMap();
+
+	/**
+	 * The currently applied docking windows theme
+	 */
+	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
+
 	/**
 	 * In this properties object the modified property values for close buttons
 	 * etc. are stored. This object is cleared when the theme is changed.
@@ -217,213 +252,101 @@ public class IdwTest02 {
 	}
 
 	/**
-	 * Creates a view component containing the specified text.
+	 * Creates the menu where views can be shown and focused.
 	 *
-	 * @param text
-	 *            the text
-	 * @return the view component
+	 * @return the focus view menu
 	 */
-	private static JComponent createViewComponent(String text) {
-		StringBuffer sb = new StringBuffer();
+	private JMenu createFocusViewMenu() {
+		JMenu viewsMenu = new JMenu("Focus View");
 
-		for (int j = 0; j < 100; j++)
-			sb.append(text + ". This is line " + j + "\n");
-
-		return new JScrollPane(new JTextArea(sb.toString()));
-	}
-
-	/**
-	 * Returns a dynamic view with specified id, reusing an existing view if
-	 * possible.
-	 *
-	 * @param id
-	 *            the dynamic view id
-	 * @return the dynamic view
-	 */
-	private View getDynamicView(int id) {
-		View view = (View) dynamicViews.get(new Integer(id));
-
-		if (view == null)
-			view = new DynamicView("Dynamic View " + id, VIEW_ICON,
-					createViewComponent("Dynamic View " + id), id);
-
-		return view;
-	}
-
-	/**
-	 * Returns the next available dynamic view id.
-	 *
-	 * @return the next available dynamic view id
-	 */
-	private int getDynamicViewId() {
-		int id = 0;
-
-		while (dynamicViews.containsKey(new Integer(id)))
-			id++;
-
-		return id;
-	}
-
-	/**
-	 * Creates the root window and the views.
-	 */
-	@SuppressWarnings("unchecked")
-	private void createRootWindow() {
-		// Create the views
 		for (int i = 0; i < views.length; i++) {
-			views[i] = new View("View " + i, VIEW_ICON,
-					createViewComponent("View " + i));
-			viewMap.addView(i, views[i]);
+			final View view = views[i];
+			viewsMenu.add("Focus " + view.getTitle()).addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							// Ensure the view is shown in the root
+							// window
+							DockingUtil.addWindow(view, rootWindow);
+
+							// Transfer focus to the view
+							view.restoreFocus();
+						}
+					});
+				}
+			});
 		}
 
-		// Create a custom view button and add it to view 2
-		JButton button = new JButton(BUTTON_ICON);
-		button.setOpaque(false);
-		button.setBorder(null);
-		button.setFocusable(false);
-		button.addActionListener(new ActionListener() {
+		return viewsMenu;
+	}
+
+	/**
+	 * Creates the menu where layout can be saved and loaded.
+	 *
+	 * @return the layout menu
+	 */
+	private JMenu createLayoutMenu() {
+		JMenu layoutMenu = new JMenu("Layout");
+
+		layoutMenu.add("Default Layout").addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frame,
-						"You clicked the custom view button.",
-						"Custom View Button", JOptionPane.INFORMATION_MESSAGE);
+				setDefaultLayout();
 			}
 		});
-		views[2].getCustomTabComponents().add(button);
 
-		// The mixed view map makes it easy to mix static and dynamic views
-		// inside the same root window
-		MixedViewHandler handler = new MixedViewHandler(viewMap,
-				new ViewSerializer() {
-					public void writeView(View view, ObjectOutputStream out)
-							throws IOException {
-						out.writeInt(((DynamicView) view).getId());
+		layoutMenu.addSeparator();
+
+		for (int i = 0; i < layouts.length; i++) {
+			final int j = i;
+
+			layoutMenu.add("Save Layout " + i).addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						// Save the layout in a byte array
+						ByteArrayOutputStream bos = new ByteArrayOutputStream();
+						ObjectOutputStream out = new ObjectOutputStream(bos);
+						rootWindow.write(out, false);
+						out.close();
+						layouts[j] = bos.toByteArray();
+					} catch (IOException e1) {
+						throw new RuntimeException(e1);
 					}
-
-					public View readView(ObjectInputStream in)
-							throws IOException {
-						return getDynamicView(in.readInt());
-					}
-				});
-
-		rootWindow = DockingUtil.createRootWindow(viewMap, handler, true);
-
-		// Set gradient theme. The theme properties object is the super object
-		// of our properties object, which
-		// means our property value settings will override the theme values
-		properties.addSuperObject(currentTheme.getRootWindowProperties());
-
-		// Our properties object is the super object of the root window
-		// properties object, so all property values of the
-		// theme and in our property object will be used by the root window
-		rootWindow.getRootWindowProperties().addSuperObject(properties);
-
-		// Enable the bottom window bar
-		rootWindow.getWindowBar(Direction.DOWN).setEnabled(true);
-
-		// Add a listener which shows dialogs when a window is closing or
-		// closed.
-		rootWindow.addListener(new DockingWindowAdapter() {
-			public void windowAdded(DockingWindow addedToWindow,
-					DockingWindow addedWindow) {
-				updateViews(addedWindow, true);
-			}
-
-			public void windowRemoved(DockingWindow removedFromWindow,
-					DockingWindow removedWindow) {
-				updateViews(removedWindow, false);
-			}
-
-			public void windowClosing(DockingWindow window)
-					throws OperationAbortedException {
-				if (JOptionPane.showConfirmDialog(frame,
-						"Really close window '" + window + "'?") != JOptionPane.YES_OPTION)
-					throw new OperationAbortedException(
-							"Window close was aborted!");
-			}
-
-		});
-
-		// Add a mouse button listener that closes a window when it's clicked
-		// with the middle mouse button.
-		rootWindow
-				.addTabMouseButtonListener(DockingWindowActionMouseButtonListener.MIDDLE_BUTTON_CLOSE_LISTENER);
-	}
-
-	/**
-	 * Update view menu items and dynamic view map.
-	 *
-	 * @param window
-	 *            the window in which to search for views
-	 * @param added
-	 *            if true the window was added
-	 */
-	@SuppressWarnings("unchecked")
-	private void updateViews(DockingWindow window, boolean added) {
-		if (window instanceof View) {
-			if (window instanceof DynamicView) {
-				if (added)
-					dynamicViews
-							.put(new Integer(((DynamicView) window).getId()),
-									window);
-				else
-					dynamicViews.remove(new Integer(((DynamicView) window)
-							.getId()));
-			} else {
-				for (int i = 0; i < views.length; i++)
-					if (views[i] == window && viewItems[i] != null)
-						viewItems[i].setEnabled(!added);
-			}
-		} else {
-			for (int i = 0; i < window.getChildWindowCount(); i++)
-				updateViews(window.getChildWindow(i), added);
+				}
+			});
 		}
-	}
 
-	/**
-	 * Sets the default window layout.
-	 */
-	private void setDefaultLayout() {
-		TabWindow tabWindow = new TabWindow(views);
+		layoutMenu.addSeparator();
 
-		rootWindow.setWindow(new SplitWindow(true, 0.3f, new SplitWindow(false,
-				0.7f, new TabWindow(new View[] { views[0], views[1] }),
-				views[2]), tabWindow));
+		for (int i = 0; i < layouts.length; i++) {
+			final int j = i;
 
-		WindowBar windowBar = rootWindow.getWindowBar(Direction.DOWN);
+			layoutMenu.add("Load Layout " + j).addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							if (layouts[j] != null) {
+								try {
+									// Load the layout from a byte array
+									ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(layouts[j]));
+									rootWindow.read(in, true);
+									in.close();
+								} catch (IOException e1) {
+									throw new RuntimeException(e1);
+								}
+							}
+						}
+					});
+				}
+			});
+		}
 
-		while (windowBar.getChildWindowCount() > 0)
-			windowBar.getChildWindow(0).close();
-
-		windowBar.addTab(views[3]);
-	}
-
-	/**
-	 * Initializes the frame and shows it.
-	 */
-	private void showFrame() {
-		frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
-		frame.getContentPane().add(rootWindow, BorderLayout.CENTER);
-		frame.setJMenuBar(createMenuBar());
-		frame.setSize(900, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-	}
-
-	/**
-	 * Creates the frame tool bar.
-	 *
-	 * @return the frame tool bar
-	 */
-	private JToolBar createToolBar() {
-		JToolBar toolBar = new JToolBar();
-		JLabel label = new JLabel("Drag New View");
-		toolBar.add(label);
-		new DockingWindowDragSource(label, new DockingWindowDraggerProvider() {
-			public DockingWindowDragger getDragger(MouseEvent mouseEvent) {
-				return getDynamicView(getDynamicViewId()).startDrag(rootWindow);
-			}
-		});
-		return toolBar;
+		return layoutMenu;
 	}
 
 	/**
@@ -443,102 +366,139 @@ public class IdwTest02 {
 	}
 
 	/**
-	 * Creates the menu where layout can be saved and loaded.
+	 * Creates the menu where different property values can be modified.
 	 *
-	 * @return the layout menu
+	 * @return the properties menu
 	 */
-	private JMenu createLayoutMenu() {
-		JMenu layoutMenu = new JMenu("Layout");
+	private JMenu createPropertiesMenu() {
+		JMenu buttonsMenu = new JMenu("Properties");
 
-		layoutMenu.add("Default Layout").addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						setDefaultLayout();
-					}
-				});
+		buttonsMenu.add("Enable Close").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				properties.getDockingWindowProperties().setCloseEnabled(true);
+			}
+		});
 
-		layoutMenu.addSeparator();
+		buttonsMenu.add("Hide Close Buttons").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				properties.getDockingWindowProperties().setCloseEnabled(false);
+			}
+		});
 
-		for (int i = 0; i < layouts.length; i++) {
-			final int j = i;
+		buttonsMenu.add("Freeze Layout").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Disable window operations
+				properties.getDockingWindowProperties().setDragEnabled(false);
+				properties.getDockingWindowProperties().setCloseEnabled(false);
+				properties.getDockingWindowProperties().setMinimizeEnabled(false);
+				properties.getDockingWindowProperties().setRestoreEnabled(false);
+				properties.getDockingWindowProperties().setMaximizeEnabled(false);
 
-			layoutMenu.add("Save Layout " + i).addActionListener(
-					new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							try {
-								// Save the layout in a byte array
-								ByteArrayOutputStream bos = new ByteArrayOutputStream();
-								ObjectOutputStream out = new ObjectOutputStream(
-										bos);
-								rootWindow.write(out, false);
-								out.close();
-								layouts[j] = bos.toByteArray();
-							} catch (IOException e1) {
-								throw new RuntimeException(e1);
-							}
-						}
-					});
-		}
+				// Enable tab reordering inside tabbed panel
+				properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(true);
+			}
+		});
 
-		layoutMenu.addSeparator();
+		buttonsMenu.add("Unfreeze Layout").addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Enable window operations
+				properties.getDockingWindowProperties().setDragEnabled(true);
+				properties.getDockingWindowProperties().setCloseEnabled(true);
+				properties.getDockingWindowProperties().setMinimizeEnabled(true);
+				properties.getDockingWindowProperties().setRestoreEnabled(true);
+				properties.getDockingWindowProperties().setMaximizeEnabled(true);
 
-		for (int i = 0; i < layouts.length; i++) {
-			final int j = i;
+				// Disable tab reordering inside tabbed panel
+				properties.getTabWindowProperties().getTabbedPanelProperties().setTabReorderEnabled(false);
+			}
+		});
 
-			layoutMenu.add("Load Layout " + j).addActionListener(
-					new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									if (layouts[j] != null) {
-										try {
-											// Load the layout from a byte array
-											ObjectInputStream in = new ObjectInputStream(
-													new ByteArrayInputStream(
-															layouts[j]));
-											rootWindow.read(in, true);
-											in.close();
-										} catch (IOException e1) {
-											throw new RuntimeException(e1);
-										}
-									}
-								}
-							});
-						}
-					});
-		}
-
-		return layoutMenu;
+		return buttonsMenu;
 	}
 
 	/**
-	 * Creates the menu where views can be shown and focused.
-	 *
-	 * @return the focus view menu
+	 * Creates the root window and the views.
 	 */
-	private JMenu createFocusViewMenu() {
-		JMenu viewsMenu = new JMenu("Focus View");
-
+	@SuppressWarnings("unchecked")
+	private void createRootWindow() {
+		// Create the views
 		for (int i = 0; i < views.length; i++) {
-			final View view = views[i];
-			viewsMenu.add("Focus " + view.getTitle()).addActionListener(
-					new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									// Ensure the view is shown in the root
-									// window
-									DockingUtil.addWindow(view, rootWindow);
-
-									// Transfer focus to the view
-									view.restoreFocus();
-								}
-							});
-						}
-					});
+			views[i] = new View("View " + i, VIEW_ICON, createViewComponent("View " + i));
+			viewMap.addView(i, views[i]);
 		}
 
-		return viewsMenu;
+		// Create a custom view button and add it to view 2
+		JButton button = new JButton(BUTTON_ICON);
+		button.setOpaque(false);
+		button.setBorder(null);
+		button.setFocusable(false);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(frame, "You clicked the custom view button.", "Custom View Button",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		views[2].getCustomTabComponents().add(button);
+
+		// The mixed view map makes it easy to mix static and dynamic views
+		// inside the same root window
+		MixedViewHandler handler = new MixedViewHandler(viewMap, new ViewSerializer() {
+			@Override
+			public View readView(ObjectInputStream in) throws IOException {
+				return getDynamicView(in.readInt());
+			}
+
+			@Override
+			public void writeView(View view, ObjectOutputStream out) throws IOException {
+				out.writeInt(((DynamicView) view).getId());
+			}
+		});
+
+		rootWindow = DockingUtil.createRootWindow(viewMap, handler, true);
+
+		// Set gradient theme. The theme properties object is the super object
+		// of our properties object, which
+		// means our property value settings will override the theme values
+		properties.addSuperObject(currentTheme.getRootWindowProperties());
+
+		// Our properties object is the super object of the root window
+		// properties object, so all property values of the
+		// theme and in our property object will be used by the root window
+		rootWindow.getRootWindowProperties().addSuperObject(properties);
+
+		// Enable the bottom window bar
+		rootWindow.getWindowBar(Direction.DOWN).setEnabled(true);
+
+		// Add a listener which shows dialogs when a window is closing or
+		// closed.
+		rootWindow.addListener(new DockingWindowAdapter() {
+			@Override
+			public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
+				updateViews(addedWindow, true);
+			}
+
+			@Override
+			public void windowClosing(DockingWindow window) throws OperationAbortedException {
+				if (JOptionPane.showConfirmDialog(frame,
+						"Really close window '" + window + "'?") != JOptionPane.YES_OPTION)
+					throw new OperationAbortedException("Window close was aborted!");
+			}
+
+			@Override
+			public void windowRemoved(DockingWindow removedFromWindow, DockingWindow removedWindow) {
+				updateViews(removedWindow, false);
+			}
+
+		});
+
+		// Add a mouse button listener that closes a window when it's clicked
+		// with the middle mouse button.
+		rootWindow.addTabMouseButtonListener(DockingWindowActionMouseButtonListener.MIDDLE_BUTTON_CLOSE_LISTENER);
 	}
 
 	/**
@@ -549,9 +509,8 @@ public class IdwTest02 {
 	private JMenu createThemesMenu() {
 		JMenu themesMenu = new JMenu("Themes");
 
-		DockingWindowsTheme[] themes = { new DefaultDockingTheme(),
-				new BlueHighlightDockingTheme(), new SlimFlatDockingTheme(),
-				new GradientDockingTheme(), new ShapedGradientDockingTheme(),
+		DockingWindowsTheme[] themes = { new DefaultDockingTheme(), new BlueHighlightDockingTheme(),
+				new SlimFlatDockingTheme(), new GradientDockingTheme(), new ShapedGradientDockingTheme(),
 				new SoftBlueIceDockingTheme(), new ClassicDockingTheme() };
 
 		ButtonGroup group = new ButtonGroup();
@@ -559,12 +518,12 @@ public class IdwTest02 {
 		for (int i = 0; i < themes.length; i++) {
 			final DockingWindowsTheme theme = themes[i];
 
-			JRadioButtonMenuItem item = new JRadioButtonMenuItem(
-					theme.getName());
+			JRadioButtonMenuItem item = new JRadioButtonMenuItem(theme.getName());
 			item.setSelected(i == 4);
 			group.add(item);
 
 			themesMenu.add(item).addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Clear the modified properties values
 					properties.getMap().clear(true);
@@ -578,72 +537,48 @@ public class IdwTest02 {
 	}
 
 	/**
-	 * Creates the menu where different property values can be modified.
+	 * Creates the frame tool bar.
 	 *
-	 * @return the properties menu
+	 * @return the frame tool bar
 	 */
-	private JMenu createPropertiesMenu() {
-		JMenu buttonsMenu = new JMenu("Properties");
-
-		buttonsMenu.add("Enable Close").addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				properties.getDockingWindowProperties().setCloseEnabled(true);
+	private JToolBar createToolBar() {
+		JToolBar toolBar = new JToolBar();
+		JLabel label = new JLabel("Drag New View");
+		toolBar.add(label);
+		new DockingWindowDragSource(label, new DockingWindowDraggerProvider() {
+			@Override
+			public DockingWindowDragger getDragger(MouseEvent mouseEvent) {
+				return getDynamicView(getDynamicViewId()).startDrag(rootWindow);
 			}
 		});
+		return toolBar;
+	}
 
-		buttonsMenu.add("Hide Close Buttons").addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						properties.getDockingWindowProperties()
-								.setCloseEnabled(false);
+	/**
+	 * Creates the menu where not shown views can be shown.
+	 *
+	 * @return the view menu
+	 */
+	private JMenu createViewMenu() {
+		JMenu menu = new JMenu("Views");
+
+		for (int i = 0; i < views.length; i++) {
+			final View view = views[i];
+			viewItems[i] = new JMenuItem(view.getTitle());
+			viewItems[i].setEnabled(views[i].getRootWindow() == null);
+			menu.add(viewItems[i]).addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (view.getRootWindow() != null)
+						view.restoreFocus();
+					else {
+						DockingUtil.addWindow(view, rootWindow);
 					}
-				});
+				}
+			});
+		}
 
-		buttonsMenu.add("Freeze Layout").addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// Disable window operations
-						properties.getDockingWindowProperties().setDragEnabled(
-								false);
-						properties.getDockingWindowProperties()
-								.setCloseEnabled(false);
-						properties.getDockingWindowProperties()
-								.setMinimizeEnabled(false);
-						properties.getDockingWindowProperties()
-								.setRestoreEnabled(false);
-						properties.getDockingWindowProperties()
-								.setMaximizeEnabled(false);
-
-						// Enable tab reordering inside tabbed panel
-						properties.getTabWindowProperties()
-								.getTabbedPanelProperties()
-								.setTabReorderEnabled(true);
-					}
-				});
-
-		buttonsMenu.add("Unfreeze Layout").addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						// Enable window operations
-						properties.getDockingWindowProperties().setDragEnabled(
-								true);
-						properties.getDockingWindowProperties()
-								.setCloseEnabled(true);
-						properties.getDockingWindowProperties()
-								.setMinimizeEnabled(true);
-						properties.getDockingWindowProperties()
-								.setRestoreEnabled(true);
-						properties.getDockingWindowProperties()
-								.setMaximizeEnabled(true);
-
-						// Disable tab reordering inside tabbed panel
-						properties.getTabWindowProperties()
-								.getTabbedPanelProperties()
-								.setTabReorderEnabled(false);
-					}
-				});
-
-		return buttonsMenu;
+		return menu;
 	}
 
 	/**
@@ -660,10 +595,10 @@ public class IdwTest02 {
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem("Toggle " + d);
 			item.setSelected(d == Direction.DOWN);
 			barsMenu.add(item).addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					// Enable/disable the window bar
-					rootWindow.getWindowBar(d).setEnabled(
-							!rootWindow.getWindowBar(d).isEnabled());
+					rootWindow.getWindowBar(d).setEnabled(!rootWindow.getWindowBar(d).isEnabled());
 				}
 			});
 		}
@@ -672,29 +607,51 @@ public class IdwTest02 {
 	}
 
 	/**
-	 * Creates the menu where not shown views can be shown.
+	 * Returns a dynamic view with specified id, reusing an existing view if
+	 * possible.
 	 *
-	 * @return the view menu
+	 * @param id
+	 *            the dynamic view id
+	 * @return the dynamic view
 	 */
-	private JMenu createViewMenu() {
-		JMenu menu = new JMenu("Views");
+	private View getDynamicView(int id) {
+		View view = (View) dynamicViews.get(new Integer(id));
 
-		for (int i = 0; i < views.length; i++) {
-			final View view = views[i];
-			viewItems[i] = new JMenuItem(view.getTitle());
-			viewItems[i].setEnabled(views[i].getRootWindow() == null);
-			menu.add(viewItems[i]).addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (view.getRootWindow() != null)
-						view.restoreFocus();
-					else {
-						DockingUtil.addWindow(view, rootWindow);
-					}
-				}
-			});
-		}
+		if (view == null)
+			view = new DynamicView("Dynamic View " + id, VIEW_ICON, createViewComponent("Dynamic View " + id), id);
 
-		return menu;
+		return view;
+	}
+
+	/**
+	 * Returns the next available dynamic view id.
+	 *
+	 * @return the next available dynamic view id
+	 */
+	private int getDynamicViewId() {
+		int id = 0;
+
+		while (dynamicViews.containsKey(new Integer(id)))
+			id++;
+
+		return id;
+	}
+
+	/**
+	 * Sets the default window layout.
+	 */
+	private void setDefaultLayout() {
+		TabWindow tabWindow = new TabWindow(views);
+
+		rootWindow.setWindow(new SplitWindow(true, 0.3f,
+				new SplitWindow(false, 0.7f, new TabWindow(new View[] { views[0], views[1] }), views[2]), tabWindow));
+
+		WindowBar windowBar = rootWindow.getWindowBar(Direction.DOWN);
+
+		while (windowBar.getChildWindowCount() > 0)
+			windowBar.getChildWindow(0).close();
+
+		windowBar.addTab(views[3]);
 	}
 
 	/**
@@ -704,20 +661,46 @@ public class IdwTest02 {
 	 *            the docking windows theme
 	 */
 	private void setTheme(DockingWindowsTheme theme) {
-		properties.replaceSuperObject(currentTheme.getRootWindowProperties(),
-				theme.getRootWindowProperties());
+		properties.replaceSuperObject(currentTheme.getRootWindowProperties(), theme.getRootWindowProperties());
 		currentTheme = theme;
 	}
 
-	public static void main(String[] args) throws Exception {
-		// Set InfoNode Look and Feel
-		// UIManager.setLookAndFeel(new InfoNodeLookAndFeel());
+	/**
+	 * Initializes the frame and shows it.
+	 */
+	private void showFrame() {
+		frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
+		frame.getContentPane().add(rootWindow, BorderLayout.CENTER);
+		frame.setJMenuBar(createMenuBar());
+		frame.setSize(900, 700);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
 
-		// Docking windows should be run in the Swing thread
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new IdwTest02();
+	/**
+	 * Update view menu items and dynamic view map.
+	 *
+	 * @param window
+	 *            the window in which to search for views
+	 * @param added
+	 *            if true the window was added
+	 */
+	@SuppressWarnings("unchecked")
+	private void updateViews(DockingWindow window, boolean added) {
+		if (window instanceof View) {
+			if (window instanceof DynamicView) {
+				if (added)
+					dynamicViews.put(new Integer(((DynamicView) window).getId()), window);
+				else
+					dynamicViews.remove(new Integer(((DynamicView) window).getId()));
+			} else {
+				for (int i = 0; i < views.length; i++)
+					if (views[i] == window && viewItems[i] != null)
+						viewItems[i].setEnabled(!added);
 			}
-		});
+		} else {
+			for (int i = 0; i < window.getChildWindowCount(); i++)
+				updateViews(window.getChildWindow(i), added);
+		}
 	}
 }

@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.time.FastDateFormat;
+
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 
@@ -26,18 +27,17 @@ public class DateLabel extends JLabel {
 		setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
 	public final String getDateText() {
 		if (date == null) {
 			return "";
 		}
-		String dateStr = FastDateFormat.getDateInstance(FastDateFormat.MEDIUM)
-				.format(date);
+		String dateStr = FastDateFormat.getDateInstance(FastDateFormat.MEDIUM).format(date);
 		String dayStr = SwingUtil.getDayName(date);
 		return dayStr + " - " + dateStr;
-	}
-
-	public Date getDate() {
-		return date;
 	}
 
 	public void setDate(Date date) {

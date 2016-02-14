@@ -19,10 +19,6 @@ public class IdeaCopier extends AbstractCopier<Idea> {
 	}
 
 	@Override
-	protected void prepareTransfer(MainFrame origin, MainFrame destination, Idea originElt, Idea destElt) {
-	}
-
-	@Override
 	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Idea originElt, Idea destElt) {
 	}
 
@@ -30,10 +26,10 @@ public class IdeaCopier extends AbstractCopier<Idea> {
 	protected List<Idea> getAllElements(Session session, MainFrame origin) {
 		IdeaDAOImpl dao = new IdeaDAOImpl(session);
 		List<Idea> ret = dao.findAll();
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	protected CbPanelDecorator getDecorator() {
 		return new IdeaCbPanelDecorator();
@@ -42,6 +38,10 @@ public class IdeaCopier extends AbstractCopier<Idea> {
 	@Override
 	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
 		return new IdeaEntityHandler(mainFrame);
+	}
+
+	@Override
+	protected void prepareTransfer(MainFrame origin, MainFrame destination, Idea originElt, Idea destElt) {
 	}
 
 }

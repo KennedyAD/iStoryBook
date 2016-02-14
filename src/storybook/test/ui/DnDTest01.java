@@ -30,8 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import org.miginfocom.swing.MigLayout;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.panel.GradientPanel;
 
 /**
@@ -42,39 +42,6 @@ import storybook.toolkit.swing.panel.GradientPanel;
 public class DnDTest01 extends JFrame {
 
 	private static DnDTest01 instance;
-
-	private void init() {
-		initUi();
-	}
-
-	private void initUi() {
-		setLayout(new MigLayout());
-		setTitle("IDWTest01");
-		setPreferredSize(new Dimension(600, 400));
-		setLocation(400, 200);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		GradientPanel panel =  new GradientPanel();
-		panel.setPreferredSize(new Dimension(1000, 1000));
-		panel.setForeground(Color.white);
-		panel.setBackground(Color.blue);
-//		panel.setFocusable(true);
-//		panel.setAutoscrolls(true);
-		JScrollPane scroller = new JScrollPane(panel);
-
-		MouseMotionListener doScrollRectToVisible = new MouseMotionAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				System.out.println("DnDTest01.initUi().new MouseMotionAdapter() {...}.mouseDragged(): ");
-				Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
-				((JPanel) e.getSource()).scrollRectToVisible(r);
-			}
-		};
-		panel.addMouseMotionListener(doScrollRectToVisible);
-
-		add(scroller);
-		pack();
-		setVisible(true);
-	}
 
 	public static DnDTest01 getInstance() {
 		if (instance == null) {
@@ -90,5 +57,39 @@ public class DnDTest01 extends JFrame {
 				DnDTest01.getInstance().init();
 			}
 		});
+	}
+
+	private void init() {
+		initUi();
+	}
+
+	private void initUi() {
+		setLayout(new MigLayout());
+		setTitle("IDWTest01");
+		setPreferredSize(new Dimension(600, 400));
+		setLocation(400, 200);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		GradientPanel panel = new GradientPanel();
+		panel.setPreferredSize(new Dimension(1000, 1000));
+		panel.setForeground(Color.white);
+		panel.setBackground(Color.blue);
+		// panel.setFocusable(true);
+		// panel.setAutoscrolls(true);
+		JScrollPane scroller = new JScrollPane(panel);
+
+		MouseMotionListener doScrollRectToVisible = new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				System.out.println("DnDTest01.initUi().new MouseMotionAdapter() {...}.mouseDragged(): ");
+				Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
+				((JPanel) e.getSource()).scrollRectToVisible(r);
+			}
+		};
+		panel.addMouseMotionListener(doScrollRectToVisible);
+
+		add(scroller);
+		pack();
+		setVisible(true);
 	}
 }

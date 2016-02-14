@@ -26,10 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
+
+import net.miginfocom.swing.MigLayout;
 
 /**
  * @author martin

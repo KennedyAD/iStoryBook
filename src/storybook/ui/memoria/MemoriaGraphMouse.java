@@ -15,26 +15,22 @@
  */
 package storybook.ui.memoria;
 
-import storybook.model.EntityUtil;
-import storybook.model.hbn.entity.AbstractEntity;
-import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
+
 import javax.swing.JPopupMenu;
 
-public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin
-	implements MouseListener {
+import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
+import storybook.model.EntityUtil;
+import storybook.model.hbn.entity.AbstractEntity;
+
+public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin implements MouseListener {
 
 	public static final String ACTION_KEY_DB_OBECT = "DbObject";
 	private MemoriaPanel parent;
-
-	public MemoriaGraphMouse(MemoriaPanel parent) {
-		this.parent = parent;
-	}
 
 	public MemoriaGraphMouse() {
 		this(4);
@@ -42,6 +38,14 @@ public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin
 
 	public MemoriaGraphMouse(int i) {
 		super(i);
+	}
+
+	public MemoriaGraphMouse(MemoriaPanel parent) {
+		this.parent = parent;
+	}
+
+	public MemoriaPanel getParent() {
+		return this.parent;
 	}
 
 	@Override
@@ -67,16 +71,13 @@ public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin
 			Point localPoint = paramMouseEvent.getPoint();
 			GraphElementAccessor localGraphElementAccessor = localVisualizationViewer.getPickSupport();
 			if (localGraphElementAccessor != null) {
-				AbstractEntity localAbstractEntity = (AbstractEntity) localGraphElementAccessor.getVertex(localVisualizationViewer.getGraphLayout(), localPoint.getX(), localPoint.getY());
+				AbstractEntity localAbstractEntity = (AbstractEntity) localGraphElementAccessor
+						.getVertex(localVisualizationViewer.getGraphLayout(), localPoint.getX(), localPoint.getY());
 				if (localAbstractEntity != null) {
 					this.parent.refresh(localAbstractEntity);
 				}
 			}
 		}
 		super.mouseClicked(paramMouseEvent);
-	}
-
-	public MemoriaPanel getParent() {
-		return this.parent;
 	}
 }

@@ -24,6 +24,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Person;
 
@@ -38,22 +39,22 @@ public class PersonDAOImpl extends SbGenericDAOImpl<Person, Long> implements Per
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Person> findByCategories(List<Category> categories) {
+		Criteria crit = session.createCriteria(Person.class);
+		crit.add(Restrictions.in("category", categories));
+		crit.addOrder(Order.asc("firstname"));
+		crit.addOrder(Order.asc("lastname"));
+		List<Person> persons = crit.list();
+		return persons;
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Person> findByCategory(Category category) {
 		Criteria crit = session.createCriteria(Person.class);
 		crit.add(Restrictions.eq("category", category));
 		crit.addOrder(Order.asc("firstname"));
 		crit.addOrder(Order.asc("lastname"));
-		List<Person> persons = (List<Person>) crit.list();
-		return persons;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Person> findByCategories(List<Category> categories) {
-		Criteria crit = session.createCriteria(Person.class);
-		crit.add(Restrictions.in("category",categories));
-		crit.addOrder(Order.asc("firstname"));
-		crit.addOrder(Order.asc("lastname"));
-		List<Person> persons = (List<Person>) crit.list();
+		List<Person> persons = crit.list();
 		return persons;
 	}
 }

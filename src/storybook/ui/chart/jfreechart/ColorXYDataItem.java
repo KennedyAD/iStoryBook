@@ -16,25 +16,23 @@
 package storybook.ui.chart.jfreechart;
 
 import java.awt.Color;
+
 import org.jfree.data.xy.XYDataItem;
 
 public class ColorXYDataItem extends XYDataItem {
-  private Color color;
+	private Color color;
 
-  public ColorXYDataItem(Number p1, Number p2, Color color)
-  {
-    super(p1, p2);
-    this.color = color;
-  }
+	public ColorXYDataItem(double paramDouble1, double paramDouble2, Color paramColor) {
+		super(paramDouble1, paramDouble2);
+		this.color = paramColor;
+	}
 
-  public ColorXYDataItem(double paramDouble1, double paramDouble2, Color paramColor)
-  {
-    super(paramDouble1, paramDouble2);
-    this.color = paramColor;
-  }
+	public ColorXYDataItem(Number p1, Number p2, Color color) {
+		super(p1, p2);
+		this.color = color;
+	}
 
-  public Color getColor()
-  {
-    return this.color;
-  }
+	public Color getColor() {
+		return this.color;
+	}
 }

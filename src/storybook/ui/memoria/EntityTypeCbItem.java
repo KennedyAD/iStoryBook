@@ -15,6 +15,8 @@
  */
 package storybook.ui.memoria;
 
+import javax.swing.Icon;
+
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Item;
@@ -22,9 +24,13 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Tag;
-import javax.swing.Icon;
 
 public class EntityTypeCbItem {
+
+	public static enum Type {
+
+		PERSON, SCENE, LOCATION, TAG, ITEM;
+	}
 
 	private Type type;
 
@@ -32,16 +38,15 @@ public class EntityTypeCbItem {
 		this.type = paramType;
 	}
 
-	public String getText() {
-		return EntityUtil.getEntityTitle(getEntity(), Boolean.valueOf(false));
-	}
-
-	public Icon getIcon() {
-		return EntityUtil.getEntityIcon(getEntity());
-	}
-
-	public Type getType() {
-		return this.type;
+	@Override
+	public boolean equals(Object paramObject) {
+		if (getClass() != paramObject.getClass()) {
+			return false;
+		}
+		EntityTypeCbItem localEntityTypeCbItem = (EntityTypeCbItem) paramObject;
+		boolean bool = true;
+		bool = (bool) && (this.type.equals(localEntityTypeCbItem.type));
+		return bool;
 	}
 
 	private AbstractEntity getEntity() {
@@ -63,15 +68,16 @@ public class EntityTypeCbItem {
 		return null;
 	}
 
-	@Override
-	public boolean equals(Object paramObject) {
-		if (getClass() != paramObject.getClass()) {
-			return false;
-		}
-		EntityTypeCbItem localEntityTypeCbItem = (EntityTypeCbItem) paramObject;
-		boolean bool = true;
-		bool = (bool) && (this.type.equals(localEntityTypeCbItem.type));
-		return bool;
+	public Icon getIcon() {
+		return EntityUtil.getEntityIcon(getEntity());
+	}
+
+	public String getText() {
+		return EntityUtil.getEntityTitle(getEntity(), Boolean.valueOf(false));
+	}
+
+	public Type getType() {
+		return this.type;
 	}
 
 	@Override
@@ -84,10 +90,5 @@ public class EntityTypeCbItem {
 	@Override
 	public String toString() {
 		return getText();
-	}
-
-	public static enum Type {
-
-		PERSON, SCENE, LOCATION, TAG, ITEM;
 	}
 }

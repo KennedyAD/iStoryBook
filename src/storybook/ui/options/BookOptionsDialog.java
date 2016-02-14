@@ -22,6 +22,7 @@ import java.awt.Component;
 
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 
 import storybook.SbConstants;
@@ -36,7 +37,7 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class BookOptionsDialog extends AbstractOptionsDialog  {
+public class BookOptionsDialog extends AbstractOptionsDialog {
 
 	private final String CN_HEIGHT_FACTOR = "HeightFactorSlider";
 
@@ -55,12 +56,9 @@ public class BookOptionsDialog extends AbstractOptionsDialog  {
 		setZoomMinValue(SbConstants.MIN_BOOK_ZOOM);
 		setZoomMaxValue(SbConstants.MAX_BOOK_ZOOM);
 		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
+			Internal internal = BookUtil.get(mainFrame, BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
 			zoomValue = internal.getIntegerValue();
-			internal = BookUtil.get(mainFrame,
-					BookKey.BOOK_HEIGHT_FACTOR,
-					SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR);
+			internal = BookUtil.get(mainFrame, BookKey.BOOK_HEIGHT_FACTOR, SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR);
 			heightFactor = internal.getIntegerValue();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,9 +70,8 @@ public class BookOptionsDialog extends AbstractOptionsDialog  {
 	@Override
 	public void initUi() {
 		// height factor
-		JLabel lbHeightFactor = new JLabel(
-				I18N.getMsgColon("msg.common.height.factor"));
-		JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 20, heightFactor);
+		JLabel lbHeightFactor = new JLabel(I18N.getMsgColon("msg.common.height.factor"));
+		JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 10, 20, heightFactor);
 		slider.setName(CN_HEIGHT_FACTOR);
 		slider.setMajorTickSpacing(5);
 		slider.setMinorTickSpacing(1);
@@ -88,12 +85,6 @@ public class BookOptionsDialog extends AbstractOptionsDialog  {
 	}
 
 	@Override
-	protected void zoom(int val) {
-		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);
-		mainFrame.getBookController().bookSetZoom(val);
-	}
-
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		Component comp = (Component) e.getSource();
 		if (CN_HEIGHT_FACTOR.equals(comp.getName())) {
@@ -101,11 +92,16 @@ public class BookOptionsDialog extends AbstractOptionsDialog  {
 			if (!slider.getValueIsAdjusting()) {
 				int val = slider.getValue();
 				mainFrame.getBookController().bookSetHeightFactor(val);
-				BookUtil.store(mainFrame,
-						BookKey.BOOK_HEIGHT_FACTOR, val);
+				BookUtil.store(mainFrame, BookKey.BOOK_HEIGHT_FACTOR, val);
 				return;
 			}
 		}
 		super.stateChanged(e);
+	}
+
+	@Override
+	protected void zoom(int val) {
+		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);
+		mainFrame.getBookController().bookSetZoom(val);
 	}
 }

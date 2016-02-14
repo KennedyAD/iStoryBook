@@ -24,9 +24,8 @@ import java.awt.Frame;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import org.miginfocom.swing.MigLayout;
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 
@@ -39,15 +38,15 @@ public class SplashDialog extends JDialog {
 		initGUI();
 	}
 
+	public SplashDialog(Frame owner) {
+		super(owner);
+		initGUI();
+	}
+
 	public SplashDialog(String s) {
 		super();
 		initGUI();
 		setText(s);
-	}
-
-	public SplashDialog(Frame owner) {
-		super(owner);
-		initGUI();
 	}
 
 	private void initGUI() {
@@ -64,7 +63,7 @@ public class SplashDialog extends JDialog {
 
 		panel.add(lbHg, "al center,gap bottom 10");
 		panel.add(lbText);
-		lbProgress=new JLabel("...");
+		lbProgress = new JLabel("...");
 		lbProgress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		add(panel);
 
@@ -72,12 +71,14 @@ public class SplashDialog extends JDialog {
 		toFront();
 		repaint(0);
 	}
-	public void setText(String s) {
-		lbText.setText(s);
-		repaint(0);
-	}
+
 	public void setProgress(String s) {
 		lbProgress.setText(s);
+		repaint(0);
+	}
+
+	public void setText(String s) {
+		lbText.setText(s);
 		repaint(0);
 	}
 }

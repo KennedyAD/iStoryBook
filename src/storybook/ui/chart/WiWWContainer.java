@@ -15,64 +15,60 @@
  */
 package storybook.ui.chart;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.LocationDAOImpl;
 import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.toolkit.DateUtil;
 import storybook.ui.MainFrame;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import org.hibernate.Session;
 
-public class WiWWContainer
-{
-  private MainFrame mainFrame;
-  private Location location;
-  private List<Person> inPersonList;
-  private List<Person> outPersonList;
-  private Date date;
-  private boolean found;
+public class WiWWContainer {
+	private MainFrame mainFrame;
+	private Location location;
+	private List<Person> inPersonList;
+	private List<Person> outPersonList;
+	private Date date;
+	private boolean found;
 
-  public WiWWContainer(MainFrame paramMainFrame, Date paramDate, Location paramLocation, List<Person> paramList)
-  {
-    this.mainFrame = paramMainFrame;
-    this.location = paramLocation;
-    this.inPersonList = paramList;
-    this.date = DateUtil.getZeroTimeDate(paramDate);
-    this.outPersonList = new ArrayList<>();
-    init();
-  }
+	public WiWWContainer(MainFrame paramMainFrame, Date paramDate, Location paramLocation, List<Person> paramList) {
+		this.mainFrame = paramMainFrame;
+		this.location = paramLocation;
+		this.inPersonList = paramList;
+		this.date = DateUtil.getZeroTimeDate(paramDate);
+		this.outPersonList = new ArrayList<>();
+		init();
+	}
 
-  private void init()
-  {
-    Iterator localIterator = this.inPersonList.iterator();
-    while (localIterator.hasNext())
-    {
-      Person localPerson = (Person)localIterator.next();
-      BookModel localDocumentModel = this.mainFrame.getBookModel();
-      Session localSession = localDocumentModel.beginTransaction();
-      LocationDAOImpl localLocationDAOImpl = new LocationDAOImpl(localSession);
-      long l = localLocationDAOImpl.countByPersonLocationDate(localPerson, this.location, this.date);
-      localDocumentModel.commit();
-      if (l != 0L)
-        this.outPersonList.add(localPerson);
-    }
-    if (this.outPersonList.isEmpty())
-      this.found = false;
-    else
-      this.found = true;
-  }
+	public List<Person> getCharacterList() {
+		return this.outPersonList;
+	}
 
-  public List<Person> getCharacterList()
-  {
-    return this.outPersonList;
-  }
+	private void init() {
+		Iterator localIterator = this.inPersonList.iterator();
+		while (localIterator.hasNext()) {
+			Person localPerson = (Person) localIterator.next();
+			BookModel localDocumentModel = this.mainFrame.getBookModel();
+			Session localSession = localDocumentModel.beginTransaction();
+			LocationDAOImpl localLocationDAOImpl = new LocationDAOImpl(localSession);
+			long l = localLocationDAOImpl.countByPersonLocationDate(localPerson, this.location, this.date);
+			localDocumentModel.commit();
+			if (l != 0L)
+				this.outPersonList.add(localPerson);
+		}
+		if (this.outPersonList.isEmpty())
+			this.found = false;
+		else
+			this.found = true;
+	}
 
-  public boolean isFound()
-  {
-    return this.found;
-  }
+	public boolean isFound() {
+		return this.found;
+	}
 }

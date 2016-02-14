@@ -12,10 +12,11 @@ import java.util.TreeMap;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
 
+import com.googlecode.genericdao.search.Search;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.model.BookModel;
 import storybook.model.handler.AbstractEntityHandler;
 import storybook.model.hbn.dao.SbGenericDAOImpl;
@@ -24,12 +25,10 @@ import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
 import storybook.ui.panel.AbstractPanel;
 
-import com.googlecode.genericdao.search.Search;
-
 @SuppressWarnings("serial")
 public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 
-//	private MainFrame mainFrame;
+	// private MainFrame mainFrame;
 	private Map<AbstractEntity, JCheckBox> cbMap;
 	private CbPanelDecorator decorator;
 	private AbstractEntity entity;
@@ -43,8 +42,52 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 		cbMap = new TreeMap<AbstractEntity, JCheckBox>();
 	}
 
+	public void addEntity(Session session, AbstractEntity entity) {
+		session.refresh(entity);
+		JCheckBox cb = new JCheckBox();
+		cb.setOpaque(false);
+		cbMap.put(entity, cb);
+		cb.setText(entity.toString());
+		add(cb);
+		add(new JLabel(entity.getIcon()));
+	}
+
+	public boolean getAutoSelect() {
+		return autoSelect;
+	}
+
+	public CbPanelDecorator getDecorator() {
+		return decorator;
+	}
+
+	public AbstractEntity getEntity() {
+		return entity;
+	}
+
+	public AbstractEntityHandler getEntityHandler() {
+		return entityHandler;
+	}
+
 	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	public MainFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	public Search getSearch() {
+		return search;
+	}
+
+	public List<AbstractEntity> getSelectedEntities() {
+		ArrayList<AbstractEntity> ret = new ArrayList<AbstractEntity>();
+		Iterator<Entry<AbstractEntity, JCheckBox>> it = cbMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<AbstractEntity, JCheckBox> pairs = it.next();
+			JCheckBox cb = pairs.getValue();
+			if (cb.isSelected()) {
+				ret.add(pairs.getKey());
+			}
+		}
+		return ret;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,9 +116,9 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 				session.refresh(ent);
 			}
 			if (autoSelect) {
-			    for (AbstractEntity ent : entities) {
-				    selectEntity(session, ent);
-			    }
+				for (AbstractEntity ent : entities) {
+					selectEntity(session, ent);
+				}
 			}
 		}
 		model.commit();
@@ -89,13 +132,17 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 	}
 
 	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+	}
+
+	@Override
 	public void refresh() {
 		removeAll();
 
 		decorator.decorateBeforeFirstEntity();
 		Iterator<Entry<AbstractEntity, JCheckBox>> it = cbMap.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<AbstractEntity, JCheckBox> pairs = (Map.Entry<AbstractEntity, JCheckBox>) it.next();
+			Map.Entry<AbstractEntity, JCheckBox> pairs = it.next();
 			AbstractEntity ent = pairs.getKey();
 			if (decorator != null) {
 				decorator.decorateBeforeEntity(ent);
@@ -120,52 +167,16 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 		}
 	}
 
-	public List<AbstractEntity> getSelectedEntities() {
-		ArrayList<AbstractEntity> ret = new ArrayList<AbstractEntity>();
-		Iterator<Entry<AbstractEntity, JCheckBox>> it = cbMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<AbstractEntity, JCheckBox> pairs = (Map.Entry<AbstractEntity, JCheckBox>) it.next();
-			JCheckBox cb = pairs.getValue();
-			if (cb.isSelected()) {
-				ret.add(pairs.getKey());
-			}
-		}
-		return ret;
-	}
-
-	public void addEntity(Session session, AbstractEntity entity) {
-		session.refresh(entity);
-		JCheckBox cb = new JCheckBox();
-		cb.setOpaque(false);
-		cbMap.put(entity, cb);
-		cb.setText(entity.toString());
-		add(cb);
-		add(new JLabel(entity.getIcon()));
-	}
-
-	public CbPanelDecorator getDecorator() {
-		return decorator;
+	public void setAutoSelect(boolean flag) {
+		this.autoSelect = flag;
 	}
 
 	public void setDecorator(CbPanelDecorator decorator) {
 		this.decorator = decorator;
 	}
 
-	@Override
-	public MainFrame getMainFrame() {
-		return mainFrame;
-	}
-
-	public AbstractEntity getEntity() {
-		return entity;
-	}
-
 	public void setEntity(AbstractEntity entity) {
 		this.entity = entity;
-	}
-
-	public AbstractEntityHandler getEntityHandler() {
-		return entityHandler;
 	}
 
 	public void setEntityHandler(AbstractEntityHandler entityHandler) {
@@ -176,19 +187,7 @@ public class CheckBoxPanel extends AbstractPanel implements IRefreshable {
 		this.entities = entities;
 	}
 
-	public Search getSearch() {
-		return search;
-	}
-
 	public void setSearch(Search search) {
 		this.search = search;
-	}
-
-	public boolean getAutoSelect() {
-		return autoSelect;
-	}
-
-	public void setAutoSelect(boolean flag) {
-		this.autoSelect = flag;
 	}
 }

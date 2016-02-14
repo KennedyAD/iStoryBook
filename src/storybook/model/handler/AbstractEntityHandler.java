@@ -41,34 +41,34 @@ public abstract class AbstractEntityHandler {
 		this.columns = columns;
 	}
 
-	public abstract <T> Class<T> getEntityClass();
-
-	public abstract AbstractEntity createNewEntity();
-
-	public AbstractEntity newEntity(AbstractEntity entity) {
-		return createNewEntity();
-	}
-
-	public abstract <T> Class<T> getDAOClass();
-
 	public SbGenericDAOImpl<?, ?> createDAO() {
 		try {
 			return (SbGenericDAOImpl<?, ?>) getDAOClass().newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			System.err.println("AbstractEntityHandler.createDAO() Exception:"+e.getMessage());
+			System.err.println("AbstractEntityHandler.createDAO() Exception:" + e.getMessage());
 		}
 		return null;
 	}
 
+	public abstract AbstractEntity createNewEntity();
+
 	public Vector<SbColumn> getColumns() {
 		return columns;
+	}
+
+	public abstract <T> Class<T> getDAOClass();
+
+	public abstract <T> Class<T> getEntityClass();
+
+	public ListCellRenderer getListCellRenderer() {
+		return null;
 	}
 
 	public boolean hasListCellRenderer() {
 		return getListCellRenderer() != null;
 	}
 
-	public ListCellRenderer getListCellRenderer() {
-		return null;
+	public AbstractEntity newEntity(AbstractEntity entity) {
+		return createNewEntity();
 	}
 }

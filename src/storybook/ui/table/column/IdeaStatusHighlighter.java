@@ -25,6 +25,7 @@ import javax.swing.event.ChangeListener;
 
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
+
 import storybook.toolkit.swing.label.DateLabel;
 import storybook.ui.combo.IdeaStateComboModel;
 
@@ -51,8 +52,8 @@ public class IdeaStatusHighlighter implements Highlighter {
 		lb.setBackground(bg);
 		Integer val = Integer.parseInt(compAdapter.getValue().toString());
 		IdeaStateComboModel model = new IdeaStateComboModel();
-//		IdeaStatus st = model.findByNumber(val);
-//		lb.setText(st.getName());
+		// IdeaStatus st = model.findByNumber(val);
+		// lb.setText(st.getName());
 		return lb;
 	}
 

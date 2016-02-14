@@ -21,6 +21,7 @@ package storybook.toolkit.swing.table;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
 import javax.swing.table.TableColumn;
@@ -28,8 +29,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 @SuppressWarnings("serial")
-public class FixedColumnScrollPane extends JScrollPane implements
-		RowSorterListener {
+public class FixedColumnScrollPane extends JScrollPane implements RowSorterListener {
 
 	private JTable scrollableTable;
 	private JTable fixedTable;
@@ -53,8 +53,7 @@ public class FixedColumnScrollPane extends JScrollPane implements
 		scrollableTable.getRowSorter().addRowSorterListener(this);
 
 		fixedTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-		scrollableTable.putClientProperty("terminateEditOnFocusLost",
-				Boolean.TRUE);
+		scrollableTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
 		// Remove the fixed columns from the main table
 		for (int i = 0; i < fixedColumns; i++) {
@@ -75,10 +74,9 @@ public class FixedColumnScrollPane extends JScrollPane implements
 		}
 
 		// Add the fixed table to the scroll pane
-		fixedTable.setPreferredScrollableViewportSize(fixedTable
-				.getPreferredSize());
+		fixedTable.setPreferredScrollableViewportSize(fixedTable.getPreferredSize());
 		setRowHeaderView(fixedTable);
-		setCorner(JScrollPane.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
+		setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
 	}
 
 	public JTable getFixedTable() {

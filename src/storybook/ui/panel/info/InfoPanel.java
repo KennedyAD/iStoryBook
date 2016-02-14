@@ -25,14 +25,14 @@ import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import net.infonode.docking.View;
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
+
+import net.infonode.docking.View;
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.BookKey;
 import storybook.controller.BookController;
-import storybook.model.DbFile;
 import storybook.model.BookModel;
+import storybook.model.DbFile;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Internal;
@@ -40,8 +40,8 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.swing.SwingUtil;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -55,6 +55,39 @@ public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 
 	public InfoPanel(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	public void hyperlinkUpdate(HyperlinkEvent e) {
+		try {
+			if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+				NetUtil.openBrowser(e.getURL().toString());
+			}
+		} catch (Exception exc) {
+			System.err.println("InfoPanel.hyperlinkUpdate(" + e.toString() + ") Exception : " + exc.getMessage());
+		}
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		setLayout(new MigLayout("wrap,fill,ins 0"));
+
+		infoPane = new JTextPane();
+		infoPane.setEditable(false);
+		infoPane.setOpaque(true);
+		infoPane.setContentType("text/html");
+		infoPane.addHyperlinkListener(this);
+		JScrollPane scroller = new JScrollPane(infoPane);
+		SwingUtil.setMaxPreferredSize(scroller);
+		add(scroller);
+
+		if (entity != null) {
+			refreshInfo();
+		}
 	}
 
 	@Override
@@ -132,42 +165,9 @@ public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		setLayout(new MigLayout("wrap,fill,ins 0"));
-
-		infoPane = new JTextPane();
-		infoPane.setEditable(false);
-		infoPane.setOpaque(true);
-		infoPane.setContentType("text/html");
-		infoPane.addHyperlinkListener(this);
-		JScrollPane scroller = new JScrollPane(infoPane);
-		SwingUtil.setMaxPreferredSize(scroller);
-		add(scroller);
-
-		if (entity != null) {
-			refreshInfo();
-		}
-	}
-
 	private void refreshInfo() {
 		infoPane.setText(EntityUtil.getInfo(mainFrame, entity));
 		infoPane.setCaretPosition(0);
 		infoPane.setComponentPopupMenu(EntityUtil.createPopupMenu(mainFrame, entity));
-	}
-
-	@Override
-	public void hyperlinkUpdate(HyperlinkEvent e) {
-		try {
-			if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-				NetUtil.openBrowser(e.getURL().toString());
-			}
-		} catch (Exception exc) {
-			System.err.println("InfoPanel.hyperlinkUpdate("+e.toString()+") Exception : "+exc.getMessage());
-		}
 	}
 }

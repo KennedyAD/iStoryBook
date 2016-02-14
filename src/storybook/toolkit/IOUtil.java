@@ -23,8 +23,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import storybook.SbApp;
 
+import storybook.SbApp;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.MainFrame;
 
@@ -34,7 +34,14 @@ import storybook.ui.MainFrame;
  */
 public class IOUtil {
 
-	public static String getEntityFileNameForExport(MainFrame paramMainFrame, String paramString, AbstractEntity paramAbstractEntity) {
+	public static String cleanupFilename(String paramString) {
+		String str = paramString.replaceAll("[\\/:*?\"<>|]", "");
+		str = str.replaceAll("\\\\", "");
+		return str;
+	}
+
+	public static String getEntityFileNameForExport(MainFrame paramMainFrame, String paramString,
+			AbstractEntity paramAbstractEntity) {
 		String str1 = "";
 		try {
 			String str2 = paramMainFrame.getDbFile().getName();
@@ -52,14 +59,7 @@ public class IOUtil {
 		return str1;
 	}
 
-	public static String cleanupFilename(String paramString) {
-		String str = paramString.replaceAll("[\\/:*?\"<>|]", "");
-		str = str.replaceAll("\\\\", "");
-		return str;
-	}
-
-	public static String readFileAsString(String filePath)
-		throws java.io.IOException {
+	public static String readFileAsString(String filePath) throws java.io.IOException {
 		byte[] buffer = new byte[(int) new File(filePath).length()];
 		BufferedInputStream f = null;
 		try {

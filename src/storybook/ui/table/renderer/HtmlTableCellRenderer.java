@@ -25,19 +25,17 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.TextUtil;
 import storybook.toolkit.html.HtmlUtil;
-
-import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class HtmlTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		JLabel lbValue = (JLabel) super.getTableCellRendererComponent(table,
-				value, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		JLabel lbValue = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		JPanel panel = new JPanel(new MigLayout("insets 2"));
 		panel.setOpaque(true);
 		panel.setBackground(lbValue.getBackground());

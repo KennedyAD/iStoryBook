@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.handler;
 
-import javax.swing.ListCellRenderer;
-
 import storybook.model.hbn.dao.RelationshipDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Relationship;

@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
 import storybook.action.EditEntityAction;
@@ -39,11 +40,9 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.FontUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.undo.UndoableTextArea;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.label.SceneStateLabel;
-
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractPanel;
 
 /**
  * @author martin
@@ -69,6 +68,48 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		this.scene = scene;
 		init();
 		initUi();
+	}
+
+	private int calculateHeight() {
+		return (int) (100 + size * 0.4) * heightFactor / 10;
+	}
+
+	@Override
+	public void focusGained(FocusEvent evt) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() instanceof JTextComponent) {
+			JTextComponent tc = (JTextComponent) e.getSource();
+			switch (tc.getName()) {
+			case CN_TITLE:
+				scene.setTitle(tc.getText());
+				break;
+			case CN_TEXT:
+				scene.setSummary(tc.getText());
+				break;
+			}
+			mainFrame.getBookController().updateScene(scene);
+		}
+	}
+
+	@Override
+	public void init() {
+		try {
+			Internal internal = BookUtil.get(mainFrame, BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
+			setZoomedSize(internal.getIntegerValue());
+			internal = BookUtil.get(mainFrame, BookKey.BOOK_HEIGHT_FACTOR, SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR);
+			heightFactor = internal.getIntegerValue();
+		} catch (Exception e) {
+			setZoomedSize(SbConstants.DEFAULT_BOOK_ZOOM);
+			heightFactor = SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR;
+		}
+	}
+
+	@Override
+	public void initUi() {
+		refresh();
 	}
 
 	@Override
@@ -101,38 +142,9 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		}
 	}
 
-	private void setZoomedSize(int zoomValue) {
-		size = zoomValue * 12;
-	}
-
-	@Override
-	public void init() {
-		try {
-			Internal internal = BookUtil.get(mainFrame,
-					BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
-			setZoomedSize(internal.getIntegerValue());
-			internal = BookUtil.get(mainFrame,
-					BookKey.BOOK_HEIGHT_FACTOR,
-					SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR);
-			heightFactor = internal.getIntegerValue();
-		} catch (Exception e) {
-			setZoomedSize(SbConstants.DEFAULT_BOOK_ZOOM);
-			heightFactor = SbConstants.DEFAULT_BOOK_HEIGHT_FACTOR;
-		}
-	}
-
-	@Override
-	public void initUi() {
-		refresh();
-	}
-
 	@Override
 	public void refresh() {
-		MigLayout layout = new MigLayout(
-				"wrap,fill",
-				"",
-				"[][grow][grow]"
-				);
+		MigLayout layout = new MigLayout("wrap,fill", "", "[][grow][grow]");
 		setLayout(layout);
 		setBorder(SwingUtil.getBorderDefault());
 
@@ -164,8 +176,7 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		JScrollPane titleScroller = new JScrollPane(taTitle);
 		titleScroller.setPreferredSize(new Dimension(size, 40));
 		taTitle.addFocusListener(this);
-		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame,
-				scene,true));
+		SwingUtil.addCtrlEnterAction(taTitle, new EditEntityAction(mainFrame, scene, true));
 
 		// text
 		tcText = SwingUtil.createTextComponent(mainFrame);
@@ -175,11 +186,9 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		tcText.setDragEnabled(true);
 		JScrollPane textScroller = new JScrollPane(tcText);
 		textScroller.setPreferredSize(new Dimension(size, calculateHeight()));
-		textScroller.setVerticalScrollBarPolicy(
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		textScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		tcText.addFocusListener(this);
-		SwingUtil.addCtrlEnterAction(tcText, new EditEntityAction(mainFrame,
-				scene,true));
+		SwingUtil.addCtrlEnterAction(tcText, new EditEntityAction(mainFrame, scene, true));
 
 		add(lbSceneNo, "split 3,growx");
 		add(lbInformational, "growx,al center");
@@ -194,27 +203,7 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		tcText.setCaretPosition(0);
 	}
 
-	private int calculateHeight() {
-		return (int) (100 + size * 0.4) * heightFactor / 10;
-	}
-
-	@Override
-	public void focusGained(FocusEvent evt) {
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		if (e.getSource() instanceof JTextComponent) {
-			JTextComponent tc = (JTextComponent) e.getSource();
-			switch (tc.getName()) {
-				case CN_TITLE:
-					scene.setTitle(tc.getText());
-					break;
-				case CN_TEXT:
-					scene.setSummary(tc.getText());
-					break;
-			}
-			mainFrame.getBookController().updateScene(scene);
-		}
+	private void setZoomedSize(int zoomValue) {
+		size = zoomValue * 12;
 	}
 }

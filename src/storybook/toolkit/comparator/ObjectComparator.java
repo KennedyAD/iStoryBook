@@ -21,8 +21,7 @@ package storybook.toolkit.comparator;
 import java.util.Comparator;
 
 /**
- * @author martin
- * For testing propose only.
+ * @author martin For testing propose only.
  */
 public class ObjectComparator implements Comparator<Object> {
 
@@ -32,11 +31,9 @@ public class ObjectComparator implements Comparator<Object> {
 	@Override
 	public int compare(Object o1, Object o2) {
 		System.out.println("ObjectComparator.compare(): o1:" + o1);
-		System.out
-				.println("ObjectComparator.compare(): o1 cl:" + o1.getClass());
+		System.out.println("ObjectComparator.compare(): o1 cl:" + o1.getClass());
 		System.out.println("ObjectComparator.compare(): o2:" + o2);
-		System.out
-				.println("ObjectComparator.compare(): o2 cl:" + o2.getClass());
+		System.out.println("ObjectComparator.compare(): o2 cl:" + o2.getClass());
 		return 0;
 	}
 }

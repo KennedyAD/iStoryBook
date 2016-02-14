@@ -38,15 +38,14 @@ public class DateLabel extends JLabel {
 		setOpaque(true);
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-		DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT,
-				Locale.getDefault());
-		setText(formatter.format(this.date));
-		setOpaque(true);
-	}
-
 	public Date getDate() {
 		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+		DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+		setText(formatter.format(this.date));
+		setOpaque(true);
 	}
 }

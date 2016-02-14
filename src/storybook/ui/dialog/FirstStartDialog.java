@@ -28,6 +28,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants.Language;
 import storybook.SbConstants.PreferenceKey;
 import storybook.SbConstants.Spelling;
@@ -36,8 +37,6 @@ import storybook.toolkit.PrefUtil;
 import storybook.toolkit.SpellCheckerUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.BackgroundPanel;
-
-import org.miginfocom.swing.MigLayout;
 
 /**
  * @author martin
@@ -55,6 +54,27 @@ public class FirstStartDialog extends AbstractDialog {
 	}
 
 	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// language
+				int i = languageCombo.getSelectedIndex();
+				Language lang = Language.values()[i];
+				Locale locale = lang.getLocale();
+				PrefUtil.set(PreferenceKey.LANG, I18N.getCountryLanguage(locale));
+				I18N.initResourceBundles(locale);
+				// spell checker
+				i = spellingCombo.getSelectedIndex();
+				Spelling spelling = Spelling.values()[i];
+				PrefUtil.set(PreferenceKey.SPELLING, spelling.name());
+				SpellCheckerUtil.registerDictionaries();
+				dispose();
+			}
+		};
+	}
+
+	@Override
 	public void init() {
 	}
 
@@ -65,7 +85,7 @@ public class FirstStartDialog extends AbstractDialog {
 		setLayout(layout);
 		setTitle(I18N.getMsg("msg.first.start.title"));
 		ImageIcon imgIcon = I18N.getImageIcon("icon.options");
-		JPanel panel = new BackgroundPanel(imgIcon.getImage(),BackgroundPanel.ACTUAL);
+		JPanel panel = new BackgroundPanel(imgIcon.getImage(), BackgroundPanel.ACTUAL);
 		panel.setLayout(new MigLayout("wrap,fill,ins 10"));
 		JLabel lbLogo = new JLabel(I18N.getIcon("icon.logo.250"));
 		lbLogo.setOpaque(true);
@@ -86,26 +106,5 @@ public class FirstStartDialog extends AbstractDialog {
 		panel.add(spellingCombo, "gap bottom 20");
 		panel.add(getOkButton(), "pushy 200,al right bottom");
 		add(panel);
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// language
-				int i = languageCombo.getSelectedIndex();
-				Language lang = Language.values()[i];
-				Locale locale = lang.getLocale();
-				PrefUtil.set(PreferenceKey.LANG,I18N.getCountryLanguage(locale));
-				I18N.initResourceBundles(locale);
-				// spell checker
-				i = spellingCombo.getSelectedIndex();
-				Spelling spelling = Spelling.values()[i];
-				PrefUtil.set(PreferenceKey.SPELLING, spelling.name());
-				SpellCheckerUtil.registerDictionaries();
-				dispose();
-			}
-		};
 	}
 }

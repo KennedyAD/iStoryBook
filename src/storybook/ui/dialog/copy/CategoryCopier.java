@@ -19,6 +19,29 @@ public class CategoryCopier extends AbstractCopier<Category> {
 	}
 
 	@Override
+	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Category originElt,
+			Category destElt) {
+	}
+
+	@Override
+	protected List<Category> getAllElements(Session session, MainFrame origin) {
+		CategoryDAOImpl dao = new CategoryDAOImpl(session);
+		List<Category> ret = dao.findAll();
+
+		return ret;
+	}
+
+	@Override
+	protected CbPanelDecorator getDecorator() {
+		return null;
+	}
+
+	@Override
+	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
+		return new CategoryEntityHandler(mainFrame);
+	}
+
+	@Override
 	protected void prepareTransfer(MainFrame origin, MainFrame destination, Category originElt, Category destElt) {
 
 		Category sup = originElt.getSup();
@@ -36,32 +59,10 @@ public class CategoryCopier extends AbstractCopier<Category> {
 			}
 
 			if (!found) {
-                Category destSup = copy(destination, sup);
+				Category destSup = copy(destination, sup);
 				destElt.setSup(destSup);
 			}
 		}
-	}
-
-	@Override
-	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Category originElt, Category destElt) {
-	}
-
-	@Override
-	protected List<Category> getAllElements(Session session, MainFrame origin) {
-		CategoryDAOImpl dao = new CategoryDAOImpl(session);
-		List<Category> ret = dao.findAll();
-		
-		return ret;
-	}
-	
-	@Override
-	protected CbPanelDecorator getDecorator() {
-		return null;
-	}
-
-	@Override
-	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
-		return new CategoryEntityHandler(mainFrame);
 	}
 
 }

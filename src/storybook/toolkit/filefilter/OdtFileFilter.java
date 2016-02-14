@@ -23,16 +23,17 @@ import java.io.File;
  */
 public class OdtFileFilter extends javax.swing.filechooser.FileFilter {
 	@Override
-    public boolean accept(File file) {
+	public boolean accept(File file) {
 		if (file.isDirectory()) {
 			return true;
 		}
-        String filename = file.getName();
-        return filename.endsWith(".odt");
-    }
+		String filename = file.getName();
+		return filename.endsWith(".odt");
+	}
+
 	@Override
-    public String getDescription() {
-        return("Open Document File (*.odt)");
-    }
+	public String getDescription() {
+		return ("Open Document File (*.odt)");
+	}
 
 }

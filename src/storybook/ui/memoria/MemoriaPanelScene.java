@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+
 import org.hibernate.Session;
+
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ItemLinkDAOImpl;
 import storybook.model.hbn.dao.SceneDAOImpl;
@@ -29,18 +31,19 @@ import storybook.toolkit.I18N;
  */
 public class MemoriaPanelScene {
 	MemoriaPanel mp;
-	
+
 	MemoriaPanelScene(MemoriaPanel mp) {
-		this.mp=mp;
+		this.mp = mp;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	void createSceneGraph() {
-		mp.graphIndex = 0L;;
+		mp.graphIndex = 0L;
+		;
 		BookModel model = mp.getMainFrame().getBookModel();
 		Session session = model.beginTransaction();
 		SceneDAOImpl daoScene = new SceneDAOImpl(session);
-		Scene scene = (Scene) daoScene.find(Long.valueOf(mp.entityId));
+		Scene scene = daoScene.find(Long.valueOf(mp.entityId));
 		if (scene == null) {
 			model.commit();
 			return;
@@ -55,9 +58,9 @@ public class MemoriaPanelScene {
 		TagLinkDAOImpl daoTagLink = new TagLinkDAOImpl(session);
 		ItemLinkDAOImpl daoItemLink = new ItemLinkDAOImpl(session);
 		if (!scene.hasNoSceneTs()) {
-			//scènes liés à la scène via la même date
+			// scènes liés à la scène via la même date
 			Date date = new Date(scene.getSceneTs().getTime());
-			long sceneId=scene.getId();
+			long sceneId = scene.getId();
 			List<Scene> listScenes = daoScene.findByDate(date);
 			for (Scene lScene : listScenes) {
 				if (!lScene.getId().equals(sceneId)) {
@@ -87,14 +90,16 @@ public class MemoriaPanelScene {
 		for (Item item : items) {
 			listItems.add(item);
 		}
-		// liste des tags si lien tagLink avec seulement la scene dans startScene
+		// liste des tags si lien tagLink avec seulement la scene dans
+		// startScene
 		List<TagLink> tagLinks = daoTagLink.findByScene(scene);
 		for (TagLink tagLink : tagLinks) {
 			if (tagLink.hasOnlyScene()) {
 				listTags.add(tagLink.getTag());
 			}
 		}
-		// liste des items si lien itemLink avec seulement la scene dans startScene
+		// liste des items si lien itemLink avec seulement la scene dans
+		// startScene
 		List<ItemLink> itemLinks = daoItemLink.findByScene(scene);
 		for (ItemLink itemLink : itemLinks) {
 			if (itemLink.hasOnlyScene()) {

@@ -30,15 +30,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.SbConstants;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
-import org.miginfocom.swing.MigLayout;
-
 /**
- * The about dialog shows the copyright, credits and some internal information that may help to support clients.
+ * The about dialog shows the copyright, credits and some internal information
+ * that may help to support clients.
  *
  * @author martin
  *
@@ -46,49 +46,66 @@ import org.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class AboutDialog extends AbstractDialog {
 
-	private final String gpl = "<html><body>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.intro") + "</p>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.copyright") + SbConstants.Storybook.COPYRIGHT_YEAR + "</p>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.homepage") + SbConstants.URL.HOMEPAGE + "</p>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.distribution") + "</p>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.gpl") + "</p>" +
-		"<p>" + I18N.getMsg("msg.dlg.about.gpl.license") + "</p>" +
-		"</body></html>";
+	private final String gpl = "<html><body>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.intro") + "</p>" + "<p>"
+			+ I18N.getMsg("msg.dlg.about.gpl.copyright") + SbConstants.Storybook.COPYRIGHT_YEAR + "</p>" + "<p>"
+			+ I18N.getMsg("msg.dlg.about.gpl.homepage") + SbConstants.URL.HOMEPAGE + "</p>" + "<p>"
+			+ I18N.getMsg("msg.dlg.about.gpl.distribution") + "</p>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.gpl")
+			+ "</p>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.license") + "</p>" + "</body></html>";
 
-	private final String credits = "<html><body>"
-			+ "<h2>Developers</h2>"
-			+ "The oStorybook Developer (FaVdB)"
-			+ "<h2>Logo Designer</h2>"
-			+ "Jose Campoy, mod FaVdB"
-			+ "<h2>Translators</h2>"
-			+ "<p>Brazilian Portuguese: <i>vacant</i>"
-			+ "<br>Czech: <i>vacant</i>"
-			+ "<br>Dutch: <i>vacant</i>"
-			+ "<br>Danish: <i>vacant</i>"
-			+ "<br>English: The Storybook Developer Crew"
-			+ "<br>English GB: <b>Ben Dawson</b>"
-			+ "<br>English Proof-Reading: <b>Segal Kergaerig, Mark Coolen</b>"
-			+ "<br>Finnish: <i>vacant</i>"
-			+ "<br>French: <i>vacant</i>"
-			+ "<br>German: <b>Frankie Johnson</b>"
-			+ "<br>Greek: <i>vacant</i>"
-			+ "<br>Hebrew: <i>vacant</i>"
-			+ "<br>Hungarian: <b>Sinkovics Vivien</b>"
-			+ "<br>Italian: <b>Gian Paolo Renello</b>"
-			+ "<br>Japanese: <b>Asuka Yuki (飛香宥希/P.N.)</b>"
-			+ "<br>Polish: <i>vacant</i>"
-			+ "<br>Russian: <i>vacant</i>"
-			+ "<br>Simplified Chinese: <i>vacant</i>"
-			+ "<br>Spanish: <b>Gustavo Hernandez</b>"
-			+ "<br>Swedish: <i>vacant</i>"
-			+ "<br>简体字 (Simplified Chinese) :<i>vacant</i>"
-			+ "<br>繁體中文 (Traditional Chinese): <i>vacant</i>"
-			+ "</p>"
+	private final String credits = "<html><body>" + "<h2>Developers</h2>" + "The oStorybook Developer (FaVdB)"
+			+ "<h2>Logo Designer</h2>" + "Jose Campoy, mod FaVdB" + "<h2>Translators</h2>"
+			+ "<p>Brazilian Portuguese: <i>vacant</i>" + "<br>Czech: <i>vacant</i>" + "<br>Dutch: <i>vacant</i>"
+			+ "<br>Danish: <i>vacant</i>" + "<br>English: The Storybook Developer Crew"
+			+ "<br>English GB: <b>Ben Dawson</b>" + "<br>English Proof-Reading: <b>Segal Kergaerig, Mark Coolen</b>"
+			+ "<br>Finnish: <i>vacant</i>" + "<br>French: <i>vacant</i>" + "<br>German: <b>Frankie Johnson</b>"
+			+ "<br>Greek: <i>vacant</i>" + "<br>Hebrew: <i>vacant</i>" + "<br>Hungarian: <b>Sinkovics Vivien</b>"
+			+ "<br>Italian: <b>Gian Paolo Renello</b>" + "<br>Japanese: <b>Asuka Yuki (飛香宥希/P.N.)</b>"
+			+ "<br>Polish: <i>vacant</i>" + "<br>Russian: <i>vacant</i>" + "<br>Simplified Chinese: <i>vacant</i>"
+			+ "<br>Spanish: <b>Gustavo Hernandez</b>" + "<br>Swedish: <i>vacant</i>"
+			+ "<br>简体字 (Simplified Chinese) :<i>vacant</i>" + "<br>繁體中文 (Traditional Chinese): <i>vacant</i>" + "</p>"
 			+ "</body></html>";
 
 	public AboutDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
+	}
+
+	private JScrollPane createCreditsScrollPane() {
+		JTextPane taCredits = new JTextPane();
+		taCredits.setContentType("text/html");
+		taCredits.setEditable(false);
+		taCredits.setText(credits);
+		JScrollPane scroller2 = new JScrollPane(taCredits);
+		scroller2.setBorder(SwingUtil.getBorderEtched());
+		taCredits.setCaretPosition(0);
+		return (scroller2);
+	}
+
+	private JScrollPane createGplScrollPane() {
+		JTextPane taGpl = new JTextPane();
+		taGpl.setContentType("text/html");
+		taGpl.setEditable(false);
+		taGpl.setText(gpl);
+		taGpl.setCaretPosition(0);
+		JScrollPane scroller1 = new JScrollPane(taGpl);
+		scroller1.setBorder(SwingUtil.getBorderEtched());
+		return (scroller1);
+	}
+
+	private JScrollPane createPropertiesScrollPane() {
+		JTextArea ta = new JTextArea();
+		ta.setEditable(false);
+		ta.setLineWrap(true);
+		Properties props = System.getProperties();
+		Set<Object> keys = props.keySet();
+		for (Object key : keys) {
+			ta.append(key.toString());
+			ta.append(": ");
+			ta.append(props.getProperty(key.toString()));
+			ta.append("\n");
+		}
+		ta.setCaretPosition(0);
+		return new JScrollPane(ta);
 	}
 
 	@Override
@@ -99,16 +116,13 @@ public class AboutDialog extends AbstractDialog {
 	public void initUi() {
 		super.initUi();
 
-		MigLayout layout = new MigLayout(
-				"flowy",
-				"[center]",
-				"[]10[]10[]10[]");
+		MigLayout layout = new MigLayout("flowy", "[center]", "[]10[]10[]10[]");
 		setLayout(layout);
 		Container cp = getContentPane();
 		cp.setBackground(Color.white);
 		setPreferredSize(new Dimension(680, 650));
 		// logo
-		JLabel lbLogo = new JLabel((ImageIcon) I18N.getIcon("icon.logo.500"));
+		JLabel lbLogo = new JLabel(I18N.getIcon("icon.logo.500"));
 		lbLogo.setOpaque(true);
 		lbLogo.setBackground(Color.WHITE);
 		// application info
@@ -132,43 +146,5 @@ public class AboutDialog extends AbstractDialog {
 		add(lbReview);
 		add(pane, "grow");
 		add(getCloseButton(), "right");
-	}
-
-	private JScrollPane createGplScrollPane() {
-		JTextPane taGpl = new JTextPane();
-		taGpl.setContentType("text/html");
-		taGpl.setEditable(false);
-		taGpl.setText(gpl);
-		taGpl.setCaretPosition(0);
-		JScrollPane scroller1 = new JScrollPane(taGpl);
-		scroller1.setBorder(SwingUtil.getBorderEtched());
-		return (scroller1);
-	}
-
-	private JScrollPane createCreditsScrollPane() {
-		JTextPane taCredits = new JTextPane();
-		taCredits.setContentType("text/html");
-		taCredits.setEditable(false);
-		taCredits.setText(credits);
-		JScrollPane scroller2 = new JScrollPane(taCredits);
-		scroller2.setBorder(SwingUtil.getBorderEtched());
-		taCredits.setCaretPosition(0);
-		return (scroller2);
-	}
-
-	private JScrollPane createPropertiesScrollPane() {
-		JTextArea ta = new JTextArea();
-		ta.setEditable(false);
-		ta.setLineWrap(true);
-		Properties props = System.getProperties();
-		Set<Object> keys = props.keySet();
-		for (Object key : keys) {
-			ta.append(key.toString());
-			ta.append(": ");
-			ta.append(props.getProperty(key.toString()));
-			ta.append("\n");
-		}
-		ta.setCaretPosition(0);
-		return new JScrollPane(ta);
 	}
 }

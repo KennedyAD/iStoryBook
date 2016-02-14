@@ -19,10 +19,6 @@ public class ItemCopier extends AbstractCopier<Item> {
 	}
 
 	@Override
-	protected void prepareTransfer(MainFrame origin, MainFrame destination, Item originElt, Item destElt) {
-	}
-
-	@Override
 	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Item originElt, Item destElt) {
 	}
 
@@ -30,10 +26,10 @@ public class ItemCopier extends AbstractCopier<Item> {
 	protected List<Item> getAllElements(Session session, MainFrame origin) {
 		ItemDAOImpl dao = new ItemDAOImpl(session);
 		List<Item> ret = dao.findAll();
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	protected CbPanelDecorator getDecorator() {
 		return new ItemCbPanelDecorator();
@@ -42,6 +38,10 @@ public class ItemCopier extends AbstractCopier<Item> {
 	@Override
 	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
 		return new ItemEntityHandler(mainFrame);
+	}
+
+	@Override
+	protected void prepareTransfer(MainFrame origin, MainFrame destination, Item originElt, Item destElt) {
 	}
 
 }

@@ -27,16 +27,63 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 @SuppressWarnings("serial")
-public class SbUndoManager extends UndoManager implements
-		UndoableEditListener {
+public class SbUndoManager extends UndoManager implements UndoableEditListener {
 
+	private class SbCompoundEdit extends CompoundEdit {
+		private static final long serialVersionUID = -7132641862624605455L;
+
+		@Override
+		public boolean isInProgress() {
+			return false;
+		}
+
+		@Override
+		public void undo() throws CannotUndoException {
+			if (compoundEdit != null) {
+				compoundEdit.end();
+			}
+			super.undo();
+			compoundEdit = null;
+		}
+	}
 	public SbCompoundEdit compoundEdit = null;
 	private JTextComponent textComponent;
+
 	private boolean groupEnd = false;
 
 	public SbUndoManager(JTextComponent editor) {
 		this.textComponent = editor;
 		editor.getDocument().addUndoableEditListener(this);
+	}
+
+	@Override
+	public synchronized boolean canRedo() {
+		if (compoundEdit != null) {
+			return true;
+		}
+		return super.canRedo();
+	}
+
+	private SbCompoundEdit createCompoundEdit(UndoableEdit edit) {
+		SbCompoundEdit ce = new SbCompoundEdit();
+		ce.addEdit(edit);
+		addEdit(ce);
+		return ce;
+	}
+
+	@Override
+	public synchronized void discardAllEdits() {
+		super.discardAllEdits();
+		groupEnd = false;
+		compoundEdit = null;
+	}
+
+	public void endGroup() {
+		groupEnd = true;
+	}
+
+	public JTextComponent getEditor() {
+		return textComponent;
 	}
 
 	@Override
@@ -56,51 +103,5 @@ public class SbUndoManager extends UndoManager implements
 		groupEnd = false;
 		compoundEdit.end();
 		compoundEdit = createCompoundEdit(evt.getEdit());
-	}
-
-	private SbCompoundEdit createCompoundEdit(UndoableEdit edit) {
-		SbCompoundEdit ce = new SbCompoundEdit();
-		ce.addEdit(edit);
-		addEdit(ce);
-		return ce;
-	}
-
-	@Override
-	public synchronized void discardAllEdits() {
-		super.discardAllEdits();
-		groupEnd = false;
-		compoundEdit = null;
-	}
-
-	@Override
-	public synchronized boolean canRedo() {
-		if (compoundEdit != null) {
-			return true;
-		}
-		return super.canRedo();
-	}
-
-	public void endGroup() {
-		groupEnd = true;
-	}
-
-	public JTextComponent getEditor() {
-		return textComponent;
-	}
-
-	private class SbCompoundEdit extends CompoundEdit {
-		private static final long serialVersionUID = -7132641862624605455L;
-
-		public boolean isInProgress() {
-			return false;
-		}
-
-		public void undo() throws CannotUndoException {
-			if (compoundEdit != null) {
-				compoundEdit.end();
-			}
-			super.undo();
-			compoundEdit = null;
-		}
 	}
 }

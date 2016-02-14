@@ -33,9 +33,8 @@ import storybook.model.hbn.entity.Scene;
 @SuppressWarnings("serial")
 class EntityTreeCellRenderer extends DefaultTreeCellRenderer {
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean sel, boolean expanded, boolean leaf, int row,
-			boolean hasFocus) {
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
+			int row, boolean hasFocus) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 		Object userObject = node.getUserObject();
 		if (leaf) {
@@ -45,15 +44,13 @@ class EntityTreeCellRenderer extends DefaultTreeCellRenderer {
 				Scene scene = (Scene) userObject;
 				setLeafIcon(scene.getSceneState().getIcon());
 			} else if (userObject instanceof AbstractEntity) {
-				Icon icon = EntityUtil
-						.getEntityIcon((AbstractEntity) userObject);
+				Icon icon = EntityUtil.getEntityIcon((AbstractEntity) userObject);
 				setLeafIcon(icon);
 			} else {
 				setLeafIcon(null);
 			}
 		}
-		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf,
-				row, hasFocus);
+		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		if (!leaf && userObject instanceof AbstractEntity) {
 			Icon icon = EntityUtil.getEntityIcon((AbstractEntity) userObject);
 			setIcon(icon);

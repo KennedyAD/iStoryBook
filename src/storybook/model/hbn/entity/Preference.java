@@ -28,33 +28,23 @@ public class Preference extends AbstractEntity {
 	private Boolean booleanValue;
 	private byte[] binValue;
 
-	public Preference(){
-	}
-
-	public Preference(String key) {
-		this.key = key;
-	}
-
-	public Preference(PreferenceKey key, String stringValue) {
-		this(key.toString(), stringValue);
-	}
-
-	public Preference(PreferenceKey key, Integer integerValue) {
-		this(key.toString(), integerValue);
+	public Preference() {
 	}
 
 	public Preference(PreferenceKey key, Boolean booleanValue) {
 		this(key.toString(), booleanValue);
 	}
 
-	public Preference(String key, String stringValue) {
-		this.key = key;
-		this.stringValue = stringValue;
+	public Preference(PreferenceKey key, Integer integerValue) {
+		this(key.toString(), integerValue);
 	}
 
-	public Preference(String key, Integer integerValue) {
+	public Preference(PreferenceKey key, String stringValue) {
+		this(key.toString(), stringValue);
+	}
+
+	public Preference(String key) {
 		this.key = key;
-		this.integerValue = integerValue;
 	}
 
 	public Preference(String key, Boolean booleanValue) {
@@ -67,53 +57,63 @@ public class Preference extends AbstractEntity {
 		this.binValue = binValue;
 	}
 
-	@Override
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
+	public Preference(String key, Integer integerValue) {
 		this.key = key;
-	}
-
-	public String getStringValue() {
-		return stringValue;
-	}
-
-	public void setStringValue(String stringValue) {
-		this.stringValue = stringValue;
-	}
-
-	public Integer getIntegerValue() {
-		return integerValue;
-	}
-
-	public void setIntegerValue(Integer integerValue) {
 		this.integerValue = integerValue;
 	}
 
-	public Boolean getBooleanValue() {
-		return booleanValue;
-	}
-
-	public void setBooleanValue(Boolean booleanValue) {
-		this.booleanValue = booleanValue;
+	public Preference(String key, String stringValue) {
+		this.key = key;
+		this.stringValue = stringValue;
 	}
 
 	public byte[] getBinValue() {
 		return binValue;
 	}
 
+	public Boolean getBooleanValue() {
+		return booleanValue;
+	}
+
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	public Integer getIntegerValue() {
+		return integerValue;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public String getStringValue() {
+		return stringValue;
+	}
+
 	public void setBinValue(byte[] binValue) {
 		this.binValue = binValue;
+	}
+
+	public void setBooleanValue(Boolean booleanValue) {
+		this.booleanValue = booleanValue;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setIntegerValue(Integer integerValue) {
+		this.integerValue = integerValue;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public void setStringValue(String stringValue) {
+		this.stringValue = stringValue;
 	}
 
 	@Override

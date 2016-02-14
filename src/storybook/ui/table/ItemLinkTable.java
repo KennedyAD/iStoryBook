@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
-import storybook.SbConstants.ViewName;
+
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.ItemLinkDAOImpl;
@@ -39,6 +39,26 @@ public class ItemLinkTable extends AbstractTable {
 
 	public ItemLinkTable(MainFrame mainFrame) {
 		super(mainFrame);
+	}
+
+	@Override
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
+		ItemLink itemLink = dao.find(id);
+		model.commit();
+		return itemLink;
+	}
+
+	@Override
+	protected AbstractEntity getNewEntity() {
+		return new ItemLink();
+	}
+
+	@Override
+	public String getTableName() {
+		return ("ItemLink");
 	}
 
 	@Override
@@ -64,30 +84,6 @@ public class ItemLinkTable extends AbstractTable {
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
-//		ctrl.setItemLinkToEdit(itemLink);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(itemLink);
-	}
-
-	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setItemLinkToEdit((ItemLink) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
-	}
-
-	@Override
-	protected synchronized void sendDeleteEntity(int row) {
-		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
-		ctrl.deleteItemLink(itemLink);
-	}
-
-	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
 		for (int row : rows) {
@@ -98,22 +94,26 @@ public class ItemLinkTable extends AbstractTable {
 	}
 
 	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
-		ItemLink itemLink = dao.find(id);
-		model.commit();
-		return itemLink;
+	protected synchronized void sendDeleteEntity(int row) {
+		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
+		ctrl.deleteItemLink(itemLink);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new ItemLink();
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
+		// ctrl.setItemLinkToEdit(itemLink);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(itemLink);
 	}
 
 	@Override
-	public String getTableName() {
-		return("ItemLink");
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setItemLinkToEdit((ItemLink) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

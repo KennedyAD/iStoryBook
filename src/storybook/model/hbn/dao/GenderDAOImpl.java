@@ -24,11 +24,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Gender;
 import storybook.model.hbn.entity.Person;
 
-public class GenderDAOImpl extends SbGenericDAOImpl<Gender, Long> implements
-		GenderDAO {
+public class GenderDAOImpl extends SbGenericDAOImpl<Gender, Long> implements GenderDAO {
 
 	public GenderDAOImpl() {
 		super();
@@ -38,12 +38,12 @@ public class GenderDAOImpl extends SbGenericDAOImpl<Gender, Long> implements
 		super(session);
 	}
 
-	public Gender findMale() {
-		return (Gender) session.get(Gender.class, 1L);
-	}
-
 	public Gender findFemale() {
 		return (Gender) session.get(Gender.class, 2L);
+	}
+
+	public Gender findMale() {
+		return (Gender) session.get(Gender.class, 1L);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -52,7 +52,7 @@ public class GenderDAOImpl extends SbGenericDAOImpl<Gender, Long> implements
 		crit.add(Restrictions.eq("gender", gender));
 		crit.addOrder(Order.asc("firstname"));
 		crit.addOrder(Order.asc("lastname"));
-		List<Person> persons = (List<Person>) crit.list();
+		List<Person> persons = crit.list();
 		return persons;
 	}
 

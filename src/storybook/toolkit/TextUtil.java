@@ -20,6 +20,7 @@ package storybook.toolkit;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
+
 import storybook.toolkit.html.HtmlUtil;
 
 /**
@@ -40,44 +41,13 @@ public class TextUtil {
 		return count;
 	}
 
-	public static String[] getTextLines(String str) {
-		return str.split("\\r?\\n");
-	}
-
-	public static String trimText(String str) {
-		StringBuilder buf = new StringBuilder();
-		String[] lines = getTextLines(str);
-		for (String line : lines) {
-			buf.append(line.trim()).append("\n");
-		}
-		return buf.toString();
-	}
-
-	public static String truncateText(String text) {
-		return truncateText(text, 200);
-	}
-
-	public static String truncateText(String text, int length) {
-		return truncateString(HtmlUtil.htmlToText(text), length);
-	}
-
-	public static String truncateString(String str, int length) {
-		if (str == null) {
-			return "";
-		}
-		if (str.length() > length) {
-			return StringUtils.left(str, length) + " ...";
-		}
-		return str;
-	}
-
-    // private static int textWidth(String str) {
+	// private static int textWidth(String str) {
 	// return (int) (str.length() - str.replaceAll(NON_THIN, "").length() / 2);
 	// }
 	public static String ellipsize(String text, int max) {
 		return StringUtils.abbreviate(text, max);
 
-	// old
+		// old
 		// if (textWidth(text) <= max)
 		// return text;
 		//
@@ -104,6 +74,10 @@ public class TextUtil {
 		// return text.substring(0, end) + "...";
 	}
 
+	public static String[] getTextLines(String str) {
+		return str.split("\\r?\\n");
+	}
+
 	public static boolean isNumber(String str) {
 		boolean valeur = true;
 		char[] t = str.toCharArray();
@@ -114,28 +88,43 @@ public class TextUtil {
 		}
 		return valeur;
 	}
-	
-	/*public static String getNewNotes(String str, boolean truncate) {
-		String x=str;
-		if (truncate) {
-			return(truncateString(HtmlUtil.htmlToText(x), 200));
+
+	public static String trimText(String str) {
+		StringBuilder buf = new StringBuilder();
+		String[] lines = getTextLines(str);
+		for (String line : lines) {
+			buf.append(line.trim()).append("\n");
 		}
-		return(x);
+		return buf.toString();
 	}
 
-	public static String setNewNotes(String notes, String newNotes) {
-		String x=newNotes;
-		if (notes.startsWith("[[")) {
-			String z[]=notes.split("]]");
-			if (z.length>0) {
-				String y[]=z[0].split("|");
-				if (y.length>0) {
-					String calendar=y[0].substring("[[".length());
-					String odf=y[1];
-					x="[["+calendar+"|"+odf+"]]"+newNotes;
-				}
-			}
+	public static String truncateString(String str, int length) {
+		if (str == null) {
+			return "";
 		}
-		return(x);
-	}*/
+		if (str.length() > length) {
+			return StringUtils.left(str, length) + " ...";
+		}
+		return str;
+	}
+
+	public static String truncateText(String text) {
+		return truncateText(text, 200);
+	}
+
+	public static String truncateText(String text, int length) {
+		return truncateString(HtmlUtil.htmlToText(text), length);
+	}
+
+	/*
+	 * public static String getNewNotes(String str, boolean truncate) { String
+	 * x=str; if (truncate) { return(truncateString(HtmlUtil.htmlToText(x),
+	 * 200)); } return(x); }
+	 * 
+	 * public static String setNewNotes(String notes, String newNotes) { String
+	 * x=newNotes; if (notes.startsWith("[[")) { String z[]=notes.split("]]");
+	 * if (z.length>0) { String y[]=z[0].split("|"); if (y.length>0) { String
+	 * calendar=y[0].substring("[[".length()); String odf=y[1];
+	 * x="[["+calendar+"|"+odf+"]]"+newNotes; } } } return(x); }
+	 */
 }

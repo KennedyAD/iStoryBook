@@ -30,11 +30,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.miginfocom.swing.MigLayout;
-
 import org.hibernate.Session;
-import storybook.SbConstants;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.SbApp;
+import storybook.SbConstants;
 import storybook.SbConstants.PreferenceKey;
 import storybook.model.PreferenceModel;
 import storybook.model.hbn.dao.PreferenceDAOImpl;
@@ -52,11 +52,62 @@ import storybook.ui.MainFrame;
 @SuppressWarnings("serial")
 public class ManageLayoutsDialog extends AbstractDialog {
 
+	private class NamePanel extends JPanel {
+		private JTextField tfLayoutName;
+		private JCheckBox cbDelete;
+		private String origKey;
+		private String origName;
+
+		public NamePanel(Preference preference, int number) {
+			origKey = preference.getKey();
+			setLayout(new MigLayout("flowx,ins 0,fill", "[][grow][]"));
+			JLabel lb = new JLabel(I18N.getMsg("msg.docking.layout", number) + ":");
+			tfLayoutName = new JTextField(20);
+			origName = preference.getStringValue();
+			tfLayoutName.setText(origName);
+			cbDelete = new JCheckBox();
+			add(lb);
+			add(tfLayoutName, "growx");
+			add(cbDelete);
+		}
+
+		public String getLayoutName() {
+			return tfLayoutName.getText();
+		}
+
+		public String getOrigKey() {
+			return origKey;
+		}
+
+		public boolean hasChanged() {
+			return !origName.equals(tfLayoutName.getText());
+		}
+
+		public boolean isSelectedForDelete() {
+			return cbDelete.isSelected();
+		}
+	}
+
 	private List<NamePanel> namePanels;
 
 	public ManageLayoutsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
+	}
+
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				renameOrDeleteLayouts();
+				getThis().dispose();
+			}
+		};
+	}
+
+	private ManageLayoutsDialog getThis() {
+		return this;
 	}
 
 	@Override
@@ -81,10 +132,8 @@ public class ManageLayoutsDialog extends AbstractDialog {
 		List<Preference> preferences = dao.findAll();
 		int i = 1;
 		for (Preference pref : preferences) {
-			if (pref.getKey().startsWith(
-					PreferenceKey.DOCKING_LAYOUT.toString())) {
-				if (SbConstants.BookKey.LAST_USED_LAYOUT.toString().equals(
-						pref.getStringValue())) {
+			if (pref.getKey().startsWith(PreferenceKey.DOCKING_LAYOUT.toString())) {
+				if (SbConstants.BookKey.LAST_USED_LAYOUT.toString().equals(pref.getStringValue())) {
 					continue;
 				}
 				NamePanel namePanel = new NamePanel(pref, i);
@@ -100,17 +149,6 @@ public class ManageLayoutsDialog extends AbstractDialog {
 		add(scroller, "grow");
 		add(getOkButton(), "span,split 2,sg,right");
 		add(getCancelButton(), "sg");
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				renameOrDeleteLayouts();
-				getThis().dispose();
-			}
-		};
 	}
 
 	private void renameOrDeleteLayouts() {
@@ -130,46 +168,5 @@ public class ManageLayoutsDialog extends AbstractDialog {
 		}
 		SbApp.getInstance().reloadMenuBars();
 		SbApp.getInstance().reloadStatusBars();
-	}
-
-	private ManageLayoutsDialog getThis() {
-		return this;
-	}
-
-	private class NamePanel extends JPanel {
-		private JTextField tfLayoutName;
-		private JCheckBox cbDelete;
-		private String origKey;
-		private String origName;
-
-		public NamePanel(Preference preference, int number) {
-			origKey = preference.getKey();
-			setLayout(new MigLayout("flowx,ins 0,fill", "[][grow][]"));
-			JLabel lb = new JLabel(I18N.getMsg("msg.docking.layout", number)
-					+ ":");
-			tfLayoutName = new JTextField(20);
-			origName = preference.getStringValue();
-			tfLayoutName.setText(origName);
-			cbDelete = new JCheckBox();
-			add(lb);
-			add(tfLayoutName, "growx");
-			add(cbDelete);
-		}
-
-		public String getLayoutName() {
-			return tfLayoutName.getText();
-		}
-
-		public String getOrigKey() {
-			return origKey;
-		}
-
-		public boolean isSelectedForDelete() {
-			return cbDelete.isSelected();
-		}
-
-		public boolean hasChanged() {
-			return !origName.equals(tfLayoutName.getText());
-		}
 	}
 }

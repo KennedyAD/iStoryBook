@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package storybook.toolkit;
 
 import java.util.List;
+
 import storybook.ui.MainFrame;
 
 /**
@@ -25,51 +26,66 @@ import storybook.ui.MainFrame;
  * @author favdb
  */
 public class SbCalendar {
-	int DaysByYear=365;
-	int DaysByWeek=7;
-	int WeeksByYear=52;
-	int MonthByYear=12;
-	int HoursByDay=24;
-	int MinByHour=60;
-	int SecByMin=60;
-	long StartDate=20000101000000L;
+	int DaysByYear = 365;
+	int DaysByWeek = 7;
+	int WeeksByYear = 52;
+	int MonthByYear = 12;
+	int HoursByDay = 24;
+	int MinByHour = 60;
+	int SecByMin = 60;
+	long StartDate = 20000101000000L;
 	List lstDays;
 	List lstMonth;
 	MainFrame mainFrame;
+
 	public SbCalendar(MainFrame mainFrame) {
-		this.mainFrame=mainFrame;
+		this.mainFrame = mainFrame;
 	}
-	
-	public void storeCalendar() {
-		
-	}
-	
-	public void getCalendar() {
-		
-	}
-	
-	public void setDaysByYear(int n) {DaysByYear=n; }
-	
-	public void setDaysByWeek(int n) {DaysByWeek=n; }
-	
-	public void setWeeksByYear(int n) {WeeksByYear=n;}
-	
-	public void setMonthByYear(int n) {MonthByYear=n;}
-	
-	public void setHoursByDay(int n) {HoursByDay=n;}
-	
-	public void setMinByHour(int n) {MinByHour=n;}
-	
-	public void setSecByMin(int n) {SecByMin=n;}
-	
-	public String dateToString(long date) {
-		String rc="";
-		return rc;
-	}
-	
+
 	public long dateDiff(long date1, long date2) {
-		long rc=0L;
+		long rc = 0L;
 		return rc;
 	}
-	
+
+	public String dateToString(long date) {
+		String rc = "";
+		return rc;
+	}
+
+	public void getCalendar() {
+
+	}
+
+	public void setDaysByWeek(int n) {
+		DaysByWeek = n;
+	}
+
+	public void setDaysByYear(int n) {
+		DaysByYear = n;
+	}
+
+	public void setHoursByDay(int n) {
+		HoursByDay = n;
+	}
+
+	public void setMinByHour(int n) {
+		MinByHour = n;
+	}
+
+	public void setMonthByYear(int n) {
+		MonthByYear = n;
+	}
+
+	public void setSecByMin(int n) {
+		SecByMin = n;
+	}
+
+	public void setWeeksByYear(int n) {
+		WeeksByYear = n;
+	}
+
+	public void storeCalendar() {
+
+	}
+
 }

@@ -26,6 +26,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.jdesktop.swingx.icon.EmptyIcon;
+
 import storybook.ui.memoria.EntityTypeCbItem;
 
 /**
@@ -33,8 +34,7 @@ import storybook.ui.memoria.EntityTypeCbItem;
  *
  */
 @SuppressWarnings("serial")
-public class EntityTypeListCellRenderer extends JLabel implements
-		ListCellRenderer {
+public class EntityTypeListCellRenderer extends JLabel implements ListCellRenderer {
 
 	public EntityTypeListCellRenderer() {
 		setOpaque(true);
@@ -42,8 +42,8 @@ public class EntityTypeListCellRenderer extends JLabel implements
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
 		if (isSelected) {
 			setBackground(list.getSelectionBackground());
 			setForeground(list.getSelectionForeground());

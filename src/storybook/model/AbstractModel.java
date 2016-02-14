@@ -17,21 +17,14 @@ public abstract class AbstractModel {
 	MainFrame mainFrame;
 
 	public AbstractModel(MainFrame m) {
-		mainFrame=m;
+		mainFrame = m;
 		propertyChangeSupport = new PropertyChangeSupport(this);
 		sessionFactory = new SbSessionFactory();
 	}
 
-	public abstract void fireAgain();
-
-
-	public void initSession(String dbName) {
-		SbApp.trace("AbstractModel.initSession("+dbName+")");
-		sessionFactory.init(dbName);
-	}
-
-	public void initDefault() {
-		fireAgain();
+	public void addPropertyChangeListener(PropertyChangeListener l) {
+		SbApp.trace("AbstractModel.addPropertyChangeListener(" + l.toString() + ")");
+		propertyChangeSupport.addPropertyChangeListener(l);
 	}
 
 	public Session beginTransaction() {
@@ -41,8 +34,8 @@ public abstract class AbstractModel {
 		return session;
 	}
 
-	public Session getSession() {
-		return sessionFactory.getSession();
+	public void closeSession() {
+		sessionFactory.closeSession();
 	}
 
 	public void commit() {
@@ -50,29 +43,36 @@ public abstract class AbstractModel {
 		session.getTransaction().commit();
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener l) {
-		SbApp.trace("AbstractModel.addPropertyChangeListener("+l.toString()+")");
-		propertyChangeSupport.addPropertyChangeListener(l);
+	public void editEntity(AbstractEntity entity) {
+		mainFrame.showEditorAsDialog(entity);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener l) {
-		propertyChangeSupport.removePropertyChangeListener(l);
-	}
+	public abstract void fireAgain();
 
 	protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-		SbApp.trace("AbstractModel.firePropertyChange("+propertyName+","+"oldValue..."+","+"newValue..."+")");
+		SbApp.trace(
+				"AbstractModel.firePropertyChange(" + propertyName + "," + "oldValue..." + "," + "newValue..." + ")");
 		propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+	}
+
+	public Session getSession() {
+		return sessionFactory.getSession();
 	}
 
 	public SbSessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public void editEntity(AbstractEntity entity) {
-		mainFrame.showEditorAsDialog(entity);
+	public void initDefault() {
+		fireAgain();
 	}
-	
-	public void closeSession() {
-		sessionFactory.closeSession();
+
+	public void initSession(String dbName) {
+		SbApp.trace("AbstractModel.initSession(" + dbName + ")");
+		sessionFactory.init(dbName);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener l) {
+		propertyChangeSupport.removePropertyChangeListener(l);
 	}
 }

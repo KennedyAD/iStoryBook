@@ -19,16 +19,19 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.TextUtil;
 
 /**
- * Export de toutes les informations au format DocBook.xml étendu l'extension est spécifique à oStorybook, elle consiste
- * à ajouter en fin de fichier les annexes suivantes: - fiche de personnage - fiche de relation entre deux personnages -
- * fiche d'objet - fiche de lieu - fiche d'étiquette - fiche d'attribut - fiche de catégorie - fiche de genre - fiche de
- * partie - fiche de Trame d'histoire - fiche de TimeEvent
+ * Export de toutes les informations au format DocBook.xml étendu l'extension
+ * est spécifique à oStorybook, elle consiste à ajouter en fin de fichier les
+ * annexes suivantes: - fiche de personnage - fiche de relation entre deux
+ * personnages - fiche d'objet - fiche de lieu - fiche d'étiquette - fiche
+ * d'attribut - fiche de catégorie - fiche de genre - fiche de partie - fiche de
+ * Trame d'histoire - fiche de TimeEvent
  *
  * @author favdb
  */
@@ -51,6 +54,28 @@ public class ExportXml {
 		this.isOpened = false;
 	}
 
+	public void close() {
+		try {
+			String str = "";
+			str += "</book>\n";
+			// str += "</xml>";
+			outStream.write(str, 0, str.length());
+			outStream.flush();
+			outStream.close();
+			isOpened = false;
+		} catch (IOException ex) {
+			SbApp.error("ExportXml.close()", ex);
+		}
+	}
+
+	void endChapter() {
+		writeText("</chapter>\n");
+	}
+
+	void endPart() {
+		writeText("</part>\n");
+	}
+
 	public void open() {
 		try {
 			outStream = new BufferedWriter(new FileWriter(fileName));
@@ -59,7 +84,8 @@ public class ExportXml {
 			str += "\"http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd\">\n";
 			str += "<book>\n";
 			str += "<info>\n";
-			str += "<title>" + BookUtil.get(parent.mainFrame, SbConstants.BookKey.TITLE, "").getStringValue() + "</title>\n";
+			str += "<title>" + BookUtil.get(parent.mainFrame, SbConstants.BookKey.TITLE, "").getStringValue()
+					+ "</title>\n";
 			str += "</info>\n";
 			outStream.write(str, 0, str.length());
 			outStream.flush();
@@ -67,6 +93,24 @@ public class ExportXml {
 		} catch (IOException ex) {
 			SbApp.error("ExportXml.open()", ex);
 		}
+	}
+
+	String toText(String inTxt) {
+		String outTxt = inTxt.replaceAll("    <div>\n" + "      \n" + "    </div>", "");
+		outTxt = outTxt.replaceAll("    <p>\n" + "      \n" + "    </p>", "");
+		return (outTxt);
+	}
+
+	void writeChapter(String str) {
+		writeText("<chapter>\n<title>" + str + "</title>\n");
+	}
+
+	void writePart(String str) {
+		writeText("<part>\n<title>" + str + "</title>\n");
+	}
+
+	void writeScene(String str) {
+		writeText("<para>\n" + toText(str) + "</para>\n");
 	}
 
 	public void writeText(String str) {
@@ -81,45 +125,5 @@ public class ExportXml {
 		} catch (IOException ex) {
 			SbApp.error("ExportXml.writeText(" + str + ")", ex);
 		}
-	}
-
-	public void close() {
-		try {
-			String str = "";
-			str += "</book>\n";
-			//str += "</xml>";
-			outStream.write(str, 0, str.length());
-			outStream.flush();
-			outStream.close();
-			isOpened = false;
-		} catch (IOException ex) {
-			SbApp.error("ExportXml.close()", ex);
-		}
-	}
-
-	void writePart(String str) {
-		writeText("<part>\n<title>" + str + "</title>\n");
-	}
-
-	void writeChapter(String str) {
-		writeText("<chapter>\n<title>" + str + "</title>\n");
-	}
-
-	void writeScene(String str) {
-		writeText("<para>\n" + toText(str) + "</para>\n");
-	}
-
-	void endPart() {
-		writeText("</part>\n");
-	}
-
-	void endChapter() {
-		writeText("</chapter>\n");
-	}
-
-	String toText(String inTxt) {
-		String outTxt = inTxt.replaceAll("    <div>\n" + "      \n" + "    </div>", "");
-		outTxt = outTxt.replaceAll("    <p>\n" + "      \n" + "    </p>", "");
-		return (outTxt);
 	}
 }

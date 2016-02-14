@@ -25,10 +25,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import storybook.model.hbn.entity.Idea;
 
-public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements
-		IdeaDAO {
+public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements IdeaDAO {
 
 	public IdeaDAOImpl() {
 		super();
@@ -36,13 +36,6 @@ public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements
 
 	public IdeaDAOImpl(Session session) {
 		super(session);
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> findCategories() {
-		Query query = session
-				.createQuery("select distinct(i.category) from Idea as i");
-		return (List<String>) query.list();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -56,7 +49,13 @@ public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements
 	public List<Idea> findByStatus(Integer status) {
 		Criteria crit = session.createCriteria(Idea.class);
 		crit.add(Restrictions.eq("status", status));
-		List<Idea> persons = (List<Idea>) crit.list();
+		List<Idea> persons = crit.list();
 		return persons;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> findCategories() {
+		Query query = session.createQuery("select distinct(i.category) from Idea as i");
+		return query.list();
 	}
 }

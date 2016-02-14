@@ -18,11 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.dao;
 
-import storybook.model.hbn.entity.Attribute;
-
 import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
-public interface AttributeDAO extends GenericDAO<Attribute, Long> {
+import storybook.model.hbn.entity.Attribute;
 
+public interface AttributeDAO extends GenericDAO<Attribute, Long> {
 
 }

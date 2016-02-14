@@ -46,17 +46,16 @@ public class ReadOnlyTable extends JTable {
 		super(rowData, columnNames);
 	}
 
-	public ReadOnlyTable(TableModel dm, TableColumnModel cm,
-			ListSelectionModel sm) {
-		super(dm, cm, sm);
+	public ReadOnlyTable(TableModel dm) {
+		super(dm);
 	}
 
 	public ReadOnlyTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
 	}
 
-	public ReadOnlyTable(TableModel dm) {
-		super(dm);
+	public ReadOnlyTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
+		super(dm, cm, sm);
 	}
 
 	public ReadOnlyTable(Vector<?> rowData, Vector<?> columnNames) {

@@ -37,11 +37,8 @@ public class ShowInGoogleMapsAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		StringBuilder buf = new StringBuilder();
-		buf.append(location.getCity())
-			.append(",")
-			.append(location.getAddress())
-			.append(",")
-			.append(location.getCountry());
+		buf.append(location.getCity()).append(",").append(location.getAddress()).append(",")
+				.append(location.getCountry());
 		NetUtil.openGoogleMap(buf.toString());
 	}
 }

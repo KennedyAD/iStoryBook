@@ -40,8 +40,7 @@ public class OpenUrlAction extends AbstractAction {
 	private JEditorPane pane;
 
 	public OpenUrlAction(JEditorPane pane) {
-		super(I18N.getMsg("msg.common.open.link"), I18N
-				.getIcon("icon.small.web"));
+		super(I18N.getMsg("msg.common.open.link"), I18N.getIcon("icon.small.web"));
 		this.pane = pane;
 	}
 

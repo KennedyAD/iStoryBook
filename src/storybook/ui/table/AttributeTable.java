@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import org.hibernate.Session;
 
-import storybook.SbConstants.ViewName;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.hbn.dao.AttributeDAOImpl;
@@ -24,43 +23,34 @@ import storybook.ui.MainFrame;
  * @author favdb
  */
 public class AttributeTable extends AbstractTable {
-	
+
 	public AttributeTable(MainFrame main) {
 		super(main);
 	}
 
 	@Override
-	protected void sendSetEntityToEdit(int row) {
-		if (row == -1) {
-			return;
-		}
-		Attribute attribute = (Attribute) getEntityFromRow(row);
-//		ctrl.setAttributeToEdit(attribute);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(attribute);
+	protected AbstractEntity getEntity(Long id) {
+		BookModel model = mainFrame.getBookModel();
+		Session session = model.beginTransaction();
+		AttributeDAOImpl dao = new AttributeDAOImpl(session);
+		Attribute entity = dao.find(id);
+		model.commit();
+		return entity;
 	}
 
 	@Override
-	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
-//		ctrl.setAttributeToEdit((Attribute) entity);
-//		mainFrame.showView(ViewName.EDITOR);
-		mainFrame.showEditorAsDialog(entity);
+	protected AbstractEntity getNewEntity() {
+		return new Attribute();
 	}
 
 	@Override
-	protected void sendDeleteEntity(int row) {
-		Attribute entity = (Attribute) getEntityFromRow(row);
-		ctrl.deleteAttribute(entity);
+	public String getTableName() {
+		return ("Attribute");
 	}
 
 	@Override
-	protected void sendDeleteEntities(int[] rows) {
-		ArrayList<Long> ids = new ArrayList<Long>();
-		for (int row : rows) {
-			Attribute entity = (Attribute) getEntityFromRow(row);
-			ids.add(entity.getId());
-		}
-		ctrl.deleteMultiGenders(ids);
+	public void init() {
+		columns = SbColumnFactory.getInstance().getAttributeColumns();
 	}
 
 	@Override
@@ -81,27 +71,36 @@ public class AttributeTable extends AbstractTable {
 	}
 
 	@Override
-	public void init() {
-		columns = SbColumnFactory.getInstance().getAttributeColumns();
-	}
-	
-	@Override
-	protected AbstractEntity getEntity(Long id) {
-		BookModel model = mainFrame.getBookModel();
-		Session session = model.beginTransaction();
-		AttributeDAOImpl dao = new AttributeDAOImpl(session);
-		Attribute entity = dao.find(id);
-		model.commit();
-		return entity;
+	protected void sendDeleteEntities(int[] rows) {
+		ArrayList<Long> ids = new ArrayList<Long>();
+		for (int row : rows) {
+			Attribute entity = (Attribute) getEntityFromRow(row);
+			ids.add(entity.getId());
+		}
+		ctrl.deleteMultiGenders(ids);
 	}
 
 	@Override
-	protected AbstractEntity getNewEntity() {
-		return new Attribute();
+	protected void sendDeleteEntity(int row) {
+		Attribute entity = (Attribute) getEntityFromRow(row);
+		ctrl.deleteAttribute(entity);
 	}
 
 	@Override
-	public String getTableName() {
-		return("Attribute");
+	protected void sendSetEntityToEdit(int row) {
+		if (row == -1) {
+			return;
+		}
+		Attribute attribute = (Attribute) getEntityFromRow(row);
+		// ctrl.setAttributeToEdit(attribute);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(attribute);
+	}
+
+	@Override
+	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
+		// ctrl.setAttributeToEdit((Attribute) entity);
+		// mainFrame.showView(ViewName.EDITOR);
+		mainFrame.showEditorAsDialog(entity);
 	}
 }

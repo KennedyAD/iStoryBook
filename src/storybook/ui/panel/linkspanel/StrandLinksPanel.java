@@ -23,19 +23,20 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JLabel;
-
-import org.miginfocom.swing.MigLayout;
+import javax.swing.SwingConstants;
 
 import org.hibernate.Session;
 import org.hibernate.UnresolvableObjectException;
+
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.BookModel;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.swing.label.CleverLabel;
-import storybook.ui.panel.AbstractPanel;
 import storybook.ui.MainFrame;
+import storybook.ui.panel.AbstractPanel;
 
 @SuppressWarnings("serial")
 public class StrandLinksPanel extends AbstractPanel {
@@ -48,26 +49,6 @@ public class StrandLinksPanel extends AbstractPanel {
 		this.opaque = opaque;
 		this.scene = scene;
 		refresh();
-	}
-
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
-		Object newValue = evt.getNewValue();
-		String propName = evt.getPropertyName();
-
-		if (BookController.SceneProps.UPDATE.check(propName)) {
-			if (!((Scene) newValue).getId().equals(scene.getId())) {
-				// not this scene
-				return;
-			}
-			refresh();
-			return;
-		}
-
-		if (BookController.StrandProps.UPDATE.check(propName)) {
-			EntityUtil.refresh(mainFrame, scene.getStrand());
-			refresh();
-		}
 	}
 
 	@Override
@@ -97,12 +78,31 @@ public class StrandLinksPanel extends AbstractPanel {
 				e.printStackTrace();
 				continue;
 			}
-			CleverLabel lb = new CleverLabel(strand.getAbbreviation(),
-					JLabel.CENTER);
+			CleverLabel lb = new CleverLabel(strand.getAbbreviation(), SwingConstants.CENTER);
 			lb.setToolTipText(EntityUtil.getToolTip(strand));
 			lb.setBackground(strand.getJColor());
 			add(lb, "w 30");
 		}
 		model.commit();
+	}
+
+	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+		Object newValue = evt.getNewValue();
+		String propName = evt.getPropertyName();
+
+		if (BookController.SceneProps.UPDATE.check(propName)) {
+			if (!((Scene) newValue).getId().equals(scene.getId())) {
+				// not this scene
+				return;
+			}
+			refresh();
+			return;
+		}
+
+		if (BookController.StrandProps.UPDATE.check(propName)) {
+			EntityUtil.refresh(mainFrame, scene.getStrand());
+			refresh();
+		}
 	}
 }

@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+import static storybook.toolkit.DateUtil.clearTime;
+
 import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,13 +28,11 @@ import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import static storybook.toolkit.DateUtil.clearTime;
 
 import storybook.toolkit.swing.ColorUtil;
 
 /**
- * @hibernate.class
- *   table="PERSON"
+ * @hibernate.class table="PERSON"
  */
 public class Person extends AbstractEntity implements Comparable<Person> {
 
@@ -53,10 +53,9 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 		super();
 	}
 
-	public Person(Gender gender, String firstname, String lastname,
-			String abbreviation, Date birthday, Date dayofdeath,
-			String occupation, String description, Integer color, String notes,
-			Category category, List<Attribute> attributes) {
+	public Person(Gender gender, String firstname, String lastname, String abbreviation, Date birthday, Date dayofdeath,
+			String occupation, String description, Integer color, String notes, Category category,
+			List<Attribute> attributes) {
 		this.gender = gender;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -70,240 +69,31 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 		this.category = category;
 		this.attributes = attributes;
 	}
-
-	/**
-	 * @hibernate.id
-	 *   column="ID"
-	 *   generator-class="increment"
-	 *   unsaved-value="null"
-	 */
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	// cascade: none,all,save-update,delete
-	/**
-	 * @hibernate.many-to-one
-	 * column="gender_id"
-	 * cascade="none"
-	 */
-	public Gender getGender() {
-		return this.gender;
-	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getFirstname() {
-		return this.firstname == null ? "" : this.firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getLastname() {
-		return this.lastname == null ? "" : this.lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getFullName() {
-		return getFirstname() + " " + getLastname();
-	}
-
-	public String getFullNameAbbr() {
-		return getFirstname() + " " + getLastname() + " [" + getAbbreviation()
-				+ "]";
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getAbbreviation() {
-		return this.abbreviation == null ? "" : this.abbreviation;
-	}
-
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public Date getBirthday() {
-		return this.birthday;
-	}
-
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public Date getDayofdeath() {
-		return this.dayofdeath;
-	}
-
-	public void setDayofdeath(Date dayofdeath) {
-		this.dayofdeath = dayofdeath;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getOccupation() {
-		return this.occupation;
-	}
-
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public Integer getColor() {
-		return this.color;
-	}
-
-	public Color getJColor() {
-		if (color == null) {
-			return null;
-		}
-		return new Color(color);
-	}
-
-	public String getHTMLColor() {
-		return ColorUtil.getHTMLName(getJColor());
-	}
-
-	public void setColor(Integer color) {
-		this.color = color;
-	}
-
-	public void setJColor(Color color) {
-		if (color == null) {
-			this.color = null;
-			return;
-		}
-		this.color = color.getRGB();
-	}
-
-	/**
-	 * @hibernate.property
-	 */
-	public String getNotes() {
-		return this.notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
-	/**
-	 * @hibernate.many-to-one
-	 *   column="category_id"
-	 *   cascade="none"
-	 *   lazy="false"
-	 */
-	public Category getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public List<Attribute> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(List<Attribute> attributes) {
-		this.attributes = attributes;
-	}
-
-	@Override
-	public String toString() {
-		if (isTransient()) {
-//			return I18N.getMsg("msg.common.person") + " [" + getTransientId()
-//					+ "]";
-			return "";
-		}
-		return getFullNameAbbr();
-	}
-
-	@Override
-	public String getAbbr(){
-		return abbreviation;
-	}
-
-	@Override
-	public Icon getIcon() {
-		if (gender != null) {
-			return gender.getIcon();
-		}
-		return new ImageIcon();
-	}
-        
-	public Boolean isDead(Date now) {
-		if (getDayofdeath() == null || now == null) {
-                    return false;
-                }
-		return (now.after(getDayofdeath()));
-	}
-        
 
 	public int calculateAge(Date now) {
 		if (birthday == null) {
-                    return -1;
-                }
+			return -1;
+		}
 
 		Calendar dateOfBirth = new GregorianCalendar();
 		dateOfBirth.setTime(birthday);
-                dateOfBirth = clearTime(dateOfBirth);
-
+		dateOfBirth = clearTime(dateOfBirth);
 
 		if (isDead(now)) {
 			Calendar death = new GregorianCalendar();
 			death.setTime(getDayofdeath());
-                        death = clearTime(death);
-                        
+			death = clearTime(death);
+
 			int age = death.get(Calendar.YEAR) - dateOfBirth.get(Calendar.YEAR);
-                        
+
 			Calendar dateOfBirth2 = new GregorianCalendar();
-                        dateOfBirth2.setTime(birthday);
-                        dateOfBirth2 = clearTime(dateOfBirth2);
-                        dateOfBirth2.add(Calendar.YEAR, age);
-                        
+			dateOfBirth2.setTime(birthday);
+			dateOfBirth2 = clearTime(dateOfBirth2);
+			dateOfBirth2.add(Calendar.YEAR, age);
+
 			if (death.before(dateOfBirth2)) {
 				age--;
-                        }
+			}
 			return age;
 		}
 
@@ -317,6 +107,24 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 		if (today.before(dateOfBirth))
 			age--;
 		return age;
+	}
+
+	@Override
+	public int compareTo(Person o) {
+		if (category == null && o == null) {
+			return 0;
+		}
+		if (category != null && o.getCategory() == null) {
+			return -1;
+		}
+		if (o.getCategory() != null && category == null) {
+			return -1;
+		}
+		int cmp = category.getSort().compareTo(o.getCategory().getSort());
+		if (cmp == 0) {
+			return getFullName().compareTo(o.getFullName());
+		}
+		return cmp;
 	}
 
 	@Override
@@ -341,6 +149,129 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 	}
 
 	@Override
+	public String getAbbr() {
+		return abbreviation;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getAbbreviation() {
+		return this.abbreviation == null ? "" : this.abbreviation;
+	}
+
+	public List<Attribute> getAttributes() {
+		return attributes;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public Date getBirthday() {
+		return this.birthday;
+	}
+
+	/**
+	 * @hibernate.many-to-one column="category_id" cascade="none" lazy="false"
+	 */
+	public Category getCategory() {
+		return this.category;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public Integer getColor() {
+		return this.color;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public Date getDayofdeath() {
+		return this.dayofdeath;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getDescription() {
+		return this.description;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getFirstname() {
+		return this.firstname == null ? "" : this.firstname;
+	}
+
+	public String getFullName() {
+		return getFirstname() + " " + getLastname();
+	}
+
+	public String getFullNameAbbr() {
+		return getFirstname() + " " + getLastname() + " [" + getAbbreviation() + "]";
+	}
+
+	// cascade: none,all,save-update,delete
+	/**
+	 * @hibernate.many-to-one column="gender_id" cascade="none"
+	 */
+	public Gender getGender() {
+		return this.gender;
+	}
+
+	public String getHTMLColor() {
+		return ColorUtil.getHTMLName(getJColor());
+	}
+
+	@Override
+	public Icon getIcon() {
+		if (gender != null) {
+			return gender.getIcon();
+		}
+		return new ImageIcon();
+	}
+
+	/**
+	 * @hibernate.id column="ID" generator-class="increment"
+	 *               unsaved-value="null"
+	 */
+	@Override
+	public Long getId() {
+		return this.id;
+	}
+
+	public Color getJColor() {
+		if (color == null) {
+			return null;
+		}
+		return new Color(color);
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getLastname() {
+		return this.lastname == null ? "" : this.lastname;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getNotes() {
+		return this.notes;
+	}
+
+	/**
+	 * @hibernate.property
+	 */
+	public String getOccupation() {
+		return this.occupation;
+	}
+
+	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
 		hash = hash * 31 + (abbreviation != null ? abbreviation.hashCode() : 0);
@@ -357,21 +288,80 @@ public class Person extends AbstractEntity implements Comparable<Person> {
 		return hash;
 	}
 
+	public Boolean isDead(Date now) {
+		if (getDayofdeath() == null || now == null) {
+			return false;
+		}
+		return (now.after(getDayofdeath()));
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public void setColor(Integer color) {
+		this.color = color;
+	}
+
+	public void setDayofdeath(Date dayofdeath) {
+		this.dayofdeath = dayofdeath;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setJColor(Color color) {
+		if (color == null) {
+			this.color = null;
+			return;
+		}
+		this.color = color.getRGB();
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
 	@Override
-	public int compareTo(Person o) {
-		if (category == null && o == null) {
-			return 0;
+	public String toString() {
+		if (isTransient()) {
+			// return I18N.getMsg("msg.common.person") + " [" + getTransientId()
+			// + "]";
+			return "";
 		}
-		if (category != null && o.getCategory() == null) {
-			return -1;
-		}
-		if (o.getCategory() != null && category == null) {
-			return -1;
-		}
-		int cmp = category.getSort().compareTo(o.getCategory().getSort());
-		if (cmp == 0) {
-			return getFullName().compareTo(o.getFullName());
-		}
-		return cmp;
+		return getFullNameAbbr();
 	}
 }

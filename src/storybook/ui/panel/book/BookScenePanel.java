@@ -22,12 +22,11 @@ import java.beans.PropertyChangeEvent;
 
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.Scene;
-import storybook.ui.panel.AbstractScenePanel;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
+import storybook.ui.panel.AbstractScenePanel;
 
 @SuppressWarnings("serial")
 public class BookScenePanel extends AbstractScenePanel {
@@ -42,8 +41,20 @@ public class BookScenePanel extends AbstractScenePanel {
 		initUi();
 	}
 
-	@Override
-	public void modelPropertyChange(PropertyChangeEvent evt) {
+	private JPanel createCommandPanel() {
+		JPanel panel = new JPanel(new MigLayout("flowy,insets 0"));
+		panel.setOpaque(false);
+
+		// layout
+		panel.add(getEditButton());
+		panel.add(getDeleteButton());
+		panel.add(getNewButton());
+
+		return panel;
+	}
+
+	protected BookScenePanel getThis() {
+		return this;
 	}
 
 	@Override
@@ -56,12 +67,12 @@ public class BookScenePanel extends AbstractScenePanel {
 	}
 
 	@Override
+	public void modelPropertyChange(PropertyChangeEvent evt) {
+	}
+
+	@Override
 	public void refresh() {
-		MigLayout layout = new MigLayout(
-				"wrap 3,fill",
-				"[]",
-				"[top]"
-		);
+		MigLayout layout = new MigLayout("wrap 3,fill", "[]", "[top]");
 		setLayout(layout);
 		setOpaque(false);
 		setComponentPopupMenu(EntityUtil.createPopupMenu(mainFrame, scene));
@@ -84,21 +95,5 @@ public class BookScenePanel extends AbstractScenePanel {
 
 		revalidate();
 		repaint();
-	}
-
-	private JPanel createCommandPanel() {
-		JPanel panel = new JPanel(new MigLayout("flowy,insets 0"));
-		panel.setOpaque(false);
-
-		// layout
-		panel.add(getEditButton());
-		panel.add(getDeleteButton());
-		panel.add(getNewButton());
-
-		return panel;
-	}
-
-	protected BookScenePanel getThis() {
-		return this;
 	}
 }

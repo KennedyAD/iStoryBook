@@ -23,6 +23,7 @@ import javax.swing.table.TableModel;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.table.ColumnFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
+
 import storybook.SbApp;
 import storybook.toolkit.I18N;
 
@@ -34,6 +35,7 @@ import storybook.toolkit.I18N;
 public class CustomColumnFactory extends ColumnFactory {
 
 	// @Override
+	@Override
 	public void configureTableColumn(TableModel model, TableColumnExt columnExt) {
 
 		super.configureTableColumn(model, columnExt);
@@ -43,9 +45,9 @@ public class CustomColumnFactory extends ColumnFactory {
 		// + title.substring(1).toLowerCase();
 		// columnExt.setTitle(title);
 
-//		model.getColumnClass(1);
-		Object id=columnExt.getClientProperty("ID");
-		SbApp.trace("CustomColumnFactory.configureTableColumn(): id:"+id);
+		// model.getColumnClass(1);
+		Object id = columnExt.getClientProperty("ID");
+		SbApp.trace("CustomColumnFactory.configureTableColumn(): id:" + id);
 		Highlighter highlighter = null;
 		Object extid = columnExt.getIdentifier();
 		String idStr = extid.toString();

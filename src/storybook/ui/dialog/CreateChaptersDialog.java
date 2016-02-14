@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import net.miginfocom.swing.MigLayout;
 import storybook.controller.BookController;
 import storybook.model.EntityUtil;
 import storybook.model.handler.ChapterEntityHandler;
@@ -34,8 +35,6 @@ import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
-
-import org.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class CreateChaptersDialog extends AbstractDialog {
@@ -46,52 +45,6 @@ public class CreateChaptersDialog extends AbstractDialog {
 	public CreateChaptersDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
-	}
-
-	@Override
-	public void init() {
-	}
-
-	@Override
-	public void initUi() {
-		super.initUi();
-		setLayout(new MigLayout("wrap 2,fill", "", "[][][][grow,fill][]"));
-		setTitle(I18N.getMsg("msg.generate.chapters"));
-		setPreferredSize(new Dimension(320, 180));
-
-		JLabel lbText = new JLabel(I18N.getMsg("msg.generate.chapters.text"));
-
-		JLabel lbPart = new JLabel(I18N.getMsgColon("msg.common.part"));
-		partCombo = new JComboBox();
-		PartEntityHandler handler = new PartEntityHandler(mainFrame);
-		Part part = new Part();
-		EntityUtil.fillEntityCombo(mainFrame, partCombo, handler, part, false,
-				false);
-
-		JLabel lbQuantity = new JLabel(I18N.getMsgColon("msg.common.quantity"));
-		tfQuantity = new JTextField();
-		tfQuantity.setColumns(10);
-
-		// layout
-		add(lbText, "span,gapbottom 10");
-		add(lbQuantity);
-		add(tfQuantity);
-		add(lbPart);
-		add(partCombo);
-		add(new JLabel(), "span,grow");
-		add(getOkButton(), "sg,span,split 2,right");
-		add(getCancelButton(), "sg");
-	}
-
-	@Override
-	protected AbstractAction getOkAction() {
-		return new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				createChapters();
-				getThis().dispose();
-			}
-		};
 	}
 
 	private void createChapters() {
@@ -115,7 +68,52 @@ public class CreateChaptersDialog extends AbstractDialog {
 		}
 	}
 
+	@Override
+	protected AbstractAction getOkAction() {
+		return new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				createChapters();
+				getThis().dispose();
+			}
+		};
+	}
+
 	private CreateChaptersDialog getThis() {
 		return this;
+	}
+
+	@Override
+	public void init() {
+	}
+
+	@Override
+	public void initUi() {
+		super.initUi();
+		setLayout(new MigLayout("wrap 2,fill", "", "[][][][grow,fill][]"));
+		setTitle(I18N.getMsg("msg.generate.chapters"));
+		setPreferredSize(new Dimension(320, 180));
+
+		JLabel lbText = new JLabel(I18N.getMsg("msg.generate.chapters.text"));
+
+		JLabel lbPart = new JLabel(I18N.getMsgColon("msg.common.part"));
+		partCombo = new JComboBox();
+		PartEntityHandler handler = new PartEntityHandler(mainFrame);
+		Part part = new Part();
+		EntityUtil.fillEntityCombo(mainFrame, partCombo, handler, part, false, false);
+
+		JLabel lbQuantity = new JLabel(I18N.getMsgColon("msg.common.quantity"));
+		tfQuantity = new JTextField();
+		tfQuantity.setColumns(10);
+
+		// layout
+		add(lbText, "span,gapbottom 10");
+		add(lbQuantity);
+		add(tfQuantity);
+		add(lbPart);
+		add(partCombo);
+		add(new JLabel(), "span,grow");
+		add(getOkButton(), "sg,span,split 2,right");
+		add(getCancelButton(), "sg");
 	}
 }

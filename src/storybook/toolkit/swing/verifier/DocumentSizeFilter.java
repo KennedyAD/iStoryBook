@@ -11,15 +11,15 @@ public class DocumentSizeFilter extends DocumentFilter {
 		maxCharacters = maxChars;
 	}
 
-	public void insertString(FilterBypass fb, int offs, String str,
-			AttributeSet a) throws BadLocationException {
+	@Override
+	public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
 		if ((fb.getDocument().getLength() + str.length()) <= maxCharacters) {
 			super.insertString(fb, offs, str, a);
 		}
 	}
 
-	public void replace(FilterBypass fb, int offs, int length, String str,
-			AttributeSet a) throws BadLocationException {
+	@Override
+	public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException {
 		if ((fb.getDocument().getLength() + str.length() - length) <= maxCharacters) {
 			super.replace(fb, offs, length, str, a);
 		}

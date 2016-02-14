@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.hibernate.LazyInitializationException;
 import org.hibernate.Session;
+
 import storybook.SbConstants.ClientPropertyName;
 import storybook.model.BookModel;
 import storybook.model.hbn.entity.Strand;
@@ -38,10 +39,9 @@ import storybook.ui.label.StrandLabel;
 public class StrandTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table,
-				null, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+		JLabel lbText = (JLabel) super.getTableCellRendererComponent(table, null, isSelected, hasFocus, row, column);
 		lbText.setBorder(SwingUtil.getBorder(Color.white, 2));
 		StrandLabel lbStrand = null;
 		if (value == null || value instanceof String) {
@@ -50,11 +50,10 @@ public class StrandTableCellRenderer extends DefaultTableCellRenderer {
 		try {
 			lbStrand = new StrandLabel((Strand) value);
 		} catch (LazyInitializationException lie) {
-			MainFrame mainFrame = (MainFrame) table
-					.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
+			MainFrame mainFrame = (MainFrame) table.getClientProperty(ClientPropertyName.MAIN_FRAME.toString());
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
-			session.refresh((Strand) value);
+			session.refresh(value);
 			lbStrand = new StrandLabel((Strand) value);
 			model.commit();
 		} catch (Exception e) {

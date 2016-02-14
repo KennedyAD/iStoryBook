@@ -15,12 +15,12 @@
  */
 package storybook.ui.memoria;
 
-import storybook.model.EntityUtil;
-import storybook.model.hbn.entity.AbstractEntity;
 import org.apache.commons.collections15.Transformer;
 
-public class EntityTransformer
-	implements Transformer<AbstractEntity, String> {
+import storybook.model.EntityUtil;
+import storybook.model.hbn.entity.AbstractEntity;
+
+public class EntityTransformer implements Transformer<AbstractEntity, String> {
 
 	@Override
 	public String transform(AbstractEntity p) {
