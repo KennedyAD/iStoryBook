@@ -67,7 +67,6 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 		return localJFreeChart;
 	}
 
-	@SuppressWarnings("unchecked")
 	private IntervalCategoryDataset createDataset() {
 		TaskSeriesCollection localTaskSeriesCollection = new TaskSeriesCollection();
 		try {
@@ -75,26 +74,26 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 			BookModel localDocumentModel = this.mainFrame.getBookModel();
 			Session localSession = localDocumentModel.beginTransaction();
 			PersonDAOImpl localPersonDAOImpl = new PersonDAOImpl(localSession);
-			List localList1 = localPersonDAOImpl.findByCategories(this.selectedCategories);
+			List<?> localList1 = localPersonDAOImpl.findByCategories(this.selectedCategories);
 			ChapterDAOImpl localChapterDAOImpl = new ChapterDAOImpl(localSession);
-			List localList2 = localChapterDAOImpl.findAll(localPart);
+			List<?> localList2 = localChapterDAOImpl.findAll(localPart);
 			TaskSeries localTaskSeries = new TaskSeries("Serie 1");
-			Iterator localIterator = localList1.iterator();
+			Iterator<?> localIterator = localList1.iterator();
 			while (localIterator.hasNext()) {
 				Person localPerson = (Person) localIterator.next();
-				TreeSet localTreeSet = new TreeSet();
+				TreeSet<Date> localTreeSet = new TreeSet<Date>();
 				Object localObject1 = localList2.iterator();
 				Object localObject2;
 				Object localObject3;
 				Object localObject4;
-				while (((Iterator) localObject1).hasNext()) {
-					localObject2 = ((Iterator) localObject1).next();
+				while (((Iterator<?>) localObject1).hasNext()) {
+					localObject2 = ((Iterator<?>) localObject1).next();
 					localObject3 = localChapterDAOImpl.findScenes((Chapter) localObject2);
-					localObject4 = ((List) localObject3).iterator();
-					while (((Iterator) localObject4).hasNext()) {
-						Scene localScene = (Scene) ((Iterator) localObject4).next();
+					localObject4 = ((List<?>) localObject3).iterator();
+					while (((Iterator<?>) localObject4).hasNext()) {
+						Scene localScene = (Scene) ((Iterator<?>) localObject4).next();
 						if (localScene.hasSceneTs()) {
-							List localList3 = localScene.getPersons();
+							List<?> localList3 = localScene.getPersons();
 							if ((!localList3.isEmpty()) && (localList3.contains(localPerson)))
 								localTreeSet.add(localScene.getSceneTs());
 						}
@@ -104,8 +103,8 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 					localTreeSet = ChartUtil.correctDates(localTreeSet);
 					localObject1 = new Task(localPerson.toString(), new Week((Date) localTreeSet.first()));
 					localObject2 = localTreeSet.iterator();
-					while (((Iterator) localObject2).hasNext()) {
-						localObject3 = ((Iterator) localObject2).next();
+					while (((Iterator<?>) localObject2).hasNext()) {
+						localObject3 = ((Iterator<?>) localObject2).next();
 						localObject4 = new Task(localPerson.toString(), new Day((Date) localObject3));
 						((Task) localObject1).addSubtask((Task) localObject4);
 					}

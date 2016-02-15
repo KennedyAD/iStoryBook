@@ -206,7 +206,7 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 	}// </editor-fold>//GEN-END:initComponents
 	@SuppressWarnings("unchecked")
 	private void initUI() {
-		jListChapters.setModel(new DefaultListModel());
+		jListChapters.setModel(new DefaultListModel<Chapter>());
 		loadList(-1);
 	}
 	private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDownActionPerformed
@@ -222,7 +222,7 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 
 	@SuppressWarnings("unchecked")
 	private void loadList(int first) {
-		DefaultListModel listModel = (DefaultListModel) jListChapters.getModel();
+		DefaultListModel<Chapter> listModel = (DefaultListModel<Chapter>) jListChapters.getModel();
 		listModel.removeAllElements();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -239,7 +239,7 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 
 	private void moveList(int sens) {
 		int index = jListChapters.getSelectedIndex();
-		DefaultListModel listModel = (DefaultListModel) jListChapters.getModel();
+		DefaultListModel<Chapter> listModel = (DefaultListModel<Chapter>) jListChapters.getModel();
 		if ((sens == -1) && (index == 0)) {
 			return;
 		}

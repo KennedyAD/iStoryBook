@@ -41,7 +41,7 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 
 	private JTextField tfNewName;
 	// protected MainFrame mainFrame;
-	protected JComboBox combo;
+	protected JComboBox<String> combo;
 
 	public AbstractRenameDialog(MainFrame mainFrame) {
 		super(mainFrame);
@@ -51,7 +51,7 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JComboBox cb = (JComboBox) e.getSource();
+		JComboBox<String> cb = (JComboBox<String>) e.getSource();
 		String val = (String) cb.getSelectedItem();
 		tfNewName.setText(val);
 
@@ -64,13 +64,12 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		});
 	}
 
-	@SuppressWarnings("unchecked")
-	private JComboBox createCategoryCombo(List<String> list) {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
+	private JComboBox<String> createCategoryCombo(List<String> list) {
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (String category : list) {
 			model.addElement(category);
 		}
-		JComboBox cob = new JComboBox();
+		JComboBox<String> cob = new JComboBox<String>();
 		cob.setModel(model);
 		return cob;
 	}

@@ -34,7 +34,7 @@ import storybook.ui.MainFrame;
  *
  */
 @SuppressWarnings("serial")
-public class RelativeSceneComboModel extends DefaultComboBoxModel implements IRefreshableComboModel {
+public class RelativeSceneComboModel extends DefaultComboBoxModel<Object> implements IRefreshableComboModel {
 
 	private MainFrame mainFrame;
 
@@ -47,7 +47,6 @@ public class RelativeSceneComboModel extends DefaultComboBoxModel implements IRe
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void refresh() {
 		if (mainFrame == null) {
 			return;

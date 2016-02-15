@@ -80,10 +80,10 @@ public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 			BookModel model = this.mainFrame.getBookModel();
 			Session session = model.beginTransaction();
 			PersonDAOImpl dao = new PersonDAOImpl(session);
-			List categories = dao.findByCategories(this.selectedCategories);
+			List<?> categories = dao.findByCategories(this.selectedCategories);
 			SceneDAOImpl scenes = new SceneDAOImpl(session);
 			double d = 0.0D;
-			Iterator localIterator = categories.iterator();
+			Iterator<?> localIterator = categories.iterator();
 			while (localIterator.hasNext()) {
 				Person person = (Person) localIterator.next();
 				long l = scenes.countByPerson(person);

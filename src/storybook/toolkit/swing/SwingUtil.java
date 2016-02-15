@@ -152,13 +152,12 @@ public class SwingUtil {
 		return actions;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static JComboBox createDateFormat() {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
+	public static JComboBox<String> createDateFormat() {
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		model.addElement("dd-MM-yyyy");
 		model.addElement("MM-dd-yyyy");
 		model.addElement("dd/MM/yyyy");
-		return new JComboBox(model);
+		return new JComboBox<String>(model);
 	}
 
 	public static JLabel createHorizontalLineLabel() {

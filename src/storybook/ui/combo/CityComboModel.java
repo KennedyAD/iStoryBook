@@ -25,9 +25,8 @@ import javax.swing.DefaultComboBoxModel;
  *
  */
 @SuppressWarnings("serial")
-public class CityComboModel extends DefaultComboBoxModel {
+public class CityComboModel extends DefaultComboBoxModel<Object> {
 
-	@SuppressWarnings("unchecked")
 	public CityComboModel() {
 		addElement("fsd");
 	}

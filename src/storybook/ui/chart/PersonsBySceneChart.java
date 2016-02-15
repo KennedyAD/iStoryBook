@@ -61,22 +61,22 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		PersonDAOImpl personDAO = new PersonDAOImpl(session);
-		List persons = personDAO.findByCategories(selectedCategories);
+		List<?> persons = personDAO.findByCategories(selectedCategories);
 		SceneDAOImpl sceneDAO = new SceneDAOImpl(session);
-		List scenes = sceneDAO.findByPart(part);
+		List<?> scenes = sceneDAO.findByPart(part);
 		model.commit();
 		String[] string1 = new String[scenes.size() + 1];
 		string1[0] = "";
 		int i = 1;
 		Object scenesIterator = scenes.iterator();
-		while (((Iterator) scenesIterator).hasNext()) {
-			Scene scene = (Scene) ((Iterator) scenesIterator).next();
+		while (((Iterator<?>) scenesIterator).hasNext()) {
+			Scene scene = (Scene) ((Iterator<?>) scenesIterator).next();
 			string1[i] = scene.getChapterSceneNo(false);
 			i++;
 		}
-		scenesIterator = new ArrayList();
+		scenesIterator = new ArrayList<Object>();
 		String[] string2 = new String[scenes.size() + 1];
-		Iterator personsIterator = persons.iterator();
+		Iterator<?> personsIterator = persons.iterator();
 		Object localObject6;
 		while (personsIterator.hasNext()) {
 			Person person = (Person) personsIterator.next();
@@ -85,8 +85,8 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 			string3[(j++)] = person.getAbbreviation();
 			int n = 0;
 			localObject6 = scenes.iterator();
-			while (((Iterator) localObject6).hasNext()) {
-				Scene localScene = (Scene) ((Iterator) localObject6).next();
+			while (((Iterator<?>) localObject6).hasNext()) {
+				Scene localScene = (Scene) ((Iterator<?>) localObject6).next();
 				if (localScene.getPersons().contains(person)) {
 					n = 1;
 					string3[j] = ColorUtil.darker(localScene.getStrand().getJColor(), 0.05D);
@@ -97,12 +97,12 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 				j++;
 			}
 			if ((cbShowUnusedPersons == null) || (cbShowUnusedPersons.isSelected()) || (n != 0)) {
-				((List) scenesIterator).add(string3);
+				((List<Object[]>) scenesIterator).add(string3);
 			}
 		}
-		Object[][] localObject31 = new Object[((List) scenesIterator).size()][];
+		Object[][] localObject31 = new Object[((List<?>) scenesIterator).size()][];
 		i = 0;
-		Iterator localObject4 = ((List) scenesIterator).iterator();
+		Iterator<?> localObject4 = ((List<?>) scenesIterator).iterator();
 		while (localObject4.hasNext()) {
 			Object[] arrayOfObject1 = (Object[]) localObject4.next();
 			localObject31[(i++)] = arrayOfObject1;

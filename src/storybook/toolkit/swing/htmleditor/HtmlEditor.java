@@ -293,9 +293,9 @@ public class HtmlEditor extends JPanel {
 	private SourceCodeEditor srcEditor;
 	private JEditorPane focusedEditor;
 
-	private JComboBox fontFamilyCombo;
+	private JComboBox<String> fontFamilyCombo;
 
-	private JComboBox paragraphCombo;
+	private JComboBox<String> paragraphCombo;
 
 	private JTabbedPane tabs;
 	// private JMenuBar menuBar;
@@ -546,7 +546,7 @@ public class HtmlEditor extends JPanel {
 		}
 
 		// fonts
-		Vector fonts = new Vector();
+		Vector<String> fonts = new Vector<String>();
 		fonts.add("Default");
 		fonts.add("serif");
 		fonts.add("sans-serif");
@@ -554,7 +554,7 @@ public class HtmlEditor extends JPanel {
 		GraphicsEnvironment gEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		fonts.addAll(Arrays.asList(gEnv.getAvailableFontFamilyNames()));
 
-		fontFamilyCombo = new JComboBox(fonts);
+		fontFamilyCombo = new JComboBox<String>(fonts);
 		fontFamilyCombo.setFont(comboFont);
 		fontFamilyCombo.addActionListener(fontChangeHandler);
 		formatToolBar.add(fontFamilyCombo);
@@ -855,7 +855,7 @@ public class HtmlEditor extends JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	private Action[] toArray(ActionList lst) {
-		List acts = new ArrayList();
+		List acts = new ArrayList<Object>();
 		for (Iterator it = lst.iterator(); it.hasNext();) {
 			Object v = it.next();
 			if (v != null && v instanceof Action) {

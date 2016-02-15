@@ -132,10 +132,10 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	boolean showBalloonLayout = true;
 	private JPanel controlPanel;
 	private JPanel datePanel;
-	private JComboBox entityTypeCombo;
-	private JComboBox entityCombo;
+	private JComboBox<EntityTypeCbItem> entityTypeCombo;
+	private JComboBox<AbstractEntity> entityCombo;
 	private Date chosenDate;
-	private JComboBox dateCombo;
+	private JComboBox<Date> dateCombo;
 	private JCheckBox cbAutoRefresh;
 	// icons
 	private final Icon womanIconMedium = I18N.getIcon("icon.medium.woman");
@@ -367,23 +367,22 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void clearGraph() {
 		try {
 			if (graph == null) {
-				graph = new DelegateForest();
+				graph = new DelegateForest<AbstractEntity, Long>();
 				return;
 			}
-			Collection collections = graph.getRoots();
-			Iterator iCollection = collections.iterator();
+			Collection<AbstractEntity> collections = graph.getRoots();
+			Iterator<AbstractEntity> iCollection = collections.iterator();
 			while (iCollection.hasNext()) {
-				AbstractEntity entity = (AbstractEntity) iCollection.next();
+				AbstractEntity entity = iCollection.next();
 				if (entity != null) {
 					graph.removeVertex(entity);
 				}
 			}
 		} catch (Exception exc) {
-			graph = new DelegateForest();
+			graph = new DelegateForest<AbstractEntity, Long>();
 		}
 	}
 
@@ -898,14 +897,13 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void init() {
 		try {
 			chosenDate = new Date(0L);
 			entitySourceName = "";
-			sceneIds = new ArrayList();
-			involvedTags = new HashSet();
-			involvedItems = new HashSet();
+			sceneIds = new ArrayList<Long>();
+			involvedTags = new HashSet<Tag>();
+			involvedItems = new HashSet<Item>();
 			scaler = new CrossoverScalingControl();
 			try {
 				Internal internal = BookUtil.get(mainFrame, SbConstants.BookKey.MEMORIA_BALLOON, Boolean.valueOf(true));
@@ -921,20 +919,20 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	@SuppressWarnings("unchecked")
 	private void initGraph() {
 		try {
-			labelMap = new HashMap();
-			iconMap = new HashMap();
-			graph = new DelegateForest();
-			treeLayout = new TreeLayout(graph);
-			balloonLayout = new BalloonLayout(graph);
-			vv = new VisualizationViewer(balloonLayout);
+			labelMap = new HashMap<AbstractEntity, String>();
+			iconMap = new HashMap<AbstractEntity, Icon>();
+			graph = new DelegateForest<AbstractEntity, Long>();
+			treeLayout = new TreeLayout<AbstractEntity, Long>(graph);
+			balloonLayout = new BalloonLayout<AbstractEntity, Long>(graph);
+			vv = new VisualizationViewer<AbstractEntity, Long>(balloonLayout);
 			vv.setSize(new Dimension(800, 800));
 			refreshGraph();
 			vv.setBackground(Color.white);
 			vv.getRenderContext().setEdgeShapeTransformer(new EdgeShape.Line());
-			vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+			vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<AbstractEntity>());
 			vv.setVertexToolTipTransformer(new EntityTransformer());
 			graphPanel = new GraphZoomScrollPane(vv);
-			DefaultModalGraphMouse mouse = new DefaultModalGraphMouse();
+			DefaultModalGraphMouse<Object, Object> mouse = new DefaultModalGraphMouse<Object, Object>();
 			vv.setGraphMouse(mouse);
 			mouse.add(new MemoriaGraphMouse(this));
 			// T O D O MemoriaPanel compile error suppress 2 lines
@@ -942,9 +940,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			// VertexStringerImpl(labelMap);
 			// vv.getRenderContext().setVertexLabelTransformer(new
 			// VertexStringerImpl(localVertexStringerImpl));
-			VertexIconShapeTransformer transformer = new VertexIconShapeTransformer(
-					new EllipseVertexShapeTransformer());
-			DefaultVertexIconTransformer iconTransformer = new DefaultVertexIconTransformer();
+			VertexIconShapeTransformer<AbstractEntity> transformer = new VertexIconShapeTransformer<AbstractEntity>(
+					new EllipseVertexShapeTransformer<AbstractEntity>());
+			DefaultVertexIconTransformer<AbstractEntity> iconTransformer = new DefaultVertexIconTransformer<AbstractEntity>();
 			transformer.setIconMap(iconMap);
 			iconTransformer.setIconMap(iconMap);
 			vv.getRenderContext().setVertexShapeTransformer(transformer);
@@ -1054,7 +1052,6 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, tagVertex);
 	}
 
-	@SuppressWarnings("unchecked")
 	void initVertices(AbstractEntity entity) {
 		initVertexScene(entity);
 		initVertexPerson(entity);
@@ -1070,9 +1067,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 		initVertexInvoldedTag(entity);
 		initVertexInvoldedItem(entity);
-		sceneIds = new ArrayList();
-		involvedTags = new HashSet();
-		involvedItems = new HashSet();
+		sceneIds = new ArrayList<Long>();
+		involvedTags = new HashSet<Tag>();
+		involvedItems = new HashSet<Item>();
 		sceneVertexTitle = null;
 		locationVertexTitle = null;
 		showTagVertex = true;
@@ -1110,10 +1107,10 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		if (item == null) {
 			return false;
 		}
-		Collection collection = graph.getVertices();
-		Iterator iterator = collection.iterator();
+		Collection<AbstractEntity> collection = graph.getVertices();
+		Iterator<AbstractEntity> iterator = collection.iterator();
 		while (iterator.hasNext()) {
-			AbstractEntity entity = (AbstractEntity) iterator.next();
+			AbstractEntity entity = iterator.next();
 			if (((entity instanceof Item)) && (entity.getId().equals(item.getId()))) {
 				return true;
 			}
@@ -1129,10 +1126,10 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		if (tag == null) {
 			return false;
 		}
-		Collection collection = graph.getVertices();
-		Iterator iterator = collection.iterator();
+		Collection<AbstractEntity> collection = graph.getVertices();
+		Iterator<AbstractEntity> iterator = collection.iterator();
 		while (iterator.hasNext()) {
-			AbstractEntity entity = (AbstractEntity) iterator.next();
+			AbstractEntity entity = iterator.next();
 			if (((entity instanceof Tag)) && (entity.getId().equals(tag.getId()))) {
 				return true;
 			}
@@ -1140,16 +1137,15 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		return false;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void makeLayoutTransition() {
 		if (vv == null) {
 			return;
 		}
-		LayoutTransition layout;
+		LayoutTransition<AbstractEntity, Long> layout;
 		if (showBalloonLayout) {
-			layout = new LayoutTransition(vv, treeLayout, balloonLayout);
+			layout = new LayoutTransition<AbstractEntity, Long>(vv, treeLayout, balloonLayout);
 		} else {
-			layout = new LayoutTransition(vv, balloonLayout, treeLayout);
+			layout = new LayoutTransition<AbstractEntity, Long>(vv, balloonLayout, treeLayout);
 		}
 		Animator animator = new Animator(layout);
 		animator.start();
@@ -1226,11 +1222,10 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refreshCombo(AbstractEntity pEntity, List<? extends AbstractEntity> pList, boolean b) {
 		try {
 			processActionListener = false;
-			DefaultComboBoxModel combo = (DefaultComboBoxModel) entityCombo.getModel();
+			DefaultComboBoxModel<AbstractEntity> combo = (DefaultComboBoxModel<AbstractEntity>) entityCombo.getModel();
 			combo.removeAllElements();
 			combo.addElement(pEntity);
 			for (AbstractEntity entity : pList) {
@@ -1263,7 +1258,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		if (dateCombo != null) {
 			dateComboSelected = dateCombo.getSelectedItem();
 		}
-		dateCombo = new JComboBox();
+		dateCombo = new JComboBox<Date>();
 		dateCombo.setPreferredSize(new Dimension(100, 20));
 		dateCombo.addItem(null);
 		for (Date onedate : dates) {
@@ -1282,7 +1277,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		addIconButton("next", SbConstants.ComponentName.BT_NEXT.toString());
 		addIconButton("previous", SbConstants.ComponentName.BT_PREVIOUS.toString());
 		addIconButton("last", SbConstants.ComponentName.BT_LAST.toString());
-		entityTypeCombo = new JComboBox();
+		entityTypeCombo = new JComboBox<EntityTypeCbItem>();
 		entityTypeCombo.setPreferredSize(new Dimension(120, 20));
 		entityTypeCombo.setName(SbConstants.ComponentName.COMBO_ENTITY_TYPES.toString());
 		entityTypeCombo.setRenderer(new EntityTypeListCellRenderer());
@@ -1294,7 +1289,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		if (entityTypeSelected != null) {
 			entityTypeCombo.setSelectedItem(entityTypeSelected);
 		}
-		entityCombo = new JComboBox();
+		entityCombo = new JComboBox<AbstractEntity>();
 		entityCombo.setName(SbConstants.ComponentName.COMBO_ENTITIES.toString());
 		entityCombo.setMaximumRowCount(15);
 		if (entityComboSelected != null) {
@@ -1329,7 +1324,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 			PersonDAOImpl dao = new PersonDAOImpl(session);
 			list = dao.findAll();
 			Person person = new Person();
-			ArrayList array = new ArrayList();
+			ArrayList<Attribute> array = new ArrayList<Attribute>();
 			array.add(new Attribute("fd", "fds"));
 			person.setAttributes(array);
 			refreshCombo(person, list, false);
@@ -1357,12 +1352,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		refreshGraph(null);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refreshGraph(AbstractEntity entity) {
 		try {
 			clearGraph();
 			if (entity == null) {
-				entity = (AbstractEntity) entityCombo.getItemAt(0);
+				entity = entityCombo.getItemAt(0);
 			}
 			// if ((!(entity instanceof Scene)) && (chosenDate == null)) {
 			// return;
@@ -1379,8 +1373,8 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 				createItemGraph();
 			}
 			shownEntity = entity;
-			treeLayout = new TreeLayout(graph);
-			balloonLayout = new BalloonLayout(graph);
+			treeLayout = new TreeLayout<AbstractEntity, Long>(graph);
+			balloonLayout = new BalloonLayout<AbstractEntity, Long>(graph);
 			Dimension dimension = mainFrame.getSize();
 			balloonLayout.setSize(new Dimension(dimension.width / 2, dimension.height / 2));
 			balloonLayout.setGraph(graph);
@@ -1396,9 +1390,8 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	void removeDoublesFromInvolvedItems(Set<Item> set2) {
-		List<AbstractTag> tagList = new ArrayList();
+		List<AbstractTag> tagList = new ArrayList<AbstractTag>();
 		for (AbstractTag atag : involvedItems) {
 			for (Item item : set2) {
 				if (item.getId().equals(atag.getId())) {
@@ -1411,9 +1404,8 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	void removeDoublesFromInvolvedTags(Set<Tag> set1) {
-		List<Tag> tagList = new ArrayList();
+		List<Tag> tagList = new ArrayList<Tag>();
 		for (Tag atag : involvedTags) {
 			for (Tag tag : set1) {
 				if (tag.getId().equals(atag.getId())) {
@@ -1475,7 +1467,7 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		int i = 0;
 		EntityTypeCbItem tobj;
 		for (int j = 0; j < entityTypeCombo.getItemCount(); j++) {
-			tobj = (EntityTypeCbItem) entityTypeCombo.getItemAt(j);
+			tobj = entityTypeCombo.getItemAt(j);
 			if ((tobj.getType() == EntityTypeCbItem.Type.PERSON) && ((pEntity instanceof Person))) {
 				i = j;
 				break;

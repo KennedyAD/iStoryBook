@@ -59,7 +59,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 	 * 
 	 */
 	private static final long serialVersionUID = 460674309102964462L;
-	private JComboBox memoCombo;// liste deroulante des memos
+	private JComboBox<Memo> memoCombo;// liste deroulante des memos
 	private JButton btNew;// bouton nouveau
 	private JButton btDelete;// bouton supprimer
 	private JButton btEdit;// bouton modifier
@@ -181,7 +181,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 
 	private void refreshControlPanel() {
 		SbApp.trace("MemoPanel.refreshControlPanel()");
-		memoCombo = new JComboBox();
+		memoCombo = new JComboBox<Memo>();
 		memoCombo.setName(SbConstants.ComponentName.COMBO_ENTITIES.toString());
 		memoCombo.setMaximumRowCount(15);
 		if (memoCombo != null) {
@@ -230,7 +230,6 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		infoPanel.setCaretPosition(0);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void refreshMemoCombo() {
 		SbApp.trace("MemoPanel.refreshMemoCombo()");
 		Object entityComboSelected = null;
@@ -244,7 +243,7 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		List<Memo> memos = dao.findAll();
 		model.commit();
 		processActionListener = false;
-		DefaultComboBoxModel combo = (DefaultComboBoxModel) memoCombo.getModel();
+		DefaultComboBoxModel<Memo> combo = (DefaultComboBoxModel<Memo>) memoCombo.getModel();
 		combo.removeAllElements();
 		for (Memo memo : memos) {
 			combo.addElement(memo);

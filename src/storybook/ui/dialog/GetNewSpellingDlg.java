@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
-
 import storybook.SbConstants;
 import storybook.SbConstants.SpellingToGet;
 import storybook.toolkit.net.HttpFileDownloader;
@@ -79,7 +78,7 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 
 	private javax.swing.JButton btDownload;
 
-	private javax.swing.JComboBox cbSpelling;
+	private javax.swing.JComboBox<String> cbSpelling;
 
 	private javax.swing.JLabel jLabel1;
 
@@ -127,9 +126,8 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 	private void cbSpellingItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_cbSpellingItemStateChanged
 		// txInputSet();
 	}// GEN-LAST:event_cbSpellingItemStateChanged
-	@SuppressWarnings("unchecked")
 	private void createSpellingToGet() {
-		DefaultComboBoxModel model = new DefaultComboBoxModel();
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (SpellingToGet spelling : SpellingToGet.values()) {
 			if (!SwingUtil.isLanguageOK(spelling.name())) {
 				model.addElement(spelling.getI18N());

@@ -32,7 +32,7 @@ import storybook.ui.MainFrame;
 
 @SuppressWarnings("serial")
 abstract public class AbstractScenePanel extends AbstractGradientPanel {
-	private boolean trace = false;
+
 	protected Scene scene;
 
 	protected AbstractAction newAction;

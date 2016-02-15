@@ -203,7 +203,7 @@ public class CommonBox {
 		return (r);
 	}
 
-	public static Category getCbCategory(MainFrame mainFrame, JComboBox cb) {
+	public static Category getCbCategory(MainFrame mainFrame, JComboBox<?> cb) {
 		Category rcategory = null;
 		if (cb.getSelectedIndex() == -1) {
 			return (rcategory);
@@ -223,7 +223,7 @@ public class CommonBox {
 		return (rcategory);
 	}
 
-	public static boolean isCbEquals(JComboBox cb, String str) {
+	public static boolean isCbEquals(JComboBox<String> cb, String str) {
 		if (cb.getSelectedIndex() == -1) {
 			if (str.equals("")) {
 				return (true);
@@ -239,16 +239,15 @@ public class CommonBox {
 		return (false);
 	}
 
-	public static boolean isMultiLbContains(JList lb, List ls) {
-		List lx = lb.getSelectedValuesList();
+	public static boolean isMultiLbContains(JList<?> lb, List<?> ls) {
+		List<?> lx = lb.getSelectedValuesList();
 		if (lx.equals(ls)) {
 			return (true);
 		}
 		return (false);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCategories(MainFrame mainFrame, JComboBox cb, Item item) {
+	public static void loadCbCategories(MainFrame mainFrame, JComboBox<String> cb, Item item) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		ItemDAOImpl dao = new ItemDAOImpl(session);
@@ -267,8 +266,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCategories(MainFrame mainFrame, JComboBox cb, Tag tag) {
+	public static void loadCbCategories(MainFrame mainFrame, JComboBox<String> cb, Tag tag) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		TagDAOImpl dao = new TagDAOImpl(session);
@@ -287,8 +285,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCategory(MainFrame mainFrame, JComboBox cb, Idea idea) {
+	public static void loadCbCategory(MainFrame mainFrame, JComboBox<String> cb, Idea idea) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		IdeaDAOImpl dao = new IdeaDAOImpl(session);
@@ -307,8 +304,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCategory(MainFrame mainFrame, JComboBox cb, Person person) {
+	public static void loadCbCategory(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		CategoryDAOImpl dao = new CategoryDAOImpl(session);
@@ -326,8 +322,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbChapters(MainFrame mainFrame, JComboBox cb, Scene scene) {
+	public static void loadCbChapters(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		ChapterDAOImpl dao = new ChapterDAOImpl(session);
@@ -345,8 +340,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCities(MainFrame mainFrame, JComboBox cb, Location location) {
+	public static void loadCbCities(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		LocationDAOImpl dao = new LocationDAOImpl(session);
@@ -364,8 +358,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbCountries(MainFrame mainFrame, JComboBox cb, Location location) {
+	public static void loadCbCountries(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		LocationDAOImpl dao = new LocationDAOImpl(session);
@@ -383,8 +376,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbGenders(MainFrame mainFrame, JComboBox cb, Person person) {
+	public static void loadCbGenders(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		GenderDAOImpl dao = new GenderDAOImpl(session);
@@ -402,8 +394,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbItems(MainFrame mainFrame, JComboBox cb, Item item) {
+	public static void loadCbItems(MainFrame mainFrame, JComboBox<String> cb, Item item) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		ItemDAOImpl dao = new ItemDAOImpl(session);
@@ -422,8 +413,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbLocations(MainFrame mainFrame, JComboBox cb, Location location) {
+	public static void loadCbLocations(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		LocationDAOImpl dao = new LocationDAOImpl(session);
@@ -442,8 +432,8 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbLocations(MainFrame mainFrame, JComboBox cb, Scene scene) {
+
+	public static void loadCbLocations(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		if (!"".equals(scene.getTitle())) {
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
@@ -466,8 +456,8 @@ public class CommonBox {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbParts(MainFrame mainFrame, JComboBox cb, Chapter chapter) {
+
+	public static void loadCbParts(MainFrame mainFrame, JComboBox<String> cb, Chapter chapter) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		PartDAOImpl dao = new PartDAOImpl(session);
@@ -485,8 +475,8 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbPersons(MainFrame mainFrame, JComboBox cb, Person person) {
+
+	public static void loadCbPersons(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		PersonDAOImpl dao = new PersonDAOImpl(session);
@@ -505,8 +495,7 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbScenes(MainFrame mainFrame, JComboBox cb, Scene scene) {
+	public static void loadCbScenes(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		SceneDAOImpl dao = new SceneDAOImpl(session);
@@ -543,8 +532,8 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbStatus(JComboBox cb, Idea idea) {
+
+	public static void loadCbStatus(JComboBox<String> cb, Idea idea) {
 		String[] lbSt = { I18N.getMsg("msg.ideas.status.not_started"), I18N.getMsg("msg.ideas.status.started"),
 				I18N.getMsg("msg.ideas.status.completed"), I18N.getMsg("msg.ideas.status.abandoned") };
 		cb.removeAllItems();
@@ -555,8 +544,8 @@ public class CommonBox {
 			cb.setSelectedIndex(idea.getStatus());
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbStatus(JComboBox cb, Scene scene) {
+
+	public static void loadCbStatus(JComboBox<String> cb, Scene scene) {
 		cb.removeAllItems();
 		Integer ix = 0, i = 0;
 		for (String x : lbStatus) {
@@ -569,8 +558,7 @@ public class CommonBox {
 		cb.setSelectedIndex(ix);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadCbTags(MainFrame mainFrame, JComboBox cb, Tag tag) {
+	public static void loadCbTags(MainFrame mainFrame, JComboBox<String> cb, Tag tag) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		TagDAOImpl dao = new TagDAOImpl(session);
@@ -589,9 +577,8 @@ public class CommonBox {
 		model.commit();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadLbAttributes(MainFrame mainFrame, JList lb, Person person) {
-		DefaultListModel listModel = new DefaultListModel();
+	public static void loadLbAttributes(MainFrame mainFrame, JList<String> lb, Person person) {
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (person.getAttributes() != null) {
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
@@ -613,9 +600,8 @@ public class CommonBox {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	static DefaultListModel loadLbItems(MainFrame mainFrame, JList lb) {
-		DefaultListModel listModel = new DefaultListModel();
+	static DefaultListModel<String> loadLbItems(MainFrame mainFrame, JList<String> lb) {
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
 		ItemDAOImpl dao = new ItemDAOImpl(session);
@@ -626,9 +612,8 @@ public class CommonBox {
 		return (listModel);
 	}
 
-	@SuppressWarnings("unchecked")
-	static void loadLbItems(MainFrame mainFrame, JList lb, Scene scene) {
-		DefaultListModel listModel = loadLbItems(mainFrame, lb);
+	static void loadLbItems(MainFrame mainFrame, JList<String> lb, Scene scene) {
+		DefaultListModel<String> listModel = loadLbItems(mainFrame, lb);
 		lb.setModel(listModel);
 		if (!"".equals(scene.getTitle())) {
 			BookModel model = mainFrame.getBookModel();
@@ -647,9 +632,8 @@ public class CommonBox {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadLbPersons(MainFrame mainFrame, JList lb, Scene scene) {
-		DefaultListModel listModel = new DefaultListModel();
+	public static void loadLbPersons(MainFrame mainFrame, JList<String> lb, Scene scene) {
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (!"".equals(scene.getTitle())) {
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();
@@ -672,9 +656,8 @@ public class CommonBox {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public static void loadLbStrands(MainFrame mainFrame, JList lb, Scene scene) {
-		DefaultListModel listModel = new DefaultListModel();
+	public static void loadLbStrands(MainFrame mainFrame, JList<String> lb, Scene scene) {
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (!"".equals(scene.getTitle())) {
 			BookModel model = mainFrame.getBookModel();
 			Session session = model.beginTransaction();

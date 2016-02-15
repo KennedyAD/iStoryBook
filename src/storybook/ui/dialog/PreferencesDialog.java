@@ -144,7 +144,7 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		JLabel lbCurrentFont = new JLabel(I18N.getMsgColon("msg.pref.font.standard.current"));
 		// look and feel
 		JLabel lbLaf = new JLabel(I18N.getMsg("msg.pref.laf") + ": ");
-		DefaultComboBoxModel lafModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel<String> lafModel = new DefaultComboBoxModel<String>();
 		for (SbConstants.LookAndFeel laf : SbConstants.LookAndFeel.values()) {
 			lafModel.addElement(laf.getI18N());
 		}
