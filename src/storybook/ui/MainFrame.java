@@ -73,6 +73,7 @@ import storybook.controller.BookController;
 import storybook.model.BlankModel;
 import storybook.model.BookModel;
 import storybook.model.DbFile;
+import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Internal;
@@ -356,6 +357,34 @@ public class MainFrame extends JFrame implements IPaintable {
 			viewFactory.resetInitialisation();
 		} catch (Exception e) {
 			SbApp.error("MainFrame.init(" + dbF.getName() + ")", e);
+		}
+	}
+	
+	public void inits() {
+//		SbApp.trace("MainFrame.init(" + dbF.getDbName() + ")");
+		try {
+//			this.dbFile = dbF;
+			viewFactory = new ViewFactory(this);
+			viewFactory.setInitialisation();
+			sbActionManager = new SbActionManager(this);
+			sbActionManager.init();
+			// model and controller
+			bookController = new BookController(this);
+			bookModel = new BookModel(this);
+			
+			
+			bookController.attachModel(bookModel);
+			// Google maps
+			// Preference pref = PrefUtil.get(PreferenceKey.GOOGLE_MAPS_URL,
+			// SbConstants.DEFAULT_GOOGLE_MAPS_URL);
+			// NetUtil.setGoogleMapUrl(pref.getStringValue());
+			// spell checker
+			SpellCheckerUtil.registerDictionaries();
+			// listener
+			addWindowListener(new MainFrameWindowAdaptor());
+			viewFactory.resetInitialisation();
+		} catch (Exception e) {
+			SbApp.error("MainFrame.inits(", e);
 		}
 	}
 

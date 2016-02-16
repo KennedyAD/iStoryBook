@@ -21,10 +21,15 @@ package storybook;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.nio.channels.FileLock;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,12 +37,26 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import org.apache.commons.io.FileUtils;
+
+import com.apple.eawt.AboutHandler;
+import com.apple.eawt.AppEvent.AboutEvent;
+import com.apple.eawt.AppEvent.PreferencesEvent;
+import com.apple.eawt.AppEvent.QuitEvent;
+
+import com.apple.eawt.Application;
+import com.apple.eawt.PreferencesHandler;
+import com.apple.eawt.QuitHandler;
+import com.apple.eawt.QuitResponse;
+
 
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.PreferenceKey;
@@ -77,6 +96,7 @@ public class SbApp extends Component {
 	public static String getI18nFile() {
 		return (i18nFile);
 	}
+
 	/*
 	 * suppression de l'appel du garbage collector public void runGC(){
 	 * System.gc(); }
@@ -87,9 +107,11 @@ public class SbApp extends Component {
 		}
 		return instance;
 	}
+
 	public static boolean getTrace() {
 		return (bTrace);
 	}
+
 	public static boolean getTraceHibernate() {
 		return (bTraceHibernate);
 	}
@@ -124,7 +146,129 @@ public class SbApp extends Component {
 		return false;
 	}
 
+	/**
+	 * Sets various <code>System</code> properties.
+	 */
+	private static void initSystemProperties() {
+		// if (isMacOSX()) {
+		// Change Mac OS X application menu name
+		String classPackage = SbApp.class.getName();
+		classPackage = classPackage.substring(0, classPackage.lastIndexOf("."));
+		// ResourceBundle resource = ResourceBundle.getBundle(classPackage + "."
+		// + "package");
+		// String applicationName =
+		// resource.getString("SweetHome3D.applicationName");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iStorybook");
+		System.setProperty("apple.awt.application.name", "iStorybook");
+		// Use Mac OS X screen menu bar for frames menu bar
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		// Force the use of Quartz under Mac OS X for better Java 2D rendering
+		// performance
+		System.setProperty("apple.awt.graphics.UseQuartz", "true");
+		
+
+		System.setProperty("apple.awt.fileDialogForDirectories", "true");
+
+		System.setProperty("apple.awt.brushMetalLook", "true");
+
+		System.setProperty("apple.awt.showGrowBox", "true");
+		System.setProperty("apple.awt.window.position.forceSafeCreation", "true");
+		System.setProperty("apple.awt.window.position.forceSafeProgrammaticPositioning", "true");
+		System.setProperty("apple.awt.window.position.forceSafeUserPositioning", "true");
+		
+		if (System.getProperty("dragAndDropWithoutTransferHandler") == null
+		/* && isJavaVersionBetween("1.7", "1.8.0_40") */) {
+			System.setProperty("dragAndDropWithoutTransferHandler", "true");
+
+		}
+		
+//		Set dock icon if launched programmatically otherwise rely on 
+//		-Xdock no way of setting docking name rely on -X vm commands
+		try {
+		    Class util = Class.forName("com.apple.eawt.Application");
+		    Method getApplication = util.getMethod("getApplication", new Class[0]);
+		    Object application = getApplication.invoke(util);
+		    Class params[] = new Class[1];
+		    params[0] = Image.class;
+		    Method setDockIconImage = util.getMethod("setDockIconImage", params);
+		    URL url = SbApp.class.getClassLoader().getResource("oStorybook-icon.png");
+		    Image image = Toolkit.getDefaultToolkit().getImage(url);
+		    setDockIconImage.invoke(application, image);
+		} catch (ClassNotFoundException e) {
+		    // log exception
+		} catch (NoSuchMethodException e) {
+		    // log exception
+		} catch (InvocationTargetException e) {
+		    // log exception
+		} catch (IllegalAccessException e) {
+		    // log exception
+		}
+
+		// }
+		// Request to use system proxies to access to the Internet
+		if (System.getProperty("java.net.useSystemProxies") == null) {
+			System.setProperty("java.net.useSystemProxies", "true");
+		}
+	}
+
+	private static void customizeForMac() {
+
+		try {
+
+			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iStorybook");
+
+			System.setProperty("apple.awt.application.name", "iStorybook");
+
+			System.setProperty("apple.laf.useScreenMenuBar", "true");
+
+			System.setProperty("apple.awt.graphics.UseQuartz", "true");
+
+			System.setProperty("apple.awt.fileDialogForDirectories", "true");
+
+			System.setProperty("apple.awt.brushMetalLook", "true");
+
+			System.setProperty("apple.awt.showGrowBox", "true");
+			System.setProperty("apple.awt.window.position.forceSafeCreation", "true");
+			System.setProperty("apple.awt.window.position.forceSafeProgrammaticPositioning", "true");
+			System.setProperty("apple.awt.window.position.forceSafeUserPositioning", "true");
+
+			UIManager.put("TitledBorder.border", UIManager.getBorder("TitledBorder.aquaVariant"));
+
+			Application macOSXApplication = Application.getApplication();
+
+			macOSXApplication.setAboutHandler(new AboutHandler() {
+				public void handleAbout(AboutEvent evt) {
+					// JOptionPane.showMessageDialog(MainFrame,"iStorybook "
+					// /*+ MedSavantProgramInformation.getVersion() + " "+
+					// MedSavantProgramInformation.getReleaseType()+
+					// * "\nCreated by ");
+					// */);
+				}
+			});
+			macOSXApplication.setPreferencesHandler(new PreferencesHandler() {
+				@Override
+				public void handlePreferences(PreferencesEvent pe) {
+					// handlePrefs();
+				}
+			});
+
+			macOSXApplication.setQuitHandler(new QuitHandler() {
+				@Override
+				public void handleQuitRequestWith(QuitEvent evt, QuitResponse resp) {
+					// exit();
+					resp.cancelQuit();
+				}
+			});
+		} catch (Throwable x) {
+			System.err.println(
+					"Warning: requires Java for Mac OS X 10.6 Update 3 (or later).\nPlease check Software Update for the latest version.");
+		}
+	}
+
 	public static void main(String[] args) {
+
+		initSystemProperties();
+
 		String tempDir = System.getProperty("java.io.tmpdir");
 		String fn = tempDir + File.separator + "storybook.lck";
 		if (args.length > 0) {
@@ -304,8 +448,9 @@ public class SbApp extends Component {
 	}
 
 	private void init() {
-		trace("SbApp.init()");
-		SplashDialog dlgStart = new SplashDialog("oStorybook init");
+		// trace("SbApp.init()");
+
+		// ADK SplashDialog dlgStart = new SplashDialog("oStorybook init");
 		try {
 			MainFrame mainFrame = new MainFrame();
 			// preference model and controller
@@ -319,8 +464,9 @@ public class SbApp extends Component {
 			preferenceController.attachView(this);
 			trace("-->initI18N()");
 			initI18N();
-			trace("-->SwingUtil.setLookAndFeel()");
-			SwingUtil.setLookAndFeel();
+			// trace("-->SwingUtil.setLookAndFeel()");
+			// ADK Destroys loading menu bar into app bar on mac
+			// SwingUtil.setLookAndFeel();
 			restoreDefaultFont();
 			// first start dialog
 			Preference prefFirstStart = PrefUtil.get(PreferenceKey.FIRST_START_4, true);
@@ -341,12 +487,11 @@ public class SbApp extends Component {
 			if (fileHasBeenOpened) {
 				// check for updates
 				Updater.checkForUpdate();
-				dlgStart.dispose();
+				// dlgStart.dispose();
 				return;
 			}
-			mainFrame.init();
-			mainFrame.initBlankUi();
-			addMainFrame(mainFrame);
+			
+			createNewFile() ;
 
 			// check for updates
 			Updater.checkForUpdate();
@@ -360,11 +505,11 @@ public class SbApp extends Component {
 
 		} catch (Exception e) {
 			error("SbApp.init()", e);
-			dlgStart.dispose();
+			// dlgStart.dispose();
 			ExceptionDialog dlg = new ExceptionDialog(e);
 			SwingUtil.showModalDialog(dlg, null);
 		}
-		dlgStart.dispose();
+		// dlgStart.dispose();
 	}
 
 	public void initI18N() {

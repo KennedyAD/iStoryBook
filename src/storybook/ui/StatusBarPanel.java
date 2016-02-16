@@ -37,8 +37,9 @@ import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
+
 import storybook.toolkit.I18N;
-import storybook.toolkit.swing.panel.MemoryMonitorPanel;
+
 import storybook.ui.panel.AbstractPanel;
 
 /**
@@ -121,8 +122,10 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 
 		lbStat = new JLabel(geneLibStat());
 		add(lbStat, "al center");
-		MemoryMonitorPanel memPanel = new MemoryMonitorPanel();
-		add(memPanel, "al right");
+//	ADK blocks grow box on older Macs but removed as non essential user information to 
+//		be replaced by user notice if resource constraints reached	
+//		MemoryMonitorPanel memPanel = new MemoryMonitorPanel();
+//		add(memPanel, "al right");
 
 		revalidate();
 		repaint();

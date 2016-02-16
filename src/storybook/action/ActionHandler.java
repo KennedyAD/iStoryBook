@@ -214,7 +214,7 @@ public class ActionHandler {
 		}
 	}
 
-	public void handlePreferences() {// new OK
+	public void handlePrefs() {// new OK
 		PreferencesDialog dlg = new PreferencesDialog();
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}
