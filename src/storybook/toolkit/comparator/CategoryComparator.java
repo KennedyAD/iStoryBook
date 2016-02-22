@@ -22,13 +22,20 @@ import java.util.Comparator;
 
 import storybook.model.hbn.entity.Category;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CategoryComparator.
  *
+ * @author martin
  */
 public class CategoryComparator implements Comparator<Category> {
 
 	/**
+	 * Compare.
+	 *
+	 * @param ca1 the ca1
+	 * @param ca2 the ca2
+	 * @return the int
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

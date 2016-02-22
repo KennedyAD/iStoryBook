@@ -8,18 +8,21 @@ package storybook.exporter;
 
 import java.awt.event.ItemEvent;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DlgExportOptions.
  *
  * @author favdb
  */
 public class DlgExportOptions extends javax.swing.JDialog {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1857423121636176646L;
+	
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -68,60 +71,143 @@ public class DlgExportOptions extends javax.swing.JDialog {
 			}
 		});
 	}
+	
+	/** The parent. */
 	DlgExport parent;
 
+	/** The param. */
 	ParamExport param;
 
+	/** The bt cancel. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btCancel;
 
+	/** The bt css directory. */
 	private javax.swing.JButton btCssDirectory;
 
+	/** The bt ok. */
 	private javax.swing.JButton btOK;
 
+	/** The ck export chapter dates locations. */
 	private javax.swing.JCheckBox ckExportChapterDatesLocations;
 
+	/** The ck export chapter numbers. */
 	private javax.swing.JCheckBox ckExportChapterNumbers;
 
+	/** The ck export chapter numbers roman. */
 	private javax.swing.JCheckBox ckExportChapterNumbersRoman;
 
+	/** The ck export chapter titles. */
 	private javax.swing.JCheckBox ckExportChapterTitles;
 
+	/** The ck export scene separator. */
 	private javax.swing.JCheckBox ckExportSceneSeparator;
 
+	/** The ck export scene titles. */
 	private javax.swing.JCheckBox ckExportSceneTitles;
+	
+	/** The csv comma. */
 	private javax.swing.JRadioButton csvComma;
+	
+	/** The csv double quotes. */
 	private javax.swing.JRadioButton csvDoubleQuotes;
+	
+	/** The csv group comma. */
 	private javax.swing.ButtonGroup csvGroupComma;
+	
+	/** The csv group quotes. */
 	private javax.swing.ButtonGroup csvGroupQuotes;
+	
+	/** The csv no quotes. */
 	private javax.swing.JRadioButton csvNoQuotes;
+	
+	/** The csv semicolon. */
 	private javax.swing.JRadioButton csvSemicolon;
+	
+	/** The csv single quotes. */
 	private javax.swing.JRadioButton csvSingleQuotes;
+	
+	/** The html book group. */
 	private javax.swing.ButtonGroup htmlBookGroup;
+	
+	/** The html book multi file. */
 	private javax.swing.JRadioButton htmlBookMultiFile;
+	
+	/** The html book one file. */
 	private javax.swing.JRadioButton htmlBookOneFile;
+	
+	/** The html css file. */
 	private javax.swing.JTextField htmlCssFile;
+	
+	/** The html use css. */
 	private javax.swing.JCheckBox htmlUseCss;
+	
+	/** The j label1. */
 	private javax.swing.JLabel jLabel1;
+	
+	/** The j label2. */
 	private javax.swing.JLabel jLabel2;
+	
+	/** The j label3. */
 	private javax.swing.JLabel jLabel3;
+	
+	/** The j label4. */
 	private javax.swing.JLabel jLabel4;
+	
+	/** The j label5. */
 	private javax.swing.JLabel jLabel5;
+	
+	/** The j label6. */
 	private javax.swing.JLabel jLabel6;
+	
+	/** The j tabbed pane1. */
 	private javax.swing.JTabbedPane jTabbedPane1;
+	
+	/** The pane book. */
 	private javax.swing.JPanel paneBook;
+	
+	/** The pane csv. */
 	private javax.swing.JPanel paneCSV;
+	
+	/** The pane html. */
 	private javax.swing.JPanel paneHTML;
+	
+	/** The pane pdf. */
 	private javax.swing.JPanel panePDF;
+	
+	/** The pane txt. */
 	private javax.swing.JPanel paneTXT;
+	
+	/** The pdf group orientation. */
 	private javax.swing.ButtonGroup pdfGroupOrientation;
+	
+	/** The pdf landscape. */
 	private javax.swing.JRadioButton pdfLandscape;
+	
+	/** The pdf page size. */
 	private javax.swing.JComboBox pdfPageSize;
+	
+	/** The pdf portrait. */
 	private javax.swing.JRadioButton pdfPortrait;
+	
+	/** The txt group tab. */
 	private javax.swing.ButtonGroup txtGroupTab;
+	
+	/** The txt other. */
 	private javax.swing.JRadioButton txtOther;
+	
+	/** The txt separator. */
 	private javax.swing.JTextField txtSeparator;
+	
+	/** The txt tab. */
 	private javax.swing.JRadioButton txtTab;
+	
+	/**
+	 * Instantiates a new dlg export options.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
+	 */
 	// End of variables declaration//GEN-END:variables
 	public DlgExportOptions(DlgExport parent, boolean modal) {
 		super(parent, modal);
@@ -130,27 +216,45 @@ public class DlgExportOptions extends javax.swing.JDialog {
 		this.param = parent.paramExport;
 		initUI();
 	}
+	
 	/**
-	 * Creates new form DlgExportOptions
+	 * Creates new form DlgExportOptions.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
 	 */
 	public DlgExportOptions(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 	}
+	
+	/**
+	 * Bt cancel action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
 		dispose();
 	}// GEN-LAST:event_btCancelActionPerformed
+	
+	/**
+	 * Bt ok action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btOKActionPerformed
 		param.csvSingleQuotes = csvSingleQuotes.isSelected();
 		param.csvDoubleQuotes = csvDoubleQuotes.isSelected();
 		param.csvNoQuotes = csvNoQuotes.isSelected();
 		param.csvComma = csvComma.isSelected();
 		param.txtTab = txtTab.isSelected();
-		if (!param.txtTab)
+		if (!param.txtTab) {
 			param.txtSeparator = txtSeparator.getText();
+		}
 		param.htmlUseCss = htmlUseCss.isSelected();
-		if (!param.htmlUseCss)
+		if (!param.htmlUseCss) {
 			param.htmlCssFile = htmlCssFile.getText();
+		}
 		param.isExportChapterNumbers = ckExportChapterNumbers.isSelected();
 		param.isExportChapterNumbersRoman = ckExportChapterNumbersRoman.isSelected();
 		param.isExportChapterTitles = ckExportChapterTitles.isSelected();
@@ -162,13 +266,16 @@ public class DlgExportOptions extends javax.swing.JDialog {
 		param.save();
 		dispose();
 	}// GEN-LAST:event_btOKActionPerformed
+	
+	/**
+	 * Html use css item state changed.
+	 *
+	 * @param evt the evt
+	 */
 	private void htmlUseCssItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_htmlUseCssItemStateChanged
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			htmlCssFile.setVisible(true);
-			btCssDirectory.setVisible(true);
-		} else {
-			htmlCssFile.setVisible(false);
-			btCssDirectory.setVisible(false);
+		{
+			htmlCssFile.setVisible(evt.getStateChange() == ItemEvent.SELECTED);
+			btCssDirectory.setVisible(evt.getStateChange() == ItemEvent.SELECTED);
 		}
 	}// GEN-LAST:event_htmlUseCssItemStateChanged
 	/**
@@ -531,14 +638,19 @@ public class DlgExportOptions extends javax.swing.JDialog {
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+	
+	/**
+	 * Inits the ui.
+	 */
 	@SuppressWarnings("unchecked")
 	private void initUI() {
 		csvSingleQuotes.setSelected(param.csvSingleQuotes);
 		csvDoubleQuotes.setSelected(param.csvDoubleQuotes);
 		csvNoQuotes.setSelected(param.csvNoQuotes);
 		csvComma.setSelected(param.csvComma);
-		if (!param.csvComma)
+		if (!param.csvComma) {
 			csvSemicolon.setSelected(true);
+		}
 		txtTab.setSelected(param.txtTab);
 		if (!param.txtTab) {
 			txtSeparator.setText(param.txtSeparator);
@@ -555,12 +667,9 @@ public class DlgExportOptions extends javax.swing.JDialog {
 			htmlCssFile.setVisible(false);
 			btCssDirectory.setVisible(false);
 		}
-		if (param.htmlBookMulti) {
-			htmlBookOneFile.setSelected(false);
-			htmlBookMultiFile.setSelected(true);
-		} else {
-			htmlBookOneFile.setSelected(true);
-			htmlBookMultiFile.setSelected(false);
+		{
+			htmlBookOneFile.setSelected(!param.htmlBookMulti);
+			htmlBookMultiFile.setSelected(param.htmlBookMulti);
 		}
 		ckExportChapterNumbers.setSelected(param.isExportChapterNumbers);
 		ckExportChapterNumbersRoman.setSelected(param.isExportChapterNumbersRoman);
@@ -576,11 +685,13 @@ public class DlgExportOptions extends javax.swing.JDialog {
 		pdfPortrait.setSelected(true);
 		pdfLandscape.setSelected(param.pdfLandscape);
 	}
+	
+	/**
+	 * Txt other item state changed.
+	 *
+	 * @param evt the evt
+	 */
 	private void txtOtherItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_txtOtherItemStateChanged
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			txtSeparator.setVisible(true);
-		} else {
-			txtSeparator.setVisible(false);
-		}
+		txtSeparator.setVisible(evt.getStateChange() == ItemEvent.SELECTED);
 	}// GEN-LAST:event_txtOtherItemStateChanged
 }

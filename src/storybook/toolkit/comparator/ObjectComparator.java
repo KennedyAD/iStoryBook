@@ -20,12 +20,20 @@ package storybook.toolkit.comparator;
 
 import java.util.Comparator;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ObjectComparator.
+ *
  * @author martin For testing propose only.
  */
 public class ObjectComparator implements Comparator<Object> {
 
 	/**
+	 * Compare.
+	 *
+	 * @param o1 the o1
+	 * @param o2 the o2
+	 * @return the int
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

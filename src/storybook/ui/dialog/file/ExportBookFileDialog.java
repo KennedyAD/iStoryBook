@@ -28,11 +28,24 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExportBookFileDialog.
+ */
 public class ExportBookFileDialog extends AbstractFileDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2551908750016141740L;
+	
+	/** The separator. */
 	private JTextField separator;
 
+	/**
+	 * Instantiates a new export book file dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ExportBookFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		setForceDbExtension(false);
@@ -45,6 +58,9 @@ public class ExportBookFileDialog extends AbstractFileDialog {
 		setAskForOverwrite(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.file.AbstractFileDialog#addInformationLines()
+	 */
 	@Override
 	protected void addInformationLines() {
 
@@ -81,6 +97,11 @@ public class ExportBookFileDialog extends AbstractFileDialog {
 		add(separator);
 	}
 
+	/**
+	 * Gets the scene separator.
+	 *
+	 * @return the scene separator
+	 */
 	public String getSceneSeparator() {
 		return separator.getText();
 	}

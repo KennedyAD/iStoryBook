@@ -26,32 +26,64 @@ import java.sql.SQLException;
 
 import storybook.SbApp;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DbTable.
+ */
 //@Deprecated
 public abstract class DbTable implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1116409961625485131L;
+	
+	/** The volatile id. */
 	private static int volatileId = -100;
+	
+	/** The is volatile. */
 	boolean isVolatile = false;
 
+	/** The table name. */
 	protected String tableName;
+	
+	/** The id. */
 	protected int id = -1;
+	
+	/** The real id. */
 	protected int realId = -1;
+	
+	/** The is new. */
 	protected boolean isNew;
+	
+	/** The to string used for list. */
 	protected boolean toStringUsedForList;
 
+	/**
+	 * Instantiates a new db table.
+	 *
+	 * @param tableName the table name
+	 */
 	public DbTable(String tableName) {
 		this.tableName = tableName;
 	}
 
+	/**
+	 * Instantiates a new db table.
+	 *
+	 * @param tableName the table name
+	 * @param isVolatile the is volatile
+	 */
 	public DbTable(String tableName, boolean isVolatile) {
 		this(tableName);
 		this.isVolatile = isVolatile;
 		this.id = DbTable.volatileId--;
 	}
 
+	/**
+	 * Change id.
+	 *
+	 * @param newId the new id
+	 * @return true, if successful
+	 */
 	public boolean changeId(int newId) {
 		PreparedStatement stmt = null;
 		boolean retour = false;
@@ -80,6 +112,9 @@ public abstract class DbTable implements Serializable {
 		return retour;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == null || obj == null) {
@@ -93,20 +128,43 @@ public abstract class DbTable implements Serializable {
 		return false;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Gets the label text.
+	 *
+	 * @return the label text
+	 */
 	public abstract String getLabelText();
 
+	/**
+	 * Gets the real id.
+	 *
+	 * @return the real id
+	 */
 	public int getRealId() {
 		return realId;
 	}
 
+	/**
+	 * Gets the tablename.
+	 *
+	 * @return the tablename
+	 */
 	public String getTablename() {
 		return tableName;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		// int hash = 1;
@@ -119,36 +177,78 @@ public abstract class DbTable implements Serializable {
 		return hash;
 	}
 
+	/**
+	 * Checks if is clone.
+	 *
+	 * @return true, if is clone
+	 */
 	public boolean isClone() {
 		return id <= -1000;
 	}
 
+	/**
+	 * Checks if is marked as expired.
+	 *
+	 * @return true, if is marked as expired
+	 */
 	public boolean isMarkedAsExpired() {
 		return (id == -1);
 	}
 
+	/**
+	 * Checks if is new.
+	 *
+	 * @return true, if is new
+	 */
 	public boolean isNew() {
 		return isNew;
 	}
 
+	/**
+	 * Checks if is to string used for list.
+	 *
+	 * @return true, if is to string used for list
+	 */
 	public boolean isToStringUsedForList() {
 		return toStringUsedForList;
 	}
 
+	/**
+	 * Checks if is volatile.
+	 *
+	 * @return true, if is volatile
+	 */
 	public boolean isVolatile() {
 		return this.isVolatile;
 	}
 
+	/**
+	 * Mark as expired.
+	 */
 	public void markAsExpired() {
 		id = -1;
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public abstract boolean save() throws Exception;
 
+	/**
+	 * Sets the to string used for list.
+	 *
+	 * @param toStringUsedForList the new to string used for list
+	 */
 	public void setToStringUsedForList(boolean toStringUsedForList) {
 		this.toStringUsedForList = toStringUsedForList;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "" + getId();

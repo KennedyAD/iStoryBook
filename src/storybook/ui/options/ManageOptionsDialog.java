@@ -32,25 +32,46 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ManageOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ManageOptionsDialog extends AbstractOptionsDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5375460022408774950L;
+
+	/** The cn columns. */
 	private final String CN_COLUMNS = "ColumnSlider";
 
+	/** The columns. */
 	private int columns;
 
+	/**
+	 * Instantiates a new manage options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ManageOptionsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Instantiates a new manage options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @param hasZoom the has zoom
+	 */
 	public ManageOptionsDialog(MainFrame mainFrame, boolean hasZoom) {
 		super(mainFrame, hasZoom);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		setZoomMinValue(SbConstants.MIN_MANAGE_ZOOM);
@@ -67,6 +88,9 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		// columns
@@ -84,6 +108,9 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 		panel.add(slider, "growx");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		Component comp = (Component) e.getSource();
@@ -99,6 +126,9 @@ public class ManageOptionsDialog extends AbstractOptionsDialog {
 		super.stateChanged(e);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#zoom(int)
+	 */
 	@Override
 	protected void zoom(int val) {
 		BookUtil.store(mainFrame, BookKey.MANAGE_ZOOM, val);

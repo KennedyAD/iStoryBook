@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.TagDAOImpl;
 import storybook.model.hbn.entity.Tag;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportTags.
  *
  * @author favdb
  */
 public class ExportTags {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export tags.
+	 *
+	 * @param m the m
+	 */
 	ExportTags(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -38,6 +59,12 @@ public class ExportTags {
 		headers.add(new ExportHeader(I18N.getMsg("msg.common.name"), 75));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Tag obj) {
 		String rep = "Tags";
 		switch (parent.format) {
@@ -62,11 +89,14 @@ public class ExportTags {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 	/* String category, String name; */
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -87,9 +117,16 @@ public class ExportTags {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Tag obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		String str = debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -100,9 +137,17 @@ public class ExportTags {
 		}
 		model.commit();
 		end();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param obj the obj
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Tag obj, boolean verbose, boolean list) {
 		String body[] = { Long.toString(obj.getId()), obj.getCategory(), obj.getName() };
 		switch (parent.format) {
@@ -122,7 +167,7 @@ public class ExportTags {
 			odf.writeRow(body);
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

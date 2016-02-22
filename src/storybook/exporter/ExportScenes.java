@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportScenes.
  *
  * @author favdb
  */
 public class ExportScenes {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export scenes.
+	 *
+	 * @param m the m
+	 */
 	ExportScenes(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -42,6 +63,12 @@ public class ExportScenes {
 		headers.add(new ExportHeader(I18N.getMsg("msg.common.date"), 25));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Scene obj) {
 		String rep = "Chapters";
 		switch (parent.format) {
@@ -66,9 +93,12 @@ public class ExportScenes {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -89,9 +119,16 @@ public class ExportScenes {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Scene obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -102,21 +139,32 @@ public class ExportScenes {
 		}
 		model.commit();
 		end();
-		return ("");
+		return "";
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param scene the scene
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Scene scene, boolean verbose, boolean list) {
 		String chapter = "";
-		if (scene == null)
-			return ("");
-		if (scene.hasChapter())
+		if (scene == null) {
+			return "";
+		}
+		if (scene.hasChapter()) {
 			chapter = scene.getChapter().getChapternoStr();
+		}
 		Integer x = scene.getSceneno();
 		String xs;
-		if (x != null)
+		if (x != null) {
 			xs = Integer.toString(x);
-		else
+		} else {
 			xs = "";
+		}
 		String body[] = { Long.toString(scene.getId()), xs, chapter, scene.getTitle(),
 				scene.getSceneState().getName(), scene.getStrand().getAbbr(), scene.getDateStrShort() };
 		switch (parent.format) {
@@ -136,7 +184,7 @@ public class ExportScenes {
 			odf.writeRow(body);
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

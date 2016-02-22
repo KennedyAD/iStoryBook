@@ -28,16 +28,26 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PartEntityHandler.
  *
+ * @author martin
  */
 public class PartEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new part entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PartEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getPartColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		BookModel model = mainFrame.getBookModel();
@@ -52,12 +62,18 @@ public class PartEntityHandler extends AbstractEntityHandler {
 		return part;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) PartDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

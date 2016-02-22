@@ -13,29 +13,52 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicLabelUI;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VerticalLabelUI.
+ */
 public class VerticalLabelUI extends BasicLabelUI {
 	static {
 		labelUI = new VerticalLabelUI(false);
 	}
 
+	/** The paint icon r. */
 	private static Rectangle paintIconR = new Rectangle();
 
+	/** The paint text r. */
 	private static Rectangle paintTextR = new Rectangle();
 
+	/** The paint view r. */
 	private static Rectangle paintViewR = new Rectangle();
 
+	/** The paint view insets. */
 	private static Insets paintViewInsets = new Insets(0, 0, 0, 0);
+	
+	/** The clockwise. */
 	protected boolean clockwise;
+	
+	/**
+	 * Instantiates a new vertical label ui.
+	 *
+	 * @param clockwise the clockwise
+	 */
 	public VerticalLabelUI(boolean clockwise) {
 		super();
 		this.clockwise = clockwise;
 	}
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.plaf.basic.BasicLabelUI#getPreferredSize(javax.swing.JComponent)
+	 */
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		Dimension dim = super.getPreferredSize(c);
 		return new Dimension(dim.height, dim.width);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.plaf.basic.BasicLabelUI#paint(java.awt.Graphics, javax.swing.JComponent)
+	 */
 	@Override
 	public void paint(Graphics g, JComponent c) {
 

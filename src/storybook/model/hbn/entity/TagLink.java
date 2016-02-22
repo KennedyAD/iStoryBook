@@ -18,25 +18,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class TagLink.
+ *
  * @hibernate.subclass discriminator-value="0"
  */
 public class TagLink extends AbstractTagLink {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6245390568453929449L;
+	
+	/** The tag. */
 	private Tag tag;
 
+	/**
+	 * Instantiates a new tag link.
+	 */
 	public TagLink() {
 	}
 
+	/**
+	 * Instantiates a new tag link.
+	 *
+	 * @param tag the tag
+	 * @param type the type
+	 * @param startScene the start scene
+	 * @param endScene the end scene
+	 * @param person the person
+	 * @param location the location
+	 */
 	public TagLink(Tag tag, Integer type, Scene startScene, Scene endScene, Person person, Location location) {
 		super(type, startScene, endScene, person, location);
 		this.tag = tag;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractTagLink#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!super.equals(obj)) {
@@ -49,13 +68,18 @@ public class TagLink extends AbstractTagLink {
 	}
 
 	/**
-	 * @return
+	 * Gets the tag.
+	 *
+	 * @return the tag
 	 * @hibernate.many-to-one column="tag_id" cascade="none"
 	 */
 	public Tag getTag() {
 		return this.tag;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractTagLink#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -63,6 +87,11 @@ public class TagLink extends AbstractTagLink {
 		return hash;
 	}
 
+	/**
+	 * Sets the tag.
+	 *
+	 * @param tag the new tag
+	 */
 	public void setTag(Tag tag) {
 		this.tag = tag;
 	}

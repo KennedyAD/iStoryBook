@@ -30,25 +30,45 @@ import storybook.toolkit.swing.ColorUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandsByDateChart.
+ */
 public class StrandsByDateChart extends AbstractChartPanel {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8304872642266527724L;
+	
+	/** The chart panel. */
 	private ChartPanel chartPanel;
+	
+	/** The average. */
 	private double average;
 
+	/**
+	 * Instantiates a new strands by date chart.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public StrandsByDateChart(MainFrame mainFrame) {
 		super(mainFrame, "msg.menu.tools.charts.overall.character.date");
 		this.partRelated = true;
 		this.needsFullRefresh = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
 
+	/**
+	 * Creates the chart.
+	 *
+	 * @param setCategory the set category
+	 * @return the j free chart
+	 */
 	private JFreeChart createChart(CategoryDataset setCategory) {
 		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL,
 				true, true, false);
@@ -75,6 +95,11 @@ public class StrandsByDateChart extends AbstractChartPanel {
 		return chart;
 	}
 
+	/**
+	 * Creates the dataset.
+	 *
+	 * @return the category dataset
+	 */
 	private CategoryDataset createDataset() {
 		DefaultCategoryDataset setCategory = new DefaultCategoryDataset();
 		try {
@@ -105,6 +130,9 @@ public class StrandsByDateChart extends AbstractChartPanel {
 		return setCategory;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChart()
+	 */
 	@Override
 	protected void initChart() {
 		CategoryDataset setCategory = createDataset();
@@ -112,11 +140,17 @@ public class StrandsByDateChart extends AbstractChartPanel {
 		this.chartPanel = new ChartPanel(chart);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		this.panel.add(this.chartPanel, "grow");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 	}

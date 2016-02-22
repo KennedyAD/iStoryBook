@@ -26,15 +26,29 @@ import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import javax.swing.text.html.HTMLEditorKit;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SbHTMLEditorKit.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class SbHTMLEditorKit extends HTMLEditorKit {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5313909726675775091L;
+
+	/**
+	 * The Class SbLinkController.
+	 */
 	public class SbLinkController extends LinkController {
 
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -1914096992282742655L;
+
+		/* (non-Javadoc)
+		 * @see javax.swing.text.html.HTMLEditorKit.LinkController#mouseClicked(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			JEditorPane editor = (JEditorPane) e.getSource();
@@ -47,6 +61,9 @@ public class SbHTMLEditorKit extends HTMLEditorKit {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.text.html.HTMLEditorKit.LinkController#mouseMoved(java.awt.event.MouseEvent)
+		 */
 		@Override
 		@SuppressWarnings("unused")
 		public void mouseMoved(MouseEvent e) {
@@ -63,8 +80,12 @@ public class SbHTMLEditorKit extends HTMLEditorKit {
 		}
 	}
 
+	/** The handler. */
 	private SbLinkController handler = new SbLinkController();
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.html.HTMLEditorKit#install(javax.swing.JEditorPane)
+	 */
 	@Override
 	public void install(JEditorPane c) {
 		MouseListener[] oldMouseListeners = c.getMouseListeners();

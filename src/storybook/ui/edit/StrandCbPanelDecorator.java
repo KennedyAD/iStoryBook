@@ -24,27 +24,44 @@ import javax.swing.JLabel;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Strand;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StrandCbPanelDecorator.
  *
+ * @author martin
  */
 public class StrandCbPanelDecorator extends CbPanelDecorator {
 
+	/**
+	 * Instantiates a new strand cb panel decorator.
+	 */
 	public StrandCbPanelDecorator() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateAfterEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateBeforeEntity(AbstractEntity entity) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeFirstEntity()
+	 */
 	@Override
 	public void decorateBeforeFirstEntity() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateEntity(javax.swing.JCheckBox, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		Strand strand = (Strand) entity;

@@ -110,6 +110,7 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.PrefUtil;
 import storybook.toolkit.html.HtmlUtil;
 
+// TODO: Auto-generated Javadoc
 /**
  * Based on HTMLEditorPane by SHEF / Bob Tantlinger.<br>
  * http://shef.sourceforge.net
@@ -117,13 +118,23 @@ import storybook.toolkit.html.HtmlUtil;
  * @author martin
  * @author Bob Tantlinger
  */
-@SuppressWarnings("serial")
+
 public class HtmlEditor extends JPanel {
 
 	// private static final I18n i18n =
 	// I18n.getInstance("storybook.toolkit.shef.shef");
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7078736567838557917L;
+
+	/**
+	 * The Class CaretHandler.
+	 */
 	private class CaretHandler implements CaretListener {
+		
+		/* (non-Javadoc)
+		 * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+		 */
 		@Override
 		public void caretUpdate(CaretEvent e) {
 			if (maxLength > 0) {
@@ -139,33 +150,54 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class ChangeTabAction.
+	 */
 	private class ChangeTabAction extends DefaultAction {
 
-		/**
-		 *
-		 */
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
+		
+		/** The tab. */
 		int tab;
 
+		/**
+		 * Instantiates a new change tab action.
+		 *
+		 * @param tab the tab
+		 */
 		public ChangeTabAction(int tab) {
 			super((tab == 0) ? I18N.getMsg("shef.rich_text") : I18N.getMsg("shef.source"));
 			this.tab = tab;
 			putValue(ActionManager.BUTTON_TYPE, ActionManager.BUTTON_TYPE_VALUE_RADIO);
 		}
 
+		/* (non-Javadoc)
+		 * @see org.bushe.swing.action.BasicAction#contextChanged()
+		 */
 		@Override
 		protected void contextChanged() {
 			setSelected(tabs.getSelectedIndex() == tab);
 		}
 
+		/* (non-Javadoc)
+		 * @see org.bushe.swing.action.BasicAction#execute(java.awt.event.ActionEvent)
+		 */
 		@Override
 		protected void execute(ActionEvent e) {
 			tabs.setSelectedIndex(tab);
 			setSelected(true);
 		}
 	}
+	
+	/**
+	 * The Class FocusHandler.
+	 */
 	private class FocusHandler implements FocusListener {
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusGained(FocusEvent e) {
 			if (e.getComponent() instanceof JEditorPane) {
@@ -178,6 +210,9 @@ public class HtmlEditor extends JPanel {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusLost(FocusEvent e) {
 
@@ -188,8 +223,14 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class FontChangeHandler.
+	 */
 	private class FontChangeHandler implements ActionListener {
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == fontFamilyCombo && focusedEditor == wysEditor) {
@@ -206,11 +247,23 @@ public class HtmlEditor extends JPanel {
 			}
 		}
 
+		/**
+		 * Item state changed.
+		 *
+		 * @param e the e
+		 */
 		public void itemStateChanged(ItemEvent e) {
 		}
 	}
+	
+	/**
+	 * The Class ParagraphComboHandler.
+	 */
 	private class ParagraphComboHandler implements ActionListener {
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == paragraphCombo) {
@@ -219,13 +272,18 @@ public class HtmlEditor extends JPanel {
 			}
 		}
 	}
+	
+	/**
+	 * The Class ParagraphComboRenderer.
+	 */
 	private class ParagraphComboRenderer extends DefaultListCellRenderer {
 
-		/**
-		 *
-		 */
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
+		/* (non-Javadoc)
+		 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+		 */
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
@@ -236,8 +294,17 @@ public class HtmlEditor extends JPanel {
 			return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		}
 	}
+	
+	/**
+	 * The Class PopupHandler.
+	 */
 	private class PopupHandler extends MouseAdapter {
 
+		/**
+		 * Check for popup trigger.
+		 *
+		 * @param e the e
+		 */
 		private void checkForPopupTrigger(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				JPopupMenu p;
@@ -252,96 +319,177 @@ public class HtmlEditor extends JPanel {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
 			checkForPopupTrigger(e);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			checkForPopupTrigger(e);
 		}
 	}
+	
+	/**
+	 * The Class TextChangedHandler.
+	 */
 	private class TextChangedHandler implements DocumentListener {
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+		 */
 		@Override
 		public void changedUpdate(DocumentEvent e) {
 			textChanged();
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+		 */
 		@Override
 		public void insertUpdate(DocumentEvent e) {
 			textChanged();
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+		 */
 		@Override
 		public void removeUpdate(DocumentEvent e) {
 			textChanged();
 		}
 
+		/**
+		 * Text changed.
+		 */
 		private void textChanged() {
 			if (tabs.getSelectedIndex() == 0) {
 				isWysTextChanged = true;
 			}
 		}
 	}
+	
+	/** The Constant INVALID_TAGS. */
 	private static final String INVALID_TAGS[] = { "html", "head", "body", "title" };
+	
+	/** The max length. */
 	private int maxLength = -1;
+	
+	/** The show full toolbar. */
 	private boolean showFullToolbar = true;
 
+	/** The wys editor. */
 	private JEditorPane wysEditor;
+	
+	/** The src editor. */
 	private SourceCodeEditor srcEditor;
+	
+	/** The focused editor. */
 	private JEditorPane focusedEditor;
 
+	/** The font family combo. */
 	private JComboBox<String> fontFamilyCombo;
 
+	/** The paragraph combo. */
 	private JComboBox<String> paragraphCombo;
 
+	/** The tabs. */
 	private JTabbedPane tabs;
+	
+	/** The format tool bar. */
 	// private JMenuBar menuBar;
 	private JToolBar formatToolBar;
+	
+	/** The lb message. */
 	private JLabel lbMessage;
+	
+	/** The edit menu. */
 	private JMenu editMenu;
+	
+	/** The format menu. */
 	private JMenu formatMenu;
+	
+	/** The insert menu. */
 	private JMenu insertMenu;
 
+	/** The src popup menu. */
 	private JPopupMenu wysPopupMenu, srcPopupMenu;
 
+	/** The action list. */
 	private ActionList actionList;
 
+	/** The focus handler. */
 	private final FocusListener focusHandler = new FocusHandler();
 
+	/** The text changed handler. */
 	private final DocumentListener textChangedHandler = new TextChangedHandler();
 
+	/** The font change handler. */
 	private final ActionListener fontChangeHandler = new FontChangeHandler();
 
+	/** The paragraph combo handler. */
 	private final ActionListener paragraphComboHandler = new ParagraphComboHandler();
 
+	/** The caret handler. */
 	private final CaretListener caretHandler = new CaretHandler();
 
+	/** The popup handler. */
 	private final MouseListener popupHandler = new PopupHandler();
 
+	/** The is wys text changed. */
 	private boolean isWysTextChanged;
 
+	/**
+	 * Instantiates a new html editor.
+	 */
 	public HtmlEditor() {
 		initUI();
 	}
 
+	/**
+	 * Instantiates a new html editor.
+	 *
+	 * @param showFullToolbar the show full toolbar
+	 */
 	public HtmlEditor(boolean showFullToolbar) {
 		this.showFullToolbar = showFullToolbar;
 		initUI();
 	}
 
+	/**
+	 * Adds the to tool bar.
+	 *
+	 * @param toolbar the toolbar
+	 * @param act the act
+	 */
 	private void addToToolBar(JToolBar toolbar, Action act) {
 		addToToolBar(toolbar, act, "");
 	}
 
+	/**
+	 * Adds the to tool bar.
+	 *
+	 * @param toolbar the toolbar
+	 * @param act the act
+	 * @param options the options
+	 */
 	private void addToToolBar(JToolBar toolbar, Action act, String options) {
 		AbstractButton button = ActionUIFactory.getInstance().createButton(act);
 		configToolbarButton(button);
 		toolbar.add(button, options);
 	}
 
+	/**
+	 * Config toolbar button.
+	 *
+	 * @param button the button
+	 */
 	private void configToolbarButton(AbstractButton button) {
 		button.setText(null);
 		button.setMnemonic(0);
@@ -358,6 +506,9 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Creates the editor actions.
+	 */
 	private void createEditorActions() {
 		actionList = new ActionList("editor-actions");
 
@@ -486,6 +637,9 @@ public class HtmlEditor extends JPanel {
 		createFormatToolBar(paraActions, fontSizeActions);
 	}
 
+	/**
+	 * Creates the editor tabs.
+	 */
 	private void createEditorTabs() {
 		tabs = new JTabbedPane(SwingConstants.BOTTOM);
 		wysEditor = createWysiwygEditor();
@@ -508,6 +662,12 @@ public class HtmlEditor extends JPanel {
 		});
 	}
 
+	/**
+	 * Creates the format tool bar.
+	 *
+	 * @param blockActs the block acts
+	 * @param fontSizeActs the font size acts
+	 */
 	@SuppressWarnings("unchecked")
 	private void createFormatToolBar(ActionList blockActs, ActionList fontSizeActs) {
 		formatToolBar = new JToolBar();
@@ -644,12 +804,24 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Creates the menu.
+	 *
+	 * @param lst the lst
+	 * @param menuName the menu name
+	 * @return the j menu
+	 */
 	private JMenu createMenu(ActionList lst, String menuName) {
 		JMenu m = ActionUIFactory.getInstance().createMenu(lst);
 		m.setText(menuName);
 		return m;
 	}
 
+	/**
+	 * Creates the source editor.
+	 *
+	 * @return the source code editor
+	 */
 	private SourceCodeEditor createSourceEditor() {
 		SourceCodeEditor ed = new SourceCodeEditor();
 		SyntaxDocument doc = new SyntaxDocument();
@@ -667,6 +839,11 @@ public class HtmlEditor extends JPanel {
 		return ed;
 	}
 
+	/**
+	 * Creates the wysiwyg editor.
+	 *
+	 * @return the j editor pane
+	 */
 	private JEditorPane createWysiwygEditor() {
 		JEditorPane ed = new JEditorPane();
 
@@ -692,6 +869,12 @@ public class HtmlEditor extends JPanel {
 		return ed;
 	}
 
+	/**
+	 * De indent.
+	 *
+	 * @param html the html
+	 * @return the string
+	 */
 	/*
 	 * *******************************************************************
 	 * Methods for dealing with HTML between wysiwyg and source editors
@@ -709,6 +892,13 @@ public class HtmlEditor extends JPanel {
 		return sb.toString();
 	}
 
+	/**
+	 * Delete occurance.
+	 *
+	 * @param text the text
+	 * @param word the word
+	 * @return the string
+	 */
 	private String deleteOccurance(String text, String word) {
 		StringBuilder sb = new StringBuilder(text);
 		int p;
@@ -718,26 +908,56 @@ public class HtmlEditor extends JPanel {
 		return sb.toString();
 	}
 
+	/**
+	 * Gets the edits the menu.
+	 *
+	 * @return the edits the menu
+	 */
 	public JMenu getEditMenu() {
 		return editMenu;
 	}
 
+	/**
+	 * Gets the format menu.
+	 *
+	 * @return the format menu
+	 */
 	public JMenu getFormatMenu() {
 		return formatMenu;
 	}
 
+	/**
+	 * Gets the insert menu.
+	 *
+	 * @return the insert menu
+	 */
 	public JMenu getInsertMenu() {
 		return insertMenu;
 	}
 
+	/**
+	 * Gets the max length.
+	 *
+	 * @return the max length
+	 */
 	public int getMaxLength() {
 		return maxLength;
 	}
 
+	/**
+	 * Gets the show simple toolbar.
+	 *
+	 * @return the show simple toolbar
+	 */
 	public boolean getShowSimpleToolbar() {
 		return showFullToolbar;
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		String topText = "";
 		// return only body content
@@ -771,6 +991,9 @@ public class HtmlEditor extends JPanel {
 		// return topText;
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUI() {
 		createEditorTabs();
 		createEditorActions();
@@ -792,6 +1015,13 @@ public class HtmlEditor extends JPanel {
 		});
 	}
 
+	/**
+	 * Insert html.
+	 *
+	 * @param editor the editor
+	 * @param html the html
+	 * @param location the location
+	 */
 	// inserts html into the wysiwyg editor
 	private void insertHTML(JEditorPane editor, String html, int location) {
 		try {
@@ -804,6 +1034,12 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Removes the invalid tags.
+	 *
+	 * @param html the html
+	 * @return the string
+	 */
 	private String removeInvalidTags(String html) {
 		for (String invalid_tag : INVALID_TAGS) {
 			html = deleteOccurance(html, '<' + invalid_tag + '>');
@@ -812,6 +1048,11 @@ public class HtmlEditor extends JPanel {
 		return html.trim();
 	}
 
+	/**
+	 * Sets the caret position.
+	 *
+	 * @param pos the new caret position
+	 */
 	public void setCaretPosition(int pos) {
 		if (tabs.getSelectedIndex() == 0) {
 			wysEditor.setCaretPosition(pos);
@@ -822,14 +1063,29 @@ public class HtmlEditor extends JPanel {
 		}
 	}
 
+	/**
+	 * Sets the max length.
+	 *
+	 * @param maxLength the new max length
+	 */
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
 	}
 
+	/**
+	 * Sets the selected tab.
+	 *
+	 * @param i the new selected tab
+	 */
 	public void setSelectedTab(int i) {
 		tabs.setSelectedIndex(i);
 	}
 
+	/**
+	 * Sets the text.
+	 *
+	 * @param text the new text
+	 */
 	public void setText(String text) {
 		String topText = removeInvalidTags(text);
 		if (tabs.getSelectedIndex() == 0) {
@@ -850,8 +1106,8 @@ public class HtmlEditor extends JPanel {
 	 * Converts an action list to an array. Any of the null "separators" or sub
 	 * ActionLists are omitted from the array.
 	 *
-	 * @param lst
-	 * @return
+	 * @param lst the lst
+	 * @return the action[]
 	 */
 	@SuppressWarnings("unchecked")
 	private Action[] toArray(ActionList lst) {
@@ -866,6 +1122,9 @@ public class HtmlEditor extends JPanel {
 		return (Action[]) acts.toArray(new Action[acts.size()]);
 	}
 
+	/**
+	 * Update edit view.
+	 */
 	// called when changing tabs
 	private void updateEditView() {
 		if (tabs.getSelectedIndex() == 0) {
@@ -888,6 +1147,9 @@ public class HtmlEditor extends JPanel {
 		updateState();
 	}
 
+	/**
+	 * Update state.
+	 */
 	private void updateState() {
 		if (focusedEditor == wysEditor) {
 			fontFamilyCombo.removeActionListener(fontChangeHandler);

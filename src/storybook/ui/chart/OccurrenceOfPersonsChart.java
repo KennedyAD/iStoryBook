@@ -29,19 +29,36 @@ import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 import storybook.ui.chart.jfreechart.DbTableCategoryItemLabelGenerator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OccurrenceOfPersonsChart.
+ */
 public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7383988030730408475L;
+	
+	/** The chart panel. */
 	private ChartPanel chartPanel;
+	
+	/** The average. */
 	private double average;
 
+	/**
+	 * Instantiates a new occurrence of persons chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public OccurrenceOfPersonsChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.report.person.occurrence.title");
 	}
 
+	/**
+	 * Creates the chart.
+	 *
+	 * @param setCategory the set category
+	 * @return the j free chart
+	 */
 	private JFreeChart createChart(CategoryDataset setCategory) {
 		JFreeChart chart = ChartFactory.createBarChart(this.chartTitle, "", "", setCategory, PlotOrientation.VERTICAL,
 				true, true, false);
@@ -74,6 +91,11 @@ public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 		return chart;
 	}
 
+	/**
+	 * Creates the dataset.
+	 *
+	 * @return the category dataset
+	 */
 	private CategoryDataset createDataset() {
 		DefaultCategoryDataset setCategory = new DefaultCategoryDataset();
 		try {
@@ -98,6 +120,9 @@ public class OccurrenceOfPersonsChart extends AbstractPersonsChart {
 		return setCategory;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		CategoryDataset setCategory = createDataset();

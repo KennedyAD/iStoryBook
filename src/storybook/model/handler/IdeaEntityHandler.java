@@ -24,28 +24,44 @@ import storybook.model.hbn.entity.Idea;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IdeaEntityHandler.
  *
+ * @author martin
  */
 public class IdeaEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new idea entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public IdeaEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getIdeaColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Idea idea = new Idea();
 		return idea;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) IdeaDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

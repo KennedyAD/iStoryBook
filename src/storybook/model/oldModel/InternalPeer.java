@@ -32,11 +32,19 @@ import org.h2.jdbc.JdbcSQLException;
 import storybook.SbApp;
 import storybook.model.oldModel.MigrationConstants.ProjectSetting;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InternalPeer.
+ */
 //@Deprecated
 public class InternalPeer {
 
+	/** The Constant KEY_DB_MODEL_VERSION. */
 	public static final String KEY_DB_MODEL_VERSION = "dbversion";
 
+	/**
+	 * Creates the.
+	 */
 	public static void create() {
 		try {
 			createTable();
@@ -45,6 +53,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Creates the table.
+	 *
+	 * @throws Exception the exception
+	 */
 	public static void createTable() throws Exception {
 		String sql;
 		Statement stmt;
@@ -59,6 +72,11 @@ public class InternalPeer {
 		stmt.execute(sql);
 	}
 
+	/**
+	 * Do count.
+	 *
+	 * @return the int
+	 */
 	public static int doCount() {
 		try {
 			String sql = "select count(" + Internal.COLUMN_ID + ") from " + Internal.TABLE_NAME;
@@ -72,6 +90,13 @@ public class InternalPeer {
 		return 0;
 	}
 
+	/**
+	 * Do delete.
+	 *
+	 * @param internal the internal
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public static boolean doDelete(Internal internal) throws Exception {
 		if (internal == null) {
 			return false;
@@ -82,6 +107,11 @@ public class InternalPeer {
 		return true;
 	}
 
+	/**
+	 * Do select all.
+	 *
+	 * @return the list
+	 */
 	public static List<Internal> doSelectAll() {
 		try {
 			if (!ModelMigration.getInstance().isConnectionOpen()) {
@@ -105,6 +135,13 @@ public class InternalPeer {
 		return null;
 	}
 
+	/**
+	 * Do select by id.
+	 *
+	 * @param id the id
+	 * @return the internal
+	 * @throws Exception the exception
+	 */
 	public static Internal doSelectById(int id) throws Exception {
 		String sql = "select * from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_ID + " = ?";
 		PreparedStatement stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
@@ -125,10 +162,24 @@ public class InternalPeer {
 		return internal;
 	}
 
+	/**
+	 * Do select by key.
+	 *
+	 * @param ps the ps
+	 * @return the internal
+	 * @throws Exception the exception
+	 */
 	public static Internal doSelectByKey(ProjectSetting ps) throws Exception {
 		return doSelectByKey(ps.toString());
 	}
 
+	/**
+	 * Do select by key.
+	 *
+	 * @param key the key
+	 * @return the internal
+	 * @throws Exception the exception
+	 */
 	public static Internal doSelectByKey(String key) throws Exception {
 		String sql = "select * " + "from " + Internal.TABLE_NAME + " where " + Internal.COLUMN_KEY + " = ?";
 		PreparedStatement stmt = ModelMigration.getInstance().getConnection().prepareStatement(sql);
@@ -149,6 +200,11 @@ public class InternalPeer {
 		return internal;
 	}
 
+	/**
+	 * Gets the db model version.
+	 *
+	 * @return the db model version
+	 */
 	public static String getDbModelVersion() {
 		try {
 			Internal dbModel = doSelectByKey(KEY_DB_MODEL_VERSION);
@@ -175,6 +231,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Gets the manage cols.
+	 *
+	 * @return the manage cols
+	 */
 	public static int getManageCols() {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
@@ -188,6 +249,11 @@ public class InternalPeer {
 		return 4;
 	}
 
+	/**
+	 * Gets the manage view text length.
+	 *
+	 * @return the manage view text length
+	 */
 	public static int getManageViewTextLength() {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
@@ -201,6 +267,11 @@ public class InternalPeer {
 		return 100;
 	}
 
+	/**
+	 * Gets the reading view.
+	 *
+	 * @return the reading view
+	 */
 	public static boolean getReadingView() {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
@@ -215,6 +286,11 @@ public class InternalPeer {
 		return false;
 	}
 
+	/**
+	 * Gets the scale factor book.
+	 *
+	 * @return the scale factor book
+	 */
 	public static int getScaleFactorBook() {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
@@ -228,6 +304,11 @@ public class InternalPeer {
 		return MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK;
 	}
 
+	/**
+	 * Gets the scale factor chrono.
+	 *
+	 * @return the scale factor chrono
+	 */
 	public static int getScaleFactorChrono() {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_CHRONO);
@@ -241,6 +322,11 @@ public class InternalPeer {
 		return MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO;
 	}
 
+	/**
+	 * Gets the scale factor manage.
+	 *
+	 * @return the scale factor manage
+	 */
 	public static int getScaleFactorManage() {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_MANAGE);
@@ -254,6 +340,13 @@ public class InternalPeer {
 		return MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE;
 	}
 
+	/**
+	 * Make internal.
+	 *
+	 * @param rs the rs
+	 * @return the internal
+	 * @throws SQLException the SQL exception
+	 */
 	private static Internal makeInternal(ResultSet rs) throws SQLException {
 		Internal internal = new Internal(rs.getInt(Internal.COLUMN_ID));
 		internal.setKey(rs.getString(Internal.COLUMN_KEY));
@@ -263,6 +356,11 @@ public class InternalPeer {
 		return internal;
 	}
 
+	/**
+	 * Save manage cols.
+	 *
+	 * @param cols the cols
+	 */
 	public static void saveManageCols(int cols) {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_COLS);
@@ -277,6 +375,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Save manage view text length.
+	 *
+	 * @param textLength the text length
+	 */
 	public static void saveManageViewTextLength(int textLength) {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.MANAGE_VIEW_TEXT_LENGTH);
@@ -291,6 +394,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Save reading view.
+	 *
+	 * @param readingView the reading view
+	 */
 	public static void saveReadingView(boolean readingView) {
 		try {
 			Internal internal = InternalPeer.doSelectByKey(MigrationConstants.ProjectSetting.READING_VIEW);
@@ -305,10 +413,18 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Sets the db model version.
+	 */
 	public static void setDbModelVersion() {
 		setDbModelVersion(MigrationConstants.Application.DB_MODEL_VERSION.toString());
 	}
 
+	/**
+	 * Sets the db model version.
+	 *
+	 * @param version the new db model version
+	 */
 	public static void setDbModelVersion(String version) {
 		try {
 			Internal internal = doSelectByKey(KEY_DB_MODEL_VERSION);
@@ -323,6 +439,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Sets the scale factor book.
+	 *
+	 * @param scaleFactor the new scale factor book
+	 */
 	public static void setScaleFactorBook(int scaleFactor) {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_BOOK);
@@ -337,6 +458,11 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Sets the scale factor chrono.
+	 *
+	 * @param scaleFactor the new scale factor chrono
+	 */
 	public static void setScaleFactorChrono(int scaleFactor) {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_CHRONO);
@@ -351,12 +477,20 @@ public class InternalPeer {
 		}
 	}
 
+	/**
+	 * Sets the scale factor defaults.
+	 */
 	public static void setScaleFactorDefaults() {
 		setScaleFactorBook(MigrationConstants.DEFAULT_SCALE_FACTOR_BOOK);
 		setScaleFactorChrono(MigrationConstants.DEFAULT_SCALE_FACTOR_CHRONO);
 		setScaleFactorManage(MigrationConstants.DEFAULT_SCALE_FACTOR_MANAGE);
 	}
 
+	/**
+	 * Sets the scale factor manage.
+	 *
+	 * @param scaleFactor the new scale factor manage
+	 */
 	public static void setScaleFactorManage(int scaleFactor) {
 		try {
 			Internal internal = doSelectByKey(MigrationConstants.ProjectSetting.SCALE_FACTOR_MANAGE);

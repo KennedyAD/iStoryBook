@@ -24,28 +24,44 @@ import storybook.model.hbn.entity.Internal;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class InternalEntityHandler.
  *
+ * @author martin
  */
 public class InternalEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new internal entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public InternalEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getInternalColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Internal internal = new Internal();
 		return internal;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) InternalDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

@@ -22,15 +22,32 @@ import java.util.Date;
 
 import org.apache.commons.lang3.time.FastDateFormat;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Period.
+ */
 public class Period {
+	
+	/** The start date. */
 	private Date startDate;
+	
+	/** The end date. */
 	private Date endDate;
 
+	/**
+	 * Instantiates a new period.
+	 *
+	 * @param start the start
+	 * @param end the end
+	 */
 	public Period(Date start, Date end) {
 		this.startDate = start;
 		this.endDate = end;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Period)) {
@@ -40,18 +57,39 @@ public class Period {
 		return this.getStartDate().compareTo(p.getStartDate()) == 0 && this.getEndDate().compareTo(p.getEndDate()) == 0;
 	}
 
+	/**
+	 * Gets the end date.
+	 *
+	 * @return the end date
+	 */
 	public Date getEndDate() {
 		return this.endDate;
 	}
 
+	/**
+	 * Gets the short string.
+	 *
+	 * @return the short string
+	 */
 	public String getShortString() {
 		return getString(FastDateFormat.SHORT);
 	}
 
+	/**
+	 * Gets the start date.
+	 *
+	 * @return the start date
+	 */
 	public Date getStartDate() {
 		return this.startDate;
 	}
 
+	/**
+	 * Gets the string.
+	 *
+	 * @param dateFormat the date format
+	 * @return the string
+	 */
 	public String getString(int dateFormat) {
 		if (!isValid()) {
 			return I18N.getMsg("msg.common.invalid.period");
@@ -64,6 +102,9 @@ public class Period {
 		return startStr + " - " + endStr;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 1;
@@ -72,6 +113,12 @@ public class Period {
 		return hash;
 	}
 
+	/**
+	 * Checks if is inside.
+	 *
+	 * @param date the date
+	 * @return true, if is inside
+	 */
 	public boolean isInside(Date date) {
 		if (date.compareTo(startDate) == 0) {
 			return true;
@@ -82,10 +129,21 @@ public class Period {
 		return date.after(startDate) && date.before(endDate);
 	}
 
+	/**
+	 * Checks if is overlapping.
+	 *
+	 * @param p the p
+	 * @return true, if is overlapping
+	 */
 	public boolean isOverlapping(Period p) {
 		return this.getStartDate().compareTo(p.getEndDate()) < 0 && this.getEndDate().compareTo(p.getStartDate()) > 0;
 	}
 
+	/**
+	 * Checks if is valid.
+	 *
+	 * @return true, if is valid
+	 */
 	public boolean isValid() {
 		if (startDate == null || endDate == null) {
 			return false;
@@ -93,6 +151,9 @@ public class Period {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getString(FastDateFormat.LONG);

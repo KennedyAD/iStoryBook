@@ -28,19 +28,33 @@ import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PersonsLegendPanel.
+ */
 public class PersonsLegendPanel extends AbstractLegendPanel {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7740120587813935654L;
+	
+	/** The collection. */
 	private Collection<Person> collection;
 
+	/**
+	 * Instantiates a new persons legend panel.
+	 *
+	 * @param paramMainFrame the param main frame
+	 * @param paramSet the param set
+	 */
 	public PersonsLegendPanel(MainFrame paramMainFrame, Set<Person> paramSet) {
 		super(paramMainFrame);
 		this.collection = paramSet;
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.legend.AbstractLegendPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap 10"));

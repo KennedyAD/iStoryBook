@@ -36,19 +36,37 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractRenameDialog.
+ */
 abstract public class AbstractRenameDialog extends AbstractDialog implements ActionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7481223379226051389L;
+	
+	/** The tf new name. */
 	private JTextField tfNewName;
+	
+	/** The combo. */
 	// protected MainFrame mainFrame;
 	protected JComboBox<String> combo;
 
+	/**
+	 * Instantiates a new abstract rename dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractRenameDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		this.mainFrame = mainFrame;
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox<String> cb = (JComboBox<String>) e.getSource();
@@ -64,6 +82,12 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		});
 	}
 
+	/**
+	 * Creates the category combo.
+	 *
+	 * @param list the list
+	 * @return the j combo box
+	 */
 	private JComboBox<String> createCategoryCombo(List<String> list) {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (String category : list) {
@@ -74,9 +98,17 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		return cob;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getCancelAction()
+	 */
 	@Override
 	protected AbstractAction getCancelAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4028918884414175835L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				getThis().dispose();
@@ -84,13 +116,31 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		};
 	}
 
+	/**
+	 * Gets the dlg title.
+	 *
+	 * @return the dlg title
+	 */
 	abstract protected String getDlgTitle();
 
+	/**
+	 * Gets the list.
+	 *
+	 * @return the list
+	 */
 	abstract protected List<String> getList();
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3838335759831382616L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				String oldValue = (String) combo.getSelectedItem();
@@ -101,14 +151,25 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		};
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	private AbstractRenameDialog getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		MigLayout layout = new MigLayout("wrap 4", "[]", "[]20[]");
@@ -155,12 +216,28 @@ abstract public class AbstractRenameDialog extends AbstractDialog implements Act
 		add(btCancel, "sg");
 	}
 
+	/**
+	 * Rename.
+	 *
+	 * @param oldValue the old value
+	 * @param newValue the new value
+	 */
 	abstract protected void rename(String oldValue, String newValue);
 
+	/**
+	 * Sets the selected item.
+	 *
+	 * @param obj the new selected item
+	 */
 	public void setSelectedItem(Object obj) {
 		combo.setSelectedItem(obj);
 	}
 
+	/**
+	 * Sets the value.
+	 *
+	 * @param value the new value
+	 */
 	public void setValue(String value) {
 		combo.setSelectedItem(value);
 	}

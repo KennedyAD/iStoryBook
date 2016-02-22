@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Preference;
 
+/**
+ * The Interface PreferenceDAO.
+ */
 public interface PreferenceDAO extends GenericDAO<Preference, Long> {
 
 }

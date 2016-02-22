@@ -29,35 +29,67 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public abstract class AbstractDialog extends JDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4607616589683708476L;
+	
+	/** The main frame. */
 	protected MainFrame mainFrame;
+	
+	/** The parent. */
 	protected JComponent parent;
 
+	/** The canceled. */
 	protected boolean canceled = false;
 
+	/**
+	 * Instantiates a new abstract dialog.
+	 */
 	public AbstractDialog() {
 		this.mainFrame = null;
 		this.parent = null;
 	}
 
+	/**
+	 * Instantiates a new abstract dialog.
+	 *
+	 * @param parent the parent
+	 */
 	public AbstractDialog(JComponent parent) {
 		this.parent = parent;
 		this.mainFrame = null;
 	}
 
+	/**
+	 * Instantiates a new abstract dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractDialog(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.parent = null;
 	}
 
+	/**
+	 * Gets the cancel action.
+	 *
+	 * @return the cancel action
+	 */
 	protected AbstractAction getCancelAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 319611570268904313L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				canceled = true;
@@ -66,6 +98,11 @@ public abstract class AbstractDialog extends JDialog {
 		};
 	}
 
+	/**
+	 * Gets the cancel button.
+	 *
+	 * @return the cancel button
+	 */
 	protected JButton getCancelButton() {
 		AbstractAction act = getCancelAction();
 		JButton bt = new JButton(act);
@@ -75,6 +112,11 @@ public abstract class AbstractDialog extends JDialog {
 		return bt;
 	}
 
+	/**
+	 * Gets the close button.
+	 *
+	 * @return the close button
+	 */
 	protected JButton getCloseButton() {
 		JButton bt = new JButton(getOkAction());
 		bt.setIcon(I18N.getIcon("icon.small.close"));
@@ -82,8 +124,18 @@ public abstract class AbstractDialog extends JDialog {
 		return bt;
 	}
 
+	/**
+	 * Gets the ok action.
+	 *
+	 * @return the ok action
+	 */
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -128459478086427802L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				canceled = false;
@@ -92,6 +144,11 @@ public abstract class AbstractDialog extends JDialog {
 		};
 	}
 
+	/**
+	 * Gets the ok button.
+	 *
+	 * @return the ok button
+	 */
 	protected JButton getOkButton() {
 		AbstractAction act = getOkAction();
 		JButton bt = new JButton(act);
@@ -101,19 +158,33 @@ public abstract class AbstractDialog extends JDialog {
 		return bt;
 	}
 
+	/**
+	 * Inits the.
+	 */
 	abstract public void init();
 
+	/**
+	 * Inits the all.
+	 */
 	public void initAll() {
 		init();
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	public void initUi() {
 		if (mainFrame != null) {
 			setIconImage(mainFrame.getIconImage());
 		}
 	}
 
+	/**
+	 * Checks if is canceled.
+	 *
+	 * @return true, if is canceled
+	 */
 	public boolean isCanceled() {
 		return canceled;
 	}

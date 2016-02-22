@@ -28,41 +28,87 @@ import java.awt.Paint;
 
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GradientPanel.
+ */
 public class GradientPanel extends JPanel {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7223040092409995351L;
+	
+	/** The Constant HORIZONTAL. */
 	public final static int HORIZONTAL = 0;
+	
+	/** The Constant VERTICAL. */
 	public final static int VERTICAL = 1;
+	
+	/** The Constant DIAGONAL_LEFT. */
 	public final static int DIAGONAL_LEFT = 2;
+	
+	/** The Constant DIAGONAL_RIGHT. */
 	public final static int DIAGONAL_RIGHT = 3;
 
+	/** The direction. */
 	private int direction = HORIZONTAL;
+	
+	/** The cyclic. */
 	private boolean cyclic;
+	
+	/** The max length. */
 	private int maxLength;
 
+	/**
+	 * Instantiates a new gradient panel.
+	 */
 	public GradientPanel() {
 		this(HORIZONTAL);
 	}
 
+	/**
+	 * Instantiates a new gradient panel.
+	 *
+	 * @param direction the direction
+	 */
 	public GradientPanel(int direction) {
 		super(new BorderLayout());
 		setOpaque(false);
 		this.direction = direction;
 	}
 
+	/**
+	 * Instantiates a new gradient panel.
+	 *
+	 * @param layoutManager the layout manager
+	 */
 	public GradientPanel(LayoutManager layoutManager) {
 		super(layoutManager);
 		setOpaque(false);
 		this.direction = HORIZONTAL;
 	}
 
+	/**
+	 * Gets the direction.
+	 *
+	 * @return the direction
+	 */
 	public int getDirection() {
 		return direction;
 	}
 
+	/**
+	 * Checks if is cyclic.
+	 *
+	 * @return true, if is cyclic
+	 */
 	public boolean isCyclic() {
 		return cyclic;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		if (isOpaque()) {
@@ -120,14 +166,29 @@ public class GradientPanel extends JPanel {
 		super.paintComponent(g);
 	}
 
+	/**
+	 * Sets the cyclic.
+	 *
+	 * @param cyclic the new cyclic
+	 */
 	public void setCyclic(boolean cyclic) {
 		this.cyclic = cyclic;
 	}
 
+	/**
+	 * Sets the direction.
+	 *
+	 * @param direction the new direction
+	 */
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
 
+	/**
+	 * Sets the max length.
+	 *
+	 * @param maxLength the new max length
+	 */
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
 	}

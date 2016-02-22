@@ -17,23 +17,39 @@ package storybook.exporter;
 
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class InfoExporter.
  *
  * @author martin
  */
 public class InfoExporter extends AbstractExporter {
 
+	/** The text. */
 	private String text = "";
 
+	/**
+	 * Instantiates a new info exporter.
+	 *
+	 * @param m the m
+	 */
 	public InfoExporter(MainFrame m) {
 		super(m, true);
 	}
 
+	/** (non-Javadoc)
+	 * @see storybook.exporter.AbstractExporter#getContent()
+	 */
 	@Override
 	public StringBuffer getContent() {
 		return new StringBuffer(this.text);
 	}
 
+	/**
+	 * Sets the content.
+	 *
+	 * @param s the new content
+	 */
 	public void setContent(String s) {
 		this.text = s;
 	}

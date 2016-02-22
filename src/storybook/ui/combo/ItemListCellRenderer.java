@@ -26,13 +26,21 @@ import javax.swing.JList;
 
 import storybook.model.hbn.entity.Item;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ItemListCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ItemListCellRenderer extends DefaultListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -3578966279129323359L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

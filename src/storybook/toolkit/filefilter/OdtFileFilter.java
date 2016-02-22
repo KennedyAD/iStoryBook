@@ -17,11 +17,17 @@ package storybook.toolkit.filefilter;
 
 import java.io.File;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class OdtFileFilter.
  *
  * @author favdb
  */
 public class OdtFileFilter extends javax.swing.filechooser.FileFilter {
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 */
 	@Override
 	public boolean accept(File file) {
 		if (file.isDirectory()) {
@@ -31,6 +37,9 @@ public class OdtFileFilter extends javax.swing.filechooser.FileFilter {
 		return filename.endsWith(".odt");
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return ("Open Document File (*.odt)");

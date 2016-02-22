@@ -27,22 +27,51 @@ import storybook.SbApp;
 import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DTScenePanel.
+ */
 public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4212133801662362621L;
+	
+	/** The first mouse event. */
 	private MouseEvent firstMouseEvent = null;
+	
+	/** The previous number. */
 	private int previousNumber = 0;
 
+	/**
+	 * Instantiates a new DT scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param type the type
+	 */
 	public DTScenePanel(MainFrame mainFrame, int type) {
 		this(mainFrame, null, type);
 		SbApp.trace("DTScenePanel_type(" + mainFrame.getName() + "," + type + ")");
 	}
 
+	/**
+	 * Instantiates a new DT scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public DTScenePanel(MainFrame mainFrame, Scene scene) {
 		this(mainFrame, scene, TYPE_NONE);
 		SbApp.trace("DTScenePanel_scene(" + mainFrame.getName() + "," + scene.getFullTitle() + ")");
 	}
 
+	/**
+	 * Instantiates a new DT scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param type the type
+	 */
 	public DTScenePanel(MainFrame mainFrame, Scene scene, int type) {
 		super(mainFrame, scene, type);
 		SbApp.trace("DTScenePanel_full(" + mainFrame.getName() + "," + ((scene != null) ? scene.getFullTitle() : "null")
@@ -51,10 +80,18 @@ public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 		setAutoscrolls(true);
 	}
 
+	/**
+	 * Gets the previous number.
+	 *
+	 * @return the previous number
+	 */
 	public int getPreviousNumber() {
 		return previousNumber;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (getScene() == null) {
@@ -87,10 +124,16 @@ public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.manage.dnd.ScenePanel#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (getScene() == null) {
@@ -100,11 +143,19 @@ public class DTScenePanel extends ScenePanel implements MouseMotionListener {
 		e.consume();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.manage.dnd.ScenePanel#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		firstMouseEvent = null;
 	}
 
+	/**
+	 * Sets the previous number.
+	 *
+	 * @param previousNumber the new previous number
+	 */
 	public void setPreviousNumber(int previousNumber) {
 		this.previousNumber = previousNumber;
 	}

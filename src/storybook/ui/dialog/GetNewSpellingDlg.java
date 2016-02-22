@@ -18,18 +18,21 @@ import storybook.SbConstants.SpellingToGet;
 import storybook.toolkit.net.HttpFileDownloader;
 import storybook.toolkit.swing.SwingUtil;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class GetNewSpellingDlg.
  *
  * @author favdb
  */
 public class GetNewSpellingDlg extends javax.swing.JDialog {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2454621058330202803L;
+	
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -70,29 +73,56 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 			}
 		});
 	}
+	
+	/** The result spelling. */
 	private String resultSpelling = "";
+	
+	/** The cur lang. */
 	private String curLang;
 
+	/** The bt cancel. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btCancel;
 
+	/** The bt download. */
 	private javax.swing.JButton btDownload;
 
+	/** The cb spelling. */
 	private javax.swing.JComboBox<String> cbSpelling;
 
+	/** The j label1. */
 	private javax.swing.JLabel jLabel1;
 
+	/** The j label2. */
 	private javax.swing.JLabel jLabel2;
 
+	/** The j label3. */
 	private javax.swing.JLabel jLabel3;
 
+	/** The j label4. */
 	private javax.swing.JLabel jLabel4;
+	
+	/** The j label5. */
 	private javax.swing.JLabel jLabel5;
+	
+	/** The tx input. */
 	private javax.swing.JTextField txInput;
+	
+	/** The tx output. */
 	private javax.swing.JTextField txOutput;
+	
+	/** The tx result. */
 	private javax.swing.JTextField txResult;
+	
+	/** The tx size downloaded. */
 	private javax.swing.JTextField txSizeDownloaded;
+	
+	/** The tx size expected. */
 	private javax.swing.JTextField txSizeExpected;
+	
+	/**
+	 * Instantiates a new gets the new spelling dlg.
+	 */
 	// End of variables declaration//GEN-END:variables
 	GetNewSpellingDlg() {
 		super(new javax.swing.JFrame(), true);
@@ -104,16 +134,32 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		txSizeDownloaded.setText("");
 		txResult.setText("");
 	}
+	
 	/**
-	 * Creates new form GetNewSpellingDialog
+	 * Creates new form GetNewSpellingDialog.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
 	 */
 	public GetNewSpellingDlg(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 	}
+	
+	/**
+	 * Bt cancel action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
 		dispose();
 	}// GEN-LAST:event_btCancelActionPerformed
+	
+	/**
+	 * Bt download action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btDownloadActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btDownloadActionPerformed
 		if ("".equals(txInputSet()))
 			return;
@@ -123,9 +169,19 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		resultSpelling = (String) cbSpelling.getSelectedItem();
 		dispose();
 	}// GEN-LAST:event_btDownloadActionPerformed
+	
+	/**
+	 * Cb spelling item state changed.
+	 *
+	 * @param evt the evt
+	 */
 	private void cbSpellingItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_cbSpellingItemStateChanged
 		// txInputSet();
 	}// GEN-LAST:event_cbSpellingItemStateChanged
+	
+	/**
+	 * Creates the spelling to get.
+	 */
 	private void createSpellingToGet() {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (SpellingToGet spelling : SpellingToGet.values()) {
@@ -136,6 +192,11 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		cbSpelling.setModel(model);
 	}
 
+	/**
+	 * Gets the file list.
+	 *
+	 * @return the file list
+	 */
 	private boolean getFileList() {
 		System.out.println(curLang);
 		String inFile = SbConstants.URL.WEB.toString() + "languagetool/list.lst";
@@ -181,6 +242,13 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		return (true);
 	}
 
+	/**
+	 * Gets the one file.
+	 *
+	 * @param inFile the in file
+	 * @param outFile the out file
+	 * @return the one file
+	 */
 	private boolean getOneFile(String inFile, String outFile) {
 		txInput.setText(inFile);
 		txOutput.setText(outFile);
@@ -340,10 +408,20 @@ public class GetNewSpellingDlg extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Result.
+	 *
+	 * @return the string
+	 */
 	public String result() {
 		return (resultSpelling);
 	}
 
+	/**
+	 * Tx input set.
+	 *
+	 * @return the string
+	 */
 	private String txInputSet() {
 		String ix = (String) cbSpelling.getSelectedItem();
 		String f = "";

@@ -36,16 +36,34 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandDAOImpl.
+ */
 public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements StrandDAO {
 
+	/**
+	 * Instantiates a new strand dao impl.
+	 */
 	public StrandDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new strand dao impl.
+	 *
+	 * @param session the session
+	 */
 	public StrandDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Check if number exists.
+	 *
+	 * @param entity the entity
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkIfNumberExists(AbstractEntity entity) {
 		try {
@@ -88,6 +106,13 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		}
 	}
 
+	/**
+	 * Count by date.
+	 *
+	 * @param date the date
+	 * @param strand the strand
+	 * @return the long
+	 */
 	public long countByDate(Date date, Strand strand) {
 		// select count(id) from SCENE
 		// where date='2008-03-17' and strand_id=1
@@ -99,6 +124,11 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		return count;
 	}
 
+	/**
+	 * Find all order by sort.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Strand> findAllOrderBySort() {
 		Criteria crit = session.createCriteria(Strand.class);
@@ -106,6 +136,12 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		return crit.list();
 	}
 
+	/**
+	 * Find scenes.
+	 *
+	 * @param strand the strand
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenes(Strand strand) {
 		Query query = session.createQuery("select s from Scene as s left join s.chapter as ch"
@@ -115,16 +151,31 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		return ret;
 	}
 
+	/**
+	 * Gets the max sort.
+	 *
+	 * @return the max sort
+	 */
 	public int getMaxSort() {
 		Query query = session.createQuery("select max(sort) from Strand");
 		Integer ret = (Integer) query.uniqueResult();
 		return ret;
 	}
 
+	/**
+	 * Gets the next sort.
+	 *
+	 * @return the next sort
+	 */
 	public int getNextSort() {
 		return getMaxSort() + 1;
 	}
 
+	/**
+	 * Order down strand.
+	 *
+	 * @param strand the strand
+	 */
 	public void orderDownStrand(Strand strand) {
 		session.refresh(strand);
 		int strandSort = strand.getSort();
@@ -146,6 +197,9 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		session.update(lower);
 	}
 
+	/**
+	 * Order strands.
+	 */
 	public void orderStrands() {
 		int i = 0;
 		for (Strand s : findAllOrderBySort()) {
@@ -155,6 +209,11 @@ public class StrandDAOImpl extends SbGenericDAOImpl<Strand, Long> implements Str
 		}
 	}
 
+	/**
+	 * Order up strand.
+	 *
+	 * @param strand the strand
+	 */
 	public void orderUpStrand(Strand strand) {
 		if (strand.getSort() == 0) {
 			// already on top

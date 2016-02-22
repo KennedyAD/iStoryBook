@@ -24,30 +24,57 @@ import storybook.model.state.SceneState;
 import storybook.toolkit.I18N;
 import storybook.ui.interfaces.IRefreshable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneStateLabel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class SceneStateLabel extends JLabel implements IRefreshable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7308695876398053960L;
+	
+	/** The state. */
 	private SceneState state;
+	
+	/** The icon only. */
 	private boolean iconOnly;
 
+	/**
+	 * Instantiates a new scene state label.
+	 *
+	 * @param state the state
+	 */
 	public SceneStateLabel(SceneState state) {
 		this(state, false);
 	}
 
+	/**
+	 * Instantiates a new scene state label.
+	 *
+	 * @param state the state
+	 * @param iconOnly the icon only
+	 */
 	public SceneStateLabel(SceneState state, boolean iconOnly) {
 		this.state = state;
 		this.iconOnly = iconOnly;
 		refresh();
 	}
 
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
 	public SceneState getState() {
 		return state;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IRefreshable#refresh()
+	 */
 	@Override
 	public void refresh() {
 		if (!iconOnly) {
@@ -57,6 +84,11 @@ public class SceneStateLabel extends JLabel implements IRefreshable {
 		setToolTipText(I18N.getMsgColon("msg.status") + " " + state);
 	}
 
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
 	public void setState(SceneState state) {
 		this.state = state;
 	}

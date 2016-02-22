@@ -29,8 +29,20 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ODTUtils.
+ */
 public final class ODTUtils {
 
+	/**
+	 * Append elements.
+	 *
+	 * @param mainFrame the main frame
+	 * @param dest the dest
+	 * @param chapter the chapter
+	 * @param sceneSeparator the scene separator
+	 */
 	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Chapter chapter,
 			String sceneSeparator) {
 
@@ -68,6 +80,14 @@ public final class ODTUtils {
 		}
 	}
 
+	/**
+	 * Append elements.
+	 *
+	 * @param mainFrame the main frame
+	 * @param dest the dest
+	 * @param part the part
+	 * @param sceneSeparator the scene separator
+	 */
 	private static void appendElements(MainFrame mainFrame, ODSingleXMLDocument dest, Part part,
 			String sceneSeparator) {
 
@@ -92,6 +112,14 @@ public final class ODTUtils {
 		}
 	}
 
+	/**
+	 * Append element sizes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param chapter the chapter
+	 * @param sizes the sizes
+	 * @return the int
+	 */
 	private static int appendElementSizes(MainFrame mainFrame, Chapter chapter, Map<Object, Integer> sizes) {
 
 		int ret = 0;
@@ -118,6 +146,14 @@ public final class ODTUtils {
 		return ret;
 	}
 
+	/**
+	 * Append element sizes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param part the part
+	 * @param sizes the sizes
+	 * @return the int
+	 */
 	private static int appendElementSizes(MainFrame mainFrame, Part part, Map<Object, Integer> sizes) {
 
 		int ret = 0;
@@ -140,6 +176,13 @@ public final class ODTUtils {
 		return ret;
 	}
 
+	/**
+	 * Creates the book file.
+	 *
+	 * @param mainFrame the main frame
+	 * @param output the output
+	 * @param sceneSeparator the scene separator
+	 */
 	public static void createBookFile(MainFrame mainFrame, File output, String sceneSeparator) {
 		ODSingleXMLDocument dest = null;
 		try {
@@ -219,6 +262,13 @@ public final class ODTUtils {
 		return ret;
 	}
 
+	/**
+	 * Gets the default file path.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @return the default file path
+	 */
 	public static String getDefaultFilePath(MainFrame mainFrame, Scene scene) {
 		// Have to calculate path from information
 		String path = mainFrame.getDbFile().getPath();
@@ -253,11 +303,9 @@ public final class ODTUtils {
 
 	/**
 	 * Get character size of an ODT file.
-	 * 
-	 * @param filePath
-	 *            path to the file
-	 * @param wordCount
-	 *            true to count words instead of characters
+	 *
+	 * @param filePath            path to the file
+	 * @param countWords the count words
 	 * @return the size in characters (approximated) or zero.
 	 */
 	public static int getDocumentSizeOrWords(String filePath, boolean countWords) {
@@ -291,6 +339,12 @@ public final class ODTUtils {
 		return getDocumentSizeOrWords(filePath, true);
 	}
 
+	/**
+	 * Gets the elements size.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the elements size
+	 */
 	public static Map<Object, Integer> getElementsSize(MainFrame mainFrame) {
 		Map<Object, Integer> sizes = new HashMap<Object, Integer>();
 		// Get scenes
@@ -308,6 +362,13 @@ public final class ODTUtils {
 		return sizes;
 	}
 
+	/**
+	 * Gets the file path.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @return the file path
+	 */
 	public static String getFilePath(MainFrame mainFrame, Scene scene) {
 		String stored = scene.getOdf();
 		if ((stored != null) && (!stored.isEmpty())) {
@@ -317,10 +378,23 @@ public final class ODTUtils {
 		}
 	}
 
+	/**
+	 * Gets the scenes size.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the scenes size
+	 */
 	public static Map<Scene, Integer> getScenesSize(MainFrame mainFrame) {
 		return getScenesSizeOrWords(mainFrame, false);
 	}
 
+	/**
+	 * Gets the scenes size or words.
+	 *
+	 * @param mainFrame the main frame
+	 * @param wordsCount the words count
+	 * @return the scenes size or words
+	 */
 	private static Map<Scene, Integer> getScenesSizeOrWords(MainFrame mainFrame, boolean wordsCount) {
 		Map<Scene, Integer> sceneSizes = new HashMap<Scene, Integer>();
 		// Get scenes
@@ -353,6 +427,12 @@ public final class ODTUtils {
 		return sceneSizes;
 	}
 
+	/**
+	 * Gets the scenes words.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the scenes words
+	 */
 	public static Map<Scene, Integer> getScenesWords(MainFrame mainFrame) {
 		return getScenesSizeOrWords(mainFrame, true);
 	}
@@ -384,6 +464,13 @@ public final class ODTUtils {
 		return ret;
 	}
 
+	/**
+	 * Gets the size.
+	 *
+	 * @param mainFrame the main frame
+	 * @param object the object
+	 * @return the size
+	 */
 	public static int getSize(MainFrame mainFrame, Object object) {
 
 		int ret = 0;
@@ -421,6 +508,9 @@ public final class ODTUtils {
 		return ret;
 	}
 
+	/**
+	 * Instantiates a new ODT utils.
+	 */
 	private ODTUtils() {
 		// never used.
 	}

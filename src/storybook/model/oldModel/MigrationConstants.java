@@ -23,24 +23,51 @@ import java.util.Locale;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class MigrationConstants.
  *
  * @author favdb
  */
 // @Deprecated
 public class MigrationConstants {
+	
+	/**
+	 * The Enum ActionKey.
+	 */
 	public enum ActionKey {
-		CHAPTER_OR_SCENE("chapter_or_scene"), FILE("file"), MEMORIA_DBOBJ("memoria_dbobj");
+		
+		/** The chapter or scene. */
+		CHAPTER_OR_SCENE("chapter_or_scene"), 
+ /** The file. */
+ FILE("file"), 
+ /** The memoria dbobj. */
+ MEMORIA_DBOBJ("memoria_dbobj");
+		
+		/** The key. */
 		final private String key;
 
+		/**
+		 * Instantiates a new action key.
+		 *
+		 * @param key the key
+		 */
 		private ActionKey(String key) {
 			this.key = key;
 		}
 
+		/**
+		 * Gets the key.
+		 *
+		 * @return the key
+		 */
 		public String getKey() {
 			return key;
 		};
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return key;
@@ -51,9 +78,13 @@ public class MigrationConstants {
 	 */
 	public enum Application {
 		/** The application name. */
-		NAME("Storybook"), NAME_PRO("Storybook Pro"),
+		NAME("Storybook"), 
+ /** The name pro. */
+ NAME_PRO("Storybook Pro"),
 		/** The application slogan. */
-		SLOGAN(NAME + " - Open Source Novel Writing Software"), SLOGAN_PRO(
+		SLOGAN(NAME + " - Open Source Novel Writing Software"), 
+ /** The slogan pro. */
+ SLOGAN_PRO(
 				NAME_PRO + " - Open Source Novel Writing Software"),
 		/** The application release date. */
 		RELEASE_DATE("2011-12-05"),
@@ -61,14 +92,19 @@ public class MigrationConstants {
 		VERSION("3.2.0"),
 		/** The version for Storybook Pro. */
 		VERSION_PRO("3.2.0"),
-		/** pro version */
+		
+		/**  pro version. */
 		IS_PRO_VERSION("true"),
-		/** for journalistic review */
+		
+		/**  for journalistic review. */
 		IS_FOR_REVIEW("false"),
 		/** The application slogan and version. */
-		SLOGAN_AND_VERSION(SLOGAN + " - Version " + VERSION), SLOGAN_AND_VERSION_PRO(
+		SLOGAN_AND_VERSION(SLOGAN + " - Version " + VERSION), 
+ /** The slogan and version pro. */
+ SLOGAN_AND_VERSION_PRO(
 				SLOGAN_PRO + " - Version " + VERSION_PRO),
-		/** The application home page URL */
+		
+		/**  The application home page URL. */
 		URL("http://www.novelist.ch"),
 		/** The application slogan and URL. */
 		SLOGAN_AND_URL(SLOGAN + " - " + URL),
@@ -91,38 +127,76 @@ public class MigrationConstants {
 		 */
 		SETTINGS_XML_FILE("configuration.xml"),
 		/** The name of the log4j XML file. */
-		LOG4J_XML_FILE("/log4j.xml"), GOPRO_URL("http://www.novelist.ch/gopro/3_1");
+		LOG4J_XML_FILE("/log4j.xml"), 
+ /** The gopro url. */
+ GOPRO_URL("http://www.novelist.ch/gopro/3_1");
 
+		/** The text. */
 		final private String text;
 
+		/**
+		 * Instantiates a new application.
+		 *
+		 * @param text the text
+		 */
 		private Application(String text) {
 			this.text = text;
 		}
 
+		/**
+		 * To boolean.
+		 *
+		 * @return true, if successful
+		 */
 		public boolean toBoolean() {
 			return Boolean.parseBoolean(this.text);
 		}
 
+		/**
+		 * To integer.
+		 *
+		 * @return the int
+		 */
 		public int toInteger() {
 			return Integer.parseInt(this.text);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
 	/**
-	 * common component names
+	 * common component names.
 	 */
 	public enum ComponentName {
-		OK_BUTTON("ok"), CANCEL_BUTTON("cancel"), COLOR_CHOOSER("colorchooser");
+		
+		/** The ok button. */
+		OK_BUTTON("ok"), 
+ /** The cancel button. */
+ CANCEL_BUTTON("cancel"), 
+ /** The color chooser. */
+ COLOR_CHOOSER("colorchooser");
+		
+		/** The text. */
 		final private String text;
 
+		/**
+		 * Instantiates a new component name.
+		 *
+		 * @param text the text
+		 */
 		private ComponentName(String text) {
 			this.text = text;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
@@ -130,21 +204,44 @@ public class MigrationConstants {
 	}
 
 	/**
-	 * icon sizes
+	 * icon sizes.
 	 */
 	public enum IconSize {
-		SMALL(new Dimension(16, 16)), MEDIUM(new Dimension(32, 32)), MEDIUM_WIDE(new Dimension(32, 16)), LARGE(
+		
+		/** The small. */
+		SMALL(new Dimension(16, 16)), 
+ /** The medium. */
+ MEDIUM(new Dimension(32, 32)), 
+ /** The medium wide. */
+ MEDIUM_WIDE(new Dimension(32, 16)), 
+ /** The large. */
+ LARGE(
 				new Dimension(32, 32));
+		
+		/** The dim. */
 		final private Dimension dim;
 
+		/**
+		 * Instantiates a new icon size.
+		 *
+		 * @param text the text
+		 */
 		private IconSize(Dimension text) {
 			this.dim = text;
 		}
 
+		/**
+		 * Gets the dimension.
+		 *
+		 * @return the dimension
+		 */
 		public Dimension getDimension() {
 			return dim;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return dim.toString();
@@ -157,46 +254,75 @@ public class MigrationConstants {
 	 * @see Preference#LANG
 	 */
 	public static enum Language {
-		/** English */
+		
+		/**  English. */
 		en_US,
-		/** German */
+		
+		/**  German. */
 		de_DE,
-		/** Spanish */
+		
+		/**  Spanish. */
 		es_ES,
-		/** Danish */
+		
+		/**  Danish. */
 		da_DK,
-		/** Brazilian Portuguese */
+		
+		/**  Brazilian Portuguese. */
 		pt_BR,
-		/** Italian */
+		
+		/**  Italian. */
 		it_IT,
-		/** French */
+		
+		/**  French. */
 		fr_FR,
-		/** Dutch */
+		
+		/**  Dutch. */
 		nl_NL,
-		/** Hebrew */
+		
+		/**  Hebrew. */
 		iw_IL,
-		/** Finnish */
+		
+		/**  Finnish. */
 		fi_FI,
-		/** Swedish */
+		
+		/**  Swedish. */
 		sv_SE,
-		/** Greek */
+		
+		/**  Greek. */
 		el_GR,
-		/** Japanese */
+		
+		/**  Japanese. */
 		ja_JP,
-		/** Traditional Chinese (Hong Kong) */
+		
+		/**  Traditional Chinese (Hong Kong). */
 		zh_HK,
-		/** Russian */
+		
+		/**  Russian. */
 		ru_RU,
-		/** Czech */
+		
+		/**  Czech. */
 		cs_CZ,
-		/** Simplified Chinese */
+		
+		/**  Simplified Chinese. */
 		zh_CN,
-		/** Polish */
+		
+		/**  Polish. */
 		pl_PL;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
 			return I18N.getMsg("msg.common.language." + name());
 		}
 
+		/**
+		 * Gets the locale.
+		 *
+		 * @return the locale
+		 */
 		public Locale getLocale() {
 			Locale locale;
 			switch (this) {
@@ -265,13 +391,33 @@ public class MigrationConstants {
 	 * Default life cycles for men / women.
 	 */
 	public enum LifeCycle {
-		CHILDHOOD_YEARS(12), ADOLESCENCE_YEARS(6), ADULTHOOD_YEARS(47), RETIREMENT_YEARS(14);
+		
+		/** The childhood years. */
+		CHILDHOOD_YEARS(12), 
+ /** The adolescence years. */
+ ADOLESCENCE_YEARS(6), 
+ /** The adulthood years. */
+ ADULTHOOD_YEARS(47), 
+ /** The retirement years. */
+ RETIREMENT_YEARS(14);
+		
+		/** The years. */
 		final private int years;
 
+		/**
+		 * Instantiates a new life cycle.
+		 *
+		 * @param years the years
+		 */
 		private LifeCycle(int years) {
 			this.years = years;
 		}
 
+		/**
+		 * Gets the years.
+		 *
+		 * @return the years
+		 */
 		public int getYears() {
 			return this.years;
 		}
@@ -285,9 +431,11 @@ public class MigrationConstants {
 	 * @see Preference#LAF
 	 */
 	public static enum LookAndFeel {
-		/** Cross Platform Look and Feel */
+		
+		/**  Cross Platform Look and Feel. */
 		cross,
-		/** System Look and Feel */
+		
+		/**  System Look and Feel. */
 		system,
 		/**
 		 * Tiny Look and Feel, see
@@ -306,11 +454,20 @@ public class MigrationConstants {
 		 * <a href="https://substance.dev.java.net/">Substance Homepage</a>.
 		 */
 		substance;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
 			return I18N.getMsg("msg.pref.laf." + name());
 		}
 	}
 
+	/**
+	 * The Enum Preference.
+	 */
 	public enum Preference {
 		/** Preference key used for language. */
 		LANG("language"),
@@ -358,12 +515,22 @@ public class MigrationConstants {
 		MEMORIA_WIDTH("memoriawidth"),
 		/** Memoria window height. */
 		MEMORIA_HEIGHT("memoriaheight");
+		
+		/** The text. */
 		final private String text;
 
+		/**
+		 * Instantiates a new preference.
+		 *
+		 * @param text the text
+		 */
 		private Preference(String text) {
 			this.text = text;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
@@ -371,16 +538,30 @@ public class MigrationConstants {
 	}
 
 	/**
-	 * program sub-directories
+	 * program sub-directories.
 	 */
 	public enum ProgramDirectory {
-		DICTS("dict"), LIB("lib");
+		
+		/** The dicts. */
+		DICTS("dict"), 
+ /** The lib. */
+ LIB("lib");
+		
+		/** The text. */
 		final private String text;
 
+		/**
+		 * Instantiates a new program directory.
+		 *
+		 * @param text the text
+		 */
 		private ProgramDirectory(String text) {
 			this.text = text;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
@@ -388,16 +569,32 @@ public class MigrationConstants {
 	}
 
 	/**
-	 * project sub-directories
+	 * project sub-directories.
 	 */
 	public enum ProjectDirectory {
-		PROJECTS("projects"), BACKUP("backups"), USER_DICTS("dicts");
+		
+		/** The projects. */
+		PROJECTS("projects"), 
+ /** The backup. */
+ BACKUP("backups"), 
+ /** The user dicts. */
+ USER_DICTS("dicts");
+		
+		/** The text. */
 		final private String text;
 
+		/**
+		 * Instantiates a new project directory.
+		 *
+		 * @param text the text
+		 */
 		private ProjectDirectory(String text) {
 			this.text = text;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
@@ -412,16 +609,59 @@ public class MigrationConstants {
 	 * Project settings. Note key length must be <= 16 (DB field).
 	 */
 	public enum ProjectSetting {
-		VIEW("view"), VIEW_BOOK("bookview"), VIEW_CHRONO("chronoview"), VIEW_MANAGE("manageview"), VIEW_POV(
-				"povview"), SCALE_CHRONO("chronoscale"), SCALE_BOOK("bookscale"), SCALE_MANAGE("managescale"), PART_ID(
-						"partid"), RAW_EXPORT_LAST_FILENAME("rawexplastfile"), EXPORT_LAST_DIRECTORY(
-								"exportlastdir"), MEMORIA_TREE("memoriaballoon"), SCALE_FACTOR_CHRONO(
-										"sfchrono"), SCALE_FACTOR_BOOK("sfbook"), SCALE_FACTOR_MANAGE("sfmanage"),
+		
+		/** The view. */
+		VIEW("view"), 
+ /** The view book. */
+ VIEW_BOOK("bookview"), 
+ /** The view chrono. */
+ VIEW_CHRONO("chronoview"), 
+ /** The view manage. */
+ VIEW_MANAGE("manageview"), 
+ /** The view pov. */
+ VIEW_POV(
+				"povview"), 
+ /** The scale chrono. */
+ SCALE_CHRONO("chronoscale"), 
+ /** The scale book. */
+ SCALE_BOOK("bookscale"), 
+ /** The scale manage. */
+ SCALE_MANAGE("managescale"), 
+ /** The part id. */
+ PART_ID(
+						"partid"), 
+ /** The raw export last filename. */
+ RAW_EXPORT_LAST_FILENAME("rawexplastfile"), 
+ /** The export last directory. */
+ EXPORT_LAST_DIRECTORY(
+								"exportlastdir"), 
+ /** The memoria tree. */
+ MEMORIA_TREE("memoriaballoon"), 
+ /** The scale factor chrono. */
+ SCALE_FACTOR_CHRONO(
+										"sfchrono"), 
+ /** The scale factor book. */
+ SCALE_FACTOR_BOOK("sfbook"), 
+ /** The scale factor manage. */
+ SCALE_FACTOR_MANAGE("sfmanage"),
 		/**
 		 * Chrono view alignment, @see {@link NewChronoContentPanel.Alignment}
 		 */
-		CHRONO_VIEW_ALIGNMENT("chronoalignment"), MANAGE_VIEW_COLS("manageviewcols"), MANAGE_VIEW_TEXT_LENGTH(
-				"manageviewlen"), READING_VIEW("readingview");
+		CHRONO_VIEW_ALIGNMENT("chronoalignment"), 
+ /** The manage view cols. */
+ MANAGE_VIEW_COLS("manageviewcols"), 
+ /** The manage view text length. */
+ MANAGE_VIEW_TEXT_LENGTH(
+				"manageviewlen"), 
+ /** The reading view. */
+ READING_VIEW("readingview");
+		
+		/**
+		 * Value of text.
+		 *
+		 * @param str the str
+		 * @return the project setting
+		 */
 		public static ProjectSetting valueOfText(String str) {
 			for (ProjectSetting ps : ProjectSetting.values()) {
 				if (ps.dbKey.equals(str)) {
@@ -431,12 +671,21 @@ public class MigrationConstants {
 			return null;
 		}
 
+		/** The db key. */
 		final private String dbKey;
 
+		/**
+		 * Instantiates a new project setting.
+		 *
+		 * @param dbKey the db key
+		 */
 		private ProjectSetting(String dbKey) {
 			this.dbKey = dbKey;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return dbKey;
@@ -448,14 +697,13 @@ public class MigrationConstants {
 	//
 
 	/**
-	 * Setting keys used in the XML file
+	 * Setting keys used in the XML file.
 	 *
 	 * @see Application#SETTINGS_XML_FILE
 	 */
 	public static enum Settings {
-		/**
-		 * Directory where the resources such as localization files are located
-		 */
+		
+		/** Directory where the resources such as localization files are located. */
 		resourceDir
 	};
 
@@ -465,7 +713,31 @@ public class MigrationConstants {
 	 * @see Preference#SPELLING
 	 */
 	public static enum Spelling {
-		none, en_US, de_DE, es_ES, it_IT, fr_FR, ru_RU, nl_NL, pl_PL;
+		
+		/** The none. */
+		none, 
+ /** The en_ us. */
+ en_US, 
+ /** The de_ de. */
+ de_DE, 
+ /** The es_ es. */
+ es_ES, 
+ /** The it_ it. */
+ it_IT, 
+ /** The fr_ fr. */
+ fr_FR, 
+ /** The ru_ ru. */
+ ru_RU, 
+ /** The nl_ nl. */
+ nl_NL, 
+ /** The pl_ pl. */
+ pl_PL;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
 			if (this == none) {
 				return I18N.getMsg("msg.pref.spelling.no");
@@ -484,6 +756,12 @@ public class MigrationConstants {
 		openproject,
 		/** Do nothing on start. */
 		donothing;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
 			return I18N.getMsg("msg.pref.start." + name());
 		}
@@ -497,10 +775,13 @@ public class MigrationConstants {
 
 	public static int DEFAULT_SCALE_FACTOR_CHRONO = 30;
 
+	/** The default scale factor book. */
 	public static int DEFAULT_SCALE_FACTOR_BOOK = 50;
 
+	/** The default scale factor manage. */
 	public static int DEFAULT_SCALE_FACTOR_MANAGE = 2;
 
+	/** The expire date. */
 	// month is 0-based
 	public static Calendar expireDate = new GregorianCalendar(2011, 10, 07);
 }

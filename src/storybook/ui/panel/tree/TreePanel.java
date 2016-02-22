@@ -97,46 +97,111 @@ import storybook.ui.MainFrame;
 import storybook.ui.SbView;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TreePanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class TreePanel extends AbstractPanel implements TreeSelectionListener, MouseListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4774383559041175496L;
+	
+	/** The toolbar. */
 	private JToolBar toolbar;
+	
+	/** The tree. */
 	private JTree tree;
+	
+	/** The scroller. */
 	private JScrollPane scroller;
+	
+	/** The bt toogle persons. */
 	private ToggleIconButton btTooglePersons;
+	
+	/** The bt toogle locations. */
 	private ToggleIconButton btToogleLocations;
+	
+	/** The bt toogle scenes. */
 	private ToggleIconButton btToogleScenes;
+	
+	/** The bt toogle tags. */
 	private ToggleIconButton btToogleTags;
+	
+	/** The bt toogle items. */
 	private ToggleIconButton btToogleItems;
+	
+	/** The bt toogle strands. */
 	private ToggleIconButton btToogleStrands;
+	
+	/** The bt toogle parts. */
 	private ToggleIconButton btToogleParts;
+	
+	/** The bt toogle ideas. */
 	private ToggleIconButton btToogleIdeas;
+	
+	/** The toggle button list. */
 	private List<ToggleIconButton> toggleButtonList;
 
+	/** The top node. */
 	private DefaultMutableTreeNode topNode;
+	
+	/** The persons by category node. */
 	private EntityNode personsByCategoryNode;
+	
+	/** The persons by genders node. */
 	private EntityNode personsByGendersNode;
+	
+	/** The locations node. */
 	private EntityNode locationsNode;
+	
+	/** The scenes node. */
 	private EntityNode scenesNode;
+	
+	/** The tags node. */
 	private EntityNode tagsNode;
+	
+	/** The items node. */
 	private EntityNode itemsNode;
+	
+	/** The strands node. */
 	private EntityNode strandsNode;
+	
+	/** The parts node. */
 	private EntityNode partsNode;
+	
+	/** The ideas node. */
 	private EntityNode ideasNode;
 
+	/**
+	 * Instantiates a new tree panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public TreePanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Change tree node.
+	 *
+	 * @param node the node
+	 */
 	private void changeTreeNode(TreeNode node) {
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		model.nodeChanged(node);
 	}
 
+	/**
+	 * Creates the part node.
+	 *
+	 * @param partMap the part map
+	 * @param part the part
+	 * @param root the root
+	 * @return the default mutable tree node
+	 */
 	private DefaultMutableTreeNode createPartNode(Map<Part, DefaultMutableTreeNode> partMap, Part part,
 			DefaultMutableTreeNode root) {
 		DefaultMutableTreeNode node = partMap.get(part);
@@ -153,8 +218,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		return node;
 	}
 
+	/**
+	 * Gets the collapse action.
+	 *
+	 * @return the collapse action
+	 */
 	private AbstractAction getCollapseAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2169331304650385548L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				DefaultMutableTreeNode currentNode = topNode.getNextNode();
@@ -168,8 +243,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the expand action.
+	 *
+	 * @return the expand action
+	 */
 	private AbstractAction getExpandAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -1879226993922368788L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				for (int i = 0; i < tree.getRowCount(); i++) {
@@ -179,6 +264,13 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the paths.
+	 *
+	 * @param tree the tree
+	 * @param expanded the expanded
+	 * @return the paths
+	 */
 	public TreePath[] getPaths(JTree tree, boolean expanded) {
 		TreeNode root = (TreeNode) tree.getModel().getRoot();
 		List<Object> list = new ArrayList<>();
@@ -186,6 +278,15 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		return list.toArray(new TreePath[list.size()]);
 	}
 
+	/**
+	 * Gets the paths.
+	 *
+	 * @param tree the tree
+	 * @param parent the parent
+	 * @param expanded the expanded
+	 * @param list the list
+	 * @return the paths
+	 */
 	public void getPaths(JTree tree, TreePath parent, boolean expanded, List<Object> list) {
 		if (expanded && !tree.isVisible(parent)) {
 			return;
@@ -201,6 +302,13 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	/**
+	 * Gets the persons by category node owner.
+	 *
+	 * @param categoryMap the category map
+	 * @param category the category
+	 * @return the persons by category node owner
+	 */
 	private DefaultMutableTreeNode getPersonsByCategoryNodeOwner(Map<Category, DefaultMutableTreeNode> categoryMap,
 			Category category) {
 		DefaultMutableTreeNode categoryNode = categoryMap.get(category);
@@ -220,8 +328,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		return categoryNode;
 	}
 
+	/**
+	 * Gets the show all action.
+	 *
+	 * @return the show all action
+	 */
 	private AbstractAction getShowAllAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2202571148967942354L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				for (ToggleIconButton button : toggleButtonList) {
@@ -232,8 +350,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the show none action.
+	 *
+	 * @return the show none action
+	 */
 	private AbstractAction getShowNoneAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4458182513114560918L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				for (ToggleIconButton button : toggleButtonList) {
@@ -244,8 +372,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle idea action.
+	 *
+	 * @return the toggle idea action
+	 */
 	private AbstractAction getToggleIdeaAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4246886972362483201L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleIdeas);
@@ -253,8 +391,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle items action.
+	 *
+	 * @return the toggle items action
+	 */
 	private AbstractAction getToggleItemsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3972717215594818071L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleItems);
@@ -262,8 +410,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle locations action.
+	 *
+	 * @return the toggle locations action
+	 */
 	private AbstractAction getToggleLocationsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -806953552503877329L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleLocations);
@@ -271,8 +429,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle parts action.
+	 *
+	 * @return the toggle parts action
+	 */
 	private AbstractAction getTogglePartsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3290776688921568508L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleParts);
@@ -280,8 +448,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle persons action.
+	 *
+	 * @return the toggle persons action
+	 */
 	private AbstractAction getTogglePersonsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7606715687669276426L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btTooglePersons);
@@ -289,8 +467,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle scenes action.
+	 *
+	 * @return the toggle scenes action
+	 */
 	private AbstractAction getToggleScenesAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4546657678421582485L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleScenes);
@@ -298,8 +486,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle strands action.
+	 *
+	 * @return the toggle strands action
+	 */
 	private AbstractAction getToggleStrandsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3794022554071631977L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleStrands);
@@ -307,8 +505,18 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/**
+	 * Gets the toggle tags action.
+	 *
+	 * @return the toggle tags action
+	 */
 	private AbstractAction getToggleTagsAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6118608045255018068L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleSingle(btToogleTags);
@@ -316,10 +524,16 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/**
+	 * Inits the toolbar.
+	 */
 	private void initToolbar() {
 		if (toolbar != null) {
 			return;
@@ -350,6 +564,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		toolbar.add(btCollapse, "top");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill,ins 0"));
@@ -420,6 +637,14 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		tree.addMouseListener(this);
 	}
 
+	/**
+	 * Insert location.
+	 *
+	 * @param location the location
+	 * @param cityNode the city node
+	 * @param sites the sites
+	 * @return the default mutable tree node
+	 */
 	private DefaultMutableTreeNode insertLocation(Location location, DefaultMutableTreeNode cityNode,
 			Map<Location, DefaultMutableTreeNode> sites) {
 		// already inserted
@@ -440,6 +665,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		return locationNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object oldValue = evt.getOldValue();
@@ -472,6 +700,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent evt) {
 		// see also valueChanged()
@@ -501,14 +732,23 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.isPopupTrigger()) {
@@ -516,6 +756,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
@@ -523,6 +766,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		}
 	}
 
+	/**
+	 * Refresh ideas.
+	 */
 	private void refreshIdeas() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -540,6 +786,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh items.
+	 */
 	private void refreshItems() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -568,6 +817,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh locations.
+	 */
 	private void refreshLocations() {
 		Map<Location, DefaultMutableTreeNode> sites = new HashMap<Location, DefaultMutableTreeNode>();
 		Map<String, DefaultMutableTreeNode> nodes = new HashMap<String, DefaultMutableTreeNode>();
@@ -610,6 +862,13 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh node.
+	 *
+	 * @param updEntity the upd entity
+	 * @param oldEntity the old entity
+	 * @return true, if successful
+	 */
 	private boolean refreshNode(AbstractEntity updEntity, AbstractEntity oldEntity) {
 		TreePath[] paths = getPaths(tree, false);
 		for (TreePath path : paths) {
@@ -631,6 +890,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		return false;
 	}
 
+	/**
+	 * Refresh parts.
+	 */
 	private void refreshParts() {
 		Map<Part, DefaultMutableTreeNode> partMap = new HashMap<Part, DefaultMutableTreeNode>();
 		BookModel model = mainFrame.getBookModel();
@@ -643,6 +905,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh persons by category.
+	 */
 	private void refreshPersonsByCategory() {
 		Map<Category, DefaultMutableTreeNode> categoryMap = new HashMap<Category, DefaultMutableTreeNode>();
 		BookModel model = mainFrame.getBookModel();
@@ -664,6 +929,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh persons by gender.
+	 */
 	private void refreshPersonsByGender() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -681,6 +949,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh scenes.
+	 */
 	private void refreshScenes() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -715,6 +986,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh strands.
+	 */
 	private void refreshStrands() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -727,6 +1001,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh tags.
+	 */
 	private void refreshTags() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -755,6 +1032,9 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		model.commit();
 	}
 
+	/**
+	 * Refresh tree.
+	 */
 	private void refreshTree() {
 		String treeState = TreeUtil.getExpansionState(tree, 0);
 		topNode.removeAllChildren();
@@ -806,11 +1086,19 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		TreeUtil.restoreExpanstionState(tree, 0, treeState);
 	}
 
+	/**
+	 * Reload tree model.
+	 */
 	private void reloadTreeModel() {
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		model.reload();
 	}
 
+	/**
+	 * Show popup menu.
+	 *
+	 * @param evt the evt
+	 */
 	private void showPopupMenu(MouseEvent evt) {
 		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
 		DefaultMutableTreeNode selectedNode = null;
@@ -845,6 +1133,11 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		evt.consume();
 	}
 
+	/**
+	 * Toggle.
+	 *
+	 * @param button the button
+	 */
 	private void toggle(ToggleIconButton button) {
 		int count = 0;
 		for (ToggleIconButton bt : toggleButtonList) {
@@ -859,11 +1152,19 @@ public class TreePanel extends AbstractPanel implements TreeSelectionListener, M
 		button.requestFocus();
 	}
 
+	/**
+	 * Toggle single.
+	 *
+	 * @param button the button
+	 */
 	private void toggleSingle(ToggleIconButton button) {
 		// getShowNoneAction().actionPerformed(null);
 		toggle(button);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();

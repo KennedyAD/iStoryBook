@@ -30,17 +30,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.ItemLink;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ItemLinkTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ItemLinkTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4595465439798859259L;
+
+	/**
+	 * Instantiates a new item link table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ItemLinkTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -51,21 +64,33 @@ public class ItemLinkTable extends AbstractTable {
 		return itemLink;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new ItemLink();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("ItemLink");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getItemLinkColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -83,6 +108,9 @@ public class ItemLinkTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
@@ -93,12 +121,18 @@ public class ItemLinkTable extends AbstractTable {
 		ctrl.deleteMultiItemLinks(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		ItemLink itemLink = (ItemLink) getEntityFromRow(row);
 		ctrl.deleteItemLink(itemLink);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -110,6 +144,9 @@ public class ItemLinkTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(itemLink);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setItemLinkToEdit((ItemLink) entity);

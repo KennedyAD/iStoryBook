@@ -26,13 +26,21 @@ import javax.swing.JList;
 
 import storybook.model.hbn.entity.Location;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class LocationListCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class LocationListCellRenderer extends DefaultListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2082345142920024433L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

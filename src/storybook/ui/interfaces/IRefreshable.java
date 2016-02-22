@@ -18,12 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.ui.interfaces;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Interface IRefreshable.
  *
+ * @author martin
  */
 public interface IRefreshable {
 
+	/**
+	 * Refresh.
+	 */
 	void refresh();
 
 }

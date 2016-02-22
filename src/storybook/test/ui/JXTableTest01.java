@@ -39,21 +39,38 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class JXTableTest01.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class JXTableTest01 extends JFrame implements ActionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3652336143488052361L;
+	
+	/** The instance. */
 	private static JXTableTest01 instance;
 
+	/**
+	 * Gets the single instance of JXTableTest01.
+	 *
+	 * @return single instance of JXTableTest01
+	 */
 	public static JXTableTest01 getInstance() {
 		if (instance == null) {
 			instance = new JXTableTest01();
 		}
 		return instance;
 	}
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -62,15 +79,25 @@ public class JXTableTest01 extends JFrame implements ActionListener {
 			}
 		});
 	}
+	
+	/** The table. */
 	private JXTable table;
+	
+	/** The model. */
 	private DefaultTableModel model;
 
+	/** The tf filter. */
 	private JTextField tfFilter;
 
+	/** The bt add. */
 	private JButton btAdd;
 
+	/** The row filter. */
 	private SbRowFilter rowFilter;
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JTextField) {
@@ -89,10 +116,16 @@ public class JXTableTest01 extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		try {
 			setLayout(new MigLayout("fill,flowy"));

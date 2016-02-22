@@ -31,12 +31,29 @@ import storybook.model.hbn.entity.Strand;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractStrandDatePanel.
+ */
 public abstract class AbstractStrandDatePanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 168205137858187946L;
+	
+	/** The strand. */
 	protected Strand strand;
+	
+	/** The date. */
 	protected Date date;
 
+	/**
+	 * Instantiates a new abstract strand date panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param strand the strand
+	 * @param date the date
+	 */
 	public AbstractStrandDatePanel(MainFrame mainFrame, Strand strand, Date date) {
 		super(mainFrame);
 		this.strand = strand;
@@ -45,10 +62,21 @@ public abstract class AbstractStrandDatePanel extends AbstractPanel {
 		initUi();
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * Gets the scene.
+	 *
+	 * @param id the id
+	 * @return the scene
+	 */
 	public Scene getScene(Long id) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -58,10 +86,18 @@ public abstract class AbstractStrandDatePanel extends AbstractPanel {
 		return (scene);
 	}
 
+	/**
+	 * Gets the strand.
+	 *
+	 * @return the strand
+	 */
 	public Strand getStrand() {
 		return strand;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();

@@ -31,16 +31,34 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemLinkDAOImpl.
+ */
 public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements ItemLinkDAO {
 
+	/**
+	 * Instantiates a new item link dao impl.
+	 */
 	public ItemLinkDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new item link dao impl.
+	 *
+	 * @param session the session
+	 */
 	public ItemLinkDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by item.
+	 *
+	 * @param item the item
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemLink> findByItem(Item item) {
 		Criteria crit = session.createCriteria(ItemLink.class);
@@ -49,6 +67,12 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 		return itemLinks;
 	}
 
+	/**
+	 * Find by location.
+	 *
+	 * @param location the location
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemLink> findByLocation(Location location) {
 		Criteria crit = session.createCriteria(ItemLink.class);
@@ -57,6 +81,12 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 		return itemLinks;
 	}
 
+	/**
+	 * Find by person.
+	 *
+	 * @param person the person
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemLink> findByPerson(Person person) {
 		Criteria crit = session.createCriteria(ItemLink.class);
@@ -65,6 +95,12 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 		return itemLinks;
 	}
 
+	/**
+	 * Find by scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemLink> findByScene(Scene scene) {
 		Criteria crit = session.createCriteria(ItemLink.class);
@@ -73,6 +109,12 @@ public class ItemLinkDAOImpl extends SbGenericDAOImpl<ItemLink, Long> implements
 		return itemLinks;
 	}
 
+	/**
+	 * Find by start or end scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ItemLink> findByStartOrEndScene(Scene scene) {
 		Criteria crit = session.createCriteria(ItemLink.class);

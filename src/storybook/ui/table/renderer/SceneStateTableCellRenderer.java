@@ -27,9 +27,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import storybook.model.state.SceneState;
 import storybook.ui.label.SceneStateLabel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SceneStateTableCellRenderer.
+ */
 public class SceneStateTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8172617867331176888L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

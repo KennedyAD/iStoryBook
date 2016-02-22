@@ -65,14 +65,22 @@ import storybook.ui.table.renderer.StrandTableCellRenderer;
 import storybook.ui.table.renderer.StrandsTableCellRenderer;
 import storybook.ui.table.renderer.TimeEventFormatTableCellRenderer;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * A factory for creating SbColumn objects.
  *
+ * @author martin
  */
 public class SbColumnFactory {
 
+	/** The instance. */
 	private static SbColumnFactory instance;
 
+	/**
+	 * Gets the single instance of SbColumnFactory.
+	 *
+	 * @return single instance of SbColumnFactory
+	 */
 	public static SbColumnFactory getInstance() {
 		if (instance == null) {
 			instance = new SbColumnFactory();
@@ -80,9 +88,17 @@ public class SbColumnFactory {
 		return instance;
 	}
 
+	/**
+	 * Instantiates a new sb column factory.
+	 */
 	private SbColumnFactory() {
 	}
 
+	/**
+	 * Gets the attribute columns.
+	 *
+	 * @return the attribute columns
+	 */
 	List<SbColumn> getAttributeColumns() {
 		throw new UnsupportedOperationException("Not supported yet."); // To
 																		// change
@@ -96,6 +112,11 @@ public class SbColumnFactory {
 																		// Templates.
 	}
 
+	/**
+	 * Gets the attributes columns.
+	 *
+	 * @return the attributes columns
+	 */
 	public Vector<SbColumn> getAttributesColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -121,6 +142,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the category columns.
+	 *
+	 * @return the category columns
+	 */
 	public Vector<SbColumn> getCategoryColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -153,6 +179,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the chapter columns.
+	 *
+	 * @return the chapter columns
+	 */
 	public Vector<SbColumn> getChapterColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -222,6 +253,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the gender columns.
+	 *
+	 * @return the gender columns
+	 */
 	public Vector<SbColumn> getGenderColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -261,6 +297,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the id column.
+	 *
+	 * @return the id column
+	 */
 	private SbColumn getIdColumn() {
 		SbColumn col = new SbColumn(0, "Id", "msg.common.id");
 		col.setReadOnly(true);
@@ -269,6 +310,11 @@ public class SbColumnFactory {
 		return col;
 	}
 
+	/**
+	 * Gets the idea columns.
+	 *
+	 * @return the idea columns
+	 */
 	public Vector<SbColumn> getIdeaColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -296,6 +342,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the internal columns.
+	 *
+	 * @return the internal columns
+	 */
 	public Vector<SbColumn> getInternalColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -321,6 +372,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the item columns.
+	 *
+	 * @return the item columns
+	 */
 	public Vector<SbColumn> getItemColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -361,6 +417,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the item link columns.
+	 *
+	 * @return the item link columns
+	 */
 	public Vector<SbColumn> getItemLinkColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -390,6 +451,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the location columns.
+	 *
+	 * @return the location columns
+	 */
 	public Vector<SbColumn> getLocationColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -459,6 +525,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the memo columns.
+	 *
+	 * @return the memo columns
+	 */
 	public Vector<SbColumn> getMemoColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -484,6 +555,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the part columns.
+	 *
+	 * @return the part columns
+	 */
 	public Vector<SbColumn> getPartColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -554,6 +630,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the person columns.
+	 *
+	 * @return the person columns
+	 */
 	public Vector<SbColumn> getPersonColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -636,6 +717,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the relationship columns.
+	 *
+	 * @return the relationship columns
+	 */
 	public Vector<SbColumn> getRelationshipColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -697,6 +783,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the scene columns.
+	 *
+	 * @return the scene columns
+	 */
 	public Vector<SbColumn> getSceneColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -816,6 +907,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the strand columns.
+	 *
+	 * @return the strand columns
+	 */
 	public Vector<SbColumn> getStrandColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -860,6 +956,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the tag columns.
+	 *
+	 * @return the tag columns
+	 */
 	public Vector<SbColumn> getTagColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -900,6 +1001,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the tag link columns.
+	 *
+	 * @return the tag link columns
+	 */
 	public Vector<SbColumn> getTagLinkColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();
@@ -929,6 +1035,11 @@ public class SbColumnFactory {
 		return columns;
 	}
 
+	/**
+	 * Gets the time event columns.
+	 *
+	 * @return the time event columns
+	 */
 	public Vector<SbColumn> getTimeEventColumns() {
 		int i = 1;
 		Vector<SbColumn> columns = new Vector<SbColumn>();

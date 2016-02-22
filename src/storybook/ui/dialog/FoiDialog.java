@@ -31,23 +31,42 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class FoiDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class FoiDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8912966178461715793L;
+	
+	/** The idea editor. */
 	private HtmlEditor ideaEditor;
 
+	/**
+	 * Instantiates a new foi dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public FoiDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6838532279784248404L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				canceled = false;
@@ -61,14 +80,25 @@ public class FoiDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		return ideaEditor.getText();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

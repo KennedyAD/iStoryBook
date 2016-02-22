@@ -28,10 +28,20 @@ import java.net.URLEncoder;
 import storybook.SbApp;
 import storybook.SbConstants;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NetUtil.
+ */
 public class NetUtil {
 
+	/** The google map url. */
 	private static String googleMapUrl;
 
+	/**
+	 * Gets the google maps url.
+	 *
+	 * @return the google maps url
+	 */
 	public static String getGoogleMapsUrl() {
 		SbApp.trace("NetUtil.getGoogleMapsUrl()");
 		if (googleMapUrl == null || googleMapUrl.isEmpty()) {
@@ -40,6 +50,11 @@ public class NetUtil {
 		return googleMapUrl;
 	}
 
+	/**
+	 * Open browser.
+	 *
+	 * @param path the path
+	 */
 	public static void openBrowser(String path) {
 		SbApp.trace("NetUtil.openBrowser(" + path + ")");
 		try {
@@ -49,6 +64,11 @@ public class NetUtil {
 		}
 	}
 
+	/**
+	 * Open google map.
+	 *
+	 * @param query the query
+	 */
 	public static void openGoogleMap(String query) {
 		SbApp.trace("NetUtil.openGoogleMap(" + query + ")");
 		try {
@@ -60,6 +80,11 @@ public class NetUtil {
 		}
 	}
 
+	/**
+	 * Sets the google map url.
+	 *
+	 * @param url the new google map url
+	 */
 	public static void setGoogleMapUrl(String url) {
 		SbApp.trace("NetUtil.setGoogleMapUrl(" + url + ")");
 		NetUtil.googleMapUrl = url;

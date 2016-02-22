@@ -31,19 +31,21 @@ import storybook.toolkit.PrefUtil;
 import storybook.toolkit.filefilter.H2FileFilter;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DlgImport.
  *
  * @author favdb
  */
 public class DlgImport extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8233035167528894640L;
+	
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -89,46 +91,80 @@ public class DlgImport extends javax.swing.JDialog {
 		});
 	}
 
+	/** The main frame. */
 	MainFrame mainFrame;
 
+	/** The bt close. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btClose;
 
+	/** The bt file. */
 	private javax.swing.JButton btFile;
 
+	/** The bt import. */
 	private javax.swing.JButton btImport;
 
+	/** The j label1. */
 	private javax.swing.JLabel jLabel1;
 
+	/** The j label2. */
 	private javax.swing.JLabel jLabel2;
 
+	/** The j label3. */
 	private javax.swing.JLabel jLabel3;
 
+	/** The j scroll pane1. */
 	private javax.swing.JScrollPane jScrollPane1;
+	
+	/** The j scroll pane2. */
 	private javax.swing.JScrollPane jScrollPane2;
+	
+	/** The lst items. */
 	private javax.swing.JList lstItems;
+	
+	/** The lst persons. */
 	private javax.swing.JList lstPersons;
+	
+	/** The tx file. */
 	private javax.swing.JTextField txFile;
 	// End of variables declaration//GEN-END:variables
 	/**
-	 * Creates new form DlgImport
-	 * 
-	 * @param parent
-	 * @param modal
+	 * Creates new form DlgImport.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
 	 */
 	public DlgImport(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 		init();
 	}
+	
+	/**
+	 * Instantiates a new dlg import.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public DlgImport(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		initComponents();
 		init();
 	}
+	
+	/**
+	 * Bt close action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCloseActionPerformed
 		dispose();
 	}// GEN-LAST:event_btCloseActionPerformed
+	
+	/**
+	 * Bt file action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btFileActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btFileActionPerformed
 		JFileChooser chooser = new JFileChooser(txFile.getText());
 		Preference pref = PrefUtil.get(SbConstants.PreferenceKey.LAST_OPEN_DIR, getHomeDir());
@@ -143,14 +179,27 @@ public class DlgImport extends javax.swing.JDialog {
 		txFile.setText(file.getAbsolutePath());
 		loadLists();
 	}// GEN-LAST:event_btFileActionPerformed
+	
+	/**
+	 * Bt import action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btImportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btImportActionPerformed
 		doImport();
 		dispose();
 	}// GEN-LAST:event_btImportActionPerformed
+	
+	/**
+	 * Do import.
+	 */
 	private void doImport() {
 
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		new DefaultListModel<>();
 	}
@@ -274,10 +323,16 @@ public class DlgImport extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Load items list.
+	 */
 	private void loadItemsList() {
 		new DefaultListModel<>();
 	}
 
+	/**
+	 * Load lists.
+	 */
 	private void loadLists() {
 		loadPersonsList();
 		loadItemsList();
@@ -286,6 +341,9 @@ public class DlgImport extends javax.swing.JDialog {
 			btImport.setEnabled(true);
 	}
 
+	/**
+	 * Load persons list.
+	 */
 	private void loadPersonsList() {
 		new DefaultListModel<>();
 	}

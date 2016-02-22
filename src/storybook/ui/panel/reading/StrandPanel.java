@@ -26,19 +26,42 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandPanel.
+ */
 public class StrandPanel extends AbstractPanel implements ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1813889591695226194L;
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The book reading. */
 	private ReadingPanel bookReading;
+	
+	/** The strand ids. */
 	private HashSet<Long> strandIds;
+	
+	/** The cb list. */
 	private List<JCheckBox> cbList;
 
+	/**
+	 * Instantiates a new strand panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param booReading the boo reading
+	 */
 	public StrandPanel(MainFrame mainFrame, ReadingPanel booReading) {
 		this.mainFrame = mainFrame;
 		this.bookReading = booReading;
 	}
 
+	/**
+	 * Adds the all strands.
+	 */
 	private void addAllStrands() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -49,8 +72,18 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		}
 	}
 
+	/**
+	 * Gets the select all action.
+	 *
+	 * @return the select all action
+	 */
 	private AbstractAction getSelectAllAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 5363619007885680963L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addAllStrands();
@@ -62,8 +95,18 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		};
 	}
 
+	/**
+	 * Gets the select none action.
+	 *
+	 * @return the select none action
+	 */
 	private AbstractAction getSelectNoneAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2033211094663867325L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				strandIds.clear();
@@ -75,10 +118,18 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		};
 	}
 
+	/**
+	 * Gets the strand ids.
+	 *
+	 * @return the strand ids
+	 */
 	public HashSet<Long> getStrandIds() {
 		return strandIds;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		strandIds = new HashSet<Long>();
@@ -86,6 +137,9 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		addAllStrands();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap"));
@@ -123,6 +177,9 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		add(cbNone, "sg");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		try {
@@ -139,6 +196,9 @@ public class StrandPanel extends AbstractPanel implements ItemListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();

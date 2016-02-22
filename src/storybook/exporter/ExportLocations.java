@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.LocationDAOImpl;
 import storybook.model.hbn.entity.Location;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportLocations.
  *
  * @author favdb
  */
 public class ExportLocations {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export locations.
+	 *
+	 * @param m the m
+	 */
 	ExportLocations(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -41,6 +62,12 @@ public class ExportLocations {
 		headers.add(new ExportHeader(I18N.getMsg("msg.dlg.location.site"), 25));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Location obj) {
 		String rep = "Locations";
 		switch (parent.format) {
@@ -65,9 +92,12 @@ public class ExportLocations {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -88,9 +118,16 @@ public class ExportLocations {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Location obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		String str = debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -101,9 +138,17 @@ public class ExportLocations {
 		}
 		model.commit();
 		end();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param obj the obj
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Location obj, boolean verbose, boolean list) {
 		String body[] = { Long.toString(obj.getId()), obj.getName(), obj.getAddress(), obj.getCity(), obj.getCountry(),
 				obj.hasSite() ? obj.getSite().getName() : "" };
@@ -124,7 +169,7 @@ public class ExportLocations {
 			odf.writeRow(body);
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

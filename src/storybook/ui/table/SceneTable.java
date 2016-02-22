@@ -48,24 +48,36 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.SceneStateComboModel;
 import storybook.ui.combo.SceneStateListCellRenderer;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneTable.
  *
+ * @author martin
  */
 
 public class SceneTable extends AbstractTable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4685761112307430345L;
+	
+	/** The scene state combo. */
 	private JComboBox sceneStateCombo;
+	
+	/** The scene strand combo. */
 	private JComboBox sceneStrandCombo;
 
+	/**
+	 * Instantiates a new scene table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public SceneTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public synchronized void actionPerformed(ActionEvent e) {
 		SbApp.trace("SceneTable.actionPerformed(" + e.toString() + ")");
@@ -85,6 +97,9 @@ public class SceneTable extends AbstractTable {
 		super.actionPerformed(e);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getAllEntities()
+	 */
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	protected List<AbstractEntity> getAllEntities() {
@@ -113,6 +128,9 @@ public class SceneTable extends AbstractTable {
 		return (List<AbstractEntity>) ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -123,21 +141,33 @@ public class SceneTable extends AbstractTable {
 		return scene;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Scene();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Scene");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getSceneColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#initOptionsPanel()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void initOptionsPanel() {
@@ -170,6 +200,9 @@ public class SceneTable extends AbstractTable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		SbApp.trace("SceneTable.modelPropertyChangeLocal(" + evt.getPropertyName() + ")");
@@ -225,6 +258,13 @@ public class SceneTable extends AbstractTable {
 		}
 	}
 
+	/**
+	 * Scene has item.
+	 *
+	 * @param scene the scene
+	 * @param sel the sel
+	 * @return true, if successful
+	 */
 	private boolean sceneHasItem(Scene scene, String sel) {
 		List<Item> ls = scene.getItems();
 		for (Item s : ls) {
@@ -234,6 +274,13 @@ public class SceneTable extends AbstractTable {
 		return (false);
 	}
 
+	/**
+	 * Scene has location.
+	 *
+	 * @param scene the scene
+	 * @param selLocation the sel location
+	 * @return true, if successful
+	 */
 	private boolean sceneHasLocation(Scene scene, String selLocation) {
 		List<Location> ls = scene.getLocations();
 		for (Location s : ls) {
@@ -243,6 +290,13 @@ public class SceneTable extends AbstractTable {
 		return (false);
 	}
 
+	/**
+	 * Scene has person.
+	 *
+	 * @param scene the scene
+	 * @param selPerson the sel person
+	 * @return true, if successful
+	 */
 	private boolean sceneHasPerson(Scene scene, String selPerson) {
 		List<Person> ls = scene.getPersons();
 		for (Person s : ls) {
@@ -252,6 +306,9 @@ public class SceneTable extends AbstractTable {
 		return (false);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<>();
@@ -262,12 +319,18 @@ public class SceneTable extends AbstractTable {
 		ctrl.deleteMultiScenes(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Scene scene = (Scene) getEntityFromRow(row);
 		ctrl.deleteScene(scene);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		SbApp.trace("SceneTable.sendSetEntityToEdit(" + row + ")");
@@ -280,6 +343,9 @@ public class SceneTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(scene);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setSceneToEdit((Scene) entity);

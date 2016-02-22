@@ -20,8 +20,13 @@ package storybook.toolkit.swing;
 
 import java.awt.Color;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ColorUtil.
+ */
 public class ColorUtil {
 
+	/** The color values. */
 	// some nice colors
 	private static int[] colorValues = { 0xFFDAB9, // PeachPuff
 			0xBCD2EE, // LightSteelBlue2
@@ -48,10 +53,8 @@ public class ColorUtil {
 	/**
 	 * Make an even blend between two colors.
 	 *
-	 * @param c1
-	 *            First color to blend.
-	 * @param c2
-	 *            Second color to blend.
+	 * @param color1 the color1
+	 * @param color2 the color2
 	 * @return Blended color.
 	 */
 	public static Color blend(Color color1, Color color2) {
@@ -107,10 +110,12 @@ public class ColorUtil {
 	 * coordinates in a 3D space [0.0-1.0], and this method returnes the
 	 * distance between the coordinates for the first and second color.
 	 *
-	 * @param r1
-	 *            , g1, b1 First color.
-	 * @param r2
-	 *            , g2, b2 Second color.
+	 * @param r1            , g1, b1 First color.
+	 * @param g1 the g1
+	 * @param b1 the b1
+	 * @param r2            , g2, b2 Second color.
+	 * @param g2 the g2
+	 * @param b2 the b2
 	 * @return Distance bwetween colors.
 	 */
 	public static double colorDistance(double r1, double g1, double b1, double r2, double g2, double b2) {
@@ -165,15 +170,33 @@ public class ColorUtil {
 		return new Color(red, green, blue, alpha);
 	}
 
+	/**
+	 * Gets the color array.
+	 *
+	 * @return the color array
+	 */
 	public static Color[] getColorArray() {
 		return new Color[] { Color.blue, Color.red, Color.green, Color.cyan, Color.magenta, Color.orange, Color.pink,
 				Color.yellow };
 	}
 
+	/**
+	 * Gets the color string.
+	 *
+	 * @param c the c
+	 * @return the color string
+	 */
 	public static String getColorString(Color c) {
 		return ("[" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + "]");
 	}
 
+	/**
+	 * Gets the dark colors.
+	 *
+	 * @param colors the colors
+	 * @param fraction the fraction
+	 * @return the dark colors
+	 */
 	public static Color[] getDarkColors(Color[] colors, double fraction) {
 		Color[] darkColors = new Color[colors.length];
 		int i = 0;
@@ -205,10 +228,23 @@ public class ColorUtil {
 				+ (bHex.length() == 2 ? "" + bHex : "0" + bHex);
 	}
 
+	/**
+	 * Gets the HTML name.
+	 *
+	 * @param color the color
+	 * @return the HTML name
+	 */
 	public static String getHTMLName(Color color) {
 		return "#" + getHexName(color);
 	}
 
+	/**
+	 * Gets the lighter colors.
+	 *
+	 * @param colors the colors
+	 * @param fraction the fraction
+	 * @return the lighter colors
+	 */
 	public static Color[] getLighterColors(Color[] colors, double fraction) {
 		Color[] lightColors = new Color[colors.length];
 		int i = 0;
@@ -219,10 +255,20 @@ public class ColorUtil {
 		return lightColors;
 	}
 
+	/**
+	 * Gets the nice blue.
+	 *
+	 * @return the nice blue
+	 */
 	public static Color getNiceBlue() {
 		return new Color(0xC8C8FF);
 	}
 
+	/**
+	 * Gets the nice colors.
+	 *
+	 * @return the nice colors
+	 */
 	public static Color[] getNiceColors() {
 		Color[] colors = new Color[colorValues.length];
 		for (int i = 0; i < colorValues.length; ++i) {
@@ -231,26 +277,58 @@ public class ColorUtil {
 		return colors;
 	}
 
+	/**
+	 * Gets the nice dark gray.
+	 *
+	 * @return the nice dark gray
+	 */
 	public static Color getNiceDarkGray() {
 		return new Color(0xdbdbdb);
 	}
 
+	/**
+	 * Gets the nice gray.
+	 *
+	 * @return the nice gray
+	 */
 	public static Color getNiceGray() {
 		return new Color(0xefefef);
 	}
 
+	/**
+	 * Gets the nice yellow.
+	 *
+	 * @return the nice yellow
+	 */
 	public static Color getNiceYellow() {
 		return new Color(0xefefe0);
 	}
 
+	/**
+	 * Gets the pastel.
+	 *
+	 * @param color the color
+	 * @return the pastel
+	 */
 	public static Color getPastel(Color color) {
 		return ColorUtil.blend(Color.white, color);
 	}
 
+	/**
+	 * Gets the pastel2.
+	 *
+	 * @param color the color
+	 * @return the pastel2
+	 */
 	public static Color getPastel2(Color color) {
 		return ColorUtil.blend(Color.white, lighter(color, 0.1));
 	}
 
+	/**
+	 * Gets the pastel colors.
+	 *
+	 * @return the pastel colors
+	 */
 	public static Color[] getPastelColors() {
 		return new Color[] { new Color(0xFFBFBF), // red
 				new Color(0xFFE6BF), // orange
@@ -261,6 +339,12 @@ public class ColorUtil {
 		};
 	}
 
+	/**
+	 * Gets the pastel gray.
+	 *
+	 * @param color the color
+	 * @return the pastel gray
+	 */
 	public static Color getPastelGray(Color color) {
 		return ColorUtil.blend(Color.gray, color);
 	}
@@ -286,8 +370,9 @@ public class ColorUtil {
 	 * color is to be labeled: Use white label on a "dark" color and black label
 	 * on a "light" color.
 	 *
-	 * @param r
-	 *            ,g,b Color to check.
+	 * @param r            ,g,b Color to check.
+	 * @param g the g
+	 * @param b the b
 	 * @return True if this is a "dark" color, false otherwise.
 	 */
 	public static boolean isDark(double r, double g, double b) {

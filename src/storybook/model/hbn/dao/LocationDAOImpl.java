@@ -34,16 +34,36 @@ import storybook.model.hbn.entity.Location;
 import storybook.model.hbn.entity.Person;
 import storybook.toolkit.DateUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LocationDAOImpl.
+ */
 public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements LocationDAO {
 
+	/**
+	 * Instantiates a new location dao impl.
+	 */
 	public LocationDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new location dao impl.
+	 *
+	 * @param session the session
+	 */
 	public LocationDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Count by person location date.
+	 *
+	 * @param person the person
+	 * @param location the location
+	 * @param date the date
+	 * @return the long
+	 */
 	public long countByPersonLocationDate(Person person, Location location, Date date) {
 		date = DateUtil.getZeroTimeDate(date);
 		Query query = session
@@ -60,6 +80,9 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return (Long) query.uniqueResult();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Location> findAll() {
@@ -67,6 +90,12 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return query.list();
 	}
 
+	/**
+	 * Find by city.
+	 *
+	 * @param city the city
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Location> findByCity(String city) {
 		Criteria crit = session.createCriteria(Location.class);
@@ -79,6 +108,12 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return locations;
 	}
 
+	/**
+	 * Find by countries.
+	 *
+	 * @param countries the countries
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Location> findByCountries(List<String> countries) {
 		if (countries.isEmpty()) {
@@ -89,6 +124,12 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return query.list();
 	}
 
+	/**
+	 * Find by country.
+	 *
+	 * @param country the country
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Location> findByCountry(String country) {
 		Criteria crit = session.createCriteria(Location.class);
@@ -101,6 +142,13 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return locations;
 	}
 
+	/**
+	 * Find by country city.
+	 *
+	 * @param country the country
+	 * @param city the city
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Location> findByCountryCity(String country, String city) {
 		Criteria crit = session.createCriteria(Location.class);
@@ -119,12 +167,23 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return locations;
 	}
 
+	/**
+	 * Find cities.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCities() {
 		Query query = session.createQuery("select distinct(l.city) from Location as l order by l.city");
 		return query.list();
 	}
 
+	/**
+	 * Find cities by country.
+	 *
+	 * @param country the country
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCitiesByCountry(String country) {
 		if (country == null) {
@@ -138,6 +197,11 @@ public class LocationDAOImpl extends SbGenericDAOImpl<Location, Long> implements
 		return query.list();
 	}
 
+	/**
+	 * Find countries.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCountries() {
 		Query query = session.createQuery("select distinct(l.country) from Location as l order by l.country");

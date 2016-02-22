@@ -32,16 +32,26 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.StrandListCellRenderer;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StrandEntityHandler.
  *
+ * @author martin
  */
 public class StrandEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new strand entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public StrandEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getStrandColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		BookModel model = mainFrame.getBookModel();
@@ -56,18 +66,27 @@ public class StrandEntityHandler extends AbstractEntityHandler {
 		return strand;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) StrandDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Strand.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getListCellRenderer()
+	 */
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new StrandListCellRenderer();

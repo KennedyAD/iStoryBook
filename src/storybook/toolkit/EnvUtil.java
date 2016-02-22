@@ -22,16 +22,29 @@ import java.io.File;
 
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class EnvUtil.
  *
+ * @author martin
  */
 public class EnvUtil {
 
+	/**
+	 * Gets the default export dir.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the default export dir
+	 */
 	public static String getDefaultExportDir(MainFrame mainFrame) {
 		return mainFrame.getDbFile().getFile().getParent();
 	}
 
+	/**
+	 * Gets the home dir.
+	 *
+	 * @return the home dir
+	 */
 	public static File getHomeDir() {
 		return new File(System.getProperty("user.home"));
 	}

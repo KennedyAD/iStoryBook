@@ -20,17 +20,37 @@ import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Scene;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SizeTreeCellRenderer.
+ */
 public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -9088112521225314888L;
+	
+	/** The Constant BARSIZE. */
 	private static final int BARSIZE = 200;
+	
+	/** The Constant DELTA. */
 	private static final int DELTA = 20;
 
+	/** The maxval. */
 	private int maxval;
+	
+	/** The currentval. */
 	private int currentval;
+	
+	/** The text label. */
 	private JLabel textLabel;
+	
+	/** The percent label. */
 	private JLabel percentLabel;
 
+	/**
+	 * Instantiates a new size tree cell renderer.
+	 */
 	public SizeTreeCellRenderer() {
 		setLayout(null);
 		setBackground(UIManager.getColor("Tree.textBackground"));
@@ -42,6 +62,9 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 		add(percentLabel);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension size = textLabel.getPreferredSize();
@@ -51,6 +74,9 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 		return size;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+	 */
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
 			int row, boolean hasFocus) {
@@ -100,6 +126,9 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -117,6 +146,9 @@ public class SizeTreeCellRenderer extends JPanel implements TreeCellRenderer {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.Component#setBounds(int, int, int, int)
+	 */
 	@Override
 	public void setBounds(int x, int y, int w, int h) {
 		super.setBounds(x, y, w, h);

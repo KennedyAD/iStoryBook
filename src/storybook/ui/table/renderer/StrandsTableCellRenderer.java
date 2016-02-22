@@ -35,9 +35,19 @@ import storybook.model.BookModel;
 import storybook.model.hbn.entity.Strand;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandsTableCellRenderer.
+ */
 public class StrandsTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6683051660768343788L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

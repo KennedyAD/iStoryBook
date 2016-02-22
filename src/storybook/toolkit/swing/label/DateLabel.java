@@ -24,24 +24,43 @@ import java.util.Locale;
 
 import javax.swing.JLabel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DateLabel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class DateLabel extends JLabel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2300497707610027896L;
+	
+	/** The date. */
 	private Date date;
 
+	/**
+	 * Instantiates a new date label.
+	 */
 	public DateLabel() {
 		super();
 		setOpaque(true);
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * Sets the date.
+	 *
+	 * @param date the new date
+	 */
 	public void setDate(Date date) {
 		this.date = date;
 		DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());

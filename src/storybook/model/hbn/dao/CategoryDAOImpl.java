@@ -34,16 +34,34 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Person;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CategoryDAOImpl.
+ */
 public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements CategoryDAO {
 
+	/**
+	 * Instantiates a new category dao impl.
+	 */
 	public CategoryDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new category dao impl.
+	 *
+	 * @param session the session
+	 */
 	public CategoryDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Check if number exists.
+	 *
+	 * @param entity the entity
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkIfNumberExists(AbstractEntity entity) {
 		try {
@@ -86,6 +104,11 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 		}
 	}
 
+	/**
+	 * Find all order by sort.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Category> findAllOrderBySort() {
 		Criteria crit = session.createCriteria(Category.class);
@@ -93,14 +116,30 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 		return crit.list();
 	}
 
+	/**
+	 * Find central.
+	 *
+	 * @return the category
+	 */
 	public Category findCentral() {
 		return (Category) session.get(Category.class, 1L);
 	}
 
+	/**
+	 * Find minor.
+	 *
+	 * @return the category
+	 */
 	public Category findMinor() {
 		return (Category) session.get(Category.class, 2L);
 	}
 
+	/**
+	 * Find persons.
+	 *
+	 * @param category the category
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Person> findPersons(Category category) {
 		Criteria crit = session.createCriteria(Person.class);
@@ -109,16 +148,29 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 		return persons;
 	}
 
+	/**
+	 * Gets the max sort.
+	 *
+	 * @return the max sort
+	 */
 	public int getMaxSort() {
 		Query query = session.createQuery("select max(sort) from Category");
 		Integer ret = (Integer) query.uniqueResult();
 		return ret;
 	}
 
+	/**
+	 * Gets the next sort.
+	 *
+	 * @return the next sort
+	 */
 	public int getNextSort() {
 		return getMaxSort() + 1;
 	}
 
+	/**
+	 * Order categories.
+	 */
 	public void orderCategories() {
 		int i = 0;
 		for (Category c : findAllOrderBySort()) {
@@ -128,6 +180,11 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 		}
 	}
 
+	/**
+	 * Order down category.
+	 *
+	 * @param category the category
+	 */
 	public void orderDownCategory(Category category) {
 		session.refresh(category);
 		int categorySort = category.getSort();
@@ -150,6 +207,11 @@ public class CategoryDAOImpl extends SbGenericDAOImpl<Category, Long> implements
 		session.update(lower);
 	}
 
+	/**
+	 * Order up catgory.
+	 *
+	 * @param category the category
+	 */
 	public void orderUpCatgory(Category category) {
 		if (category.getSort() == 0) {
 			// already on top

@@ -45,23 +45,44 @@ import storybook.toolkit.swing.IconButton;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DateChooser.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class DateChooser extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5048172756913072867L;
+	
+	/** The date chooser. */
 	private JDateChooser dateChooser;
+	
+	/** The time spinner. */
 	private JSpinner timeSpinner;
+	
+	/** The show date time. */
 	private boolean showDateTime;
 
+	/**
+	 * Instantiates a new date chooser.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public DateChooser(MainFrame mainFrame) {
 		super(mainFrame);
 		init();
 		initUi();
 	}
 
+	/**
+	 * Instantiates a new date chooser.
+	 *
+	 * @param mainFrame the main frame
+	 * @param showDateTime the show date time
+	 */
 	public DateChooser(MainFrame mainFrame, boolean showDateTime) {
 		super(mainFrame);
 		this.showDateTime = showDateTime;
@@ -69,8 +90,18 @@ public class DateChooser extends AbstractPanel {
 		initUi();
 	}
 
+	/**
+	 * Gets the clear time action.
+	 *
+	 * @return the clear time action
+	 */
 	private AbstractAction getClearTimeAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8387950136162198535L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				timeSpinner.setValue(DateUtil.getZeroTimeDate());
@@ -78,8 +109,18 @@ public class DateChooser extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the first date action.
+	 *
+	 * @return the first date action
+	 */
 	private AbstractAction getFirstDateAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5663213252714038622L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Date date = EntityUtil.findFirstDate(mainFrame);
@@ -88,8 +129,18 @@ public class DateChooser extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the last date action.
+	 *
+	 * @return the last date action
+	 */
 	private AbstractAction getLastDateAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6404706225689351989L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Date date = EntityUtil.findLastDate(mainFrame);
@@ -98,8 +149,18 @@ public class DateChooser extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the next day action.
+	 *
+	 * @return the next day action
+	 */
 	private AbstractAction getNextDayAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1631656285497087555L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Date date;
@@ -113,8 +174,18 @@ public class DateChooser extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the prev day action.
+	 *
+	 * @return the prev day action
+	 */
 	private AbstractAction getPrevDayAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2515717394312376649L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Date date;
@@ -128,6 +199,11 @@ public class DateChooser extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the timestamp.
+	 *
+	 * @return the timestamp
+	 */
 	public Timestamp getTimestamp() {
 		if (dateChooser.getDate() == null) {
 			return null;
@@ -137,6 +213,11 @@ public class DateChooser extends AbstractPanel {
 		return DateUtil.addTimeFromDate(date, time);
 	}
 
+	/**
+	 * Checks for error.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasError() {
 		JTextFieldDateEditor tf = (JTextFieldDateEditor) dateChooser.getComponent(1);
 		if (tf.getForeground() == Color.red) {
@@ -145,10 +226,16 @@ public class DateChooser extends AbstractPanel {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowx, ins 0"));
@@ -194,11 +281,19 @@ public class DateChooser extends AbstractPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 
 	}
 
+	/**
+	 * Sets the date.
+	 *
+	 * @param date the new date
+	 */
 	public void setDate(Date date) {
 		dateChooser.setDate(date);
 		if (date != null) {

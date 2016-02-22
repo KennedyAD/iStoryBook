@@ -30,18 +30,31 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Part;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PartTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class PartTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6236447381989641428L;
+
+	/**
+	 * Instantiates a new part table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PartTable(MainFrame mainFrame) {
 		super(mainFrame);
 		allowMultiDelete = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -52,21 +65,33 @@ public class PartTable extends AbstractTable {
 		return part;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Part();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Part");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getPartColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -84,6 +109,9 @@ public class PartTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
@@ -94,12 +122,18 @@ public class PartTable extends AbstractTable {
 		ctrl.deleteMultiParts(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Part part = (Part) getEntityFromRow(row);
 		ctrl.deletePart(part);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -111,6 +145,9 @@ public class PartTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(part);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setPartToEdit((Part) entity);

@@ -24,28 +24,44 @@ import storybook.model.hbn.entity.Item;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ItemEntityHandler.
  *
+ * @author martin
  */
 public class ItemEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new item entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ItemEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getItemColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Item item = new Item();
 		return item;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) ItemDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

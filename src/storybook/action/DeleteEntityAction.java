@@ -37,23 +37,32 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.dlgConfirmDelete;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DeleteEntityAction.
  *
+ * @author martin
  */
 public class DeleteEntityAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3220558665755676931L;
 
+	/**
+	 * Instantiates a new delete entity action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public DeleteEntityAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.delete"), I18N.getIcon("icon.small.delete"));
 		this.mainFrame = mainFrame;
 		this.entity = entity;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// check if read only
@@ -85,17 +94,15 @@ public class DeleteEntityAction extends AbstractEntityAction {
 			return;
 		}
 		BookController ctrl = mainFrame.getBookController();
-		if (entity instanceof Part) {
-			if (mainFrame.getCurrentPart().getId().equals(entity.getId())) {
-				// current part will be delete, change to first part
-				BookModel model = mainFrame.getBookModel();
-				Session session = model.beginTransaction();
-				PartDAOImpl dao = new PartDAOImpl(session);
-				Part firstPart = dao.findFirst();
-				model.commit();
-				ChangePartAction act = new ChangePartAction("fsd", mainFrame.getActionController(), firstPart);
-				act.actionPerformed(null);
-			}
+		if (entity instanceof Part && mainFrame.getCurrentPart().getId().equals(entity.getId())) {
+			// current part will be delete, change to first part
+			BookModel model = mainFrame.getBookModel();
+			Session session = model.beginTransaction();
+			PartDAOImpl dao = new PartDAOImpl(session);
+			Part firstPart = dao.findFirst();
+			model.commit();
+			ChangePartAction act = new ChangePartAction("fsd", mainFrame.getActionController(), firstPart);
+			act.actionPerformed(null);
 		}
 		ctrl.deleteEntity(entity);
 	}

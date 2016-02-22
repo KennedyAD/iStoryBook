@@ -20,20 +20,33 @@ package storybook.model.state;
 
 import javax.swing.Icon;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractState.
  *
+ * @author martin
  */
 public class AbstractState {
 
+	/** The number. */
 	protected Integer number;
+	
+	/** The name. */
 	protected String name;
+	
+	/** The icon. */
 	protected Icon icon;
 
+	/**
+	 * Instantiates a new abstract state.
+	 */
 	public AbstractState() {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		// if (!super.equals(obj)) {
@@ -48,22 +61,45 @@ public class AbstractState {
 		return ret;
 	}
 
+	/**
+	 * Gets the icon.
+	 *
+	 * @return the icon
+	 */
 	public Icon getIcon() {
 		return icon;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the number.
+	 *
+	 * @return the number
+	 */
 	public Integer getNumber() {
 		return number;
 	}
 
+	/**
+	 * Gets the tool tip.
+	 *
+	 * @return the tool tip
+	 */
 	public String getToolTip() {
 		return toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -71,6 +107,9 @@ public class AbstractState {
 		return hash;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;

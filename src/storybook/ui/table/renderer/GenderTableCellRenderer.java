@@ -32,9 +32,19 @@ import storybook.model.BookModel;
 import storybook.model.hbn.entity.Gender;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GenderTableCellRenderer.
+ */
 public class GenderTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5077302094395006438L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

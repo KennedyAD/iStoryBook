@@ -23,16 +23,17 @@ import java.io.File;
 
 import storybook.SbConstants;
 
+// TODO: Auto-generated Javadoc
 /**
- * Common tools
- * 
+ * Common tools.
+ *
  * @author favdb
  */
 public class CommonTools {
 
 	/**
-	 * Get the default export directory
-	 * 
+	 * Get the default export directory.
+	 *
 	 * @return File object for the directory
 	 */
 	public static File getDefaultExportDir() {
@@ -40,8 +41,8 @@ public class CommonTools {
 	}
 
 	/**
-	 * Get the home directory
-	 * 
+	 * Get the home directory.
+	 *
 	 * @return CommonTools object for System user home directory
 	 */
 	public static File getHomeDir() {
@@ -49,8 +50,8 @@ public class CommonTools {
 	}
 
 	/**
-	 * Get the complete name for the preference config file
-	 * 
+	 * Get the complete name for the preference config file.
+	 *
 	 * @return File object for the file
 	 */
 	public static File getPrefConfig() {
@@ -59,8 +60,8 @@ public class CommonTools {
 	}
 
 	/**
-	 * Get the complete name for the preference DB file
-	 * 
+	 * Get the complete name for the preference DB file.
+	 *
 	 * @return File object for the file
 	 */
 	public static File getPrefDBName() {
@@ -68,8 +69,8 @@ public class CommonTools {
 	}
 
 	/**
-	 * Get the user directory
-	 * 
+	 * Get the user directory.
+	 *
 	 * @return File object for System user home directory
 	 */
 	public static File getUserDir() {

@@ -24,34 +24,64 @@ import storybook.model.state.TimeStepState;
 import storybook.toolkit.I18N;
 import storybook.ui.interfaces.IRefreshable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author jean
+ * The Class TimeEventFormatLabel.
  *
+ * @author jean
  */
-@SuppressWarnings("serial")
+
 public class TimeEventFormatLabel extends JLabel implements IRefreshable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6110693959696143825L;
+	
+	/** The state. */
 	private TimeStepState state;
 
+	/**
+	 * Instantiates a new time event format label.
+	 *
+	 * @param state the state
+	 */
 	public TimeEventFormatLabel(TimeStepState state) {
 		this(state, false);
 	}
 
+	/**
+	 * Instantiates a new time event format label.
+	 *
+	 * @param state the state
+	 * @param iconOnly the icon only
+	 */
 	public TimeEventFormatLabel(TimeStepState state, boolean iconOnly) {
 		this.state = state;
 		refresh();
 	}
 
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
 	public TimeStepState getState() {
 		return state;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IRefreshable#refresh()
+	 */
 	@Override
 	public void refresh() {
 		setText(state.toString());
 		setToolTipText(I18N.getMsgColon("msg.status") + " " + state);
 	}
 
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
 	public void setState(TimeStepState state) {
 		this.state = state;
 	}

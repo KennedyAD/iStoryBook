@@ -25,43 +25,89 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+// TODO: Auto-generated Javadoc
 /**
  * Provides a read-only table.
  *
  * @author martin
  *
  */
-@SuppressWarnings("serial")
+
 public class ReadOnlyTable extends JTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7143750968829579008L;
+
+	/**
+	 * Instantiates a new read only table.
+	 */
 	public ReadOnlyTable() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param numRows the num rows
+	 * @param numColumns the num columns
+	 */
 	public ReadOnlyTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param rowData the row data
+	 * @param columnNames the column names
+	 */
 	public ReadOnlyTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param dm the dm
+	 */
 	public ReadOnlyTable(TableModel dm) {
 		super(dm);
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param dm the dm
+	 * @param cm the cm
+	 */
 	public ReadOnlyTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param dm the dm
+	 * @param cm the cm
+	 * @param sm the sm
+	 */
 	public ReadOnlyTable(TableModel dm, TableColumnModel cm, ListSelectionModel sm) {
 		super(dm, cm, sm);
 	}
 
+	/**
+	 * Instantiates a new read only table.
+	 *
+	 * @param rowData the row data
+	 * @param columnNames the column names
+	 */
 	public ReadOnlyTable(Vector<?> rowData, Vector<?> columnNames) {
 		super(rowData, columnNames);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JTable#isCellEditable(int, int)
+	 */
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		// return super.isCellEditable(row, column);

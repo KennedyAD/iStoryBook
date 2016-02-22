@@ -23,13 +23,21 @@ import javax.swing.DefaultComboBoxModel;
 import storybook.model.state.AbstractState;
 import storybook.model.state.IdeaStateModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IdeaStateComboModel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class IdeaStateComboModel extends DefaultComboBoxModel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -218513472563030250L;
+
+	/**
+	 * Instantiates a new idea state combo model.
+	 */
 	@SuppressWarnings("unchecked")
 	public IdeaStateComboModel() {
 		IdeaStateModel model = new IdeaStateModel();

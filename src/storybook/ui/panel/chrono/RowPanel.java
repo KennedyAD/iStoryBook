@@ -32,17 +32,37 @@ import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Strand;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RowPanel.
+ */
 public class RowPanel extends AbstractStrandDatePanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3850499308793908994L;
+
+	/**
+	 * Instantiates a new row panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param strand the strand
+	 * @param date the date
+	 */
 	public RowPanel(MainFrame mainFrame, Strand strand, Date date) {
 		super(mainFrame, strand, date);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		try {

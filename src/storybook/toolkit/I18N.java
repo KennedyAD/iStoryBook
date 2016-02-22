@@ -38,13 +38,29 @@ import javax.swing.UIManager;
 
 import storybook.SbApp;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class I18N.
+ */
 public class I18N {
 
+	/** The Constant TIME_FORMAT. */
 	public final static String TIME_FORMAT = "HH:mm:ss";
+	
+	/** The icon resource bundle. */
 	// public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static ResourceBundle iconResourceBundle = null;
+	
+	/** The message resource bundle. */
 	private static ResourceBundle messageResourceBundle = null;
 
+	/**
+	 * Creates the image icon.
+	 *
+	 * @param c the c
+	 * @param path the path
+	 * @return the image icon
+	 */
 	public static ImageIcon createImageIcon(Class<?> c, String path) {
 		java.net.URL imgURL = c.getResource(path);
 		if (imgURL != null) {
@@ -55,18 +71,41 @@ public class I18N {
 		}
 	}
 
+	/**
+	 * Gets the country language.
+	 *
+	 * @param locale the locale
+	 * @return the country language
+	 */
 	public static String getCountryLanguage(Locale locale) {
 		return locale.getLanguage() + "_" + locale.getCountry();
 	}
 
+	/**
+	 * Gets the date time.
+	 *
+	 * @param date the date
+	 * @return the date time
+	 */
 	public static String getDateTime(Date date) {
 		return DateUtil.simpleDateTimeToString(date);
 	}
 
+	/**
+	 * Gets the date time formatter.
+	 *
+	 * @return the date time formatter
+	 */
 	public static DateFormat getDateTimeFormatter() {
 		return DateFormat.getDateTimeInstance();
 	}
 
+	/**
+	 * Gets the ext msg.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the ext msg
+	 */
 	public static String getExtMsg(String resourceKey) {
 		File f = new File(SbApp.getI18nFile() + ".properties");
 		if (!f.exists()) {
@@ -86,24 +125,53 @@ public class I18N {
 		}
 	}
 
+	/**
+	 * Gets the icon.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the icon
+	 */
 	public static Icon getIcon(String resourceKey) {
 		return getImageIcon(resourceKey);
 	}
 
+	/**
+	 * Gets the icon external.
+	 *
+	 * @param filename the filename
+	 * @return the icon external
+	 */
 	public static Icon getIconExternal(String filename) {
 		ImageIcon iconext = new ImageIcon(filename);
 		return (iconext);
 	}
 
+	/**
+	 * Gets the icon image.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the icon image
+	 */
 	public static Image getIconImage(String resourceKey) {
 		ImageIcon icon = (ImageIcon) I18N.getIcon(resourceKey);
 		return icon.getImage();
 	}
 
+	/**
+	 * Gets the icon label.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the icon label
+	 */
 	public static JLabel getIconLabel(String resourceKey) {
 		return new JLabel(getIcon(resourceKey));
 	}
 
+	/**
+	 * Gets the icon resource bundle.
+	 *
+	 * @return the icon resource bundle
+	 */
 	public static final ResourceBundle getIconResourceBundle() {
 		if (iconResourceBundle == null) {
 			iconResourceBundle = ResourceBundle.getBundle("storybook.resources.icons.icons", Locale.getDefault());
@@ -111,6 +179,12 @@ public class I18N {
 		return iconResourceBundle;
 	}
 
+	/**
+	 * Gets the image icon.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the image icon
+	 */
 	public static ImageIcon getImageIcon(String resourceKey) {
 		ResourceBundle rb = getIconResourceBundle();
 		String name = rb.getString(resourceKey);
@@ -118,14 +192,29 @@ public class I18N {
 		return icon;
 	}
 
+	/**
+	 * Gets the long date formatter.
+	 *
+	 * @return the long date formatter
+	 */
 	public static DateFormat getLongDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.LONG);
 	}
 
+	/**
+	 * Gets the medium date formatter.
+	 *
+	 * @return the medium date formatter
+	 */
 	public static DateFormat getMediumDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.MEDIUM);
 	}
 
+	/**
+	 * Gets the message resource bundle.
+	 *
+	 * @return the message resource bundle
+	 */
 	public static final ResourceBundle getMessageResourceBundle() {
 		if (messageResourceBundle == null) {
 			messageResourceBundle = ResourceBundle.getBundle("storybook.msg.messages", Locale.getDefault());
@@ -133,6 +222,12 @@ public class I18N {
 		return messageResourceBundle;
 	}
 
+	/**
+	 * Gets the mnemonic.
+	 *
+	 * @param key the key
+	 * @return the mnemonic
+	 */
 	public static char getMnemonic(String key) {
 		String s = getMsg(key + ".mnemonic");
 		if (s != null && s.length() > 0) {
@@ -141,6 +236,12 @@ public class I18N {
 		return '!';
 	}
 
+	/**
+	 * Gets the msg.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the msg
+	 */
 	public static String getMsg(String resourceKey) {
 		if (SbApp.getI18nFile() != null) {
 			return (getExtMsg(resourceKey));
@@ -153,6 +254,13 @@ public class I18N {
 		}
 	}
 
+	/**
+	 * Gets the msg.
+	 *
+	 * @param resourceKey the resource key
+	 * @param required the required
+	 * @return the msg
+	 */
 	public static String getMsg(String resourceKey, boolean required) {
 		ResourceBundle rb = getMessageResourceBundle();
 		StringBuilder buf = new StringBuilder();
@@ -163,11 +271,25 @@ public class I18N {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the msg.
+	 *
+	 * @param resourceKey the resource key
+	 * @param arg the arg
+	 * @return the msg
+	 */
 	public static final String getMsg(String resourceKey, Object arg) {
 		Object[] args = new Object[] { arg };
 		return getMsg(resourceKey, args);
 	}
 
+	/**
+	 * Gets the msg.
+	 *
+	 * @param resourceKey the resource key
+	 * @param args the args
+	 * @return the msg
+	 */
 	public static final String getMsg(String resourceKey, Object[] args) {
 		MessageFormat formatter = new MessageFormat("");
 		formatter.setLocale(Locale.getDefault());
@@ -176,10 +298,23 @@ public class I18N {
 		return formatter.format(args);
 	}
 
+	/**
+	 * Gets the msg colon.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the msg colon
+	 */
 	public static String getMsgColon(String resourceKey) {
 		return getMsgColon(resourceKey, false);
 	}
 
+	/**
+	 * Gets the msg colon.
+	 *
+	 * @param resourceKey the resource key
+	 * @param required the required
+	 * @return the msg colon
+	 */
 	public static String getMsgColon(String resourceKey, boolean required) {
 		ResourceBundle rb = getMessageResourceBundle();
 		StringBuilder buf = new StringBuilder();
@@ -191,14 +326,30 @@ public class I18N {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the msg dot.
+	 *
+	 * @param resourceKey the resource key
+	 * @return the msg dot
+	 */
 	public static String getMsgDot(String resourceKey) {
 		return getMsg(resourceKey) + "...";
 	}
 
+	/**
+	 * Gets the short date formatter.
+	 *
+	 * @return the short date formatter
+	 */
 	public static DateFormat getShortDateFormatter() {
 		return DateFormat.getDateInstance(DateFormat.SHORT);
 	}
 
+	/**
+	 * Inits the resource bundles.
+	 *
+	 * @param locale the locale
+	 */
 	public static final void initResourceBundles(Locale locale) {
 		ResourceBundle.clearCache();
 		messageResourceBundle = null;
@@ -207,16 +358,34 @@ public class I18N {
 		SbApp.getInstance().setLocale(locale);
 	}
 
+	/**
+	 * Checks if is english.
+	 *
+	 * @return true, if is english
+	 */
 	public static boolean isEnglish() {
 		Locale locale = Locale.getDefault();
 		Locale de = new Locale("en", "US");
 		return locale.equals(de);
 	}
 
+	/**
+	 * Sets the mnemonic.
+	 *
+	 * @param menu the menu
+	 * @param englishKey the english key
+	 */
 	public static final void setMnemonic(JMenu menu, int englishKey) {
 		setMnemonic(menu, englishKey, englishKey);
 	}
 
+	/**
+	 * Sets the mnemonic.
+	 *
+	 * @param menu the menu
+	 * @param englishKey the english key
+	 * @param germanKey the german key
+	 */
 	public static final void setMnemonic(JMenu menu, int englishKey, int germanKey) {
 		if (Locale.getDefault() == Locale.GERMANY) {
 			menu.setMnemonic(germanKey);
@@ -225,10 +394,23 @@ public class I18N {
 		}
 	}
 
+	/**
+	 * Sets the mnemonic.
+	 *
+	 * @param menuItem the menu item
+	 * @param englishKey the english key
+	 */
 	public static final void setMnemonic(JMenuItem menuItem, int englishKey) {
 		setMnemonic(menuItem, englishKey, englishKey);
 	}
 
+	/**
+	 * Sets the mnemonic.
+	 *
+	 * @param menuItem the menu item
+	 * @param englishKey the english key
+	 * @param germanKey the german key
+	 */
 	public static final void setMnemonic(JMenuItem menuItem, int englishKey, int germanKey) {
 		if (Locale.getDefault() == Locale.GERMANY) {
 			menuItem.setMnemonic(germanKey);

@@ -24,16 +24,34 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.Internal;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InternalDAOImpl.
+ */
 public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements InternalDAO {
 
+	/**
+	 * Instantiates a new internal dao impl.
+	 */
 	public InternalDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new internal dao impl.
+	 *
+	 * @param session the session
+	 */
 	public InternalDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by key.
+	 *
+	 * @param key the key
+	 * @return the internal
+	 */
 	public Internal findByKey(String key) {
 		// Filter filter = new Filter("key", key, Filter.OP_EQUAL);
 		// Search search = new Search();
@@ -44,6 +62,12 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		return (Internal) crit.uniqueResult();
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, Boolean value) {
 		Internal internal = findByKey(key);
 		if (internal == null) {
@@ -55,6 +79,12 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, byte[] value) {
 		Internal internal = findByKey(key);
 		if (internal == null) {
@@ -66,6 +96,12 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, Integer value) {
 		Internal internal = findByKey(key);
 		if (internal == null) {
@@ -77,6 +113,12 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param val the val
+	 */
 	public void saveOrUpdate(String key, Object val) {
 		if (val instanceof String) {
 			saveOrUpdate(key, (String) val);
@@ -96,6 +138,12 @@ public class InternalDAOImpl extends SbGenericDAOImpl<Internal, Long> implements
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, String value) {
 		Internal internal = findByKey(key);
 		if (internal == null) {

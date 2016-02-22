@@ -22,13 +22,20 @@ import java.util.Comparator;
 
 import storybook.model.hbn.entity.Chapter;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChapterComparator.
  *
+ * @author martin
  */
 public class ChapterComparator implements Comparator<Chapter> {
 
 	/**
+	 * Compare.
+	 *
+	 * @param ch1 the ch1
+	 * @param ch2 the ch2
+	 * @return the int
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

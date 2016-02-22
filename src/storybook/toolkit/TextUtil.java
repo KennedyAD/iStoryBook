@@ -23,13 +23,21 @@ import org.apache.commons.lang3.StringUtils;
 
 import storybook.toolkit.html.HtmlUtil;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TextUtil.
  *
+ * @author martin
  */
 public class TextUtil {
 	// private final static String NON_THIN = "[^iIl1\\.,']";
 
+	/**
+	 * Count words.
+	 *
+	 * @param text the text
+	 * @return the int
+	 */
 	public static int countWords(String text) {
 		int count = 0;
 		StringTokenizer stk = new StringTokenizer(text, " ");
@@ -43,6 +51,13 @@ public class TextUtil {
 
 	// private static int textWidth(String str) {
 	// return (int) (str.length() - str.replaceAll(NON_THIN, "").length() / 2);
+	/**
+	 * Ellipsize.
+	 *
+	 * @param text the text
+	 * @param max the max
+	 * @return the string
+	 */
 	// }
 	public static String ellipsize(String text, int max) {
 		return StringUtils.abbreviate(text, max);
@@ -74,10 +89,22 @@ public class TextUtil {
 		// return text.substring(0, end) + "...";
 	}
 
+	/**
+	 * Gets the text lines.
+	 *
+	 * @param str the str
+	 * @return the text lines
+	 */
 	public static String[] getTextLines(String str) {
 		return str.split("\\r?\\n");
 	}
 
+	/**
+	 * Checks if is number.
+	 *
+	 * @param str the str
+	 * @return true, if is number
+	 */
 	public static boolean isNumber(String str) {
 		boolean valeur = true;
 		char[] t = str.toCharArray();
@@ -89,6 +116,12 @@ public class TextUtil {
 		return valeur;
 	}
 
+	/**
+	 * Trim text.
+	 *
+	 * @param str the str
+	 * @return the string
+	 */
 	public static String trimText(String str) {
 		StringBuilder buf = new StringBuilder();
 		String[] lines = getTextLines(str);
@@ -98,6 +131,13 @@ public class TextUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Truncate string.
+	 *
+	 * @param str the str
+	 * @param length the length
+	 * @return the string
+	 */
 	public static String truncateString(String str, int length) {
 		if (str == null) {
 			return "";
@@ -108,10 +148,23 @@ public class TextUtil {
 		return str;
 	}
 
+	/**
+	 * Truncate text.
+	 *
+	 * @param text the text
+	 * @return the string
+	 */
 	public static String truncateText(String text) {
 		return truncateText(text, 200);
 	}
 
+	/**
+	 * Truncate text.
+	 *
+	 * @param text the text
+	 * @param length the length
+	 * @return the string
+	 */
 	public static String truncateText(String text, int length) {
 		return truncateString(HtmlUtil.htmlToText(text), length);
 	}

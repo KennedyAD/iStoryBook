@@ -39,21 +39,39 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GanttChart.
+ */
 public class GanttChart extends AbstractPersonsChart {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1773184411359466359L;
+	
+	/** The chart panel. */
 	private ChartPanel chartPanel;
+	
+	/** The cb show periods of life. */
 	private JCheckBox cbShowPeriodsOfLife;
+	
+	/** The person cb list. */
 	private List<JCheckBox> personCbList;
+	
+	/** The persons panel. */
 	private JPanel personsPanel;
 
+	/**
+	 * Instantiates a new gantt chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public GanttChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.chart.gantt.characters.title");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		if ((paramActionEvent.getSource() instanceof JCheckBox)) {
@@ -67,6 +85,12 @@ public class GanttChart extends AbstractPersonsChart {
 		}
 	}
 
+	/**
+	 * Creates the chart.
+	 *
+	 * @param paramIntervalCategoryDataset the param interval category dataset
+	 * @return the j free chart
+	 */
 	private JFreeChart createChart(IntervalCategoryDataset paramIntervalCategoryDataset) {
 		JFreeChart localJFreeChart = ChartFactory.createGanttChart(I18N.getMsg("msg.chart.gantt.characters.title"),
 				I18N.getMsg("msg.common.person"), I18N.getMsg("msg.common.date"), paramIntervalCategoryDataset, true,
@@ -85,6 +109,11 @@ public class GanttChart extends AbstractPersonsChart {
 		return localJFreeChart;
 	}
 
+	/**
+	 * Creates the dataset.
+	 *
+	 * @return the interval category dataset
+	 */
 	private IntervalCategoryDataset createDataset() {
 		BookModel model = this.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -147,6 +176,11 @@ public class GanttChart extends AbstractPersonsChart {
 		return localObj;
 	}
 
+	/**
+	 * Gets the selected persons.
+	 *
+	 * @return the selected persons
+	 */
 	@SuppressWarnings("unchecked")
 	private List<Person> getSelectedPersons() {
 		ArrayList localArrayList = new ArrayList();
@@ -161,6 +195,9 @@ public class GanttChart extends AbstractPersonsChart {
 		return localArrayList;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#initChart()
+	 */
 	@Override
 	protected void initChart() {
 		super.initChart();
@@ -171,6 +208,9 @@ public class GanttChart extends AbstractPersonsChart {
 		this.cbShowPeriodsOfLife.addActionListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();
@@ -179,6 +219,9 @@ public class GanttChart extends AbstractPersonsChart {
 		this.panel.add(this.chartPanel, "grow");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 		super.initOptionsUi();
@@ -190,10 +233,16 @@ public class GanttChart extends AbstractPersonsChart {
 		this.optionsPanel.add(this.personsPanel, "newline,span");
 	}
 
+	/**
+	 * Refresh person cb list.
+	 */
 	private void refreshPersonCbList() {
 		this.personCbList = EntityUtil.createPersonCheckBoxes(this.mainFrame, this.categoryCbList, this);
 	}
 
+	/**
+	 * Refresh persons panel.
+	 */
 	private void refreshPersonsPanel() {
 		List localList = getSelectedPersons();
 		refreshPersonCbList();

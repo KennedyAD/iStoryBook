@@ -29,18 +29,29 @@ import org.jdesktop.swingx.icon.EmptyIcon;
 
 import storybook.ui.memoria.EntityTypeCbItem;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class EntityTypeListCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class EntityTypeListCellRenderer extends JLabel implements ListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6598733180133056367L;
+
+	/**
+	 * Instantiates a new entity type list cell renderer.
+	 */
 	public EntityTypeListCellRenderer() {
 		setOpaque(true);
 		setVerticalAlignment(CENTER);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

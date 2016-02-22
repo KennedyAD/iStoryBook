@@ -24,28 +24,44 @@ import storybook.model.hbn.entity.TagLink;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TagLinkEntityHandler.
  *
+ * @author martin
  */
 public class TagLinkEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new tag link entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public TagLinkEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getTagLinkColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		TagLink tagLink = new TagLink();
 		return tagLink;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) TagLinkDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

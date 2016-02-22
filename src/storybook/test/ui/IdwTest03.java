@@ -37,10 +37,21 @@ import net.infonode.util.Direction;
 import net.miginfocom.swing.MigLayout;
 import storybook.ui.SbView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IdwTest03.
+ */
 @SuppressWarnings({ "serial" })
 public class IdwTest03 extends JFrame {
 
+	/**
+	 * The Class MainDockingWindowAdapter.
+	 */
 	private class MainDockingWindowAdapter extends DockingWindowAdapter {
+		
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowAdded(net.infonode.docking.DockingWindow, net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
 			System.out.println("IdwTest03.MainDockingWindowAdapter.windowAdded(): addedWindow:" + addedWindow);
@@ -57,6 +68,9 @@ public class IdwTest03 extends JFrame {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowClosed(net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowClosed(DockingWindow window) {
 			System.out.println("IdwTest03.MainDockingWindowAdapter.windowClosed(): window:" + window);
@@ -67,21 +81,36 @@ public class IdwTest03 extends JFrame {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowClosing(net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowClosing(DockingWindow window) throws OperationAbortedException {
 		}
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowRemoved(net.infonode.docking.DockingWindow, net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowRemoved(DockingWindow removedFromWindow, DockingWindow removedWindow) {
 		}
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowShown(net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowShown(DockingWindow window) {
 		}
 	}
 
+	/** The instance. */
 	private static IdwTest03 instance;
 
+	/**
+	 * Gets the single instance of IdwTest03.
+	 *
+	 * @return single instance of IdwTest03
+	 */
 	public static IdwTest03 getInstance() {
 		if (instance == null) {
 			instance = new IdwTest03();
@@ -89,6 +118,11 @@ public class IdwTest03 extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -98,10 +132,16 @@ public class IdwTest03 extends JFrame {
 		});
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		setLayout(new MigLayout("wrap,fill"));
 		setTitle("IdwTest03");

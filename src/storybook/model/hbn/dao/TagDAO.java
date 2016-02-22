@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Tag;
 
+/**
+ * The Interface TagDAO.
+ */
 public interface TagDAO extends GenericDAO<Tag, Long> {
 
 }

@@ -20,20 +20,49 @@ package storybook.model.state;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneStateModel.
  *
+ * @author martin
  */
 public class SceneStateModel extends AbstractStateModel {
 
+	/**
+	 * The Enum State.
+	 */
 	public enum State {
-		DUMMY, OUTLINE, DRAFT, EDIT1, EDIT2, DONE, IN_PROGRESS, ALL
+		
+		/** The dummy. */
+		DUMMY, 
+ /** The outline. */
+ OUTLINE, 
+ /** The draft. */
+ DRAFT, 
+ /** The EDI t1. */
+ EDIT1, 
+ /** The EDI t2. */
+ EDIT2, 
+ /** The done. */
+ DONE, 
+ /** The in progress. */
+ IN_PROGRESS, 
+ /** The all. */
+ ALL
 	}
 
+	/**
+	 * Instantiates a new scene state model.
+	 */
 	public SceneStateModel() {
 		this(true);
 	}
 
+	/**
+	 * Instantiates a new scene state model.
+	 *
+	 * @param addPseudoStates the add pseudo states
+	 */
 	public SceneStateModel(boolean addPseudoStates) {
 		super();
 		states.add(new SceneState(State.OUTLINE.ordinal(), I18N.getMsg("msg.status.outline"),

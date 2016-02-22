@@ -17,36 +17,59 @@ package storybook.ui.dialog.chooser;
 
 import java.awt.Component;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DateFixed.
  *
  * @author favdb
  */
 public class DateFixed extends javax.swing.JPanel {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -2582641983047464884L;
 
+	/** The bt clear date. */
 	private javax.swing.JButton btClearDate;
 
+	/** The bt clear time. */
 	private javax.swing.JButton btClearTime;
 
+	/** The bt first. */
 	private javax.swing.JButton btFirst;
 
+	/** The bt last. */
 	private javax.swing.JButton btLast;
+	
+	/** The bt next. */
 	private javax.swing.JButton btNext;
+	
+	/** The bt previous. */
 	private javax.swing.JButton btPrevious;
+	
+	/** The date spinner. */
 	private javax.swing.JSpinner dateSpinner;
+	
+	/** The lb date. */
 	private javax.swing.JLabel lbDate;
+	
+	/** The lb time. */
 	private javax.swing.JLabel lbTime;
+	
+	/** The time spinner. */
 	private javax.swing.JSpinner timeSpinner;
 	// End of variables declaration//GEN-END:variables
 	/**
-	 * Creates new form DateFixed
+	 * Creates new form DateFixed.
 	 */
 	public DateFixed() {
 		initComponents();
 	}
+	
+	/**
+	 * Instantiates a new date fixed.
+	 *
+	 * @param m the m
+	 */
 	public DateFixed(Component m) {
 		initComponents();
 	}

@@ -34,15 +34,26 @@ import javax.swing.WindowConstants;
 import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.panel.GradientPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DnDTest01.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class DnDTest01 extends JFrame {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1641076762976180821L;
+	
+	/** The instance. */
 	private static DnDTest01 instance;
 
+	/**
+	 * Gets the single instance of DnDTest01.
+	 *
+	 * @return single instance of DnDTest01
+	 */
 	public static DnDTest01 getInstance() {
 		if (instance == null) {
 			instance = new DnDTest01();
@@ -50,6 +61,11 @@ public class DnDTest01 extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -59,10 +75,16 @@ public class DnDTest01 extends JFrame {
 		});
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		setLayout(new MigLayout());
 		setTitle("IDWTest01");

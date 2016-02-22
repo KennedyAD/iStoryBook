@@ -27,20 +27,36 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumn;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractEntityHandler.
  *
+ * @author martin
  */
 public abstract class AbstractEntityHandler {
 
+	/** The main frame. */
 	protected MainFrame mainFrame;
+	
+	/** The columns. */
 	protected Vector<SbColumn> columns;
 
+	/**
+	 * Instantiates a new abstract entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 * @param columns the columns
+	 */
 	public AbstractEntityHandler(MainFrame mainFrame, Vector<SbColumn> columns) {
 		this.mainFrame = mainFrame;
 		this.columns = columns;
 	}
 
+	/**
+	 * Creates the dao.
+	 *
+	 * @return the sb generic dao impl
+	 */
 	public SbGenericDAOImpl<?, ?> createDAO() {
 		try {
 			return (SbGenericDAOImpl<?, ?>) getDAOClass().newInstance();
@@ -50,24 +66,62 @@ public abstract class AbstractEntityHandler {
 		return null;
 	}
 
+	/**
+	 * Creates the new entity.
+	 *
+	 * @return the abstract entity
+	 */
 	public abstract AbstractEntity createNewEntity();
 
+	/**
+	 * Gets the columns.
+	 *
+	 * @return the columns
+	 */
 	public Vector<SbColumn> getColumns() {
 		return columns;
 	}
 
+	/**
+	 * Gets the DAO class.
+	 *
+	 * @param <T> the generic type
+	 * @return the DAO class
+	 */
 	public abstract <T> Class<T> getDAOClass();
 
+	/**
+	 * Gets the entity class.
+	 *
+	 * @param <T> the generic type
+	 * @return the entity class
+	 */
 	public abstract <T> Class<T> getEntityClass();
 
+	/**
+	 * Gets the list cell renderer.
+	 *
+	 * @return the list cell renderer
+	 */
 	public ListCellRenderer getListCellRenderer() {
 		return null;
 	}
 
+	/**
+	 * Checks for list cell renderer.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasListCellRenderer() {
 		return getListCellRenderer() != null;
 	}
 
+	/**
+	 * New entity.
+	 *
+	 * @param entity the entity
+	 * @return the abstract entity
+	 */
 	public AbstractEntity newEntity(AbstractEntity entity) {
 		return createNewEntity();
 	}

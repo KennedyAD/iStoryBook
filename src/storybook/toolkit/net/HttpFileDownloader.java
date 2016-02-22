@@ -26,8 +26,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.swing.JTextField;
 
+// TODO: Auto-generated Javadoc
 /**
- * Télécharger un fichier depuis une url
+ * Télécharger un fichier depuis une url.
  *
  * @author Fobec 2013
  * @see http://www.fobec.com/java/1125/telecharger-fichier-depuis-une-url.html
@@ -35,52 +36,87 @@ import javax.swing.JTextField;
 public class HttpFileDownloader {
 
 	/**
-	 * Override class SSL
+	 * Override class SSL.
 	 */
 	private class MyHostnameVerifier implements HostnameVerifier {
 
+		/* (non-Javadoc)
+		 * @see javax.net.ssl.HostnameVerifier#verify(java.lang.String, javax.net.ssl.SSLSession)
+		 */
 		@Override
 		public boolean verify(String hostname, SSLSession session) {
 			return true;
 		}
 	}
+	
 	/**
-	 * Override class SSL
+	 * Override class SSL.
 	 */
 	private class MyTrustManager implements X509TrustManager {
 
+		/* (non-Javadoc)
+		 * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
+		 */
 		@Override
 		public void checkClientTrusted(X509Certificate[] chain, String authType) {
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
+		 */
 		@Override
 		public void checkServerTrusted(X509Certificate[] chain, String authType) {
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
+		 */
 		@Override
 		public X509Certificate[] getAcceptedIssuers() {
 			return null;
 		}
 	}
+	
+	/** The url path. */
 	private String urlPath;
+	
+	/** The ua. */
 	private String ua = null; // user Agent
+	
+	/** The responde code. */
 	private int respondeCode = -1; // http://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
+	
+	/** The header fields. */
 	private Map headerFields; // entete
+	
+	/** The time_start. */
 	private long time_start; // debut de connexion
 
+	/** The time_connect. */
 	private long time_connect; // debut de transfert
 
+	/** The time_end. */
 	private long time_end; // fin
 
 	/**
-	 * Constructeur
+	 * Constructeur.
 	 *
-	 * @param url
+	 * @param url the url
 	 */
 	public HttpFileDownloader(String url) {
 		this.urlPath = url;
 	}
 
+	/**
+	 * As list string.
+	 *
+	 * @param txSizeExpected the tx size expected
+	 * @param txSizeDownloaded the tx size downloaded
+	 * @return the array list
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyManagementException the key management exception
+	 */
 	public ArrayList<String> asListString(JTextField txSizeExpected, JTextField txSizeDownloaded)
 			throws IOException, NoSuchAlgorithmException, KeyManagementException {
 		BufferedReader reader = null;
@@ -112,14 +148,14 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Charger le contenu au format texte
+	 * Charger le contenu au format texte.
 	 *
-	 * @param txSizeExpected
-	 * @param txSizeDownloaded
+	 * @param txSizeExpected the tx size expected
+	 * @param txSizeDownloaded the tx size downloaded
 	 * @return String
-	 * @throws java.io.IOException
-	 * @throws java.security.NoSuchAlgorithmException
-	 * @throws java.security.KeyManagementException
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyManagementException the key management exception
 	 */
 	public String asString(JTextField txSizeExpected, JTextField txSizeDownloaded)
 			throws IOException, NoSuchAlgorithmException, KeyManagementException {
@@ -154,7 +190,7 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Entete de la ressource retourné par le serveur
+	 * Entete de la ressource retourné par le serveur.
 	 *
 	 * @return String
 	 */
@@ -170,17 +206,17 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Code réponse du serveur
+	 * Code réponse du serveur.
 	 *
-	 * @see http://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
 	 * @return int
+	 * @see http://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
 	 */
 	public int getResponseCode() {
 		return this.respondeCode;
 	}
 
 	/**
-	 * Temps de connexion
+	 * Temps de connexion.
 	 *
 	 * @return int milliseconde
 	 */
@@ -190,7 +226,7 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Duree du téléchargment
+	 * Duree du téléchargment.
 	 *
 	 * @return int milliseconde
 	 */
@@ -199,14 +235,23 @@ public class HttpFileDownloader {
 		return t;
 	}
 
+	/**
+	 * Gets the url.
+	 *
+	 * @return the url
+	 */
 	public String getURL() {
 		return this.urlPath;
 	}
 
 	/**
-	 * Ouvrir une connexion http ou https
+	 * Ouvrir une connexion http ou https.
 	 *
 	 * @return HttpURLConnection
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws MalformedURLException the malformed url exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private HttpURLConnection open()
 			throws NoSuchAlgorithmException, KeyManagementException, MalformedURLException, IOException {
@@ -245,16 +290,14 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Enregistrer fichier, nom en local différent
+	 * Enregistrer fichier, nom en local différent.
 	 *
-	 * @param destFilename
-	 *            String nom du fichier local
-	 * @param txSizeDownloaded
-	 * @throws java.io.IOException
-	 * @param txSizeExpected*
-	 * 			@throws java.security.NoSuchAlgorithmException
-	 * @throws java.security.NoSuchAlgorithmException
-	 * @throws java.security.KeyManagementException
+	 * @param destFilename            String nom du fichier local
+	 * @param txSizeExpected the tx size expected
+	 * @param txSizeDownloaded the tx size downloaded
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyManagementException the key management exception
 	 */
 	public void savetoFile(String destFilename, JTextField txSizeExpected, JTextField txSizeDownloaded)
 			throws IOException, NoSuchAlgorithmException, KeyManagementException {
@@ -291,9 +334,9 @@ public class HttpFileDownloader {
 	}
 
 	/**
-	 * Fixer le user Agent de la requete
+	 * Fixer le user Agent de la requete.
 	 *
-	 * @param useragent
+	 * @param useragent the new user agent
 	 */
 	public void setUserAgent(String useragent) {
 		this.ua = useragent;

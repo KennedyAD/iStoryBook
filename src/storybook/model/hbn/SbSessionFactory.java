@@ -30,17 +30,33 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAOImpl;
 import storybook.SbApp;
 import storybook.model.hbn.entity.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating SbSession objects.
+ */
 public class SbSessionFactory {
 
+	/** The session factory. */
 	private SessionFactory sessionFactory;
 
+	/**
+	 * Instantiates a new sb session factory.
+	 */
 	public SbSessionFactory() {
 	}
 
+	/**
+	 * Close session.
+	 */
 	public void closeSession() {
 		sessionFactory.close();
 	}
 
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 */
 	public Session getSession() {
 		if (sessionFactory == null) {
 			SbApp.trace("*** Call init() first.");
@@ -48,6 +64,11 @@ public class SbSessionFactory {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * Gets the session factory.
+	 *
+	 * @return the session factory
+	 */
 	public SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			SbApp.trace("*** Call init() first.");
@@ -55,6 +76,11 @@ public class SbSessionFactory {
 		return sessionFactory;
 	}
 
+	/**
+	 * Inits the.
+	 *
+	 * @param filename the filename
+	 */
 	public void init(String filename) {
 		SbApp.trace("SbSessionFactory.init()");
 		if (SbApp.getTraceHibernate()) {
@@ -133,6 +159,11 @@ public class SbSessionFactory {
 		}
 	}
 
+	/**
+	 * Query.
+	 *
+	 * @param dao the dao
+	 */
 	public void query(GenericDAOImpl<? extends AbstractEntity, ?> dao) {
 		if (SbApp.getTrace()) {
 			System.out.println("SbSessionFactory.query(): " + dao.getClass().getSimpleName());

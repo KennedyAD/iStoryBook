@@ -27,24 +27,41 @@ import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TitlePanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class TitlePanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5911547280289066203L;
+	
+	/** The lb icon. */
 	private JLabel lbIcon;
+	
+	/** The lb title. */
 	private JLabel lbTitle;
 
+	/**
+	 * Instantiates a new title panel.
+	 */
 	public TitlePanel() {
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowx,ins 2"));
@@ -55,10 +72,18 @@ public class TitlePanel extends AbstractPanel {
 		add(lbTitle);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Refresh.
+	 *
+	 * @param entity the entity
+	 */
 	public void refresh(AbstractEntity entity) {
 		lbIcon.setIcon(EntityUtil.getEntityIcon(entity));
 		StringBuilder buf = new StringBuilder();

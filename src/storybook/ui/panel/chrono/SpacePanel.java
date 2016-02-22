@@ -40,13 +40,32 @@ import storybook.toolkit.swing.IconButton;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SpacePanel.
+ */
 public class SpacePanel extends AbstractPanel implements MouseListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1396690420308099014L;
+	
+	/** The strand. */
 	private Strand strand = null;
+	
+	/** The date. */
 	private Date date = null;
+	
+	/** The new scene action. */
 	private AbstractAction newSceneAction;
 
+	/**
+	 * Instantiates a new space panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param strand the strand
+	 * @param date the date
+	 */
 	public SpacePanel(MainFrame mainFrame, Strand strand, Date date) {
 		super(mainFrame);
 		this.strand = strand;
@@ -58,13 +77,28 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		refresh();
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * Gets the new action.
+	 *
+	 * @return the new action
+	 */
 	private AbstractAction getNewAction() {
 		if (newSceneAction == null) {
 			newSceneAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 601244899023520643L;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					BookController ctrl = mainFrame.getBookController();
@@ -80,14 +114,25 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		return newSceneAction;
 	}
 
+	/**
+	 * Gets the strand.
+	 *
+	 * @return the strand
+	 */
 	public Strand getStrand() {
 		return strand;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setFocusable(true);
@@ -109,6 +154,9 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		add(btNewScene, "ax center");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
@@ -118,6 +166,9 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) {
@@ -125,18 +176,30 @@ public class SpacePanel extends AbstractPanel implements MouseListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	}

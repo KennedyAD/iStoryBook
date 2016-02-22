@@ -51,13 +51,24 @@ import storybook.ui.SbView;
 import storybook.ui.options.BookOptionsDialog;
 import storybook.ui.panel.AbstractScrollPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BookPanel extends AbstractScrollPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2051307789995596066L;
+
+	/**
+	 * Dispatch to book info panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToBookInfoPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<>();
 		SwingUtil.findComponentsByClass(cont, BookInfoPanel.class, ret);
@@ -67,6 +78,12 @@ public class BookPanel extends AbstractScrollPanel {
 		}
 	}
 
+	/**
+	 * Dispatch to book text panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToBookTextPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<>();
 		SwingUtil.findComponentsByClass(cont, BookTextPanel.class, ret);
@@ -76,35 +93,60 @@ public class BookPanel extends AbstractScrollPanel {
 		}
 	}
 
+	/**
+	 * Instantiates a new book panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public BookPanel(MainFrame mainFrame) {
 		// don't call super constructor here!
 		this.mainFrame = mainFrame;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMaxZoomValue()
+	 */
 	@Override
 	protected int getMaxZoomValue() {
 		return SbConstants.MAX_BOOK_ZOOM;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMinZoomValue()
+	 */
 	@Override
 	protected int getMinZoomValue() {
 		return SbConstants.MIN_BOOK_ZOOM;
 	}
 
+	/**
+	 * Gets the panel.
+	 *
+	 * @return the panel
+	 */
 	public JPanel getPanel() {
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getZoomValue()
+	 */
 	@Override
 	protected int getZoomValue() {
 		Internal internal = BookUtil.get(mainFrame, BookKey.BOOK_ZOOM, SbConstants.DEFAULT_BOOK_ZOOM);
 		return internal.getIntegerValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowy, ins 0"));
@@ -127,6 +169,9 @@ public class BookPanel extends AbstractScrollPanel {
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
@@ -197,6 +242,9 @@ public class BookPanel extends AbstractScrollPanel {
 		dispatchToBookTextPanels(this, evt);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		Part currentPart = mainFrame.getCurrentPart();
@@ -223,6 +271,9 @@ public class BookPanel extends AbstractScrollPanel {
 		panel.revalidate();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#setZoomValue(int)
+	 */
 	@Override
 	protected void setZoomValue(int val) {
 		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);

@@ -35,6 +35,7 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
  * The about dialog shows the copyright, credits and some internal information
  * that may help to support clients.
@@ -42,15 +43,20 @@ import storybook.ui.MainFrame;
  * @author martin
  *
  */
-@SuppressWarnings("serial")
+
 public class AboutDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8257125664256363853L;
+
+	/** The gpl. */
 	private final String gpl = "<html><body>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.intro") + "</p>" + "<p>"
 			+ I18N.getMsg("msg.dlg.about.gpl.copyright") + SbConstants.Storybook.COPYRIGHT_YEAR + "</p>" + "<p>"
 			+ I18N.getMsg("msg.dlg.about.gpl.homepage") + SbConstants.URL.HOMEPAGE + "</p>" + "<p>"
 			+ I18N.getMsg("msg.dlg.about.gpl.distribution") + "</p>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.gpl")
 			+ "</p>" + "<p>" + I18N.getMsg("msg.dlg.about.gpl.license") + "</p>" + "</body></html>";
 
+	/** The credits. */
 	private final String credits = "<html><body>" + "<h2>Developers</h2>" + "The oStorybook Developer (FaVdB)"
 			+ "<h2>Logo Designer</h2>" + "Jose Campoy, mod FaVdB" + "<h2>Translators</h2>"
 			+ "<p>Brazilian Portuguese: <i>vacant</i>" + "<br>Czech: <i>vacant</i>" + "<br>Dutch: <i>vacant</i>"
@@ -64,11 +70,21 @@ public class AboutDialog extends AbstractDialog {
 			+ "<br>简体字 (Simplified Chinese) :<i>vacant</i>" + "<br>繁體中文 (Traditional Chinese): <i>vacant</i>" + "</p>"
 			+ "</body></html>";
 
+	/**
+	 * Instantiates a new about dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AboutDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/**
+	 * Creates the credits scroll pane.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane createCreditsScrollPane() {
 		JTextPane taCredits = new JTextPane();
 		taCredits.setContentType("text/html");
@@ -80,6 +96,11 @@ public class AboutDialog extends AbstractDialog {
 		return (scroller2);
 	}
 
+	/**
+	 * Creates the gpl scroll pane.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane createGplScrollPane() {
 		JTextPane taGpl = new JTextPane();
 		taGpl.setContentType("text/html");
@@ -91,6 +112,11 @@ public class AboutDialog extends AbstractDialog {
 		return (scroller1);
 	}
 
+	/**
+	 * Creates the properties scroll pane.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane createPropertiesScrollPane() {
 		JTextArea ta = new JTextArea();
 		ta.setEditable(false);
@@ -107,10 +133,16 @@ public class AboutDialog extends AbstractDialog {
 		return new JScrollPane(ta);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

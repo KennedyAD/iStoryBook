@@ -26,6 +26,7 @@ import javax.swing.text.JTextComponent;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides the functionality to insert an special character into the
  * document through a dedicated dialog. Selected character may be passed to
@@ -45,6 +46,8 @@ public class UnicodeDialog {
 	 * colour changed to reflect which special character will be inserted.
 	 */
 	protected class UnicodeButton extends JButton implements ActionListener, FocusListener {
+		
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
 		/**
@@ -63,16 +66,25 @@ public class UnicodeDialog {
 			addFocusListener(this);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			specialChar = this.getText();
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusGained(FocusEvent e) {
 			this.setBackground(Color.yellow);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusLost(FocusEvent e) {
 			this.setBackground(null);
@@ -80,20 +92,32 @@ public class UnicodeDialog {
 
 	}
 
+	/** The listeners. */
 	// Listeners
 	private List<UnicodeDialogListener> listeners = new ArrayList<UnicodeDialogListener>();
+	
+	/** The labels. */
 	private final String[] labels;
+	
+	/** The p. */
 	private JPanel p;
+	
+	/** The special char. */
 	private String specialChar;
 
+	/** The parent. */
 	private JFrame parent;
+	
+	/** The text component. */
 	// component to insert character into.
 	private JTextComponent textComponent;
 
+	/** The last position. */
 	// Position on last caret - where to insert character.
 	private int lastPosition = 0;
 
 	// Flag to indicate that the last frame change was to make dialog appear.
+	/** The it is me. */
 	// In such case, we shall not consider that we change the current frame.
 	private boolean itIsMe = false;
 
@@ -171,8 +195,8 @@ public class UnicodeDialog {
 
 	/**
 	 * Add a listener.
-	 * 
-	 * @param listener
+	 *
+	 * @param listener the listener
 	 */
 	public void addListener(UnicodeDialogListener listener) {
 		if (!listeners.contains(listener)) {
@@ -180,14 +204,19 @@ public class UnicodeDialog {
 		}
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return "Special characters";
 	}
 
 	/**
 	 * Remove a listener.
-	 * 
-	 * @param listener
+	 *
+	 * @param listener the listener
 	 */
 	public void removeListener(UnicodeDialogListener listener) {
 		if (listeners.contains(listener)) {

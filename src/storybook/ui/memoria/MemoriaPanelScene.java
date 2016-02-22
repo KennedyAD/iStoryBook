@@ -25,17 +25,29 @@ import storybook.model.hbn.entity.Tag;
 import storybook.model.hbn.entity.TagLink;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class MemoriaPanelScene.
  *
  * @author favdb
  */
 public class MemoriaPanelScene {
+	
+	/** The mp. */
 	MemoriaPanel mp;
 
+	/**
+	 * Instantiates a new memoria panel scene.
+	 *
+	 * @param mp the mp
+	 */
 	MemoriaPanelScene(MemoriaPanel mp) {
 		this.mp = mp;
 	}
 
+	/**
+	 * Creates the scene graph.
+	 */
 	@SuppressWarnings("unchecked")
 	void createSceneGraph() {
 		mp.graphIndex = 0L;

@@ -21,7 +21,15 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WiWWTableCellRenderer.
+ */
 public class WiWWTableCellRenderer implements TableCellRenderer {
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable paramJTable, Object paramObject, boolean paramBoolean1,
 			boolean paramBoolean2, int paramInt1, int paramInt2) {

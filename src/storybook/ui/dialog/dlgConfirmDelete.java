@@ -23,20 +23,21 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class dlgConfirmDelete.
  *
  * @author favdb
  */
 public class dlgConfirmDelete extends javax.swing.JDialog {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3862870810273755292L;
 
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -85,27 +86,35 @@ public class dlgConfirmDelete extends javax.swing.JDialog {
 			}
 		});
 	}
+	
+	/** The canceled. */
 	private boolean canceled;
 
+	/** The main frame. */
 	MainFrame mainFrame;
 
+	/** The b cancel. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton bCancel;
 
+	/** The b ok. */
 	private javax.swing.JButton bOk;
 
+	/** The j label1. */
 	private javax.swing.JLabel jLabel1;
 
+	/** The j scroll pane1. */
 	private javax.swing.JScrollPane jScrollPane1;
 
+	/** The tp entity. */
 	private javax.swing.JTextPane tpEntity;
 	// End of variables declaration//GEN-END:variables
 
 	/**
-	 * Test form dlgConfirmDelete
+	 * Test form dlgConfirmDelete.
 	 *
-	 * @param parent
-	 * @param b
+	 * @param parent the parent
+	 * @param b the b
 	 */
 	public dlgConfirmDelete(javax.swing.JFrame parent, boolean b) {
 		super(parent, b);
@@ -113,10 +122,10 @@ public class dlgConfirmDelete extends javax.swing.JDialog {
 	}
 
 	/**
-	 * Create form dlgConfirmDelete
+	 * Create form dlgConfirmDelete.
 	 *
-	 * @param parent
-	 * @param entity
+	 * @param parent the parent
+	 * @param entity the entity
 	 */
 	public dlgConfirmDelete(MainFrame parent, AbstractEntity entity) {
 		super(parent, true);
@@ -126,6 +135,13 @@ public class dlgConfirmDelete extends javax.swing.JDialog {
 		tpEntity.setText(EntityUtil.getDeleteInfo(mainFrame, entity));
 		tpEntity.setCaretPosition(0);
 	}
+	
+	/**
+	 * Instantiates a new dlg confirm delete.
+	 *
+	 * @param parent the parent
+	 * @param entities the entities
+	 */
 	public dlgConfirmDelete(MainFrame parent, List<AbstractEntity> entities) {
 		super(parent, true);
 		initComponents();
@@ -142,10 +158,22 @@ public class dlgConfirmDelete extends javax.swing.JDialog {
 		tpEntity.setText(buf.toString());
 		tpEntity.setCaretPosition(0);
 	}
+	
+	/**
+	 * B cancel action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bCancelActionPerformed
 		canceled = true;
 		dispose();
 	}// GEN-LAST:event_bCancelActionPerformed
+	
+	/**
+	 * B ok action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void bOkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bOkActionPerformed
 		canceled = false;
 		dispose();
@@ -219,6 +247,11 @@ public class dlgConfirmDelete extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Checks if is canceled.
+	 *
+	 * @return true, if is canceled
+	 */
 	public boolean isCanceled() {
 		return canceled;
 	}

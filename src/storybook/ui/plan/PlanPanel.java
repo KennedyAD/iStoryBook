@@ -57,18 +57,25 @@ import storybook.ui.SbView;
 import storybook.ui.chart.jfreechart.ChartUtil;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * Panel for planfication vision.
  * 
  * @author Jean
  *
  */
-@SuppressWarnings("serial")
+
 public class PlanPanel extends AbstractPanel implements MouseListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2432942287840430655L;
 	/** Pane to contain all. */
 	private JTabbedPane tabbedPane;
+	
+	/** The tree. */
 	private JTree tree;
+	
+	/** The progress. */
 	CircleProgressBar[] progress = new CircleProgressBar[5];
 
 	/**
@@ -82,7 +89,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Generate panel for showing global information
+	 * Generate panel for showing global information.
 	 */
 	private void addGlobalPanel() {
 
@@ -113,7 +120,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Generate panel for showing size progress information
+	 * Generate panel for showing size progress information.
 	 */
 	private void addProgressPanel() {
 		SizedElement topSp = new SizedElement();
@@ -156,7 +163,7 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Generate panel for showing timeline information
+	 * Generate panel for showing timeline information.
 	 */
 	private void addTimePanel() {
 		// create panel and scroller to contain it
@@ -174,8 +181,11 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Create Part time tasks
-	 * 
+	 * Create Part time tasks.
+	 *
+	 * @param chapter the chapter
+	 * @param prefix the prefix
+	 * @return the task
 	 */
 	private Task createChapterTask(Chapter chapter, String prefix) {
 		Date startTime = chapter.getCreationTime();
@@ -215,8 +225,8 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Create timeline chart
-	 * 
+	 * Create timeline chart.
+	 *
 	 * @return the chart
 	 */
 	private JFreeChart createChart() {
@@ -235,8 +245,8 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Create time dataset
-	 * 
+	 * Create time dataset.
+	 *
 	 * @return the dataset
 	 */
 	private TaskSeriesCollection createDataset() {
@@ -255,8 +265,11 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Create Part time tasks
-	 * 
+	 * Create Part time tasks.
+	 *
+	 * @param part the part
+	 * @param prefix the prefix
+	 * @return the task
 	 */
 	private Task createPartTask(Part part, String prefix) {
 		Date startTime = part.getCreationTime();
@@ -296,8 +309,11 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 	}
 
 	/**
-	 * Create Part time tasks
-	 * 
+	 * Create Part time tasks.
+	 *
+	 * @param lifeTime the life time
+	 * @param rootPart the root part
+	 * @param prefix the prefix
 	 */
 	private void createPartTasks(TaskSeries lifeTime, Part rootPart, String prefix) {
 		lifeTime.add(createPartTask(rootPart, prefix));
@@ -321,6 +337,13 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		}
 	}
 
+	/**
+	 * Creates the sub structure.
+	 *
+	 * @param father the father
+	 * @param chapter the chapter
+	 * @param sizes the sizes
+	 */
 	private void createSubStructure(DefaultMutableTreeNode father, Chapter chapter, Map<Object, Integer> sizes) {
 		SizedElement sp = new SizedElement();
 		sp.setElement(chapter);
@@ -344,6 +367,13 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 
 	}
 
+	/**
+	 * Creates the sub structure.
+	 *
+	 * @param father the father
+	 * @param part the part
+	 * @param sizes the sizes
+	 */
 	private void createSubStructure(DefaultMutableTreeNode father, Part part, Map<Object, Integer> sizes) {
 		SizedElement sp = new SizedElement();
 		sp.setElement(part);
@@ -436,22 +466,37 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.isPopupTrigger()) {
@@ -459,11 +504,17 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 		}
 	}
 
+	/**
+	 * Refresh values.
+	 */
 	private void refreshValues() {
 		setProgressBarsValues();
 
 	}
 
+	/**
+	 * Sets the progress bars values.
+	 */
 	private void setProgressBarsValues() {
 		// get neded elements
 		BookModel model = mainFrame.getBookModel();
@@ -481,6 +532,12 @@ public class PlanPanel extends AbstractPanel implements MouseListener {
 
 	}
 
+	/**
+	 * Show popup menu.
+	 *
+	 * @param tree the tree
+	 * @param evt the evt
+	 */
 	private void showPopupMenu(JTree tree, MouseEvent evt) {
 		TreePath selectedPath = tree.getPathForLocation(evt.getX(), evt.getY());
 		DefaultMutableTreeNode selectedNode = null;

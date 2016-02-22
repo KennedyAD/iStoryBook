@@ -12,17 +12,20 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AttributeListCellRenderer.
  *
  * @author favdb
  */
 public class AttributeListCellRenderer extends DefaultListCellRenderer {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8194758184629753251L;
 
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

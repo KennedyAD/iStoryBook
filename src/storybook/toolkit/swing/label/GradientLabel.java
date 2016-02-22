@@ -27,16 +27,38 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.swing.ColorUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GradientLabel.
+ */
 public class GradientLabel extends JLabel {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4102708597623810186L;
+	
+	/** The start bg color. */
 	private Color startBgColor = Color.white;
+	
+	/** The end bg color. */
 	private Color endBgColor = Color.black;
+	
+	/** The show bg gradient. */
 	private boolean showBgGradient = true;
 
+	/**
+	 * Instantiates a new gradient label.
+	 */
 	public GradientLabel() {
 		showBgGradient = false;
 	}
 
+	/**
+	 * Instantiates a new gradient label.
+	 *
+	 * @param showBgGradient the show bg gradient
+	 * @param startBgColor the start bg color
+	 * @param endBgColor the end bg color
+	 */
 	public GradientLabel(boolean showBgGradient, Color startBgColor, Color endBgColor) {
 		super();
 		this.showBgGradient = showBgGradient;
@@ -44,11 +66,25 @@ public class GradientLabel extends JLabel {
 		this.endBgColor = endBgColor;
 	}
 
+	/**
+	 * Instantiates a new gradient label.
+	 *
+	 * @param text the text
+	 */
 	public GradientLabel(String text) {
 		super(text);
 		showBgGradient = false;
 	}
 
+	/**
+	 * Instantiates a new gradient label.
+	 *
+	 * @param text the text
+	 * @param horizontalAlignment the horizontal alignment
+	 * @param showBgGradient the show bg gradient
+	 * @param startBgColor the start bg color
+	 * @param endBgColor the end bg color
+	 */
 	public GradientLabel(String text, int horizontalAlignment, boolean showBgGradient, Color startBgColor,
 			Color endBgColor) {
 		super(text, horizontalAlignment);
@@ -57,14 +93,27 @@ public class GradientLabel extends JLabel {
 		this.endBgColor = endBgColor;
 	}
 
+	/**
+	 * Gets the end bg color.
+	 *
+	 * @return the end bg color
+	 */
 	public Color getEndBgColor() {
 		return endBgColor;
 	}
 
+	/**
+	 * Gets the start bg color.
+	 *
+	 * @return the start bg color
+	 */
 	public Color getStartBgColor() {
 		return startBgColor;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		if (showBgGradient) {

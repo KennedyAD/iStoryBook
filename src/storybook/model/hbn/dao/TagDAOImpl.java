@@ -28,16 +28,33 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.Tag;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TagDAOImpl.
+ */
 public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 
+	/**
+	 * Instantiates a new tag dao impl.
+	 */
 	public TagDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new tag dao impl.
+	 *
+	 * @param session the session
+	 */
 	public TagDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find all memo.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Tag> findAllMemo() {
 		Criteria crit = session.createCriteria(Tag.class);
@@ -47,6 +64,12 @@ public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 		return tags;
 	}
 
+	/**
+	 * Find by category.
+	 *
+	 * @param category the category
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Tag> findByCategory(String category) {
 		Criteria crit = session.createCriteria(Tag.class);
@@ -56,6 +79,11 @@ public class TagDAOImpl extends SbGenericDAOImpl<Tag, Long> implements TagDAO {
 		return tags;
 	}
 
+	/**
+	 * Find categories.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCategories() {
 		Query query = session.createQuery("select distinct(t.category) from Tag as t order by t.category");

@@ -25,26 +25,52 @@ import org.apache.commons.io.FileUtils;
 import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NewFileDialog.
+ */
 public class NewFileDialog extends AbstractFileDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7528254155947530396L;
+	
+	/** The cb use html scenes. */
 	private JCheckBox cbUseHtmlScenes;
+	
+	/** The cb use html descr. */
 	private JCheckBox cbUseHtmlDescr;
 
+	/**
+	 * Instantiates a new new file dialog.
+	 */
 	public NewFileDialog() {
 		super(null);
 		setTitle(I18N.getMsg("msg.welcome.new.project"));
 		setDir(FileUtils.getUserDirectoryPath());
 	}
 
+	/**
+	 * Gets the use html descr.
+	 *
+	 * @return the use html descr
+	 */
 	public boolean getUseHtmlDescr() {
 		return cbUseHtmlDescr.isSelected();
 	}
 
+	/**
+	 * Gets the use html scenes.
+	 *
+	 * @return the use html scenes
+	 */
 	public boolean getUseHtmlScenes() {
 		return cbUseHtmlScenes.isSelected();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.file.AbstractFileDialog#initOptionsPanel()
+	 */
 	@Override
 	protected void initOptionsPanel() {
 		optionsPanel.setLayout(new MigLayout("wrap"));

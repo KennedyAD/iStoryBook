@@ -35,9 +35,19 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.label.StrandLabel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandTableCellRenderer.
+ */
 public class StrandTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1732798597308178021L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

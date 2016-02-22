@@ -27,34 +27,53 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.GenderListCellRenderer;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class GenderEntityHandler.
  *
+ * @author martin
  */
 public class GenderEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new gender entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public GenderEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getGenderColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Gender gender = new Gender();
 		return gender;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) GenderDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Gender.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getListCellRenderer()
+	 */
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new GenderListCellRenderer();

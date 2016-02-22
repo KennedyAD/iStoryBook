@@ -21,13 +21,20 @@ package storybook.toolkit.comparator;
 import java.util.Comparator;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DateComparator.
  *
+ * @author martin
  */
 public class DateComparator implements Comparator<Date> {
 
 	/**
+	 * Compare.
+	 *
+	 * @param d1 the d1
+	 * @param d2 the d2
+	 * @return the int
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

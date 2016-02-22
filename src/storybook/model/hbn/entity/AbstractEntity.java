@@ -31,15 +31,25 @@ import org.hibernate.proxy.HibernateProxyHelper;
 
 import storybook.toolkit.html.HtmlUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractEntity.
+ */
 public abstract class AbstractEntity implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2495162971674171830L;
 
+	/** The transient id counter. */
 	private static Long transientIdCounter = 1L;
 
+	/**
+	 * Equals boolean null value.
+	 *
+	 * @param b1 the b1
+	 * @param b2 the b2
+	 * @return true, if successful
+	 */
 	public static boolean equalsBooleanNullValue(Boolean b1, Boolean b2) {
 		if (b1 != null && b2 == null) {
 			return false;
@@ -55,6 +65,14 @@ public abstract class AbstractEntity implements Serializable {
 		}
 		return true;
 	}
+	
+	/**
+	 * Equals date null value.
+	 *
+	 * @param d1 the d1
+	 * @param d2 the d2
+	 * @return true, if successful
+	 */
 	public static boolean equalsDateNullValue(Date d1, Date d2) {
 		if (d1 != null && d2 == null) {
 			return false;
@@ -71,6 +89,13 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Equals integer null value.
+	 *
+	 * @param n1 the n1
+	 * @param n2 the n2
+	 * @return true, if successful
+	 */
 	public static boolean equalsIntegerNullValue(Integer n1, Integer n2) {
 		if (n1 != null && n2 == null) {
 			return false;
@@ -87,6 +112,13 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Equals list null value.
+	 *
+	 * @param li1 the li1
+	 * @param li2 the li2
+	 * @return true, if successful
+	 */
 	public static boolean equalsListNullValue(List<? extends AbstractEntity> li1, List<? extends AbstractEntity> li2) {
 		if (li1 == null && li2 == null) {
 			return true;
@@ -112,6 +144,13 @@ public abstract class AbstractEntity implements Serializable {
 		return ids1.isEmpty();
 	}
 
+	/**
+	 * Equals long null value.
+	 *
+	 * @param l1 the l1
+	 * @param l2 the l2
+	 * @return true, if successful
+	 */
 	public static boolean equalsLongNullValue(Long l1, Long l2) {
 		if (l1 != null && l2 == null) {
 			return false;
@@ -128,6 +167,13 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Equals object null value.
+	 *
+	 * @param o1 the o1
+	 * @param o2 the o2
+	 * @return true, if successful
+	 */
 	public static boolean equalsObjectNullValue(Object o1, Object o2) {
 		if (o1 != null && o2 == null) {
 			return false;
@@ -144,6 +190,13 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Equals string null value.
+	 *
+	 * @param s1 the s1
+	 * @param s2 the s2
+	 * @return true, if successful
+	 */
 	public static boolean equalsStringNullValue(String s1, String s2) {
 		if (s1 != null && s2 == null) {
 			return false;
@@ -162,6 +215,13 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Equals timestamp null value.
+	 *
+	 * @param ts1 the ts1
+	 * @param ts2 the ts2
+	 * @return true, if successful
+	 */
 	public static boolean equalsTimestampNullValue(Timestamp ts1, Timestamp ts2) {
 		if (ts1 != null && ts2 == null) {
 			return false;
@@ -178,6 +238,12 @@ public abstract class AbstractEntity implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Gets the list hash code.
+	 *
+	 * @param list the list
+	 * @return the list hash code
+	 */
 	public static int getListHashCode(List<?> list) {
 		int hash = 31;
 		for (Object o : list) {
@@ -187,15 +253,23 @@ public abstract class AbstractEntity implements Serializable {
 		return hash;
 	}
 
+	/** The id. */
 	protected Long id = -1L;
 
+	/** The transient id. */
 	private Long transientId = -1L;
 
+	/**
+	 * Instantiates a new abstract entity.
+	 */
 	public AbstractEntity() {
 		super();
 		transientId = transientIdCounter++;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -218,26 +292,54 @@ public abstract class AbstractEntity implements Serializable {
 		return id.equals(test.getId());
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @return the string
+	 */
 	public String get() {
 		return "";
 	}
 
+	/**
+	 * Gets the abbr.
+	 *
+	 * @return the abbr
+	 */
 	public String getAbbr() {
 		return toString();
 	}
 
+	/**
+	 * Gets the icon.
+	 *
+	 * @return the icon
+	 */
 	public Icon getIcon() {
 		return new ImageIcon();
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * Gets the transient id.
+	 *
+	 * @return the transient id
+	 */
 	public Long getTransientId() {
 		return transientId;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -251,6 +353,11 @@ public abstract class AbstractEntity implements Serializable {
 		return hash;
 	}
 
+	/**
+	 * Checks if is transient.
+	 *
+	 * @return true, if is transient
+	 */
 	public boolean isTransient() {
 		return id.intValue() == -1L;
 	}

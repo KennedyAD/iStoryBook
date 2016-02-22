@@ -25,34 +25,55 @@ import javax.swing.AbstractAction;
 import storybook.toolkit.DockingWindowUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class LoadDockingLayoutAction.
  *
+ * @author martin
  */
 public class LoadDockingLayoutAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5490675505901492112L;
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The name. */
 	private String name;
 
+	/**
+	 * Instantiates a new load docking layout action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param name the name
+	 */
 	public LoadDockingLayoutAction(MainFrame mainFrame, String name) {
 		super(name);
 		this.mainFrame = mainFrame;
 		this.name = name;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		DockingWindowUtil.loadLayout(mainFrame, name);
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;

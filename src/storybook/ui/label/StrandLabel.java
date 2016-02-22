@@ -23,13 +23,23 @@ import javax.swing.JLabel;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.swing.ColorIcon;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StrandLabel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class StrandLabel extends JLabel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3414086804429915959L;
+
+	/**
+	 * Instantiates a new strand label.
+	 *
+	 * @param strand the strand
+	 */
 	public StrandLabel(Strand strand) {
 		setText(strand.toString());
 		setIcon(new ColorIcon(strand.getJColor()));

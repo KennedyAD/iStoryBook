@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.PersonDAOImpl;
 import storybook.model.hbn.entity.Person;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportPersons.
  *
  * @author favdb
  */
 public class ExportPersons {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export persons.
+	 *
+	 * @param m the m
+	 */
 	ExportPersons(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -41,6 +62,12 @@ public class ExportPersons {
 		headers.add(new ExportHeader(I18N.getMsg("msg.dlg.person.occupation"), 30));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Person obj) {
 		String rep = "Persons";
 		switch (parent.format) {
@@ -65,9 +92,12 @@ public class ExportPersons {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -88,9 +118,16 @@ public class ExportPersons {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Person obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		String str = debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -101,9 +138,17 @@ public class ExportPersons {
 		}
 		model.commit();
 		end();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param obj the obj
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Person obj, boolean verbose, boolean list) {
 		String body[] = { Long.toString(obj.getId()), obj.getAbbreviation(), obj.getFirstname(), obj.getLastname(),
 				obj.getHTMLColor(), obj.getOccupation(), };
@@ -124,7 +169,7 @@ public class ExportPersons {
 			odf.writeRow(body);
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

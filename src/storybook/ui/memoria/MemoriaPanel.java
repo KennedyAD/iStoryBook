@@ -90,79 +90,195 @@ import storybook.ui.interfaces.IRefreshable;
 import storybook.ui.options.MemoriaOptionsDialog;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MemoriaPanel.
+ */
 public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefreshable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5909906263054167567L;
+	
+	/** The graph. */
 	DelegateForest<AbstractEntity, Long> graph;
+	
+	/** The vv. */
 	private VisualizationViewer<AbstractEntity, Long> vv;
+	
+	/** The tree layout. */
 	private TreeLayout<AbstractEntity, Long> treeLayout;
+	
+	/** The balloon layout. */
 	private BalloonLayout<AbstractEntity, Long> balloonLayout;
+	
+	/** The graph panel. */
 	private GraphZoomScrollPane graphPanel;
+	
+	/** The label map. */
 	Map<AbstractEntity, String> labelMap;
+	
+	/** The icon map. */
 	Map<AbstractEntity, Icon> iconMap;
+	
+	/** The entity source name. */
 	private String entitySourceName;
+	
+	/** The entity id. */
 	public long entityId;
+	
+	/** The shown entity. */
 	private AbstractEntity shownEntity;
+	
+	/** The graph index. */
 	public long graphIndex;
+	
+	/** The scaler. */
 	private ScalingControl scaler;
+	
+	/** The scene vertex. */
 	// scenes
 	private Scene sceneVertex;
+	
+	/** The scene vertex title. */
 	String sceneVertexTitle;
+	
+	/** The scene ids. */
 	private List<Long> sceneIds;
+	
+	/** The person vertex. */
 	// persons
 	private Person personVertex;
+	
+	/** The relationship vertex. */
 	// relationships
 	private Relationship relationshipVertex;
+	
+	/** The location vertex. */
 	// locations
 	private Location locationVertex;
+	
+	/** The location vertex title. */
 	private String locationVertexTitle;
+	
+	/** The show tag vertex. */
 	// tag
 	private boolean showTagVertex = true;
+	
+	/** The tag vertex. */
 	private Tag tagVertex;
+	
+	/** The involved tag vertex. */
 	private Tag involvedTagVertex;
+	
+	/** The involved tags. */
 	private Set<Tag> involvedTags;
+	
+	/** The item vertex. */
 	// items
 	private Item itemVertex;
+	
+	/** The involved item vertex. */
 	private Item involvedItemVertex;
+	
+	/** The involved items. */
 	private Set<Item> involvedItems;
+	
+	/** The show balloon layout. */
 	// panels and combos
 	boolean showBalloonLayout = true;
+	
+	/** The control panel. */
 	private JPanel controlPanel;
+	
+	/** The date panel. */
 	private JPanel datePanel;
+	
+	/** The entity type combo. */
 	private JComboBox<EntityTypeCbItem> entityTypeCombo;
+	
+	/** The entity combo. */
 	private JComboBox<AbstractEntity> entityCombo;
+	
+	/** The chosen date. */
 	private Date chosenDate;
+	
+	/** The date combo. */
 	private JComboBox<Date> dateCombo;
+	
+	/** The cb auto refresh. */
 	private JCheckBox cbAutoRefresh;
+	
+	/** The woman icon medium. */
 	// icons
 	private final Icon womanIconMedium = I18N.getIcon("icon.medium.woman");
+	
+	/** The woman icon large. */
 	private final Icon womanIconLarge = I18N.getIcon("icon.large.woman");
+	
+	/** The man icon medium. */
 	private final Icon manIconMedium = I18N.getIcon("icon.medium.man");
+	
+	/** The man icon large. */
 	private final Icon manIconLarge = I18N.getIcon("icon.large.man");
+	
+	/** The person icon medium. */
 	private final Icon personIconMedium = I18N.getIcon("icon.medium.person");
+	
+	/** The person icon large. */
 	private final Icon personIconLarge = I18N.getIcon("icon.large.person");
+	
+	/** The relationship icon medium. */
 	private final Icon relationshipIconMedium = I18N.getIcon("icon.medium.relationship");
+	
+	/** The relationship icon large. */
 	private final Icon relationshipIconLarge = I18N.getIcon("icon.large.relationship");
+	
+	/** The location icon medium. */
 	private final Icon locationIconMedium = I18N.getIcon("icon.medium.location");
+	
+	/** The location icon large. */
 	private final Icon locationIconLarge = I18N.getIcon("icon.large.location");
+	
+	/** The scene icon medium. */
 	private final Icon sceneIconMedium = I18N.getIcon("icon.medium.scene");
+	
+	/** The scene icon large. */
 	private final Icon sceneIconLarge = I18N.getIcon("icon.large.scene");
+	
+	/** The item icon medium. */
 	private final Icon itemIconMedium = I18N.getIcon("icon.medium.item");
+	
+	/** The item icon large. */
 	private final Icon itemIconLarge = I18N.getIcon("icon.large.item");
+	
+	/** The tag icon medium. */
 	private final Icon tagIconMedium = I18N.getIcon("icon.medium.tag");
+	
+	/** The tag icon large. */
 	private final Icon tagIconLarge = I18N.getIcon("icon.large.tag");
+	
+	/** The empty icon. */
 	private final Icon emptyIcon = new EmptyIcon();
+	
+	/** The process action listener. */
 	// processAction
 	private boolean processActionListener = true;
+	
+	/** The relationship dao. */
 	private RelationshipDAOImpl relationshipDAO;
 
+	/**
+	 * Instantiates a new memoria panel.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public MemoriaPanel(MainFrame paramMainFrame) {
 		super(paramMainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if ((evt.getSource() == null) || (!processActionListener)) {
@@ -202,6 +318,12 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		refresh((AbstractEntity) entityCombo.getSelectedItem());
 	}
 
+	/**
+	 * Adds the icon button.
+	 *
+	 * @param icon the icon
+	 * @param btString the bt string
+	 */
 	void addIconButton(String icon, String btString) {
 		IconButton ib = new IconButton("icon.small." + icon);
 		ib.setSize32x20();
@@ -210,6 +332,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		datePanel.add(ib);
 	}
 
+	/**
+	 * Adds the to vertex involved item.
+	 *
+	 * @param item the item
+	 */
 	void addToVertexInvolvedItem(Item item) {
 		if (item != null) {
 			if (!isItemInGraph(item)) {
@@ -221,6 +348,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex involved items.
+	 */
 	void addToVertexInvolvedItems() {
 		if (!involvedItems.isEmpty()) {
 			for (Item item : involvedItems) {
@@ -229,6 +359,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex involved tag.
+	 *
+	 * @param tag the tag
+	 */
 	void addToVertexInvolvedTag(Tag tag) {
 		if (tag != null) {
 			if (!isTagInGraph(tag)) {
@@ -240,6 +375,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex involved tags.
+	 */
 	void addToVertexInvolvedTags() {
 		if (!involvedTags.isEmpty()) {
 			for (Tag tag : involvedTags) {
@@ -248,6 +386,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex item.
+	 *
+	 * @param item the item
+	 */
 	void addToVertexItem(Item item) {
 		if (item != null) {
 			graph.addVertex(item);
@@ -259,6 +402,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex items.
+	 *
+	 * @param paramSet the param set
+	 */
 	void addToVertexItems(Set<Item> paramSet) {
 		if (!paramSet.isEmpty()) {
 			for (Item item : paramSet) {
@@ -267,6 +415,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex location.
+	 *
+	 * @param location the location
+	 */
 	void addToVertexLocation(Location location) {
 		graph.addVertex(location);
 		labelMap.put(location, location.toString());
@@ -276,6 +429,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		addToVertexRelationships(relationships, null);
 	}
 
+	/**
+	 * Adds the to vertex locations.
+	 *
+	 * @param paramSet the param set
+	 */
 	void addToVertexLocations(Set<Location> paramSet) {
 		if (!paramSet.isEmpty()) {
 			for (Location location : paramSet) {
@@ -284,6 +442,12 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex person.
+	 *
+	 * @param person the person
+	 * @param personLink the person link
+	 */
 	void addToVertexPerson(Person person, Person personLink) {
 		graph.addVertex(person);
 		labelMap.put(person, person.toString());
@@ -296,6 +460,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		addToVertexRelationships(relationships, personLink);
 	}
 
+	/**
+	 * Adds the to vertex persons.
+	 *
+	 * @param paramSet the param set
+	 */
 	void addToVertexPersons(Set<Person> paramSet) {
 		if (!paramSet.isEmpty()) {
 			for (Person person : paramSet) {
@@ -304,6 +473,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex relationship.
+	 *
+	 * @param relationship the relationship
+	 */
 	void addToVertexRelationship(Relationship relationship) {
 		boolean b = false;
 		if (relationship.hasPeriod() && (chosenDate != null)) {
@@ -322,6 +496,12 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex relationships.
+	 *
+	 * @param relationships the relationships
+	 * @param person the person
+	 */
 	void addToVertexRelationships(List<Relationship> relationships, Person person) {
 		if (!relationships.isEmpty()) {
 			for (Relationship relationship : relationships) {
@@ -337,6 +517,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex scene.
+	 *
+	 * @param scene the scene
+	 */
 	void addToVertexScene(Scene scene) {
 		graph.addVertex(scene);
 		labelMap.put(scene, scene.toString());
@@ -344,6 +529,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, sceneVertex, scene);
 	}
 
+	/**
+	 * Adds the to vertex scenes.
+	 *
+	 * @param paramSet the param set
+	 */
 	void addToVertexScenes(Set<Scene> paramSet) {
 		if (!paramSet.isEmpty()) {
 			for (Scene scene : paramSet) {
@@ -352,6 +542,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex tag.
+	 *
+	 * @param tag the tag
+	 */
 	void addToVertexTag(Tag tag) {
 		if (tag != null) {
 			graph.addVertex(tag);
@@ -361,12 +556,20 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Adds the to vertex tags.
+	 *
+	 * @param paramSet the param set
+	 */
 	void addToVertexTags(Set<Tag> paramSet) {
 		for (Tag tag : paramSet) {
 			addToVertexTag(tag);
 		}
 	}
 
+	/**
+	 * Clear graph.
+	 */
 	private void clearGraph() {
 		try {
 			if (graph == null) {
@@ -386,6 +589,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Creates the item graph.
+	 */
 	private void createItemGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -472,6 +678,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Creates the location graph.
+	 */
 	private void createLocationGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -549,6 +758,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Creates the person graph.
+	 */
 	private void createPersonGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -667,6 +879,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Creates the scene graph.
+	 */
 	private void createSceneGraph() {
 		graphIndex = 0L;
 		BookModel model = mainFrame.getBookModel();
@@ -740,6 +955,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Creates the tag graph.
+	 */
 	private void createTagGraph() {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -831,6 +1049,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Export.
+	 */
 	public void export() {
 		try {
 			if (shownEntity == null) {
@@ -861,11 +1082,21 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#getMainFrame()
+	 */
 	@Override
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
+	/**
+	 * Gets the person icon.
+	 *
+	 * @param person the person
+	 * @param sizeIcon the size icon
+	 * @return the person icon
+	 */
 	private Icon getPersonIcon(Person person, SbConstants.IconSize sizeIcon) {
 		if (sizeIcon == SbConstants.IconSize.MEDIUM) {
 			if (person.getGender().isMale()) {
@@ -888,14 +1119,27 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		return emptyIcon;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	private JPanel getThis() {
 		return this;
 	}
 
+	/**
+	 * Checks for auto refresh.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasAutoRefresh() {
 		return cbAutoRefresh.isSelected();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -916,6 +1160,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Inits the graph.
+	 */
 	@SuppressWarnings("unchecked")
 	private void initGraph() {
 		try {
@@ -952,6 +1199,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		try {
@@ -971,6 +1221,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Inits the vertex involded item.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexInvoldedItem(AbstractEntity entity) {
 		involvedItemVertex = new Item();
 		involvedItemVertex.setName(I18N.getMsg("msg.graph.involved.items"));
@@ -980,6 +1235,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, involvedItemVertex);
 	}
 
+	/**
+	 * Inits the vertex involded tag.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexInvoldedTag(AbstractEntity entity) {
 		involvedTagVertex = new Tag();
 		involvedTagVertex.setName(I18N.getMsg("msg.graph.involved.tags"));
@@ -989,6 +1249,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, involvedTagVertex);
 	}
 
+	/**
+	 * Inits the vertex item.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexItem(AbstractEntity entity) {
 		itemVertex = new Item();
 		itemVertex.setName(I18N.getMsg("msg.items"));
@@ -998,6 +1263,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, itemVertex);
 	}
 
+	/**
+	 * Inits the vertex location.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexLocation(AbstractEntity entity) {
 		locationVertex = new Location();
 		if (locationVertexTitle != null) {
@@ -1011,6 +1281,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, locationVertex);
 	}
 
+	/**
+	 * Inits the vertex person.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexPerson(AbstractEntity entity) {
 		personVertex = new Person();
 		personVertex.setFirstname(I18N.getMsg("msg.common.persons"));
@@ -1020,6 +1295,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, personVertex);
 	}
 
+	/**
+	 * Inits the vertex relationship.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexRelationship(AbstractEntity entity) {
 		SbApp.trace("MemoriaPanel.initVertexRelationship(" + entity.toString() + ")");
 		relationshipVertex = new Relationship();
@@ -1030,6 +1310,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, relationshipVertex);
 	}
 
+	/**
+	 * Inits the vertex scene.
+	 *
+	 * @param entity the entity
+	 */
 	void initVertexScene(AbstractEntity entity) {
 		sceneVertex = new Scene();
 		if (sceneVertexTitle != null) {
@@ -1043,6 +1328,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, sceneVertex);
 	}
 
+	/**
+	 * Inits the vertex tag.
+	 *
+	 * @param entity the entity
+	 */
 	private void initVertexTag(AbstractEntity entity) {
 		tagVertex = new Tag();
 		tagVertex.setName(I18N.getMsg("msg.tags"));
@@ -1052,6 +1342,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graph.addEdge(graphIndex++, entity, tagVertex);
 	}
 
+	/**
+	 * Inits the vertices.
+	 *
+	 * @param entity the entity
+	 */
 	void initVertices(AbstractEntity entity) {
 		initVertexScene(entity);
 		initVertexPerson(entity);
@@ -1075,6 +1370,13 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		showTagVertex = true;
 	}
 
+	/**
+	 * Checks if is in period.
+	 *
+	 * @param period the period
+	 * @param date the date
+	 * @return true, if is in period
+	 */
 	private boolean isInPeriod(Period period, Date date) {
 		return (period == null) || (date == null) || (period.isInside(date));
 	}
@@ -1103,6 +1405,12 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 	 * }
 	 */
 
+	/**
+	 * Checks if is item in graph.
+	 *
+	 * @param item the item
+	 * @return true, if is item in graph
+	 */
 	private boolean isItemInGraph(Item item) {
 		if (item == null) {
 			return false;
@@ -1118,10 +1426,21 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		return false;
 	}
 
+	/**
+	 * Checks if is nothing selected.
+	 *
+	 * @return true, if is nothing selected
+	 */
 	private boolean isNothingSelected() {
 		return entityId <= -1L;
 	}
 
+	/**
+	 * Checks if is tag in graph.
+	 *
+	 * @param tag the tag
+	 * @return true, if is tag in graph
+	 */
 	private boolean isTagInGraph(Tag tag) {
 		if (tag == null) {
 			return false;
@@ -1137,6 +1456,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		return false;
 	}
 
+	/**
+	 * Make layout transition.
+	 */
 	private void makeLayoutTransition() {
 		if (vv == null) {
 			return;
@@ -1152,6 +1474,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		vv.repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		try {
@@ -1203,12 +1528,20 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		refreshControlPanel();
 		refreshGraph();
 	}
 
+	/**
+	 * Refresh.
+	 *
+	 * @param entity the entity
+	 */
 	public void refresh(AbstractEntity entity) {
 		try {
 			if (entity == null) {
@@ -1222,6 +1555,13 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Refresh combo.
+	 *
+	 * @param pEntity the entity
+	 * @param pList the list
+	 * @param b the b
+	 */
 	private void refreshCombo(AbstractEntity pEntity, List<? extends AbstractEntity> pList, boolean b) {
 		try {
 			processActionListener = false;
@@ -1237,6 +1577,9 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Refresh control panel.
+	 */
 	@SuppressWarnings("unchecked")
 	private void refreshControlPanel() {
 		BookModel model = mainFrame.getBookModel();
@@ -1310,6 +1653,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		dateCombo.addActionListener(this);
 	}
 
+	/**
+	 * Refresh entity combo.
+	 *
+	 * @param type the type
+	 */
 	@SuppressWarnings("unchecked")
 	private void refreshEntityCombo(EntityTypeCbItem.Type type) {
 		BookModel model = mainFrame.getBookModel();
@@ -1348,10 +1696,18 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		model.commit();
 	}
 
+	/**
+	 * Refresh graph.
+	 */
 	private void refreshGraph() {
 		refreshGraph(null);
 	}
 
+	/**
+	 * Refresh graph.
+	 *
+	 * @param entity the entity
+	 */
 	private void refreshGraph(AbstractEntity entity) {
 		try {
 			clearGraph();
@@ -1390,6 +1746,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Removes the doubles from involved items.
+	 *
+	 * @param set2 the set2
+	 */
 	void removeDoublesFromInvolvedItems(Set<Item> set2) {
 		List<AbstractTag> tagList = new ArrayList<AbstractTag>();
 		for (AbstractTag atag : involvedItems) {
@@ -1404,6 +1765,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Removes the doubles from involved tags.
+	 *
+	 * @param set1 the set1
+	 */
 	void removeDoublesFromInvolvedTags(Set<Tag> set1) {
 		List<Tag> tagList = new ArrayList<Tag>();
 		for (Tag atag : involvedTags) {
@@ -1418,6 +1784,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Scale to layout.
+	 *
+	 * @param scalingControl the scaling control
+	 */
 	private void scaleToLayout(ScalingControl scalingControl) {
 		Dimension dimension1 = vv.getPreferredSize();
 		if (vv.isShowing()) {
@@ -1429,6 +1800,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Search involved items.
+	 *
+	 * @param itemLinks the item links
+	 */
 	void searchInvolvedItems(List<ItemLink> itemLinks) {
 		if (!itemLinks.isEmpty()) {
 			for (ItemLink itemLink : itemLinks) {
@@ -1439,6 +1815,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Search involved tags.
+	 *
+	 * @param tagLinks the tag links
+	 */
 	void searchInvolvedTags(List<TagLink> tagLinks) {
 		if (!tagLinks.isEmpty()) {
 			for (TagLink tagLink : tagLinks) {
@@ -1449,6 +1830,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Show message.
+	 *
+	 * @param paramString the param string
+	 */
 	private void showMessage(String paramString) {
 		Graphics2D graphics2D = (Graphics2D) vv.getGraphics();
 		if (graphics2D == null) {
@@ -1463,6 +1849,11 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		graphics2D.drawString(paramString, i - 180, j + 5);
 	}
 
+	/**
+	 * Update control panel.
+	 *
+	 * @param pEntity the entity
+	 */
 	private void updateControlPanel(AbstractEntity pEntity) {
 		int i = 0;
 		EntityTypeCbItem tobj;
@@ -1504,10 +1895,16 @@ public class MemoriaPanel extends AbstractPanel implements ActionListener, IRefr
 		}
 	}
 
+	/**
+	 * Zoom in.
+	 */
 	public void zoomIn() {
 		scaler.scale(vv, 1.1F, vv.getCenter());
 	}
 
+	/**
+	 * Zoom out.
+	 */
 	public void zoomOut() {
 		scaler.scale(vv, 0.9090909F, vv.getCenter());
 	}

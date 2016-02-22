@@ -53,33 +53,71 @@ import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ChronoScenePanel.
+ */
 public class ChronoScenePanel extends AbstractScenePanel implements FocusListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6530625772716353587L;
+	
+	/** The cn title. */
 	private final String CN_TITLE = "taTitle";
+	
+	/** The cn text. */
 	private final String CN_TEXT = "tcText";
+	
+	/** The cn upper panel. */
 	private final String CN_UPPER_PANEL = "upperPanel";
 
+	/** The upper panel. */
 	private JPanel upperPanel;
+	
+	/** The ta title. */
 	private UndoableTextArea taTitle;
+	
+	/** The tc text. */
 	private JTextComponent tcText;
+	
+	/** The lb status. */
 	private JLabel lbStatus;
+	
+	/** The lb informational. */
 	private JLabel lbInformational;
+	
+	/** The lb scene no. */
 	private JLabel lbSceneNo;
+	
+	/** The lb time. */
 	private JLabel lbTime;
 
+	/** The size. */
 	private Integer size;
 
+	/**
+	 * Instantiates a new chrono scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public ChronoScenePanel(MainFrame mainFrame, Scene scene) {
 		super(mainFrame, scene, true, Color.white, scene.getStrand().getJColor());
 		init();
 		initUi();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
 	@Override
 	public void focusGained(FocusEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
 	@Override
 	public void focusLost(FocusEvent e) {
 		if (e.getSource() instanceof JTextComponent) {
@@ -96,15 +134,26 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScenePanel#getScene()
+	 */
 	@Override
 	public Scene getScene() {
 		return this.scene;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected ChronoScenePanel getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -115,11 +164,17 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractGradientPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();
@@ -164,6 +219,9 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractGradientPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		MigLayout layout = new MigLayout("fill,flowy,insets 4", "[]", "[][grow]");
@@ -298,6 +356,11 @@ public class ChronoScenePanel extends AbstractScenePanel implements FocusListene
 		taTitle.setCaretPosition(0);
 	}
 
+	/**
+	 * Sets the zoomed size.
+	 *
+	 * @param zoomValue the new zoomed size
+	 */
 	private void setZoomedSize(int zoomValue) {
 		size = zoomValue * 7;
 	}

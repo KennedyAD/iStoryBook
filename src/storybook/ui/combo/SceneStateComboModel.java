@@ -23,17 +23,30 @@ import javax.swing.DefaultComboBoxModel;
 import storybook.model.state.AbstractState;
 import storybook.model.state.SceneStateModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneStateComboModel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class SceneStateComboModel extends DefaultComboBoxModel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -9156749898684036323L;
+
+	/**
+	 * Instantiates a new scene state combo model.
+	 */
 	public SceneStateComboModel() {
 		this(true);
 	}
 
+	/**
+	 * Instantiates a new scene state combo model.
+	 *
+	 * @param addPseudoStates the add pseudo states
+	 */
 	@SuppressWarnings("unchecked")
 	public SceneStateComboModel(boolean addPseudoStates) {
 		SceneStateModel model = new SceneStateModel(addPseudoStates);

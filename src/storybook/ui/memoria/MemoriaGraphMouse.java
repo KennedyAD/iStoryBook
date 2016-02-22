@@ -27,27 +27,55 @@ import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MemoriaGraphMouse.
+ */
 public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin implements MouseListener {
 
+	/** The Constant ACTION_KEY_DB_OBECT. */
 	public static final String ACTION_KEY_DB_OBECT = "DbObject";
+	
+	/** The parent. */
 	private MemoriaPanel parent;
 
+	/**
+	 * Instantiates a new memoria graph mouse.
+	 */
 	public MemoriaGraphMouse() {
 		this(4);
 	}
 
+	/**
+	 * Instantiates a new memoria graph mouse.
+	 *
+	 * @param i the i
+	 */
 	public MemoriaGraphMouse(int i) {
 		super(i);
 	}
 
+	/**
+	 * Instantiates a new memoria graph mouse.
+	 *
+	 * @param parent the parent
+	 */
 	public MemoriaGraphMouse(MemoriaPanel parent) {
 		this.parent = parent;
 	}
 
+	/**
+	 * Gets the parent.
+	 *
+	 * @return the parent
+	 */
 	public MemoriaPanel getParent() {
 		return this.parent;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin#handlePopup(java.awt.event.MouseEvent)
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void handlePopup(MouseEvent evt) {
@@ -63,6 +91,9 @@ public class MemoriaGraphMouse extends AbstractPopupGraphMousePlugin implements 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void mouseClicked(MouseEvent paramMouseEvent) {

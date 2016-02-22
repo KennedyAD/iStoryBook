@@ -76,6 +76,7 @@ import net.infonode.docking.util.MixedViewHandler;
 import net.infonode.docking.util.ViewMap;
 import net.infonode.util.Direction;
 
+// TODO: Auto-generated Javadoc
 /**
  * A small example on how to use InfoNode Docking Windows. This example shows
  * how to handle both static and dynamic views in the same root window.
@@ -86,6 +87,8 @@ public class IdwTest02 {
 	 * A dynamically created view containing an id.
 	 */
 	private static class DynamicView extends View {
+		
+		/** The id. */
 		private int id;
 
 		/**
@@ -115,6 +118,7 @@ public class IdwTest02 {
 		}
 	}
 
+	/** The Constant ICON_SIZE. */
 	private static final int ICON_SIZE = 8;
 
 	/**
@@ -186,6 +190,12 @@ public class IdwTest02 {
 		return new JScrollPane(new JTextArea(sb.toString()));
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String[] args) throws Exception {
 		// Set InfoNode Look and Feel
 		// UIManager.setLookAndFeel(new InfoNodeLookAndFeel());
@@ -199,34 +209,22 @@ public class IdwTest02 {
 		});
 	}
 
-	/**
-	 * The one and only root window
-	 */
+	/** The one and only root window. */
 	private RootWindow rootWindow;
 
-	/**
-	 * An array of the static views
-	 */
+	/** An array of the static views. */
 	private View[] views = new View[10];
 
-	/**
-	 * Contains all the static views
-	 */
+	/** Contains all the static views. */
 	private ViewMap viewMap = new ViewMap();
 
-	/**
-	 * The view menu items
-	 */
+	/** The view menu items. */
 	private JMenuItem[] viewItems = new JMenuItem[views.length];
 
-	/**
-	 * Contains the dynamic views that has been added to the root window
-	 */
+	/** Contains the dynamic views that has been added to the root window. */
 	private HashMap dynamicViews = new HashMap();
 
-	/**
-	 * The currently applied docking windows theme
-	 */
+	/** The currently applied docking windows theme. */
 	private DockingWindowsTheme currentTheme = new ShapedGradientDockingTheme();
 
 	/**
@@ -240,11 +238,12 @@ public class IdwTest02 {
 	 */
 	private byte[][] layouts = new byte[3][];
 
-	/**
-	 * The application frame
-	 */
+	/** The application frame. */
 	private JFrame frame = new JFrame("InfoNode Docking Windows Example");
 
+	/**
+	 * Instantiates a new idw test02.
+	 */
 	public IdwTest02() {
 		createRootWindow();
 		setDefaultLayout();

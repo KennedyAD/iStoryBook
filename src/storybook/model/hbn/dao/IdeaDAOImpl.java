@@ -28,16 +28,33 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.Idea;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IdeaDAOImpl.
+ */
 public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements IdeaDAO {
 
+	/**
+	 * Instantiates a new idea dao impl.
+	 */
 	public IdeaDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new idea dao impl.
+	 *
+	 * @param session the session
+	 */
 	public IdeaDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find all order by state.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Idea> findAllOrderByState() {
 		Criteria crit = session.createCriteria(Idea.class);
@@ -45,6 +62,12 @@ public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements IdeaDAO
 		return crit.list();
 	}
 
+	/**
+	 * Find by status.
+	 *
+	 * @param status the status
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Idea> findByStatus(Integer status) {
 		Criteria crit = session.createCriteria(Idea.class);
@@ -53,6 +76,11 @@ public class IdeaDAOImpl extends SbGenericDAOImpl<Idea, Long> implements IdeaDAO
 		return persons;
 	}
 
+	/**
+	 * Find categories.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCategories() {
 		Query query = session.createQuery("select distinct(i.category) from Idea as i");

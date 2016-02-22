@@ -29,9 +29,19 @@ import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.TextUtil;
 import storybook.toolkit.html.HtmlUtil;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HtmlTableCellRenderer.
+ */
 public class HtmlTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8969251027957980319L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

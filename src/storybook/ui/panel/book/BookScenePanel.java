@@ -28,19 +28,42 @@ import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractScenePanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BookScenePanel.
+ */
 public class BookScenePanel extends AbstractScenePanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2474582404856543422L;
+	
+	/** The cmd panel. */
 	private JPanel cmdPanel;
+	
+	/** The text panel. */
 	private BookTextPanel textPanel;
+	
+	/** The info panel. */
 	private BookInfoPanel infoPanel;
 
+	/**
+	 * Instantiates a new book scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public BookScenePanel(MainFrame mainFrame, Scene scene) {
 		super(mainFrame, scene);
 		init();
 		initUi();
 	}
 
+	/**
+	 * Creates the command panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createCommandPanel() {
 		JPanel panel = new JPanel(new MigLayout("flowy,insets 0"));
 		panel.setOpaque(false);
@@ -53,23 +76,40 @@ public class BookScenePanel extends AbstractScenePanel {
 		return panel;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected BookScenePanel getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractGradientPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractGradientPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		MigLayout layout = new MigLayout("wrap 3,fill", "[]", "[top]");

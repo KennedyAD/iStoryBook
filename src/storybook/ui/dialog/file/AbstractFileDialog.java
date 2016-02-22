@@ -38,21 +38,54 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractFileDialog.
+ */
 public abstract class AbstractFileDialog extends AbstractDialog implements CaretListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3841682455900267198L;
+	
+	/** The lb warning. */
 	protected JLabel lbWarning;
+	
+	/** The bt ok. */
 	protected JButton btOk;
+	
+	/** The tf dir. */
 	protected JTextField tfDir;
+	
+	/** The tf name. */
 	protected JTextField tfName;
+	
+	/** The bt choose dir. */
 	protected JButton btChooseDir;
+	
+	/** The options panel. */
 	protected JPanel optionsPanel;
+	
+	/** The file. */
 	protected File file;
+	
+	/** The hide dir. */
 	private boolean hideDir = false;
+	
+	/** The force db ext. */
 	private boolean forceDbExt = true;
+	
+	/** The default db ext. */
 	private String defaultDBExt = "mv.db";
+	
+	/** The ask for overwrite. */
 	private boolean askForOverwrite = false;
 
+	/**
+	 * Instantiates a new abstract file dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		this.mainFrame = mainFrame;
@@ -66,6 +99,9 @@ public abstract class AbstractFileDialog extends AbstractDialog implements Caret
 	protected void addInformationLines() {
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		if (e.getSource() instanceof JTextField) {
@@ -78,8 +114,18 @@ public abstract class AbstractFileDialog extends AbstractDialog implements Caret
 		}
 	}
 
+	/**
+	 * Gets the choose folder action.
+	 *
+	 * @return the choose folder action
+	 */
 	private AbstractAction getChooseFolderAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3638390475240763293L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				final JFileChooser fc = new JFileChooser(tfDir.getText());
@@ -95,17 +141,35 @@ public abstract class AbstractFileDialog extends AbstractDialog implements Caret
 		};
 	}
 
+	/**
+	 * Gets the file.
+	 *
+	 * @return the file
+	 */
 	public File getFile() {
 		return file;
 	}
 
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3413349766401704105L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				if (tfName.getText().isEmpty() || tfDir.getText().isEmpty()) {
@@ -146,25 +210,49 @@ public abstract class AbstractFileDialog extends AbstractDialog implements Caret
 		};
 	}
 
+	/**
+	 * Gets the tf dir.
+	 *
+	 * @return the tf dir
+	 */
 	public JTextField getTfDir() {
 		return tfDir;
 	}
 
+	/**
+	 * Gets the tf name.
+	 *
+	 * @return the tf name
+	 */
 	public JTextField getTfName() {
 		return tfName;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected AbstractFileDialog getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/**
+	 * Inits the options panel.
+	 */
 	protected void initOptionsPanel() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		MigLayout layout = new MigLayout("wrap 2", "[]", "[]");
@@ -221,31 +309,66 @@ public abstract class AbstractFileDialog extends AbstractDialog implements Caret
 		add(btCancel, "sg");
 	}
 
+	/**
+	 * Sets the ask for overwrite.
+	 *
+	 * @param ask the new ask for overwrite
+	 */
 	public void setAskForOverwrite(boolean ask) {
 		askForOverwrite = ask;
 	}
 
+	/**
+	 * Sets the default db ext.
+	 *
+	 * @param ext the new default db ext
+	 */
 	public void setDefaultDBExt(String ext) {
 		defaultDBExt = ext;
 	}
 
+	/**
+	 * Sets the dir.
+	 *
+	 * @param dir the new dir
+	 */
 	protected void setDir(String dir) {
 		tfDir.setText(dir);
 	}
 
+	/**
+	 * Sets the filename.
+	 *
+	 * @param filename the new filename
+	 */
 	protected void setFilename(String filename) {
 		tfName.setText(filename);
 		tfName.selectAll();
 	}
 
+	/**
+	 * Sets the force db extension.
+	 *
+	 * @param forced the new force db extension
+	 */
 	public void setForceDbExtension(boolean forced) {
 		forceDbExt = forced;
 	}
 
+	/**
+	 * Sets the hide dir.
+	 *
+	 * @param dirOnly the new hide dir
+	 */
 	public void setHideDir(boolean dirOnly) {
 		hideDir = dirOnly;
 	}
 
+	/**
+	 * Sets the tf name.
+	 *
+	 * @param name the new tf name
+	 */
 	public void setTfName(String name) {
 		tfName.setText(name);
 	}

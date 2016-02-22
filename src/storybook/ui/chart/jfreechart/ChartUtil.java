@@ -40,12 +40,20 @@ import org.jfree.ui.TextAnchor;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.ColorUtil;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ChartUtil.
  *
  * @author favdb
  */
 public class ChartUtil {
 
+	/**
+	 * Correct dates.
+	 *
+	 * @param paramTreeSet the param tree set
+	 * @return the tree set
+	 */
 	@SuppressWarnings("unchecked")
 	public static TreeSet<Date> correctDates(TreeSet<Date> paramTreeSet) {
 		TreeSet localTreeSet = new TreeSet();
@@ -66,6 +74,12 @@ public class ChartUtil {
 		return localTreeSet;
 	}
 
+	/**
+	 * Gets the average marker.
+	 *
+	 * @param paramDouble the param double
+	 * @return the average marker
+	 */
 	public static Marker getAverageMarker(double paramDouble) {
 		ValueMarker localValueMarker = new ValueMarker(paramDouble, Color.red, new BasicStroke(0.3F));
 		localValueMarker.setLabel(I18N.getMsg("msg.common.average"));
@@ -75,11 +89,26 @@ public class ChartUtil {
 		return localValueMarker;
 	}
 
+	/**
+	 * Gets the date interval marker.
+	 *
+	 * @param paramDate1 the param date1
+	 * @param paramDate2 the param date2
+	 * @return the date interval marker
+	 */
 	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2) {
 		String str = paramDate1.toString() + " - " + paramDate2.toString();
 		return getDateIntervalMarker(paramDate1, paramDate2, str);
 	}
 
+	/**
+	 * Gets the date interval marker.
+	 *
+	 * @param paramDate1 the param date1
+	 * @param paramDate2 the param date2
+	 * @param paramString the param string
+	 * @return the date interval marker
+	 */
 	public static Marker getDateIntervalMarker(Date paramDate1, Date paramDate2, String paramString) {
 		double d1 = paramDate1.getTime();
 		double d2 = paramDate2.getTime();
@@ -92,14 +121,35 @@ public class ChartUtil {
 		return localIntervalMarker;
 	}
 
+	/**
+	 * Gets the date marker.
+	 *
+	 * @param paramDate the param date
+	 * @return the date marker
+	 */
 	public static Marker getDateMarker(Date paramDate) {
 		return getDateMarker(paramDate, paramDate.toString());
 	}
 
+	/**
+	 * Gets the date marker.
+	 *
+	 * @param paramDate the param date
+	 * @param paramString the param string
+	 * @return the date marker
+	 */
 	public static Marker getDateMarker(Date paramDate, String paramString) {
 		return getDateMarker(paramDate, paramString, false);
 	}
 
+	/**
+	 * Gets the date marker.
+	 *
+	 * @param paramDate the param date
+	 * @param paramString the param string
+	 * @param paramBoolean the param boolean
+	 * @return the date marker
+	 */
 	public static Marker getDateMarker(Date paramDate, String paramString, boolean paramBoolean) {
 		double d = paramDate.getTime();
 		ValueMarker localValueMarker = new ValueMarker(d, Color.red, new BasicStroke(0.3F));
@@ -114,6 +164,11 @@ public class ChartUtil {
 		return localValueMarker;
 	}
 
+	/**
+	 * Gets the nice item label position.
+	 *
+	 * @return the nice item label position
+	 */
 	public static ItemLabelPosition getNiceItemLabelPosition() {
 		ItemLabelAnchor localItemLabelAnchor = ItemLabelAnchor.OUTSIDE6;
 		TextAnchor localTextAnchor1 = TextAnchor.BOTTOM_LEFT;
@@ -122,22 +177,43 @@ public class ChartUtil {
 		return new ItemLabelPosition(localItemLabelAnchor, localTextAnchor1, localTextAnchor2, d);
 	}
 
+	/**
+	 * Hide domain axis.
+	 *
+	 * @param paramCategoryPlot the param category plot
+	 */
 	public static void hideDomainAxis(CategoryPlot paramCategoryPlot) {
 		CategoryAxis localCategoryAxis = paramCategoryPlot.getDomainAxis();
 		localCategoryAxis.setTickMarksVisible(false);
 		localCategoryAxis.setTickLabelsVisible(false);
 	}
 
+	/**
+	 * Hide legend.
+	 *
+	 * @param paramCategoryPlot the param category plot
+	 */
 	public static void hideLegend(CategoryPlot paramCategoryPlot) {
 		paramCategoryPlot.setFixedLegendItems(new LegendItemCollection());
 	}
 
+	/**
+	 * Hide range axis.
+	 *
+	 * @param paramCategoryPlot the param category plot
+	 */
 	public static void hideRangeAxis(CategoryPlot paramCategoryPlot) {
 		ValueAxis localValueAxis = paramCategoryPlot.getRangeAxis();
 		localValueAxis.setTickMarksVisible(false);
 		localValueAxis.setTickLabelsVisible(false);
 	}
 
+	/**
+	 * Sets the nice series colors.
+	 *
+	 * @param paramCategoryDataset the param category dataset
+	 * @param paramAbstractRenderer the param abstract renderer
+	 */
 	public static void setNiceSeriesColors(CategoryDataset paramCategoryDataset,
 			AbstractRenderer paramAbstractRenderer) {
 		Color[] arrayOfColor = ColorUtil.getDarkColors(ColorUtil.getPastelColors(), 0.35D);

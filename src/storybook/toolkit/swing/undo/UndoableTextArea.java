@@ -28,15 +28,31 @@ import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UndoableTextArea.
+ */
 public class UndoableTextArea extends JTextArea implements UndoableComponent, KeyListener, DocumentListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4486225358798268957L;
+
+	/** The Constant LIMIT. */
 	private static final int LIMIT = 100;
 
+	/** The undo. */
 	private SbUndoManager undo;
+	
+	/** The undo action. */
 	private AbstractAction undoAction;
+	
+	/** The redo action. */
 	private AbstractAction redoAction;
 
+	/**
+	 * Instantiates a new undoable text area.
+	 */
 	public UndoableTextArea() {
 		super();
 		addKeyListener(this);
@@ -50,30 +66,48 @@ public class UndoableTextArea extends JTextArea implements UndoableComponent, Ke
 		inputMap.put(KeyStroke.getKeyStroke("control Y"), redoAction);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		undo.endGroup();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getRedoAction()
+	 */
 	@Override
 	public AbstractAction getRedoAction() {
 		return redoAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getUndoAction()
+	 */
 	@Override
 	public AbstractAction getUndoAction() {
 		return undoAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getUndoManager()
+	 */
 	@Override
 	public SbUndoManager getUndoManager() {
 		return undo;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int ch = e.getKeyCode();
@@ -82,14 +116,23 @@ public class UndoableTextArea extends JTextArea implements UndoableComponent, Ke
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 	}

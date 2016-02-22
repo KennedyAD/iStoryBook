@@ -29,23 +29,40 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class NavigationPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class NavigationPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1339626475159591609L;
+	
+	/** The tabbed pane. */
 	private JTabbedPane tabbedPane;
 
+	/**
+	 * Instantiates a new navigation panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public NavigationPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill,ins 0"));
@@ -56,6 +73,9 @@ public class NavigationPanel extends AbstractPanel {
 		add(tabbedPane, "grow");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();
@@ -81,6 +101,9 @@ public class NavigationPanel extends AbstractPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		int index = tabbedPane.getSelectedIndex();

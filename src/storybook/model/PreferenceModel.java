@@ -32,17 +32,30 @@ import storybook.model.hbn.dao.PreferenceDAOImpl;
 import storybook.toolkit.CommonTools;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PreferenceModel.
  *
+ * @author martin
  */
 public class PreferenceModel extends AbstractModel {
 
+	/**
+	 * Instantiates a new preference model.
+	 *
+	 * @param m the m
+	 */
 	public PreferenceModel(MainFrame m) {
 		super(m);
 		init();
 	}
 
+	/**
+	 * Creates the preference file.
+	 *
+	 * @param x the x
+	 * @throws FileNotFoundException the file not found exception
+	 */
 	private void createPreferenceFile(File x) throws FileNotFoundException {
 		// create preference.cfg.xml
 		try {
@@ -93,10 +106,18 @@ public class PreferenceModel extends AbstractModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.AbstractModel#fireAgain()
+	 */
 	@Override
 	public void fireAgain() {
 	}
 
+	/**
+	 * Gets the db name.
+	 *
+	 * @return the db name
+	 */
 	private String getDbName() {
 		return getPrefDir() + File.separator
 				+ SbConstants.Storybook.PREFERENCE_DB_NAME/*
@@ -106,11 +127,19 @@ public class PreferenceModel extends AbstractModel {
 															 */;
 	}
 
+	/**
+	 * Gets the pref dir.
+	 *
+	 * @return the pref dir
+	 */
 	private File getPrefDir() {
 		File homeDir = CommonTools.getHomeDir();
 		return new File(homeDir + File.separator + ".storybook5");
 	}
 
+	/**
+	 * Inits the.
+	 */
 	public final void init() {
 		try {
 			getPrefDir().mkdir();

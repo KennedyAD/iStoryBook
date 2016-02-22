@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Relationship;
 
+/**
+ * The Interface RelationshipDAO.
+ */
 public interface RelationshipDAO extends GenericDAO<Relationship, Long> {
 
 }

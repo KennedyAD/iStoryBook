@@ -28,18 +28,34 @@ import storybook.SbApp;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IOUtil.
  *
+ * @author martin
  */
 public class IOUtil {
 
+	/**
+	 * Cleanup filename.
+	 *
+	 * @param paramString the param string
+	 * @return the string
+	 */
 	public static String cleanupFilename(String paramString) {
 		String str = paramString.replaceAll("[\\/:*?\"<>|]", "");
 		str = str.replaceAll("\\\\", "");
 		return str;
 	}
 
+	/**
+	 * Gets the entity file name for export.
+	 *
+	 * @param paramMainFrame the param main frame
+	 * @param paramString the param string
+	 * @param paramAbstractEntity the param abstract entity
+	 * @return the entity file name for export
+	 */
 	public static String getEntityFileNameForExport(MainFrame paramMainFrame, String paramString,
 			AbstractEntity paramAbstractEntity) {
 		String str1 = "";
@@ -59,6 +75,13 @@ public class IOUtil {
 		return str1;
 	}
 
+	/**
+	 * Read file as string.
+	 *
+	 * @param filePath the file path
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static String readFileAsString(String filePath) throws java.io.IOException {
 		byte[] buffer = new byte[(int) new File(filePath).length()];
 		BufferedInputStream f = null;
@@ -77,6 +100,12 @@ public class IOUtil {
 		return new String(buffer);
 	}
 
+	/**
+	 * String to input stream.
+	 *
+	 * @param str the str
+	 * @return the input stream
+	 */
 	public static InputStream stringToInputStream(String str) {
 		return new ByteArrayInputStream(str.getBytes());
 	}

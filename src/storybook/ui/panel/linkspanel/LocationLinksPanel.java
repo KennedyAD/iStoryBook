@@ -21,16 +21,39 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LocationLinksPanel.
+ */
 public class LocationLinksPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2782944328954941552L;
+	
+	/** The scene. */
 	private Scene scene;
+	
+	/** The set size. */
 	private boolean setSize;
 
+	/**
+	 * Instantiates a new location links panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public LocationLinksPanel(MainFrame mainFrame, Scene scene) {
 		this(mainFrame, scene, true);
 	}
 
+	/**
+	 * Instantiates a new location links panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param setSize the set size
+	 */
 	public LocationLinksPanel(MainFrame mainFrame, Scene scene, boolean setSize) {
 		this.mainFrame = mainFrame;
 		this.scene = scene;
@@ -38,10 +61,16 @@ public class LocationLinksPanel extends AbstractPanel {
 		refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("insets 0", "grow"));
@@ -89,6 +118,9 @@ public class LocationLinksPanel extends AbstractPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();

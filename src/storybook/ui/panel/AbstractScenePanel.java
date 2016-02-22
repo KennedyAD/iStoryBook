@@ -30,22 +30,51 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractScenePanel.
+ */
 abstract public class AbstractScenePanel extends AbstractGradientPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8205175656654586333L;
+
+	/** The scene. */
 	protected Scene scene;
 
+	/** The new action. */
 	protected AbstractAction newAction;
 
+	/** The bt new. */
 	protected IconButton btNew;
+	
+	/** The bt edit. */
 	protected IconButton btEdit;
+	
+	/** The bt delete. */
 	protected IconButton btDelete;
 
+	/**
+	 * Instantiates a new abstract scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public AbstractScenePanel(MainFrame mainFrame, Scene scene) {
 		super(mainFrame);
 		this.scene = scene;
 	}
 
+	/**
+	 * Instantiates a new abstract scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param showBgGradient the show bg gradient
+	 * @param startBgcolor the start bgcolor
+	 * @param endBgColor the end bg color
+	 */
 	public AbstractScenePanel(MainFrame mainFrame, Scene scene, boolean showBgGradient, Color startBgcolor,
 			Color endBgColor) {
 		super(mainFrame, showBgGradient, scene.getInformative() ? Color.white : startBgcolor,
@@ -53,6 +82,9 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		this.scene = scene;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (other == null || !(other instanceof AbstractScenePanel)) {
@@ -65,6 +97,11 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return asp.getScene().getId().equals(scene.getId());
 	}
 
+	/**
+	 * Gets the delete button.
+	 *
+	 * @return the delete button
+	 */
 	protected IconButton getDeleteButton() {
 		if (btDelete != null) {
 			return btDelete;
@@ -76,6 +113,11 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return btDelete;
 	}
 
+	/**
+	 * Gets the edits the button.
+	 *
+	 * @return the edits the button
+	 */
 	protected IconButton getEditButton() {
 		if (btEdit != null) {
 			return btEdit;
@@ -87,9 +129,19 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return btEdit;
 	}
 
+	/**
+	 * Gets the new action.
+	 *
+	 * @return the new action
+	 */
 	protected AbstractAction getNewAction() {
 		if (newAction == null) {
 			newAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 2360418889876520475L;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// BookController ctrl = mainFrame.getBookController();
@@ -107,6 +159,11 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return newAction;
 	}
 
+	/**
+	 * Gets the new button.
+	 *
+	 * @return the new button
+	 */
 	protected IconButton getNewButton() {
 		if (btNew != null) {
 			return btNew;
@@ -117,10 +174,20 @@ abstract public class AbstractScenePanel extends AbstractGradientPanel {
 		return btNew;
 	}
 
+	/**
+	 * Gets the scene.
+	 *
+	 * @return the scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 
+	/**
+	 * Sets the scene.
+	 *
+	 * @param scene the new scene
+	 */
 	public void setScene(Scene scene) {
 		this.scene = scene;
 	}

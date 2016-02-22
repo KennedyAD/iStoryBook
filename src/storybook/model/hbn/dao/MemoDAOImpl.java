@@ -22,12 +22,24 @@ import org.hibernate.Session;
 
 import storybook.model.hbn.entity.Memo;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MemoDAOImpl.
+ */
 public class MemoDAOImpl extends SbGenericDAOImpl<Memo, Long> implements MemoDAO {
 
+	/**
+	 * Instantiates a new memo dao impl.
+	 */
 	public MemoDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new memo dao impl.
+	 *
+	 * @param session the session
+	 */
 	public MemoDAOImpl(Session session) {
 		super(session);
 	}

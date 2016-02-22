@@ -39,14 +39,41 @@ import javax.swing.event.ListSelectionListener;
 
 import storybook.toolkit.I18N;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FontChooserDialog.
+ */
 public class FontChooserDialog extends JDialog {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1369929150620192773L;
+
+	/**
+	 * The Class NwList.
+	 */
 	public class NwList extends JPanel {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = 9185771583239690600L;
+		
+		/** The jl. */
 		JList jl;
+		
+		/** The sp. */
 		JScrollPane sp;
+		
+		/** The jt. */
 		JLabel jt;
+		
+		/** The si. */
 		String si = " ";
 
+		/**
+		 * Instantiates a new nw list.
+		 *
+		 * @param values the values
+		 */
 		@SuppressWarnings("unchecked")
 		public NwList(String[] values) {
 			setLayout(null);
@@ -72,10 +99,18 @@ public class FontChooserDialog extends JDialog {
 			add(jt);
 		}
 
+		/**
+		 * Gets the selected value.
+		 *
+		 * @return the selected value
+		 */
 		public String getSelectedValue() {
 			return (si);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.Component#setBounds(int, int, int, int)
+		 */
 		@Override
 		public void setBounds(int x, int y, int w, int h) {
 			super.setBounds(x, y, w, h);
@@ -84,11 +119,27 @@ public class FontChooserDialog extends JDialog {
 			jt.setBounds(0, 0, w, 20);
 		}
 
+		/**
+		 * Sets the selected item.
+		 *
+		 * @param s the new selected item
+		 */
 		public void setSelectedItem(String s) {
 			jl.setSelectedValue(s, true);
 		}
 	}
+	
+	/** The Sample. */
 	static JLabel Sample = new JLabel();
+	
+	/**
+	 * Show dialog.
+	 *
+	 * @param parent the parent
+	 * @param s the s
+	 * @param font the font
+	 * @return the font
+	 */
 	public static Font showDialog(Frame parent, String s, Font font) {
 		FontChooserDialog fd = new FontChooserDialog(parent, true, font);
 		if (s != null) {
@@ -102,16 +153,33 @@ public class FontChooserDialog extends JDialog {
 		fd.dispose();
 		return (fo);
 	}
+	
+	/** The style list. */
 	String[] styleList = new String[] { "Plain", "Bold", "Italic" };
+	
+	/** The size list. */
 	String[] sizeList = new String[] { "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
 			"17", "18", "19", "20", "22", "24", "27", "30", "34", "39", "45", "51", "60" };
+	
+	/** The Style list. */
 	NwList StyleList;
+	
+	/** The Font list. */
 	NwList FontList;
 
+	/** The Size list. */
 	NwList SizeList;
 
+	/** The ob. */
 	boolean ob = false;
 
+	/**
+	 * Instantiates a new font chooser dialog.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
+	 * @param font the font
+	 */
 	private FontChooserDialog(Frame parent, boolean modal, Font font) {
 		super(parent, modal);
 		initAll();
@@ -125,6 +193,9 @@ public class FontChooserDialog extends JDialog {
 
 	}
 
+	/**
+	 * Adds the buttons.
+	 */
 	private void addButtons() {
 		JButton ok = new JButton(I18N.getMsg("msg.common.ok"));
 		ok.setMargin(new Insets(0, 0, 0, 0));
@@ -150,6 +221,9 @@ public class FontChooserDialog extends JDialog {
 		});
 	}
 
+	/**
+	 * Adds the lists.
+	 */
 	private void addLists() {
 		FontList = new NwList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 		StyleList = new NwList(styleList);
@@ -162,6 +236,9 @@ public class FontChooserDialog extends JDialog {
 		getContentPane().add(SizeList);
 	}
 
+	/**
+	 * Inits the all.
+	 */
 	private void initAll() {
 		getContentPane().setLayout(null);
 		setBounds(200, 200, 460, 430);
@@ -178,6 +255,9 @@ public class FontChooserDialog extends JDialog {
 		});
 	}
 
+	/**
+	 * Show sample.
+	 */
 	private void showSample() {
 		int g = 0;
 		try {

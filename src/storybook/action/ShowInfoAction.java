@@ -28,21 +28,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShowInfoAction.
  *
+ * @author martin
  */
 public class ShowInfoAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 82426468560552392L;
 
+	/**
+	 * Instantiates a new show info action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public ShowInfoAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.info.view"), I18N.getIcon("icon.small.info"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainFrame.showView(ViewName.INFO);

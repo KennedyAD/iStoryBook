@@ -19,12 +19,24 @@ import storybook.ui.MainFrame;
 import storybook.ui.edit.CbPanelDecorator;
 import storybook.ui.edit.PersonCbPanelDecorator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PersonCopier.
+ */
 public class PersonCopier extends AbstractCopier<Person> {
 
+	/**
+	 * Instantiates a new person copier.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PersonCopier(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#copySpecialInformation(storybook.ui.MainFrame, storybook.ui.MainFrame, storybook.model.hbn.entity.AbstractEntity, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
 		AttributeEntityHandler handler = new AttributeEntityHandler(destination);
@@ -46,6 +58,9 @@ public class PersonCopier extends AbstractCopier<Person> {
 		EntityUtil.setEntityAttributes(destination, destElt, newAttributes);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getAllElements(org.hibernate.Session, storybook.ui.MainFrame)
+	 */
 	@Override
 	protected List<Person> getAllElements(Session session, MainFrame origin) {
 		PersonDAOImpl dao = new PersonDAOImpl(session);
@@ -54,16 +69,25 @@ public class PersonCopier extends AbstractCopier<Person> {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getDecorator()
+	 */
 	@Override
 	protected CbPanelDecorator getDecorator() {
 		return new PersonCbPanelDecorator();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getEntityHandler(storybook.ui.MainFrame)
+	 */
 	@Override
 	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
 		return new PersonEntityHandler(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#prepareTransfer(storybook.ui.MainFrame, storybook.ui.MainFrame, storybook.model.hbn.entity.AbstractEntity, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void prepareTransfer(MainFrame origin, MainFrame destination, Person originElt, Person destElt) {
 
@@ -72,6 +96,13 @@ public class PersonCopier extends AbstractCopier<Person> {
 		destElt.setAttributes(new ArrayList<Attribute>());
 	}
 
+	/**
+	 * Sets the category.
+	 *
+	 * @param destination the destination
+	 * @param originElt the origin elt
+	 * @param destElt the dest elt
+	 */
 	private void setCategory(MainFrame destination, Person originElt, Person destElt) {
 		BookModel destinationModel = destination.getBookModel();
 		Session destinationSession = destinationModel.beginTransaction();

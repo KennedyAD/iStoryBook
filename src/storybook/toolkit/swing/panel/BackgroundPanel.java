@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
+// TODO: Auto-generated Javadoc
 /*
  *  Support custom painting on a panel in the form of
  *
@@ -47,19 +48,47 @@ import javax.swing.JViewport;
  *  Also, any component added directly to this panel will be made
  *  non-opaque so that the custom painting can show through.
  */
-@SuppressWarnings("serial")
+
+/**
+ * The Class BackgroundPanel.
+ */
 public class BackgroundPanel extends JPanel {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6578640836697122688L;
+	
+	/** The Constant SCALED. */
 	public static final int SCALED = 0;
+	
+	/** The Constant TILED. */
 	public static final int TILED = 1;
+	
+	/** The Constant ACTUAL. */
 	public static final int ACTUAL = 2;
 
+	/** The painter. */
 	private Paint painter;
+	
+	/** The image. */
 	private Image image;
+	
+	/** The style. */
 	private int style = SCALED;
+	
+	/** The alignment x. */
 	private float alignmentX = 0.5f;
+	
+	/** The alignment y. */
 	private float alignmentY = 0.5f;
+	
+	/** The is transparent add. */
 	private boolean isTransparentAdd = true;
 
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param image the image
+	 */
 	/*
 	 * Set image as the background with the SCALED style
 	 */
@@ -67,6 +96,12 @@ public class BackgroundPanel extends JPanel {
 		this(image, SCALED);
 	}
 
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param image the image
+	 * @param style the style
+	 */
 	/*
 	 * Set image as the background with the specified style
 	 */
@@ -76,6 +111,14 @@ public class BackgroundPanel extends JPanel {
 		setLayout(new BorderLayout());
 	}
 
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param image the image
+	 * @param style the style
+	 * @param alignmentX the alignment x
+	 * @param alignmentY the alignment y
+	 */
 	/*
 	 * Set image as the backround with the specified style and alignment
 	 */
@@ -87,6 +130,11 @@ public class BackgroundPanel extends JPanel {
 		setLayout(new BorderLayout());
 	}
 
+	/**
+	 * Instantiates a new background panel.
+	 *
+	 * @param painter the painter
+	 */
 	/*
 	 * Use the Paint interface to paint a background
 	 */
@@ -95,6 +143,11 @@ public class BackgroundPanel extends JPanel {
 		setLayout(new BorderLayout());
 	}
 
+	/**
+	 * Adds the.
+	 *
+	 * @param component the component
+	 */
 	/*
 	 * Override method so we can make the component transparent
 	 */
@@ -102,6 +155,12 @@ public class BackgroundPanel extends JPanel {
 		add(component, null);
 	}
 
+	/**
+	 * Adds the.
+	 *
+	 * @param component the component
+	 * @param constraints the constraints
+	 */
 	/*
 	 * Override method so we can make the component transparent
 	 */
@@ -113,6 +172,11 @@ public class BackgroundPanel extends JPanel {
 		super.add(component, constraints);
 	}
 
+	/**
+	 * Draw actual.
+	 *
+	 * @param g the g
+	 */
 	/*
 	 * Custom painting code for drawing the ACTUAL image as the background. The
 	 * image is positioned in the panel based on the horizontal and vertical
@@ -128,6 +192,11 @@ public class BackgroundPanel extends JPanel {
 		g.drawImage(image, (int) x + insets.left, (int) y + insets.top, this);
 	}
 
+	/**
+	 * Draw scaled.
+	 *
+	 * @param g the g
+	 */
 	/*
 	 * Custom painting code for drawing a SCALED image as the background
 	 */
@@ -136,6 +205,11 @@ public class BackgroundPanel extends JPanel {
 		g.drawImage(image, 0, 0, d.width, d.height, null);
 	}
 
+	/**
+	 * Draw tiled.
+	 *
+	 * @param g the g
+	 */
 	/*
 	 * Custom painting code for drawing TILED images as the background
 	 */
@@ -151,6 +225,9 @@ public class BackgroundPanel extends JPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#getPreferredSize()
+	 */
 	/*
 	 * Override to provide a preferred size equal to the image size
 	 */
@@ -162,6 +239,11 @@ public class BackgroundPanel extends JPanel {
 			return new Dimension(image.getWidth(null), image.getHeight(null));
 	}
 
+	/**
+	 * Make component transparent.
+	 *
+	 * @param component the component
+	 */
 	/*
 	 * Try to make the component transparent. For components that use renderers,
 	 * like JTable, you will also need to change the renderer to be transparent.
@@ -183,6 +265,9 @@ public class BackgroundPanel extends JPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	/*
 	 * Add custom painting
 	 */
@@ -222,6 +307,11 @@ public class BackgroundPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
 	/*
 	 * Set the image used as the background
 	 */
@@ -230,6 +320,11 @@ public class BackgroundPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the image alignment x.
+	 *
+	 * @param alignmentX the new image alignment x
+	 */
 	/*
 	 * Specify the horizontal alignment of the image when using ACTUAL style
 	 */
@@ -238,6 +333,11 @@ public class BackgroundPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the image alignment y.
+	 *
+	 * @param alignmentY the new image alignment y
+	 */
 	/*
 	 * Specify the horizontal alignment of the image when using ACTUAL style
 	 */
@@ -246,6 +346,11 @@ public class BackgroundPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the paint.
+	 *
+	 * @param painter the new paint
+	 */
 	/*
 	 * Set the Paint object used to paint the background
 	 */
@@ -254,6 +359,11 @@ public class BackgroundPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the style.
+	 *
+	 * @param style the new style
+	 */
 	/*
 	 * Set the style used to paint the background image
 	 */
@@ -262,6 +372,11 @@ public class BackgroundPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Sets the transparent add.
+	 *
+	 * @param isTransparentAdd the new transparent add
+	 */
 	/*
 	 * Controls whether components added to this panel should automatically be
 	 * made transparent. That is, setOpaque(false) will be invoked. The default

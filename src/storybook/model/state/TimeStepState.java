@@ -22,16 +22,31 @@ import javax.swing.Icon;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author jean
+ * The Class TimeStepState.
  *
+ * @author jean
  */
 public class TimeStepState extends AbstractState {
 
+	/**
+	 * Instantiates a new time step state.
+	 *
+	 * @param number the number
+	 * @param name the name
+	 */
 	public TimeStepState(Integer number, String name) {
 		this(number, name, null);
 	}
 
+	/**
+	 * Instantiates a new time step state.
+	 *
+	 * @param number the number
+	 * @param name the name
+	 * @param icon the icon
+	 */
 	public TimeStepState(Integer number, String name, Icon icon) {
 		super();
 		this.number = number;
@@ -39,6 +54,9 @@ public class TimeStepState extends AbstractState {
 		this.icon = icon;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.state.AbstractState#getToolTip()
+	 */
 	@Override
 	public String getToolTip() {
 		return I18N.getMsgColon("msg.status") + " " + this;

@@ -37,11 +37,21 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.ExceptionDialog;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ModelMigration.
+ */
 //@Deprecated
 public class ModelMigration {
 
+	/** The persistence manager. */
 	private static ModelMigration thePersistenceManager;
 
+	/**
+	 * Gets the single instance of ModelMigration.
+	 *
+	 * @return single instance of ModelMigration
+	 */
 	public static ModelMigration getInstance() {
 		SbApp.trace("ModelMigration.getInstance()");
 		if (thePersistenceManager == null) {
@@ -49,17 +59,37 @@ public class ModelMigration {
 		}
 		return thePersistenceManager;
 	}
+	
+	/** The database name. */
 	private String databaseName;
+	
+	/** The init. */
 	private boolean init;
+	
+	/** The open only if exists. */
 	private boolean openOnlyIfExists;
+	
+	/** The connection. */
 	private Connection connection;
+	
+	/** The file. */
 	private File file;
+	
+	/** The stmt. */
 	private Statement stmt;
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The old db version. */
 	private String oldDbVersion;
 
+	/** The new db version. */
 	private String newDbVersion;
 
+	/**
+	 * Instantiates a new model migration.
+	 */
 	private ModelMigration() {
 		// make the constructor private
 		init = false;
@@ -67,6 +97,11 @@ public class ModelMigration {
 		databaseName = null;
 	}
 
+	/**
+	 * Alter from1_5to4_0.
+	 *
+	 * @throws Exception the exception
+	 */
 	private void alterFrom1_5to4_0() throws Exception {
 		SbApp.trace("Updating file version from 1.4 to 1.5 ...");
 		String sql = "";
@@ -212,6 +247,12 @@ public class ModelMigration {
 		InternalPeer.setDbModelVersion(SbConstants.Storybook.DB_VERSION.toString());
 	}
 
+	/**
+	 * Check and alter model.
+	 *
+	 * @return true, if successful
+	 * @throws Exception the exception
+	 */
 	public boolean checkAndAlterModel() throws Exception {
 		oldDbVersion = InternalPeer.getDbModelVersion();
 		if (oldDbVersion == null) {
@@ -264,6 +305,9 @@ public class ModelMigration {
 		return true;
 	}
 
+	/**
+	 * Close connection.
+	 */
 	public void closeConnection() {
 		SbApp.trace("ModelMigration.closeConnection()");
 		if (!isConnectionOpen()) {
@@ -280,10 +324,9 @@ public class ModelMigration {
 	}
 
 	/**
-	 * Closes the prepare statement
+	 * Closes the prepare statement.
 	 *
-	 * @param prepare
-	 *            The PreparedStatement that needs to close
+	 * @param prepare            The PreparedStatement that needs to close
 	 */
 	public void closePrepareStatement(PreparedStatement prepare) {
 		try {
@@ -296,10 +339,9 @@ public class ModelMigration {
 	}
 
 	/**
-	 * Closes the result set
+	 * Closes the result set.
 	 *
-	 * @param result
-	 *            The ResultSet that needs to close
+	 * @param result            The ResultSet that needs to close
 	 */
 	public void closeResultSet(ResultSet result) {
 		try {
@@ -312,10 +354,9 @@ public class ModelMigration {
 	}
 
 	/**
-	 * Closes the statement
+	 * Closes the statement.
 	 *
-	 * @param stmt
-	 *            The Statement that needs to close
+	 * @param stmt            The Statement that needs to close
 	 */
 	public void closeStatement(Statement stmt) {
 		try {
@@ -327,6 +368,12 @@ public class ModelMigration {
 		}
 	}
 
+	/**
+	 * Execute sql statement.
+	 *
+	 * @param sql the sql
+	 * @param stmt the stmt
+	 */
 	private void executeSQLStatement(String sql, Statement stmt) {
 		SbApp.trace("ModelMigration.executeSQLStatement(" + sql.toString() + "," + stmt.toString() + ")");
 		try {
@@ -338,6 +385,11 @@ public class ModelMigration {
 		}
 	}
 
+	/**
+	 * Gets the connection.
+	 *
+	 * @return the connection
+	 */
 	public Connection getConnection() {
 		SbApp.trace("ModelMigration.getConnection()");
 		if (!init) {
@@ -364,14 +416,31 @@ public class ModelMigration {
 		return connection;
 	}
 
+	/**
+	 * Gets the database name.
+	 *
+	 * @return the database name
+	 */
 	public String getDatabaseName() {
 		return databaseName;
 	}
 
+	/**
+	 * Gets the file.
+	 *
+	 * @return the file
+	 */
 	public File getFile() {
 		return file;
 	}
 
+	/**
+	 * Gets the generated id.
+	 *
+	 * @param stmt the stmt
+	 * @return the generated id
+	 * @throws SQLException the SQL exception
+	 */
 	public int getGeneratedId(PreparedStatement stmt) throws SQLException {
 		int retour = -1;
 		ResultSet rs = null;
@@ -393,18 +462,38 @@ public class ModelMigration {
 		return retour;
 	}
 
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
+	/**
+	 * Gets the new db version.
+	 *
+	 * @return the new db version
+	 */
 	public String getNewDbVersion() {
 		return newDbVersion;
 	}
 
+	/**
+	 * Gets the old db version.
+	 *
+	 * @return the old db version
+	 */
 	public String getOldDbVersion() {
 		return oldDbVersion;
 	}
 
+	/**
+	 * Checks for altered db model.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasAlteredDbModel() {
 		if (oldDbVersion == null) {
 			return false;
@@ -412,10 +501,20 @@ public class ModelMigration {
 		return !oldDbVersion.equals(newDbVersion);
 	}
 
+	/**
+	 * Checks if is connection open.
+	 *
+	 * @return true, if is connection open
+	 */
 	public boolean isConnectionOpen() {
 		return connection != null;
 	}
 
+	/**
+	 * Open.
+	 *
+	 * @param dbFile the db file
+	 */
 	public void open(DbFile dbFile) {
 		SbApp.trace("ModelMigration.open(" + dbFile.getDbName() + ")");
 		this.file = dbFile.getFile();
@@ -430,6 +529,11 @@ public class ModelMigration {
 		SbApp.trace("ModelMigration.open(" + this.databaseName + ")");
 	}
 
+	/**
+	 * Sets the main frame.
+	 *
+	 * @param mainFrame the new main frame
+	 */
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}

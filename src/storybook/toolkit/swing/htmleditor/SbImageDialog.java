@@ -34,14 +34,30 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.IconButton;
 import storybook.ui.dialog.AbstractDialog;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SbImageDialog.
+ *
  * @author martin
  */
 
-@SuppressWarnings("serial")
+
 public class SbImageDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6094601789589584333L;
+
+	/**
+	 * The Class CalcHeightAction.
+	 */
 	private class CalcHeightAction extends AbstractAction {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = 2620327030176497807L;
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int n = Integer.parseInt(tfWidth.getText());
@@ -49,7 +65,18 @@ public class SbImageDialog extends AbstractDialog {
 			tfHeight.setText(val);
 		}
 	}
+	
+	/**
+	 * The Class CalcWidthAction.
+	 */
 	private class CalcWidthAction extends AbstractAction {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = 4781843594074589979L;
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int n = Integer.parseInt(tfHeight.getText());
@@ -57,7 +84,18 @@ public class SbImageDialog extends AbstractDialog {
 			tfWidth.setText(val);
 		}
 	}
+	
+	/**
+	 * The Class ChooseImageFileAction.
+	 */
 	private class ChooseImageFileAction extends AbstractAction {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -9102119100079830850L;
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser fc = new JFileChooser();
@@ -77,21 +115,40 @@ public class SbImageDialog extends AbstractDialog {
 			}
 		}
 	}
+	
+	/** The tf filename. */
 	private JTextField tfFilename;
+	
+	/** The tf width. */
 	private JTextField tfWidth;
+	
+	/** The tf height. */
 	private JTextField tfHeight;
 
+	/** The ratio. */
 	private double ratio = 1.0;
 
+	/** The image width. */
 	private int imageWidth = 0;
 
+	/** The image height. */
 	private int imageHeight = 0;
 
+	/**
+	 * Instantiates a new sb image dialog.
+	 *
+	 * @param parent the parent
+	 */
 	public SbImageDialog(JComponent parent) {
 		super(parent);
 		initAll();
 	}
 
+	/**
+	 * Gets the html.
+	 *
+	 * @return the html
+	 */
 	public String getHTML() {
 		String fn = tfFilename.getText();
 		String w = tfWidth.getText();
@@ -99,14 +156,25 @@ public class SbImageDialog extends AbstractDialog {
 		return "<img src='" + fn + "' width='" + w + "' height='" + h + "'>";
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected SbImageDialog getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap 2,fill", "[][]", ""));

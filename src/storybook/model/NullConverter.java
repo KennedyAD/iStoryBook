@@ -20,13 +20,20 @@ package storybook.model;
 
 import org.apache.commons.beanutils.Converter;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class NullConverter.
  *
+ * @author martin
  */
 public class NullConverter implements Converter {
 
 	/**
+	 * Convert.
+	 *
+	 * @param type the type
+	 * @param value the value
+	 * @return the object
 	 * @see org.apache.commons.beanutils.Converter#convert(java.lang.Class,
 	 *      java.lang.Object)
 	 */

@@ -42,16 +42,34 @@ import storybook.toolkit.DateUtil;
 import storybook.toolkit.LangUtil;
 import storybook.toolkit.comparator.DateComparator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ChapterDAOImpl.
+ */
 public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements ChapterDAO {
 
+	/**
+	 * Instantiates a new chapter dao impl.
+	 */
 	public ChapterDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new chapter dao impl.
+	 *
+	 * @param session the session
+	 */
 	public ChapterDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Check if number exists.
+	 *
+	 * @param entity the entity
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkIfNumberExists(AbstractEntity entity) {
 		try {
@@ -94,11 +112,20 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@Override
 	public List<Chapter> findAll() {
 		return findAll(null);
 	}
 
+	/**
+	 * Find all.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Chapter> findAll(Part part) {
 		StringBuffer buf = new StringBuffer("from Chapter");
@@ -114,10 +141,21 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return ret;
 	}
 
+	/**
+	 * Find all order by chapter no and scene no.
+	 *
+	 * @return the list
+	 */
 	public List<Chapter> findAllOrderByChapterNoAndSceneNo() {
 		return findAllOrderByChapterNoAndSceneNo(null);
 	}
 
+	/**
+	 * Find all order by chapter no and scene no.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Chapter> findAllOrderByChapterNoAndSceneNo(Part part) {
 		Criteria crit = session.createCriteria(Chapter.class);
@@ -128,6 +166,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return crit.list();
 	}
 
+	/**
+	 * Find dates.
+	 *
+	 * @param chapter the chapter
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Date> findDates(Chapter chapter) {
 		Query query = session.createQuery("select s.sceneTs from Scene as s" + " join s.chapter as ch"
@@ -144,6 +188,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return dates;
 	}
 
+	/**
+	 * Find first scene.
+	 *
+	 * @param chapter the chapter
+	 * @return the scene
+	 */
 	public Scene findFirstScene(Chapter chapter) {
 		List<Scene> scenes = findScenes(chapter);
 		if (scenes == null || scenes.isEmpty()) {
@@ -152,6 +202,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return scenes.get(0);
 	}
 
+	/**
+	 * Find locations.
+	 *
+	 * @param chapter the chapter
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Location> findLocations(Chapter chapter) {
 		Query query = session.createQuery("select s.locations from Scene as s" + " join s.chapter as ch"
@@ -162,6 +218,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return locations;
 	}
 
+	/**
+	 * Find scenes.
+	 *
+	 * @param chapter the chapter
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenes(Chapter chapter) {
 		Criteria crit = session.createCriteria(Scene.class);
@@ -175,6 +237,12 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return scenes;
 	}
 
+	/**
+	 * Find scenes order by timestamp.
+	 *
+	 * @param chapter the chapter
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenesOrderByTimestamp(Chapter chapter) {
 		Criteria crit = session.createCriteria(Scene.class);
@@ -188,10 +256,20 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return scenes;
 	}
 
+	/**
+	 * Find unassigned scenes.
+	 *
+	 * @return the list
+	 */
 	public List<Scene> findUnassignedScenes() {
 		return findScenes(null);
 	}
 
+	/**
+	 * Gets the max chapter number.
+	 *
+	 * @return the max chapter number
+	 */
 	public int getMaxChapterNumber() {
 		Query query = session.createQuery("select max(chapterno) from Chapter");
 		if (query.uniqueResult() == null) {
@@ -201,6 +279,11 @@ public class ChapterDAOImpl extends SbGenericDAOImpl<Chapter, Long> implements C
 		return ret;
 	}
 
+	/**
+	 * Gets the next chapter number.
+	 *
+	 * @return the next chapter number
+	 */
 	public int getNextChapterNumber() {
 		return getMaxChapterNumber() + 1;
 	}

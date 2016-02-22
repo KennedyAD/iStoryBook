@@ -28,21 +28,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShowInMemoriaAction.
  *
+ * @author martin
  */
 public class ShowInMemoriaAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4754453612822313111L;
 
+	/**
+	 * Instantiates a new show in memoria action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public ShowInMemoriaAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.memoria"), I18N.getIcon("icon.small.memoria"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainFrame.showView(ViewName.MEMORIA);

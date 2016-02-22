@@ -22,17 +22,28 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BooleanTableCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BooleanTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6600928472123205824L;
+
+	/**
+	 * Instantiates a new boolean table cell renderer.
+	 */
 	public BooleanTableCellRenderer() {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#setValue(java.lang.Object)
+	 */
 	@Override
 	public void setValue(Object value) {
 		try {

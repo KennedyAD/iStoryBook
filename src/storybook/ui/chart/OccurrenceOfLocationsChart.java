@@ -40,27 +40,51 @@ import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 import storybook.ui.chart.jfreechart.DbTableCategoryItemLabelGenerator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OccurrenceOfLocationsChart.
+ */
 public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -7651847977191973416L;
+	
+	/** The chart panel. */
 	private ChartPanel chartPanel;
+	
+	/** The average. */
 	private double average;
+	
+	/** The country cb list. */
 	private List<JCheckBox> countryCbList;
+	
+	/** The selected countries. */
 	protected List<String> selectedCountries;
 
+	/**
+	 * Instantiates a new occurrence of locations chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public OccurrenceOfLocationsChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.report.location.occurrence.title");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		updateSelectedCountries();
 		refreshChart();
 	}
 
+	/**
+	 * Creates the chart.
+	 *
+	 * @param paramCategoryDataset the param category dataset
+	 * @return the j free chart
+	 */
 	private JFreeChart createChart(CategoryDataset paramCategoryDataset) {
 		JFreeChart localJFreeChart = ChartFactory.createBarChart(this.chartTitle, "", "", paramCategoryDataset,
 				PlotOrientation.VERTICAL, true, true, false);
@@ -78,6 +102,11 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		return localJFreeChart;
 	}
 
+	/**
+	 * Creates the dataset.
+	 *
+	 * @return the category dataset
+	 */
 	private CategoryDataset createDataset() {
 		DefaultCategoryDataset localDefaultCategoryDataset = new DefaultCategoryDataset();
 		try {
@@ -101,6 +130,9 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		return localDefaultCategoryDataset;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChart()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void initChart() {
@@ -109,6 +141,9 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		updateSelectedCountries();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		CategoryDataset localCategoryDataset = createDataset();
@@ -117,6 +152,9 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		this.panel.add(this.chartPanel, "grow");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 		JPanel localJPanel = new JPanel(new MigLayout("flowx"));
@@ -131,6 +169,9 @@ public class OccurrenceOfLocationsChart extends AbstractChartPanel {
 		this.optionsPanel.add(localJPanel);
 	}
 
+	/**
+	 * Update selected countries.
+	 */
 	private void updateSelectedCountries() {
 		this.selectedCountries.clear();
 		Iterator localIterator = this.countryCbList.iterator();

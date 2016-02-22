@@ -27,9 +27,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import storybook.model.state.TimeStepState;
 import storybook.ui.label.TimeEventFormatLabel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TimeEventFormatTableCellRenderer.
+ */
 public class TimeEventFormatTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2579347333769846824L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

@@ -17,31 +17,42 @@ package storybook.ui.dialog.chooser;
 
 import java.awt.Component;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DateRelative.
  *
  * @author favdb
  */
 public class DateRelative extends javax.swing.JPanel {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4578829036317424534L;
 
+	/** The j combo box1. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JComboBox jComboBox1;
 
+	/** The lb after. */
 	private javax.swing.JLabel lbAfter;
 
+	/** The lb occurs. */
 	private javax.swing.JLabel lbOccurs;
 
+	/** The txt occurs. */
 	private javax.swing.JTextField txtOccurs;
 	// End of variables declaration//GEN-END:variables
 	/**
-	 * Creates new form DateRelative
+	 * Creates new form DateRelative.
 	 */
 	public DateRelative() {
 		initComponents();
 	}
+	
+	/**
+	 * Instantiates a new date relative.
+	 *
+	 * @param m the m
+	 */
 	public DateRelative(Component m) {
 		initComponents();
 	}

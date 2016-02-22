@@ -20,18 +20,30 @@ package storybook.model.state;
 
 import java.util.Vector;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractStateModel.
  *
+ * @author martin
  */
 public abstract class AbstractStateModel {
 
+	/** The states. */
 	protected Vector<AbstractState> states;
 
+	/**
+	 * Instantiates a new abstract state model.
+	 */
 	public AbstractStateModel() {
 		states = new Vector<AbstractState>();
 	}
 
+	/**
+	 * Find by number.
+	 *
+	 * @param statusNumber the status number
+	 * @return the abstract state
+	 */
 	public AbstractState findByNumber(Integer statusNumber) {
 		for (int i = 0; i < states.size(); ++i) {
 			AbstractState obj = states.get(i);
@@ -42,6 +54,11 @@ public abstract class AbstractStateModel {
 		return states.get(0);
 	}
 
+	/**
+	 * Gets the states.
+	 *
+	 * @return the states
+	 */
 	public Vector<AbstractState> getStates() {
 		return states;
 	}

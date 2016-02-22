@@ -23,14 +23,31 @@ import java.awt.event.MouseEvent;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ToolTipHeader.
+ */
 public class ToolTipHeader extends JTableHeader {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5953644040389810238L;
+	
+	/** The tool tips. */
 	String[] toolTips;
 
+	/**
+	 * Instantiates a new tool tip header.
+	 *
+	 * @param model the model
+	 */
 	public ToolTipHeader(TableColumnModel model) {
 		super(model);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.JTableHeader#getToolTipText(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public String getToolTipText(MouseEvent evt) {
 		try {
@@ -47,6 +64,11 @@ public class ToolTipHeader extends JTableHeader {
 		return "";
 	}
 
+	/**
+	 * Sets the tool tip strings.
+	 *
+	 * @param toolTips the new tool tip strings
+	 */
 	public void setToolTipStrings(String[] toolTips) {
 		this.toolTips = toolTips;
 	}

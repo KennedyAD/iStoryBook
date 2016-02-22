@@ -18,25 +18,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ItemLink.
+ *
  * @hibernate.subclass discriminator-value="1"
  */
 public class ItemLink extends AbstractTagLink {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1107713512313169659L;
+	
+	/** The item. */
 	private Item item;
 
+	/**
+	 * Instantiates a new item link.
+	 */
 	public ItemLink() {
 	}
 
+	/**
+	 * Instantiates a new item link.
+	 *
+	 * @param item the item
+	 * @param type the type
+	 * @param startScene the start scene
+	 * @param endScene the end scene
+	 * @param person the person
+	 * @param location the location
+	 */
 	public ItemLink(Item item, Integer type, Scene startScene, Scene endScene, Person person, Location location) {
 		super(type, startScene, endScene, person, location);
 		this.item = item;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractTagLink#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!super.equals(obj)) {
@@ -49,12 +68,18 @@ public class ItemLink extends AbstractTagLink {
 	}
 
 	/**
+	 * Gets the item.
+	 *
+	 * @return the item
 	 * @hibernate.many-to-one column="tag_id" cascade="none"
 	 */
 	public Item getItem() {
 		return this.item;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractTagLink#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -62,6 +87,11 @@ public class ItemLink extends AbstractTagLink {
 		return hash;
 	}
 
+	/**
+	 * Sets the item.
+	 *
+	 * @param item the new item
+	 */
 	public void setItem(Item item) {
 		this.item = item;
 	}

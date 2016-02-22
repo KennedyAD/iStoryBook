@@ -27,16 +27,31 @@ import javax.swing.JTable;
 
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ColorTableCellRenderer.
+ */
 public class ColorTableCellRenderer extends StandardTableCellRenderer {
 
+	/**
+	 * Instantiates a new color table cell renderer.
+	 */
 	public ColorTableCellRenderer() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new color table cell renderer.
+	 *
+	 * @param coloredRows the colored rows
+	 */
 	public ColorTableCellRenderer(boolean coloredRows) {
 		super(coloredRows);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.table.StandardTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

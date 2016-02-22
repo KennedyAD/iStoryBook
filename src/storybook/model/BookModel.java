@@ -75,16 +75,26 @@ import storybook.ui.panel.chrono.ChronoPanel;
 import storybook.ui.panel.manage.ManagePanel;
 import storybook.ui.panel.reading.ReadingPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookModel.
  *
+ * @author martin
  */
 public class BookModel extends AbstractModel {
 
+	/**
+	 * Instantiates a new book model.
+	 *
+	 * @param m the m
+	 */
 	public BookModel(MainFrame m) {
 		super(m);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.AbstractModel#fireAgain()
+	 */
 	@Override
 	public void fireAgain() {
 		SbApp.trace("BookModel.fireAgain()");
@@ -108,6 +118,11 @@ public class BookModel extends AbstractModel {
 		fireAgainTimeEvent();
 	}
 
+	/**
+	 * Fire again.
+	 *
+	 * @param view the view
+	 */
 	public void fireAgain(SbView view) {
 		SbApp.trace("BookModel.fireAgain(" + view.getName() + ")");
 		if (ViewName.CHRONO.compare(view)) {
@@ -157,6 +172,9 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Fire again categories.
+	 */
 	private void fireAgainCategories() {
 		SbApp.trace("BookModel.fireAgainCategories()");
 		Session session = beginTransaction();
@@ -166,6 +184,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.CategoryProps.INIT.toString(), null, categories);
 	}
 
+	/**
+	 * Fire again chapters.
+	 */
 	private void fireAgainChapters() {
 		SbApp.trace("BookModel.fireAgainChapters()");
 		Session session = beginTransaction();
@@ -175,6 +196,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChapterProps.INIT.toString(), null, chapters);
 	}
 
+	/**
+	 * Fire again genders.
+	 */
 	private void fireAgainGenders() {
 		SbApp.trace("BookModel.fireAgainGenders()");
 		Session session = beginTransaction();
@@ -184,6 +208,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.GenderProps.INIT.toString(), null, genders);
 	}
 
+	/**
+	 * Fire again ideas.
+	 */
 	private void fireAgainIdeas() {
 		SbApp.trace("BookModel.fireAgainIdeas()");
 		Session session = beginTransaction();
@@ -193,6 +220,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.IdeaProps.INIT.toString(), null, ideas);
 	}
 
+	/**
+	 * Fire again internals.
+	 */
 	private void fireAgainInternals() {
 		SbApp.trace("BookModel.fireAgainInternals()");
 		Session session = beginTransaction();
@@ -202,6 +232,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.InternalProps.INIT.toString(), null, internals);
 	}
 
+	/**
+	 * Fire again item links.
+	 */
 	private void fireAgainItemLinks() {
 		SbApp.trace("BookModel.fireAgainItemLinks()");
 		Session session = beginTransaction();
@@ -211,6 +244,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.INIT.toString(), null, itemLinks);
 	}
 
+	/**
+	 * Fire again items.
+	 */
 	private void fireAgainItems() {
 		SbApp.trace("BookModel.fireAgainItems()");
 		Session session = beginTransaction();
@@ -220,6 +256,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemProps.INIT.toString(), null, items);
 	}
 
+	/**
+	 * Fire again locations.
+	 */
 	private void fireAgainLocations() {
 		SbApp.trace("BookModel.fireAgainLocations()");
 		Session session = beginTransaction();
@@ -229,6 +268,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.LocationProps.INIT.toString(), null, locations);
 	}
 
+	/**
+	 * Fire again memos.
+	 */
 	private void fireAgainMemos() {
 		SbApp.trace("BookModel.fireAgainMemos()");
 		Session session = beginTransaction();
@@ -238,6 +280,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.MemoProps.INIT.toString(), null, memos);
 	}
 
+	/**
+	 * Fire again parts.
+	 */
 	private void fireAgainParts() {
 		SbApp.trace("BookModel.fireAgainParts()");
 		Session session = beginTransaction();
@@ -247,6 +292,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PartProps.INIT.toString(), null, parts);
 	}
 
+	/**
+	 * Fire again persons.
+	 */
 	private void fireAgainPersons() {
 		SbApp.trace("BookModel.fireAgainPersons()");
 		Session session = beginTransaction();
@@ -256,9 +304,15 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PersonProps.INIT.toString(), null, persons);
 	}
 
+	/**
+	 * Fire again plan.
+	 */
 	private void fireAgainPlan() {
 	}
 
+	/**
+	 * Fire again relationships.
+	 */
 	private void fireAgainRelationships() {
 		SbApp.trace("BookModel.fireAgainRelationships()");
 		Session session = beginTransaction();
@@ -268,6 +322,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.RelationshipProps.INIT.toString(), null, relationships);
 	}
 
+	/**
+	 * Fire again scenes.
+	 */
 	private void fireAgainScenes() {
 		SbApp.trace("BookModel.fireAgainScenes()");
 		Session session = beginTransaction();
@@ -277,6 +334,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.SceneProps.INIT.toString(), null, scenes);
 	}
 
+	/**
+	 * Fire again strands.
+	 */
 	private void fireAgainStrands() {
 		SbApp.trace("BookModel.fireAgainStrands()");
 		Session session = beginTransaction();
@@ -286,6 +346,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.StrandProps.INIT.toString(), null, strands);
 	}
 
+	/**
+	 * Fire again tag links.
+	 */
 	private void fireAgainTagLinks() {
 		SbApp.trace("BookModel.fireAgainTagLinks()");
 		Session session = beginTransaction();
@@ -295,6 +358,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagLinkProps.INIT.toString(), null, tagLinks);
 	}
 
+	/**
+	 * Fire again tags.
+	 */
 	private void fireAgainTags() {
 		SbApp.trace("BookModel.fireAgainTags()");
 		Session session = beginTransaction();
@@ -304,6 +370,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagProps.INIT.toString(), null, tags);
 	}
 
+	/**
+	 * Fire again time event.
+	 */
 	private void fireAgainTimeEvent() {
 		SbApp.trace("BookModel.fireAgainTimeEvent()");
 		Session session = beginTransaction();
@@ -313,6 +382,9 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TimeEventProps.INIT.toString(), null, internals);
 	}
 
+	/**
+	 * Inits the entites.
+	 */
 	public synchronized void initEntites() {
 		SbApp.trace("BookModel.initEntities()");
 		Session session = beginTransaction();
@@ -361,6 +433,9 @@ public class BookModel extends AbstractModel {
 		commit();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.AbstractModel#initSession(java.lang.String)
+	 */
 	@Override
 	public synchronized void initSession(String dbName) {
 		SbApp.trace("BookModel.initSession(" + dbName + ")");
@@ -377,48 +452,103 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the book height factor.
+	 *
+	 * @param val the new book height factor
+	 */
 	public void setBookHeightFactor(Integer val) {
 		firePropertyChange(BookController.BookViewProps.HEIGHT_FACTOR.toString(), null, val);
 	}
 
+	/**
+	 * Sets the book show entity.
+	 *
+	 * @param chapter the new book show entity
+	 */
 	public void setBookShowEntity(Chapter chapter) {
 		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, chapter);
 	}
 
+	/**
+	 * Sets the book show entity.
+	 *
+	 * @param scene the new book show entity
+	 */
 	public void setBookShowEntity(Scene scene) {
 		firePropertyChange(BookController.BookViewProps.SHOW_ENTITY.toString(), null, scene);
 	}
 
+	/**
+	 * Sets the book zoom.
+	 *
+	 * @param val the new book zoom
+	 */
 	// book view
 	public void setBookZoom(Integer val) {
 		firePropertyChange(BookController.BookViewProps.ZOOM.toString(), null, val);
 	}
 
+	/**
+	 * Sets the change part.
+	 *
+	 * @param part the new change part
+	 */
 	public synchronized void setChangePart(Part part) {
 		firePropertyChange(BookController.PartProps.CHANGE.toString(), null, part);
 	}
 
+	/**
+	 * Sets the chrono layout direction.
+	 *
+	 * @param val the new chrono layout direction
+	 */
 	public void setChronoLayoutDirection(Boolean val) {
 		firePropertyChange(BookController.ChronoViewProps.LAYOUT_DIRECTION.toString(), null, val);
 	}
 
+	/**
+	 * Sets the chrono show date difference.
+	 *
+	 * @param val the new chrono show date difference
+	 */
 	public void setChronoShowDateDifference(Boolean val) {
 		firePropertyChange(BookController.ChronoViewProps.SHOW_DATE_DIFFERENCE.toString(), null, val);
 	}
 
+	/**
+	 * Sets the chrono show entity.
+	 *
+	 * @param chapter the new chrono show entity
+	 */
 	public void setChronoShowEntity(Chapter chapter) {
 		firePropertyChange(BookController.ChronoViewProps.SHOW_ENTITY.toString(), null, chapter);
 	}
 
+	/**
+	 * Sets the chrono show entity.
+	 *
+	 * @param scene the new chrono show entity
+	 */
 	public void setChronoShowEntity(Scene scene) {
 		firePropertyChange(BookController.ChronoViewProps.SHOW_ENTITY.toString(), null, scene);
 	}
 
+	/**
+	 * Sets the chrono zoom.
+	 *
+	 * @param val the new chrono zoom
+	 */
 	// chrono view
 	public void setChronoZoom(Integer val) {
 		firePropertyChange(BookController.ChronoViewProps.ZOOM.toString(), null, val);
 	}
 
+	/**
+	 * Sets the delete category.
+	 *
+	 * @param category the new delete category
+	 */
 	public synchronized void setDeleteCategory(Category category) {
 		if (category.getId() == null) {
 			return;
@@ -440,6 +570,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.CategoryProps.DELETE.toString(), category, null);
 	}
 
+	/**
+	 * Sets the delete chapter.
+	 *
+	 * @param chapter the new delete chapter
+	 */
 	public synchronized void setDeleteChapter(Chapter chapter) {
 		if (chapter.getId() == null) {
 			return;
@@ -460,6 +595,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChapterProps.DELETE.toString(), chapter, null);
 	}
 
+	/**
+	 * Sets the delete gender.
+	 *
+	 * @param gender the new delete gender
+	 */
 	public synchronized void setDeleteGender(Gender gender) {
 		if (gender.getId() == null) {
 			return;
@@ -482,6 +622,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.GenderProps.DELETE.toString(), gender, null);
 	}
 
+	/**
+	 * Sets the delete idea.
+	 *
+	 * @param idea the new delete idea
+	 */
 	public synchronized void setDeleteIdea(Idea idea) {
 		if (idea.getId() == null) {
 			return;
@@ -492,6 +637,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.IdeaProps.DELETE.toString(), idea, null);
 	}
 
+	/**
+	 * Sets the delete internal.
+	 *
+	 * @param internal the new delete internal
+	 */
 	public synchronized void setDeleteInternal(Internal internal) {
 		if (internal.getId() == null) {
 			return;
@@ -502,6 +652,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.InternalProps.DELETE.toString(), internal, null);
 	}
 
+	/**
+	 * Sets the delete item.
+	 *
+	 * @param item the new delete item
+	 */
 	public synchronized void setDeleteItem(Item item) {
 		if (item.getId() == null) {
 			return;
@@ -530,6 +685,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemProps.DELETE.toString(), item, null);
 	}
 
+	/**
+	 * Sets the delete item link.
+	 *
+	 * @param itemLink the new delete item link
+	 */
 	public synchronized void setDeleteItemLink(ItemLink itemLink) {
 		if (itemLink.getId() == null) {
 			return;
@@ -540,6 +700,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.DELETE.toString(), itemLink, null);
 	}
 
+	/**
+	 * Sets the delete location.
+	 *
+	 * @param location the new delete location
+	 */
 	public synchronized void setDeleteLocation(Location location) {
 		if (location.getId() == null) {
 			return;
@@ -578,6 +743,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.LocationProps.DELETE.toString(), location, null);
 	}
 
+	/**
+	 * Sets the delete memo.
+	 *
+	 * @param memo the new delete memo
+	 */
 	public synchronized void setDeleteMemo(Memo memo) {
 		if (memo.getId() == null) {
 			return;
@@ -589,6 +759,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.MemoProps.DELETE.toString(), memo, null);
 	}
 
+	/**
+	 * Sets the delete multi categories.
+	 *
+	 * @param ids the new delete multi categories
+	 */
 	public synchronized void setDeleteMultiCategories(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -603,6 +778,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi chapters.
+	 *
+	 * @param ids the new delete multi chapters
+	 */
 	public synchronized void setDeleteMultiChapters(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -617,6 +797,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi genders.
+	 *
+	 * @param ids the new delete multi genders
+	 */
 	public synchronized void setDeleteMultiGenders(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -631,6 +816,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi ideas.
+	 *
+	 * @param ids the new delete multi ideas
+	 */
 	public synchronized void setDeleteMultiIdeas(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -645,6 +835,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi internals.
+	 *
+	 * @param ids the new delete multi internals
+	 */
 	public synchronized void setDeleteMultiInternals(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -655,6 +850,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi item links.
+	 *
+	 * @param ids the new delete multi item links
+	 */
 	public synchronized void setDeleteMultiItemLinks(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -665,6 +865,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi items.
+	 *
+	 * @param ids the new delete multi items
+	 */
 	public synchronized void setDeleteMultiItems(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -675,6 +880,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi locations.
+	 *
+	 * @param ids the new delete multi locations
+	 */
 	public synchronized void setDeleteMultiLocations(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -685,6 +895,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi memos.
+	 *
+	 * @param ids the new delete multi memos
+	 */
 	public synchronized void setDeleteMultiMemos(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -695,6 +910,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi parts.
+	 *
+	 * @param ids the new delete multi parts
+	 */
 	public synchronized void setDeleteMultiParts(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -705,6 +925,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi persons.
+	 *
+	 * @param ids the new delete multi persons
+	 */
 	public synchronized void setDeleteMultiPersons(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -715,6 +940,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi relationships.
+	 *
+	 * @param ids the new delete multi relationships
+	 */
 	public synchronized void setDeleteMultiRelationships(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -725,6 +955,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi scenes.
+	 *
+	 * @param ids the new delete multi scenes
+	 */
 	public synchronized void setDeleteMultiScenes(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -735,6 +970,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi strands.
+	 *
+	 * @param ids the new delete multi strands
+	 */
 	public synchronized void setDeleteMultiStrands(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -745,6 +985,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi tag links.
+	 *
+	 * @param ids the new delete multi tag links
+	 */
 	public synchronized void setDeleteMultiTagLinks(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -755,6 +1000,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete multi tags.
+	 *
+	 * @param ids the new delete multi tags
+	 */
 	public synchronized void setDeleteMultiTags(ArrayList<Long> ids) {
 		for (Long id : ids) {
 			Session session = beginTransaction();
@@ -765,6 +1015,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the delete part.
+	 *
+	 * @param part the new delete part
+	 */
 	public synchronized void setDeletePart(Part part) {
 		if (part.getId() == null) {
 			return;
@@ -784,6 +1039,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PartProps.DELETE.toString(), part, null);
 	}
 
+	/**
+	 * Sets the delete person.
+	 *
+	 * @param person the new delete person
+	 */
 	public synchronized void setDeletePerson(Person person) {
 		if (person.getId() == null) {
 			return;
@@ -822,6 +1082,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PersonProps.DELETE.toString(), person, null);
 	}
 
+	/**
+	 * Sets the delete relationship.
+	 *
+	 * @param r the new delete relationship
+	 */
 	public synchronized void setDeleteRelationship(Relationship r) {
 		if (r.getId() == null) {
 			return;
@@ -838,6 +1103,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.RelationshipProps.DELETE.toString(), r, null);
 	}
 
+	/**
+	 * Sets the delete scene.
+	 *
+	 * @param scene the new delete scene
+	 */
 	public synchronized void setDeleteScene(Scene scene) {
 		if (scene.getId() == null) {
 			return;
@@ -860,6 +1130,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.SceneProps.DELETE.toString(), scene, null);
 	}
 
+	/**
+	 * Sets the delete strand.
+	 *
+	 * @param strand the new delete strand
+	 */
 	public synchronized void setDeleteStrand(Strand strand) {
 		if (strand.getId() == null) {
 			return;
@@ -895,6 +1170,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.StrandProps.DELETE.toString(), strand, null);
 	}
 
+	/**
+	 * Sets the delete tag.
+	 *
+	 * @param tag the new delete tag
+	 */
 	public synchronized void setDeleteTag(Tag tag) {
 		if (tag.getId() == null) {
 			return;
@@ -914,6 +1194,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagProps.DELETE.toString(), tag, null);
 	}
 
+	/**
+	 * Sets the delete tag link.
+	 *
+	 * @param tagLink the new delete tag link
+	 */
 	public synchronized void setDeleteTagLink(TagLink tagLink) {
 		if (tagLink.getId() == null) {
 			return;
@@ -924,6 +1209,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagLinkProps.DELETE.toString(), tagLink, null);
 	}
 
+	/**
+	 * Sets the delete time event.
+	 *
+	 * @param entity the new delete time event
+	 */
 	public synchronized void setDeleteTimeEvent(TimeEvent entity) {
 		if (entity.getId() == null) {
 			return;
@@ -935,6 +1225,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TimeEventProps.DELETE.toString(), entity, null);
 	}
 
+	/**
+	 * Sets the edits the category.
+	 *
+	 * @param entity the new edits the category
+	 */
 	// category
 	public void setEditCategory(Category entity) {
 		// firePropertyChange(BookController.CategoryProps.EDIT.toString(),
@@ -942,6 +1237,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the chapter.
+	 *
+	 * @param entity the new edits the chapter
+	 */
 	// chapter
 	public void setEditChapter(Chapter entity) {
 		// firePropertyChange(BookController.ChapterProps.EDIT.toString(), null,
@@ -949,6 +1249,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the gender.
+	 *
+	 * @param entity the new edits the gender
+	 */
 	// gender
 	public void setEditGender(Gender entity) {
 		// firePropertyChange(BookController.GenderProps.EDIT.toString(), null,
@@ -956,6 +1261,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the idea.
+	 *
+	 * @param entity the new edits the idea
+	 */
 	// idea
 	public void setEditIdea(Idea entity) {
 		// firePropertyChange(BookController.IdeaProps.EDIT.toString(), null,
@@ -963,6 +1273,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the internal.
+	 *
+	 * @param internal the new edits the internal
+	 */
 	// internals
 	public void setEditInternal(Internal internal) {
 		// firePropertyChange(BookController.InternalProps.EDIT.toString(),
@@ -970,6 +1285,11 @@ public class BookModel extends AbstractModel {
 		editEntity(internal);
 	}
 
+	/**
+	 * Sets the edits the item.
+	 *
+	 * @param entity the new edits the item
+	 */
 	// items
 	public void setEditItem(Item entity) {
 		// firePropertyChange(BookController.ItemProps.EDIT.toString(), null,
@@ -977,6 +1297,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the item link.
+	 *
+	 * @param entity the new edits the item link
+	 */
 	// item links
 	public void setEditItemLink(ItemLink entity) {
 		// firePropertyChange(BookController.ItemLinkProps.EDIT.toString(),
@@ -984,6 +1309,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the location.
+	 *
+	 * @param entity the new edits the location
+	 */
 	// location
 	public void setEditLocation(Location entity) {
 		// firePropertyChange(BookController.LocationProps.EDIT.toString(),
@@ -991,6 +1321,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the memo.
+	 *
+	 * @param entity the new edits the memo
+	 */
 	// memos
 	public void setEditMemo(Memo entity) {
 		// firePropertyChange(BookController.TagProps.EDIT.toString(), null,
@@ -998,6 +1333,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the part.
+	 *
+	 * @param entity the new edits the part
+	 */
 	// part
 	public void setEditPart(Part entity) {
 		// firePropertyChange(BookController.PartProps.EDIT.toString(), null,
@@ -1005,6 +1345,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the person.
+	 *
+	 * @param entity the new edits the person
+	 */
 	// person
 	public void setEditPerson(Person entity) {
 		// firePropertyChange(BookController.PersonProps.EDIT.toString(),null,
@@ -1012,6 +1357,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the relationship.
+	 *
+	 * @param entity the new edits the relationship
+	 */
 	// relationship
 	public void setEditRelationship(Relationship entity) {
 		// firePropertyChange(BookController.RelationshipProps.EDIT.toString(),null,
@@ -1019,6 +1369,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the scene.
+	 *
+	 * @param entity the new edits the scene
+	 */
 	// scenes
 	public void setEditScene(Scene entity) {
 		SbApp.trace("BookModel.setEditScene(" + entity.toString() + ")");
@@ -1027,6 +1382,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the strand.
+	 *
+	 * @param entity the new edits the strand
+	 */
 	// strand
 	public void setEditStrand(Strand entity) {
 		// firePropertyChange(BookController.StrandProps.EDIT.toString(), null,
@@ -1034,6 +1394,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the tag.
+	 *
+	 * @param entity the new edits the tag
+	 */
 	// tags
 	public void setEditTag(Tag entity) {
 		// firePropertyChange(BookController.TagProps.EDIT.toString(), null,
@@ -1041,6 +1406,11 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the tag link.
+	 *
+	 * @param entity the new edits the tag link
+	 */
 	// tag links
 	public void setEditTagLink(TagLink entity) {
 		// firePropertyChange(BookController.TagLinkProps.EDIT.toString(), null,
@@ -1048,45 +1418,95 @@ public class BookModel extends AbstractModel {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the edits the time event.
+	 *
+	 * @param entity the new edits the time event
+	 */
 	// chapter
 	public void setEditTimeEvent(TimeEvent entity) {
 		editEntity(entity);
 	}
 
+	/**
+	 * Sets the export.
+	 *
+	 * @param view the new export
+	 */
 	public void setExport(SbView view) {
 		firePropertyChange(BookController.CommonProps.EXPORT.toString(), null, view);
 	}
 
+	/**
+	 * Sets the filter scenes.
+	 *
+	 * @param state the new filter scenes
+	 */
 	public void setFilterScenes(SceneState state) {
 		firePropertyChange(BookController.SceneProps.FILTER.toString(), null, state);
 	}
 
+	/**
+	 * Sets the filter strand.
+	 *
+	 * @param strand the new filter strand
+	 */
 	public void setFilterStrand(String strand) {
 		firePropertyChange(BookController.SceneProps.FILTERSTRAND.toString(), null, strand);
 	}
 
+	/**
+	 * Sets the manage columns.
+	 *
+	 * @param val the new manage columns
+	 */
 	public void setManageColumns(Integer val) {
 		firePropertyChange(BookController.ManageViewProps.COLUMNS.toString(), null, val);
 	}
 
+	/**
+	 * Sets the manage show entity.
+	 *
+	 * @param chapter the new manage show entity
+	 */
 	public void setManageShowEntity(Chapter chapter) {
 		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, chapter);
 	}
 
+	/**
+	 * Sets the manage show entity.
+	 *
+	 * @param scene the new manage show entity
+	 */
 	public void setManageShowEntity(Scene scene) {
 		firePropertyChange(BookController.ManageViewProps.SHOW_ENTITY.toString(), null, scene);
 	}
 
+	/**
+	 * Sets the manage zoom.
+	 *
+	 * @param val the new manage zoom
+	 */
 	// manage view
 	public void setManageZoom(Integer val) {
 		firePropertyChange(BookController.ManageViewProps.ZOOM.toString(), null, val);
 	}
 
+	/**
+	 * Sets the memoria balloon.
+	 *
+	 * @param val the new memoria balloon
+	 */
 	// memoria view
 	public void setMemoriaBalloon(Boolean val) {
 		firePropertyChange(BookController.MemoriaViewProps.BALLOON.toString(), null, val);
 	}
 
+	/**
+	 * Sets the new category.
+	 *
+	 * @param category the new new category
+	 */
 	public synchronized void setNewCategory(Category category) {
 		Session session = beginTransaction();
 		session.save(category);
@@ -1094,6 +1514,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.CategoryProps.NEW.toString(), null, category);
 	}
 
+	/**
+	 * Sets the new chapter.
+	 *
+	 * @param chapter the new new chapter
+	 */
 	public synchronized void setNewChapter(Chapter chapter) {
 		Session session = beginTransaction();
 		session.save(chapter);
@@ -1101,6 +1526,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChapterProps.NEW.toString(), null, chapter);
 	}
 
+	/**
+	 * Sets the new gender.
+	 *
+	 * @param gender the new new gender
+	 */
 	public synchronized void setNewGender(Gender gender) {
 		Session session = beginTransaction();
 		session.save(gender);
@@ -1109,6 +1539,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.GenderProps.NEW.toString(), null, gender);
 	}
 
+	/**
+	 * Sets the new idea.
+	 *
+	 * @param idea the new new idea
+	 */
 	public synchronized void setNewIdea(Idea idea) {
 		Session session = beginTransaction();
 		session.save(idea);
@@ -1116,6 +1551,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.IdeaProps.NEW.toString(), null, idea);
 	}
 
+	/**
+	 * Sets the new internal.
+	 *
+	 * @param internal the new new internal
+	 */
 	public synchronized void setNewInternal(Internal internal) {
 		Session session = beginTransaction();
 		session.save(internal);
@@ -1123,6 +1563,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.InternalProps.NEW.toString(), null, internal);
 	}
 
+	/**
+	 * Sets the new item.
+	 *
+	 * @param item the new new item
+	 */
 	public synchronized void setNewItem(Item item) {
 		Session session = beginTransaction();
 		session.save(item);
@@ -1130,6 +1575,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemProps.NEW.toString(), null, item);
 	}
 
+	/**
+	 * Sets the new item link.
+	 *
+	 * @param itemLink the new new item link
+	 */
 	public synchronized void setNewItemLink(ItemLink itemLink) {
 		Session session = beginTransaction();
 		session.save(itemLink);
@@ -1137,6 +1587,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.NEW.toString(), null, itemLink);
 	}
 
+	/**
+	 * Sets the new location.
+	 *
+	 * @param location the new new location
+	 */
 	public synchronized void setNewLocation(Location location) {
 		Session session = beginTransaction();
 		session.save(location);
@@ -1144,6 +1599,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.LocationProps.NEW.toString(), null, location);
 	}
 
+	/**
+	 * Sets the new memo.
+	 *
+	 * @param memo the new new memo
+	 */
 	public synchronized void setNewMemo(Memo memo) {
 		Session session = beginTransaction();
 		session.save(memo);
@@ -1151,6 +1611,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.MemoProps.NEW.toString(), null, memo);
 	}
 
+	/**
+	 * Sets the new part.
+	 *
+	 * @param part the new new part
+	 */
 	public synchronized void setNewPart(Part part) {
 		Session session = beginTransaction();
 		session.save(part);
@@ -1158,6 +1623,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PartProps.NEW.toString(), null, part);
 	}
 
+	/**
+	 * Sets the new person.
+	 *
+	 * @param person the new new person
+	 */
 	public synchronized void setNewPerson(Person person) {
 		try {
 			Session session = beginTransaction();
@@ -1170,6 +1640,11 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the new relationship.
+	 *
+	 * @param r the new new relationship
+	 */
 	public synchronized void setNewRelationship(Relationship r) {
 		Session session = beginTransaction();
 		session.save(r);
@@ -1177,6 +1652,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.RelationshipProps.NEW.toString(), null, r);
 	}
 
+	/**
+	 * Sets the new scene.
+	 *
+	 * @param scene the new new scene
+	 */
 	public synchronized void setNewScene(Scene scene) {
 		Session session = beginTransaction();
 		session.save(scene);
@@ -1184,6 +1664,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.SceneProps.NEW.toString(), null, scene);
 	}
 
+	/**
+	 * Sets the new strand.
+	 *
+	 * @param strand the new new strand
+	 */
 	public synchronized void setNewStrand(Strand strand) {
 		Session session = beginTransaction();
 		session.save(strand);
@@ -1191,6 +1676,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.StrandProps.NEW.toString(), null, strand);
 	}
 
+	/**
+	 * Sets the new tag.
+	 *
+	 * @param tag the new new tag
+	 */
 	public synchronized void setNewTag(Tag tag) {
 		Session session = beginTransaction();
 		session.save(tag);
@@ -1198,6 +1688,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagProps.NEW.toString(), null, tag);
 	}
 
+	/**
+	 * Sets the new tag link.
+	 *
+	 * @param tagLink the new new tag link
+	 */
 	public synchronized void setNewTagLink(TagLink tagLink) {
 		Session session = beginTransaction();
 		session.save(tagLink);
@@ -1205,6 +1700,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagLinkProps.NEW.toString(), null, tagLink);
 	}
 
+	/**
+	 * Sets the new time event.
+	 *
+	 * @param entity the new new time event
+	 */
 	public synchronized void setNewTimeEvent(TimeEvent entity) {
 		Session session = beginTransaction();
 		session.save(entity);
@@ -1212,35 +1712,75 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TimeEventProps.NEW.toString(), null, entity);
 	}
 
+	/**
+	 * Sets the order down category.
+	 *
+	 * @param category the new order down category
+	 */
 	public synchronized void setOrderDownCategory(Category category) {
 		firePropertyChange(BookController.CategoryProps.ORDER_DOWN.toString(), null, category);
 	}
 
+	/**
+	 * Sets the order down strand.
+	 *
+	 * @param strand the new order down strand
+	 */
 	public synchronized void setOrderDownStrand(Strand strand) {
 		firePropertyChange(BookController.StrandProps.ORDER_DOWN.toString(), null, strand);
 	}
 
+	/**
+	 * Sets the order up category.
+	 *
+	 * @param category the new order up category
+	 */
 	public synchronized void setOrderUpCategory(Category category) {
 		firePropertyChange(BookController.CategoryProps.ORDER_UP.toString(), null, category);
 	}
 
+	/**
+	 * Sets the order up strand.
+	 *
+	 * @param strand the new order up strand
+	 */
 	public synchronized void setOrderUpStrand(Strand strand) {
 		firePropertyChange(BookController.StrandProps.ORDER_UP.toString(), null, strand);
 	}
 
+	/**
+	 * Sets the prints the.
+	 *
+	 * @param view the new prints the
+	 */
 	public void setPrint(SbView view) {
 		firePropertyChange(BookController.CommonProps.PRINT.toString(), null, view);
 	}
 
+	/**
+	 * Sets the reading font size.
+	 *
+	 * @param val the new reading font size
+	 */
 	public void setReadingFontSize(Integer val) {
 		firePropertyChange(BookController.ReadingViewProps.FONT_SIZE.toString(), null, val);
 	}
 
+	/**
+	 * Sets the reading zoom.
+	 *
+	 * @param val the new reading zoom
+	 */
 	// reading view
 	public void setReadingZoom(Integer val) {
 		firePropertyChange(BookController.ReadingViewProps.ZOOM.toString(), null, val);
 	}
 
+	/**
+	 * Sets the refresh.
+	 *
+	 * @param view the new refresh
+	 */
 	// common
 	public void setRefresh(SbView view) {
 		SbApp.trace("BookModel.setRefresh(" + view.getName() + ")");
@@ -1261,114 +1801,252 @@ public class BookModel extends AbstractModel {
 		}
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param entity the new show info
+	 */
 	public void setShowInfo(AbstractEntity entity) {
 		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, entity);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param category the new show info
+	 */
 	public void setShowInfo(Category category) {
 		setShowInfo((AbstractEntity) category);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param chapter the new show info
+	 */
 	public void setShowInfo(Chapter chapter) {
 		setShowInfo((AbstractEntity) chapter);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param dbFile the new show info
+	 */
 	public void setShowInfo(DbFile dbFile) {
 		firePropertyChange(BookController.CommonProps.SHOW_INFO.toString(), null, dbFile);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param gender the new show info
+	 */
 	public void setShowInfo(Gender gender) {
 		setShowInfo((AbstractEntity) gender);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param idea the new show info
+	 */
 	public void setShowInfo(Idea idea) {
 		setShowInfo((AbstractEntity) idea);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param item the new show info
+	 */
 	public void setShowInfo(Item item) {
 		setShowInfo((AbstractEntity) item);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param itemLink the new show info
+	 */
 	public void setShowInfo(ItemLink itemLink) {
 		setShowInfo((AbstractEntity) itemLink);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param location the new show info
+	 */
 	public void setShowInfo(Location location) {
 		setShowInfo((AbstractEntity) location);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param part the new show info
+	 */
 	public void setShowInfo(Part part) {
 		setShowInfo((AbstractEntity) part);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param person the new show info
+	 */
 	public void setShowInfo(Person person) {
 		setShowInfo((AbstractEntity) person);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param entity the new show info
+	 */
 	public void setShowInfo(Relationship entity) {
 		setShowInfo((AbstractEntity) entity);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param scene the new show info
+	 */
 	public void setShowInfo(Scene scene) {
 		setShowInfo((AbstractEntity) scene);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param strand the new show info
+	 */
 	public void setShowInfo(Strand strand) {
 		setShowInfo((AbstractEntity) strand);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param tag the new show info
+	 */
 	public void setShowInfo(Tag tag) {
 		setShowInfo((AbstractEntity) tag);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param tagLink the new show info
+	 */
 	public void setShowInfo(TagLink tagLink) {
 		setShowInfo((AbstractEntity) tagLink);
 	}
 
+	/**
+	 * Sets the show info.
+	 *
+	 * @param event the new show info
+	 */
 	public void setShowInfo(TimeEvent event) {
 		setShowInfo((AbstractEntity) event);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param entity the new show in memoria
+	 */
 	public void setShowInMemoria(AbstractEntity entity) {
 		firePropertyChange(BookController.CommonProps.SHOW_IN_MEMORIA.toString(), null, entity);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param item the new show in memoria
+	 */
 	public void setShowInMemoria(Item item) {
 		setShowInMemoria((AbstractEntity) item);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param location the new show in memoria
+	 */
 	public void setShowInMemoria(Location location) {
 		setShowInMemoria((AbstractEntity) location);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param person the new show in memoria
+	 */
 	public void setShowInMemoria(Person person) {
 		setShowInMemoria((AbstractEntity) person);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param p the new show in memoria
+	 */
 	public void setShowInMemoria(Relationship p) {
 		setShowInMemoria((AbstractEntity) p);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param scene the new show in memoria
+	 */
 	public void setShowInMemoria(Scene scene) {
 		setShowInMemoria((AbstractEntity) scene);
 	}
 
+	/**
+	 * Sets the show in memoria.
+	 *
+	 * @param tag the new show in memoria
+	 */
 	public void setShowInMemoria(Tag tag) {
 		setShowInMemoria((AbstractEntity) tag);
 	}
 
+	/**
+	 * Sets the show memo.
+	 *
+	 * @param entity the new show memo
+	 */
 	public void setShowMemo(AbstractEntity entity) {
 		firePropertyChange(BookController.CommonProps.SHOW_MEMO.toString(), null, entity);
 	}
 
+	/**
+	 * Sets the show options.
+	 *
+	 * @param view the new show options
+	 */
 	public void setShowOptions(SbView view) {
 		firePropertyChange(BookController.CommonProps.SHOW_OPTIONS.toString(), null, view);
 	}
 
+	/**
+	 * Sets the unload editor.
+	 */
 	public void setUnloadEditor() {
 		firePropertyChange(BookController.CommonProps.UNLOAD_EDITOR.toString(), null, null);
 	}
 
+	/**
+	 * Sets the update category.
+	 *
+	 * @param category the new update category
+	 */
 	public synchronized void setUpdateCategory(Category category) {
 		Session session = beginTransaction();
 		CategoryDAOImpl dao = new CategoryDAOImpl(session);
@@ -1380,6 +2058,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.CategoryProps.UPDATE.toString(), old, category);
 	}
 
+	/**
+	 * Sets the update chapter.
+	 *
+	 * @param chapter the new update chapter
+	 */
 	public synchronized void setUpdateChapter(Chapter chapter) {
 		Session session = beginTransaction();
 		ChapterDAOImpl dao = new ChapterDAOImpl(session);
@@ -1391,6 +2074,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ChapterProps.UPDATE.toString(), old, chapter);
 	}
 
+	/**
+	 * Sets the update gender.
+	 *
+	 * @param gender the new update gender
+	 */
 	public synchronized void setUpdateGender(Gender gender) {
 		Session session = beginTransaction();
 		GenderDAOImpl dao = new GenderDAOImpl(session);
@@ -1404,6 +2092,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.GenderProps.UPDATE.toString(), old, gender);
 	}
 
+	/**
+	 * Sets the update idea.
+	 *
+	 * @param idea the new update idea
+	 */
 	public synchronized void setUpdateIdea(Idea idea) {
 		Session session = beginTransaction();
 		IdeaDAOImpl dao = new IdeaDAOImpl(session);
@@ -1415,6 +2108,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.IdeaProps.UPDATE.toString(), old, idea);
 	}
 
+	/**
+	 * Sets the update internal.
+	 *
+	 * @param internal the new update internal
+	 */
 	public synchronized void setUpdateInternal(Internal internal) {
 		Session session = beginTransaction();
 		InternalDAOImpl dao = new InternalDAOImpl(session);
@@ -1426,6 +2124,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.InternalProps.UPDATE.toString(), old, internal);
 	}
 
+	/**
+	 * Sets the update item.
+	 *
+	 * @param item the new update item
+	 */
 	public synchronized void setUpdateItem(Item item) {
 		Session session = beginTransaction();
 		ItemDAOImpl dao = new ItemDAOImpl(session);
@@ -1437,6 +2140,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemProps.UPDATE.toString(), old, item);
 	}
 
+	/**
+	 * Sets the update item link.
+	 *
+	 * @param itemLink the new update item link
+	 */
 	public synchronized void setUpdateItemLink(ItemLink itemLink) {
 		Session session = beginTransaction();
 		ItemLinkDAOImpl dao = new ItemLinkDAOImpl(session);
@@ -1448,6 +2156,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.ItemLinkProps.UPDATE.toString(), old, itemLink);
 	}
 
+	/**
+	 * Sets the update location.
+	 *
+	 * @param location the new update location
+	 */
 	public synchronized void setUpdateLocation(Location location) {
 		Session session = beginTransaction();
 		LocationDAOImpl dao = new LocationDAOImpl(session);
@@ -1459,6 +2172,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.LocationProps.UPDATE.toString(), old, location);
 	}
 
+	/**
+	 * Sets the update memo.
+	 *
+	 * @param memo the new update memo
+	 */
 	public synchronized void setUpdateMemo(Memo memo) {
 		Session session = beginTransaction();
 		MemoDAOImpl dao = new MemoDAOImpl(session);
@@ -1470,6 +2188,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.MemoProps.UPDATE.toString(), old, memo);
 	}
 
+	/**
+	 * Sets the update part.
+	 *
+	 * @param part the new update part
+	 */
 	public synchronized void setUpdatePart(Part part) {
 		Session session = beginTransaction();
 		PartDAOImpl dao = new PartDAOImpl(session);
@@ -1481,6 +2204,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PartProps.UPDATE.toString(), old, part);
 	}
 
+	/**
+	 * Sets the update person.
+	 *
+	 * @param person the new update person
+	 */
 	public synchronized void setUpdatePerson(Person person) {
 		Session session = beginTransaction();
 		PersonDAOImpl dao = new PersonDAOImpl(session);
@@ -1492,6 +2220,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.PersonProps.UPDATE.toString(), old, person);
 	}
 
+	/**
+	 * Sets the update relationship.
+	 *
+	 * @param relationship the new update relationship
+	 */
 	public synchronized void setUpdateRelationship(Relationship relationship) {
 		Session session = beginTransaction();
 		RelationshipDAOImpl dao = new RelationshipDAOImpl(session);
@@ -1503,6 +2236,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.RelationshipProps.UPDATE.toString(), old, relationship);
 	}
 
+	/**
+	 * Sets the update scene.
+	 *
+	 * @param scene the new update scene
+	 */
 	public synchronized void setUpdateScene(Scene scene) {
 		// needed, see ChronoPanel.modelPropertyChange()
 		Session session = beginTransaction();
@@ -1518,6 +2256,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.SceneProps.UPDATE.toString(), old, scene);
 	}
 
+	/**
+	 * Sets the update strand.
+	 *
+	 * @param strand the new update strand
+	 */
 	public synchronized void setUpdateStrand(Strand strand) {
 		Session session = beginTransaction();
 		StrandDAOImpl dao = new StrandDAOImpl(session);
@@ -1529,6 +2272,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.StrandProps.UPDATE.toString(), old, strand);
 	}
 
+	/**
+	 * Sets the update tag.
+	 *
+	 * @param tag the new update tag
+	 */
 	public synchronized void setUpdateTag(Tag tag) {
 		Session session = beginTransaction();
 		TagDAOImpl dao = new TagDAOImpl(session);
@@ -1540,6 +2288,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagProps.UPDATE.toString(), old, tag);
 	}
 
+	/**
+	 * Sets the update tag link.
+	 *
+	 * @param tagLink the new update tag link
+	 */
 	public synchronized void setUpdateTagLink(TagLink tagLink) {
 		Session session = beginTransaction();
 		TagLinkDAOImpl dao = new TagLinkDAOImpl(session);
@@ -1551,6 +2304,11 @@ public class BookModel extends AbstractModel {
 		firePropertyChange(BookController.TagLinkProps.UPDATE.toString(), old, tagLink);
 	}
 
+	/**
+	 * Sets the update time event.
+	 *
+	 * @param entity the new update time event
+	 */
 	public synchronized void setUpdateTimeEvent(TimeEvent entity) {
 		Session session = beginTransaction();
 		TimeEventDAOImpl dao = new TimeEventDAOImpl(session);

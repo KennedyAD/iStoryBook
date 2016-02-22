@@ -25,30 +25,70 @@ import javax.swing.JButton;
 
 import storybook.toolkit.I18N;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IconButton.
+ */
 public class IconButton extends JButton {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8496907453070936967L;
+	
+	/** The Constant size16x16. */
 	private static final Dimension size16x16 = new Dimension(16, 16);
+	
+	/** The Constant size20x20. */
 	private static final Dimension size20x20 = new Dimension(20, 20);
+	
+	/** The Constant size32x20. */
 	private static final Dimension size32x20 = new Dimension(32, 20);
+	
+	/** The Constant size72x72. */
 	private static final Dimension size72x72 = new Dimension(72, 72);
 
+	/**
+	 * Instantiates a new icon button.
+	 */
 	public IconButton() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new icon button.
+	 *
+	 * @param action the action
+	 */
 	public IconButton(Action action) {
 		this(null, null, action);
 	}
 
+	/**
+	 * Instantiates a new icon button.
+	 *
+	 * @param resourceIcon the resource icon
+	 */
 	public IconButton(String resourceIcon) {
 		this(resourceIcon, null);
 	}
 
+	/**
+	 * Instantiates a new icon button.
+	 *
+	 * @param resourceIcon the resource icon
+	 * @param action the action
+	 */
 	public IconButton(String resourceIcon, Action action) {
 		this(resourceIcon, null, action);
 	}
 
+	/**
+	 * Instantiates a new icon button.
+	 *
+	 * @param resourceIcon the resource icon
+	 * @param resourceToolTip the resource tool tip
+	 * @param action the action
+	 */
 	public IconButton(String resourceIcon, String resourceToolTip, Action action) {
 		if (action != null) {
 			setAction(action);
@@ -61,51 +101,92 @@ public class IconButton extends JButton {
 		}
 	}
 
+	/**
+	 * Gets the size16x16.
+	 *
+	 * @return the size16x16
+	 */
 	public Dimension getSize16x16() {
 		return size16x16;
 	}
 
+	/**
+	 * Gets the size20x20.
+	 *
+	 * @return the size20x20
+	 */
 	public Dimension getSize20x20() {
 		return size20x20;
 	}
 
+	/**
+	 * Gets the size72x72.
+	 *
+	 * @return the size72x72
+	 */
 	public Dimension getSize72x72() {
 		return size72x72;
 	}
 
+	/**
+	 * Sets the control button.
+	 */
 	public void setControlButton() {
 		this.setSize16x16();
 		this.setNoBorder();
 	}
 
+	/**
+	 * Sets the flat.
+	 */
 	public void setFlat() {
 		setBorderPainted(false);
 		setOpaque(false);
 		setContentAreaFilled(false);
 	}
 
+	/**
+	 * Sets the icon.
+	 *
+	 * @param resourceIcon the new icon
+	 */
 	public void setIcon(String resourceIcon) {
 		if (resourceIcon != null) {
 			setIcon(I18N.getIcon(resourceIcon));
 		}
 	}
 
+	/**
+	 * Sets the no border.
+	 */
 	public void setNoBorder() {
 		this.setBorder(null);
 	}
 
+	/**
+	 * Sets the size16x16.
+	 */
 	public void setSize16x16() {
 		SwingUtil.setForcedSize(this, size16x16);
 	}
 
+	/**
+	 * Sets the size20x20.
+	 */
 	public void setSize20x20() {
 		SwingUtil.setForcedSize(this, size20x20);
 	}
 
+	/**
+	 * Sets the size32x20.
+	 */
 	public void setSize32x20() {
 		SwingUtil.setForcedSize(this, size32x20);
 	}
 
+	/**
+	 * Sets the size72x72.
+	 */
 	public void setSize72x72() {
 		SwingUtil.setForcedSize(this, size72x72);
 	}

@@ -31,23 +31,41 @@ import storybook.controller.BookController;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IPaintable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DebugInfoPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class DebugInfoPanel extends JPanel implements IPaintable, ActionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4616021136930866137L;
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The timer. */
 	private Timer timer;
+	
+	/** The lb attached views. */
 	private JLabel lbAttachedViews;
 
+	/**
+	 * Instantiates a new debug info panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public DebugInfoPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		init();
 		initUi();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		BookController ctrl = mainFrame.getBookController();
@@ -56,12 +74,18 @@ public class DebugInfoPanel extends JPanel implements IPaintable, ActionListener
 		lbAttachedViews.setToolTipText("<html>" + ctrl.getInfoAttachedViews(true));
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#init()
+	 */
 	@Override
 	public void init() {
 		timer = new Timer(2000, this);
 		timer.start();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowx,ins 0"));

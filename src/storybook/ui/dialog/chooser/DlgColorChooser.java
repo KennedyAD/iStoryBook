@@ -16,21 +16,23 @@
 package storybook.ui.dialog.chooser;
 
 import java.awt.Color;
+// TODO: Auto-generated Javadoc
 //import storybook.ui.dialog.edit.Editor;
 
 /**
+ * The Class DlgColorChooser.
  *
  * @author favdb
  */
 public class DlgColorChooser extends javax.swing.JDialog {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6595976016075466477L;
 
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -80,30 +82,45 @@ public class DlgColorChooser extends javax.swing.JDialog {
 		});
 	}
 
+	/** The my color. */
 	public Color myColor = Color.GRAY;
 
+	/** The bt cancel. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btCancel;
 
+	/** The bt ok. */
 	private javax.swing.JButton btOK;
 
+	/** The j color chooser1. */
 	private javax.swing.JColorChooser jColorChooser1;
 	// End of variables declaration//GEN-END:variables
 
 	/**
-	 * Creates new form DlgColorChooser
-	 * 
-	 * @param parent
-	 * @param b
+	 * Creates new form DlgColorChooser.
+	 *
+	 * @param parent the parent
+	 * @param b the b
 	 */
 	public DlgColorChooser(java.awt.Frame parent, boolean b) {
 		super(parent, true);
 		initComponents();
 	}
 
+	/**
+	 * Bt cancel action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCancelActionPerformed
 		dispose();
 	}// GEN-LAST:event_btCancelActionPerformed
+	
+	/**
+	 * Bt ok action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btOKActionPerformed
 		myColor = jColorChooser1.getColor();
 		dispose();

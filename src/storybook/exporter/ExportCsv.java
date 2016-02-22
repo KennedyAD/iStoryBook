@@ -15,20 +15,44 @@ import com.itextpdf.text.Font;
 
 import storybook.SbApp;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportCsv.
  *
  * @author favdb
  */
 public class ExportCsv {
 
+	/** The report. */
 	String report;
+	
+	/** The file name. */
 	String fileName = "";
+	
+	/** The headers. */
 	List<ExportHeader> headers;
+	
+	/** The font body. */
 	Font fontHeader, fontBody;
+	
+	/** The out stream. */
 	BufferedWriter outStream;
+	
+	/** The author. */
 	String author;
+	
+	/** The parent. */
 	private final Export parent;
 
+	/**
+	 * Instantiates a new export csv.
+	 *
+	 * @param parent the parent
+	 * @param report the report
+	 * @param fileName the file name
+	 * @param headers the headers
+	 * @param author the author
+	 */
 	ExportCsv(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
 		this.parent = parent;
 		this.report = report;
@@ -37,6 +61,9 @@ public class ExportCsv {
 		this.author = author;
 	}
 
+	/**
+	 * Close.
+	 */
 	public void close() {
 		try {
 			outStream.flush();
@@ -46,6 +73,9 @@ public class ExportCsv {
 		}
 	}
 
+	/**
+	 * Open.
+	 */
 	public void open() {
 		try {
 			try {
@@ -53,8 +83,9 @@ public class ExportCsv {
 			} catch (IOException ex) {
 				SbApp.error("ExportCsv.open()", ex);
 			}
-			if (headers == null)
+			if (headers == null) {
 				return;
+			}
 			String str = "";
 			for (ExportHeader header : headers) {
 				str += "\"" + header.getName() + "\";";
@@ -67,16 +98,24 @@ public class ExportCsv {
 		}
 	}
 
+	/**
+	 * Write row.
+	 *
+	 * @param body the body
+	 */
 	public void writeRow(String[] body) {
 		try {
 			String str = "";
 			String quotes = "'", comma = ";";
-			if (parent.parent.paramExport.csvDoubleQuotes)
+			if (parent.parent.paramExport.csvDoubleQuotes) {
 				quotes = "\"";
-			if (parent.parent.paramExport.csvNoQuotes)
+			}
+			if (parent.parent.paramExport.csvNoQuotes) {
 				quotes = "";
-			if (parent.parent.paramExport.csvComma)
+			}
+			if (parent.parent.paramExport.csvComma) {
 				quotes = ",";
+			}
 			for (String s : body) {
 				str += quotes + ("".equals(s) ? " " : s) + quotes + comma;
 			}
@@ -88,6 +127,11 @@ public class ExportCsv {
 		}
 	}
 
+	/**
+	 * Write text.
+	 *
+	 * @param str the str
+	 */
 	void writeText(String str) {
 		try {
 			outStream.write(str + "\n", 0, str.length() + 1);

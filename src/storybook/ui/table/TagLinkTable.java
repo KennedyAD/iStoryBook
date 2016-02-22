@@ -30,17 +30,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.TagLink;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TagLinkTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class TagLinkTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3752712591111206227L;
+
+	/**
+	 * Instantiates a new tag link table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public TagLinkTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -51,21 +64,33 @@ public class TagLinkTable extends AbstractTable {
 		return tagLink;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new TagLink();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("TagLink");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getTagLinkColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -83,6 +108,9 @@ public class TagLinkTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
@@ -93,12 +121,18 @@ public class TagLinkTable extends AbstractTable {
 		ctrl.deleteMultiTagLinks(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		TagLink tagLink = (TagLink) getEntityFromRow(row);
 		ctrl.deleteTagLink(tagLink);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -110,6 +144,9 @@ public class TagLinkTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(tagLink);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setTagLinkToEdit((TagLink) entity);

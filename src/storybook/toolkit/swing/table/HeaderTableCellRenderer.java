@@ -29,8 +29,15 @@ import javax.swing.table.TableCellRenderer;
 import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.SwingUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HeaderTableCellRenderer.
+ */
 public class HeaderTableCellRenderer implements TableCellRenderer {
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

@@ -52,25 +52,52 @@ import storybook.ui.panel.AbstractPanel;
 import storybook.ui.panel.book.BookPanel;
 import storybook.ui.panel.chrono.ChronoPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class FindDatePanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class FindDatePanel extends AbstractPanel implements ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8246090532394671270L;
+	
+	/** The strand combo. */
 	private JComboBox strandCombo;
+	
+	/** The date combo. */
 	private JComboBox dateCombo;
+	
+	/** The views rb panel. */
 	private ViewsRadioButtonPanel viewsRbPanel;
+	
+	/** The lb warning. */
 	private JLabel lbWarning;
 
+	/**
+	 * Instantiates a new find date panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public FindDatePanel(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/**
+	 * Gets the find action.
+	 *
+	 * @return the find action
+	 */
 	private AbstractAction getFindAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2784723742308815381L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				scrollToStrandDate();
@@ -78,8 +105,18 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		};
 	}
 
+	/**
+	 * Gets the next action.
+	 *
+	 * @return the next action
+	 */
 	private AbstractAction getNextAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3939223762289670265L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int index = dateCombo.getSelectedIndex();
@@ -93,8 +130,18 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		};
 	}
 
+	/**
+	 * Gets the previous action.
+	 *
+	 * @return the previous action
+	 */
 	private AbstractAction getPreviousAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 8438586084597900973L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int index = dateCombo.getSelectedIndex();
@@ -108,10 +155,16 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("fillx,wrap 2", "[]10[grow]", "[][]10[]"));
@@ -156,6 +209,9 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		add(btFind, "right");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -163,10 +219,16 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Refresh date combo.
+	 */
 	@SuppressWarnings("unchecked")
 	private void refreshDateCombo() {
 		Strand strand = (Strand) strandCombo.getSelectedItem();
@@ -181,6 +243,9 @@ public class FindDatePanel extends AbstractPanel implements ItemListener {
 		}
 	}
 
+	/**
+	 * Scroll to strand date.
+	 */
 	private void scrollToStrandDate() {
 		Strand strand = (Strand) strandCombo.getSelectedItem();
 		Date date = (Date) dateCombo.getSelectedItem();

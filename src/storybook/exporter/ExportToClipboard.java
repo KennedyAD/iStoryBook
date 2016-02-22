@@ -19,11 +19,19 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportToClipboard.
  *
  * @author favdb
  */
 public class ExportToClipboard {
+	
+	/**
+	 * Sets the as text.
+	 *
+	 * @param text the new as text
+	 */
 	public static void setAsText(String text) {
 		if (text != null) {
 			StringSelection contents = new StringSelection(text);

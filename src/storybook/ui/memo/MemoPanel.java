@@ -50,29 +50,54 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class MemoPanel.
  *
  * @author favdb
  */
 public class MemoPanel extends AbstractPanel implements ActionListener, ListSelectionListener, HyperlinkListener {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 460674309102964462L;
+	
+	/** The memo combo. */
 	private JComboBox<Memo> memoCombo;// liste deroulante des memos
+	
+	/** The bt new. */
 	private JButton btNew;// bouton nouveau
+	
+	/** The bt delete. */
 	private JButton btDelete;// bouton supprimer
+	
+	/** The bt edit. */
 	private JButton btEdit;// bouton modifier
+	
+	/** The process action listener. */
 	private boolean processActionListener;// listener à ignorer
+	
+	/** The control panel. */
 	private JPanel controlPanel;// le panneau de controle contient la liste
+								
+								/** The info panel. */
 								// deroulante et les boutons
 	private JTextPane infoPanel;// le panneau d'information
+	
+	/** The current memo. */
 	private Memo currentMemo;// le memo actuellement affiché
 
+	/**
+	 * Instantiates a new memo panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public MemoPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if ((evt.getSource() == null) || (!processActionListener)) {
@@ -95,6 +120,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		refreshMemo();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.HyperlinkListener#hyperlinkUpdate(javax.swing.event.HyperlinkEvent)
+	 */
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		SbApp.trace("MemoPanel.hyperlinkIpdate(...)");
@@ -107,6 +135,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("MemoPanel.init()");
@@ -117,6 +148,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		currentMemo = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace("MemoPanel.initUi()");
@@ -141,6 +175,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		add(scroller);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("MemoPanel.modelPropertyChange(..)");
@@ -179,6 +216,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		}
 	}
 
+	/**
+	 * Refresh control panel.
+	 */
 	private void refreshControlPanel() {
 		SbApp.trace("MemoPanel.refreshControlPanel()");
 		memoCombo = new JComboBox<Memo>();
@@ -216,6 +256,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		controlPanel.repaint();
 	}
 
+	/**
+	 * Refresh memo.
+	 */
 	private void refreshMemo() {
 		SbApp.trace("MemoPanel.refreshMemo(" + (currentMemo != null ? currentMemo.toString() : "null") + ")");
 		if (currentMemo == null) {
@@ -230,6 +273,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		infoPanel.setCaretPosition(0);
 	}
 
+	/**
+	 * Refresh memo combo.
+	 */
 	private void refreshMemoCombo() {
 		SbApp.trace("MemoPanel.refreshMemoCombo()");
 		Object entityComboSelected = null;
@@ -252,6 +298,9 @@ public class MemoPanel extends AbstractPanel implements ActionListener, ListSele
 		memoCombo.setSelectedItem(entityComboSelected);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		SbApp.trace("MemoPanel.valueChanged(...)");

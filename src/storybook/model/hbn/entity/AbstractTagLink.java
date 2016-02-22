@@ -21,28 +21,54 @@ package storybook.model.hbn.entity;
 import storybook.toolkit.I18N;
 import storybook.toolkit.Period;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AbstractTagLink.
+ *
  * @hibernate.class table="TAG_LINK" discriminator-value="-1"
  * @hibernate.discriminator type="integer" column="type"
  */
 public abstract class AbstractTagLink extends AbstractEntity {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 154507430888995561L;
+	
+	/** The Constant TYPE_TAG. */
 	public static final int TYPE_TAG = 0;
+	
+	/** The Constant TYPE_ITEM. */
 	public static final int TYPE_ITEM = 1;
 
+	/** The type. */
 	protected Integer type;
+	
+	/** The start scene. */
 	private Scene startScene;
+	
+	/** The end scene. */
 	private Scene endScene;
+	
+	/** The person. */
 	private Person person;
+	
+	/** The location. */
 	private Location location;
 
+	/**
+	 * Instantiates a new abstract tag link.
+	 */
 	public AbstractTagLink() {
 	}
 
+	/**
+	 * Instantiates a new abstract tag link.
+	 *
+	 * @param type the type
+	 * @param startScene the start scene
+	 * @param endScene the end scene
+	 * @param person the person
+	 * @param location the location
+	 */
 	public AbstractTagLink(Integer type, Scene startScene, Scene endScene, Person person, Location location) {
 		this.type = type;
 		this.startScene = startScene;
@@ -51,6 +77,9 @@ public abstract class AbstractTagLink extends AbstractEntity {
 		this.location = location;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractEntity#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!super.equals(obj)) {
@@ -73,6 +102,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the end scene.
+	 *
 	 * @return the ending scene
 	 * @hibernate.many-to-one column="end_scene_id"
 	 */
@@ -81,6 +112,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the id.
+	 *
 	 * @return the Id
 	 * @hibernate.id column="ID" generator-class="increment"
 	 *               unsaved-value="null"
@@ -91,6 +124,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the location.
+	 *
 	 * @return the location
 	 * @hibernate.many-to-one column="location_id"
 	 */
@@ -98,6 +133,11 @@ public abstract class AbstractTagLink extends AbstractEntity {
 		return this.location;
 	}
 
+	/**
+	 * Gets the period.
+	 *
+	 * @return the period
+	 */
 	public Period getPeriod() {
 		if (hasPeriod()) {
 			return new Period(getStartScene().getSceneTs(), getEndScene().getSceneTs());
@@ -109,6 +149,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the person.
+	 *
 	 * @return the person
 	 * @hibernate.many-to-one column="character_id"
 	 */
@@ -117,6 +159,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the start scene.
+	 *
 	 * @return the starting scene
 	 * @hibernate.many-to-one column="start_scene_id"
 	 */
@@ -125,6 +169,8 @@ public abstract class AbstractTagLink extends AbstractEntity {
 	}
 
 	/**
+	 * Gets the type.
+	 *
 	 * @return the type
 	 * @hibernate.property insert="false" update="false"
 	 */
@@ -132,10 +178,18 @@ public abstract class AbstractTagLink extends AbstractEntity {
 		return this.type;
 	}
 
+	/**
+	 * Checks for end scene.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasEndScene() {
 		return endScene != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractEntity#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -147,58 +201,124 @@ public abstract class AbstractTagLink extends AbstractEntity {
 		return hash;
 	}
 
+	/**
+	 * Checks for location.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasLocation() {
 		return location != null;
 	}
 
+	/**
+	 * Checks for location or person.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasLocationOrPerson() {
 		return hasLocation() || hasPerson();
 	}
 
+	/**
+	 * Checks for only scene.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasOnlyScene() {
 		return startScene != null && endScene == null && person == null && location == null;
 	}
 
+	/**
+	 * Checks for period.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasPeriod() {
 		return (this.getStartScene() != null && this.getEndScene() != null);
 	}
 
+	/**
+	 * Checks for person.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasPerson() {
 		return person != null;
 	}
 
+	/**
+	 * Checks for start scene.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasStartScene() {
 		return startScene != null;
 	}
 
+	/**
+	 * Sets the end scene.
+	 *
+	 * @param endScene the new end scene
+	 */
 	public void setEndScene(Scene endScene) {
 		this.endScene = endScene;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Sets the location.
+	 *
+	 * @param location the new location
+	 */
 	public void setLocation(Location location) {
 		this.location = location;
 	}
 
+	/**
+	 * Sets the person.
+	 */
 	public void setPerson() {
 		this.person = null;
 	}
 
+	/**
+	 * Sets the person.
+	 *
+	 * @param person the new person
+	 */
 	public void setPerson(Person person) {
 		this.person = person;
 	}
 
+	/**
+	 * Sets the start scene.
+	 *
+	 * @param startScene the new start scene
+	 */
 	public void setStartScene(Scene startScene) {
 		this.startScene = startScene;
 	}
 
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
 	public void setType(Integer type) {
 		this.type = type;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder buf = new StringBuilder();

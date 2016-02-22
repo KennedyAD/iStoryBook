@@ -23,207 +23,558 @@ import java.util.Locale;
 import net.infonode.docking.View;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SbConstants.
+ *
  * @author martin
  * @update favdb
- *
  */
 public class SbConstants {
 	/* default values */
 
+	/**
+	 * The Enum ActionCommand.
+	 */
 	public enum ActionCommand {
-		EDIT("Edit"), NEW("New"), COPY("Copy"), DELETE("Delete");
-		final private String text;
+		
+		/** The edit. */
+EDIT("Edit"), 
+ /** The new. */
+ NEW("New"), 
+ /** The copy. */
+ COPY("Copy"), 
+ /** The delete. */
+ DELETE("Delete");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new action command.
+		 *
+		 * @param text the text
+		 */
 		private ActionCommand(String text) {
 			this.text = text;
 		}
 
+		/**
+		 * Check.
+		 *
+		 * @param prop the prop
+		 * @return true, if successful
+		 */
 		public boolean check(String prop) {
 			return text.equals(prop);
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum ActionKey.
+	 */
 	public enum ActionKey {
+		
+		/** The category. */
 		CATEGORY("Category");
-		final private String text;
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new action key.
+		 *
+		 * @param text the text
+		 */
 		private ActionKey(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
-	public enum BookKey {
-		CHRONO_ZOOM("ChronoZoom"), CHRONO_LAYOUT_DIRECTION("ChornoLayoutDirection"), CHRONO_SHOW_DATE_DIFFERENCE(
-				"ChornoShowDateDiff"), BOOK_ZOOM("BookZoom"), BOOK_HEIGHT_FACTOR("BookHeightFactor"), MANAGE_ZOOM(
-						"ManageZoom"), MANAGE_COLUMNS("ManageColumns"), READING_ZOOM("ReadingZoom"), READING_FONT_SIZE(
-								"ReadingFontSize"), LEAVE_EDITOR_OPEN("LeaveEditorOpen"), LAST_USED_PART(
-										"LastUsedPart"), USE_LIBREOFFICE("UseLibreOffice"), USE_HTML_SCENES(
-												"UseHtmlScenes"), USE_HTML_DESCR("UseHtmlDescr"), MEMORIA_BALLOON(
-														"MemoriaBalloon"), EXPORT_CHAPTER_NUMBERS(
-																"ExportChapterNumbers"), EXPORT_ROMAN_NUMERALS(
-																		"ExportRomanNumerals"), EXPORT_CHAPTER_TITLES(
-																				"ExportChapterTitles"), EXPORT_CHAPTER_DATES_LOCATIONS(
-																						"ExportChapterDatesLocations"), EXPORT_SCENE_TITLES(
-																								"ExportSceneTitles"), EXPORT_SCENE_SEPARATOR(
-																										"ExportSceneSeparator"), EXPORT_PART_TITLES(
-																												"ExportPartTitles"), EDITOR_MODLESS(
-																														"EditorModless"), EDITOR_FULL_TOOLBAR(
-																																"EditorFullToolbar"), EXPORT_DIRECTORY(
-																																		"ExportDirectory"), TITLE(
-																																				"Title"), SUBTITLE(
-																																						"SubTitle"), AUTHOR(
-																																								"Author"), COPYRIGHT(
-																																										"Copyright"), BLURB(
-																																												"Blurb"), NOTES(
-																																														"Notes"), LAST_USED_LAYOUT(
-																																																"_internal_last_used_layout_"), CSV_QUOTES(
-																																																		"CSVQuotes"), CSV_COMMA(
-																																																				"CSVCommaSeparator"), TXT_TAB(
-																																																						"TXTTabSeparator"), TXT_OTHER(
-																																																								"TXTOtherSeparator"), HTML_USE_CSS(
-																																																										"HTMLUseCSS"), HTML_CSS_FILE(
-																																																												"HTLMCssFile"), HTML_BOOK_MULTI(
-																																																														"HTMLBookMultifile"), PDF_PAGE_SIZE(
-																																																																"PDFPageSize"), PDF_LANDSCAPE(
-																																																																		"PDFLandscape"), CALENDAR(
-																																																																				"Calendar"), BOOK_CREATION_DATE(
-																																																																						"BookCreationDate"), USE_SIMPLE_TEMPLATE(
-																																																																								"UseSimpleTemplate"), USE_PERSONNAL_TEMPLATE(
+	
+	/**
+	 * The Enum BookKey.
+	 */
+public enum BookKey {
+		
+ /** The chrono zoom. */
+ CHRONO_ZOOM("ChronoZoom"), 
+ /** The chrono layout direction. */
+ CHRONO_LAYOUT_DIRECTION("ChornoLayoutDirection"), 
+ /** The chrono show date difference. */
+ CHRONO_SHOW_DATE_DIFFERENCE("ChornoShowDateDiff"), 
+ /** The book zoom. */
+ BOOK_ZOOM("BookZoom"), 
+ /** The book height factor. */
+ BOOK_HEIGHT_FACTOR("BookHeightFactor"), 
+ /** The manage zoom. */
+ MANAGE_ZOOM("ManageZoom"), 
+ /** The manage columns. */
+ MANAGE_COLUMNS("ManageColumns"), 
+ /** The reading zoom. */
+ READING_ZOOM("ReadingZoom"), 
+ /** The reading font size. */
+ READING_FONT_SIZE("ReadingFontSize"), 
+ /** The leave editor open. */
+ LEAVE_EDITOR_OPEN("LeaveEditorOpen"), 
+ /** The last used part. */
+ LAST_USED_PART("LastUsedPart"), 
+ /** The use libreoffice. */
+ USE_LIBREOFFICE("UseLibreOffice"), 
+ /** The use html scenes. */
+ USE_HTML_SCENES("UseHtmlScenes"), 
+ /** The use html descr. */
+ USE_HTML_DESCR("UseHtmlDescr"), 
+ /** The memoria balloon. */
+ MEMORIA_BALLOON("MemoriaBalloon"), 
+ /** The export chapter numbers. */
+ EXPORT_CHAPTER_NUMBERS("ExportChapterNumbers"), 
+ /** The export Roman numerals. */
+ EXPORT_ROMAN_NUMERALS("ExportRomanNumerals"), 
+ /** The export chapter titles. */
+ EXPORT_CHAPTER_TITLES("ExportChapterTitles"), 
+ /** The export chapter dates locations. */
+ EXPORT_CHAPTER_DATES_LOCATIONS("ExportChapterDatesLocations"), 
+ /** The export scene titles. */
+ EXPORT_SCENE_TITLES("ExportSceneTitles"), 
+ /** The export scene separator. */
+ EXPORT_SCENE_SEPARATOR("ExportSceneSeparator"), 
+ /** The export part titles. */
+ EXPORT_PART_TITLES("ExportPartTitles"), 
+ /** The editor modless. */
+ EDITOR_MODLESS(
+																														"EditorModless"), 
+ /** The editor full toolbar. */
+ EDITOR_FULL_TOOLBAR(
+																																"EditorFullToolbar"), 
+ /** The export directory. */
+ EXPORT_DIRECTORY(
+																																		"ExportDirectory"), 
+ /** The title. */
+ TITLE(
+																																				"Title"), 
+ /** The subtitle. */
+ SUBTITLE(
+																																						"SubTitle"), 
+ /** The author. */
+ AUTHOR(
+																																								"Author"), 
+ /** The copyright. */
+ COPYRIGHT(
+																																										"Copyright"), 
+ /** The blurb. */
+ BLURB(
+																																												"Blurb"), 
+ /** The notes. */
+ NOTES(
+																																														"Notes"), 
+ /** The last used layout. */
+ LAST_USED_LAYOUT(
+																																																"_internal_last_used_layout_"), 
+ /** The csv quotes. */
+ CSV_QUOTES(
+																																																		"CSVQuotes"), 
+ /** The csv comma. */
+ CSV_COMMA(
+																																																				"CSVCommaSeparator"), 
+ /** The txt tab. */
+ TXT_TAB(
+																																																						"TXTTabSeparator"), 
+ /** The txt other. */
+ TXT_OTHER(
+																																																								"TXTOtherSeparator"), 
+ /** The html use css. */
+ HTML_USE_CSS(
+																																																										"HTMLUseCSS"), 
+ /** The html css file. */
+ HTML_CSS_FILE(
+																																																												"HTLMCssFile"), 
+ /** The html book multi. */
+ HTML_BOOK_MULTI(
+																																																														"HTMLBookMultifile"), 
+ /** The pdf page size. */
+ PDF_PAGE_SIZE(
+																																																																"PDFPageSize"), 
+ /** The pdf landscape. */
+ PDF_LANDSCAPE(
+																																																																		"PDFLandscape"), 
+ /** The calendar. */
+ CALENDAR(
+																																																																				"Calendar"), 
+ /** The book creation date. */
+ BOOK_CREATION_DATE(
+																																																																						"BookCreationDate"), 
+ /** The use simple template. */
+ USE_SIMPLE_TEMPLATE(
+																																																																								"UseSimpleTemplate"), 
+ /** The use personnal template. */
+ USE_PERSONNAL_TEMPLATE(
 																																																																										"UsePersonnalTemplate");
-		final private String text;
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new book key.
+		 *
+		 * @param text the text
+		 */
 		private BookKey(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum ClientPropertyName.
+	 */
 	public enum ClientPropertyName {
-		DOCUMENT_MODEL("DocumentModel"), DAO_CLASS("DAOClass"), ENTITY("Entity"), DAO("DAO"), IS_NEW_ENTITY(
-				"IsNewEntity"), COMPONENT_TITLE("ComponentTitle"), MAIN_FRAME("MainFrame");
-		final private String text;
+		
+ /** The document model. */
+ DOCUMENT_MODEL("DocumentModel"), 
+ /** The dao class. */
+ DAO_CLASS("DAOClass"), 
+ /** The entity. */
+ ENTITY("Entity"), 
+ /** The dao. */
+ DAO("DAO"), 
+ /** The is new entity. */
+ IS_NEW_ENTITY("IsNewEntity"), 
+ /** The component title. */
+ COMPONENT_TITLE("ComponentTitle"), 
+ /** The main frame. */
+ MAIN_FRAME("MainFrame");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new client property name.
+		 *
+		 * @param text the text
+		 */
 		private ClientPropertyName(String text) {
 			this.text = text;
 		}
 
+		/**
+		 * Check.
+		 *
+		 * @param prop the prop
+		 * @return true, if successful
+		 */
 		public boolean check(String prop) {
 			return text.equals(prop);
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum ComponentName.
+	 */
 	public enum ComponentName {
-		BT_EDIT("BtEdit"), BT_NEW("BtNew"), BT_COPY("BtCopy"), BT_DELETE("BtDelete"), BT_ADD_OR_UPDATE(
-				"BtUpdate"), BT_OK("BtOk"), BT_CANCEL("BtCancel"), BT_CLOSE("BtClose"), BT_ORDER_UP(
-						"BtOrderUp"), BT_ORDER_DOWN("BtOrderDown"), BT_PRINT("BtPrint"), BT_NEXT("BtNext"), BT_PREVIOUS(
-								"BtPrevious"), BT_FIRST("BtFirst"), BT_LAST("BtLast"), BT_ODT("BtODT"), TB_MAIN(
-										"MainToolbar"), CB_CATEGORY("CbCategory"), CB_PERSON("CbPerson"), CB_ITEM(
-												"CbItem"), COMBO_ENTITY_TYPES("ComboEntityType"), COMBO_ENTITIES(
-														"ComboEntities"), COMBO_DATES("ComboDates"), COMBO_SCENE_STATES(
-																"ComboSceneStates"), COMBO_SCENE_STRAND(
-																		"ComboSceneStrand"), COMBO_SCENE_PERSON(
-																				"ComboScenePerson"), COMBO_SCENE_LOCATION(
-																						"ComboSceneLocation"), COMBO_SCENE_ITEM(
+		
+ /** The bt edit. */
+ BT_EDIT("BtEdit"), 
+ /** The bt new. */
+ BT_NEW("BtNew"), 
+ /** The bt copy. */
+ BT_COPY("BtCopy"), 
+ /** The bt delete. */
+ BT_DELETE("BtDelete"), 
+ /** The bt add or update. */
+ BT_ADD_OR_UPDATE("BtUpdate"), 
+ /** The bt ok. */
+ BT_OK("BtOk"), 
+ /** The bt cancel. */
+ BT_CANCEL("BtCancel"), 
+ /** The bt close. */
+ BT_CLOSE("BtClose"), 
+ /** The bt order up. */
+ BT_ORDER_UP("BtOrderUp"), 
+ /** The bt order down. */
+ BT_ORDER_DOWN("BtOrderDown"), 
+ /** The bt print. */
+ BT_PRINT("BtPrint"), 
+ /** The bt next. */
+ BT_NEXT("BtNext"), 
+ /** The bt previous. */
+ BT_PREVIOUS("BtPrevious"), 
+ /** The bt first. */
+ BT_FIRST("BtFirst"), 
+ /** The bt last. */
+ BT_LAST("BtLast"), 
+ /** The bt odt. */
+ BT_ODT("BtODT"), 
+ /** The tb main. */
+ TB_MAIN("MainToolbar"), 
+ /** The cb category. */
+ CB_CATEGORY("CbCategory"), 
+ /** The cb person. */
+ CB_PERSON("CbPerson"), 
+ /** The cb item. */
+ CB_ITEM("CbItem"), 
+ /** The combo entity types. */
+ COMBO_ENTITY_TYPES("ComboEntityType"), 
+ /** The combo entities. */
+ COMBO_ENTITIES("ComboEntities"), 
+ /** The combo dates. */
+ COMBO_DATES("ComboDates"), 
+ /** The combo scene states. */
+ COMBO_SCENE_STATES("ComboSceneStates"), 
+ /** The combo scene strand. */
+ COMBO_SCENE_STRAND("ComboSceneStrand"), 
+ /** The combo scene person. */
+ COMBO_SCENE_PERSON("ComboScenePerson"), 
+ /** The combo scene location. */
+ COMBO_SCENE_LOCATION("ComboSceneLocation"), 
+ /** The combo scene item. */
+ COMBO_SCENE_ITEM(
 																								"ComboSceneItem");
-		final private String text;
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new component name.
+		 *
+		 * @param text the text
+		 */
 		private ComponentName(String text) {
 			this.text = text;
 		}
 
+		/**
+		 * Check.
+		 *
+		 * @param prop the prop
+		 * @return true, if successful
+		 */
 		public boolean check(String prop) {
 			return text.equals(prop);
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum ComponentState.
+	 */
 	public enum ComponentState {
-		ENABLED("Enabled"), DISABLED("Disabled");
-		final private String text;
+		
+		/** The enabled. */
+		ENABLED("Enabled"), 
+ /** The disabled. */
+ DISABLED("Disabled");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new component state.
+		 *
+		 * @param text the text
+		 */
 		private ComponentState(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum Directory.
+	 */
 	public enum Directory {
-		DICTIONARIES("dicts/"), USER_DICTS("dicts");
-		final private String text;
+		
+		/** The dictionaries. */
+		DICTIONARIES("dicts/"), 
+ /** The user dicts. */
+ USER_DICTS("dicts");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new directory.
+		 *
+		 * @param text the text
+		 */
 		private Directory(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum IconSize.
+	 */
 	public enum IconSize {
-		SMALL(new Dimension(16, 16)), MEDIUM(new Dimension(32, 32)), MEDIUM_WIDE(new Dimension(32, 16)), LARGE(
+		
+		/** The small. */
+		SMALL(new Dimension(16, 16)), 
+ /** The medium. */
+ MEDIUM(new Dimension(32, 32)), 
+ /** The medium wide. */
+ MEDIUM_WIDE(new Dimension(32, 16)), 
+ /** The large. */
+ LARGE(
 				new Dimension(32, 32));
-		final private Dimension dim;
+		
+		/** The dim. */
+		private final Dimension dim;
 
+		/**
+		 * Instantiates a new icon size.
+		 *
+		 * @param text the text
+		 */
 		private IconSize(Dimension text) {
 			this.dim = text;
 		}
 
+		/**
+		 * Gets the dimension.
+		 *
+		 * @return the dimension
+		 */
 		public Dimension getDimension() {
 			return dim;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return dim.toString();
 		}
 	}
+	
+	/**
+	 * The Enum Language.
+	 */
 	public static enum Language {
-		en_US, // USA english
-		de_DE, // German
-		es_ES, // Spanish
-		da_DK, // Danish
-		pt_BR, // Brazilian Portuguese
-		it_IT, // Italian
-		fr_FR, // French
-		nl_NL, // Ducth
-		hu_HU, // Hungarian
-		iw_IL, // Hebrew
-		fi_FI, // Finnish
-		sv_SE, // Swedish
-		el_GR, // Greek
-		ja_JP, // Japanese
-		zh_HK, // Traditional Chinese (Hong Kong)
-		ru_RU, // Russian
-		cs_CZ, // Czech
-		zh_CN, // Simplified Chinese
-		pl_PL; // Polish
+		
+		/** The en_ us. */
+		en_US, 
+ /** The de_ de. */
+ // USA english
+		de_DE, 
+ /** The es_ es. */
+ // German
+		es_ES, 
+ /** The da_ dk. */
+ // Spanish
+		da_DK, 
+ /** The pt_ br. */
+ // Danish
+		pt_BR, 
+ /** The it_ it. */
+ // Brazilian Portuguese
+		it_IT, 
+ /** The fr_ fr. */
+ // Italian
+		fr_FR, 
+ /** The nl_ nl. */
+ // French
+		nl_NL, 
+ /** The hu_ hu. */
+ // Ducth
+		hu_HU, 
+ /** The iw_ il. */
+ // Hungarian
+		iw_IL, 
+ /** The fi_ fi. */
+ // Hebrew
+		fi_FI, 
+ /** The sv_ se. */
+ // Finnish
+		sv_SE, 
+ /** The el_ gr. */
+ // Swedish
+		el_GR, 
+ /** The ja_ jp. */
+ // Greek
+		ja_JP, 
+ /** The zh_ hk. */
+ // Japanese
+		zh_HK, 
+ /** The ru_ ru. */
+ // Traditional Chinese (Hong Kong)
+		ru_RU, 
+ /** The cs_ cz. */
+ // Russian
+		cs_CZ, 
+ /** The zh_ cn. */
+ // Czech
+		zh_CN, 
+ /** The pl_ pl. */
+ // Simplified Chinese
+		pl_PL; 
+ /**
+  * Gets the i18 n.
+  *
+  * @return the i18 n
+  */
+ // Polish
 		public String getI18N() {
 			return I18N.getMsg("msg.common.language." + name());
 		}
 
+		/**
+		 * Gets the locale.
+		 *
+		 * @return the locale
+		 */
 		public Locale getLocale() {
 			Locale locale;
 			switch (this) {
@@ -290,175 +641,495 @@ public class SbConstants {
 			return locale;
 		}
 	}
+	
+	/**
+	 * The Enum LookAndFeel.
+	 */
 	public static enum LookAndFeel {
-		cross/* , system */;
+		
+		/** The cross. */
+		cross
+/**
+ * Gets the i18 n.
+ *
+ * @return the i18 n
+ */
+/* , system */;
 		public String getI18N() {
 			return I18N.getMsg("msg.pref.laf." + name());
 		}
 	}
+	
+	/**
+	 * The Enum PreferenceKey.
+	 */
 	public enum PreferenceKey {
-		STORYBOOK_VERSION("StorybookVersion"), LAST_OPEN_DIR("LastOpenDir"), LAST_OPEN_FILE(
-				"LastOpenFile"), OPEN_LAST_FILE("OpenLastFile"), RECENT_FILES("RecentFiles"), CONFIRM_EXIT(
-						"ConfirmExit"), GOOGLE_MAPS_URL("GoogleMapsURL"), SIZE_WIDTH("SizeWidth"), SIZE_HEIGHT(
-								"SizeHeight"), POS_X("PosX"), POS_Y("PosY"), MAXIMIZED("Maximized"), LANG(
-										"language"), DATEFORMAT("dateFormat"), SPELLING("Spelling"), LAF(
-												"LookAndFeel"), FIRST_START_4("FirstStart4"), DOCKING_LAYOUT(
-														"DockingLayout"), DEFAULT_FONT_NAME(
-																"DefaultFontName"), DEFAULT_FONT_SIZE(
-																		"DefaultFontSize"), DEFAULT_FONT_STYLE(
-																				"DefaultFontStyle"), TRANSLATOR_MODE(
-																						"TranslatorMode"), EMAIL(
-																								"Email"), PASSWORD(
+		
+/** The storybook version. */
+ STORYBOOK_VERSION("StorybookVersion"), 
+ /** The last open dir. */
+ LAST_OPEN_DIR("LastOpenDir"), 
+ /** The last open file. */
+ LAST_OPEN_FILE("LastOpenFile"), 
+ DEFAULT_DIR("DefaultDir"), 
+ /** The last open file. */
+ DEFAULT_FILE("DefaultFile"), 
+ /** The open last file. */
+ OPEN_LAST_FILE("OpenLastFile"), 
+ /** The recent files. */
+ RECENT_FILES("RecentFiles"), 
+ /** The confirm exit. */
+ CONFIRM_EXIT("ConfirmExit"), 
+ /** The google maps url. */
+ GOOGLE_MAPS_URL("GoogleMapsURL"), 
+ /** The size width. */
+ SIZE_WIDTH("SizeWidth"), 
+ /** The size height. */
+ SIZE_HEIGHT("SizeHeight"), 
+ /** The pos x. */
+ POS_X("PosX"), 
+ /** The pos y. */
+ POS_Y("PosY"), 
+ /** The maximized. */
+ MAXIMIZED("Maximized"), 
+ /** The lang. */
+ LANG("language"), 
+ /** The dateformat. */
+ DATEFORMAT("dateFormat"), 
+ /** The spelling. */
+ SPELLING("Spelling"), 
+ /** The laf. */
+ LAF("LookAndFeel"), 
+ /** The FIRS t_ star t_4. */
+ FIRST_START_4("FirstStart4"), 
+ /** The docking layout. */
+ DOCKING_LAYOUT("DockingLayout"), 
+ /** The default font name. */
+ DEFAULT_FONT_NAME("DefaultFontName"), 
+ /** The default font size. */
+ DEFAULT_FONT_SIZE("DefaultFontSize"), 
+ /** The default font style. */
+ DEFAULT_FONT_STYLE("DefaultFontStyle"), 
+ /** The translator mode. */
+ TRANSLATOR_MODE("TranslatorMode"), 
+ /** The email. */
+ EMAIL(
+																								"Email"), 
+ /** The password. */
+ PASSWORD(
 																										"Password");
-		final private String text;
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new preference key.
+		 *
+		 * @param text the text
+		 */
 		private PreferenceKey(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum Spelling.
+	 */
 	public static enum Spelling {
-		none, en_US, de_DE, es_ES, it_IT, fr_FR, ru_RU, nl_NL, pl_PL;
+		
+		/** The none. */
+		none, 
+ /** The en_ us. */
+ en_US, 
+ /** The de_ de. */
+ de_DE, 
+ /** The es_ es. */
+ es_ES, 
+ /** The it_ it. */
+ it_IT, 
+ /** The fr_ fr. */
+ fr_FR, 
+ /** The ru_ ru. */
+ ru_RU, 
+ /** The nl_ nl. */
+ nl_NL, 
+ /** The pl_ pl. */
+ pl_PL;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
-			if (this == none)
+			if (this == none) {
 				return I18N.getMsg("msg.pref.spelling.no");
+			}
 			return I18N.getMsg("msg.common.language." + name());
 		}
 	}
+	
+	/**
+	 * The Enum SpellingToGet.
+	 */
 	public static enum SpellingToGet {
-		en_US, de_DE, es_ES, it_IT, fr_FR, ru_RU, nl_NL, pl_PL;
+		
+		/** The en_ us. */
+		en_US, 
+ /** The de_ de. */
+ de_DE, 
+ /** The es_ es. */
+ es_ES, 
+ /** The it_ it. */
+ it_IT, 
+ /** The fr_ fr. */
+ fr_FR, 
+ /** The ru_ ru. */
+ ru_RU, 
+ /** The nl_ nl. */
+ nl_NL, 
+ /** The pl_ pl. */
+ pl_PL;
+		
+		/**
+		 * Gets the i18 n.
+		 *
+		 * @return the i18 n
+		 */
 		public String getI18N() {
 			// if (this == none)
 			// return I18N.getMsg("msg.pref.spelling.no");
 			return I18N.getMsg("msg.common.language." + name());
 		}
 	}
+	
+	/**
+	 * The Enum Storybook.
+	 */
 	public enum Storybook {
-		PRODUCT_NAME("oStorybook"), PRODUCT_VERSION("4.10.2"), PRODUCT_FULL_NAME(
-				PRODUCT_NAME + " " + PRODUCT_VERSION), PRODUCT_RELEASE_DATE("2016-04-01"), COPYRIGHT_YEAR(
-						"2012-2013-2014-2015"), COPYRIGHT_COMPANY("The Storybook Team"), PREFERENCE_DB_NAME(
-								"preference"), DB_VERSION("4.0"), DB_FILE_EXT(".h2.db"), DB_FILE_EXT2(
-										".mv.db"), DB_CONFIG_EXT(".cfg.xml"), IS_BETA_VERSION("false"), USER_HOME_DIR(
-												"storybook5");
-		final private String text;
+		
+		/** The product name. */
+		PRODUCT_NAME("oStorybook"), 
+ /** The product version. */
+ PRODUCT_VERSION("4.10.2"), 
+ /** The product full name. */
+ PRODUCT_FULL_NAME(PRODUCT_NAME + " " + PRODUCT_VERSION), 
+ /** The product release date. */
+ PRODUCT_RELEASE_DATE("2016-04-01"), 
+ /** The copyright year. */
+ COPYRIGHT_YEAR("2012-2013-2014-2015"), 
+ /** The copyright company. */
+ COPYRIGHT_COMPANY("The Storybook Team"), 
+ /** The preference db name. */
+ PREFERENCE_DB_NAME("preference"), 
+ /** The db version. */
+ DB_VERSION("4.0"), 
+ /** The db file ext. */
+ DB_FILE_EXT(".h2.db"), 
+ /** The D b_ fil e_ ex t2. */
+ DB_FILE_EXT2(".mv.db"), 
+ /** The db config ext. */
+ DB_CONFIG_EXT(".cfg.xml"), 
+ /** The is beta version. */
+ IS_BETA_VERSION("false"), 
+ /** The user home dir. */
+ USER_HOME_DIR("storybook5");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new storybook.
+		 *
+		 * @param text the text
+		 */
 		private Storybook(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum URL.
+	 */
 	public enum URL {
-		HOMEPAGE("http://ostorybook.tuxfamily.org/"), CONTACT("http://ostorybook.tuxfamily.org/fortopic.php"), DOC(
-				HOMEPAGE + "articles.php?pg=41&mnuid=2&tconfig=2"), FAQ(HOMEPAGE + "faq.php"), REPORTBUG(
-						HOMEPAGE + "support"), WEB("http://ostorybook.tuxfamily.org/"), VERSION(
-								WEB + "Versions.txt"), UPDATE(WEB + "Update.zip"), DO_UPDATE("false");
-		final private String text;
+		
+		/** The homepage. */
+HOMEPAGE("http://ostorybook.tuxfamily.org/"), 
+ /** The contact. */
+ CONTACT("http://ostorybook.tuxfamily.org/fortopic.php"), 
+ /** The doc. */
+ DOC(HOMEPAGE + "articles.php?pg=41&mnuid=2&tconfig=2"), 
+ /** The faq. */
+ FAQ(HOMEPAGE + "faq.php"), 
+ /** The reportbug. */
+ REPORTBUG(HOMEPAGE + "support"), 
+ /** The web. */
+ WEB("http://ostorybook.tuxfamily.org/"), 
+ /** The version. */
+ VERSION(WEB + "Versions.txt"), 
+ /** The update. */
+ UPDATE(WEB + "Update.zip"), 
+ /** The do update. */
+ DO_UPDATE("false");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new url.
+		 *
+		 * @param text the text
+		 */
 		private URL(String text) {
 			this.text = text;
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
+	
+	/**
+	 * The Enum ViewName.
+	 */
 	public enum ViewName {
-		SCENES("Scenes"), CHAPTERS("Chapters"), PARTS("Parts"), LOCATIONS("Locations"), PERSONS(
-				"Persons"), RELATIONSHIPS("Relationships"), GENDERS("Genders"), CATEGORIES("Categories"), ATTRIBUTES(
-						"Attributes"), STRANDS("Strands"), IDEAS("Ideas"), TAGS("Tags"), TAGLINKS("TagLinks"), ITEMS(
-								"Items"), ITEMLINKS("ItemLinks"), INTERNALS("Internals"),
+		
+		/** The scenes. */
+ SCENES("Scenes"), 
+ /** The chapters. */
+ CHAPTERS("Chapters"), 
+ /** The parts. */
+ PARTS("Parts"), 
+ /** The locations. */
+ LOCATIONS("Locations"), 
+ /** The persons. */
+ PERSONS("Persons"), 
+ /** The relationships. */
+ RELATIONSHIPS("Relationships"), 
+ /** The genders. */
+ GENDERS("Genders"), 
+ /** The categories. */
+ CATEGORIES("Categories"), 
+ /** The attributes. */
+ ATTRIBUTES("Attributes"), 
+ /** The strands. */
+ STRANDS("Strands"), 
+ /** The ideas. */
+ IDEAS("Ideas"), 
+ /** The tags. */
+ TAGS("Tags"), 
+ /** The taglinks. */
+ TAGLINKS("TagLinks"), 
+ /** The items. */
+ ITEMS("Items"), 
+ /** The itemlinks. */
+ ITEMLINKS("ItemLinks"), 
+ /** The internals. */
+ INTERNALS("Internals"),
+								
+								/** The chrono. */
 								// EDITOR("Editor"),
-								CHRONO("Chrono"), BOOK("Book"), MANAGE("Manage"), READING("Reading"), MEMORIA(
-										"Memoria"), NAVIGATION("Navigation"), CHART_PERSONS_BY_DATE(
-												"ChartPersonsByDate"), CHART_PERSONS_BY_SCENE(
-														"ChartPersonsByScene"), CHART_WiWW(
-																"ChartWiWW"), CHART_STRANDS_BY_DATE(
-																		"ChartStrandsByDate"), CHART_OCCURRENCE_OF_PERSONS(
-																				"ChartOccurrenceOfPersons"), CHART_OCCURRENCE_OF_LOCATIONS(
-																						"ChartOccurrenceOfLocations"), CHART_GANTT(
-																								"ChartGantt"), TREE(
-																										"Tree"), INFO(
-																												"Info"), MEMOS(
-																														"Memos"), PLAN(
-																																"Plan"), TIMEEVENT(
-																																		"TimeEvent");
-		final private String text;
+								CHRONO("Chrono"), 
+ /** The book. */
+ BOOK("Book"), 
+ /** The manage. */
+ MANAGE("Manage"), 
+ /** The reading. */
+ READING("Reading"), 
+ /** The memoria. */
+ MEMORIA("Memoria"), 
+ /** The navigation. */
+ NAVIGATION("Navigation"), 
+ /** The chart persons by date. */
+ CHART_PERSONS_BY_DATE("ChartPersonsByDate"), 
+ /** The chart persons by scene. */
+ CHART_PERSONS_BY_SCENE("ChartPersonsByScene"), 
+ /** The CHAR t_ wi ww. */
+ CHART_WiWW("ChartWiWW"), 
+ /** The chart strands by date. */
+ CHART_STRANDS_BY_DATE("ChartStrandsByDate"), 
+ /** The chart occurrence of persons. */
+ CHART_OCCURRENCE_OF_PERSONS("ChartOccurrenceOfPersons"), 
+ /** The chart occurrence of locations. */
+ CHART_OCCURRENCE_OF_LOCATIONS("ChartOccurrenceOfLocations"), 
+ /** The chart gantt. */
+ CHART_GANTT("ChartGantt"), 
+ /** The tree. */
+ TREE("Tree"), 
+ /** The info. */
+ INFO("Info"), 
+ /** The memos. */
+ MEMOS("Memos"), 
+ /** The plan. */
+ PLAN("Plan"), 
+ /** The timeevent. */
+ TIMEEVENT("TimeEvent");
+		
+		/** The text. */
+		private final String text;
 
+		/**
+		 * Instantiates a new view name.
+		 *
+		 * @param text the text
+		 */
 		private ViewName(String text) {
 			this.text = text;
 		}
 
+		/**
+		 * Compare.
+		 *
+		 * @param view the view
+		 * @return true, if successful
+		 */
 		public boolean compare(View view) {
 			return text.equals(view.getName());
 		}
 
+		/** (non-Javadoc)
+		 * @see java.lang.Enum#toString()
+		 */
 		@Override
 		public String toString() {
 			return text;
 		}
 	}
-	public final static String DEFAULT_LANG = "en_US";
-	public final static String DEFAULT_FONT_NAME = "Dialog";
-	public final static int DEFAULT_FONT_SIZE = 12;
-	public final static int DEFAULT_FONT_STYLE = 0;
-	public final static int DEFAULT_CHRONO_ZOOM = 40;
-	public final static int MIN_CHRONO_ZOOM = 20;
-	public final static int MAX_CHRONO_ZOOM = 100;
-	public final static boolean DEFAULT_CHRONO_LAYOUT_DIRECTION = true;
-	public final static boolean DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE = false;
-	public final static int DEFAULT_BOOK_ZOOM = 40;
-	public final static int MIN_BOOK_ZOOM = 10;
-	public final static int MAX_BOOK_ZOOM = 200;
-	public final static int DEFAULT_BOOK_HEIGHT_FACTOR = 10;
-	public final static int DEFAULT_MANAGE_ZOOM = 10;
-	public final static int MIN_MANAGE_ZOOM = 1;
-	public final static int MAX_MANAGE_ZOOM = 30;
-	public final static int DEFAULT_MANAGE_COLUMNS = 5;
-	public final static int DEFAULT_READING_ZOOM = 60;
-	public final static int DEFAULT_READING_FONT_SIZE = 11;
-	public final static boolean DEFAULT_LEAVE_EDITOR_OPEN = false;
-	public final static boolean DEFAULT_USE_LIBREOFFICE = false;
+	
+	/** The Constant DEFAULT_LANG. */
+	public static final String DEFAULT_LANG = "en_US";
+	
+	/** The Constant DEFAULT_FONT_NAME. */
+	public static final String DEFAULT_FONT_NAME = "Dialog";
+	
+	/** The Constant DEFAULT_FONT_SIZE. */
+	public static final int DEFAULT_FONT_SIZE = 12;
+	
+	/** The Constant DEFAULT_FONT_STYLE. */
+	public static final int DEFAULT_FONT_STYLE = 0;
+	
+	/** The Constant DEFAULT_CHRONO_ZOOM. */
+	public static final int DEFAULT_CHRONO_ZOOM = 40;
+	
+	/** The Constant MIN_CHRONO_ZOOM. */
+	public static final int MIN_CHRONO_ZOOM = 20;
+	
+	/** The Constant MAX_CHRONO_ZOOM. */
+	public static final int MAX_CHRONO_ZOOM = 100;
+	
+	/** The Constant DEFAULT_CHRONO_LAYOUT_DIRECTION. */
+	public static final boolean DEFAULT_CHRONO_LAYOUT_DIRECTION = true;
+	
+	/** The Constant DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE. */
+	public static final boolean DEFAULT_CHRONO_SHOW_DATE_DIFFERENCE = false;
+	
+	/** The Constant DEFAULT_BOOK_ZOOM. */
+	public static final int DEFAULT_BOOK_ZOOM = 40;
+	
+	/** The Constant MIN_BOOK_ZOOM. */
+	public static final int MIN_BOOK_ZOOM = 10;
+	
+	/** The Constant MAX_BOOK_ZOOM. */
+	public static final int MAX_BOOK_ZOOM = 200;
+	
+	/** The Constant DEFAULT_BOOK_HEIGHT_FACTOR. */
+	public static final int DEFAULT_BOOK_HEIGHT_FACTOR = 10;
+	
+	/** The Constant DEFAULT_MANAGE_ZOOM. */
+	public static final int DEFAULT_MANAGE_ZOOM = 10;
+	
+	/** The Constant MIN_MANAGE_ZOOM. */
+	public static final int MIN_MANAGE_ZOOM = 1;
+	
+	/** The Constant MAX_MANAGE_ZOOM. */
+	public static final int MAX_MANAGE_ZOOM = 30;
+	
+	/** The Constant DEFAULT_MANAGE_COLUMNS. */
+	public static final int DEFAULT_MANAGE_COLUMNS = 5;
+	
+	/** The Constant DEFAULT_READING_ZOOM. */
+	public static final int DEFAULT_READING_ZOOM = 60;
+	
+	/** The Constant DEFAULT_READING_FONT_SIZE. */
+	public static final int DEFAULT_READING_FONT_SIZE = 11;
+	
+	/** The Constant DEFAULT_LEAVE_EDITOR_OPEN. */
+	public static final boolean DEFAULT_LEAVE_EDITOR_OPEN = false;
+	
+	/** The Constant DEFAULT_USE_LIBREOFFICE. */
+	public static final boolean DEFAULT_USE_LIBREOFFICE = false;
+	
+	/** The Constant DEFAULT_USE_SIMPLE_TEMPLATE. */
 	public static final boolean DEFAULT_USE_SIMPLE_TEMPLATE = false;
-	public final static boolean DEFAULT_USE_HTML_SCENES = true;
+	
+	/** The Constant DEFAULT_USE_HTML_SCENES. */
+	public static final boolean DEFAULT_USE_HTML_SCENES = true;
 
-	public final static boolean DEFAULT_USE_HTML_DESCR = true;
+	/** The Constant DEFAULT_USE_HTML_DESCR. */
+	public static final boolean DEFAULT_USE_HTML_DESCR = true;
 
-	public final static boolean DEFAULT_MEMORIA_BALLOON = true;
+	/** The Constant DEFAULT_MEMORIA_BALLOON. */
+	public static final boolean DEFAULT_MEMORIA_BALLOON = true;
 
-	public final static boolean DEFAULT_EXPORT_CHAPTER_NUMBERS = true;
+	/** The Constant DEFAULT_EXPORT_CHAPTER_NUMBERS. */
+	public static final boolean DEFAULT_EXPORT_CHAPTER_NUMBERS = true;
 
-	public final static boolean DEFAULT_EXPORT_ROMAN_NUMERALS = false;;
+	/** The Constant DEFAULT_EXPORT_ROMAN_NUMERALS. */
+	public static final boolean DEFAULT_EXPORT_ROMAN_NUMERALS = false;;
 
-	public final static boolean DEFAULT_EXPORT_CHAPTER_TITLES = false;
+	/** The Constant DEFAULT_EXPORT_CHAPTER_TITLES. */
+	public static final boolean DEFAULT_EXPORT_CHAPTER_TITLES = false;
 
-	public final static boolean DEFAULT_EXPORT_CHAPTER_DATES_LOCATIONS = false;
+	/** The Constant DEFAULT_EXPORT_CHAPTER_DATES_LOCATIONS. */
+	public static final boolean DEFAULT_EXPORT_CHAPTER_DATES_LOCATIONS = false;
 
-	public final static boolean DEFAULT_EXPORT_SCENE_TITLES = false;
+	/** The Constant DEFAULT_EXPORT_SCENE_TITLES. */
+	public static final boolean DEFAULT_EXPORT_SCENE_TITLES = false;
 
-	public final static boolean DEFAULT_EXPORT_SCENE_SEPARATOR = false;
+	/** The Constant DEFAULT_EXPORT_SCENE_SEPARATOR. */
+	public static final boolean DEFAULT_EXPORT_SCENE_SEPARATOR = false;
 
-	public final static boolean DEFAULT_EXPORT_PART_TITLES = false;
+	/** The Constant DEFAULT_EXPORT_PART_TITLES. */
+	public static final boolean DEFAULT_EXPORT_PART_TITLES = false;
 
-	public final static int DEFAULT_SIZE_WIDTH = 1000;
+	/** The Constant DEFAULT_SIZE_WIDTH. */
+	public static final int DEFAULT_SIZE_WIDTH = 1000;
 
-	public final static int DEFAULT_SIZE_HEIGHT = 700;
+	/** The Constant DEFAULT_SIZE_HEIGHT. */
+	public static final int DEFAULT_SIZE_HEIGHT = 700;
 
-	public final static int DEFAULT_POS_X = 100;
+	/** The Constant DEFAULT_POS_X. */
+	public static final int DEFAULT_POS_X = 100;
 
-	public final static int DEFAULT_POS_Y = 100;
+	/** The Constant DEFAULT_POS_Y. */
+	public static final int DEFAULT_POS_Y = 100;
 
-	public final static boolean DEFAULT_EDITOR_FULL_TOOLBAR = false;
+	/** The Constant DEFAULT_EDITOR_FULL_TOOLBAR. */
+	public static final boolean DEFAULT_EDITOR_FULL_TOOLBAR = false;
 
-	public final static boolean DEFAULT_EDITOR_MODLESS = false;
+	/** The Constant DEFAULT_EDITOR_MODLESS. */
+	public static final boolean DEFAULT_EDITOR_MODLESS = false;
 
-	public final static String DEFAULT_GOOGLE_MAPS_URL = "http://maps.google.com";
+	/** The Constant DEFAULT_GOOGLE_MAPS_URL. */
+	public static final String DEFAULT_GOOGLE_MAPS_URL = "http://maps.google.com";
 }

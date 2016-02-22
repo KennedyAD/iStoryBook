@@ -26,22 +26,47 @@ import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.ui.dialog.AbstractDialog;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BrowserDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BrowserDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2256237515056369048L;
+	
+	/** The url. */
 	private String url;
+	
+	/** The title. */
 	private String title;
+	
+	/** The width. */
 	private int width;
+	
+	/** The height. */
 	private int height;
 
+	/**
+	 * Instantiates a new browser dialog.
+	 *
+	 * @param url the url
+	 */
 	public BrowserDialog(String url) {
 		this(url, I18N.getMsg("BrowserDialog"), 500, 300);
 	}
 
+	/**
+	 * Instantiates a new browser dialog.
+	 *
+	 * @param url the url
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public BrowserDialog(String url, String title, int width, int height) {
 		super();
 		this.url = url;
@@ -51,10 +76,16 @@ public class BrowserDialog extends AbstractDialog {
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill,ins 10"));

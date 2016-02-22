@@ -26,30 +26,52 @@ import java.awt.dnd.Autoscroll;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AutoscrollSupport.
  *
+ * @author martin
  */
 public class AutoscrollSupport implements Autoscroll {
+	
+	/** The comp. */
 	// component for which autoscroll to be enabled
 	Component comp;
 
+	/** The insets. */
 	// The insets where autoscrolling is active */
 	Insets insets;
 
+	/** The scroll units. */
 	// no of units to be scrolled in each direction
 	Insets scrollUnits;
 
+	/**
+	 * Instantiates a new autoscroll support.
+	 *
+	 * @param comp the comp
+	 * @param insets the insets
+	 */
 	public AutoscrollSupport(Component comp, Insets insets) {
 		this(comp, insets, insets);
 	}
 
+	/**
+	 * Instantiates a new autoscroll support.
+	 *
+	 * @param comp the comp
+	 * @param insets the insets
+	 * @param scrollUnits the scroll units
+	 */
 	public AutoscrollSupport(Component comp, Insets insets, Insets scrollUnits) {
 		this.comp = comp;
 		this.insets = insets;
 		this.scrollUnits = scrollUnits;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.dnd.Autoscroll#autoscroll(java.awt.Point)
+	 */
 	@Override
 	public void autoscroll(Point cursorLoc) {
 		JViewport viewport = getViewport();
@@ -75,6 +97,9 @@ public class AutoscrollSupport implements Autoscroll {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.dnd.Autoscroll#getAutoscrollInsets()
+	 */
 	@Override
 	public Insets getAutoscrollInsets() {
 		int height = comp.getHeight();
@@ -82,6 +107,11 @@ public class AutoscrollSupport implements Autoscroll {
 		return new Insets(height, width, height, width);
 	}
 
+	/**
+	 * Gets the viewport.
+	 *
+	 * @return the viewport
+	 */
 	JViewport getViewport() {
 		return (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, comp);
 	}

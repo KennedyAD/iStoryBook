@@ -81,10 +81,24 @@ import storybook.ui.table.SbColumn.InputType;
 import storybook.ui.table.renderer.ColorTableCellRenderer;
 import storybook.ui.table.renderer.DateTableCellRenderer;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractTable.
+ */
 public abstract class AbstractTable extends AbstractPanel implements ActionListener, ListSelectionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -3838402998804004072L;
+
+	/**
+	 * The Class MyMouseAdapter.
+	 */
 	private class MyMouseAdapter extends MouseAdapter {
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			DefaultListSelectionModel selectionModel = (DefaultListSelectionModel) table.getSelectionModel();
@@ -101,6 +115,9 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.isPopupTrigger()) {
@@ -108,6 +125,9 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+		 */
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
@@ -115,6 +135,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 		}
 
+		/**
+		 * Show popup.
+		 *
+		 * @param e the e
+		 */
 		private void showPopup(MouseEvent e) {
 			if (!(e.getSource() instanceof JXTable)) {
 				return;
@@ -132,27 +157,62 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 			}
 		}
 	}
+	
+	/** The columns. */
 	protected List<SbColumn> columns;
+	
+	/** The ctrl. */
 	protected BookController ctrl;
+	
+	/** The options panel. */
 	protected JPanel optionsPanel;
+	
+	/** The table. */
 	protected JXTable table;
+	
+	/** The table model. */
 	protected DefaultTableModel tableModel;
+	
+	/** The has order. */
 	protected boolean hasOrder = false;
+	
+	/** The allow multi delete. */
 	protected boolean allowMultiDelete = true;
+	
+	/** The bt new. */
 	private JButton btNew;
+	
+	/** The bt delete. */
 	private JButton btDelete;
+	
+	/** The bt edit. */
 	private JButton btEdit;
+	
+	/** The bt copy. */
 	private JButton btCopy;
+	
+	/** The bt order up. */
 	private IconButton btOrderUp;
+	
+	/** The bt order down. */
 	private IconButton btOrderDown;
 
+	/** The total objectif. */
 	private JLabel totalObjectif;
 
+	/**
+	 * Instantiates a new abstract table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractTable(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		ctrl = mainFrame.getBookController();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public synchronized void actionPerformed(ActionEvent e) {
 		SbApp.trace("AbstractTable.actionPerformed(" + e.toString() + ")");
@@ -211,6 +271,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		}
 	}
 
+	/**
+	 * Delete entity.
+	 *
+	 * @param evt the evt
+	 */
 	protected synchronized void deleteEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getOldValue();
 		for (int row = 0; row < tableModel.getRowCount(); ++row) {
@@ -223,6 +288,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		tableModel.fireTableDataChanged();
 	}
 
+	/**
+	 * Gets the all entities.
+	 *
+	 * @return the all entities
+	 */
 	@SuppressWarnings("unchecked")
 	protected List<AbstractEntity> getAllEntities() {
 		SbApp.trace("AbstractTable.getAllEntities()");
@@ -236,6 +306,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return ret;
 	}
 
+	/**
+	 * Gets the column names.
+	 *
+	 * @return the column names
+	 */
 	private List<String> getColumnNames() {
 		List<String> cols = new ArrayList<>();
 		for (SbColumn col : getColumns()) {
@@ -244,6 +319,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return cols;
 	}
 
+	/**
+	 * Gets the columns.
+	 *
+	 * @return the columns
+	 */
 	protected List<SbColumn> getColumns() {
 		List<SbColumn> ret = new ArrayList<>();
 		for (SbColumn column : columns) {
@@ -254,8 +334,20 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return ret;
 	}
 
+	/**
+	 * Gets the entity.
+	 *
+	 * @param id the id
+	 * @return the entity
+	 */
 	abstract protected AbstractEntity getEntity(Long id);
 
+	/**
+	 * Gets the entity from row.
+	 *
+	 * @param row the row
+	 * @return the entity from row
+	 */
 	protected synchronized AbstractEntity getEntityFromRow(int row) {
 		SbApp.trace("AbstractTable.getEntityFromRow(" + row + ")");
 		if (row == -1) {
@@ -273,8 +365,19 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return null;
 	}
 
+	/**
+	 * Gets the new entity.
+	 *
+	 * @return the new entity
+	 */
 	abstract protected AbstractEntity getNewEntity();
 
+	/**
+	 * Gets the row.
+	 *
+	 * @param entity the entity
+	 * @return the row
+	 */
 	protected List<Object> getRow(AbstractEntity entity) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -326,15 +429,33 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		return cols;
 	}
 
+	/**
+	 * Gets the table.
+	 *
+	 * @return the table
+	 */
 	public JXTable getTable() {
 		return table;
 	}
 
+	/**
+	 * Gets the table name.
+	 *
+	 * @return the table name
+	 */
 	abstract public String getTableName();
 
+	/**
+	 * Inits the options panel.
+	 */
 	protected void initOptionsPanel() {
 	}
 
+	/**
+	 * Inits the table model.
+	 *
+	 * @param evt the evt
+	 */
 	protected void initTableModel(PropertyChangeEvent evt) {
 		SbApp.trace("AbstractTable.initTableModel(evt)");
 		table.putClientProperty(ClientPropertyName.MAIN_FRAME.toString(), mainFrame);
@@ -376,6 +497,9 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		// table.packAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("fill,wrap"));
@@ -533,6 +657,9 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		add(totalObjectif, "sg");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("AbstractTable.modelPropertyChange(evt)");
@@ -575,8 +702,18 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		SwingUtil.forceRevalidate(this);
 	}
 
+	/**
+	 * Model property change local.
+	 *
+	 * @param evt the evt
+	 */
 	abstract protected void modelPropertyChangeLocal(PropertyChangeEvent evt);
 
+	/**
+	 * New entity.
+	 *
+	 * @param evt the evt
+	 */
 	protected void newEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
 		List<Object> cols = getRow(entity);
@@ -584,26 +721,71 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		tableModel.fireTableDataChanged();
 	}
 
+	/**
+	 * Order down entity.
+	 *
+	 * @param evt the evt
+	 */
 	protected void orderDownEntity(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Order up entity.
+	 *
+	 * @param evt the evt
+	 */
 	protected void orderUpEntity(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Send delete entities.
+	 *
+	 * @param rows the rows
+	 */
 	abstract protected void sendDeleteEntities(int[] rows);
 
+	/**
+	 * Send delete entity.
+	 *
+	 * @param row the row
+	 */
 	abstract protected void sendDeleteEntity(int row);
 
+	/**
+	 * Send order down entity.
+	 *
+	 * @param row the row
+	 */
 	protected void sendOrderDownEntity(int row) {
 	}
 
+	/**
+	 * Send order up entity.
+	 *
+	 * @param row the row
+	 */
 	protected void sendOrderUpEntity(int row) {
 	}
 
+	/**
+	 * Send set entity to edit.
+	 *
+	 * @param row the row
+	 */
 	abstract protected void sendSetEntityToEdit(int row);
 
+	/**
+	 * Send set new entity to edit.
+	 *
+	 * @param entity the entity
+	 */
 	abstract protected void sendSetNewEntityToEdit(AbstractEntity entity);
 
+	/**
+	 * Sort by column.
+	 *
+	 * @param col the col
+	 */
 	protected void sortByColumn(int col) {
 		DefaultRowSorter<?, ?> sorter = ((DefaultRowSorter<?, ?>) table.getRowSorter());
 		ArrayList<SortKey> list = new ArrayList<>();
@@ -612,6 +794,11 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		sorter.sort();
 	}
 
+	/**
+	 * Update entity.
+	 *
+	 * @param evt the evt
+	 */
 	protected void updateEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
 		for (int row = 0; row < tableModel.getRowCount(); ++row) {
@@ -628,6 +815,9 @@ public abstract class AbstractTable extends AbstractPanel implements ActionListe
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		DefaultListSelectionModel selectionModel = (DefaultListSelectionModel) e.getSource();

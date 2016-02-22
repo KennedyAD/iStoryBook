@@ -27,32 +27,58 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DateSlider.
+ */
 public class DateSlider extends JSlider implements ComponentListener {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -5907132521283692083L;
+	
+	/** The dates. */
 	private List<Date> dates = new ArrayList<>();
+	
+	/** The label table. */
 	@SuppressWarnings("unchecked")
 	private final Hashtable<Integer, JLabel> labelTable = new Hashtable();
+	
+	/** The start date index. */
 	private int startDateIndex = 0;
+	
+	/** The number of tickers. */
 	private int numberOfTickers = 1;
+	
+	/** The value. */
 	private int value = -1;
 
+	/**
+	 * Instantiates a new date slider.
+	 *
+	 * @param paramInt the param int
+	 */
 	public DateSlider(int paramInt) {
 		super(paramInt);
 		addComponentListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent paramComponentEvent) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent paramComponentEvent) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentResized(ComponentEvent paramComponentEvent) {
 		this.numberOfTickers = (getWidth() / 100);
@@ -61,20 +87,37 @@ public class DateSlider extends JSlider implements ComponentListener {
 		setDate(localDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent paramComponentEvent) {
 	}
 
+	/**
+	 * Dec.
+	 */
 	public void dec() {
 		if (isDecrementAvailable()) {
 			this.startDateIndex -= 1;
 		}
 	}
 
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public Date getDate() {
 		return this.dates.get(this.startDateIndex + getValue());
 	}
 
+	/**
+	 * Gets the index.
+	 *
+	 * @param paramDate the param date
+	 * @return the index
+	 */
 	private int getIndex(Date paramDate) {
 		Dictionary localDictionary = getLabelTable();
 		Enumeration localEnumeration = localDictionary.keys();
@@ -90,28 +133,54 @@ public class DateSlider extends JSlider implements ComponentListener {
 		return i;
 	}
 
+	/**
+	 * Gets the number of tickers.
+	 *
+	 * @return the number of tickers
+	 */
 	public int getNumberOfTickers() {
 		return this.numberOfTickers;
 	}
 
+	/**
+	 * Inc.
+	 */
 	public void inc() {
 		if (isIncrementAvailable()) {
 			this.startDateIndex += 1;
 		}
 	}
 
+	/**
+	 * Checks if is decrement available.
+	 *
+	 * @return true, if is decrement available
+	 */
 	public boolean isDecrementAvailable() {
 		return this.startDateIndex - 1 >= 0;
 	}
 
+	/**
+	 * Checks if is increment available.
+	 *
+	 * @return true, if is increment available
+	 */
 	public boolean isIncrementAvailable() {
 		return this.startDateIndex + 1 <= this.dates.size() - this.numberOfTickers;
 	}
 
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		refresh(null);
 	}
 
+	/**
+	 * Refresh.
+	 *
+	 * @param paramBoolean the param boolean
+	 */
 	public void refresh(Boolean paramBoolean) {
 		int i = this.startDateIndex + this.numberOfTickers;
 		if (i > this.dates.size()) {
@@ -148,6 +217,11 @@ public class DateSlider extends JSlider implements ComponentListener {
 		repaint();
 	}
 
+	/**
+	 * Sets the date.
+	 *
+	 * @param paramDate the new date
+	 */
 	public void setDate(Date paramDate) {
 		if (paramDate == null) {
 			return;
@@ -177,11 +251,21 @@ public class DateSlider extends JSlider implements ComponentListener {
 		}
 	}
 
+	/**
+	 * Sets the dates.
+	 *
+	 * @param paramArrayList the new dates
+	 */
 	public void setDates(ArrayList<Date> paramArrayList) {
 		this.dates = paramArrayList;
 		refresh();
 	}
 
+	/**
+	 * Sets the number of tickers.
+	 *
+	 * @param paramInt the new number of tickers
+	 */
 	public void setNumberOfTickers(int paramInt) {
 		this.numberOfTickers = paramInt;
 	}

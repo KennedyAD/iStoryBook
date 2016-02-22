@@ -31,8 +31,18 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.net.BrowserDialog;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Updater.
+ */
 public class Updater {
 
+	/**
+	 * Calculate version.
+	 *
+	 * @param str the str
+	 * @return the int
+	 */
 	private static int calculateVersion(String str) {
 		String[] s = str.split(".");
 		if (s.length != 3) {
@@ -45,6 +55,11 @@ public class Updater {
 		return ret;
 	}
 
+	/**
+	 * Check for update.
+	 *
+	 * @return true, if successful
+	 */
 	public static boolean checkForUpdate() {
 		if (SbConstants.URL.DO_UPDATE.toString().equals("true")) {
 			try {

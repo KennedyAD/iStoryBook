@@ -66,53 +66,121 @@ import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookPropertiesDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BookPropertiesDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6724317597319380314L;
+
+	/** The tabbed pane. */
 	private JTabbedPane tabbedPane;
 
+	/** The cb use libre office. */
 	private JCheckBox cbUseLibreOffice;
+	
+	/** The cb use default template. */
 	private JRadioButton cbUseDefaultTemplate;
+	
+	/** The cb use simple template. */
 	private JRadioButton cbUseSimpleTemplate;
+	
+	/** The cb use personnal template. */
 	private JRadioButton cbUsePersonnalTemplate;
+	
+	/** The bt choose template. */
 	private JButton btChooseTemplate;
+	
+	/** The cb use html scenes. */
 	private JCheckBox cbUseHtmlScenes;
+	
+	/** The cb use html descr. */
 	private JCheckBox cbUseHtmlDescr;
+	
+	/** The cb editor full toolbar. */
 	private JCheckBox cbEditorFullToolbar;
+	
+	/** The cb export chapter numbers. */
 	private JCheckBox cbExportChapterNumbers;
+	
+	/** The cb export roman numerals. */
 	private JCheckBox cbExportRomanNumerals;
+	
+	/** The cb export chapter titles. */
 	private JCheckBox cbExportChapterTitles;
+	
+	/** The cb export chapter dates locations. */
 	private JCheckBox cbExportChapterDatesLocations;
+	
+	/** The cb export scene titles. */
 	private JCheckBox cbExportSceneTitles;
+	
+	/** The cb export part titles. */
 	private JCheckBox cbExportPartTitles;
 
+	/** The tf title. */
 	private JTextField tfTitle;
+	
+	/** The tf subtitle. */
 	private JTextField tfSubtitle;
+	
+	/** The tf author. */
 	private JTextField tfAuthor;
+	
+	/** The tf copyright. */
 	private JTextField tfCopyright;
+	
+	/** The tf odf template. */
 	private JTextField tfOdfTemplate;
+	
+	/** The ta blurb. */
 	private JTextArea taBlurb;
+	
+	/** The ta notes. */
 	private JTextArea taNotes;
 
+	/** The tp info. */
 	private JTextPane tpInfo;
 
+	/**
+	 * Instantiates a new book properties dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public BookPropertiesDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/**
+	 * Adds the title.
+	 *
+	 * @param panel the panel
+	 * @param i18nKey the i18n key
+	 */
 	private void addTitle(JPanel panel, String i18nKey) {
 		JLabel lb = new JLabel(I18N.getMsg(i18nKey));
 		lb.setFont(SwingUtil.getFontBold(12));
 		panel.add(lb, "span,gaptop 10");
 	}
 
+	/**
+	 * Change use libre office.
+	 *
+	 * @return the abstract action
+	 */
 	private AbstractAction changeUseLibreOffice() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4171582910061761832L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				boolean b = false;
@@ -127,8 +195,18 @@ public class BookPropertiesDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Change use template.
+	 *
+	 * @return the action
+	 */
 	private Action changeUseTemplate() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1193780264633254413L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				tfOdfTemplate.setVisible(cbUsePersonnalTemplate.isSelected());
@@ -137,6 +215,11 @@ public class BookPropertiesDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Creates the general tab.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createGeneralTab() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new MigLayout("wrap 2"));
@@ -203,6 +286,11 @@ public class BookPropertiesDialog extends AbstractDialog {
 		return panel;
 	}
 
+	/**
+	 * Creates the info tab.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createInfoTab() {
 		JPanel panel = new JPanel();
 		MigLayout layout = new MigLayout("wrap,fill", "[]", "[grow][]");
@@ -273,6 +361,11 @@ public class BookPropertiesDialog extends AbstractDialog {
 		return panel;
 	}
 
+	/**
+	 * Creates the odf tab.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createOdfTab() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new MigLayout("wrap 2"));
@@ -342,6 +435,11 @@ public class BookPropertiesDialog extends AbstractDialog {
 		return panel;
 	}
 
+	/**
+	 * Creates the property tab.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createPropertyTab() {
 		JPanel panel = new JPanel();
 		MigLayout layout = new MigLayout("wrap 2", "[][grow]", "[][][grow][grow]");
@@ -411,12 +509,27 @@ public class BookPropertiesDialog extends AbstractDialog {
 		return panel;
 	}
 
+	/**
+	 * Error message.
+	 *
+	 * @param s the s
+	 */
 	private void errorMessage(String s) {
 		JOptionPane.showMessageDialog(this, I18N.getMsg(s), I18N.getMsg("msg.common.error"), JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Gets the choose template action.
+	 *
+	 * @return the choose template action
+	 */
 	private AbstractAction getChooseTemplateAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 8137713098356752697L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				final JFileChooser fc = new JFileChooser(tfOdfTemplate.getText());
@@ -431,8 +544,18 @@ public class BookPropertiesDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Gets the copy text action.
+	 *
+	 * @return the copy text action
+	 */
 	private AbstractAction getCopyTextAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1121693131289638675L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				HtmlSelection selection = new HtmlSelection(tpInfo.getText());
@@ -442,9 +565,17 @@ public class BookPropertiesDialog extends AbstractDialog {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3310813696796818327L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// general settings
@@ -495,10 +626,16 @@ public class BookPropertiesDialog extends AbstractDialog {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

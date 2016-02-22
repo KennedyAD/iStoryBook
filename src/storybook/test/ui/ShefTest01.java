@@ -27,15 +27,26 @@ import javax.swing.WindowConstants;
 import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShefTest01.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ShefTest01 extends JFrame {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1525984786302906111L;
+	
+	/** The instance. */
 	private static ShefTest01 instance;
 
+	/**
+	 * Gets the single instance of ShefTest01.
+	 *
+	 * @return single instance of ShefTest01
+	 */
 	public static ShefTest01 getInstance() {
 		if (instance == null) {
 			instance = new ShefTest01();
@@ -43,6 +54,11 @@ public class ShefTest01 extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -52,10 +68,16 @@ public class ShefTest01 extends JFrame {
 		});
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		setLayout(new MigLayout("fill"));
 		setTitle("ShefTest01");

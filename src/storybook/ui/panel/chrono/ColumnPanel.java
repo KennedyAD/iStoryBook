@@ -33,17 +33,37 @@ import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.swing.label.VerticalLabelUI;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ColumnPanel.
+ */
 public class ColumnPanel extends AbstractStrandDatePanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6949623808308834198L;
+
+	/**
+	 * Instantiates a new column panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param strand the strand
+	 * @param date the date
+	 */
 	public ColumnPanel(MainFrame mainFrame, Strand strand, Date date) {
 		super(mainFrame, strand, date);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		try {

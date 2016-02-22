@@ -33,23 +33,43 @@ import storybook.toolkit.swing.table.FixedColumnScrollPane;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.legend.PersonsLegendPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WiWWChart.
+ */
 public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3431322982261406936L;
+	
+	/** The found characters. */
 	private Set<Person> foundCharacters;
+	
+	/** The table. */
 	private JTable table;
+	
+	/** The col slider. */
 	private JSlider colSlider;
+	
+	/** The col width. */
 	private int colWidth = 50;
 
+	/**
+	 * Instantiates a new wi ww chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public WiWWChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.report.person.location.time.title");
 		this.partRelated = true;
 		this.needsFullRefresh = true;
 	}
 
+	/**
+	 * Creates the table.
+	 *
+	 * @return the j table
+	 */
 	@SuppressWarnings("unchecked")
 	private JTable createTable() {
 		Part part = this.mainFrame.getCurrentPart();
@@ -108,12 +128,18 @@ public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 		return jTable;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#initChart()
+	 */
 	@Override
 	protected void initChart() {
 		super.initChart();
 		this.foundCharacters = new TreeSet<Person>();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		JLabel localJLabel = new JLabel(this.chartTitle);
@@ -126,6 +152,9 @@ public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 		this.panel.add(new PersonsLegendPanel(this.mainFrame, this.foundCharacters), "gap push");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 		super.initOptionsUi();
@@ -140,6 +169,9 @@ public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 		this.optionsPanel.add(this.colSlider);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		this.colWidth = this.colSlider.getValue();
@@ -148,6 +180,9 @@ public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 		setTableColumnWidth();
 	}
 
+	/**
+	 * Sets the table column width.
+	 */
 	private void setTableColumnWidth() {
 		this.colWidth = this.colSlider.getValue();
 		for (int i = 0; i < this.table.getColumnCount(); i++) {
@@ -156,6 +191,9 @@ public class WiWWChart extends AbstractPersonsChart implements ChangeListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent paramChangeEvent) {
 		setTableColumnWidth();

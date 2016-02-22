@@ -32,22 +32,38 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PlainTextEditor.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class PlainTextEditor extends AbstractPanel implements CaretListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4475598625157816883L;
+	
+	/** The ta. */
 	private JTextArea ta;
+	
+	/** The max length. */
 	private int maxLength;
+	
+	/** The lb message. */
 	private JLabel lbMessage;
 
+	/**
+	 * Instantiates a new plain text editor.
+	 */
 	public PlainTextEditor() {
 		super();
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		if (maxLength > 0) {
@@ -61,18 +77,34 @@ public class PlainTextEditor extends AbstractPanel implements CaretListener {
 		}
 	}
 
+	/**
+	 * Gets the max length.
+	 *
+	 * @return the max length
+	 */
 	public int getMaxLength() {
 		return maxLength;
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		return ta.getText();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill"));
@@ -92,14 +124,27 @@ public class PlainTextEditor extends AbstractPanel implements CaretListener {
 		add(lbMessage);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Sets the max length.
+	 *
+	 * @param maxLength the new max length
+	 */
 	public void setMaxLength(int maxLength) {
 		this.maxLength = maxLength;
 	}
 
+	/**
+	 * Sets the text.
+	 *
+	 * @param txt the new text
+	 */
 	public void setText(String txt) {
 		ta.setText(txt);
 		ta.setCaretPosition(0);

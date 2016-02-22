@@ -33,10 +33,21 @@ import storybook.SbConstants.PreferenceKey;
 import storybook.SbConstants.Spelling;
 import storybook.model.hbn.entity.Preference;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SpellCheckerUtil.
+ */
 public class SpellCheckerUtil {
 
+	/** The user dict dir. */
 	private static File userDictDir = null;
 
+	/**
+	 * Gets the dictionary dir.
+	 *
+	 * @return the dictionary dir
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static File getDictionaryDir() throws IOException {
 		try {
 			File dir = new File(".");
@@ -48,11 +59,23 @@ public class SpellCheckerUtil {
 		return null;
 	}
 
+	/**
+	 * Gets the dictionary dir as url.
+	 *
+	 * @return the dictionary dir as url
+	 * @throws MalformedURLException the malformed url exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static URL getDictionaryDirAsURL() throws MalformedURLException, IOException {
 		URI uri = getDictionaryDir().toURI();
 		return uri.toURL();
 	}
 
+	/**
+	 * Inits the user dict dir.
+	 *
+	 * @return the file
+	 */
 	public static File initUserDictDir() {
 		if (userDictDir == null) {
 			File dir = new File(System.getProperty("user.home"));
@@ -63,6 +86,11 @@ public class SpellCheckerUtil {
 		return userDictDir;
 	}
 
+	/**
+	 * Checks if is spell check active.
+	 *
+	 * @return true, if is spell check active
+	 */
 	public static boolean isSpellCheckActive() {
 		// String spelling =
 		// PrefManager.getInstance().getStringValue(Constants.Preference.SPELLING);
@@ -72,6 +100,9 @@ public class SpellCheckerUtil {
 		return true;
 	}
 
+	/**
+	 * Register dictionaries.
+	 */
 	public static void registerDictionaries() {
 		SbApp.trace("SpellCheckerUtil.registerDictionaries()");
 		try {

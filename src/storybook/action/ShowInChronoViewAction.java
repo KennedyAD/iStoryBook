@@ -28,21 +28,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShowInChronoViewAction.
  *
+ * @author martin
  */
 public class ShowInChronoViewAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 981159304756392073L;
 
+	/**
+	 * Instantiates a new show in chrono view action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public ShowInChronoViewAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.chrono.view"), I18N.getIcon("icon.small.chrono.view"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainFrame.showView(ViewName.CHRONO);

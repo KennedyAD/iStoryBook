@@ -31,12 +31,21 @@ import storybook.model.stringcategory.ItemCategory;
 import storybook.model.stringcategory.TagCategory;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StringCategoryUtil.
  *
+ * @author martin
  */
 public class StringCategoryUtil {
 
+	/**
+	 * Creates the popup menu.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cat the cat
+	 * @return the j popup menu
+	 */
 	public static JPopupMenu createPopupMenu(MainFrame mainFrame, AbstractStringCategory cat) {
 		JPopupMenu menu = new JPopupMenu();
 		if (cat == null) {

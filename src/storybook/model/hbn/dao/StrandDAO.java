@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Strand;
 
+/**
+ * The Interface StrandDAO.
+ */
 public interface StrandDAO extends GenericDAO<Strand, Long> {
 
 }

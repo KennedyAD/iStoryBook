@@ -22,16 +22,32 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UndoAction.
+ */
 public class UndoAction extends AbstractAction {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8447697091359255810L;
+	
+	/** The undo. */
 	private SbUndoManager undo;
 
+	/**
+	 * Instantiates a new undo action.
+	 *
+	 * @param undo the undo
+	 */
 	public UndoAction(SbUndoManager undo) {
 		super("Undo");
 		this.undo = undo;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (undo.canUndo()) {

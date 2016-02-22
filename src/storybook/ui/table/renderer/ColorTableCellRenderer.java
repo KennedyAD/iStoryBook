@@ -27,17 +27,28 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import storybook.toolkit.swing.ColorIcon;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ColorTableCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ColorTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6050172325662213639L;
+
+	/**
+	 * Instantiates a new color table cell renderer.
+	 */
 	public ColorTableCellRenderer() {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

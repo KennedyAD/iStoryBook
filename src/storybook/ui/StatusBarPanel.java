@@ -42,35 +42,64 @@ import storybook.toolkit.I18N;
 
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StatusBarPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class StatusBarPanel extends AbstractPanel implements ActionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8484908341182714142L;
+	
+	/** The lb parts. */
 	private JLabel lbParts;
+	
+	/** The lb stat. */
 	private JLabel lbStat;
+	
+	/** The nb words. */
 	private int nbWords;
+	
+	/** The nb characters. */
 	private int nbCharacters;
+	
+	/** The nb persons. */
 	private int nbPersons;
+	
+	/** The nb chapters. */
 	private int nbChapters;
+	
+	/** The nb scenes. */
 	private int nbScenes;
 
 	// JComboBox layoutCombo = new JComboBox();
 
+	/**
+	 * Instantiates a new status bar panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public StatusBarPanel(MainFrame mainFrame) {
 		SbApp.trace("StatusBarPanel(mainFrame)");
 		this.mainFrame = mainFrame;
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		SbApp.trace("StatusBarPanel.actionPerformed(" + e.paramString() + ")");
 		lbStat.setText(geneLibStat());
 	}
 
+	/**
+	 * Compute statistics.
+	 */
 	private void computeStatistics() {
 		SbApp.trace("StatusBarPanel.computeStatistics()");
 		nbCharacters = 0;
@@ -95,6 +124,11 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Gene lib stat.
+	 *
+	 * @return the string
+	 */
 	private String geneLibStat() {
 		String strStat = I18N.getMsg("msg.common.statistics") + ":";
 		strStat += " " + I18N.getMsg("msg.common.chapters") + "=" + nbChapters + ", ";
@@ -105,12 +139,18 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 		return (strStat);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("StatusBarPanel.init()");
 		computeStatistics();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace("StatusBarPanel.initUi()");
@@ -131,6 +171,9 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("StatusBarPanel.modelPropertyChange(" + evt.toString() + ")");
@@ -158,6 +201,9 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 
 	}
 
+	/**
+	 * Refresh layout combo.
+	 */
 	private void refreshLayoutCombo() {
 		/*
 		 * layoutCombo.removeAllItems(); layoutCombo.addItem("");
@@ -174,6 +220,9 @@ public class StatusBarPanel extends AbstractPanel implements ActionListener {
 		 */
 	}
 
+	/**
+	 * Refresh stat.
+	 */
 	private void refreshStat() {
 		SbApp.trace("StatusBarPanel.refreshStat()");
 		computeStatistics();

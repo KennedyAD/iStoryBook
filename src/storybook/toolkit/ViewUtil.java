@@ -56,6 +56,7 @@ import storybook.ui.panel.manage.ChapterPanel;
 import storybook.ui.panel.manage.ManagePanel;
 import storybook.ui.panel.manage.dnd.ScenePanel;
 
+// TODO: Auto-generated Javadoc
 /**
  * Provides tools around the views.
  *
@@ -64,6 +65,14 @@ import storybook.ui.panel.manage.dnd.ScenePanel;
  */
 public class ViewUtil {
 
+	/**
+	 * Change current part.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param part the part
+	 * @return true, if successful
+	 */
 	public static boolean changeCurrentPart(AbstractPanel container, JPanel panel, Part part) {
 		if (part == null) {
 			return false;
@@ -77,6 +86,14 @@ public class ViewUtil {
 		return changed;
 	}
 
+	/**
+	 * Change current part.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param scene the scene
+	 * @return true, if successful
+	 */
 	public static boolean changeCurrentPart(AbstractPanel container, JPanel panel, Scene scene) {
 		if (scene == null) {
 			return false;
@@ -93,6 +110,14 @@ public class ViewUtil {
 		return changed;
 	}
 
+	/**
+	 * Do scrolling.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param chapter the chapter
+	 * @return true, if successful
+	 */
 	public static boolean doScrolling(AbstractPanel container, JPanel panel, Chapter chapter) {
 		boolean found = false;
 		List<ChapterPanel> panels = findChapterPanels(container);
@@ -115,6 +140,14 @@ public class ViewUtil {
 		return found;
 	}
 
+	/**
+	 * Do scrolling.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param scene the scene
+	 * @return true, if successful
+	 */
 	public static boolean doScrolling(AbstractPanel container, JPanel panel, Scene scene) {
 		boolean found = false;
 		List<AbstractScenePanel> panels = findScenePanels(container);
@@ -143,6 +176,15 @@ public class ViewUtil {
 		return found;
 	}
 
+	/**
+	 * Do scrolling.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param strand the strand
+	 * @param date the date
+	 * @return true, if successful
+	 */
 	public static boolean doScrolling(AbstractPanel container, JPanel panel, Strand strand, Date date) {
 		boolean found = false;
 		List<StrandDateLabel> panels = findStrandDateLabels(container);
@@ -172,6 +214,12 @@ public class ViewUtil {
 		return found;
 	}
 
+	/**
+	 * Find book scene panels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	private static List<AbstractScenePanel> findBookScenePanels(Container cont) {
 		List<Component> components = new ArrayList<>();
 		components = SwingUtil.findComponentsByClass(cont, BookScenePanel.class, components);
@@ -182,6 +230,12 @@ public class ViewUtil {
 		return panels;
 	}
 
+	/**
+	 * Find chapter panels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	private static List<ChapterPanel> findChapterPanels(Container cont) {
 		List<Component> components = new ArrayList<>();
 		components = SwingUtil.findComponentsByClass(cont, ChapterPanel.class, components);
@@ -192,6 +246,12 @@ public class ViewUtil {
 		return panels;
 	}
 
+	/**
+	 * Find chrono scene panels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	private static List<AbstractScenePanel> findChronoScenePanels(Container cont) {
 		List<Component> components = new ArrayList<>();
 		components = SwingUtil.findComponentsByClass(cont, ChronoScenePanel.class, components);
@@ -202,6 +262,12 @@ public class ViewUtil {
 		return panels;
 	}
 
+	/**
+	 * Find manage scene panels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	private static List<AbstractScenePanel> findManageScenePanels(Container cont) {
 		List<Component> components = new ArrayList<>();
 		components = SwingUtil.findComponentsByClass(cont, ScenePanel.class, components);
@@ -212,6 +278,12 @@ public class ViewUtil {
 		return panels;
 	}
 
+	/**
+	 * Find scene panels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	public static List<AbstractScenePanel> findScenePanels(Container cont) {
 		if (cont instanceof ChronoPanel) {
 			return findChronoScenePanels(cont);
@@ -225,6 +297,12 @@ public class ViewUtil {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Find strand date labels.
+	 *
+	 * @param cont the cont
+	 * @return the list
+	 */
 	private static List<StrandDateLabel> findStrandDateLabels(Container cont) {
 		List<Component> components = new ArrayList<>();
 		components = SwingUtil.findComponentsByClass(cont, StrandDateLabel.class, components);
@@ -235,6 +313,14 @@ public class ViewUtil {
 		return labels;
 	}
 
+	/**
+	 * Scroll to chapter.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param chapter the chapter
+	 * @return true, if successful
+	 */
 	public static boolean scrollToChapter(AbstractPanel container, JPanel panel, Chapter chapter) {
 		if (container instanceof ManagePanel) {
 			if (chapter == null) {
@@ -268,6 +354,14 @@ public class ViewUtil {
 		return scrollToScene(container, panel, scene);
 	}
 
+	/**
+	 * Scroll to scene.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param scene the scene
+	 * @return true, if successful
+	 */
 	public static boolean scrollToScene(AbstractPanel container, JPanel panel, Scene scene) {
 		if (scene == null) {
 			return false;
@@ -290,6 +384,15 @@ public class ViewUtil {
 		return action.isFound();
 	}
 
+	/**
+	 * Scroll to strand date.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param strand the strand
+	 * @param date the date
+	 * @return true, if successful
+	 */
 	public static boolean scrollToStrandDate(AbstractPanel container, JPanel panel, Strand strand, Date date) {
 		if (strand == null || date == null) {
 			return false;
@@ -297,10 +400,21 @@ public class ViewUtil {
 		return doScrolling(container, panel, strand, date);
 	}
 
+	/**
+	 * Scroll to top.
+	 *
+	 * @param scroller the scroller
+	 */
 	public static void scrollToTop(final JScrollPane scroller) {
 		scrollToTop(scroller, 100);
 	}
 
+	/**
+	 * Scroll to top.
+	 *
+	 * @param scroller the scroller
+	 * @param delay the delay
+	 */
 	public static void scrollToTop(final JScrollPane scroller, int delay) {
 		/*
 		 * Timer timer = new Timer(delay, new ActionListener() {

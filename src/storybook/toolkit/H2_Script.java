@@ -13,6 +13,7 @@ import java.sql.Statement;
 import org.h2.util.JdbcUtils;
 import org.h2.util.Tool;
 
+// TODO: Auto-generated Javadoc
 /**
  * Creates a SQL script file by extracting the schema and data of a database.
  * 
@@ -52,11 +53,13 @@ public class H2_Script extends Tool {
 	 * <td>Do not print progress information</td>
 	 * </tr>
 	 * </table>
-	 * 
-	 * @h2.resource
 	 *
-	 * @param args
-	 *            the command line arguments
+	 * @param conn the conn
+	 * @param fileName the file name
+	 * @param options1 the options1
+	 * @param options2 the options2
+	 * @throws SQLException the SQL exception
+	 * @h2.resource 
 	 *//*
 		 * public static void main(String... args) throws SQLException { new
 		 * H2_Script().runTool(args); }
@@ -112,18 +115,13 @@ public class H2_Script extends Tool {
 	/**
 	 * Backs up a database to a stream.
 	 *
-	 * @param url
-	 *            the database URL
-	 * @param user
-	 *            the user name
-	 * @param password
-	 *            the password
-	 * @param fileName
-	 *            the target file name
-	 * @param options1
-	 *            the options before the file name (may be an empty string)
-	 * @param options2
-	 *            the options after the file name (may be an empty string)
+	 * @param url            the database URL
+	 * @param user            the user name
+	 * @param password            the password
+	 * @param fileName            the target file name
+	 * @param options1            the options before the file name (may be an empty string)
+	 * @param options2            the options after the file name (may be an empty string)
+	 * @throws SQLException the SQL exception
 	 */
 	public static void process(String url, String user, String password, String fileName, String options1,
 			String options2) throws SQLException {
@@ -137,6 +135,9 @@ public class H2_Script extends Tool {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.h2.util.Tool#runTool(java.lang.String[])
+	 */
 	@Override
 	public void runTool(String... strings) throws SQLException {
 		throw new UnsupportedOperationException("Not supported yet."); // To

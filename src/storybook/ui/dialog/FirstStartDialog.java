@@ -38,24 +38,43 @@ import storybook.toolkit.SpellCheckerUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.toolkit.swing.panel.BackgroundPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class FirstStartDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class FirstStartDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1645316955260576328L;
+	
+	/** The language combo. */
 	private JComboBox languageCombo;
+	
+	/** The spelling combo. */
 	private JComboBox spellingCombo;
 
+	/**
+	 * Instantiates a new first start dialog.
+	 */
 	public FirstStartDialog() {
 		super();
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4455404770359456222L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// language
@@ -74,10 +93,16 @@ public class FirstStartDialog extends AbstractDialog {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

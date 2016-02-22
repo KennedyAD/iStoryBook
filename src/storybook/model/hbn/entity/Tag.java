@@ -18,14 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Tag.
+ *
  * @hibernate.subclass discriminator-value="0"
  */
 public class Tag extends AbstractTag {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3498529625241346418L;
 
 }

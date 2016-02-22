@@ -28,16 +28,31 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.TimeEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TimeEventDAOImpl.
+ */
 public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implements TimeEventDAO {
 
+	/**
+	 * Instantiates a new time event dao impl.
+	 */
 	public TimeEventDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new time event dao impl.
+	 *
+	 * @param session the session
+	 */
 	public TimeEventDAOImpl(Session session) {
 		super(session);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@Override
 	public List<TimeEvent> findAll() {
 		StringBuffer buf = new StringBuffer("from TimeEvent");
@@ -48,6 +63,12 @@ public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implemen
 		return ret;
 	}
 
+	/**
+	 * Find by category.
+	 *
+	 * @param category the category
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TimeEvent> findByCategory(String category) {
 		Criteria crit = session.createCriteria(TimeEvent.class);
@@ -57,6 +78,11 @@ public class TimeEventDAOImpl extends SbGenericDAOImpl<TimeEvent, Long> implemen
 		return tags;
 	}
 
+	/**
+	 * Find categories.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCategories() {
 		Query query = session.createQuery("select distinct(t.category) from TimeEvent as t order by t.category");

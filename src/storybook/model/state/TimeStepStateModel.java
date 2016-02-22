@@ -20,16 +20,34 @@ package storybook.model.state;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author jean
+ * The Class TimeStepStateModel.
  *
+ * @author jean
  */
 public class TimeStepStateModel extends AbstractStateModel {
 
+	/**
+	 * The Enum State.
+	 */
 	public enum State {
-		MINUTE, HOUR, DAY, MONTH, YEAR
+		
+		/** The minute. */
+		MINUTE, 
+ /** The hour. */
+ HOUR, 
+ /** The day. */
+ DAY, 
+ /** The month. */
+ MONTH, 
+ /** The year. */
+ YEAR
 	};
 
+	/**
+	 * Instantiates a new time step state model.
+	 */
 	public TimeStepStateModel() {
 		super();
 		states.add(new TimeStepState(State.MINUTE.ordinal(), I18N.getMsg("msg.timeevent.combo.MINUTE"), null));

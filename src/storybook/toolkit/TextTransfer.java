@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class TextTransfer.
  *
  * @author favdb
  */
@@ -46,6 +48,9 @@ public final class TextTransfer implements ClipboardOwner {
 
 	/**
 	 * Empty implementation of the ClipboardOwner interface.
+	 *
+	 * @param aClipboard the a clipboard
+	 * @param aContents the a contents
 	 */
 	@Override
 	public void lostOwnership(Clipboard aClipboard, Transferable aContents) {
@@ -55,6 +60,8 @@ public final class TextTransfer implements ClipboardOwner {
 	/**
 	 * Place a String on the clipboard, and make this class the owner of the
 	 * Clipboard's contents.
+	 *
+	 * @param aString the new clipboard contents
 	 */
 	public void setClipboardContents(String aString) {
 		StringSelection stringSelection = new StringSelection(aString);

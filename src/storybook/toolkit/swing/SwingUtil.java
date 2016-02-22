@@ -95,10 +95,21 @@ import storybook.toolkit.PrefUtil;
 import storybook.toolkit.swing.undo.UndoableTextArea;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SwingUtil.
+ */
 public class SwingUtil {
 
+	/** The flash is running. */
 	private static Boolean flashIsRunning = false;
 
+	/**
+	 * Adds the copy paste to popup menu.
+	 *
+	 * @param menu the menu
+	 * @param comp the comp
+	 */
 	public static void addCopyPasteToPopupMenu(JPopupMenu menu, JComponent comp) {
 		HashMap<Object, Action> actions = SwingUtil.createActionTable((JTextComponent) comp);
 		Action cutAction = actions.get(DefaultEditorKit.cutAction);
@@ -118,6 +129,12 @@ public class SwingUtil {
 		menu.add(miPaste);
 	}
 
+	/**
+	 * Adds the copy to popup menu.
+	 *
+	 * @param menu the menu
+	 * @param comp the comp
+	 */
 	public static void addCopyToPopupMenu(JPopupMenu menu, JComponent comp) {
 		HashMap<Object, Action> actions = SwingUtil.createActionTable((JTextComponent) comp);
 		Action copyAction = actions.get(DefaultEditorKit.copyAction);
@@ -127,21 +144,45 @@ public class SwingUtil {
 		menu.add(miCopy);
 	}
 
+	/**
+	 * Adds the ctrl enter action.
+	 *
+	 * @param comp the comp
+	 * @param action the action
+	 */
 	public static void addCtrlEnterAction(JComponent comp, AbstractAction action) {
 		InputMap inputMap = comp.getInputMap();
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.CTRL_DOWN_MASK), action);
 	}
 
+	/**
+	 * Adds the enter action.
+	 *
+	 * @param comp the comp
+	 * @param action the action
+	 */
 	public static void addEnterAction(JComponent comp, Action action) {
 		comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), action);
 		comp.getActionMap().put(action, action);
 	}
 
+	/**
+	 * Adds the esc action.
+	 *
+	 * @param comp the comp
+	 * @param action the action
+	 */
 	public static void addEscAction(JComponent comp, Action action) {
 		comp.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), action);
 		comp.getActionMap().put(action, action);
 	}
 
+	/**
+	 * Creates the action table.
+	 *
+	 * @param textComponent the text component
+	 * @return the hash map
+	 */
 	public static HashMap<Object, Action> createActionTable(JTextComponent textComponent) {
 		HashMap<Object, Action> actions = new HashMap<>();
 		Action[] actionsArray = textComponent.getActions();
@@ -152,6 +193,11 @@ public class SwingUtil {
 		return actions;
 	}
 
+	/**
+	 * Creates the date format.
+	 *
+	 * @return the j combo box
+	 */
 	public static JComboBox<String> createDateFormat() {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		model.addElement("dd-MM-yyyy");
@@ -160,6 +206,11 @@ public class SwingUtil {
 		return new JComboBox<String>(model);
 	}
 
+	/**
+	 * Creates the horizontal line label.
+	 *
+	 * @return the j label
+	 */
 	public static JLabel createHorizontalLineLabel() {
 		MatteBorder mb = new MatteBorder(0, 0, 1, 0, Color.black);
 		JLabel label = new JLabel();
@@ -167,6 +218,11 @@ public class SwingUtil {
 		return label;
 	}
 
+	/**
+	 * Creates the language combo.
+	 *
+	 * @return the j combo box
+	 */
 	public static JComboBox<String> createLanguageCombo() {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (Language lang : Language.values()) {
@@ -175,10 +231,21 @@ public class SwingUtil {
 		return new JComboBox<String>(model);
 	}
 
+	/**
+	 * Creates the menu bar spacer.
+	 *
+	 * @return the j panel
+	 */
 	public static JPanel createMenuBarSpacer() {
 		return createMenuBarSpacer(false);
 	}
 
+	/**
+	 * Creates the menu bar spacer.
+	 *
+	 * @param linie the linie
+	 * @return the j panel
+	 */
 	public static JPanel createMenuBarSpacer(boolean linie) {
 		MigLayout layout = new MigLayout("insets 0", "[1]");
 		JPanel panel = new JPanel(layout);
@@ -193,6 +260,12 @@ public class SwingUtil {
 		return panel;
 	}
 
+	/**
+	 * Creates the notes panel.
+	 *
+	 * @param taNotes the ta notes
+	 * @return the j panel
+	 */
 	public static JPanel createNotesPanel(JTextArea taNotes) {
 		MigLayout layout = new MigLayout("fill", "", "[top]");
 		JPanel panel = new JPanel(layout);
@@ -226,6 +299,11 @@ public class SwingUtil {
 		return new JSlider(orientation, min, max, value);
 	}
 
+	/**
+	 * Creates the spelling combo.
+	 *
+	 * @return the j combo box
+	 */
 	public static JComboBox<String> createSpellingCombo() {
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 		for (Spelling spelling : Spelling.values()) {
@@ -235,6 +313,12 @@ public class SwingUtil {
 		return new JComboBox<String>(model);
 	}
 
+	/**
+	 * Creates the text component.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the j text component
+	 */
 	public static JTextComponent createTextComponent(MainFrame mainFrame) {
 		JTextComponent tc;
 		if (BookUtil.isUseHtmlScenes(mainFrame)) {
@@ -252,6 +336,11 @@ public class SwingUtil {
 		return tc;
 	}
 
+	/**
+	 * Creates the timestamp label.
+	 *
+	 * @return the j label
+	 */
 	public static JLabel createTimestampLabel() {
 		Date date = new Date();
 		String dateStr = FastDateFormat.getDateInstance(FastDateFormat.MEDIUM).format(date);
@@ -259,6 +348,11 @@ public class SwingUtil {
 		return new JLabel(dateStr + " - " + timeStr);
 	}
 
+	/**
+	 * Creates the vertical line label.
+	 *
+	 * @return the j label
+	 */
 	public static JLabel createVerticalLineLabel() {
 		MatteBorder mb = new MatteBorder(0, 1, 0, 0, Color.black);
 		JLabel label = new JLabel();
@@ -291,6 +385,11 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Expand rectangle.
+	 *
+	 * @param rect the rect
+	 */
 	public static void expandRectangle(Rectangle rect) {
 		Point p = rect.getLocation();
 		p.translate(-5, -5);
@@ -298,6 +397,13 @@ public class SwingUtil {
 		rect.grow(10, 10);
 	}
 
+	/**
+	 * Find component by name.
+	 *
+	 * @param rootComponent the root component
+	 * @param name the name
+	 * @return the component
+	 */
 	public static Component findComponentByName(Component rootComponent, String name) {
 		if (rootComponent.getName() != null)
 			if (rootComponent.getName().equals(name))
@@ -313,6 +419,14 @@ public class SwingUtil {
 		return null;
 	}
 
+	/**
+	 * Find components by class.
+	 *
+	 * @param rootComponent the root component
+	 * @param cname the cname
+	 * @param res the res
+	 * @return the list
+	 */
 	public static List<Component> findComponentsByClass(Container rootComponent, Class<? extends Component> cname,
 			List<Component> res) {
 		if (rootComponent instanceof Container) {
@@ -327,6 +441,14 @@ public class SwingUtil {
 		return res;
 	}
 
+	/**
+	 * Find components name starts with.
+	 *
+	 * @param rootComponent the root component
+	 * @param startsWith the starts with
+	 * @param res the res
+	 * @return the list
+	 */
 	public static List<Component> findComponentsNameStartsWith(Container rootComponent, String startsWith,
 			List<Component> res) {
 		if (rootComponent instanceof Container) {
@@ -342,6 +464,12 @@ public class SwingUtil {
 		return res;
 	}
 
+	/**
+	 * Find parent.
+	 *
+	 * @param c the c
+	 * @return the component
+	 */
 	public static Component findParent(Component c) {
 		if (c == null)
 			return null;
@@ -354,6 +482,12 @@ public class SwingUtil {
 		return comp;
 	}
 
+	/**
+	 * Find parent j frame.
+	 *
+	 * @param c the c
+	 * @return the j frame
+	 */
 	public static JFrame findParentJFrame(JComponent c) {
 		if (c == null)
 			return null;
@@ -364,6 +498,12 @@ public class SwingUtil {
 		return (JFrame) parent;
 	}
 
+	/**
+	 * Find parent j tabbed pane.
+	 *
+	 * @param c the c
+	 * @return the j tabbed pane
+	 */
 	public static JTabbedPane findParentJTabbedPane(JComponent c) {
 		if (c == null)
 			return null;
@@ -394,24 +534,44 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Flash ended.
+	 */
 	public static void flashEnded() {
 		synchronized (flashIsRunning) {
 			flashIsRunning = false;
 		}
 	}
 
+	/**
+	 * Float tool bar.
+	 *
+	 * @param tb the tb
+	 * @param p the p
+	 */
 	public static void floatToolBar(JToolBar tb, Point p) {
 		ToolBarUI tbUI = tb.getUI();
 		if (tbUI instanceof BasicToolBarUI)
 			((BasicToolBarUI) tbUI).setFloating(false, p);
 	}
 
+	/**
+	 * Force revalidate.
+	 *
+	 * @param comp the comp
+	 */
 	public static void forceRevalidate(Component comp) {
 		comp.invalidate();
 		comp.validate();
 		comp.repaint();
 	}
 
+	/**
+	 * Formate component infos to print.
+	 *
+	 * @param comp the comp
+	 * @return the string
+	 */
 	public static String formateComponentInfosToPrint(Component comp) {
 		StringBuilder buf = new StringBuilder();
 		buf.append(comp.getClass().getSimpleName());
@@ -429,54 +589,126 @@ public class SwingUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the background color.
+	 *
+	 * @return the background color
+	 */
 	public static Color getBackgroundColor() {
 		return Color.white;
 	}
 
+	/**
+	 * Gets the border.
+	 *
+	 * @param clr the clr
+	 * @return the border
+	 */
 	public static Border getBorder(Color clr) {
 		return BorderFactory.createLineBorder(clr, 1);
 	}
 
+	/**
+	 * Gets the border.
+	 *
+	 * @param clr the clr
+	 * @param thickness the thickness
+	 * @return the border
+	 */
 	public static Border getBorder(Color clr, int thickness) {
 		return BorderFactory.createLineBorder(clr, thickness);
 	}
 
+	/**
+	 * Gets the border blue.
+	 *
+	 * @return the border blue
+	 */
 	public static Border getBorderBlue() {
 		return getBorderBlue(1);
 	}
 
+	/**
+	 * Gets the border blue.
+	 *
+	 * @param thickness the thickness
+	 * @return the border blue
+	 */
 	public static Border getBorderBlue(int thickness) {
 		return BorderFactory.createLineBorder(Color.blue, thickness);
 	}
 
+	/**
+	 * Gets the border default.
+	 *
+	 * @return the border default
+	 */
 	public static Border getBorderDefault() {
 		return getBorderDefault(1);
 	}
 
+	/**
+	 * Gets the border default.
+	 *
+	 * @param thickness the thickness
+	 * @return the border default
+	 */
 	public static Border getBorderDefault(int thickness) {
 		return BorderFactory.createLineBorder(Color.black, thickness);
 	}
 
+	/**
+	 * Gets the border dot.
+	 *
+	 * @return the border dot
+	 */
 	public static Border getBorderDot() {
 		return new DotBorder();
 	}
 
+	/**
+	 * Gets the border etched.
+	 *
+	 * @return the border etched
+	 */
 	public static Border getBorderEtched() {
 		return BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 	}
 
+	/**
+	 * Gets the border gray.
+	 *
+	 * @return the border gray
+	 */
 	public static Border getBorderGray() {
 		return BorderFactory.createLineBorder(Color.gray);
 	}
 
+	/**
+	 * Gets the border light gray.
+	 *
+	 * @return the border light gray
+	 */
 	public static Border getBorderLightGray() {
 		return BorderFactory.createLineBorder(Color.lightGray);
 	}
 
+	/**
+	 * Gets the border red.
+	 *
+	 * @return the border red
+	 */
 	public static Border getBorderRed() {
 		return BorderFactory.createLineBorder(Color.red);
 	}
 
+	/**
+	 * Gets the component index.
+	 *
+	 * @param container the container
+	 * @param component the component
+	 * @return the component index
+	 */
 	public static int getComponentIndex(Container container, Component component) {
 		int index = 0;
 		for (Component comp : container.getComponents()) {
@@ -487,20 +719,42 @@ public class SwingUtil {
 		return -1;
 	}
 
+	/**
+	 * Gets the compound border.
+	 *
+	 * @param text the text
+	 * @return the compound border
+	 */
 	public static CompoundBorder getCompoundBorder(String text) {
 		return BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(text),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5));
 	}
 
+	/**
+	 * Gets the day name.
+	 *
+	 * @param date the date
+	 * @return the day name
+	 */
 	public static String getDayName(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
 		return sdf.format(date);
 	}
 
+	/**
+	 * Gets the default storke.
+	 *
+	 * @return the default storke
+	 */
 	public static Stroke getDefaultStorke() {
 		return new BasicStroke();
 	}
 
+	/**
+	 * Gets the dot stroke.
+	 *
+	 * @return the dot stroke
+	 */
 	public static Stroke getDotStroke() {
 		int w = 1;
 		float[] dash = { 1, 3 };
@@ -508,6 +762,11 @@ public class SwingUtil {
 		return new BasicStroke(w, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10, dash, dash_phase);
 	}
 
+	/**
+	 * Gets the dot stroke2.
+	 *
+	 * @return the dot stroke2
+	 */
 	public static Stroke getDotStroke2() {
 		int w = 1;
 		float[] dash = { 6, 3 };
@@ -515,10 +774,22 @@ public class SwingUtil {
 		return new BasicStroke(w, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10, dash, dash_phase);
 	}
 
+	/**
+	 * Gets the font bold.
+	 *
+	 * @param size the size
+	 * @return the font bold
+	 */
 	public static Font getFontBold(int size) {
 		return new Font("Dialog", Font.BOLD, size);
 	}
 
+	/**
+	 * Gets the frame.
+	 *
+	 * @param frameName the frame name
+	 * @return the frame
+	 */
 	public static Frame getFrame(String frameName) {
 		Frame[] frames = Frame.getFrames();
 		for (Frame frame : frames) {
@@ -528,10 +799,23 @@ public class SwingUtil {
 		return null;
 	}
 
+	/**
+	 * Gets the human readable byte count.
+	 *
+	 * @param bytes the bytes
+	 * @return the human readable byte count
+	 */
 	public static String getHumanReadableByteCount(long bytes) {
 		return getHumanReadableByteCount(bytes, true);
 	}
 
+	/**
+	 * Gets the human readable byte count.
+	 *
+	 * @param bytes the bytes
+	 * @param si the si
+	 * @return the human readable byte count
+	 */
 	public static String getHumanReadableByteCount(long bytes, boolean si) {
 		int unit = si ? 1000 : 1024;
 		if (bytes < unit)
@@ -541,48 +825,104 @@ public class SwingUtil {
 		return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
 
+	/**
+	 * Gets the key stroke copy.
+	 *
+	 * @return the key stroke copy
+	 */
 	public static KeyStroke getKeyStrokeCopy() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false);
 	}
 
+	/**
+	 * Gets the key stroke delete.
+	 *
+	 * @return the key stroke delete
+	 */
 	public static KeyStroke getKeyStrokeDelete() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0, false);
 	}
 
+	/**
+	 * Gets the key stroke enter.
+	 *
+	 * @return the key stroke enter
+	 */
 	public static KeyStroke getKeyStrokeEnter() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false);
 	}
 
+	/**
+	 * Gets the key stroke insert.
+	 *
+	 * @return the key stroke insert
+	 */
 	public static KeyStroke getKeyStrokeInsert() {
 		return KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, 0, false);
 	}
 
+	/**
+	 * Gets the memory free.
+	 *
+	 * @return the memory free
+	 */
 	public static long getMemoryFree() {
 		return Runtime.getRuntime().freeMemory();
 	}
 
+	/**
+	 * Gets the memory max.
+	 *
+	 * @return the memory max
+	 */
 	public static long getMemoryMax() {
 		return Runtime.getRuntime().maxMemory();
 	}
 
+	/**
+	 * Gets the memory total.
+	 *
+	 * @return the memory total
+	 */
 	public static long getMemoryTotal() {
 		return Runtime.getRuntime().totalMemory();
 	}
 
+	/**
+	 * Gets the memory usage hr.
+	 *
+	 * @return the memory usage hr
+	 */
 	public static String getMemoryUsageHr() {
 		return "Memory Usage (used/free/total/max): " + getHumanReadableByteCount(getMemoryUsed()) + " / "
 				+ getHumanReadableByteCount(getMemoryFree()) + " / " + getHumanReadableByteCount(getMemoryTotal())
 				+ " / " + getHumanReadableByteCount(getMemoryMax());
 	}
 
+	/**
+	 * Gets the memory usage simple hr.
+	 *
+	 * @return the memory usage simple hr
+	 */
 	public static String getMemoryUsageSimpleHr() {
 		return getHumanReadableByteCount(getMemoryUsed()) + " / " + getHumanReadableByteCount(getMemoryMax());
 	}
 
+	/**
+	 * Gets the memory used.
+	 *
+	 * @return the memory used
+	 */
 	public static long getMemoryUsed() {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
+	/**
+	 * Gets the nice font name.
+	 *
+	 * @param font the font
+	 * @return the nice font name
+	 */
 	public static String getNiceFontName(Font font) {
 		if (font == null)
 			return "";
@@ -605,10 +945,22 @@ public class SwingUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the preferred height.
+	 *
+	 * @param comp the comp
+	 * @return the preferred height
+	 */
 	public static int getPreferredHeight(Component comp) {
 		return new Double(comp.getPreferredSize().getHeight()).intValue();
 	}
 
+	/**
+	 * Gets the preferred width.
+	 *
+	 * @param comp the comp
+	 * @return the preferred width
+	 */
 	public static int getPreferredWidth(Component comp) {
 		return new Double(comp.getPreferredSize().getWidth()).intValue();
 	}
@@ -624,30 +976,63 @@ public class SwingUtil {
 		return d;
 	}
 
+	/**
+	 * Gets the shorten string.
+	 *
+	 * @param str the str
+	 * @param length the length
+	 * @return the shorten string
+	 */
 	public static String getShortenString(String str, int length) {
 		if (str.length() > length)
 			return StringUtils.left(str, length) + " ...";
 		return str;
 	}
 
+	/**
+	 * Gets the storke.
+	 *
+	 * @return the storke
+	 */
 	public static Stroke getStorke() {
 		return new BasicStroke(1);
 	}
 
+	/**
+	 * Gets the table background color.
+	 *
+	 * @return the table background color
+	 */
 	public static Color getTableBackgroundColor() {
 		return getTableBackgroundColor(false);
 	}
 
+	/**
+	 * Gets the table background color.
+	 *
+	 * @param colored the colored
+	 * @return the table background color
+	 */
 	public static Color getTableBackgroundColor(boolean colored) {
 		if (colored)
 			return new Color(0xf4f4f4);
 		return UIManager.getColor("Table.background");
 	}
 
+	/**
+	 * Gets the table header color.
+	 *
+	 * @return the table header color
+	 */
 	public static Color getTableHeaderColor() {
 		return UIManager.getColor("TableHeader.background");
 	}
 
+	/**
+	 * Gets the table selection background color.
+	 *
+	 * @return the table selection background color
+	 */
 	public static Color getTableSelectionBackgroundColor() {
 		return UIManager.getColor("Table.selectionBackground");
 	}
@@ -665,11 +1050,23 @@ public class SwingUtil {
 		return chooser;
 	}
 
+	/**
+	 * Gets the timestamp.
+	 *
+	 * @param date the date
+	 * @return the timestamp
+	 */
 	public static String getTimestamp(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 		return sdf.format(date);
 	}
 
+	/**
+	 * Checks if is language ok.
+	 *
+	 * @param x the x
+	 * @return true, if is language ok
+	 */
 	public static boolean isLanguageOK(String x) {
 		boolean rc = false;
 		if (x.contentEquals("none"))
@@ -680,10 +1077,23 @@ public class SwingUtil {
 		return (rc);
 	}
 
+	/**
+	 * Prints the component hierarchy.
+	 *
+	 * @param rootComponent the root component
+	 * @return the component
+	 */
 	public static Component printComponentHierarchy(Component rootComponent) {
 		return printComponentHierarchy(rootComponent, -1);
 	}
 
+	/**
+	 * Prints the component hierarchy.
+	 *
+	 * @param rootComponent the root component
+	 * @param level the level
+	 * @return the component
+	 */
 	private static Component printComponentHierarchy(Component rootComponent, int level) {
 		++level;
 		System.out
@@ -699,10 +1109,16 @@ public class SwingUtil {
 		return null;
 	}
 
+	/**
+	 * Prints the memory usage.
+	 */
 	public static void printMemoryUsage() {
 		System.out.println(getMemoryUsageHr());
 	}
 
+	/**
+	 * Prints the ui defaults.
+	 */
 	public static void printUIDefaults() {
 		UIDefaults uiDefaults = UIManager.getDefaults();
 		Enumeration<Object> e = uiDefaults.keys();
@@ -713,10 +1129,25 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Replace component.
+	 *
+	 * @param cont the cont
+	 * @param comp1 the comp1
+	 * @param comp2 the comp2
+	 */
 	public static void replaceComponent(Container cont, Component comp1, Component comp2) {
 		replaceComponent(cont, comp1, comp2, "");
 	}
 
+	/**
+	 * Replace component.
+	 *
+	 * @param cont the cont
+	 * @param comp1 the comp1
+	 * @param comp2 the comp2
+	 * @param constraints the constraints
+	 */
 	public static void replaceComponent(Container cont, Component comp1, Component comp2, String constraints) {
 		int index = -1;
 		int i = 0;
@@ -735,6 +1166,13 @@ public class SwingUtil {
 		cont.repaint();
 	}
 
+	/**
+	 * Replace component.
+	 *
+	 * @param cont the cont
+	 * @param index the index
+	 * @param comp the comp
+	 */
 	public static void replaceComponent(Container cont, int index, Component comp) {
 		cont.remove(index);
 		// cont.validate();
@@ -762,20 +1200,41 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Sets the accelerator.
+	 *
+	 * @param menuItem the menu item
+	 * @param key the key
+	 * @param mask the mask
+	 */
 	public static void setAccelerator(JMenuItem menuItem, int key, int mask) {
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(key, mask));
 	}
 
+	/**
+	 * Sets the default cursor.
+	 *
+	 * @param comp the new default cursor
+	 */
 	public static void setDefaultCursor(Component comp) {
 		comp.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
+	/**
+	 * Sets the forced size.
+	 *
+	 * @param comp the comp
+	 * @param dim the dim
+	 */
 	public static void setForcedSize(Component comp, Dimension dim) {
 		comp.setMinimumSize(dim);
 		comp.setPreferredSize(dim);
 		comp.setMaximumSize(dim);
 	}
 
+	/**
+	 * Sets the look and feel.
+	 */
 	public static void setLookAndFeel() {
 		try {
 			// get saved look and feel
@@ -787,6 +1246,11 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Sets the look and feel.
+	 *
+	 * @param lookAndFeel the new look and feel
+	 */
 	public static void setLookAndFeel(LookAndFeel lookAndFeel) {
 		try {
 			String lafClassName = UIManager.getCrossPlatformLookAndFeelClassName();
@@ -808,14 +1272,30 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Sets the max preferred size.
+	 *
+	 * @param comp the new max preferred size
+	 */
 	public static void setMaxPreferredSize(JComponent comp) {
 		comp.setPreferredSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 	}
 
+	/**
+	 * Sets the max width.
+	 *
+	 * @param comp the comp
+	 * @param width the width
+	 */
 	public static void setMaxWidth(JComponent comp, int width) {
 		comp.setMaximumSize(new Dimension(width, Short.MAX_VALUE));
 	}
 
+	/**
+	 * Sets the UI font.
+	 *
+	 * @param f the new UI font
+	 */
 	public static void setUIFont(javax.swing.plaf.FontUIResource f) {
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
@@ -826,25 +1306,54 @@ public class SwingUtil {
 		}
 	}
 
+	/**
+	 * Sets the unit increment.
+	 *
+	 * @param scroller the new unit increment
+	 */
 	public static void setUnitIncrement(JScrollPane scroller) {
 		scroller.getVerticalScrollBar().setUnitIncrement(20);
 		scroller.getHorizontalScrollBar().setUnitIncrement(20);
 	}
 
+	/**
+	 * Sets the waiting cursor.
+	 *
+	 * @param comp the new waiting cursor
+	 */
 	public static void setWaitingCursor(Component comp) {
 		comp.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 	}
 
+	/**
+	 * Show beta dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the int
+	 */
 	public static int showBetaDialog(MainFrame mainFrame) {
 		int n = JOptionPane.showConfirmDialog(mainFrame, I18N.getMsg("msg.common.beta"),
 				I18N.getMsg("msg.common.question"), JOptionPane.YES_NO_OPTION);
 		return n;
 	}
 
+	/**
+	 * Show dialog.
+	 *
+	 * @param dlg the dlg
+	 * @param parent the parent
+	 */
 	public static void showDialog(JDialog dlg, Component parent) {
 		showDialog(dlg, parent, true);
 	}
 
+	/**
+	 * Show dialog.
+	 *
+	 * @param dlg the dlg
+	 * @param parent the parent
+	 * @param resizable the resizable
+	 */
 	public static void showDialog(JDialog dlg, Component parent, boolean resizable) {
 		dlg.setResizable(resizable);
 		dlg.pack();
@@ -852,6 +1361,12 @@ public class SwingUtil {
 		dlg.setVisible(true);
 	}
 
+	/**
+	 * Show frame.
+	 *
+	 * @param frame the frame
+	 * @param parent the parent
+	 */
 	public static void showFrame(JFrame frame, JFrame parent) {
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.pack();
@@ -860,10 +1375,23 @@ public class SwingUtil {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Show modal dialog.
+	 *
+	 * @param dlg the dlg
+	 * @param parent the parent
+	 */
 	public static void showModalDialog(JDialog dlg, Component parent) {
 		showModalDialog(dlg, parent, true);
 	}
 
+	/**
+	 * Show modal dialog.
+	 *
+	 * @param dlg the dlg
+	 * @param parent the parent
+	 * @param resizable the resizable
+	 */
 	public static void showModalDialog(JDialog dlg, Component parent, boolean resizable) {
 		dlg.setResizable(resizable);
 		dlg.setModal(true);
@@ -872,6 +1400,11 @@ public class SwingUtil {
 		dlg.setVisible(true);
 	}
 
+	/**
+	 * Unfloat tool bar.
+	 *
+	 * @param tb the tb
+	 */
 	public static void unfloatToolBar(JToolBar tb) {
 		ToolBarUI tbUI = tb.getUI();
 		if (tbUI instanceof BasicToolBarUI)

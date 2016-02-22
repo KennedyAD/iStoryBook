@@ -46,25 +46,52 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractChartPanel.
+ */
 public abstract class AbstractChartPanel extends AbstractPanel implements ActionListener {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4522351134780129190L;
+	
+	/** The panel. */
 	protected JPanel panel;
+	
+	/** The options panel. */
 	protected JPanel optionsPanel;
+	
+	/** The chart title. */
 	protected String chartTitle;
+	
+	/** The part related. */
 	protected boolean partRelated = false;
+	
+	/** The needs full refresh. */
 	protected boolean needsFullRefresh = false;
+	
+	/** The scroller. */
 	private JScrollPane scroller;
+	
+	/** The export action. */
 	private AbstractAction exportAction;
 
+	/**
+	 * Instantiates a new abstract chart panel.
+	 *
+	 * @param paramMainFrame the param main frame
+	 * @param paramString the param string
+	 */
 	public AbstractChartPanel(MainFrame paramMainFrame, String paramString) {
 		super(paramMainFrame);
 		this.chartTitle = I18N.getMsg(paramString);
 	}
 
+	/**
+	 * Gets the export action.
+	 *
+	 * @return the export action
+	 */
 	private AbstractAction getExportAction() {
 		if (this.exportAction == null) {
 			this.exportAction = new AbstractAction() {
@@ -107,10 +134,18 @@ public abstract class AbstractChartPanel extends AbstractPanel implements Action
 		return this.exportAction;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	private AbstractChartPanel getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -119,12 +154,24 @@ public abstract class AbstractChartPanel extends AbstractPanel implements Action
 		}
 	}
 
+	/**
+	 * Inits the chart.
+	 */
 	protected abstract void initChart();
 
+	/**
+	 * Inits the chart ui.
+	 */
 	protected abstract void initChartUi();
 
+	/**
+	 * Inits the options ui.
+	 */
 	protected abstract void initOptionsUi();
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowy,fill,ins 0", "", ""));
@@ -145,6 +192,9 @@ public abstract class AbstractChartPanel extends AbstractPanel implements Action
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent paramPropertyChangeEvent) {
 		Object localObject = paramPropertyChangeEvent.getNewValue();
@@ -185,6 +235,9 @@ public abstract class AbstractChartPanel extends AbstractPanel implements Action
 		}
 	}
 
+	/**
+	 * Refresh chart.
+	 */
 	protected void refreshChart() {
 		this.panel.removeAll();
 		initChartUi();

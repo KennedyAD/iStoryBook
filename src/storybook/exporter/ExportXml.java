@@ -25,6 +25,7 @@ import storybook.SbConstants;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.TextUtil;
 
+// TODO: Auto-generated Javadoc
 /**
  * Export de toutes les informations au format DocBook.xml étendu l'extension
  * est spécifique à oStorybook, elle consiste à ajouter en fin de fichier les
@@ -37,13 +38,33 @@ import storybook.toolkit.TextUtil;
  */
 public class ExportXml {
 
+	/** The report. */
 	String report;
+	
+	/** The file name. */
 	String fileName = "";
+	
+	/** The out stream. */
 	BufferedWriter outStream;
+	
+	/** The author. */
 	String author;
+	
+	/** The parent. */
 	private final Export parent;
-	public boolean isOpened = false;
+	
+	/** The is opened. */
+	public boolean isOpened;
 
+	/**
+	 * Instantiates a new export xml.
+	 *
+	 * @param parent the parent
+	 * @param report the report
+	 * @param fileName the file name
+	 * @param headers the headers
+	 * @param author the author
+	 */
 	ExportXml(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
 		this.parent = parent;
 		this.report = report;
@@ -52,6 +73,9 @@ public class ExportXml {
 		this.isOpened = false;
 	}
 
+	/**
+	 * Close.
+	 */
 	public void close() {
 		try {
 			String str = "";
@@ -66,14 +90,23 @@ public class ExportXml {
 		}
 	}
 
+	/**
+	 * End chapter.
+	 */
 	void endChapter() {
 		writeText("</chapter>\n");
 	}
 
+	/**
+	 * End part.
+	 */
 	void endPart() {
 		writeText("</part>\n");
 	}
 
+	/**
+	 * Open.
+	 */
 	public void open() {
 		try {
 			outStream = new BufferedWriter(new FileWriter(fileName));
@@ -93,24 +126,49 @@ public class ExportXml {
 		}
 	}
 
+	/**
+	 * To text.
+	 *
+	 * @param inTxt the in txt
+	 * @return the string
+	 */
 	String toText(String inTxt) {
 		String outTxt = inTxt.replaceAll("    <div>\n" + "      \n" + "    </div>", "");
-		outTxt = outTxt.replaceAll("    <p>\n" + "      \n" + "    </p>", "");
-		return (outTxt);
+		return outTxt.replaceAll("    <p>\n" + "      \n" + "    </p>", "");
 	}
 
+	/**
+	 * Write chapter.
+	 *
+	 * @param str the str
+	 */
 	void writeChapter(String str) {
 		writeText("<chapter>\n<title>" + str + "</title>\n");
 	}
 
+	/**
+	 * Write part.
+	 *
+	 * @param str the str
+	 */
 	void writePart(String str) {
 		writeText("<part>\n<title>" + str + "</title>\n");
 	}
 
+	/**
+	 * Write scene.
+	 *
+	 * @param str the str
+	 */
 	void writeScene(String str) {
 		writeText("<para>\n" + toText(str) + "</para>\n");
 	}
 
+	/**
+	 * Write text.
+	 *
+	 * @param str the str
+	 */
 	public void writeText(String str) {
 		if ("".equals(str)) {
 			return;

@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Person;
 
+/**
+ * The Interface PersonDAO.
+ */
 public interface PersonDAO extends GenericDAO<Person, Long> {
 
 }

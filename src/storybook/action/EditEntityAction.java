@@ -26,29 +26,41 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class EditEntityAction.
  *
+ * @author martin
  */
 public class EditEntityAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1937124326228872659L;
+	
+	/** The save before edit. */
 	private boolean saveBeforeEdit;
 
+	/**
+	 * Instantiates a new edits the entity action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param b the b
+	 */
 	public EditEntityAction(MainFrame mainFrame, AbstractEntity entity, boolean b) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.edit"), I18N.getIcon("icon.small.edit"));
 		saveBeforeEdit = b;
-		SbApp.trace("EditEntityAction(" + mainFrame.getName() + "," + entity.toString() + "," + b + ")");
+		SbApp.trace("EditEntityAction(" + mainFrame.getName() + "," + entity + "," + b + ")");
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SbApp.trace("EditEntityAction.actionPerformed(...) entity=" + entity.toString());
+		SbApp.trace("EditEntityAction.actionPerformed(...) entity=" + entity);
 		if (this.saveBeforeEdit) {
-			mainFrame.getActionController().handleFileSave();
+			mainFrame.getActionController();//.handleFileSave();
 		}
 		// BookController ctrl = mainFrame.getBookController();
 		// ctrl.setEntityToEdit(entity);

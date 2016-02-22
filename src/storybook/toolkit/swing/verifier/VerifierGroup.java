@@ -22,21 +22,44 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VerifierGroup.
+ */
 public class VerifierGroup extends AbstractInputVerifier {
 
+	/** The verifiers. */
 	private Vector<AbstractInputVerifier> verifiers = new Vector<AbstractInputVerifier>();
 
+	/**
+	 * Instantiates a new verifier group.
+	 */
 	public VerifierGroup() {
 	}
 
+	/**
+	 * Adds the verifier.
+	 *
+	 * @param verifier the verifier
+	 */
 	public void addVerifier(AbstractInputVerifier verifier) {
 		verifiers.add(verifier);
 	}
 
+	/**
+	 * Gets the verifiers.
+	 *
+	 * @return the verifiers
+	 */
 	public Vector<AbstractInputVerifier> getVerifiers() {
 		return verifiers;
 	}
 
+	/**
+	 * Checks if is integer.
+	 *
+	 * @return true, if is integer
+	 */
 	public boolean isInteger() {
 		for (AbstractInputVerifier verifier : verifiers) {
 			if (verifier instanceof IntegerVerifier) {
@@ -46,6 +69,9 @@ public class VerifierGroup extends AbstractInputVerifier {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#isMandatory()
+	 */
 	@Override
 	public boolean isMandatory() {
 		for (AbstractInputVerifier verifier : verifiers) {
@@ -56,6 +82,9 @@ public class VerifierGroup extends AbstractInputVerifier {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#isNumber()
+	 */
 	@Override
 	public boolean isNumber() {
 		for (AbstractInputVerifier verifier : verifiers) {
@@ -66,6 +95,9 @@ public class VerifierGroup extends AbstractInputVerifier {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#verify(javax.swing.JComponent)
+	 */
 	@Override
 	public boolean verify(JComponent comp) {
 		// check errors first

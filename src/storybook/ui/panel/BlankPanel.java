@@ -31,21 +31,37 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BlankPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BlankPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8482670409528066811L;
+
+	/**
+	 * Instantiates a new blank panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public BlankPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("fill,wrap", "[center]", "[grow]"));
@@ -68,6 +84,9 @@ public class BlankPanel extends AbstractPanel {
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}

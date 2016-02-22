@@ -46,20 +46,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ScreenImage.
+ *
  * @author http://www.discoverteenergy.com/files/ScreenImage.java
  */
 public class ScreenImage {
+	
 	/**
-	 * Convenience method to create a BufferedImage of the desktop
+	 * Convenience method to create a BufferedImage of the desktop.
 	 *
-	 * @param fileName
-	 *            name of file to be created or null
+	 * @param fileName            name of file to be created or null
 	 * @return image the image for the given region
-	 * @exception AWTException
-	 *                see Robot class constructors
-	 * @exception IOException
-	 *                if an error occurs during writing
+	 * @exception AWTException                see Robot class constructors
+	 * @exception IOException                if an error occurs during writing
 	 */
 	public static BufferedImage createDesktopImage(String fileName) throws AWTException, IOException {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,6 +68,15 @@ public class ScreenImage {
 		return ScreenImage.createImage(region, fileName);
 	}
 
+	/**
+	 * Creates the image.
+	 *
+	 * @param component the component
+	 * @param fileName the file name
+	 * @return the buffered image
+	 * @throws AWTException the AWT exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	/*
 	 * Create a BufferedImage for AWT components.
 	 *
@@ -84,6 +94,15 @@ public class ScreenImage {
 		return ScreenImage.createImage(region, fileName);
 	}
 
+	/**
+	 * Creates the image.
+	 *
+	 * @param component the component
+	 * @param region the region
+	 * @param fileName the file name
+	 * @return the buffered image
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	/*
 	 * Create a BufferedImage for Swing components. All or part of the component
 	 * can be captured to an image.
@@ -107,6 +126,14 @@ public class ScreenImage {
 		return image;
 	}
 
+	/**
+	 * Creates the image.
+	 *
+	 * @param component the component
+	 * @param fileName the file name
+	 * @return the buffered image
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	/*
 	 * Create a BufferedImage for Swing components. The entire component will be
 	 * captured to an image.
@@ -146,6 +173,12 @@ public class ScreenImage {
 		return image;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 * @throws Exception the exception
+	 */
 	public static void main(String args[]) throws Exception {
 		final JFrame frame = new JFrame();
 		final JTextArea textArea = new JTextArea(30, 60);

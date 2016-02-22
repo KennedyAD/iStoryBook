@@ -26,22 +26,39 @@ import org.apache.commons.lang3.text.WordUtils;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Location;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class LocationCbPanelDecorator.
  *
+ * @author martin
  */
 public class LocationCbPanelDecorator extends CbPanelDecorator {
+	
+	/** The old city. */
 	private String oldCity = "";
+	
+	/** The old country. */
 	private String oldCountry = "";
+	
+	/** The old site. */
 	private String oldSite = "";
 
+	/**
+	 * Instantiates a new location cb panel decorator.
+	 */
 	public LocationCbPanelDecorator() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateAfterEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateBeforeEntity(AbstractEntity entity) {
 		Location p = (Location) entity;
@@ -83,6 +100,9 @@ public class LocationCbPanelDecorator extends CbPanelDecorator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeFirstEntity()
+	 */
 	@Override
 	public void decorateBeforeFirstEntity() {
 		oldCity = "";
@@ -90,6 +110,9 @@ public class LocationCbPanelDecorator extends CbPanelDecorator {
 		oldSite = "";
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateEntity(javax.swing.JCheckBox, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		if (!oldCountry.isEmpty() || !oldCity.isEmpty()) {

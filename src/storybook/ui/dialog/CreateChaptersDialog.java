@@ -36,17 +36,35 @@ import storybook.model.hbn.entity.Part;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CreateChaptersDialog.
+ */
 public class CreateChaptersDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 6296426423686145717L;
+	
+	/** The tf quantity. */
 	private JTextField tfQuantity;
+	
+	/** The part combo. */
 	private JComboBox partCombo;
 
+	/**
+	 * Instantiates a new creates the chapters dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public CreateChaptersDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/**
+	 * Creates the chapters.
+	 */
 	private void createChapters() {
 		int quant = 0;
 		try {
@@ -68,9 +86,17 @@ public class CreateChaptersDialog extends AbstractDialog {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3521083859076225409L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				createChapters();
@@ -79,14 +105,25 @@ public class CreateChaptersDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	private CreateChaptersDialog getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

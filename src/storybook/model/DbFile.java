@@ -23,16 +23,28 @@ import java.io.File;
 import storybook.SbApp;
 import storybook.SbConstants;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DbFile.
  *
+ * @author martin
  */
 public class DbFile {
 
+	/** The file. */
 	private File file;
+	
+	/** The db name. */
 	private String dbName;
+	
+	/** The name. */
 	private String name;
 
+	/**
+	 * Instantiates a new db file.
+	 *
+	 * @param file the file
+	 */
 	public DbFile(File file) {
 		SbApp.trace("DbFile(file=" + file.getAbsolutePath());
 		this.file = file;
@@ -50,11 +62,19 @@ public class DbFile {
 		name = fileName.substring(0, idx);
 	}
 
+	/**
+	 * Instantiates a new db file.
+	 *
+	 * @param dbName the db name
+	 */
 	public DbFile(String dbName) {
 		this(new File(dbName));
 		SbApp.trace("DbFile(dbName=" + dbName);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this.getClass() != obj.getClass()) {
@@ -67,27 +87,55 @@ public class DbFile {
 
 	}
 
+	/**
+	 * Gets the db name.
+	 *
+	 * @return the db name
+	 */
 	public String getDbName() {
 		return dbName;
 	}
 
+	/**
+	 * Gets the ext.
+	 *
+	 * @return the ext
+	 */
 	public String getExt() {
 		int beginIndex = file.getName().indexOf(".");
 		return (file.getName().substring(beginIndex));
 	}
 
+	/**
+	 * Gets the file.
+	 *
+	 * @return the file
+	 */
 	public File getFile() {
 		return file;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the path.
+	 *
+	 * @return the path
+	 */
 	public String getPath() {
 		return dbName.substring(0, dbName.lastIndexOf(File.separator));
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -95,6 +143,9 @@ public class DbFile {
 		return hash;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return file.getPath();

@@ -33,17 +33,32 @@ import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.RadioButtonGroup;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class RadioButtonGroupPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7274871540130586617L;
+	
+	/** The rbg. */
 	private RadioButtonGroup rbg;
+	
+	/** The button group. */
 	private ButtonGroup buttonGroup;
+	
+	/** The panel map. */
 	private HashMap<Integer, JPanel> panelMap;
 
+	/**
+	 * Instantiates a new radio button group panel.
+	 *
+	 * @param rbg the rbg
+	 */
 	public RadioButtonGroupPanel(RadioButtonGroup rbg) {
 		this.rbg = rbg;
 		buttonGroup = new ButtonGroup();
@@ -65,6 +80,11 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		}
 	}
 
+	/**
+	 * Disable sub panel.
+	 *
+	 * @param key the key
+	 */
 	public void disableSubPanel(Integer key) {
 		if (key == null) {
 			return;
@@ -73,6 +93,11 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		SwingUtil.enableContainerChildren(panel, false);
 	}
 
+	/**
+	 * Enable sub panel.
+	 *
+	 * @param key the key
+	 */
 	public void enableSubPanel(Integer key) {
 		if (key == null) {
 			return;
@@ -81,6 +106,12 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		SwingUtil.enableContainerChildren(panel, true);
 	}
 
+	/**
+	 * Gets the button.
+	 *
+	 * @param key the key
+	 * @return the button
+	 */
 	public AbstractButton getButton(Integer key) {
 		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
 		while (buttons.hasMoreElements()) {
@@ -92,6 +123,11 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		return null;
 	}
 
+	/**
+	 * Gets the not selected buttons.
+	 *
+	 * @return the not selected buttons
+	 */
 	public ArrayList<AbstractButton> getNotSelectedButtons() {
 		ArrayList<AbstractButton> btList = new ArrayList<AbstractButton>();
 		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
@@ -104,6 +140,11 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		return btList;
 	}
 
+	/**
+	 * Gets the selected button.
+	 *
+	 * @return the selected button
+	 */
 	public AbstractButton getSelectedButton() {
 		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
 		while (buttons.hasMoreElements()) {
@@ -115,10 +156,19 @@ public class RadioButtonGroupPanel extends JPanel implements ItemListener {
 		return null;
 	}
 
+	/**
+	 * Gets the sub panel.
+	 *
+	 * @param key the key
+	 * @return the sub panel
+	 */
 	public JPanel getSubPanel(Integer key) {
 		return panelMap.get(key);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getItem() instanceof JRadioButton) {

@@ -18,11 +18,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.state;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IdeaState.
  *
+ * @author martin
  */
 public class IdeaState extends AbstractState {
+	
+	/**
+	 * Instantiates a new idea state.
+	 *
+	 * @param number the number
+	 * @param name the name
+	 */
 	public IdeaState(Integer number, String name) {
 		super();
 		this.number = number;

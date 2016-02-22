@@ -75,23 +75,40 @@ import storybook.ui.table.TagLinkTable;
 import storybook.ui.table.TagTable;
 import storybook.ui.table.TimeEventTable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * A factory for creating View objects.
  *
+ * @author martin
  */
 public class ViewFactory {
 
-	// private boolean trace=false;
+	/** The main frame. */
+
 	private final MainFrame mainFrame;
+	
+	/** The view map. */
 	private final StringViewMap viewMap;
+	
+	/** The initialisation. */
 	private boolean initialisation;
 
+	/**
+	 * Instantiates a new view factory.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ViewFactory(MainFrame mainFrame) {
 		SbApp.trace("ViewFactory(mainFrame)");
 		this.mainFrame = mainFrame;
 		viewMap = new StringViewMap();
 	}
 
+	/**
+	 * Adds the export button.
+	 *
+	 * @param view the view
+	 */
 	@SuppressWarnings("unchecked")
 	private void addExportButton(final SbView view) {
 		SbApp.trace("ViewFactory.addExportButton(" + view.getName() + ")");
@@ -102,6 +119,11 @@ public class ViewFactory {
 		view.getCustomTabComponents().add(bt);
 	}
 
+	/**
+	 * Adds the options button.
+	 *
+	 * @param view the view
+	 */
 	@SuppressWarnings("unchecked")
 	private void addOptionsButton(final SbView view) {
 		SbApp.trace("ViewFactory.addOptionsButton(" + view.getName() + ")");
@@ -112,6 +134,11 @@ public class ViewFactory {
 		view.getCustomTabComponents().add(bt);
 	}
 
+	/**
+	 * Adds the print button.
+	 *
+	 * @param view the view
+	 */
 	@SuppressWarnings({ "unchecked", "unused" })
 	private void addPrintButton(final SbView view) {
 		SbApp.trace("ViewFactory.addPrintButton(" + view.getName() + ")");
@@ -122,6 +149,11 @@ public class ViewFactory {
 		view.getCustomTabComponents().add(bt);
 	}
 
+	/**
+	 * Adds the refresh button.
+	 *
+	 * @param view the view
+	 */
 	@SuppressWarnings("unchecked")
 	private void addRefreshButton(final SbView view) {
 		SbApp.trace("ViewFactory.addRefreshButton(" + view.getName() + ")");
@@ -134,12 +166,24 @@ public class ViewFactory {
 		view.getCustomTabComponents().add(bt);
 	}
 
+	/**
+	 * Adds the separator.
+	 *
+	 * @param view the view
+	 */
 	@SuppressWarnings("unchecked")
 	private void addSeparator(View view) {
 		SbApp.trace("ViewFactory.addRefreshButton(" + view.getName() + ")");
 		view.getCustomTabComponents().add(new JLabel("  "));
 	}
 
+	/**
+	 * Creates a new View object.
+	 *
+	 * @param iconKey the icon key
+	 * @param toolTipKey the tool tip key
+	 * @return the j button
+	 */
 	private JButton createMiniButton(String iconKey, String toolTipKey) {
 		SbApp.trace("ViewFactory.createMiniButton(" + iconKey + "," + toolTipKey + ")");
 		final JButton bt = new JButton(I18N.getIcon(iconKey));
@@ -151,6 +195,11 @@ public class ViewFactory {
 		return bt;
 	}
 
+	/**
+	 * Gets the attributes view.
+	 *
+	 * @return the attributes view
+	 */
 	public SbView getAttributesView() {
 		SbApp.trace("ViewFactory.getAttributesView()");
 		if (isViewInitialized(ViewName.ATTRIBUTES)) {
@@ -163,6 +212,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.ATTRIBUTES.toString());
 	}
 
+	/**
+	 * Gets the book view.
+	 *
+	 * @return the book view
+	 */
 	public SbView getBookView() {
 		SbApp.trace("ViewFactory.getBookView()");
 		if (isViewInitialized(ViewName.BOOK)) {
@@ -176,6 +230,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.BOOK.toString());
 	}
 
+	/**
+	 * Gets the categories view.
+	 *
+	 * @return the categories view
+	 */
 	public SbView getCategoriesView() {
 		SbApp.trace("ViewFactory.getCategoriesView()");
 		if (isViewInitialized(ViewName.CATEGORIES)) {
@@ -188,6 +247,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CATEGORIES.toString());
 	}
 
+	/**
+	 * Gets the chapters view.
+	 *
+	 * @return the chapters view
+	 */
 	public SbView getChaptersView() {
 		SbApp.trace("ViewFactory.getChaptersView()");
 		if (isViewInitialized(ViewName.CHAPTERS)) {
@@ -200,6 +264,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHAPTERS.toString());
 	}
 
+	/**
+	 * Gets the chart gantt.
+	 *
+	 * @return the chart gantt
+	 */
 	public SbView getChartGantt() {
 		SbApp.trace("ViewFactory.getChartGantt()");
 		if (isViewInitialized(ViewName.CHART_GANTT)) {
@@ -214,11 +283,22 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_GANTT.toString());
 	}
 
+	/**
+	 * Gets the chart name.
+	 *
+	 * @param i18nKey the i18n key
+	 * @return the chart name
+	 */
 	private String getChartName(String i18nKey) {
 		SbApp.trace("ViewFactory.getChartName(" + i18nKey + ")");
 		return I18N.getMsg("msg.common.chart") + ": " + I18N.getMsg(i18nKey);
 	}
 
+	/**
+	 * Gets the chart occurrence of locations.
+	 *
+	 * @return the chart occurrence of locations
+	 */
 	public SbView getChartOccurrenceOfLocations() {
 		SbApp.trace("ViewFactory.getChartOccurrenceOfLocations()");
 		if (isViewInitialized(ViewName.CHART_OCCURRENCE_OF_LOCATIONS)) {
@@ -233,6 +313,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_OCCURRENCE_OF_LOCATIONS.toString());
 	}
 
+	/**
+	 * Gets the chart occurrence of persons.
+	 *
+	 * @return the chart occurrence of persons
+	 */
 	public SbView getChartOccurrenceOfPersons() {
 		SbApp.trace("ViewFactory.getChartOccurrenceOfPersons()");
 		if (isViewInitialized(ViewName.CHART_OCCURRENCE_OF_PERSONS)) {
@@ -247,6 +332,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_OCCURRENCE_OF_PERSONS.toString());
 	}
 
+	/**
+	 * Gets the chart persons by date.
+	 *
+	 * @return the chart persons by date
+	 */
 	public SbView getChartPersonsByDate() {
 		SbApp.trace("ViewFactory.getChartPersonsByDate()");
 		if (isViewInitialized(ViewName.CHART_PERSONS_BY_DATE)) {
@@ -261,6 +351,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_PERSONS_BY_DATE.toString());
 	}
 
+	/**
+	 * Gets the chart persons by scene.
+	 *
+	 * @return the chart persons by scene
+	 */
 	public SbView getChartPersonsByScene() {
 		SbApp.trace("ViewFactory.getChartPersonsByScene()");
 		if (isViewInitialized(ViewName.CHART_PERSONS_BY_SCENE)) {
@@ -275,6 +370,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_PERSONS_BY_SCENE.toString());
 	}
 
+	/**
+	 * Gets the chart strands by date.
+	 *
+	 * @return the chart strands by date
+	 */
 	public SbView getChartStrandsByDate() {
 		SbApp.trace("ViewFactory.getChartStrandsByDate()");
 		if (isViewInitialized(ViewName.CHART_STRANDS_BY_DATE)) {
@@ -289,6 +389,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_STRANDS_BY_DATE.toString());
 	}
 
+	/**
+	 * Gets the chart wi ww.
+	 *
+	 * @return the chart wi ww
+	 */
 	public SbView getChartWiWW() {
 		SbApp.trace("ViewFactory.getChartWiWW()");
 		if (isViewInitialized(ViewName.CHART_WiWW)) {
@@ -303,6 +408,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHART_WiWW.toString());
 	}
 
+	/**
+	 * Gets the chrono view.
+	 *
+	 * @return the chrono view
+	 */
 	public SbView getChronoView() {
 		SbApp.trace("ViewFactory.getChronoView()");
 		if (isViewInitialized(ViewName.CHRONO)) {
@@ -317,6 +427,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.CHRONO.toString());
 	}
 
+	/**
+	 * Gets the genders view.
+	 *
+	 * @return the genders view
+	 */
 	public SbView getGendersView() {
 		SbApp.trace("ViewFactory.getGendersView()");
 		if (isViewInitialized(ViewName.GENDERS)) {
@@ -329,6 +444,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.GENDERS.toString());
 	}
 
+	/**
+	 * Gets the ideas view.
+	 *
+	 * @return the ideas view
+	 */
 	public SbView getIdeasView() {
 		SbApp.trace("ViewFactory.getIdeasView()");
 		if (isViewInitialized(ViewName.IDEAS)) {
@@ -341,6 +461,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.IDEAS.toString());
 	}
 
+	/**
+	 * Gets the internals view.
+	 *
+	 * @return the internals view
+	 */
 	public SbView getInternalsView() {
 		SbApp.trace("ViewFactory.getInternalsView()");
 		if (isViewInitialized(ViewName.INTERNALS)) {
@@ -353,6 +478,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.INTERNALS.toString());
 	}
 
+	/**
+	 * Gets the item links view.
+	 *
+	 * @return the item links view
+	 */
 	public SbView getItemLinksView() {
 		SbApp.trace("ViewFactory.getItemLinksView()");
 		if (isViewInitialized(ViewName.ITEMLINKS)) {
@@ -365,6 +495,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.ITEMLINKS.toString());
 	}
 
+	/**
+	 * Gets the item view.
+	 *
+	 * @return the item view
+	 */
 	public SbView getItemView() {
 		SbApp.trace("ViewFactory.getItemView()");
 		if (isViewInitialized(ViewName.ITEMS)) {
@@ -377,6 +512,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.ITEMS.toString());
 	}
 
+	/**
+	 * Gets the locations view.
+	 *
+	 * @return the locations view
+	 */
 	public SbView getLocationsView() {
 		SbApp.trace("ViewFactory.getLocationsView()");
 		if (isViewInitialized(ViewName.LOCATIONS)) {
@@ -389,6 +529,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.LOCATIONS.toString());
 	}
 
+	/**
+	 * Gets the manage view.
+	 *
+	 * @return the manage view
+	 */
 	public SbView getManageView() {
 		SbApp.trace("ViewFactory.getManageView()");
 		if (isViewInitialized(ViewName.MANAGE)) {
@@ -402,6 +547,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.MANAGE.toString());
 	}
 
+	/**
+	 * Gets the memoria view.
+	 *
+	 * @return the memoria view
+	 */
 	public SbView getMemoriaView() {
 		SbApp.trace("ViewFactory.getMemoriaView()");
 		if (isViewInitialized(ViewName.MEMORIA)) {
@@ -415,6 +565,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.MEMORIA.toString());
 	}
 
+	/**
+	 * Gets the memo view.
+	 *
+	 * @return the memo view
+	 */
 	public SbView getMemoView() {
 		SbApp.trace("ViewFactory.getMemoView()");
 		if (isViewInitialized(ViewName.INFO)) {
@@ -445,6 +600,11 @@ public class ViewFactory {
 	// return (SbView) viewMap.getView(ViewName.EDITOR.toString());
 	// }
 
+	/**
+	 * Gets the navigation view.
+	 *
+	 * @return the navigation view
+	 */
 	public SbView getNavigationView() {
 		SbApp.trace("ViewFactory.getNavigationView()");
 		if (isViewInitialized(ViewName.NAVIGATION)) {
@@ -457,6 +617,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.NAVIGATION.toString());
 	}
 
+	/**
+	 * Gets the parts view.
+	 *
+	 * @return the parts view
+	 */
 	public SbView getPartsView() {
 		SbApp.trace("ViewFactory.getPartsView()");
 		if (isViewInitialized(ViewName.PARTS)) {
@@ -469,6 +634,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.PARTS.toString());
 	}
 
+	/**
+	 * Gets the persons view.
+	 *
+	 * @return the persons view
+	 */
 	public SbView getPersonsView() {
 		SbApp.trace("ViewFactory.getPersonsView()");
 		if (isViewInitialized(ViewName.PERSONS)) {
@@ -481,6 +651,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.PERSONS.toString());
 	}
 
+	/**
+	 * Gets the plan view.
+	 *
+	 * @return the plan view
+	 */
 	public SbView getPlanView() {
 		SbApp.trace("ViewFactory.getPlanView()");
 		if (isViewInitialized(ViewName.PLAN)) {
@@ -493,6 +668,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.PLAN.toString());
 	}
 
+	/**
+	 * Gets the quick info view.
+	 *
+	 * @return the quick info view
+	 */
 	public SbView getQuickInfoView() {
 		SbApp.trace("ViewFactory.getQuickInfoView()");
 		if (isViewInitialized(ViewName.INFO)) {
@@ -505,6 +685,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.INFO.toString());
 	}
 
+	/**
+	 * Gets the reading view.
+	 *
+	 * @return the reading view
+	 */
 	public SbView getReadingView() {
 		SbApp.trace("ViewFactory.getReadingView()");
 		if (isViewInitialized(ViewName.READING)) {
@@ -518,6 +703,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.READING.toString());
 	}
 
+	/**
+	 * Gets the relationships view.
+	 *
+	 * @return the relationships view
+	 */
 	public SbView getRelationshipsView() {
 		SbApp.trace("ViewFactory.getRelationshipsView()");
 		if (isViewInitialized(ViewName.RELATIONSHIPS)) {
@@ -530,6 +720,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.RELATIONSHIPS.toString());
 	}
 
+	/**
+	 * Gets the scenes view.
+	 *
+	 * @return the scenes view
+	 */
 	public SbView getScenesView() {
 		SbApp.trace("ViewFactory.getScenesView()");
 		if (isViewInitialized(ViewName.SCENES)) {
@@ -542,6 +737,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.SCENES.toString());
 	}
 
+	/**
+	 * Gets the strands view.
+	 *
+	 * @return the strands view
+	 */
 	public SbView getStrandsView() {
 		SbApp.trace("ViewFactory.getStrandsView()");
 		if (isViewInitialized(ViewName.STRANDS)) {
@@ -554,6 +754,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.STRANDS.toString());
 	}
 
+	/**
+	 * Gets the tag links view.
+	 *
+	 * @return the tag links view
+	 */
 	public SbView getTagLinksView() {
 		SbApp.trace("ViewFactory.getTagLinksView()");
 		if (isViewInitialized(ViewName.TAGLINKS)) {
@@ -566,6 +771,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.TAGLINKS.toString());
 	}
 
+	/**
+	 * Gets the tags view.
+	 *
+	 * @return the tags view
+	 */
 	public SbView getTagsView() {
 		SbApp.trace("ViewFactory.getTagsView()");
 		if (isViewInitialized(ViewName.TAGS)) {
@@ -578,6 +788,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.TAGS.toString());
 	}
 
+	/**
+	 * Gets the time event view.
+	 *
+	 * @return the time event view
+	 */
 	public SbView getTimeEventView() {
 		SbApp.trace("ViewFactory.getTimeEventView()");
 		if (isViewInitialized(ViewName.TIMEEVENT)) {
@@ -590,6 +805,11 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.TIMEEVENT.toString());
 	}
 
+	/**
+	 * Gets the tree view.
+	 *
+	 * @return the tree view
+	 */
 	public SbView getTreeView() {
 		SbApp.trace("ViewFactory.getTreeView()");
 		if (isViewInitialized(ViewName.TREE)) {
@@ -602,11 +822,23 @@ public class ViewFactory {
 		return (SbView) viewMap.getView(ViewName.TREE.toString());
 	}
 
+	/**
+	 * Gets the view.
+	 *
+	 * @param viewName the view name
+	 * @return the view
+	 */
 	public SbView getView(String viewName) {
 		SbApp.trace("ViewFactory.getView(string=" + viewName + ")");
 		return (SbView) viewMap.getView(viewName);
 	}
 
+	/**
+	 * Gets the view.
+	 *
+	 * @param viewName the view name
+	 * @return the view
+	 */
 	public SbView getView(ViewName viewName) {
 		SbApp.trace("ViewFactory.getView(" + viewName.name() + ")");
 		SbView view = (SbView) viewMap.getView(viewName.toString());
@@ -688,14 +920,30 @@ public class ViewFactory {
 		return null;
 	}
 
+	/**
+	 * Gets the view map.
+	 *
+	 * @return the view map
+	 */
 	public StringViewMap getViewMap() {
 		return viewMap;
 	}
 
+	/**
+	 * Checks if is view initialized.
+	 *
+	 * @param viewName the view name
+	 * @return true, if is view initialized
+	 */
 	private boolean isViewInitialized(ViewName viewName) {
 		return viewMap.getView(viewName.toString()) == null;
 	}
 
+	/**
+	 * Load table design.
+	 *
+	 * @param view the view
+	 */
 	private void loadTableDesign(SbView view) {
 		AbstractTable comp = (AbstractTable) view.getComponent();
 		JXTable table = comp.getTable();
@@ -739,6 +987,11 @@ public class ViewFactory {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 
+	/**
+	 * Load view.
+	 *
+	 * @param view the view
+	 */
 	public void loadView(SbView view) {
 		if (view == null) {
 			return;
@@ -837,10 +1090,16 @@ public class ViewFactory {
 		}
 	}
 
+	/**
+	 * Reset initialisation.
+	 */
 	public void resetInitialisation() {
 		initialisation = false;
 	}
 
+	/**
+	 * Save all table design.
+	 */
 	public void saveAllTableDesign() {
 		if (viewMap.getViewCount() == 0) {
 			return;
@@ -850,17 +1109,20 @@ public class ViewFactory {
 		}
 	}
 
+	/**
+	 * Save table design.
+	 *
+	 * @param view the view
+	 */
 	private void saveTableDesign(SbView view) {
 		SbApp.trace("ViewFactory.saveTableDesign(" + view.getName() + ")");
 		try {
 			AbstractTable comp = (AbstractTable) view.getComponent();
 			JXTable table = comp.getTable();
-		//	String colindexes = "";
-			for (TableColumn col : table.getColumns(true)) {
+	    	for (TableColumn col : table.getColumns(true)) {
 				String l1 = "Table." + comp.getTableName() + "." + col.getHeaderValue();
 				TableColumnExt ext = table.getColumnExt(col.getHeaderValue().toString());
 				int ix = table.convertColumnIndexToView(col.getModelIndex()) + 1;
-		// ADK		colindexes += col.getHeaderValue() + "(" + ix + ")" + ",";
 				if (ext.isVisible()) {
 					BookUtil.store(mainFrame, l1, Integer.toString(col.getPreferredWidth()) + "," + ix);
 				} else {
@@ -872,10 +1134,18 @@ public class ViewFactory {
 		}
 	}
 
+	/**
+	 * Sets the initialisation.
+	 */
 	public void setInitialisation() {
 		initialisation = true;
 	}
 
+	/**
+	 * Unload view.
+	 *
+	 * @param view the view
+	 */
 	public void unloadView(SbView view) {
 		SbApp.trace("ViewFactory.unloadView(" + view.getName() + ")");
 		if (ViewName.SCENES.compare(view) || ViewName.CHAPTERS.compare(view) || ViewName.PARTS.compare(view)
@@ -889,4 +1159,6 @@ public class ViewFactory {
 		}
 		view.unload();
 	}
+	
+	
 }

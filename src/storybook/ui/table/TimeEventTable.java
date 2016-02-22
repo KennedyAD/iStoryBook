@@ -32,18 +32,31 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.TimeEvent;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TimeEventTable.
  *
+ * @author martin
  */
 
-@SuppressWarnings("serial")
+
 public class TimeEventTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8907777245846212074L;
+
+	/**
+	 * Instantiates a new time event table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public TimeEventTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getAllEntities()
+	 */
 	@SuppressWarnings({ "unchecked" })
 	@Override
 	protected List<AbstractEntity> getAllEntities() {
@@ -57,6 +70,9 @@ public class TimeEventTable extends AbstractTable {
 		return (List<AbstractEntity>) ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -67,21 +83,33 @@ public class TimeEventTable extends AbstractTable {
 		return scene;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new TimeEvent();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("TimeEvent");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getTimeEventColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#initTableModel(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void initTableModel(PropertyChangeEvent evt) {
 		SbApp.trace("AbstractTable.initTableModel(evt)");
@@ -103,6 +131,9 @@ public class TimeEventTable extends AbstractTable {
 		table.packAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		SbApp.trace("SceneTable.modelPropertyChangeLocal(" + evt.getPropertyName() + ")");
@@ -130,6 +161,9 @@ public class TimeEventTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		for (int row : rows) {
@@ -138,12 +172,18 @@ public class TimeEventTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		TimeEvent scene = (TimeEvent) getEntityFromRow(row);
 		ctrl.deleteTimeEvent(scene);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		SbApp.trace("TimeEventTable.sendSetEntityToEdit(" + row + ")");
@@ -156,6 +196,9 @@ public class TimeEventTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(event);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setTimeEventToEdit((TimeEvent) entity);

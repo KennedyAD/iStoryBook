@@ -43,20 +43,36 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class InfoPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4450459837198619330L;
+	
+	/** The entity. */
 	private AbstractEntity entity;
+	
+	/** The info pane. */
 	private JTextPane infoPane;
 
+	/**
+	 * Instantiates a new info panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public InfoPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.HyperlinkListener#hyperlinkUpdate(javax.swing.event.HyperlinkEvent)
+	 */
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		try {
@@ -68,10 +84,16 @@ public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill,ins 0"));
@@ -90,6 +112,9 @@ public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();
@@ -165,6 +190,9 @@ public class InfoPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/**
+	 * Refresh info.
+	 */
 	private void refreshInfo() {
 		infoPane.setText(EntityUtil.getInfo(mainFrame, entity));
 		infoPane.setCaretPosition(0);

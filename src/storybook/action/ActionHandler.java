@@ -26,7 +26,6 @@ import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
@@ -46,14 +45,12 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.EnvUtil;
-import storybook.toolkit.I18N;
 import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.BookPropertiesDialog;
 import storybook.ui.dialog.CreateChaptersDialog;
 import storybook.ui.dialog.PreferencesDialog;
-import storybook.ui.dialog.WaitDialog;
 import storybook.ui.dialog.file.ExportBookFileDialog;
 import storybook.ui.dialog.file.RenameFileDialog;
 import storybook.ui.dialog.file.SaveAsFileDialog;
@@ -62,14 +59,22 @@ import storybook.ui.dialog.rename.RenameCountryDialog;
 import storybook.ui.dialog.rename.RenameItemCategoryDialog;
 import storybook.ui.dialog.rename.RenameTagCategoryDialog;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ActionHandler.
  *
+ * @author martin
  */
 public class ActionHandler {
 
+	/** The main frame. */
 	private final MainFrame mainFrame;
 
+	/**
+	 * Instantiates a new action handler.
+	 *
+	 * @param mainframe the mainframe
+	 */
 	public ActionHandler(MainFrame mainframe) {
 		mainFrame = mainframe;
 	}
@@ -81,11 +86,19 @@ public class ActionHandler {
 	 * JOptionPane.INFORMATION_MESSAGE); } }
 	 */
 
+	/**
+	 * Handle book properties.
+	 */
 	public void handleBookProperties() {// new OK
 		BookPropertiesDialog dlg = new BookPropertiesDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}
 
+	/**
+	 * Handle change part.
+	 *
+	 * @param part the part
+	 */
 	public void handleChangePart(Part part) {
 		mainFrame.setWaitingCursor();
 		Part currentPart = mainFrame.getCurrentPart();
@@ -99,15 +112,24 @@ public class ActionHandler {
 		mainFrame.setDefaultCursor();
 	}
 
+	/**
+	 * Handle close.
+	 */
 	public void handleClose() {
 		mainFrame.close(true);
 	}
 
+	/**
+	 * Handle create chapters.
+	 */
 	public void handleCreateChapters() {
 		CreateChaptersDialog dlg = new CreateChaptersDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}
 
+	/**
+	 * Handle dummy.
+	 */
 	public void handleDummy() {
 		SbApp.trace("ActionHandler.handleDummy(): ");
 		/*
@@ -117,6 +139,9 @@ public class ActionHandler {
 		 */
 	}
 
+	/**
+	 * Handle dump attached views.
+	 */
 	public void handleDumpAttachedViews() {
 		mainFrame.getBookController().printAttachedViews();
 	}
@@ -127,6 +152,9 @@ public class ActionHandler {
 	 * SbApp.getInstance().runGC(); SwingUtil.printMemoryUsage(); }
 	 */
 
+	/**
+	 * Handle file export book.
+	 */
 	public void handleFileExportBook() {
 		ExportBookFileDialog dlg = new ExportBookFileDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
@@ -138,6 +166,9 @@ public class ActionHandler {
 		ODTUtils.createBookFile(mainFrame, outFile, sceneSeparator);
 	}
 
+	/**
+	 * Handle file rename.
+	 */
 	public void handleFileRename() {
 		RenameFileDialog dlg = new RenameFileDialog(mainFrame);
 		dlg.setForceDbExtension(false);
@@ -150,15 +181,19 @@ public class ActionHandler {
 		SbApp.getInstance().renameFile(mainFrame, outFile);
 	}
 
-	public void handleFileSave() {// new OK
-		WaitDialog dlg = new WaitDialog(mainFrame, I18N.getMsg("msg.file.saving"));
-		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
-		timer.setRepeats(false);
-		timer.start();
-		SwingUtil.showModalDialog(dlg, mainFrame);
-	}
+//	public void handleFileSave() {// new OK
+//		WaitDialog dlg = new WaitDialog(mainFrame, I18N.getMsg("msg.file.saving"));
+//	ADK removed non mac clutter
+//		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
+//		timer.setRepeats(false);
+//		timer.start();
+//		SwingUtil.showModalDialog(dlg, mainFrame);
+//	}
 
-	public void handleFileSaveAs() {
+	/**
+ * Handle file save as.
+ */
+public void handleFileSaveAs() {
 		SaveAsFileDialog dlg = new SaveAsFileDialog(mainFrame);
 		dlg.setForceDbExtension(false);
 		dlg.setDefaultDBExt(mainFrame.getDbFile().getExt());
@@ -178,6 +213,9 @@ public class ActionHandler {
 		SbApp.getInstance().openFile(dbFile);
 	}
 
+	/**
+	 * Handle html2 text.
+	 */
 	public void handleHtml2Text() {
 		int n = SwingUtil.showBetaDialog(mainFrame);
 		if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
@@ -189,6 +227,9 @@ public class ActionHandler {
 		mainFrame.setDefaultCursor();
 	}
 
+	/**
+	 * Handle next part.
+	 */
 	public void handleNextPart() {
 		Part currentPart = mainFrame.getCurrentPart();
 		BookModel model = mainFrame.getBookModel();
@@ -204,6 +245,9 @@ public class ActionHandler {
 		handleChangePart(parts.get(index));
 	}
 
+	/**
+	 * Handle open export folder.
+	 */
 	public void handleOpenExportFolder() {
 		try {
 			Internal internal = BookUtil.get(mainFrame, BookKey.EXPORT_DIRECTORY,
@@ -214,11 +258,17 @@ public class ActionHandler {
 		}
 	}
 
+	/**
+	 * Handle prefs.
+	 */
 	public void handlePrefs() {// new OK
 		PreferencesDialog dlg = new PreferencesDialog();
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}
 
+	/**
+	 * Handle previous part.
+	 */
 	public void handlePreviousPart() {
 		Part currentPart = mainFrame.getCurrentPart();
 		BookModel model = mainFrame.getBookModel();
@@ -234,10 +284,16 @@ public class ActionHandler {
 		handleChangePart(parts.get(index));
 	}
 
+	/**
+	 * Handle recent clear.
+	 */
 	public void handleRecentClear() {
 		SbApp.getInstance().clearRecentFiles();
 	}
 
+	/**
+	 * Handle rename city.
+	 */
 	public void handleRenameCity() {
 		RenameCityDialog dlg = new RenameCityDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -250,6 +306,9 @@ public class ActionHandler {
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
+	/**
+	 * Handle rename country.
+	 */
 	public void handleRenameCountry() {
 		RenameCountryDialog dlg = new RenameCountryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -262,6 +321,9 @@ public class ActionHandler {
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
+	/**
+	 * Handle rename item category.
+	 */
 	public void handleRenameItemCategory() {
 		RenameItemCategoryDialog dlg = new RenameItemCategoryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -274,6 +336,9 @@ public class ActionHandler {
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
+	/**
+	 * Handle rename tag category.
+	 */
 	public void handleRenameTagCategory() {
 		RenameTagCategoryDialog dlg = new RenameTagCategoryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -286,106 +351,184 @@ public class ActionHandler {
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}
 
+	/**
+	 * Handle show attributes view.
+	 */
 	public void handleShowAttributesView() {
 		showAndFocus(ViewName.ATTRIBUTES);
 	}
 
+	/**
+	 * Handle show book view.
+	 */
 	public void handleShowBookView() {// new OK
 		showAndFocus(ViewName.BOOK);
 	}
 
+	/**
+	 * Handle show categories.
+	 */
 	public void handleShowCategories() {
 		showAndFocus(ViewName.CATEGORIES);
 	}
 
+	/**
+	 * Handle show chapters.
+	 */
 	public void handleShowChapters() {
 		showAndFocus(ViewName.CHAPTERS);
 	}
 
+	/**
+	 * Handle show chrono view.
+	 */
 	public void handleShowChronoView() {// new OK
 		showAndFocus(ViewName.CHRONO);
 	}
 
+	/**
+	 * Handle show editor.
+	 */
 	public void handleShowEditor() {
 		mainFrame.showEditor();
 	}
 
+	/**
+	 * Handle show genders.
+	 */
 	public void handleShowGenders() {
 		showAndFocus(ViewName.GENDERS);
 	}
 
+	/**
+	 * Handle show ideas.
+	 */
 	public void handleShowIdeas() {
 		showAndFocus(ViewName.IDEAS);
 	}
 
+	/**
+	 * Handle show info.
+	 */
 	public void handleShowInfo() {
 		showAndFocus(ViewName.INFO);
 	}
 
+	/**
+	 * Handle show internals.
+	 */
 	public void handleShowInternals() {
 		showAndFocus(ViewName.INTERNALS);
 	}
 
+	/**
+	 * Handle show item links.
+	 */
 	public void handleShowItemLinks() {
 		showAndFocus(ViewName.ITEMLINKS);
 	}
 
+	/**
+	 * Handle show items.
+	 */
 	public void handleShowItems() {
 		showAndFocus(ViewName.ITEMS);
 	}
 
+	/**
+	 * Handle show locations.
+	 */
 	public void handleShowLocations() {
 		showAndFocus(ViewName.LOCATIONS);
 	}
 
+	/**
+	 * Handle show manage view.
+	 */
 	public void handleShowManageView() {// new OK
 		showAndFocus(ViewName.MANAGE);
 	}
 
+	/**
+	 * Handle show memo.
+	 */
 	public void handleShowMemo() {
 		showAndFocus(ViewName.MEMOS);
 	}
 
+	/**
+	 * Handle show memoria.
+	 */
 	public void handleShowMemoria() {
 		showAndFocus(ViewName.MEMORIA);
 	}
 
+	/**
+	 * Handle show navigation.
+	 */
 	public void handleShowNavigation() {
 		showAndFocus(ViewName.NAVIGATION);
 	}
 
+	/**
+	 * Handle show parts.
+	 */
 	public void handleShowParts() {
 		showAndFocus(ViewName.PARTS);
 	}
 
+	/**
+	 * Handle show persons.
+	 */
 	public void handleShowPersons() {
 		showAndFocus(ViewName.PERSONS);
 	}
 
+	/**
+	 * Handle show reading view.
+	 */
 	public void handleShowReadingView() {// new OK
 		showAndFocus(ViewName.READING);
 	}
 
+	/**
+	 * Handle show scenes.
+	 */
 	public void handleShowScenes() {
 		showAndFocus(ViewName.SCENES);
 	}
 
+	/**
+	 * Handle show strands.
+	 */
 	public void handleShowStrands() {
 		showAndFocus(ViewName.STRANDS);
 	}
 
+	/**
+	 * Handle show tag links.
+	 */
 	public void handleShowTagLinks() {
 		showAndFocus(ViewName.TAGLINKS);
 	}
 
+	/**
+	 * Handle show tags.
+	 */
 	public void handleShowTags() {
 		showAndFocus(ViewName.TAGS);
 	}
 
+	/**
+	 * Handle show tree.
+	 */
 	public void handleShowTree() {
 		showAndFocus(ViewName.TREE);
 	}
 
+	/**
+	 * Handle text2 html.
+	 */
 	public void handleText2Html() {
 		int n = SwingUtil.showBetaDialog(mainFrame);
 		if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
@@ -397,9 +540,19 @@ public class ActionHandler {
 		mainFrame.setDefaultCursor();
 	}
 
+	/**
+	 * Handle view status.
+	 *
+	 * @param selected the selected
+	 */
 	public void handleViewStatus(boolean selected) {
 	}
 
+	/**
+	 * Show and focus.
+	 *
+	 * @param viewName the view name
+	 */
 	private void showAndFocus(ViewName viewName) {
 		View view = mainFrame.getView(viewName);
 		view.restore();

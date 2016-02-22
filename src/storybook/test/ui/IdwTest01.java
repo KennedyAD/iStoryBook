@@ -34,15 +34,26 @@ import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.ViewMap;
 import net.infonode.util.Direction;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IdwTest01.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class IdwTest01 extends JFrame {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8215850041654977472L;
+	
+	/** The instance. */
 	private static IdwTest01 instance;
 
+	/**
+	 * Gets the single instance of IdwTest01.
+	 *
+	 * @return single instance of IdwTest01
+	 */
 	public static IdwTest01 getInstance() {
 		if (instance == null) {
 			instance = new IdwTest01();
@@ -50,6 +61,11 @@ public class IdwTest01 extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -59,10 +75,16 @@ public class IdwTest01 extends JFrame {
 		});
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		setTitle("IdwTest01");
 		setPreferredSize(new Dimension(600, 400));

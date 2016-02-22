@@ -23,29 +23,50 @@ import javax.swing.JLabel;
 
 import net.infonode.docking.View;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * A factory for creating TestComponent objects.
  *
+ * @author martin
  */
 public class TestComponentFactory {
 
+	/** The instance. */
 	private static TestComponentFactory instance;
 
+	/** The counter. */
 	private static int counter = 0;
 
+	/**
+	 * Gets the single instance of TestComponentFactory.
+	 *
+	 * @return single instance of TestComponentFactory
+	 */
 	public static TestComponentFactory getInstance() {
 		if (instance == null) {
 			instance = new TestComponentFactory();
 		}
 		return instance;
 	}
+	
+	/** The view0. */
 	private View view0;
 
+	/** The view1. */
 	private View view1;
 
+	/**
+	 * Instantiates a new test component factory.
+	 */
 	private TestComponentFactory() {
 	}
 
+	/**
+	 * Gets the component.
+	 *
+	 * @param view the view
+	 * @return the component
+	 */
 	public JComponent getComponent(View view) {
 		if (view == view0) {
 			return new JLabel("comp 1: " + (counter++));
@@ -56,18 +77,38 @@ public class TestComponentFactory {
 		return new JLabel("error");
 	}
 
+	/**
+	 * Gets the view0.
+	 *
+	 * @return the view0
+	 */
 	public View getView0() {
 		return view0;
 	}
 
+	/**
+	 * Gets the view1.
+	 *
+	 * @return the view1
+	 */
 	public View getView1() {
 		return view1;
 	}
 
+	/**
+	 * Sets the view0.
+	 *
+	 * @param view0 the new view0
+	 */
 	public void setView0(View view0) {
 		this.view0 = view0;
 	}
 
+	/**
+	 * Sets the view1.
+	 *
+	 * @param view1 the new view1
+	 */
 	public void setView1(View view1) {
 		this.view1 = view1;
 	}

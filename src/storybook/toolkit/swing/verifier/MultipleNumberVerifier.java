@@ -31,18 +31,31 @@ import storybook.model.hbn.dao.SbGenericDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MultipleNumberVerifier.
+ */
 public class MultipleNumberVerifier extends AbstractInputVerifier {
 
+	/**
+	 * Instantiates a new multiple number verifier.
+	 */
 	public MultipleNumberVerifier() {
 		super(false);
 		setCheckOnlyOnNewEntities(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#isNumber()
+	 */
 	@Override
 	public boolean isNumber() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#verify(javax.swing.JComponent)
+	 */
 	@Override
 	public boolean verify(JComponent comp) {
 		if (comp instanceof JTextComponent) {

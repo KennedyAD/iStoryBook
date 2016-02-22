@@ -25,34 +25,58 @@ import javax.swing.AbstractAction;
 
 import storybook.model.hbn.entity.Part;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChangePartAction.
  *
+ * @author martin
  */
 public class ChangePartAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1594185453102914870L;
+	
+	/** The action handler. */
 	private final ActionHandler actionHandler;
+	
+	/** The part. */
 	private final Part part;
 
+	/**
+	 * Instantiates a new change part action.
+	 *
+	 * @param name the name
+	 * @param actionHandler the action handler
+	 * @param part the part
+	 */
 	public ChangePartAction(String name, ActionHandler actionHandler, Part part) {
 		super(name);
 		this.actionHandler = actionHandler;
 		this.part = part;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		actionHandler.handleChangePart(part);
 	}
 
+	/**
+	 * Gets the action handler.
+	 *
+	 * @return the action handler
+	 */
 	public ActionHandler getActionHandler() {
 		return actionHandler;
 	}
 
+	/**
+	 * Gets the part.
+	 *
+	 * @return the part
+	 */
 	public Part getPart() {
 		return part;
 	}

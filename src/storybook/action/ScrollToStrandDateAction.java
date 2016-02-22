@@ -30,19 +30,41 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.ViewUtil;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ScrollToStrandDateAction.
  *
+ * @author martin
  */
 public class ScrollToStrandDateAction implements ActionListener {
 
-	private boolean found = false;
+	/** The found. */
+	private boolean found;
+	
+	/** The container. */
 	private AbstractPanel container;
+	
+	/** The panel. */
 	private JPanel panel;
+	
+	/** The strand. */
 	private Strand strand;
+	
+	/** The date. */
 	private Date date;
+	
+	/** The lb warning. */
 	private JLabel lbWarning;
 
+	/**
+	 * Instantiates a new scroll to strand date action.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param strand the strand
+	 * @param date the date
+	 * @param lbWarning the lb warning
+	 */
 	public ScrollToStrandDateAction(AbstractPanel container, JPanel panel, Strand strand, Date date, JLabel lbWarning) {
 		this.container = container;
 		this.panel = panel;
@@ -51,6 +73,9 @@ public class ScrollToStrandDateAction implements ActionListener {
 		this.lbWarning = lbWarning;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		found = ViewUtil.scrollToStrandDate(container, panel, strand, date);
@@ -61,6 +86,11 @@ public class ScrollToStrandDateAction implements ActionListener {
 		}
 	}
 
+	/**
+	 * Checks if is found.
+	 *
+	 * @return true, if is found
+	 */
 	public boolean isFound() {
 		return found;
 	}

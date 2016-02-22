@@ -32,20 +32,35 @@ import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChapterOrderByTimestampAction.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ChapterOrderByTimestampAction extends AbstractEntityAction {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 735249642287094287L;
+	
+	/** The chapter. */
 	private final Chapter chapter;
 
+	/**
+	 * Instantiates a new chapter order by timestamp action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param chapter the chapter
+	 */
 	public ChapterOrderByTimestampAction(MainFrame mainFrame, Chapter chapter) {
 		super(mainFrame, chapter, I18N.getMsg("msg.common.order.by.time"), I18N.getIcon("icon.small.sort"));
 		this.chapter = chapter;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		BookModel model = mainFrame.getBookModel();

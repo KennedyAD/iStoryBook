@@ -31,17 +31,30 @@ import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChapterTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ChapterTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2743364726654527179L;
+
+	/**
+	 * Instantiates a new chapter table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ChapterTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -52,22 +65,34 @@ public class ChapterTable extends AbstractTable {
 		return chapter;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Chapter();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Chapter");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getChapterColumns();
 		allowMultiDelete = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -87,6 +112,9 @@ public class ChapterTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<>();
@@ -97,12 +125,18 @@ public class ChapterTable extends AbstractTable {
 		ctrl.deleteMultiChapters(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Chapter chapter = (Chapter) getEntityFromRow(row);
 		ctrl.deleteChapter(chapter);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -114,6 +148,9 @@ public class ChapterTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(chapter);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setChapterToEdit((Chapter) entity);
@@ -121,6 +158,11 @@ public class ChapterTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(entity);
 	}
 
+	/**
+	 * Update parts.
+	 *
+	 * @param evt the evt
+	 */
 	private void updateParts(PropertyChangeEvent evt) {
 		Part oldPart = (Part) evt.getOldValue();
 		Part newPart = (Part) evt.getNewValue();

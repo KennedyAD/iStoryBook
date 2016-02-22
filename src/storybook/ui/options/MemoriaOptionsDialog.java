@@ -32,20 +32,36 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class MemoriaOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class MemoriaOptionsDialog extends AbstractOptionsDialog implements ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 612936991839377574L;
+	
+	/** The balloon. */
 	private boolean balloon;
+	
+	/** The rb balloon. */
 	private JRadioButton rbBalloon;
 
+	/**
+	 * Instantiates a new memoria options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public MemoriaOptionsDialog(MainFrame mainFrame) {
 		super(mainFrame, false);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -57,6 +73,9 @@ public class MemoriaOptionsDialog extends AbstractOptionsDialog implements ItemL
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		// balloon or tree layout
@@ -83,6 +102,9 @@ public class MemoriaOptionsDialog extends AbstractOptionsDialog implements ItemL
 		rbBalloon.addItemListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		boolean val = rbBalloon.isSelected();

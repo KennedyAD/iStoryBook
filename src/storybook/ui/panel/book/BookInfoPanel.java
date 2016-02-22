@@ -40,22 +40,45 @@ import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookInfoPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BookInfoPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8112518607151887914L;
+	
+	/** The scene. */
 	private Scene scene;
+	
+	/** The lb strand. */
 	private CleverLabel lbStrand;
+	
+	/** The person links panel. */
 	private PersonLinksPanel personLinksPanel;
+	
+	/** The item links panel. */
 	private ItemLinksPanel itemLinksPanel;
+	
+	/** The location links panel. */
 	private LocationLinksPanel locationLinksPanel;
 
+	/** The strand links panel. */
 	private StrandLinksPanel strandLinksPanel;
+	
+	/** The lb date. */
 	private StrandDateLabel lbDate;
 
+	/**
+	 * Instantiates a new book info panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public BookInfoPanel(MainFrame mainFrame, Scene scene) {
 		super(mainFrame);
 		this.scene = scene;
@@ -63,10 +86,16 @@ public class BookInfoPanel extends AbstractPanel {
 		initUi();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		LayoutManager layout = new MigLayout("fillx,wrap,gapy 15", "", "");
@@ -113,6 +142,9 @@ public class BookInfoPanel extends AbstractPanel {
 		add(strandLinksPanel);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();

@@ -28,21 +28,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShowInBookViewAction.
  *
+ * @author martin
  */
 public class ShowInBookViewAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3012150858856504639L;
 
+	/**
+	 * Instantiates a new show in book view action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public ShowInBookViewAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.book.view"), I18N.getIcon("icon.small.book.view"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainFrame.showView(ViewName.BOOK);

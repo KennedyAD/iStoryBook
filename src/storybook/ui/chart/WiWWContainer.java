@@ -29,14 +29,38 @@ import storybook.model.hbn.entity.Person;
 import storybook.toolkit.DateUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WiWWContainer.
+ */
 public class WiWWContainer {
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The location. */
 	private Location location;
+	
+	/** The in person list. */
 	private List<Person> inPersonList;
+	
+	/** The out person list. */
 	private List<Person> outPersonList;
+	
+	/** The date. */
 	private Date date;
+	
+	/** The found. */
 	private boolean found;
 
+	/**
+	 * Instantiates a new wi ww container.
+	 *
+	 * @param paramMainFrame the param main frame
+	 * @param paramDate the param date
+	 * @param paramLocation the param location
+	 * @param paramList the param list
+	 */
 	public WiWWContainer(MainFrame paramMainFrame, Date paramDate, Location paramLocation, List<Person> paramList) {
 		this.mainFrame = paramMainFrame;
 		this.location = paramLocation;
@@ -46,10 +70,18 @@ public class WiWWContainer {
 		init();
 	}
 
+	/**
+	 * Gets the character list.
+	 *
+	 * @return the character list
+	 */
 	public List<Person> getCharacterList() {
 		return this.outPersonList;
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		Iterator localIterator = this.inPersonList.iterator();
 		while (localIterator.hasNext()) {
@@ -68,6 +100,11 @@ public class WiWWContainer {
 			this.found = true;
 	}
 
+	/**
+	 * Checks if is found.
+	 *
+	 * @return true, if is found
+	 */
 	public boolean isFound() {
 		return this.found;
 	}

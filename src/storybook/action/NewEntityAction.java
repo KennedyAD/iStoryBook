@@ -28,22 +28,31 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class NewEntityAction.
  *
+ * @author martin
  */
 public class NewEntityAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 5878413048817422195L;
 
+	/**
+	 * Instantiates a new new entity action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public NewEntityAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.common.new") + " " + EntityUtil.getEntityTitle(entity),
 				I18N.getIcon("icon.small.new"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		BookController ctrl = mainFrame.getBookController();

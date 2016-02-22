@@ -34,26 +34,46 @@ import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractController.
+ */
 public abstract class AbstractController implements PropertyChangeListener {
 
+	/** The attached views. */
 	private final List<Component> attachedViews;
+	
+	/** The attached models. */
 	private final List<AbstractModel> attachedModels;
 
+	/**
+	 * Instantiates a new abstract controller.
+	 */
 	public AbstractController() {
 		SbApp.trace("new AbstractController()");
 		attachedViews = new CopyOnWriteArrayList<>();
 		attachedModels = new ArrayList<>();
 	}
 
+	/**
+	 * Attach model.
+	 *
+	 * @param model the model
+	 */
 	public void attachModel(AbstractModel model) {
-		SbApp.trace("AbstractController.attachModel(" + model.toString() + ")");
+		SbApp.trace("AbstractController.attachModel(" + model + ")");
 		attachedModels.add(model);
 		model.addPropertyChangeListener(this);
 		printAttachedModels();
 	}
 
+	/**
+	 * Attach view.
+	 *
+	 * @param view the view
+	 */
 	public void attachView(Component view) {
-		SbApp.trace("AbstractController.attachView(" + view.toString() + ")");
+		SbApp.trace("AbstractController.attachView(" + view + ")");
 		synchronized (attachedViews) {
 			attachedViews.add(view);
 		}
@@ -63,13 +83,23 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Detach model.
+	 *
+	 * @param model the model
+	 */
 	public void detachModel(AbstractModel model) {
-		SbApp.trace("AbstractController.detachModel(" + model.toString() + ")");
+		SbApp.trace("AbstractController.detachModel(" + model + ")");
 		attachedModels.remove(model);
 		model.removePropertyChangeListener(this);
 		printAttachedModels();
 	}
 
+	/**
+	 * Detach view.
+	 *
+	 * @param view the view
+	 */
 	public void detachView(Component view) {
 		SbApp.trace("AbstractController.detachView(" + view.getName() + ")");
 		synchronized (attachedViews) {
@@ -78,6 +108,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 		printAttachedViews();
 	}
 
+	/**
+	 * Fire again.
+	 */
 	public synchronized void fireAgain() {
 		SbApp.trace("AbstractController.fireAgain()");
 		for (AbstractModel model : attachedModels) {
@@ -85,18 +118,39 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Gets the attached models.
+	 *
+	 * @return the attached models
+	 */
 	public List<AbstractModel> getAttachedModels() {
 		return attachedModels;
 	}
 
+	/**
+	 * Gets the attached views.
+	 *
+	 * @return the attached views
+	 */
 	public ArrayList<Component> getAttachedViews() {
 		return (ArrayList<Component>) attachedViews;
 	}
 
+	/**
+	 * Gets the info attached views.
+	 *
+	 * @return the info attached views
+	 */
 	public String getInfoAttachedViews() {
 		return getInfoAttachedViews(false);
 	}
 
+	/**
+	 * Gets the info attached views.
+	 *
+	 * @param html the html
+	 * @return the info attached views
+	 */
 	public String getInfoAttachedViews(boolean html) {
 		StringBuilder buf = new StringBuilder();
 		int i = 0;
@@ -114,19 +168,30 @@ public abstract class AbstractController implements PropertyChangeListener {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the number of attached views.
+	 *
+	 * @return the number of attached views
+	 */
 	public int getNumberOfAttachedViews() {
 		return attachedViews.size();
 	}
 
+	/**
+	 * Prints the attached models.
+	 */
 	public void printAttachedModels() {
 		if (SbApp.getTrace()) {
 			SbApp.trace("AbstractController.printAttachedModels()");
 			for (AbstractModel model : attachedModels) {
-				SbApp.trace("Attached model ->" + model.toString());
+				SbApp.trace("Attached model ->" + model);
 			}
 		}
 	}
 
+	/**
+	 * Prints the attached views.
+	 */
 	public void printAttachedViews() {
 		SbApp.trace("AbstractController.printAttachedViews()");
 		synchronized (attachedViews) {
@@ -134,19 +199,25 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Prints the number of attached views.
+	 */
 	public void printNumberOfAttachedViews() {
 		SbApp.trace(
 				"AbstractController.printNumberOfAttachedViews():" + " attached views size: " + attachedViews.size());
 	}
 
+	/** (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		SbApp.trace("AbstractController.propertyChange(" + evt.toString() + ")");
+		SbApp.trace("AbstractController.propertyChange(" + evt + ")");
 		synchronized (attachedViews) {
 			// must be in synchronized block
 			for (Component comp : attachedViews) {
 				if (comp instanceof AbstractPanel) {
-					SbApp.trace("---> AbstractPanel:" + ((AbstractPanel) comp).toString());
+					SbApp.trace("---> AbstractPanel:" + comp);
 					((AbstractPanel) comp).modelPropertyChange(evt);
 				} else if (comp instanceof JMenuBar) {
 					SbApp.trace("---> JMenuBar");
@@ -163,6 +234,11 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Sets the model property.
+	 *
+	 * @param propertyName the new model property
+	 */
 	protected synchronized void setModelProperty(String propertyName) {
 		SbApp.trace("AbstractController.setModelProperty(" + propertyName + ")");
 		for (AbstractModel model : attachedModels) {
@@ -175,9 +251,15 @@ public abstract class AbstractController implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Sets the model property.
+	 *
+	 * @param propertyName the property name
+	 * @param newValue the new value
+	 */
 	protected synchronized void setModelProperty(String propertyName, Object newValue) {
 		if (newValue != null) {
-			SbApp.trace("AbstractControler.setModelProperty(" + propertyName + "," + newValue.toString() + ")");
+			SbApp.trace("AbstractControler.setModelProperty(" + propertyName + "," + newValue + ")");
 			for (AbstractModel model : attachedModels) {
 				Method method = null;
 				Class<?>[] classes = null;
@@ -190,9 +272,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 						classes = new Class[] { newValue.getClass() };
 					}
 					method = model.getClass().getMethod("set" + propertyName, classes);
-					SbApp.trace("method : " + "set" + propertyName + classes.toString());
+					SbApp.trace("method : " + "set" + propertyName + classes);
 					if (newValue != null) {
-						SbApp.trace("newValue != null after method=" + method.toString());
+						SbApp.trace("newValue != null after method=" + method);
 						method.invoke(model, newValue);
 					} else {
 						SbApp.trace("newValue == null after method");
@@ -201,13 +283,13 @@ public abstract class AbstractController implements PropertyChangeListener {
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException e) {
 					if (e.getCause() != null) {
-						String emsg = (e.getCause() == null ? "null" : e.getCause().toString());
-						String emethod = (method == null ? "null" : method.getName());
-						String eclasses = (classes.getClass() == null ? "null" : classes.getClass().toString());
+						String emsg = e.getCause() == null ? "null" : e.getCause().toString();
+						String emethod = method == null ? "null" : method.getName();
+						String eclasses = classes.getClass() == null ? "null" : classes.getClass().toString();
 						System.err.println("*** : AbstractController.setModelProperty()" + "\nmsg=" + emsg + "\nmethod:"
 								+ emethod + "\nclasses:" + eclasses);
 					} else {
-						System.err.println("*** : AbstractController.setModelProperty()" + e.toString());
+						System.err.println("*** : AbstractController.setModelProperty()" + e);
 					}
 				}
 			}

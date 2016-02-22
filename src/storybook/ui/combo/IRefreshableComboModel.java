@@ -21,13 +21,25 @@ package storybook.ui.combo;
 import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Interface IRefreshableComboModel.
  *
+ * @author martin
  */
 public interface IRefreshableComboModel extends IRefreshable {
 
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
 	MainFrame getMainFrame();
 
+	/**
+	 * Sets the main frame.
+	 *
+	 * @param mainFrame the new main frame
+	 */
 	void setMainFrame(MainFrame mainFrame);
 }

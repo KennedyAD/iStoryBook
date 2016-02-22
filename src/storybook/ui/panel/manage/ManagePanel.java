@@ -52,14 +52,25 @@ import storybook.ui.MainFrame;
 import storybook.ui.options.ManageOptionsDialog;
 import storybook.ui.panel.AbstractScrollPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ManagePanel.
  *
+ * @author martin
  */
 
-@SuppressWarnings("serial")
+
 public class ManagePanel extends AbstractScrollPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 731861523292078076L;
+
+	/**
+	 * Dispatch to chapter panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToChapterPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<>();
 		SwingUtil.findComponentsByClass(cont, ChapterPanel.class, ret);
@@ -69,28 +80,46 @@ public class ManagePanel extends AbstractScrollPanel {
 		}
 	}
 
+	/** The cols. */
 	private int cols;
 
+	/**
+	 * Instantiates a new manage panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ManagePanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMaxZoomValue()
+	 */
 	@Override
 	protected int getMaxZoomValue() {
 		return SbConstants.MAX_MANAGE_ZOOM;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMinZoomValue()
+	 */
 	@Override
 	protected int getMinZoomValue() {
 		return SbConstants.MIN_MANAGE_ZOOM;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getZoomValue()
+	 */
 	@Override
 	protected int getZoomValue() {
 		Internal internal = BookUtil.get(mainFrame, BookKey.MANAGE_ZOOM, SbConstants.DEFAULT_MANAGE_ZOOM);
 		return internal.getIntegerValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("ManagePanel.init()");
@@ -103,6 +132,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace("ManagePanel.initUI()");
@@ -119,6 +151,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		panel.addMouseWheelListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("ManagePanel.modelPropertyChange(...)");
@@ -185,6 +220,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		dispatchToChapterPanels(this, evt);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		SbApp.trace("ManagePanel.refresh()");
@@ -219,6 +257,9 @@ public class ManagePanel extends AbstractScrollPanel {
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#setZoomValue(int)
+	 */
 	@Override
 	protected void setZoomValue(int val) {
 		BookUtil.store(mainFrame, BookKey.MANAGE_ZOOM, val);

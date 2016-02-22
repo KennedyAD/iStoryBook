@@ -130,8 +130,18 @@ import storybook.toolkit.swing.FontUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumn;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityUtil.
+ */
 public class EntityUtil {
 
+	/**
+	 * Abandon entity changes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public static void abandonEntityChanges(MainFrame mainFrame, AbstractEntity entity) {
 		try {
 			if (entity.isTransient()) // nothing to do for a new entity
@@ -150,6 +160,14 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Adds the deletion info.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param buf the buf
+	 * @return true, if successful
+	 */
 	private static boolean addDeletionInfo(MainFrame mainFrame, AbstractEntity entity, StringBuffer buf) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -304,6 +322,14 @@ public class EntityUtil {
 		return warnings;
 	}
 
+	/**
+	 * Adds the info.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param buf the buf
+	 * @param truncate the truncate
+	 */
 	private static void addInfo(MainFrame mainFrame, AbstractEntity entity, StringBuffer buf, boolean truncate) {
 		AbstractEntityHandler entityHandler = getEntityHandler(mainFrame, entity);
 		Class<? extends AbstractEntity> clazz = entity.getClass();
@@ -378,6 +404,13 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Clone entity.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the abstract entity
+	 */
 	public static AbstractEntity cloneEntity(MainFrame mainFrame, AbstractEntity entity) {
 		try {
 			ConvertUtils.register(new DateConverter(null), Date.class);
@@ -391,6 +424,11 @@ public class EntityUtil {
 		return null;
 	}
 
+	/**
+	 * Convert html to plain text.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public static void convertHtmlToPlainText(MainFrame mainFrame) {
 		boolean usePlainTextScenes = !BookUtil.isUseHtmlScenes(mainFrame);
 		boolean usePlainTextDescr = !BookUtil.isUseHtmlDescr(mainFrame);
@@ -476,6 +514,11 @@ public class EntityUtil {
 
 	}
 
+	/**
+	 * Convert plain text to html.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public static void convertPlainTextToHtml(MainFrame mainFrame) {
 		boolean useHtmlScenes = BookUtil.isUseHtmlScenes(mainFrame);
 		boolean useHtmlDescr = BookUtil.isUseHtmlDescr(mainFrame);
@@ -561,6 +604,12 @@ public class EntityUtil {
 
 	}
 
+	/**
+	 * Copy entity.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public static void copyEntity(MainFrame mainFrame, AbstractEntity entity) {
 		AbstractEntityHandler handler = getEntityHandler(mainFrame, entity);
 		AbstractEntity newEntity = handler.createNewEntity();
@@ -629,6 +678,13 @@ public class EntityUtil {
 
 	}
 
+	/**
+	 * Copy entity properties.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param newEntity the new entity
+	 */
 	public static void copyEntityProperties(MainFrame mainFrame, AbstractEntity entity, AbstractEntity newEntity) {
 		try {
 			if (entity == null) {
@@ -649,6 +705,13 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Creates the category check boxes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param comp the comp
+	 * @return the list
+	 */
 	public static List<JCheckBox> createCategoryCheckBoxes(MainFrame mainFrame, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
@@ -667,6 +730,13 @@ public class EntityUtil {
 		return list;
 	}
 
+	/**
+	 * Creates the country check boxes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param comp the comp
+	 * @return the list
+	 */
 	public static List<JCheckBox> createCountryCheckBoxes(MainFrame mainFrame, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = mainFrame.getBookModel();
@@ -684,6 +754,13 @@ public class EntityUtil {
 		return list;
 	}
 
+	/**
+	 * Creates the item check boxes.
+	 *
+	 * @param m the m
+	 * @param comp the comp
+	 * @return the list
+	 */
 	public static List<JCheckBox> createItemCheckBoxes(MainFrame m, ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
 		BookModel model = m.getBookModel();
@@ -701,6 +778,14 @@ public class EntityUtil {
 		return list;
 	}
 
+	/**
+	 * Creates the person check boxes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cbl the cbl
+	 * @param comp the comp
+	 * @return the list
+	 */
 	public static List<JCheckBox> createPersonCheckBoxes(MainFrame mainFrame, List<JCheckBox> cbl,
 			ActionListener comp) {
 		List<JCheckBox> list = new ArrayList<>();
@@ -724,6 +809,13 @@ public class EntityUtil {
 		return list;
 	}
 
+	/**
+	 * Creates the popup menu.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the j popup menu
+	 */
 	public static JPopupMenu createPopupMenu(MainFrame mainFrame, AbstractEntity entity) {
 		JPopupMenu menu = new JPopupMenu();
 		if (entity == null) {
@@ -773,6 +865,13 @@ public class EntityUtil {
 		return menu;
 	}
 
+	/**
+	 * Creates the scene.
+	 *
+	 * @param strand the strand
+	 * @param chapter the chapter
+	 * @return the scene
+	 */
 	public static Scene createScene(Strand strand, Chapter chapter) {
 		Scene scene = new Scene();
 		scene.setStrand(strand);
@@ -786,6 +885,12 @@ public class EntityUtil {
 		return scene;
 	}
 
+	/**
+	 * Delete tag and item links.
+	 *
+	 * @param model the model
+	 * @param entity the entity
+	 */
 	public static void deleteTagAndItemLinks(BookModel model, AbstractEntity entity) {
 		Session session = model.beginTransaction();
 		TagLinkDAOImpl tagLinkDao = new TagLinkDAOImpl(session);
@@ -822,6 +927,15 @@ public class EntityUtil {
 
 	}
 
+	/**
+	 * Fill auto combo.
+	 *
+	 * @param mainFrame the main frame
+	 * @param autoCombo the auto combo
+	 * @param entityHandler the entity handler
+	 * @param text the text
+	 * @param methodName the method name
+	 */
 	@SuppressWarnings("unchecked")
 	public static void fillAutoCombo(MainFrame mainFrame, AutoCompleteComboBox autoCombo,
 			AbstractEntityHandler entityHandler, String text, String methodName) {
@@ -850,6 +964,16 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Fill entity combo.
+	 *
+	 * @param mainFrame the main frame
+	 * @param combo the combo
+	 * @param entityHandler the entity handler
+	 * @param entity the entity
+	 * @param isNew the is new
+	 * @param addEmptyItem the add empty item
+	 */
 	@SuppressWarnings("unchecked")
 	public static void fillEntityCombo(MainFrame mainFrame, JComboBox combo, AbstractEntityHandler entityHandler,
 			AbstractEntity entity, boolean isNew, boolean addEmptyItem) {
@@ -886,6 +1010,12 @@ public class EntityUtil {
 		model.commit();
 	}
 
+	/**
+	 * Find first date.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the date
+	 */
 	public static Date findFirstDate(MainFrame mainFrame) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -895,6 +1025,12 @@ public class EntityUtil {
 		return date;
 	}
 
+	/**
+	 * Find last date.
+	 *
+	 * @param mainFrame the main frame
+	 * @return the date
+	 */
 	public static Date findLastDate(MainFrame mainFrame) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -904,6 +1040,14 @@ public class EntityUtil {
 		return date;
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param mainFrame the main frame
+	 * @param c the c
+	 * @param entityId the entity id
+	 * @return the abstract entity
+	 */
 	public static AbstractEntity get(MainFrame mainFrame, Class<? extends AbstractEntity> c, Long entityId) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -912,22 +1056,51 @@ public class EntityUtil {
 		return entity;
 	}
 
+	/**
+	 * Gets the CSS title1.
+	 *
+	 * @return the CSS title1
+	 */
 	private static String getCSSTitle1() {
 		return getCSSTitle1("");
 	}
 
+	/**
+	 * Gets the CSS title1.
+	 *
+	 * @param styles the styles
+	 * @return the CSS title1
+	 */
 	private static String getCSSTitle1(String styles) {
 		return "style='font-weight:bold;font-size:12px;" + styles + "'";
 	}
 
+	/**
+	 * Gets the CSS title2.
+	 *
+	 * @return the CSS title2
+	 */
 	private static String getCSSTitle2() {
 		return getCSSTitle2("");
 	}
 
+	/**
+	 * Gets the CSS title2.
+	 *
+	 * @param styles the styles
+	 * @return the CSS title2
+	 */
 	private static String getCSSTitle2(String styles) {
 		return "style='font-weight:bold;font-size:10px;" + styles + "'";
 	}
 
+	/**
+	 * Gets the delete info.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the delete info
+	 */
 	public static String getDeleteInfo(MainFrame mainFrame, AbstractEntity entity) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(HtmlUtil.getHeadWithCSS());
@@ -939,6 +1112,13 @@ public class EntityUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the entity attributes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the entity attributes
+	 */
 	public static List<Attribute> getEntityAttributes(MainFrame mainFrame, AbstractEntity entity) {
 		if (entity.isTransient()) {
 			return new ArrayList<>();
@@ -955,6 +1135,12 @@ public class EntityUtil {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Gets the entity class.
+	 *
+	 * @param entity the entity
+	 * @return the entity class
+	 */
 	public static Class<?> getEntityClass(AbstractEntity entity) {
 		// note: hibernate sometimes returns
 		// "entity.Tag_$$_javassist_2", which matches to "instanceof Tag",
@@ -1013,6 +1199,12 @@ public class EntityUtil {
 		return null;
 	}
 
+	/**
+	 * Gets the entity full title.
+	 *
+	 * @param entity the entity
+	 * @return the entity full title
+	 */
 	public static String getEntityFullTitle(AbstractEntity entity) {
 		StringBuilder buf = new StringBuilder();
 		buf.append("<span ").append(getCSSTitle1()).append(">\n").append(getEntityTitle(entity)).append("</span>\n");
@@ -1023,6 +1215,13 @@ public class EntityUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the entity handler
+	 */
 	public static AbstractEntityHandler getEntityHandler(MainFrame mainFrame, AbstractEntity entity) {
 		if (entity instanceof Scene) {
 			return new SceneEntityHandler(mainFrame);
@@ -1078,6 +1277,15 @@ public class EntityUtil {
 		return null;
 	}
 
+	/**
+	 * Gets the entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 * @param obj the obj
+	 * @param method the method
+	 * @param entity the entity
+	 * @return the entity handler
+	 */
 	public static AbstractEntityHandler getEntityHandler(MainFrame mainFrame, Object obj, Method method,
 			AbstractEntity entity) {
 		if (obj instanceof Scene || method.getReturnType() == Scene.class) {
@@ -1169,6 +1377,12 @@ public class EntityUtil {
 		return null;
 	}
 
+	/**
+	 * Gets the entity icon.
+	 *
+	 * @param entity the entity
+	 * @return the entity icon
+	 */
 	public static Icon getEntityIcon(AbstractEntity entity) {
 		if (entity instanceof Scene) {
 			return I18N.getIcon("icon.small.scene");
@@ -1224,14 +1438,33 @@ public class EntityUtil {
 		return new ImageIcon();
 	}
 
+	/**
+	 * Gets the entity icon label.
+	 *
+	 * @param entity the entity
+	 * @return the entity icon label
+	 */
 	public static JLabel getEntityIconLabel(AbstractEntity entity) {
 		return new JLabel(getEntityIcon(entity));
 	}
 
+	/**
+	 * Gets the entity title.
+	 *
+	 * @param entity the entity
+	 * @return the entity title
+	 */
 	public static String getEntityTitle(AbstractEntity entity) {
 		return getEntityTitle(entity, null);
 	}
 
+	/**
+	 * Gets the entity title.
+	 *
+	 * @param entity the entity
+	 * @param setIsTransient the set is transient
+	 * @return the entity title
+	 */
 	public static String getEntityTitle(AbstractEntity entity, Boolean setIsTransient) {
 		boolean isTransient = entity.isTransient();
 		if (setIsTransient != null) {
@@ -1336,6 +1569,12 @@ public class EntityUtil {
 		return "";
 	}
 
+	/**
+	 * Gets the entity title panel.
+	 *
+	 * @param entity the entity
+	 * @return the entity title panel
+	 */
 	public static JPanel getEntityTitlePanel(AbstractEntity entity) {
 		// GradientPanel panel = new
 		// GradientPanel(GradientPanel.DIAGONAL_RIGHT);
@@ -1353,6 +1592,13 @@ public class EntityUtil {
 		return panel;
 	}
 
+	/**
+	 * Gets the info.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @return the info
+	 */
 	public static String getInfo(MainFrame mainFrame, AbstractEntity entity) {
 		StringBuilder buf = new StringBuilder();
 		buf.append(HtmlUtil.getHeadWithCSS());
@@ -1360,12 +1606,26 @@ public class EntityUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the info.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param truncate the truncate
+	 * @return the info
+	 */
 	private static String getInfo(MainFrame mainFrame, AbstractEntity entity, boolean truncate) {
 		StringBuffer buf = new StringBuffer();
 		addInfo(mainFrame, entity, buf, truncate);
 		return buf.toString();
 	}
 
+	/**
+	 * Gets the read only ids.
+	 *
+	 * @param entity the entity
+	 * @return the read only ids
+	 */
 	public static List<Long> getReadOnlyIds(AbstractEntity entity) {
 		ArrayList<Long> ret = new ArrayList<>();
 		if (entity instanceof Category) {
@@ -1382,10 +1642,23 @@ public class EntityUtil {
 		return ret;
 	}
 
+	/**
+	 * Gets the tool tip.
+	 *
+	 * @param entity the entity
+	 * @return the tool tip
+	 */
 	public static String getToolTip(AbstractEntity entity) {
 		return getToolTip(entity, null);
 	}
 
+	/**
+	 * Gets the tool tip.
+	 *
+	 * @param entity the entity
+	 * @param date the date
+	 * @return the tool tip
+	 */
 	public static String getToolTip(AbstractEntity entity, Date date) {
 		StringBuffer buf = new StringBuffer();
 		buf.append("<html>");
@@ -1409,6 +1682,13 @@ public class EntityUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Checks for hierarchy changed.
+	 *
+	 * @param oldEntity the old entity
+	 * @param updEntity the upd entity
+	 * @return true, if successful
+	 */
 	public static boolean hasHierarchyChanged(AbstractEntity oldEntity, AbstractEntity updEntity) {
 		if (oldEntity == null || updEntity == null) {
 			return false;
@@ -1490,11 +1770,23 @@ public class EntityUtil {
 		return false;
 	}
 
+	/**
+	 * Checks if is available in memoria.
+	 *
+	 * @param entity the entity
+	 * @return true, if is available in memoria
+	 */
 	public static boolean isAvailableInMemoria(AbstractEntity entity) {
 		return entity instanceof Person || entity instanceof Location || entity instanceof Scene
 				|| entity instanceof Tag || entity instanceof Item;
 	}
 
+	/**
+	 * Mark copied entity.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	private static void markCopiedEntity(MainFrame mainFrame, AbstractEntity entity) {
 		String copyStr = "(" + I18N.getMsg("msg.common.copy") + ") ";
 		if (entity instanceof Scene) {
@@ -1557,6 +1849,11 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Prints the bean properties.
+	 *
+	 * @param entity the entity
+	 */
 	public static void printBeanProperties(AbstractEntity entity) {
 		SbApp.trace("EntityUtil.printBeanProperties(" + entity.getClass().getName() + ")");
 		try {
@@ -1575,6 +1872,12 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Refresh.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public static void refresh(MainFrame mainFrame, AbstractEntity entity) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -1582,6 +1885,12 @@ public class EntityUtil {
 		model.commit();
 	}
 
+	/**
+	 * Renumber scenes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param chapter the chapter
+	 */
 	public static void renumberScenes(MainFrame mainFrame, Chapter chapter) {
 		BookModel model = mainFrame.getBookModel();
 		BookController ctrl = mainFrame.getBookController();
@@ -1597,6 +1906,13 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Sets the entity attributes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 * @param attributes the attributes
+	 */
 	public static void setEntityAttributes(MainFrame mainFrame, AbstractEntity entity, List<Attribute> attributes) {
 		if (entity.isTransient()) {
 			return;
@@ -1628,6 +1944,12 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Tool tip append location.
+	 *
+	 * @param buf the buf
+	 * @param location the location
+	 */
 	private static void toolTipAppendLocation(StringBuffer buf, Location location) {
 		buf.append(I18N.getMsgColon("msg.dlg.location.city"));
 		buf.append(" ");
@@ -1640,6 +1962,13 @@ public class EntityUtil {
 		buf.append(TextUtil.truncateText(location.getDescription()));
 	}
 
+	/**
+	 * Tool tip append person.
+	 *
+	 * @param buf the buf
+	 * @param person the person
+	 * @param date the date
+	 */
 	private static void toolTipAppendPerson(StringBuffer buf, Person person, Date date) {
 		if (date != null && person.getBirthday() != null) {
 			buf.append(I18N.getMsgColon("msg.dlg.person.age"));
@@ -1661,6 +1990,12 @@ public class EntityUtil {
 		buf.append(TextUtil.truncateText(person.getDescription()));
 	}
 
+	/**
+	 * Tool tip append relationship.
+	 *
+	 * @param buf the buf
+	 * @param relationship the relationship
+	 */
 	private static void toolTipAppendRelationship(StringBuffer buf, Relationship relationship) {
 		buf.append(I18N.getMsgColon("msg.common.persons"));
 		buf.append(" ");
@@ -1692,10 +2027,22 @@ public class EntityUtil {
 		}
 	}
 
+	/**
+	 * Tool tip append scene.
+	 *
+	 * @param buf the buf
+	 * @param scene the scene
+	 */
 	private static void toolTipAppendScene(StringBuffer buf, Scene scene) {
 		buf.append(scene.getSummary(true, 600));
 	}
 
+	/**
+	 * Tool tip append tag.
+	 *
+	 * @param buf the buf
+	 * @param tag the tag
+	 */
 	private static void toolTipAppendTag(StringBuffer buf, AbstractTag tag) {
 		buf.append(TextUtil.truncateText(tag.getDescription()));
 	}

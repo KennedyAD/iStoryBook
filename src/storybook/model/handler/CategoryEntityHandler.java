@@ -27,16 +27,26 @@ import storybook.model.hbn.entity.Category;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CategoryEntityHandler.
  *
+ * @author martin
  */
 public class CategoryEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new category entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public CategoryEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getCategoryColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		BookModel model = mainFrame.getBookModel();
@@ -50,12 +60,18 @@ public class CategoryEntityHandler extends AbstractEntityHandler {
 		return category;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) CategoryDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportParts.
  *
  * @author favdb
  */
 public class ExportParts {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export parts.
+	 *
+	 * @param m the m
+	 */
 	ExportParts(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -38,6 +59,12 @@ public class ExportParts {
 		headers.add(new ExportHeader(I18N.getMsg("msg.dlg.part.name"), 90));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Part obj) {
 		String rep = "Parts";
 		switch (parent.format) {
@@ -62,9 +89,12 @@ public class ExportParts {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -85,9 +115,16 @@ public class ExportParts {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Part obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		String str = debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -98,9 +135,17 @@ public class ExportParts {
 		}
 		model.commit();
 		end();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param part the part
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Part part, boolean verbose, boolean list) {
 		String body[] = { Long.toString(part.getId()), Integer.toString(part.getNumber()), part.getName() };
 		switch (parent.format) {
@@ -116,7 +161,7 @@ public class ExportParts {
 		case "txt":
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

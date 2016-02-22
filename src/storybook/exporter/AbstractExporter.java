@@ -24,7 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import storybook.SbConstants;
-/**
+/*
  *
  * @author favdb
  */
@@ -37,22 +37,47 @@ import storybook.toolkit.filefilter.TextFileFilter;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractExporter.
+ */
 public abstract class AbstractExporter {
 
+	/** The file name. */
 	private String fileName;
+	
+	/** The only html export. */
 	private boolean onlyHtmlExport;
+	
+	/** The main frame. */
 	protected MainFrame mainFrame;
 
+	/**
+	 * Instantiates a new abstract exporter.
+	 *
+	 * @param m the m
+	 */
 	public AbstractExporter(MainFrame m) {
 		this(m, false);
 	}
 
+	/**
+	 * Instantiates a new abstract exporter.
+	 *
+	 * @param m the m
+	 * @param b the b
+	 */
 	public AbstractExporter(MainFrame m, boolean b) {
 		this.mainFrame = m;
 		this.onlyHtmlExport = b;
 		this.fileName = "";
 	}
 
+	/**
+	 * Export to html file.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean exportToHtmlFile() {
 		boolean bool = BookUtil.isUseHtmlScenes(this.mainFrame);
 		if (this.onlyHtmlExport) {
@@ -75,7 +100,7 @@ public abstract class AbstractExporter {
 		}
 		File outFile = chooser.getSelectedFile();
 		if (bool) {
-			if ((!outFile.getName().endsWith(".html")) || (outFile.getName().endsWith(".htm"))) {
+			if (!outFile.getName().endsWith(".html") || outFile.getName().endsWith(".htm")) {
 				outFile = new File(outFile.getPath() + ".html");
 			}
 		} else if (!outFile.getName().endsWith(".txt")) {
@@ -96,6 +121,11 @@ public abstract class AbstractExporter {
 		return true;
 	}
 
+	/**
+	 * Export to txt file.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean exportToTxtFile() {
 		Internal internal = BookUtil.get(this.mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY,
 				EnvUtil.getDefaultExportDir(this.mainFrame));
@@ -127,12 +157,27 @@ public abstract class AbstractExporter {
 		return true;
 	}
 
+	/**
+	 * Gets the content.
+	 *
+	 * @return the content
+	 */
 	public abstract StringBuffer getContent();
 
+	/**
+	 * Gets the file name.
+	 *
+	 * @return the file name
+	 */
 	public String getFileName() {
 		return this.fileName;
 	}
 
+	/**
+	 * Sets the file name.
+	 *
+	 * @param s the new file name
+	 */
 	public void setFileName(String s) {
 		this.fileName = s;
 	}

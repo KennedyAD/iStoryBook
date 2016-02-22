@@ -23,13 +23,18 @@ import javax.swing.DefaultComboBoxModel;
 import storybook.model.state.AbstractState;
 import storybook.model.state.TimeStepStateModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TimeEventFormatComboModel.
  *
+ * @author martin
  */
 @SuppressWarnings({ "serial", "rawtypes" })
 public class TimeEventFormatComboModel extends DefaultComboBoxModel {
 
+	/**
+	 * Instantiates a new time event format combo model.
+	 */
 	@SuppressWarnings("unchecked")
 	public TimeEventFormatComboModel() {
 		TimeStepStateModel model = new TimeStepStateModel();

@@ -28,31 +28,58 @@ import java.awt.print.PrinterJob;
 
 import javax.swing.RepaintManager;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PrintUtil.
  *
+ * @author martin
  */
 public class PrintUtil implements Printable {
+	
+	/**
+	 * Disable double buffering.
+	 *
+	 * @param c the c
+	 */
 	public static void disableDoubleBuffering(Component c) {
 		RepaintManager currentManager = RepaintManager.currentManager(c);
 		currentManager.setDoubleBufferingEnabled(false);
 	}
 
+	/**
+	 * Enable double buffering.
+	 *
+	 * @param c the c
+	 */
 	public static void enableDoubleBuffering(Component c) {
 		RepaintManager currentManager = RepaintManager.currentManager(c);
 		currentManager.setDoubleBufferingEnabled(true);
 	}
 
+	/**
+	 * Prints the component.
+	 *
+	 * @param c the c
+	 */
 	public static void printComponent(Component c) {
 		new PrintUtil(c).print();
 	}
 
+	/** The component to be printed. */
 	private Component componentToBePrinted;
 
+	/**
+	 * Instantiates a new prints the util.
+	 *
+	 * @param componentToBePrinted the component to be printed
+	 */
 	public PrintUtil(Component componentToBePrinted) {
 		this.componentToBePrinted = componentToBePrinted;
 	}
 
+	/**
+	 * Prints the.
+	 */
 	public void print() {
 		PrinterJob printJob = PrinterJob.getPrinterJob();
 		printJob.setPrintable(this);
@@ -65,6 +92,9 @@ public class PrintUtil implements Printable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
+	 */
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0) {

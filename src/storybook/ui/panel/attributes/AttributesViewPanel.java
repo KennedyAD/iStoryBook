@@ -37,17 +37,25 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractScrollPanel;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AttributesViewPanel.
  *
  * @author favdb
  */
 public class AttributesViewPanel extends AbstractScrollPanel implements Printable, MouseWheelListener {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1186732686192834029L;
+	
+	/** The attribute pane. */
 	private JTextPane attributePane;
 
+	/**
+	 * Instantiates a new attributes view panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AttributesViewPanel(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
@@ -61,6 +69,11 @@ public class AttributesViewPanel extends AbstractScrollPanel implements Printabl
 	// - valeur 2 : liste des personnages
 	// etc
 	// pourrait se faire sous forme HTML?
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 */
 	// pas de bouton nécessaire
 	private String getAttributes() {
 		String html = "<html><body><h1>" + I18N.getMsg("msg.attribute.list") + "</h1>\n";
@@ -77,16 +90,28 @@ public class AttributesViewPanel extends AbstractScrollPanel implements Printabl
 		return (html);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMaxZoomValue()
+	 */
 	@Override
 	protected int getMaxZoomValue() {
 		return SbConstants.MAX_CHRONO_ZOOM;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMinZoomValue()
+	 */
 	@Override
 	protected int getMinZoomValue() {
 		return SbConstants.MIN_CHRONO_ZOOM;
 	}
 
+	/**
+	 * Gets the values.
+	 *
+	 * @param attribute the attribute
+	 * @return the values
+	 */
 	private String getValues(String attribute) {
 		String html = "";
 		BookModel model = mainFrame.getBookModel();
@@ -129,16 +154,25 @@ public class AttributesViewPanel extends AbstractScrollPanel implements Printabl
 		return (html);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getZoomValue()
+	 */
 	@Override
 	protected int getZoomValue() {
 		Internal internal = BookUtil.get(mainFrame, SbConstants.BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
 		return internal.getIntegerValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowy, ins 0"));
@@ -160,6 +194,9 @@ public class AttributesViewPanel extends AbstractScrollPanel implements Printabl
 		// repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();
@@ -177,18 +214,27 @@ public class AttributesViewPanel extends AbstractScrollPanel implements Printabl
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
+	 */
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		// TODO print
 		return Printable.NO_SUCH_PAGE;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		attributePane.setText(getAttributes());
 		attributePane.setCaretPosition(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#setZoomValue(int)
+	 */
 	@Override
 	protected void setZoomValue(int val) {
 		throw new UnsupportedOperationException("Not supported yet."); // To

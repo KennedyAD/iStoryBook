@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Scene;
 
+/**
+ * The Interface SceneDAO.
+ */
 public interface SceneDAO extends GenericDAO<Scene, Long> {
 
 }

@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Location;
 
+/**
+ * The Interface LocationDAO.
+ */
 public interface LocationDAO extends GenericDAO<Location, Long> {
 
 }

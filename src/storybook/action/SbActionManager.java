@@ -53,44 +53,82 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.MainMenu;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SbActionManager.
  *
+ * @author martin
  */
 public class SbActionManager implements PropertyChangeListener {
 
 	// private final static int MENUBAR_INDEX_FILE = 0;
 	// private final static int MENUBAR_INDEX_PARTS = 6;
+	/** The action handler. */
 	// private final static int MENUBAR_INDEX_WINDOW = 9;
 	private ActionHandler actionHandler;
+	
+	/** The action manager. */
 	private ActionManager actionManager;
+	
+	/** The main frame. */
 	private final MainFrame mainFrame;
+	
+	/** The main menu. */
 	private MainMenu mainMenu;
 
+	/**
+	 * Instantiates a new sb action manager.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public SbActionManager(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
+	/**
+	 * Instantiates a new sb action manager.
+	 *
+	 * @param mainFrame the main frame
+	 * @param withInit the with init
+	 */
 	public SbActionManager(MainFrame mainFrame, boolean withInit) {
 		this.mainFrame = mainFrame;
 		init();
 	}
 
+	/**
+	 * Gets the action controller.
+	 *
+	 * @return the action controller
+	 */
 	public ActionHandler getActionController() {
 		SbApp.trace("SbActionManager.getActionController()");
 		return actionHandler;
 	}
 
+	/**
+	 * Gets the action handler.
+	 *
+	 * @return the action handler
+	 */
 	public ActionHandler getActionHandler() {
 		SbApp.trace("SbActionManager.getActionHandler()");
 		return actionHandler;
 	}
 
+	/**
+	 * Gets the action manager.
+	 *
+	 * @return the action manager
+	 */
 	public ActionManager getActionManager() {
 		SbApp.trace("SbActionManager.getActionManager()");
 		return actionManager;
 	}
 
+	/**
+	 * Inits the.
+	 */
 	public void init() {
 		SbApp.trace("SbActionManager.init()");
 		initActions();
@@ -101,6 +139,9 @@ public class SbActionManager implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Inits the actions.
+	 */
 	private void initActions() {
 		SbApp.trace("SbActionManager.initActions()");
 		actionManager = new ActionManager();
@@ -115,6 +156,9 @@ public class SbActionManager implements PropertyChangeListener {
 	 * return (i); } return (rc); }
 	 */
 
+	/**
+	 * Inits the ui factory.
+	 */
 	private void initUiFactory() {
 		SbApp.trace("SbActionManager.initUiFactory()");
 		// UIFactory.setActionManager(ActionManager.getInstance());
@@ -148,6 +192,9 @@ public class SbActionManager implements PropertyChangeListener {
 		mainFrame.repaint();
 	}
 
+	/** (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("SbActionManager.propertyChange(" + evt.getPropertyName() + "::" + evt.getNewValue() + ")");
@@ -158,15 +205,23 @@ public class SbActionManager implements PropertyChangeListener {
 			return;
 		}
 		if (BookController.PartProps.CHANGE.check(propName))
+		 {
 			selectPartMenu(mainFrame.getJMenuBar()); // return;
+		}
 	}
 
+	/**
+	 * Register actions.
+	 */
 	private void registerActions() {
 		SbApp.trace("SbActionManager.registerActions()");
 		actionHandler = new ActionHandler(mainFrame);
 		actionManager.registerCallback("save-command", actionHandler, "handleSave");
 	}
 
+	/**
+	 * Reload menu toolbar.
+	 */
 	public void reloadMenuToolbar() {
 		// boolean maximized = mainFrame.isMaximized();
 		// int width = mainFrame.getWidth();
@@ -196,11 +251,17 @@ public class SbActionManager implements PropertyChangeListener {
 	 * (!list.contains(id)) actionManager.getAction(id).setEnabled(false); } }
 	 */
 
+	/**
+	 * Reload part menu.
+	 *
+	 * @param menubar the menubar
+	 */
 	private void reloadPartMenu(JMenuBar menubar) {
 		SbApp.trace("SbActionManager.reloadPartMenu(" + menubar.getName() + ")");
 		BookModel model = mainFrame.getBookModel();
-		if (model == null)
+		if (model == null) {
 			return;
+		}
 		// JMenu menu = menubar.getMenu(MENUBAR_INDEX_PARTS);
 		// JMenuItem miPreviousPart = menu.getItem(0);
 		// JMenuItem miNextPart = menu.getItem(1);
@@ -221,8 +282,9 @@ public class SbActionManager implements PropertyChangeListener {
 					actionHandler, part);
 			JRadioButtonMenuItem rbmi = new JRadioButtonMenuItem(action);
 			SwingUtil.setAccelerator(rbmi, KeyEvent.VK_0 + part.getNumber(), Event.ALT_MASK);
-			if (currentPart.getId().equals(part.getId()))
+			if (currentPart.getId().equals(part.getId())) {
 				rbmi.setSelected(true);
+			}
 			group.add(rbmi);
 			menu.insert(rbmi, pos);
 			++pos;
@@ -234,6 +296,11 @@ public class SbActionManager implements PropertyChangeListener {
 		// menu.insert(miParts, pos++);
 	}
 
+	/**
+	 * Reload recent menu.
+	 *
+	 * @param menubar the menubar
+	 */
 	private void reloadRecentMenu(JMenuBar menubar) {
 		SbApp.trace("SbActionManager.reloadRecentMenu(" + menubar.getName() + ")");
 		// JMenu menu = menubar.getMenu(MENUBAR_INDEX_FILE);
@@ -242,7 +309,7 @@ public class SbActionManager implements PropertyChangeListener {
 		miRecent.removeAll();
 		List<DbFile> list = PrefUtil.getDbFileList();
 		for (DbFile dbFile : list) {
-			OpenFileAction act = new OpenFileAction(dbFile.getName() + " [" + dbFile.toString() + "]", dbFile);
+			OpenFileAction act = new OpenFileAction(dbFile.getName() + " [" + dbFile + "]", dbFile);
 			JMenuItem item = new JMenuItem(act);
 			miRecent.add(item);
 		}
@@ -251,6 +318,11 @@ public class SbActionManager implements PropertyChangeListener {
 		miRecent.add(item);
 	}
 
+	/**
+	 * Reload window menu.
+	 *
+	 * @param menubar the menubar
+	 */
 	private void reloadWindowMenu(JMenuBar menubar) {
 		SbApp.trace("SbActionManager.reloadWindowMenu(" + menubar.getName() + ")");
 		// JMenu menu = menubar.getMenu(MENUBAR_INDEX_WINDOW);
@@ -264,8 +336,9 @@ public class SbActionManager implements PropertyChangeListener {
 		for (Preference preference : pref) {
 			if (preference.getKey().startsWith(PreferenceKey.DOCKING_LAYOUT.toString())) {
 				String name = preference.getStringValue();
-				if (SbConstants.BookKey.LAST_USED_LAYOUT.toString().equals(name))
+				if (SbConstants.BookKey.LAST_USED_LAYOUT.toString().equals(name)) {
 					continue;
+				}
 				LoadDockingLayoutAction act = new LoadDockingLayoutAction(mainFrame, name);
 				JMenuItem item = new JMenuItem(act);
 				miLoad.add(item);
@@ -274,6 +347,11 @@ public class SbActionManager implements PropertyChangeListener {
 		model.commit();
 	}
 
+	/**
+	 * Select part menu.
+	 *
+	 * @param menubar the menubar
+	 */
 	private void selectPartMenu(JMenuBar menubar) {
 		SbApp.trace("SbActionManager.selectPartMenu(" + menubar.getName() + ")");
 		// JMenu menu = menubar.getMenu(MENUBAR_INDEX_PARTS);

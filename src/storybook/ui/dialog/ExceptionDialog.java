@@ -36,24 +36,47 @@ import storybook.toolkit.ViewUtil;
 import storybook.toolkit.html.HtmlSelection;
 import storybook.toolkit.swing.SwingUtil;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ExceptionDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ExceptionDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2094763513412922444L;
+	
+	/** The ta. */
 	private JTextArea ta;
+	
+	/** The e. */
 	private Exception e;
 
+	/**
+	 * Instantiates a new exception dialog.
+	 *
+	 * @param e the e
+	 */
 	public ExceptionDialog(Exception e) {
 		super();
 		this.e = e;
 		initAll();
 	}
 
+	/**
+	 * Gets the copy text action.
+	 *
+	 * @return the copy text action
+	 */
 	private AbstractAction getCopyTextAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6435195085704659623L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				HtmlSelection selection = new HtmlSelection(ta.getText());
@@ -63,10 +86,16 @@ public class ExceptionDialog extends AbstractDialog {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap,fill", "", ""));

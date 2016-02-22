@@ -29,22 +29,50 @@ import com.itextpdf.text.Font;
 import storybook.SbApp;
 import storybook.toolkit.TextUtil;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportHtml.
  *
  * @author favdb
  */
 public class ExportHtml {
 
+	/** The report. */
 	String report;
+	
+	/** The file name. */
 	String fileName = "";
+	
+	/** The headers. */
 	List<ExportHeader> headers;
+	
+	/** The font body. */
 	Font fontHeader, fontBody;
+	
+	/** The out stream. */
 	BufferedWriter outStream;
+	
+	/** The author. */
 	String author;
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The param. */
 	private final ParamExport param;
-	public boolean isOpened = false;
+	
+	/** The is opened. */
+	public boolean isOpened;
 
+	/**
+	 * Instantiates a new export html.
+	 *
+	 * @param parent the parent
+	 * @param report the report
+	 * @param fileName the file name
+	 * @param headers the headers
+	 * @param author the author
+	 */
 	ExportHtml(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
 		this.parent = parent;
 		this.report = report;
@@ -55,16 +83,23 @@ public class ExportHtml {
 		this.isOpened = false;
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @param isTable the is table
+	 */
 	public void close(boolean isTable) {
 		try {
 			String str = "";
-			if (isTable)
-				if (headers != null)
+			if (isTable) {
+				if (headers != null) {
 					str += "</table></body></html>";
-				else
+				} else {
 					str += "</body></html>";
-			else
+				}
+			} else {
 				str += "</body></html>";
+			}
 			outStream.write(str, 0, str.length());
 			outStream.flush();
 			outStream.close();
@@ -74,6 +109,11 @@ public class ExportHtml {
 		}
 	}
 
+	/**
+	 * Gets the html head.
+	 *
+	 * @return the html head
+	 */
 	public String getHtmlHead() {
 		String buf = "<head>";
 		parent.exportData.getKey();
@@ -81,7 +121,7 @@ public class ExportHtml {
 		buf += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 		buf += "<style type='text/css'>\n";
 		buf += "<!--\n";
-		if (param.htmlUseCss)
+		if (param.htmlUseCss) {
 			try {
 				InputStream ips = new FileInputStream(param.htmlCssFile);
 				InputStreamReader ipsr = new InputStreamReader(ips);
@@ -95,7 +135,7 @@ public class ExportHtml {
 			} catch (IOException e) {
 
 			}
-		else {
+		} else {
 			// body
 			buf += "body {" + "font-family:Arial,sans-serif;"
 			// + "font-size:" + parent.zoom + "px;"
@@ -118,50 +158,61 @@ public class ExportHtml {
 		buf += "-->";
 		buf += "</style>\n";
 		buf += "</head>\n";
-		return (buf);
+		return buf;
 	}
 
+	/**
+	 * Open.
+	 *
+	 * @param isTable the is table
+	 */
 	public void open(boolean isTable) {
 		try {
 			try {
 				outStream = new BufferedWriter(new FileWriter(fileName));
 				String str = "<html>" + getHtmlHead();
-				if (isTable)
-					if (headers != null)
+				if (isTable) {
+					if (headers != null) {
 						str += "<body>" + "<h1>" + parent.bookTitle + " - " + parent.exportData.getKey() + "</h1>"
 								+ "<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
-					else
+					} else {
 						str += "<body>" + "<h1>" + parent.bookTitle + " - " + parent.exportData.getKey() + "</h1>";
-				else
+					}
+				} else {
 					str += "<body>";
+				}
 				outStream.write(str, 0, str.length());
 				outStream.flush();
 				isOpened = true;
 			} catch (IOException ex) {
 				SbApp.error("ExportHtml.open()", ex);
 			}
-			if (isTable)
-				if (headers != null) {
-					String str = "<tr>\n";
-					for (ExportHeader header : headers) {
-						str += parent.getColon(header.getName(), header.getSize());
-					}
-					str += "</tr>\n";
-					outStream.write(str, 0, str.length());
-					outStream.flush();
+			if (isTable && headers != null) {
+				String str = "<tr>\n";
+				for (ExportHeader header : headers) {
+					str += parent.getColon(header.getName(), header.getSize());
 				}
+				str += "</tr>\n";
+				outStream.write(str, 0, str.length());
+				outStream.flush();
+			}
 		} catch (IOException ex) {
 			SbApp.error("ExportHtml.open()", ex);
 		}
 	}
 
+	/**
+	 * Write row.
+	 *
+	 * @param body the body
+	 */
 	public void writeRow(String[] body) {
 		try {
 			String str = "<tr>\n";
 			int index = 0;
 			for (String s : body) {
 				str += "    <td width=\"" + headers.get(index).getSize() + "%\">";
-				str += ("".equals(s) ? "&nbsp" : s);
+				str += "".equals(s) ? "&nbsp" : s;
 				str += "</td>\n";
 				index++;
 			}
@@ -173,14 +224,22 @@ public class ExportHtml {
 		}
 	}
 
+	/**
+	 * Write text.
+	 *
+	 * @param str the str
+	 * @param withParagraph the with paragraph
+	 */
 	public void writeText(String str, boolean withParagraph) {
-		if ("".equals(str))
+		if ("".equals(str)) {
 			return;
+		}
 		SbApp.trace("ExportHtml.writeText(" + TextUtil.truncateString(str, 32) + ")");
 		try {
 			String s = "<p>" + str + "</p>";
-			if (!withParagraph)
+			if (!withParagraph) {
 				s = str;
+			}
 			outStream.write(s, 0, s.length());
 			outStream.flush();
 		} catch (IOException ex) {

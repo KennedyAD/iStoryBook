@@ -15,12 +15,30 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProgressCircleUI.
+ */
 public class ProgressCircleUI extends BasicProgressBarUI {
+	
+	/** The Constant BAR_THICKNESS. */
 	private static final double BAR_THICKNESS = 0.25;
 
+	/** The bar thickness. */
 	private double barThickness = BAR_THICKNESS;
+	
+	/** The back color. */
 	private Color backColor = null;
 
+	/**
+	 * Draw part.
+	 *
+	 * @param g2 the g2
+	 * @param degree the degree
+	 * @param width the width
+	 * @param height the height
+	 * @param b the b
+	 */
 	private void drawPart(Graphics2D g2, double degree, int width, int height, Insets b) {
 		double sz = Math.min(width, height);
 		double cx = b.left + width * .5;
@@ -53,6 +71,9 @@ public class ProgressCircleUI extends BasicProgressBarUI {
 		return barThickness;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.plaf.basic.BasicProgressBarUI#getPreferredSize(javax.swing.JComponent)
+	 */
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		Dimension d = super.getPreferredSize(c);
@@ -61,6 +82,9 @@ public class ProgressCircleUI extends BasicProgressBarUI {
 		return d;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.plaf.basic.BasicProgressBarUI#paint(java.awt.Graphics, javax.swing.JComponent)
+	 */
 	@Override
 	public void paint(Graphics g, JComponent c) {
 		Insets b = progressBar.getInsets(); // area for border

@@ -28,12 +28,28 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FixedColumnScrollPane.
+ */
 public class FixedColumnScrollPane extends JScrollPane implements RowSorterListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8987719507844021665L;
+	
+	/** The scrollable table. */
 	private JTable scrollableTable;
+	
+	/** The fixed table. */
 	private JTable fixedTable;
 
+	/**
+	 * Instantiates a new fixed column scroll pane.
+	 *
+	 * @param table the table
+	 * @param fixedColumns the fixed columns
+	 */
 	public FixedColumnScrollPane(JTable table, int fixedColumns) {
 		super(table);
 		this.scrollableTable = table;
@@ -79,14 +95,27 @@ public class FixedColumnScrollPane extends JScrollPane implements RowSorterListe
 		setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, fixedTable.getTableHeader());
 	}
 
+	/**
+	 * Gets the fixed table.
+	 *
+	 * @return the fixed table
+	 */
 	public JTable getFixedTable() {
 		return fixedTable;
 	}
 
+	/**
+	 * Gets the scrollable table.
+	 *
+	 * @return the scrollable table
+	 */
 	public JTable getScrollableTable() {
 		return scrollableTable;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.RowSorterListener#sorterChanged(javax.swing.event.RowSorterEvent)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void sorterChanged(RowSorterEvent e) {

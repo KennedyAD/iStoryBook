@@ -27,13 +27,18 @@ import org.jdesktop.swingx.table.TableColumnExt;
 import storybook.SbApp;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * A factory for creating CustomColumn objects.
  *
+ * @author martin
  */
 @Deprecated
 public class CustomColumnFactory extends ColumnFactory {
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.table.ColumnFactory#configureTableColumn(javax.swing.table.TableModel, org.jdesktop.swingx.table.TableColumnExt)
+	 */
 	// @Override
 	@Override
 	public void configureTableColumn(TableModel model, TableColumnExt columnExt) {

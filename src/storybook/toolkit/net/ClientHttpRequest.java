@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+// TODO: Auto-generated Javadoc
 /**
  * <p>
  * Title: Client HTTP Request class
@@ -39,13 +40,22 @@ import java.util.Random;
  * </p>
  *
  * @author Vlad Patryshev
- * @see http://www.devx.com/Java/Article/17679/1954
  * @version 1.0
+ * @see http://www.devx.com/Java/Article/17679/1954
  */
 @SuppressWarnings("all")
 public class ClientHttpRequest {
 
+	/** The random. */
 	private static Random random = new Random();
+	
+	/**
+	 * Pipe.
+	 *
+	 * @param in the in
+	 * @param out the out
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private static void pipe(InputStream in, OutputStream out) throws IOException {
 		byte[] buf = new byte[500000];
 		int nread;
@@ -60,14 +70,15 @@ public class ClientHttpRequest {
 		out.flush();
 		buf = null;
 	}
+	
 	/**
 	 * posts a new request to specified URL, with parameters that are passed in
-	 * the argument
+	 * the argument.
 	 *
-	 * @param parameters
-	 *            request parameters
+	 * @param url the url
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 */
 	public static InputStream post(URL url, Map parameters) throws IOException {
@@ -76,14 +87,13 @@ public class ClientHttpRequest {
 
 	/**
 	 * posts a new request to specified URL, with cookies and parameters that
-	 * are passed in the argument
+	 * are passed in the argument.
 	 *
-	 * @param cookies
-	 *            request cookies
-	 * @param parameters
-	 *            request parameters
+	 * @param url the url
+	 * @param cookies            request cookies
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setCookies
 	 * @see setParameters
 	 */
@@ -93,12 +103,12 @@ public class ClientHttpRequest {
 
 	/**
 	 * posts a new request to specified URL, with parameters that are passed in
-	 * the argument
+	 * the argument.
 	 *
-	 * @param parameters
-	 *            request parameters
+	 * @param url the url
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 */
 	public static InputStream post(URL url, Object[] parameters) throws IOException {
@@ -106,14 +116,13 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request specified URL, with the specified parameter
+	 * post the POST request specified URL, with the specified parameter.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param value
-	 *            parameter value
+	 * @param url the url
+	 * @param name1 the name1
+	 * @param value1 the value1
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public static InputStream post(URL url, String name1, Object value1) throws IOException {
@@ -121,18 +130,15 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to specified URL, with the specified parameters
+	 * post the POST request to specified URL, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
+	 * @param url the url
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public static InputStream post(URL url, String name1, Object value1, String name2, Object value2)
@@ -141,22 +147,17 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to specified URL, with the specified parameters
+	 * post the POST request to specified URL, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
-	 * @param name3
-	 *            third parameter name
-	 * @param value3
-	 *            third parameter value
+	 * @param url the url
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
+	 * @param name3            third parameter name
+	 * @param value3            third parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public static InputStream post(URL url, String name1, Object value1, String name2, Object value2, String name3,
@@ -165,26 +166,19 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to specified URL, with the specified parameters
+	 * post the POST request to specified URL, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
-	 * @param name3
-	 *            third parameter name
-	 * @param value3
-	 *            third parameter value
-	 * @param name4
-	 *            fourth parameter name
-	 * @param value4
-	 *            fourth parameter value
+	 * @param url the url
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
+	 * @param name3            third parameter name
+	 * @param value3            third parameter value
+	 * @param name4            fourth parameter name
+	 * @param value4            fourth parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public static InputStream post(URL url, String name1, Object value1, String name2, Object value2, String name3,
@@ -194,14 +188,13 @@ public class ClientHttpRequest {
 
 	/**
 	 * posts a new request to specified URL, with cookies and parameters that
-	 * are passed in the argument
+	 * are passed in the argument.
 	 *
-	 * @param cookies
-	 *            request cookies
-	 * @param parameters
-	 *            request parameters
+	 * @param url the url
+	 * @param cookies            request cookies
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setCookies
 	 * @see setParameters
 	 */
@@ -209,35 +202,42 @@ public class ClientHttpRequest {
 		return new ClientHttpRequest(url).post(cookies, parameters);
 	}
 
+	/**
+	 * Random string.
+	 *
+	 * @return the string
+	 */
 	protected static String randomString() {
 		return Long.toString(random.nextLong(), 36);
 	}
 
+	/** The connection. */
 	URLConnection connection;
 
+	/** The os. */
 	OutputStream os = null;
 
+	/** The cookies. */
 	Map cookies = new HashMap();
 
+	/** The boundary. */
 	String boundary = "---------------------------" + randomString() + randomString() + randomString();
 
 	/**
-	 * Creates a new multipart POST HTTP request for a specified URL string
+	 * Creates a new multipart POST HTTP request for a specified URL string.
 	 *
-	 * @param urlString
-	 *            the string representation of the URL to send request to
-	 * @throws IOException
+	 * @param urlString            the string representation of the URL to send request to
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public ClientHttpRequest(String urlString) throws IOException {
 		this(new URL(urlString));
 	}
 
 	/**
-	 * Creates a new multipart POST HTTP request for a specified URL
+	 * Creates a new multipart POST HTTP request for a specified URL.
 	 *
-	 * @param url
-	 *            the URL to send request to
-	 * @throws IOException
+	 * @param url            the URL to send request to
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public ClientHttpRequest(URL url) throws IOException {
 		this(url.openConnection());
@@ -245,11 +245,10 @@ public class ClientHttpRequest {
 
 	/**
 	 * Creates a new multipart POST HTTP request on a freshly opened
-	 * URLConnection
+	 * URLConnection.
 	 *
-	 * @param connection
-	 *            an already open URL connection
-	 * @throws IOException
+	 * @param connection            an already open URL connection
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public ClientHttpRequest(URLConnection connection) throws IOException {
 		this.connection = connection;
@@ -257,17 +256,32 @@ public class ClientHttpRequest {
 		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 	}
 
+	/**
+	 * Boundary.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void boundary() throws IOException {
 		write("--");
 		write(boundary);
 	}
 
+	/**
+	 * Connect.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void connect() throws IOException {
 		if (os == null) {
 			os = connection.getOutputStream();
 		}
 	}
 
+	/**
+	 * Newline.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void newline() throws IOException {
 		connect();
 		write("\r\n");
@@ -275,10 +289,10 @@ public class ClientHttpRequest {
 
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
-	 * that were added
+	 * that were added.
 	 *
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public InputStream post() throws IOException {
 		boundary();
@@ -290,12 +304,11 @@ public class ClientHttpRequest {
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with parameters that are passed in
-	 * the argument
+	 * the argument.
 	 *
-	 * @param parameters
-	 *            request parameters
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 */
 	public InputStream post(Map parameters) throws IOException {
@@ -306,14 +319,12 @@ public class ClientHttpRequest {
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with cookies and parameters that are
-	 * passed in the arguments
+	 * passed in the arguments.
 	 *
-	 * @param cookies
-	 *            request cookies
-	 * @param parameters
-	 *            request parameters
+	 * @param cookies            request cookies
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 * @see setCookies
 	 */
@@ -326,12 +337,11 @@ public class ClientHttpRequest {
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with parameters that are passed in
-	 * the argument
+	 * the argument.
 	 *
-	 * @param parameters
-	 *            request parameters
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 */
 	public InputStream post(Object[] parameters) throws IOException {
@@ -340,14 +350,12 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to the server, with the specified parameter
+	 * post the POST request to the server, with the specified parameter.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param value
-	 *            parameter value
+	 * @param name            parameter name
+	 * @param value            parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public InputStream post(String name, Object value) throws IOException {
@@ -356,18 +364,14 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to the server, with the specified parameters
+	 * post the POST request to the server, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public InputStream post(String name1, Object value1, String name2, Object value2) throws IOException {
@@ -376,22 +380,16 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to the server, with the specified parameters
+	 * post the POST request to the server, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
-	 * @param name3
-	 *            third parameter name
-	 * @param value3
-	 *            third parameter value
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
+	 * @param name3            third parameter name
+	 * @param value3            third parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public InputStream post(String name1, Object value1, String name2, Object value2, String name3, Object value3)
@@ -401,26 +399,18 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * post the POST request to the server, with the specified parameters
+	 * post the POST request to the server, with the specified parameters.
 	 *
-	 * @param name1
-	 *            first parameter name
-	 * @param value1
-	 *            first parameter value
-	 * @param name2
-	 *            second parameter name
-	 * @param value2
-	 *            second parameter value
-	 * @param name3
-	 *            third parameter name
-	 * @param value3
-	 *            third parameter value
-	 * @param name4
-	 *            fourth parameter name
-	 * @param value4
-	 *            fourth parameter value
+	 * @param name1            first parameter name
+	 * @param value1            first parameter value
+	 * @param name2            second parameter name
+	 * @param value2            second parameter value
+	 * @param name3            third parameter name
+	 * @param value3            third parameter value
+	 * @param name4            fourth parameter name
+	 * @param value4            fourth parameter value
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameter
 	 */
 	public InputStream post(String name1, Object value1, String name2, Object value2, String name3, Object value3,
@@ -432,14 +422,12 @@ public class ClientHttpRequest {
 	/**
 	 * posts the requests to the server, with all the cookies and parameters
 	 * that were added before (if any), and with cookies and parameters that are
-	 * passed in the arguments
+	 * passed in the arguments.
 	 *
-	 * @param cookies
-	 *            request cookies
-	 * @param parameters
-	 *            request parameters
+	 * @param cookies            request cookies
+	 * @param parameters            request parameters
 	 * @return input stream with the server response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see setParameters
 	 * @see setCookies
 	 */
@@ -449,6 +437,9 @@ public class ClientHttpRequest {
 		return post();
 	}
 
+	/**
+	 * Post cookies.
+	 */
 	private void postCookies() {
 		StringBuilder cookieList = new StringBuilder();
 
@@ -466,13 +457,11 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds a cookie to the requst
+	 * adds a cookie to the requst.
 	 *
-	 * @param name
-	 *            cookie name
-	 * @param value
-	 *            cookie value
-	 * @throws IOException
+	 * @param name            cookie name
+	 * @param value            cookie value
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setCookie(String name, String value) throws IOException {
@@ -480,11 +469,10 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds cookies to the request
+	 * adds cookies to the request.
 	 *
-	 * @param cookies
-	 *            the cookie "name-to-value" map
-	 * @throws IOException
+	 * @param cookies            the cookie "name-to-value" map
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@SuppressWarnings("unchecked")
 	public void setCookies(Map cookies) throws IOException {
@@ -495,12 +483,11 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds cookies to the request
+	 * adds cookies to the request.
 	 *
-	 * @param cookies
-	 *            array of cookie names and values (cookies[2*i] is a name,
+	 * @param cookies            array of cookie names and values (cookies[2*i] is a name,
 	 *            cookies[2*i + 1] is a value)
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setCookies(String[] cookies) throws IOException {
 		if (cookies == null) {
@@ -512,13 +499,11 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds a file parameter to the request
+	 * adds a file parameter to the request.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param file
-	 *            the file to upload
-	 * @throws IOException
+	 * @param name            parameter name
+	 * @param file            the file to upload
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameter(String name, File file) throws IOException {
 		setParameter(name, file.getPath(), new FileInputStream(file));
@@ -527,14 +512,12 @@ public class ClientHttpRequest {
 	/**
 	 * adds a parameter to the request; if the parameter is a File, the file is
 	 * uploaded, otherwise the string value of the parameter is passed in the
-	 * request
+	 * request.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param object
-	 *            parameter value, a File or anything else that can be
+	 * @param name            parameter name
+	 * @param object            parameter value, a File or anything else that can be
 	 *            stringified
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameter(String name, Object object) throws IOException {
 		if (object instanceof File) {
@@ -545,13 +528,11 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds a string parameter to the request
+	 * adds a string parameter to the request.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param value
-	 *            parameter value
-	 * @throws IOException
+	 * @param name            parameter name
+	 * @param value            parameter value
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameter(String name, String value) throws IOException {
 		boundary();
@@ -562,15 +543,12 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds a file parameter to the request
+	 * adds a file parameter to the request.
 	 *
-	 * @param name
-	 *            parameter name
-	 * @param filename
-	 *            the name of the file
-	 * @param is
-	 *            input stream to read the contents of the file from
-	 * @throws IOException
+	 * @param name            parameter name
+	 * @param filename            the name of the file
+	 * @param is            input stream to read the contents of the file from
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameter(String name, String filename, InputStream is) throws IOException {
 		boundary();
@@ -591,13 +569,12 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds parameters to the request
+	 * adds parameters to the request.
 	 *
-	 * @param parameters
-	 *            "name-to-value" map of parameters; if a value is a file, the
+	 * @param parameters            "name-to-value" map of parameters; if a value is a file, the
 	 *            file is uploaded, otherwise it is stringified and sent in the
 	 *            request
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameters(Map parameters) throws IOException {
 		if (parameters == null) {
@@ -610,14 +587,13 @@ public class ClientHttpRequest {
 	}
 
 	/**
-	 * adds parameters to the request
+	 * adds parameters to the request.
 	 *
-	 * @param parameters
-	 *            array of parameter names and values (parameters[2*i] is a
+	 * @param parameters            array of parameter names and values (parameters[2*i] is a
 	 *            name, parameters[2*i + 1] is a value); if a value is a file,
 	 *            the file is uploaded, otherwise it is stringified and sent in
 	 *            the request
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void setParameters(Object[] parameters) throws IOException {
 		if (parameters == null) {
@@ -628,22 +604,46 @@ public class ClientHttpRequest {
 		}
 	}
 
+	/**
+	 * Write.
+	 *
+	 * @param c the c
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void write(char c) throws IOException {
 		connect();
 		os.write(c);
 	}
 
+	/**
+	 * Write.
+	 *
+	 * @param s the s
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void write(String s) throws IOException {
 		connect();
 		os.write(s.getBytes());
 	}
 
+	/**
+	 * Writeln.
+	 *
+	 * @param s the s
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	protected void writeln(String s) throws IOException {
 		connect();
 		write(s);
 		newline();
 	}
 
+	/**
+	 * Write name.
+	 *
+	 * @param name the name
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void writeName(String name) throws IOException {
 		newline();
 		write("Content-Disposition: form-data; name=\"");

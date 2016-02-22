@@ -28,24 +28,52 @@ import org.hibernate.criterion.Restrictions;
 import storybook.model.hbn.entity.Gender;
 import storybook.model.hbn.entity.Person;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GenderDAOImpl.
+ */
 public class GenderDAOImpl extends SbGenericDAOImpl<Gender, Long> implements GenderDAO {
 
+	/**
+	 * Instantiates a new gender dao impl.
+	 */
 	public GenderDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new gender dao impl.
+	 *
+	 * @param session the session
+	 */
 	public GenderDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find female.
+	 *
+	 * @return the gender
+	 */
 	public Gender findFemale() {
 		return (Gender) session.get(Gender.class, 2L);
 	}
 
+	/**
+	 * Find male.
+	 *
+	 * @return the gender
+	 */
 	public Gender findMale() {
 		return (Gender) session.get(Gender.class, 1L);
 	}
 
+	/**
+	 * Find persons.
+	 *
+	 * @param gender the gender
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Person> findPersons(Gender gender) {
 		Criteria crit = session.createCriteria(Person.class);

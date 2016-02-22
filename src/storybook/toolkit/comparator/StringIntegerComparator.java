@@ -20,13 +20,20 @@ package storybook.toolkit.comparator;
 
 import java.util.Comparator;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StringIntegerComparator.
  *
+ * @author martin
  */
 public class StringIntegerComparator implements Comparator<String> {
 
 	/**
+	 * Compare.
+	 *
+	 * @param s1 the s1
+	 * @param s2 the s2
+	 * @return the int
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

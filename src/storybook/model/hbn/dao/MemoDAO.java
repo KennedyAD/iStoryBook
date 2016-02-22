@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Memo;
 
+/**
+ * The Interface MemoDAO.
+ */
 public interface MemoDAO extends GenericDAO<Memo, Long> {
 
 }

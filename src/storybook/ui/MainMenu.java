@@ -67,18 +67,24 @@ import storybook.ui.dialog.rename.RenameCountryDialog;
 import storybook.ui.dialog.rename.RenameItemCategoryDialog;
 import storybook.ui.dialog.rename.RenameTagCategoryDialog;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class MainMenu.
  *
  * @author favdb
  */
-@SuppressWarnings("serial")
+
 public class MainMenu extends javax.swing.JFrame {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5207795797033499192L;
+
+	/** The main frame. */
 	private MainFrame mainFrame;
 
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The bt file new.
+	 *
 	 */
 	// public static void main(String args[]) {
 	// /* Set the Nimbus look and feel */
@@ -123,298 +129,492 @@ public class MainMenu extends javax.swing.JFrame {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btFileNew;
 
+	/** The bt file open. */
 	private javax.swing.JButton btFileOpen;
 
+	/** The bt file save. */
 	private javax.swing.JButton btFileSave;
 
+	/** The bt idea. */
 	private javax.swing.JButton btIdea;
 
+	/** The bt manage scene. */
 	private javax.swing.JButton btManageScene;
 
+	/** The bt new chapter. */
 	private javax.swing.JButton btNewChapter;
 
+	/** The bt new item. */
 	private javax.swing.JButton btNewItem;
 
+	/** The bt new location. */
 	private javax.swing.JButton btNewLocation;
 
+	/** The bt new person. */
 	private javax.swing.JButton btNewPerson;
 
+	/** The bt new scene. */
 	private javax.swing.JButton btNewScene;
 
+	/** The bt new tag. */
 	private javax.swing.JButton btNewTag;
 
+	/** The bt next part. */
 	private javax.swing.JButton btNextPart;
 
+	/** The bt previous part. */
 	private javax.swing.JButton btPreviousPart;
 
+	/** The bt tab chapter. */
 	private javax.swing.JButton btTabChapter;
 
+	/** The bt tab item. */
 	private javax.swing.JButton btTabItem;
 
+	/** The bt tab item link. */
 	private javax.swing.JButton btTabItemLink;
 
+	/** The bt tab location. */
 	private javax.swing.JButton btTabLocation;
 
+	/** The bt tab person. */
 	private javax.swing.JButton btTabPerson;
 
+	/** The bt tab relationship. */
 	private javax.swing.JButton btTabRelationship;
 
+	/** The bt tab scene. */
 	private javax.swing.JButton btTabScene;
 
+	/** The bt tab tag. */
 	private javax.swing.JButton btTabTag;
 
+	/** The bt tab tag link. */
 	private javax.swing.JButton btTabTagLink;
 
+	/** The bt view book. */
 	private javax.swing.JButton btViewBook;
 
+	/** The bt view chrono. */
 	private javax.swing.JButton btViewChrono;
 
+	/** The bt view memoria. */
 	private javax.swing.JButton btViewMemoria;
 
+	/** The bt view reading. */
 	private javax.swing.JButton btViewReading;
 
+	/** The chart gantt. */
 	private javax.swing.JMenuItem chartGantt;
 
+	/** The chart occurrence of locations. */
 	private javax.swing.JMenuItem chartOccurrenceOfLocations;
 
+	/** The chart occurrence of persons. */
 	private javax.swing.JMenuItem chartOccurrenceOfPersons;
 
+	/** The chart persons by date. */
 	private javax.swing.JMenuItem chartPersonsByDate;
 
+	/** The chart persons by scene. */
 	private javax.swing.JMenuItem chartPersonsByScene;
 
+	/** The chart strands by date. */
 	private javax.swing.JMenuItem chartStrandsByDate;
 
+	/** The chart wiww. */
 	private javax.swing.JMenuItem chartWIWW;
 
+	/** The charts attributes. */
 	private javax.swing.JMenuItem chartsAttributes;
 
+	/** The dev test. */
 	private javax.swing.JMenuItem devTest;
 
+	/** The edit copy blurb. */
 	private javax.swing.JMenuItem editCopyBlurb;
 
+	/** The edit copy book. */
 	private javax.swing.JMenuItem editCopyBook;
 
+	/** The edit copy ideas. */
 	private javax.swing.JMenuItem editCopyIdeas;
 
+	/** The edit copy items. */
 	private javax.swing.JMenuItem editCopyItems;
 
+	/** The edit copy locations. */
 	private javax.swing.JMenuItem editCopyLocations;
 
+	/** The edit copy persons. */
 	private javax.swing.JMenuItem editCopyPersons;
 
+	/** The file close. */
 	private javax.swing.JMenuItem fileClose;
 
+	/** The file exit. */
 	private javax.swing.JMenuItem fileExit;
 
+	/** The file export. */
 	private javax.swing.JMenuItem fileExport;
 
+	/** The file import. */
 	private javax.swing.JMenuItem fileImport;
 
+	/** The file new. */
 	private javax.swing.JMenuItem fileNew;
 
+	/** The file open. */
 	private javax.swing.JMenuItem fileOpen;
 
+	/** The file open recent. */
 	public javax.swing.JMenu fileOpenRecent;
 
+	/** The file print. */
 	private javax.swing.JMenuItem filePrint;
 
+	/** The file properties. */
 	private javax.swing.JMenuItem fileProperties;
 
+	/** The file rename. */
 	private javax.swing.JMenuItem fileRename;
 
+	/** The file save. */
 	private javax.swing.JMenuItem fileSave;
 
+	/** The file save as. */
 	private javax.swing.JMenuItem fileSaveAs;
 
+	/** The help about. */
 	private javax.swing.JMenuItem helpAbout;
 
+	/** The help check updates. */
 	private javax.swing.JMenuItem helpCheckUpdates;
 
+	/** The help doc. */
 	private javax.swing.JMenuItem helpDoc;
 
+	/** The help faq. */
 	private javax.swing.JMenuItem helpFaq;
 
+	/** The help home. */
 	private javax.swing.JMenuItem helpHome;
 
+	/** The help report bug. */
 	private javax.swing.JMenuItem helpReportBug;
 
+	/** The help trace. */
 	private javax.swing.JCheckBoxMenuItem helpTrace;
 
+	/** The j chapters order. */
 	private javax.swing.JMenuItem jChaptersOrder;
 
+	/** The j menu1. */
 	private javax.swing.JMenu jMenu1;
 
+	/** The j menu item1. */
 	private javax.swing.JMenuItem jMenuItem1;
 
+	/** The j separator1. */
 	private javax.swing.JPopupMenu.Separator jSeparator1;
 
+	/** The j separator10. */
 	private javax.swing.JPopupMenu.Separator jSeparator10;
 
+	/** The j separator11. */
 	private javax.swing.JPopupMenu.Separator jSeparator11;
 
+	/** The j separator12. */
 	private javax.swing.JPopupMenu.Separator jSeparator12;
 
+	/** The j separator13. */
 	private javax.swing.JPopupMenu.Separator jSeparator13;
 
+	/** The j separator15. */
 	private javax.swing.JPopupMenu.Separator jSeparator15;
 
+	/** The j separator16. */
 	private javax.swing.JPopupMenu.Separator jSeparator16;
 
+	/** The j separator18. */
 	private javax.swing.JPopupMenu.Separator jSeparator18;
 
+	/** The j separator19. */
 	private javax.swing.JToolBar.Separator jSeparator19;
 
+	/** The j separator20. */
 	private javax.swing.JToolBar.Separator jSeparator20;
 
+	/** The j separator21. */
 	private javax.swing.JToolBar.Separator jSeparator21;
 
+	/** The j separator22. */
 	private javax.swing.JToolBar.Separator jSeparator22;
 
+	/** The j separator23. */
 	private javax.swing.JToolBar.Separator jSeparator23;
 
+	/** The j separator4. */
 	private javax.swing.JPopupMenu.Separator jSeparator4;
 
+	/** The j separator5. */
 	private javax.swing.JPopupMenu.Separator jSeparator5;
 
+	/** The j separator6. */
 	private javax.swing.JPopupMenu.Separator jSeparator6;
 
+	/** The j separator7. */
 	private javax.swing.JPopupMenu.Separator jSeparator7;
 
+	/** The j separator8. */
 	private javax.swing.JPopupMenu.Separator jSeparator8;
 
+	/** The j separator9. */
 	private javax.swing.JPopupMenu.Separator jSeparator9;
 
+	/** The menu bar. */
 	public javax.swing.JMenuBar menuBar;
 
+	/** The menu charts. */
 	private javax.swing.JMenu menuCharts;
 
+	/** The menu edit. */
 	private javax.swing.JMenu menuEdit;
 
+	/** The menu file. */
 	private javax.swing.JMenu menuFile;
 
+	/** The menu help. */
 	private javax.swing.JMenu menuHelp;
 
+	/** The menu new entity. */
 	private javax.swing.JMenu menuNewEntity;
 
+	/** The menu parts. */
 	public javax.swing.JMenu menuParts;
 
+	/** The menu primary objects. */
 	private javax.swing.JMenu menuPrimaryObjects;
 
+	/** The menu secondary objects. */
 	private javax.swing.JMenu menuSecondaryObjects;
 
+	/** The menu view. */
 	private javax.swing.JMenu menuView;
 
+	/** The menu window. */
 	private javax.swing.JMenu menuWindow;
 
+	/** The new category. */
 	private javax.swing.JMenuItem newCategory;
 
+	/** The new chapter. */
 	private javax.swing.JMenuItem newChapter;
 
+	/** The new chapters. */
 	private javax.swing.JMenuItem newChapters;
 
+	/** The new foi. */
 	private javax.swing.JMenuItem newFOI;
 
+	/** The new gender. */
 	private javax.swing.JMenuItem newGender;
 
+	/** The new idea. */
 	private javax.swing.JMenuItem newIdea;
 
+	/** The new item. */
 	private javax.swing.JMenuItem newItem;
 
+	/** The new item link. */
 	private javax.swing.JMenuItem newItemLink;
 
+	/** The new location. */
 	private javax.swing.JMenuItem newLocation;
 
+	/** The new memo. */
 	private javax.swing.JMenuItem newMemo;
 
+	/** The new part. */
 	private javax.swing.JMenuItem newPart;
 
+	/** The new person. */
 	private javax.swing.JMenuItem newPerson;
 
+	/** The new relationships. */
 	private javax.swing.JMenuItem newRelationships;
 
+	/** The new scene. */
 	private javax.swing.JMenuItem newScene;
 
+	/** The new strand. */
 	private javax.swing.JMenuItem newStrand;
 
+	/** The new tag. */
 	private javax.swing.JMenuItem newTag;
 
+	/** The new tag link. */
 	private javax.swing.JMenuItem newTagLink;
 
+	/** The part next. */
 	public javax.swing.JMenuItem partNext;
 
+	/** The part previous. */
 	public javax.swing.JMenuItem partPrevious;
 
+	/** The rename city. */
 	private javax.swing.JMenuItem renameCity;
 
+	/** The rename country. */
 	private javax.swing.JMenuItem renameCountry;
 
+	/** The rename item category. */
 	private javax.swing.JMenuItem renameItemCategory;
 
+	/** The rename tag category. */
 	private javax.swing.JMenuItem renameTagCategory;
 
+	/** The separator file1. */
 	private javax.swing.JPopupMenu.Separator separatorFile1;
 
+	/** The separator file2. */
 	private javax.swing.JPopupMenu.Separator separatorFile2;
 
+	/** The separator file3. */
 	private javax.swing.JPopupMenu.Separator separatorFile3;
 
+	/** The tab category. */
 	private javax.swing.JMenuItem tabCategory;
 
+	/** The tab chapter. */
 	private javax.swing.JMenuItem tabChapter;
 
+	/** The tab gender. */
 	private javax.swing.JMenuItem tabGender;
 
+	/** The tab idea. */
 	private javax.swing.JMenuItem tabIdea;
 
+	/** The tab item. */
 	private javax.swing.JMenuItem tabItem;
 
+	/** The tab item link. */
 	private javax.swing.JMenuItem tabItemLink;
 
+	/** The tab location. */
 	private javax.swing.JMenuItem tabLocation;
 
+	/** The tab part. */
 	private javax.swing.JMenuItem tabPart;
 
+	/** The tab person. */
 	private javax.swing.JMenuItem tabPerson;
 
+	/** The tab relationship. */
 	private javax.swing.JMenuItem tabRelationship;
+	
+	/** The tab scene. */
 	private javax.swing.JMenuItem tabScene;
+	
+	/** The tab strand. */
 	private javax.swing.JMenuItem tabStrand;
+	
+	/** The tab tag. */
 	private javax.swing.JMenuItem tabTag;
+	
+	/** The tab tag link. */
 	private javax.swing.JMenuItem tabTagLink;
+	
+	/** The tool bar. */
 	public javax.swing.JToolBar toolBar;
+	
+	/** The tools plan. */
 	private javax.swing.JMenuItem toolsPlan;
+	
+	/** The tools task list. */
 	private javax.swing.JMenuItem toolsTaskList;
+	
+	/** The vue book. */
 	private javax.swing.JMenuItem vueBook;
+	
+	/** The vue chrono. */
 	private javax.swing.JMenuItem vueChrono;
+	
+	/** The vue editor. */
 	private javax.swing.JMenuItem vueEditor;
+	
+	/** The vue info. */
 	private javax.swing.JMenuItem vueInfo;
+	
+	/** The vue info1. */
 	private javax.swing.JMenuItem vueInfo1;
+	
+	/** The vue manage scene. */
 	private javax.swing.JMenuItem vueManageScene;
+	
+	/** The vue memoria. */
 	private javax.swing.JMenuItem vueMemoria;
+	
+	/** The vue navigation. */
 	private javax.swing.JMenuItem vueNavigation;
+	
+	/** The vue reading. */
 	private javax.swing.JMenuItem vueReading;
+	
+	/** The vue tree. */
 	private javax.swing.JMenuItem vueTree;
+	
+	/** The window book. */
 	private javax.swing.JMenuItem windowBook;
+	
+	/** The window chrono. */
 	private javax.swing.JMenuItem windowChrono;
+	
+	/** The window default layout. */
 	private javax.swing.JMenuItem windowDefaultLayout;
+	
+	/** The window load layout. */
 	public javax.swing.JMenu windowLoadLayout;
+	
+	/** The window manage. */
 	private javax.swing.JMenuItem windowManage;
+	
+	/** The window manage layouts. */
 	private javax.swing.JMenuItem windowManageLayouts;
+	
+	/** The window persons and locations. */
 	private javax.swing.JMenuItem windowPersonsAndLocations;
+	
+	/** The window preferences. */
 	private javax.swing.JMenuItem windowPreferences;
+	
+	/** The window reading. */
 	private javax.swing.JMenuItem windowReading;
+	
+	/** The window refresh. */
 	private javax.swing.JMenuItem windowRefresh;
+	
+	/** The window reset layout. */
 	private javax.swing.JMenuItem windowResetLayout;
+	
+	/** The window save layout. */
 	private javax.swing.JMenuItem windowSaveLayout;
+	
+	/** The window tags and items. */
 	private javax.swing.JMenuItem windowTagsAndItems;
 	// End of variables declaration//GEN-END:variables
 	/**
-	 * Creates new form MainMenu
+	 * Creates new form MainMenu.
 	 */
 	public MainMenu() {
 		initComponents();
 	}
+	
+	/**
+	 * Instantiates a new main menu.
+	 *
+	 * @param main the main
+	 */
 	public MainMenu(MainFrame main) {
 		initComponents();
 		mainFrame = main;
@@ -424,153 +624,429 @@ public class MainMenu extends javax.swing.JFrame {
 		if (SbApp.isDevTest() == false)
 			devTest.setVisible(false);
 	}
+	
+	/**
+	 * Bt file new action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btFileNewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btFileNewActionPerformed
 		this.fileNewActionPerformed(evt);
 	}// GEN-LAST:event_btFileNewActionPerformed
+	
+	/**
+	 * Bt file open action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btFileOpenActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btFileOpenActionPerformed
 		this.fileOpenActionPerformed(evt);
 	}// GEN-LAST:event_btFileOpenActionPerformed
+	
+	/**
+	 * Bt file save action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btFileSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btFileSaveActionPerformed
 		this.fileSaveActionPerformed(evt);
 	}// GEN-LAST:event_btFileSaveActionPerformed
+	
+	/**
+	 * Bt idea action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btIdeaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btIdeaActionPerformed
 		this.newIdeaActionPerformed(evt);
 	}// GEN-LAST:event_btIdeaActionPerformed
+	
+	/**
+	 * Bt manage scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btManageSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btManageSceneActionPerformed
 		this.vueManageSceneActionPerformed(evt);
 	}// GEN-LAST:event_btManageSceneActionPerformed
+	
+	/**
+	 * Bt new chapter action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewChapterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewChapterActionPerformed
 		this.newChapterActionPerformed(evt);
 	}// GEN-LAST:event_btNewChapterActionPerformed
+	
+	/**
+	 * Bt new item action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewItemActionPerformed
 		this.newItemActionPerformed(evt);
 	}// GEN-LAST:event_btNewItemActionPerformed
+	
+	/**
+	 * Bt new location action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewLocationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewLocationActionPerformed
 		this.newLocationActionPerformed(evt);
 	}// GEN-LAST:event_btNewLocationActionPerformed
+	
+	/**
+	 * Bt new person action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewPersonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewPersonActionPerformed
 		this.newPersonActionPerformed(evt);
 	}// GEN-LAST:event_btNewPersonActionPerformed
+	
+	/**
+	 * Bt new scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewSceneActionPerformed
 		this.newSceneActionPerformed(evt);
 	}// GEN-LAST:event_btNewSceneActionPerformed
+	
+	/**
+	 * Bt new tag action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNewTagActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNewTagActionPerformed
 		this.newTagActionPerformed(evt);
 	}// GEN-LAST:event_btNewTagActionPerformed
+	
+	/**
+	 * Bt next part action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btNextPartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btNextPartActionPerformed
 		this.partNextActionPerformed(evt);
 	}// GEN-LAST:event_btNextPartActionPerformed
+	
+	/**
+	 * Bt previous part action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btPreviousPartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btPreviousPartActionPerformed
 		this.partPreviousActionPerformed(evt);
 	}// GEN-LAST:event_btPreviousPartActionPerformed
+	
+	/**
+	 * Bt tab chapter action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabChapterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabChapterActionPerformed
 		this.tabChapterActionPerformed(evt);
 	}// GEN-LAST:event_btTabChapterActionPerformed
+	
+	/**
+	 * Bt tab item action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabItemActionPerformed
 		this.tabItemActionPerformed(evt);
 	}// GEN-LAST:event_btTabItemActionPerformed
+	
+	/**
+	 * Bt tab item link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabItemLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabItemLinkActionPerformed
 		this.tabItemLinkActionPerformed(evt);
 	}// GEN-LAST:event_btTabItemLinkActionPerformed
+	
+	/**
+	 * Bt tab location action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabLocationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabLocationActionPerformed
 		this.tabLocationActionPerformed(evt);
 	}// GEN-LAST:event_btTabLocationActionPerformed
+	
+	/**
+	 * Bt tab person action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabPersonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabPersonActionPerformed
 		this.tabPersonActionPerformed(evt);
 	}// GEN-LAST:event_btTabPersonActionPerformed
+	
+	/**
+	 * Bt tab relationship action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabRelationshipActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabRelationshipActionPerformed
 		mainFrame.showAndFocus(ViewName.RELATIONSHIPS);
 	}// GEN-LAST:event_btTabRelationshipActionPerformed
+	
+	/**
+	 * Bt tab scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabSceneActionPerformed
 		this.tabSceneActionPerformed(evt);
 	}// GEN-LAST:event_btTabSceneActionPerformed
+	
+	/**
+	 * Bt tab tag action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabTagActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabTagActionPerformed
 		this.tabTagActionPerformed(evt);
 	}// GEN-LAST:event_btTabTagActionPerformed
+	
+	/**
+	 * Bt tab tag link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btTabTagLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btTabTagLinkActionPerformed
 		this.tabTagLinkActionPerformed(evt);
 	}// GEN-LAST:event_btTabTagLinkActionPerformed
+	
+	/**
+	 * Bt view book action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btViewBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btViewBookActionPerformed
 		this.vueBookActionPerformed(evt);
 	}// GEN-LAST:event_btViewBookActionPerformed
+	
+	/**
+	 * Bt view chrono action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btViewChronoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btViewChronoActionPerformed
 		this.vueChronoActionPerformed(evt);
 	}// GEN-LAST:event_btViewChronoActionPerformed
+	
+	/**
+	 * Bt view memoria action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btViewMemoriaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btViewMemoriaActionPerformed
 		this.vueMemoriaActionPerformed(evt);
 	}// GEN-LAST:event_btViewMemoriaActionPerformed
+	
+	/**
+	 * Bt view reading action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btViewReadingActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btViewReadingActionPerformed
 		this.vueReadingActionPerformed(evt);
 	}// GEN-LAST:event_btViewReadingActionPerformed
+	
+	/**
+	 * Chart gantt action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartGanttActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartGanttActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_GANTT);
 	}// GEN-LAST:event_chartGanttActionPerformed
+	
+	/**
+	 * Chart occurrence of locations action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartOccurrenceOfLocationsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartOccurrenceOfLocationsActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_OCCURRENCE_OF_LOCATIONS);
 	}// GEN-LAST:event_chartOccurrenceOfLocationsActionPerformed
+	
+	/**
+	 * Chart occurrence of persons action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartOccurrenceOfPersonsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartOccurrenceOfPersonsActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_OCCURRENCE_OF_PERSONS);
 	}// GEN-LAST:event_chartOccurrenceOfPersonsActionPerformed
+	
+	/**
+	 * Chart persons by date action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartPersonsByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartPersonsByDateActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_PERSONS_BY_DATE);
 	}// GEN-LAST:event_chartPersonsByDateActionPerformed
+	
+	/**
+	 * Chart persons by scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartPersonsBySceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartPersonsBySceneActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_PERSONS_BY_SCENE);
 	}// GEN-LAST:event_chartPersonsBySceneActionPerformed
+	
+	/**
+	 * Charts attributes action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartsAttributesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartsAttributesActionPerformed
 		mainFrame.showAndFocus(ViewName.ATTRIBUTES);
 	}// GEN-LAST:event_chartsAttributesActionPerformed
+	
+	/**
+	 * Chart strands by date action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartStrandsByDateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartStrandsByDateActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_STRANDS_BY_DATE);
 	}// GEN-LAST:event_chartStrandsByDateActionPerformed
+	
+	/**
+	 * Chart wiww action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void chartWIWWActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_chartWIWWActionPerformed
 		mainFrame.showAndFocus(ViewName.CHART_WiWW);
 	}// GEN-LAST:event_chartWIWWActionPerformed
+	
+	/**
+	 * Dev test action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void devTestActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_devTestActionPerformed
 		// add your code to test here, don't delete this line
 
 		// end of your adding code, don't delete this line
 	}// GEN-LAST:event_devTestActionPerformed
+	
+	/**
+	 * Edits the copy blurb action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyBlurbActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyBlurbActionPerformed
 		Internal internal = BookUtil.get(mainFrame, SbConstants.BookKey.BLURB, "");
 		TextTransfer tf = new TextTransfer();
 		tf.setClipboardContents(internal.getStringValue() + "\n");
 	}// GEN-LAST:event_editCopyBlurbActionPerformed
+	
+	/**
+	 * Edits the copy book action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyBookActionPerformed
 		BookExporter exp = new BookExporter(mainFrame);
 		exp.setExportForOpenOffice(false);
 		exp.exportToClipboard();
 	}// GEN-LAST:event_editCopyBookActionPerformed
+	
+	/**
+	 * Edits the copy ideas action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyIdeasActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyIdeasActionPerformed
 		IdeaCopier copier = new IdeaCopier(mainFrame);
 		copier.showDialog();
 	}// GEN-LAST:event_editCopyIdeasActionPerformed
+	
+	/**
+	 * Edits the copy items action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyItemsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyItemsActionPerformed
 		ItemCopier copier = new ItemCopier(mainFrame);
 		copier.showDialog();
 	}// GEN-LAST:event_editCopyItemsActionPerformed
+	
+	/**
+	 * Edits the copy locations action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyLocationsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyLocationsActionPerformed
 		LocationCopier copier = new LocationCopier(mainFrame);
 		copier.showDialog();
 	}// GEN-LAST:event_editCopyLocationsActionPerformed
+	
+	/**
+	 * Edits the copy persons action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void editCopyPersonsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editCopyPersonsActionPerformed
 		PersonCopier copier = new PersonCopier(mainFrame);
 		copier.showDialog();
 	}// GEN-LAST:event_editCopyPersonsActionPerformed
+	
+	/**
+	 * File close action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileCloseActionPerformed
 		mainFrame.close(true);
 	}// GEN-LAST:event_fileCloseActionPerformed
+	
+	/**
+	 * File exit action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileExitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileExitActionPerformed
 		SbApp.getInstance().exit();
 	}// GEN-LAST:event_fileExitActionPerformed
+	
+	/**
+	 * File export action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileExportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileExportActionPerformed
 		DlgExport export = new DlgExport(mainFrame);
 		export.setVisible(true);
 
 	}// GEN-LAST:event_fileExportActionPerformed
+	
+	/**
+	 * File export book action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileExportBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileExportBookActionPerformed
 		mainFrame.getSbActionManager().getActionHandler().handleFileExportBook();
 	}// GEN-LAST:event_fileExportBookActionPerformed
+	
+	/**
+	 * File import action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileImportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileImportActionPerformed
 		JOptionPane.showMessageDialog(null, I18N.getMsg("msg.common.not.available"), "Import...",
 				JOptionPane.ERROR_MESSAGE);
@@ -579,52 +1055,136 @@ public class MainMenu extends javax.swing.JFrame {
 		 * SwingUtil.showModalDialog(dlg, mainFrame);
 		 */
 	}// GEN-LAST:event_fileImportActionPerformed
+	
+	/**
+	 * File new action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileNewActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileNewActionPerformed
 		SbApp.getInstance().createNewFile();
 	}// GEN-LAST:event_fileNewActionPerformed
+	
+	/**
+	 * File open action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileOpenActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileOpenActionPerformed
 		mainFrame.setWaitingCursor();
 		SbApp.getInstance().openFile();
 		mainFrame.setDefaultCursor();
 	}// GEN-LAST:event_fileOpenActionPerformed
+	
+	/**
+	 * File print action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void filePrintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_filePrintActionPerformed
 		// TODO filePrint
 	}// GEN-LAST:event_filePrintActionPerformed
+	
+	/**
+	 * File properties action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void filePropertiesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_filePropertiesActionPerformed
 		BookPropertiesDialog dlg = new BookPropertiesDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_filePropertiesActionPerformed
+	
+	/**
+	 * File rename action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileRenameActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileRenameActionPerformed
 		mainFrame.getSbActionManager().getActionHandler().handleFileRename();
 	}// GEN-LAST:event_fileRenameActionPerformed
+	
+	/**
+	 * File save action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileSaveActionPerformed
-		mainFrame.getSbActionManager().getActionHandler().handleFileSave();
+		mainFrame.getSbActionManager().getActionHandler();//.handleFileSave();
 	}// GEN-LAST:event_fileSaveActionPerformed
+	
+	/**
+	 * File save as action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void fileSaveAsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileSaveAsActionPerformed
 		mainFrame.getSbActionManager().getActionHandler().handleFileSaveAs();
 	}// GEN-LAST:event_fileSaveAsActionPerformed
+	
+	/**
+	 * Help about action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpAboutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpAboutActionPerformed
 		AboutDialog dlg = new AboutDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_helpAboutActionPerformed
+	
+	/**
+	 * Help check updates action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpCheckUpdatesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpCheckUpdatesActionPerformed
 		if (Updater.checkForUpdate()) {
 			JOptionPane.showMessageDialog(mainFrame, I18N.getMsg("msg.update.no.text"),
 					I18N.getMsg("msg.update.no.title"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}// GEN-LAST:event_helpCheckUpdatesActionPerformed
+	
+	/**
+	 * Help doc action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpDocActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpDocActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.DOC.toString());
 	}// GEN-LAST:event_helpDocActionPerformed
+	
+	/**
+	 * Help faq action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpFaqActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpFaqActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.FAQ.toString());
 	}// GEN-LAST:event_helpFaqActionPerformed
+	
+	/**
+	 * Help home action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpHomeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpHomeActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.HOMEPAGE.toString());
 	}// GEN-LAST:event_helpHomeActionPerformed
+	
+	/**
+	 * Help report bug action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpReportBugActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpReportBugActionPerformed
 		NetUtil.openBrowser(SbConstants.URL.REPORTBUG.toString());
 	}// GEN-LAST:event_helpReportBugActionPerformed
+	
+	/**
+	 * Help trace action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void helpTraceActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_helpTraceActionPerformed
 		if (SbApp.getTrace()) {
 			SbApp.setTrace(false);
@@ -2371,20 +2931,50 @@ public class MainMenu extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+	
+	/**
+	 * J chapters order action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void jChaptersOrderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jChaptersOrderActionPerformed
 		ChaptersOrderDialog dlg = new ChaptersOrderDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_jChaptersOrderActionPerformed
+	
+	/**
+	 * New category action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newCategoryActionPerformed
 		newEntity(new Category());
 	}// GEN-LAST:event_newCategoryActionPerformed
+	
+	/**
+	 * New chapter action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newChapterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newChapterActionPerformed
 		newEntity(new Chapter());
 	}// GEN-LAST:event_newChapterActionPerformed
+	
+	/**
+	 * New chapters action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newChaptersActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newChaptersActionPerformed
 		CreateChaptersDialog dlg = new CreateChaptersDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_newChaptersActionPerformed
+	
+	/**
+	 * New entity.
+	 *
+	 * @param entity the entity
+	 */
 	public void newEntity(AbstractEntity entity) {
 		SbApp.trace("MainMenu.newEntity(" + entity.getClass().getName() + ")");
 		/*
@@ -2396,55 +2986,157 @@ public class MainMenu extends javax.swing.JFrame {
 		// dlg.setVisible(true);
 		mainFrame.showEditorAsDialog(entity);
 	}
+	
+	/**
+	 * New foi action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newFOIActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newFOIActionPerformed
 		FoiDialog dlg = new FoiDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_newFOIActionPerformed
+	
+	/**
+	 * New gender action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newGenderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newGenderActionPerformed
 		newEntity(new Gender());
 	}// GEN-LAST:event_newGenderActionPerformed
+	
+	/**
+	 * New idea action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newIdeaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newIdeaActionPerformed
 		newEntity(new Idea());
 	}// GEN-LAST:event_newIdeaActionPerformed
+	
+	/**
+	 * New item action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newItemActionPerformed
 		newEntity(new Item());
 	}// GEN-LAST:event_newItemActionPerformed
+	
+	/**
+	 * New item link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newItemLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newItemLinkActionPerformed
 		newEntity(new ItemLink());
 	}// GEN-LAST:event_newItemLinkActionPerformed
+	
+	/**
+	 * New location action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newLocationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newLocationActionPerformed
 		newEntity(new Location());
 	}// GEN-LAST:event_newLocationActionPerformed
+	
+	/**
+	 * New memo action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newMemoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newMemoActionPerformed
 		newEntity(new Memo());
 	}// GEN-LAST:event_newMemoActionPerformed
+	
+	/**
+	 * New part action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newPartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newPartActionPerformed
 		newEntity(new Part());
 	}// GEN-LAST:event_newPartActionPerformed
+	
+	/**
+	 * New person action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newPersonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newPersonActionPerformed
 		newEntity(new Person());
 	}// GEN-LAST:event_newPersonActionPerformed
+	
+	/**
+	 * New relationships action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newRelationshipsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newRelationshipsActionPerformed
 		newEntity(new Relationship());
 	}// GEN-LAST:event_newRelationshipsActionPerformed
+	
+	/**
+	 * New scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newSceneActionPerformed
 		newEntity(new Scene());
 	}// GEN-LAST:event_newSceneActionPerformed
+	
+	/**
+	 * New strand action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newStrandActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newStrandActionPerformed
 		newEntity(new Strand());
 	}// GEN-LAST:event_newStrandActionPerformed
+	
+	/**
+	 * New tag action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newTagActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newTagActionPerformed
 		newEntity(new Tag());
 	}// GEN-LAST:event_newTagActionPerformed
+	
+	/**
+	 * New tag link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void newTagLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_newTagLinkActionPerformed
 		newEntity(new TagLink());
 	}// GEN-LAST:event_newTagLinkActionPerformed
+	
+	/**
+	 * Part next action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void partNextActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_partNextActionPerformed
 		mainFrame.getSbActionManager().getActionHandler().handleNextPart();
 	}// GEN-LAST:event_partNextActionPerformed
+	
+	/**
+	 * Part previous action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void partPreviousActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_partPreviousActionPerformed
 		mainFrame.getSbActionManager().getActionHandler().handlePreviousPart();
 	}// GEN-LAST:event_partPreviousActionPerformed
+	
+	/**
+	 * Rename city action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void renameCityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_renameCityActionPerformed
 		RenameCityDialog dlg = new RenameCityDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -2456,6 +3148,12 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}// GEN-LAST:event_renameCityActionPerformed
+	
+	/**
+	 * Rename country action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void renameCountryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_renameCountryActionPerformed
 		RenameCountryDialog dlg = new RenameCountryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -2467,6 +3165,12 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}// GEN-LAST:event_renameCountryActionPerformed
+	
+	/**
+	 * Rename item category action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void renameItemCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_renameItemCategoryActionPerformed
 		RenameItemCategoryDialog dlg = new RenameItemCategoryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -2478,6 +3182,12 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}// GEN-LAST:event_renameItemCategoryActionPerformed
+	
+	/**
+	 * Rename tag category action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void renameTagCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_renameTagCategoryActionPerformed
 		RenameTagCategoryDialog dlg = new RenameTagCategoryDialog(mainFrame);
 		ActionManager actMngr = mainFrame.getSbActionManager().getActionManager();
@@ -2489,6 +3199,10 @@ public class MainMenu extends javax.swing.JFrame {
 		SwingUtil.showModalDialog(dlg, mainFrame);
 		act.putValue(SbConstants.ActionKey.CATEGORY.toString(), null);
 	}// GEN-LAST:event_renameTagCategoryActionPerformed
+	
+	/**
+	 * Sets the menu for blank.
+	 */
 	public void setMenuForBlank() {
 		// hide menus from MenuBar
 		javax.swing.JMenu menus[] = { menuNewEntity, menuParts, menuPrimaryObjects, menuSecondaryObjects, menuCharts,
@@ -2516,59 +3230,165 @@ public class MainMenu extends javax.swing.JFrame {
 		if (SbApp.isDevTest() == false)
 			devTest.setVisible(false);
 	}
+	
+	/**
+	 * Tab category action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabCategoryActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabCategoryActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.CATEGORIES);
 	}// GEN-LAST:event_tabCategoryActionPerformed
+	
+	/**
+	 * Tab chapter action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabChapterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabChapterActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.CHAPTERS);
 	}// GEN-LAST:event_tabChapterActionPerformed
+	
+	/**
+	 * Tab gender action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabGenderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabGenderActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.GENDERS);
 	}// GEN-LAST:event_tabGenderActionPerformed
+	
+	/**
+	 * Tab idea action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabIdeaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabIdeaActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.IDEAS);
 		// mainFrame.getBookController().showTaskList();
 	}// GEN-LAST:event_tabIdeaActionPerformed
+	
+	/**
+	 * Tab item action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabItemActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.ITEMS);
 	}// GEN-LAST:event_tabItemActionPerformed
+	
+	/**
+	 * Tab item link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabItemLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabItemLinkActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.ITEMLINKS);
 	}// GEN-LAST:event_tabItemLinkActionPerformed
+	
+	/**
+	 * Tab location action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabLocationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabLocationActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.LOCATIONS);
 	}// GEN-LAST:event_tabLocationActionPerformed
+	
+	/**
+	 * Tab part action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabPartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabPartActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.PARTS);
 	}// GEN-LAST:event_tabPartActionPerformed
+	
+	/**
+	 * Tab person action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabPersonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabPersonActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.PERSONS);
 	}// GEN-LAST:event_tabPersonActionPerformed
+	
+	/**
+	 * Tab relationship action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabRelationshipActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabRelationshipActionPerformed
 		mainFrame.showAndFocus(ViewName.RELATIONSHIPS);
 	}// GEN-LAST:event_tabRelationshipActionPerformed
+	
+	/**
+	 * Tab scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabSceneActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.SCENES);
 	}// GEN-LAST:event_tabSceneActionPerformed
+	
+	/**
+	 * Tab strand action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabStrandActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabStrandActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.STRANDS);
 	}// GEN-LAST:event_tabStrandActionPerformed
+	
+	/**
+	 * Tab tag action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabTagActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabTagActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.TAGS);
 	}// GEN-LAST:event_tabTagActionPerformed
+	
+	/**
+	 * Tab tag link action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void tabTagLinkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tabTagLinkActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.TAGLINKS);
 	}// GEN-LAST:event_tabTagLinkActionPerformed
+	
+	/**
+	 * Tools plan action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void toolsPlanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_toolsPlanActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.PLAN);
 	}// GEN-LAST:event_toolsPlanActionPerformed
+	
+	/**
+	 * Tools task list action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void toolsTaskListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_toolsTaskListActionPerformed
 		mainFrame.showAndFocus(ViewName.SCENES);
 		mainFrame.getBookController().showTaskList();
 	}// GEN-LAST:event_toolsTaskListActionPerformed
+	
+	/**
+	 * Tools unicode action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void toolsUnicodeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_toolsUnicodeActionPerformed
 		mainFrame.showUnicodeDialog();
 	}// GEN-LAST:event_toolsUnicodeActionPerformed
+	
+	/**
+	 * Translate menu.
+	 */
 	private void translateMenu() {
 		chartGantt.setText(I18N.getMsg("msg.menu.gantt"));
 		chartOccurrenceOfLocations.setText(I18N.getMsg("msg.menu.tools.charts.overall.location.occurrence"));
@@ -2674,74 +3494,205 @@ public class MainMenu extends javax.swing.JFrame {
 		if (SbApp.isDevTest() == false)
 			devTest.setVisible(false);
 	}
+	
+	/**
+	 * Vue book action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueBookActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.BOOK);
 	}// GEN-LAST:event_vueBookActionPerformed
+	
+	/**
+	 * Vue chrono action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueChronoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueChronoActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.CHRONO);
 	}// GEN-LAST:event_vueChronoActionPerformed
+	
+	/**
+	 * Vue editor action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueEditorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueEditorActionPerformed
 		// mainFrame.showAndFocus(SbConstants.ViewName.EDITOR);
 	}// GEN-LAST:event_vueEditorActionPerformed
+	
+	/**
+	 * Vue info1 action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueInfo1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueInfo1ActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.MEMOS);
 	}// GEN-LAST:event_vueInfo1ActionPerformed
+	
+	/**
+	 * Vue info action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueInfoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueInfoActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.INFO);
 	}// GEN-LAST:event_vueInfoActionPerformed
+	
+	/**
+	 * Vue manage scene action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueManageSceneActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueManageSceneActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.MANAGE);
 	}// GEN-LAST:event_vueManageSceneActionPerformed
+	
+	/**
+	 * Vue memoria action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueMemoriaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueMemoriaActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.MEMORIA);
 	}// GEN-LAST:event_vueMemoriaActionPerformed
+	
+	/**
+	 * Vue navigation action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueNavigationActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueNavigationActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.NAVIGATION);
 	}// GEN-LAST:event_vueNavigationActionPerformed
+	
+	/**
+	 * Vue reading action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueReadingActionPerformed(java.awt.event.ActionEvent evt) {
 		mainFrame.showAndFocus(SbConstants.ViewName.READING);
 	}
+	
+	/**
+	 * Vue tree action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void vueTreeActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueTreeActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.TREE);
 	}// GEN-LAST:event_vueTreeActionPerformed
+	
+	/**
+	 * Window book action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowBookActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowBookActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.BOOK_ONLY_LAYOUT);
 	}// GEN-LAST:event_windowBookActionPerformed
+	
+	/**
+	 * Window chrono action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowChronoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowChronoActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.CHRONO_ONLY_LAYOUT);
 	}// GEN-LAST:event_windowChronoActionPerformed
+	
+	/**
+	 * Window default layout action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowDefaultLayoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowDefaultLayoutActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.DEFAULT_LAYOUT);
 	}// GEN-LAST:event_windowDefaultLayoutActionPerformed
+	
+	/**
+	 * Window manage action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowManageActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowManageActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.MANAGE_ONLY_LAYOUT);
 	}// GEN-LAST:event_windowManageActionPerformed
+	
+	/**
+	 * Window manage layouts action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowManageLayoutsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowManageLayoutsActionPerformed
 		ManageLayoutsDialog dlg = new ManageLayoutsDialog(mainFrame);
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_windowManageLayoutsActionPerformed
+	
+	/**
+	 * Window persons and locations action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowPersonsAndLocationsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowPersonsAndLocationsActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.PERSONS_LOCATIONS_LAYOUT);
 	}// GEN-LAST:event_windowPersonsAndLocationsActionPerformed
+	
+	/**
+	 * Window plan action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowPlanActionPerformed(java.awt.event.ActionEvent evt) {
 		mainFrame.showAndFocus(SbConstants.ViewName.PLAN);
 	}
+	
+	/**
+	 * Window preferences action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowPreferencesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowPreferencesActionPerformed
 		PreferencesDialog dlg = new PreferencesDialog();
 		SwingUtil.showModalDialog(dlg, mainFrame);
 	}// GEN-LAST:event_windowPreferencesActionPerformed
+	
+	/**
+	 * Window reading action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowReadingActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowReadingActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.READING_ONLY_LAYOUT);
 	}// GEN-LAST:event_windowReadingActionPerformed
+	
+	/**
+	 * Window refresh action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowRefreshActionPerformed
 		mainFrame.refresh();
 	}// GEN-LAST:event_windowRefreshActionPerformed
+	
+	/**
+	 * Window reset layout action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowResetLayoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowResetLayoutActionPerformed
 		SwingUtil.setWaitingCursor(mainFrame);
 		mainFrame.setDefaultLayout();
 		SwingUtil.setDefaultCursor(mainFrame);
 	}// GEN-LAST:event_windowResetLayoutActionPerformed
 
+	/**
+	 * Window save layout action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowSaveLayoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowSaveLayoutActionPerformed
 		String name = JOptionPane.showInputDialog(mainFrame, I18N.getMsgColon("msg.common.enter.name"),
 				I18N.getMsg("msg.docking.save.layout"), JOptionPane.PLAIN_MESSAGE);
@@ -2750,10 +3701,20 @@ public class MainMenu extends javax.swing.JFrame {
 		}
 	}// GEN-LAST:event_windowSaveLayoutActionPerformed
 
+	/**
+	 * Window tags and items action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowTagsAndItemsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_windowTagsAndItemsActionPerformed
 		DockingWindowUtil.setLayout(mainFrame, DockingWindowUtil.TAGS_ITEMS_LAYOUT);
 	}// GEN-LAST:event_windowTagsAndItemsActionPerformed
 
+	/**
+	 * Window time event action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void windowTimeEventActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_vueReadingActionPerformed
 		mainFrame.showAndFocus(SbConstants.ViewName.TIMEEVENT);
 	}// GEN-LAST:event_vueReadingActionPerformed

@@ -24,20 +24,39 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ColorIcon.
  *
+ * @author martin
  */
 public class ColorIcon implements Icon {
 
+	/** The height. */
 	private int height = 8;
+	
+	/** The width. */
 	private int width = 8;
+	
+	/** The color. */
 	private Color color = null;
 
+	/**
+	 * Instantiates a new color icon.
+	 *
+	 * @param c the c
+	 */
 	public ColorIcon(Color c) {
 		this.color = c;
 	}
 
+	/**
+	 * Instantiates a new color icon.
+	 *
+	 * @param c the c
+	 * @param height the height
+	 * @param width the width
+	 */
 	public ColorIcon(Color c, int height, int width) {
 		this.color = c;
 		this.height = height;
@@ -45,6 +64,9 @@ public class ColorIcon implements Icon {
 	}
 
 	/**
+	 * Gets the icon height.
+	 *
+	 * @return the icon height
 	 * @see javax.swing.Icon#getIconHeight()
 	 */
 	@Override
@@ -53,6 +75,9 @@ public class ColorIcon implements Icon {
 	}
 
 	/**
+	 * Gets the icon width.
+	 *
+	 * @return the icon width
 	 * @see javax.swing.Icon#getIconWidth()
 	 */
 	@Override
@@ -61,6 +86,12 @@ public class ColorIcon implements Icon {
 	}
 
 	/**
+	 * Paint icon.
+	 *
+	 * @param c the c
+	 * @param g the g
+	 * @param x the x
+	 * @param y the y
 	 * @see javax.swing.Icon#paintIcon(Component, Graphics, int, int)
 	 */
 	@Override

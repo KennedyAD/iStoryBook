@@ -54,15 +54,25 @@ import storybook.model.hbn.entity.Tag;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CommonBox.
  *
  * @author favdb
  */
 public class CommonBox {
 
+	/** The lb status. */
 	public static String[] lbStatus = { I18N.getMsg("msg.status.outline"), I18N.getMsg("msg.status.draft"),
 			I18N.getMsg("msg.status.1st.edit"), I18N.getMsg("msg.status.2nd.edit"), I18N.getMsg("msg.status.done") };
 
+	/**
+	 * Find gender.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the gender
+	 */
 	public static Gender findGender(MainFrame mainFrame, String str) {
 		Gender rgender = null;
 		BookModel model = mainFrame.getBookModel();
@@ -79,6 +89,13 @@ public class CommonBox {
 		return (rgender);
 	}
 
+	/**
+	 * Find item.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the item
+	 */
 	public static Item findItem(MainFrame mainFrame, String str) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -95,6 +112,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Find location.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the location
+	 */
 	public static Location findLocation(MainFrame mainFrame, String str) {
 		if ("".equals(str))
 			return (null);
@@ -113,6 +137,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Find part.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the part
+	 */
 	public static Part findPart(MainFrame mainFrame, String str) {
 		if ("".equals(str)) {
 			return (null);
@@ -132,6 +163,13 @@ public class CommonBox {
 		return (rpart);
 	}
 
+	/**
+	 * Find person.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the person
+	 */
 	public static Person findPerson(MainFrame mainFrame, String str) {
 		if ("".equals(str))
 			return (null);
@@ -150,6 +188,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Find person abbreviation.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return true, if successful
+	 */
 	public static boolean findPersonAbbreviation(MainFrame mainFrame, String str) {
 		if (!"".equals(str)) {
 			return (false);
@@ -169,6 +214,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Find scene.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the scene
+	 */
 	public static Scene findScene(MainFrame mainFrame, String str) {
 		if ("".equals(str))
 			return (null);
@@ -187,6 +239,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Find tag.
+	 *
+	 * @param mainFrame the main frame
+	 * @param str the str
+	 * @return the tag
+	 */
 	public static Tag findTag(MainFrame mainFrame, String str) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -203,6 +262,13 @@ public class CommonBox {
 		return (r);
 	}
 
+	/**
+	 * Gets the cb category.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @return the cb category
+	 */
 	public static Category getCbCategory(MainFrame mainFrame, JComboBox<?> cb) {
 		Category rcategory = null;
 		if (cb.getSelectedIndex() == -1) {
@@ -223,6 +289,13 @@ public class CommonBox {
 		return (rcategory);
 	}
 
+	/**
+	 * Checks if is cb equals.
+	 *
+	 * @param cb the cb
+	 * @param str the str
+	 * @return true, if is cb equals
+	 */
 	public static boolean isCbEquals(JComboBox<String> cb, String str) {
 		if (cb.getSelectedIndex() == -1) {
 			if (str.equals("")) {
@@ -239,6 +312,13 @@ public class CommonBox {
 		return (false);
 	}
 
+	/**
+	 * Checks if is multi lb contains.
+	 *
+	 * @param lb the lb
+	 * @param ls the ls
+	 * @return true, if is multi lb contains
+	 */
 	public static boolean isMultiLbContains(JList<?> lb, List<?> ls) {
 		List<?> lx = lb.getSelectedValuesList();
 		if (lx.equals(ls)) {
@@ -247,6 +327,13 @@ public class CommonBox {
 		return (false);
 	}
 
+	/**
+	 * Load cb categories.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param item the item
+	 */
 	public static void loadCbCategories(MainFrame mainFrame, JComboBox<String> cb, Item item) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -266,6 +353,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb categories.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param tag the tag
+	 */
 	public static void loadCbCategories(MainFrame mainFrame, JComboBox<String> cb, Tag tag) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -285,6 +379,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb category.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param idea the idea
+	 */
 	public static void loadCbCategory(MainFrame mainFrame, JComboBox<String> cb, Idea idea) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -304,6 +405,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb category.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param person the person
+	 */
 	public static void loadCbCategory(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -322,6 +430,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb chapters.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param scene the scene
+	 */
 	public static void loadCbChapters(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -340,6 +455,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb cities.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param location the location
+	 */
 	public static void loadCbCities(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -358,6 +480,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb countries.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param location the location
+	 */
 	public static void loadCbCountries(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -376,6 +505,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb genders.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param person the person
+	 */
 	public static void loadCbGenders(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -394,6 +530,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb items.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param item the item
+	 */
 	public static void loadCbItems(MainFrame mainFrame, JComboBox<String> cb, Item item) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -413,6 +556,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb locations.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param location the location
+	 */
 	public static void loadCbLocations(MainFrame mainFrame, JComboBox<String> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -433,6 +583,13 @@ public class CommonBox {
 	}
 
 
+	/**
+	 * Load cb locations.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param scene the scene
+	 */
 	public static void loadCbLocations(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		if (!"".equals(scene.getTitle())) {
 			BookModel model = mainFrame.getBookModel();
@@ -457,6 +614,13 @@ public class CommonBox {
 	}
 
 
+	/**
+	 * Load cb parts.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param chapter the chapter
+	 */
 	public static void loadCbParts(MainFrame mainFrame, JComboBox<String> cb, Chapter chapter) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -476,6 +640,13 @@ public class CommonBox {
 	}
 
 
+	/**
+	 * Load cb persons.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param person the person
+	 */
 	public static void loadCbPersons(MainFrame mainFrame, JComboBox<String> cb, Person person) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -495,6 +666,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb scenes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param scene the scene
+	 */
 	public static void loadCbScenes(MainFrame mainFrame, JComboBox<String> cb, Scene scene) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -514,6 +692,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load cb sites.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param location the location
+	 */
 	public static void loadCbSites(MainFrame mainFrame, JComboBox<Location> cb, Location location) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -533,6 +718,12 @@ public class CommonBox {
 	}
 
 
+	/**
+	 * Load cb status.
+	 *
+	 * @param cb the cb
+	 * @param idea the idea
+	 */
 	public static void loadCbStatus(JComboBox<String> cb, Idea idea) {
 		String[] lbSt = { I18N.getMsg("msg.ideas.status.not_started"), I18N.getMsg("msg.ideas.status.started"),
 				I18N.getMsg("msg.ideas.status.completed"), I18N.getMsg("msg.ideas.status.abandoned") };
@@ -545,6 +736,12 @@ public class CommonBox {
 	}
 
 
+	/**
+	 * Load cb status.
+	 *
+	 * @param cb the cb
+	 * @param scene the scene
+	 */
 	public static void loadCbStatus(JComboBox<String> cb, Scene scene) {
 		cb.removeAllItems();
 		Integer ix = 0, i = 0;
@@ -558,6 +755,13 @@ public class CommonBox {
 		cb.setSelectedIndex(ix);
 	}
 
+	/**
+	 * Load cb tags.
+	 *
+	 * @param mainFrame the main frame
+	 * @param cb the cb
+	 * @param tag the tag
+	 */
 	public static void loadCbTags(MainFrame mainFrame, JComboBox<String> cb, Tag tag) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -577,6 +781,13 @@ public class CommonBox {
 		model.commit();
 	}
 
+	/**
+	 * Load lb attributes.
+	 *
+	 * @param mainFrame the main frame
+	 * @param lb the lb
+	 * @param person the person
+	 */
 	public static void loadLbAttributes(MainFrame mainFrame, JList<String> lb, Person person) {
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (person.getAttributes() != null) {
@@ -600,6 +811,13 @@ public class CommonBox {
 		}
 	}
 
+	/**
+	 * Load lb items.
+	 *
+	 * @param mainFrame the main frame
+	 * @param lb the lb
+	 * @return the default list model
+	 */
 	static DefaultListModel<String> loadLbItems(MainFrame mainFrame, JList<String> lb) {
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		BookModel model = mainFrame.getBookModel();
@@ -612,6 +830,13 @@ public class CommonBox {
 		return (listModel);
 	}
 
+	/**
+	 * Load lb items.
+	 *
+	 * @param mainFrame the main frame
+	 * @param lb the lb
+	 * @param scene the scene
+	 */
 	static void loadLbItems(MainFrame mainFrame, JList<String> lb, Scene scene) {
 		DefaultListModel<String> listModel = loadLbItems(mainFrame, lb);
 		lb.setModel(listModel);
@@ -632,6 +857,13 @@ public class CommonBox {
 		}
 	}
 
+	/**
+	 * Load lb persons.
+	 *
+	 * @param mainFrame the main frame
+	 * @param lb the lb
+	 * @param scene the scene
+	 */
 	public static void loadLbPersons(MainFrame mainFrame, JList<String> lb, Scene scene) {
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (!"".equals(scene.getTitle())) {
@@ -656,6 +888,13 @@ public class CommonBox {
 		}
 	}
 
+	/**
+	 * Load lb strands.
+	 *
+	 * @param mainFrame the main frame
+	 * @param lb the lb
+	 * @param scene the scene
+	 */
 	public static void loadLbStrands(MainFrame mainFrame, JList<String> lb, Scene scene) {
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		if (!"".equals(scene.getTitle())) {

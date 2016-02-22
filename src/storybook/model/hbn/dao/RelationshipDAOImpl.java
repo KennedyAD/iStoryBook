@@ -32,16 +32,34 @@ import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Relationship;
 import storybook.model.hbn.entity.Scene;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RelationshipDAOImpl.
+ */
 public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> implements RelationshipDAO {
 
+	/**
+	 * Instantiates a new relationship dao impl.
+	 */
 	public RelationshipDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new relationship dao impl.
+	 *
+	 * @param session the session
+	 */
 	public RelationshipDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by item link.
+	 *
+	 * @param item the item
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByItemLink(Item item) {
 		Query query = session.createQuery("select s from Relationship as s" + " join s.items as p" + " where p=:item");
@@ -50,6 +68,12 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		return ret;
 	}
 
+	/**
+	 * Find by location link.
+	 *
+	 * @param location the location
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByLocationLink(Location location) {
 		Query query = session
@@ -59,6 +83,12 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		return ret;
 	}
 
+	/**
+	 * Find by person.
+	 *
+	 * @param person the person
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByPerson(Person person) {
 		Criteria crit = session.createCriteria(Relationship.class);
@@ -69,6 +99,12 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		return relationships;
 	}
 
+	/**
+	 * Find by person link.
+	 *
+	 * @param person the person
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByPersonLink(Person person) {
 		Query query = session
@@ -78,6 +114,12 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		return ret;
 	}
 
+	/**
+	 * Find by scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByScene(Scene scene) {
 		Criteria crit = session.createCriteria(Relationship.class);
@@ -86,6 +128,12 @@ public class RelationshipDAOImpl extends SbGenericDAOImpl<Relationship, Long> im
 		return relationships;
 	}
 
+	/**
+	 * Find by start or end scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Relationship> findByStartOrEndScene(Scene scene) {
 		Criteria crit = session.createCriteria(Relationship.class);

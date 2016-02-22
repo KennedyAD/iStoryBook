@@ -145,47 +145,111 @@ import storybook.ui.panel.attributes.AttributesPanel;
 import storybook.ui.table.SbColumn;
 import storybook.ui.table.SbColumn.InputType;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class EntityEditor.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class EntityEditor extends AbstractPanel implements ActionListener, ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4933883386136829457L;
+
+	/**
+	 * The Enum MsgState.
+	 */
 	private enum MsgState {
 
-		ERRORS, WARNINGS, UPDATED, ADDED
+		/** The errors. */
+		ERRORS, /** The warnings. */
+ WARNINGS, /** The updated. */
+ UPDATED, /** The added. */
+ ADDED
 	}
+	
+	/** The minimum size. */
 	public static Dimension MINIMUM_SIZE = new Dimension(440, 500);
+	
+	/** The Constant ERROR_LABEL. */
 	private static final String ERROR_LABEL = "error_label";
+	
+	/** The cb leave open. */
 	private JCheckBox cbLeaveOpen;
+	
+	/** The tf file. */
 	private JTextField tfFile;
 
+	/** The bt choose file. */
 	private JButton btChooseFile;
 
+	/** The leave open. */
 	private boolean leaveOpen;
+	
+	/** The entity handler. */
 	private AbstractEntityHandler entityHandler;
+	
+	/** The ctrl. */
 	private final BookController ctrl;
+	
+	/** The entity. */
 	private AbstractEntity entity;
+	
+	/** The orig entity. */
 	private AbstractEntity origEntity;
+	
+	/** The error state. */
 	private ErrorState errorState;
+	
+	/** The tabbed pane. */
 	private JTabbedPane tabbedPane;
+	
+	/** The title panel. */
 	private TitlePanel titlePanel;
+	
+	/** The input components. */
 	private ArrayList<JComponent> inputComponents;
+	
+	/** The containers. */
 	private ArrayList<JPanel> containers;
+	
+	/** The bt add or update. */
 	private JButton btAddOrUpdate;
+	
+	/** The lb msg state. */
 	private JLabel lbMsgState;
+	
+	/** The rbg panels. */
 	private HashMap<RadioButtonGroup, RadioButtonGroupPanel> rbgPanels;
+	
+	/** The attributes. */
 	private ArrayList<Attribute> attributes;
+	
+	/** The is dialog. */
 	private boolean isDialog = false;
+	
+	/** The from dialog. */
 	private JDialog fromDialog;
 
+	/**
+	 * Instantiates a new entity editor.
+	 *
+	 * @param m the m
+	 */
 	public EntityEditor(MainFrame m) {
 		super(m);
 		SbApp.trace("EntityEditor(mainFrame)");
 		this.ctrl = mainFrame.getBookController();
 	}
 
+	/**
+	 * Instantiates a new entity editor.
+	 *
+	 * @param m the m
+	 * @param e the e
+	 * @param dlg the dlg
+	 */
 	public EntityEditor(MainFrame m, AbstractEntity e, JDialog dlg) {
 		super(m);
 		SbApp.trace("EntityEditor(mainFrame, " + e.getAbbr() + ")");
@@ -198,11 +262,17 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		fromDialog = dlg;
 	}
 
+	/**
+	 * Abandon entity changes.
+	 */
 	private void abandonEntityChanges() {
 		EntityUtil.abandonEntityChanges(mainFrame, entity);
 		unloadEntity();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		SbApp.trace("EntityEditor.actionPerformed(evt)");
@@ -247,6 +317,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Adds the or update entity.
+	 */
 	private void addOrUpdateEntity() {
 		SbApp.trace("EntityEditor.addOrUpdateEntity()");
 		// TODO don't save if this new entity is calling from Scene entity
@@ -289,6 +362,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Creates the odt file.
+	 *
+	 * @param file the file
+	 */
 	private void createOdtFile(File file) {
 		SbApp.trace("EntityEditor.createOdtFile(" + file.getAbsolutePath() + ")");
 		try {
@@ -312,6 +390,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Edits the entity.
+	 */
 	@SuppressWarnings("unchecked")
 	private void editEntity() {
 		SbApp.trace("EntityEditor.editEntity()");
@@ -449,8 +530,18 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Gets the choose file action.
+	 *
+	 * @return the choose file action
+	 */
 	private AbstractAction getChooseFileAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 5000440094057123085L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				final JFileChooser fc = new JFileChooser(tfFile.getText());
@@ -465,10 +556,20 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		};
 	}
 
+	/**
+	 * Gets the entity.
+	 *
+	 * @return the entity
+	 */
 	public AbstractEntity getEntity() {
 		return entity;
 	}
 
+	/**
+	 * Checks for entity changed.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasEntityChanged() {
 		if (entity == null) {
 			return false;
@@ -476,6 +577,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		return (!entity.equals(origEntity));
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public final void init() {
 		SbApp.trace("EntityEditor.init()");
@@ -491,6 +595,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		 */
 	}
 
+	/**
+	 * Inits the handler.
+	 */
 	private void initHandler() {
 		SbApp.trace("EntityEditor.initHandler()");
 		if (entity instanceof Scene) {
@@ -564,7 +671,7 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 	}
 
 	/**
-	 * Minimum size: see {@link MainFrame#showView(ViewName))}
+	 * Minimum size: see {@link MainFrame#showView(ViewName))}.
 	 */
 	@Override
 	public final void initUi() {
@@ -853,6 +960,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 			}
 			btCancel.addActionListener(this);
 			SwingUtil.addEscAction(btCancel, new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -3102523981712935918L;
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					abandonEntityChanges();
@@ -895,10 +1007,18 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Checks if is entity loaded.
+	 *
+	 * @return true, if is entity loaded
+	 */
 	public boolean isEntityLoaded() {
 		return entity != null;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		JCheckBox cb = (JCheckBox) e.getSource();
@@ -906,6 +1026,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		BookUtil.store(mainFrame, BookKey.LEAVE_EDITOR_OPEN, leaveOpen);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		SbApp.trace("EntityEditor.modelPropertyChange(evt)");
@@ -979,6 +1102,12 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Open odt file.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	private void openOdtFile(MainFrame mainFrame, Scene scene) {
 		String name;
 		if ((tfFile.getText() == null) || (tfFile.getText().isEmpty())) {
@@ -1002,6 +1131,12 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Panel libre office.
+	 *
+	 * @param scene the scene
+	 * @return the j panel
+	 */
 	private JPanel panelLibreOffice(Scene scene) {
 		JPanel p = new JPanel();
 		p.setLayout(new MigLayout("wrap 2", "[][grow]", ""));
@@ -1026,6 +1161,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		return (p);
 	}
 
+	/**
+	 * Reload ui.
+	 *
+	 * @param focus the focus
+	 */
 	private void reloadUi(String focus) {
 		AbstractEntity saveEntity = entityHandler.createNewEntity();
 		EntityUtil.copyEntityProperties(mainFrame, entity, saveEntity);
@@ -1038,8 +1178,18 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		tabbedPane.setSelectedIndex(c);
 	}
 
+	/**
+	 * Reset file action.
+	 *
+	 * @return the abstract action
+	 */
 	private AbstractAction resetFileAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8325963785548209241L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				tfFile.setText(ODTUtils.getFilePath(mainFrame, (Scene) entity));
@@ -1047,6 +1197,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		};
 	}
 
+	/**
+	 * Sets the msg state.
+	 *
+	 * @param state the new msg state
+	 */
 	private void setMsgState(MsgState state) {
 		String text = "";
 		Icon icon = null;
@@ -1085,6 +1240,11 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Show confirmation.
+	 *
+	 * @return the int
+	 */
 	private int showConfirmation() {
 		mainFrame.showEditor();
 		final Object[] options = { I18N.getMsg("msg.common.save.changes"), I18N.getMsg("msg.common.discard.changes"),
@@ -1097,12 +1257,18 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		return n;
 	}
 
+	/**
+	 * Show has error warning.
+	 */
 	private void showHasErrorWarning() {
 		mainFrame.showEditor();
 		JOptionPane.showMessageDialog(this, I18N.getMsg("msg.common.editor.has.error"),
 				I18N.getMsg("msg.common.warning"), JOptionPane.WARNING_MESSAGE);
 	}
 
+	/**
+	 * Unload entity.
+	 */
 	private void unloadEntity() {
 		SbApp.trace("EntityEditor.unloadEntity()");
 		entity = null;
@@ -1112,6 +1278,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		rbgPanels.clear();
 	}
 
+	/**
+	 * Update entity from input components.
+	 */
 	@SuppressWarnings("unchecked")
 	private void updateEntityFromInputComponents() {
 		SbApp.trace("EntityEditor.updateEntityFromInputComponents()");
@@ -1345,6 +1514,9 @@ public class EntityEditor extends AbstractPanel implements ActionListener, ItemL
 		}
 	}
 
+	/**
+	 * Verify input.
+	 */
 	private void verifyInput() {
 		SbApp.trace("EntityEditor.verifyInput()");
 		errorState = ErrorState.OK;

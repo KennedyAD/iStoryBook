@@ -27,13 +27,21 @@ import javax.swing.JList;
 import storybook.model.hbn.entity.Strand;
 import storybook.toolkit.swing.ColorIcon;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StrandListCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class StrandListCellRenderer extends DefaultListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 938016604948273411L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

@@ -70,14 +70,27 @@ import storybook.ui.panel.linkspanel.LocationLinksPanel;
 import storybook.ui.panel.linkspanel.PersonLinksPanel;
 import storybook.ui.panel.linkspanel.StrandLinksPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChronoPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ChronoPanel extends AbstractScrollPanel implements Printable, MouseWheelListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3579815105690450981L;
+
+	/** The Constant CLIENT_PROPERTY_STRAND_ID. */
 	private static final String CLIENT_PROPERTY_STRAND_ID = "strand_id";
+	
+	/**
+	 * Dispatch to chrono scene panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToChronoScenePanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, ChronoScenePanel.class, ret);
@@ -86,6 +99,13 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			panel.modelPropertyChange(evt);
 		}
 	}
+	
+	/**
+	 * Dispatch to item links panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToItemLinksPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, ItemLinksPanel.class, ret);
@@ -94,6 +114,13 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 			panel.modelPropertyChange(evt);
 		}
 	}
+	
+	/**
+	 * Dispatch to location links panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToLocationLinksPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, LocationLinksPanel.class, ret);
@@ -103,6 +130,12 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/**
+	 * Dispatch to person links panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToPersonLinksPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, PersonLinksPanel.class, ret);
@@ -112,6 +145,12 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/**
+	 * Dispatch to space panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToSpacePanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, SpacePanel.class, ret);
@@ -121,6 +160,12 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/**
+	 * Dispatch to strand links panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToStrandLinksPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<Component>();
 		SwingUtil.findComponentsByClass(cont, StrandLinksPanel.class, ret);
@@ -130,38 +175,63 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/** The layout direction. */
 	private boolean layoutDirection;
 
+	/** The show date diff. */
 	private boolean showDateDiff;
 
+	/** The strand labels. */
 	private List<JLabel> strandLabels;
 
+	/**
+	 * Instantiates a new chrono panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ChronoPanel(MainFrame mainFrame) {
 		// don't call super constructor here!
 		this.mainFrame = mainFrame;
 		strandLabels = new ArrayList<JLabel>();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMaxZoomValue()
+	 */
 	@Override
 	protected int getMaxZoomValue() {
 		return SbConstants.MAX_CHRONO_ZOOM;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getMinZoomValue()
+	 */
 	@Override
 	protected int getMinZoomValue() {
 		return SbConstants.MIN_CHRONO_ZOOM;
 	}
 
+	/**
+	 * Gets the panel.
+	 *
+	 * @return the panel
+	 */
 	public JPanel getPanel() {
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#getZoomValue()
+	 */
 	@Override
 	protected int getZoomValue() {
 		Internal internal = BookUtil.get(mainFrame, BookKey.CHRONO_ZOOM, SbConstants.DEFAULT_CHRONO_ZOOM);
 		return internal.getIntegerValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -177,6 +247,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowy, ins 0"));
@@ -195,6 +268,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		panel.addMouseWheelListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object oldValue = evt.getOldValue();
@@ -343,6 +419,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
+	 */
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		Graphics2D g2 = (Graphics2D) g;
@@ -365,6 +444,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		return Printable.NO_SUCH_PAGE;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		// must be done before the session is opened
@@ -468,6 +550,9 @@ public class ChronoPanel extends AbstractScrollPanel implements Printable, Mouse
 		repaint();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractScrollPanel#setZoomValue(int)
+	 */
 	@Override
 	protected void setZoomValue(int val) {
 		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);

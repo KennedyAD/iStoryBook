@@ -44,10 +44,20 @@ import storybook.model.hbn.entity.Gender;
 import storybook.model.hbn.entity.Idea;
 import storybook.model.hbn.entity.Person;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Test01.
+ */
 public class Test01 {
 
+	/** The session factory. */
 	private static SbSessionFactory sessionFactory;
 
+	/**
+	 * Creates the idea.
+	 *
+	 * @param session the session
+	 */
 	private static void createIdea(Session session) {
 		Idea idea = new Idea();
 		idea.setNote("new idea");
@@ -56,6 +66,9 @@ public class Test01 {
 		session.save(idea);
 	}
 
+	/**
+	 * Creates the person.
+	 */
 	private static void createPerson() {
 		Session session = sessionFactory.getSession();
 		session.beginTransaction();
@@ -74,6 +87,9 @@ public class Test01 {
 		session.getTransaction().commit();
 	}
 
+	/**
+	 * Delete person.
+	 */
 	private static void deletePerson() {
 		Session session = sessionFactory.getSession();
 		session.beginTransaction();
@@ -95,6 +111,11 @@ public class Test01 {
 		session.getTransaction().commit();
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		System.out.println("start...");
 
@@ -149,6 +170,9 @@ public class Test01 {
 		System.out.println("finished.");
 	}
 
+	/**
+	 * Query chapter dao.
+	 */
 	private static void queryChapterDAO() {
 		ChapterDAOImpl chapterDAO = new ChapterDAOImpl(sessionFactory.getSession());
 		chapterDAO.setSessionFactory(sessionFactory.getSessionFactory());
@@ -158,6 +182,11 @@ public class Test01 {
 		}
 	}
 
+	/**
+	 * Query scenes.
+	 *
+	 * @param session the session
+	 */
 	private static void queryScenes(Session session) {
 		/*
 		 * System.out.println("\nTest01.queryScenes(): "); Query query =
@@ -180,6 +209,9 @@ public class Test01 {
 		 * "  Location: " + location.getName()); } }
 		 */}
 
+	/**
+	 * Update person.
+	 */
 	private static void updatePerson() {
 		Session session = sessionFactory.getSession();
 		session.beginTransaction();

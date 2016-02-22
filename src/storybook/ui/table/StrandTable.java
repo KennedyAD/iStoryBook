@@ -32,18 +32,31 @@ import storybook.model.hbn.entity.Strand;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class StrandTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class StrandTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5943077124787904842L;
+
+	/**
+	 * Instantiates a new strand table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public StrandTable(MainFrame mainFrame) {
 		super(mainFrame);
 		allowMultiDelete = false;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -54,22 +67,34 @@ public class StrandTable extends AbstractTable {
 		return strand;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Strand();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Strand");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getStrandColumns();
 		hasOrder = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -91,6 +116,9 @@ public class StrandTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#orderDownEntity(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void orderDownEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
@@ -114,6 +142,9 @@ public class StrandTable extends AbstractTable {
 		sortByColumn(4);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#orderUpEntity(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void orderUpEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
@@ -137,6 +168,9 @@ public class StrandTable extends AbstractTable {
 		sortByColumn(4);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
@@ -147,12 +181,18 @@ public class StrandTable extends AbstractTable {
 		ctrl.deleteMultiStrands(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Strand strand = (Strand) getEntityFromRow(row);
 		ctrl.deleteStrand(strand);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendOrderDownEntity(int)
+	 */
 	@Override
 	protected void sendOrderDownEntity(int row) {
 		if (row == -1) {
@@ -162,6 +202,9 @@ public class StrandTable extends AbstractTable {
 		ctrl.orderDownStrand(strand);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendOrderUpEntity(int)
+	 */
 	@Override
 	protected void sendOrderUpEntity(int row) {
 		if (row == -1) {
@@ -171,6 +214,9 @@ public class StrandTable extends AbstractTable {
 		ctrl.orderUpStrand(strand);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -182,6 +228,9 @@ public class StrandTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(strand);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setStrandToEdit((Strand) entity);

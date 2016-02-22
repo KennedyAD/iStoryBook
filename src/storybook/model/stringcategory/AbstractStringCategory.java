@@ -18,22 +18,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.stringcategory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractStringCategory.
  *
+ * @author martin
  */
 public class AbstractStringCategory {
 
+	/** The name. */
 	private String name;
 
+	/**
+	 * Instantiates a new abstract string category.
+	 *
+	 * @param name the name
+	 */
 	public AbstractStringCategory(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return name;

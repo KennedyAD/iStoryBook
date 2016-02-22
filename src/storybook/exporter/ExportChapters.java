@@ -17,19 +17,40 @@ import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.entity.Chapter;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportChapters.
  *
  * @author favdb
  */
 public class ExportChapters {
+	
+	/** The parent. */
 	private final Export parent;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The headers. */
 	private List<ExportHeader> headers;
 
+	/**
+	 * Instantiates a new export chapters.
+	 *
+	 * @param m the m
+	 */
 	ExportChapters(Export m) {
 		parent = m;
 		headers = new ArrayList<>();
@@ -38,6 +59,12 @@ public class ExportChapters {
 		headers.add(new ExportHeader(I18N.getMsg("msg.common.title"), 80));
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String debut(Chapter obj) {
 		String rep = "Chapters";
 		switch (parent.format) {
@@ -62,9 +89,12 @@ public class ExportChapters {
 			odf.open();
 			break;
 		}
-		return ("");
+		return "";
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		switch (parent.format) {
 		case "html":
@@ -85,9 +115,16 @@ public class ExportChapters {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public String get(Chapter obj) {
-		if (obj != null)
-			return (EntityUtil.getInfo(parent.mainFrame, obj));
+		if (obj != null) {
+			return EntityUtil.getInfo(parent.mainFrame, obj);
+		}
 		String str = debut(obj);
 		BookModel model = parent.mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -98,9 +135,17 @@ public class ExportChapters {
 		}
 		model.commit();
 		end();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param obj the obj
+	 * @param verbose the verbose
+	 * @param list the list
+	 * @return the string
+	 */
 	public String ligne(Chapter obj, boolean verbose, boolean list) {
 		String body[] = { Long.toString(obj.getId()), Integer.toString(obj.getChapterno()), obj.getTitle() };
 		switch (parent.format) {
@@ -120,7 +165,7 @@ public class ExportChapters {
 			odf.writeRow(body);
 			break;
 		}
-		return ("");
+		return "";
 	}
 
 }

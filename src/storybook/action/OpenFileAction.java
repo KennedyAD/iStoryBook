@@ -25,29 +25,45 @@ import javax.swing.AbstractAction;
 import storybook.SbApp;
 import storybook.model.DbFile;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class OpenFileAction.
  *
+ * @author martin
  */
 public class OpenFileAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6937182424034701171L;
+	
+	/** The db file. */
 	private DbFile dbFile;
 
+	/**
+	 * Instantiates a new open file action.
+	 *
+	 * @param name the name
+	 * @param dbFile the db file
+	 */
 	public OpenFileAction(String name, DbFile dbFile) {
 		super(name);
 		this.dbFile = dbFile;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		SbApp app = SbApp.getInstance();
 		app.openFile(dbFile);
 	}
 
+	/**
+	 * Gets the db file.
+	 *
+	 * @return the db file
+	 */
 	public DbFile getDbFile() {
 		return dbFile;
 	}

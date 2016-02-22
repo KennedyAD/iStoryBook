@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.Chapter;
 
+/**
+ * The Interface ChapterDAO.
+ */
 public interface ChapterDAO extends GenericDAO<Chapter, Long> {
 
 }

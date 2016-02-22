@@ -37,22 +37,46 @@ import storybook.toolkit.swing.IconButton;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AttributesPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class AttributesPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 3362227249416174850L;
+
+	/**
+	 * The Class RemoveAction.
+	 */
 	class RemoveAction extends AbstractAction {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -1888784236625706866L;
+		
+		/** The bt. */
 		private JButton bt;
+		
+		/** The panel. */
 		private AttributePanel panel;
 
+		/**
+		 * Instantiates a new removes the action.
+		 *
+		 * @param bt the bt
+		 * @param panel the panel
+		 */
 		public RemoveAction(JButton bt, AttributePanel panel) {
 			this.bt = bt;
 			this.panel = panel;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			attrPanels.remove(panel);
@@ -62,17 +86,37 @@ public class AttributesPanel extends AbstractPanel {
 			repaint();
 		}
 	}
+	
+	/** The attributes. */
 	private List<Attribute> attributes;
+	
+	/** The attr panels. */
 	private List<AttributePanel> attrPanels;
 
+	/** The keys. */
 	private List<String> keys;
 
+	/**
+	 * Instantiates a new attributes panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AttributesPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Gets the adds the action.
+	 *
+	 * @return the adds the action
+	 */
 	public AbstractAction getAddAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 926881721042296161L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AttributePanel panel = new AttributePanel(keys);
@@ -85,6 +129,11 @@ public class AttributesPanel extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the attributes.
+	 *
+	 * @return the attributes
+	 */
 	public List<Attribute> getAttributes() {
 		List<Attribute> attributes = new ArrayList<Attribute>();
 		for (AttributePanel panel : attrPanels) {
@@ -97,6 +146,12 @@ public class AttributesPanel extends AbstractPanel {
 		return attributes;
 	}
 
+	/**
+	 * Gets the removes the button.
+	 *
+	 * @param panel the panel
+	 * @return the removes the button
+	 */
 	private IconButton getRemoveButton(AttributePanel panel) {
 		IconButton bt = new IconButton();
 		RemoveAction act = new RemoveAction(bt, panel);
@@ -107,11 +162,17 @@ public class AttributesPanel extends AbstractPanel {
 		return bt;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		attrPanels = new ArrayList<AttributePanel>();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("wrap 2,fillx", "[grow][]", ""));
@@ -142,10 +203,18 @@ public class AttributesPanel extends AbstractPanel {
 		add(btAdd, "newline,span,gap 0 0 10 0");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Sets the attributes.
+	 *
+	 * @param attributes the new attributes
+	 */
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}

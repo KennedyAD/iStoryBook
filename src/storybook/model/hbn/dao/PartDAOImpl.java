@@ -35,16 +35,34 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PartDAOImpl.
+ */
 public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO {
 
+	/**
+	 * Instantiates a new part dao impl.
+	 */
 	public PartDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new part dao impl.
+	 *
+	 * @param session the session
+	 */
 	public PartDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Check if number exists.
+	 *
+	 * @param entity the entity
+	 * @return true, if successful
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean checkIfNumberExists(AbstractEntity entity) {
 		try {
@@ -89,6 +107,9 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Part> findAll() {
@@ -97,6 +118,12 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return ret;
 	}
 
+	/**
+	 * Find all chapters.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	public List<Chapter> findAllChapters(Part part) {
 		List<Chapter> chapters = findChapters(part);
 		List<Part> subparts = getParts(part);
@@ -106,6 +133,11 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return chapters;
 	}
 
+	/**
+	 * Find all roots.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Part> findAllRoots() {
 		String sql = "select id" + " from part" + " where part_id is NULL" + " order by number";
@@ -122,6 +154,12 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return parts;
 	}
 
+	/**
+	 * Find chapters.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Chapter> findChapters(Part part) {
 		Criteria crit = session.createCriteria(Chapter.class);
@@ -131,21 +169,42 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return chapters;
 	}
 
+	/**
+	 * Find first.
+	 *
+	 * @return the part
+	 */
 	public Part findFirst() {
 		List<Part> ret = findAll();
 		return ret.get(0);
 	}
 
+	/**
+	 * Gets the max part number.
+	 *
+	 * @return the max part number
+	 */
 	public int getMaxPartNumber() {
 		Query query = session.createQuery("select max(number) from Part");
 		Integer ret = (Integer) query.uniqueResult();
 		return ret;
 	}
 
+	/**
+	 * Gets the next part number.
+	 *
+	 * @return the next part number
+	 */
 	public int getNextPartNumber() {
 		return getMaxPartNumber() + 1;
 	}
 
+	/**
+	 * Gets the objective size.
+	 *
+	 * @param headpart the headpart
+	 * @return the objective size
+	 */
 	public int getObjectiveSize(Part headpart) {
 		int headObjective = 0;
 		int partsObjective = 0;
@@ -168,6 +227,11 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return ret;
 	}
 
+	/**
+	 * Gets the overall size.
+	 *
+	 * @return the overall size
+	 */
 	public int getOverallSize() {
 		List<Part> parts = findAll();
 		int ret = 0;
@@ -180,6 +244,12 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return ret;
 	}
 
+	/**
+	 * Gets the overall size.
+	 *
+	 * @param headpart the headpart
+	 * @return the overall size
+	 */
 	public int getOverallSize(Part headpart) {
 		int ret = 0;
 		// get all children's size
@@ -197,6 +267,12 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return ret;
 	}
 
+	/**
+	 * Gets the parts.
+	 *
+	 * @param part the part
+	 * @return the parts
+	 */
 	public List<Part> getParts(Part part) {
 		String sql = "select id" + " from part" + " where part_id=" + part.getId();
 		Query query = session.createSQLQuery(sql);
@@ -213,6 +289,12 @@ public class PartDAOImpl extends SbGenericDAOImpl<Part, Long> implements PartDAO
 		return parts;
 	}
 
+	/**
+	 * Gets the parts ids.
+	 *
+	 * @param part the part
+	 * @return the parts ids
+	 */
 	public String getPartsIds(Part part) {
 		String ret = "" + part.getId();
 		String sql = "select id" + " from part" + " where part_id=" + part.getId();

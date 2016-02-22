@@ -18,14 +18,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.ui.interfaces;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Interface IPaintable.
  *
+ * @author martin
  */
 public interface IPaintable {
 
+	/**
+	 * Inits the.
+	 */
 	void init();
 
+	/**
+	 * Inits the ui.
+	 */
 	void initUi();
 
 }

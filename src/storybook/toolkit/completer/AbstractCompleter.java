@@ -22,20 +22,38 @@ import java.awt.event.KeyListener;
 
 import javax.swing.text.JTextComponent;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractCompleter.
  *
+ * @author martin
  */
 public abstract class AbstractCompleter implements KeyListener {
 
+	/** The comp. */
 	protected JTextComponent comp;
 
+	/**
+	 * Gets the comp.
+	 *
+	 * @return the comp
+	 */
 	public JTextComponent getComp() {
 		return comp;
 	}
 
+	/**
+	 * Gets the completed text.
+	 *
+	 * @return the completed text
+	 */
 	public abstract String getCompletedText();
 
+	/**
+	 * Sets the comp.
+	 *
+	 * @param comp the new comp
+	 */
 	public void setComp(JTextComponent comp) {
 		this.comp = comp;
 	}

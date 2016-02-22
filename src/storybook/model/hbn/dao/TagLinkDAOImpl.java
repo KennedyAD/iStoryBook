@@ -31,16 +31,34 @@ import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Tag;
 import storybook.model.hbn.entity.TagLink;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TagLinkDAOImpl.
+ */
 public class TagLinkDAOImpl extends SbGenericDAOImpl<TagLink, Long> implements TagLinkDAO {
 
+	/**
+	 * Instantiates a new tag link dao impl.
+	 */
 	public TagLinkDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new tag link dao impl.
+	 *
+	 * @param session the session
+	 */
 	public TagLinkDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by location.
+	 *
+	 * @param location the location
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TagLink> findByLocation(Location location) {
 		Criteria crit = session.createCriteria(TagLink.class);
@@ -49,6 +67,12 @@ public class TagLinkDAOImpl extends SbGenericDAOImpl<TagLink, Long> implements T
 		return tagLinks;
 	}
 
+	/**
+	 * Find by person.
+	 *
+	 * @param person the person
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TagLink> findByPerson(Person person) {
 		Criteria crit = session.createCriteria(TagLink.class);
@@ -57,6 +81,12 @@ public class TagLinkDAOImpl extends SbGenericDAOImpl<TagLink, Long> implements T
 		return tagLinks;
 	}
 
+	/**
+	 * Find by scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TagLink> findByScene(Scene scene) {
 		Criteria crit = session.createCriteria(TagLink.class);
@@ -65,6 +95,12 @@ public class TagLinkDAOImpl extends SbGenericDAOImpl<TagLink, Long> implements T
 		return tagLinks;
 	}
 
+	/**
+	 * Find by start or end scene.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TagLink> findByStartOrEndScene(Scene scene) {
 		Criteria crit = session.createCriteria(TagLink.class);
@@ -75,6 +111,12 @@ public class TagLinkDAOImpl extends SbGenericDAOImpl<TagLink, Long> implements T
 		return tagLinks;
 	}
 
+	/**
+	 * Find by tag.
+	 *
+	 * @param tag the tag
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<TagLink> findByTag(Tag tag) {
 		Criteria crit = session.createCriteria(TagLink.class);

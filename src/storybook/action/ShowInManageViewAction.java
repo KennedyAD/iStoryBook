@@ -28,21 +28,30 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ShowInManageViewAction.
  *
+ * @author martin
  */
 public class ShowInManageViewAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4951484151714524591L;
 
+	/**
+	 * Instantiates a new show in manage view action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param entity the entity
+	 */
 	public ShowInManageViewAction(MainFrame mainFrame, AbstractEntity entity) {
 		super(mainFrame, entity, I18N.getMsg("msg.show.in.manage.view"), I18N.getIcon("icon.small.manage.view"));
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		mainFrame.showView(ViewName.MANAGE);

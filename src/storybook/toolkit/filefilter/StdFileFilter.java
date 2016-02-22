@@ -17,14 +17,26 @@ package storybook.toolkit.filefilter;
 
 import java.io.File;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class StdFileFilter.
  *
  * @author favdb
  */
 public class StdFileFilter extends javax.swing.filechooser.FileFilter {
+	
+	/** The ext. */
 	String ext = "";
+	
+	/** The desc. */
 	String desc = "";
 
+	/**
+	 * Instantiates a new std file filter.
+	 *
+	 * @param extension the extension
+	 * @param description the description
+	 */
 	public StdFileFilter(String extension, String description) {
 		if (extension.indexOf(".") == -1) {
 			extension = "." + extension;
@@ -33,6 +45,9 @@ public class StdFileFilter extends javax.swing.filechooser.FileFilter {
 		this.desc = description;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 */
 	@Override
 	public boolean accept(File file) {
 		if (file.isDirectory()) {
@@ -42,6 +57,9 @@ public class StdFileFilter extends javax.swing.filechooser.FileFilter {
 		return filename.endsWith(ext);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return (desc + " (" + ext + ")");

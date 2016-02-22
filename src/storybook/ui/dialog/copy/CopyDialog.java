@@ -56,21 +56,39 @@ import storybook.ui.dialog.AbstractDialog;
 import storybook.ui.edit.CbPanelDecorator;
 import storybook.ui.edit.CheckBoxPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CopyDialog.
  *
+ * @author martin
+ * @param <ELEMENT> the generic type
  */
-@SuppressWarnings("serial")
+
 public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		implements ActionListener, CaretListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8732639478684951404L;
+
+	/**
+	 * The Class ProjectComboRenderer.
+	 */
 	class ProjectComboRenderer extends JLabel implements ListCellRenderer<MainFrame> {
 
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = 336144836913160735L;
+
+		/**
+		 * Instantiates a new project combo renderer.
+		 */
 		public ProjectComboRenderer() {
 			super("");
 			setOpaque(true);
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+		 */
 		@Override
 		public Component getListCellRendererComponent(JList<? extends MainFrame> list, MainFrame value, int index,
 				boolean isSelected, boolean cellHasFocus) {
@@ -85,33 +103,62 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		}
 	}
 
+	/** The project action. */
 	private AbstractAction projectAction;
+	
+	/** The opened combo. */
 	private JComboBox<MainFrame> openedCombo;
+	
+	/** The tabbed pane. */
 	private JTabbedPane tabbedPane;
 
+	/** The check. */
 	private CheckBoxPanel check;
 
+	/** The copier. */
 	private AbstractCopier<ELEMENT> copier;
 
+	/**
+	 * Instantiates a new copy dialog.
+	 *
+	 * @param copier the copier
+	 */
 	public CopyDialog(AbstractCopier<ELEMENT> copier) {
 		super(copier.getMainFrame());
 		this.copier = copier;
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
+	/**
+	 * Adds the panel to tabbed.
+	 *
+	 * @param panel the panel
+	 * @param I18NTitle the i18 n title
+	 */
 	protected void addPanelToTabbed(JPanel panel, String I18NTitle) {
 		tabbedPane.addTab(I18N.getMsg(I18NTitle), panel);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
 	@Override
 	public void caretUpdate(CaretEvent e) {
 	}
 
+	/**
+	 * Creates the destination panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createDestinationPanel() {
 		MigLayout layout = new MigLayout("wrap 2", "", "[]10");
 		JPanel panel = new JPanel(layout);
@@ -120,11 +167,11 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		// Opended projects
 		JLabel lbopened = new JLabel(I18N.getMsgColon("msg.copy.opened.projects"));
 		DefaultComboBoxModel<MainFrame> model = new DefaultComboBoxModel<MainFrame>();
-		for (MainFrame frame : SbApp.getInstance().getMainFrames()) {
-			if (frame != mainFrame) {
-				model.addElement(frame);
-			}
-		}
+//		for (MainFrame frame : SbApp.getInstance().getMainFrame()) {
+//			if (frame != mainFrame) {
+				model.addElement(mainFrame);
+//			}
+//		}
 		openedCombo = new JComboBox<MainFrame>(model);
 		openedCombo.setRenderer(new ProjectComboRenderer());
 
@@ -142,6 +189,11 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		return panel;
 	}
 
+	/**
+	 * Creates the entities panel.
+	 *
+	 * @return the j panel
+	 */
 	@SuppressWarnings("unchecked")
 	private JPanel createEntitiesPanel() {
 		MigLayout layout = new MigLayout();
@@ -183,9 +235,17 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		return panel;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1890221357308041480L;
+
 			@SuppressWarnings("unchecked")
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -203,10 +263,16 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();
@@ -227,9 +293,19 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 		add(getCancelButton(), "sg");
 	}
 
+	/**
+	 * Open project action.
+	 *
+	 * @return the abstract action
+	 */
 	public AbstractAction openProjectAction() {
 		if (projectAction == null)
 			projectAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -5480124516688884632L;
+
 				@Override
 				public void actionPerformed(ActionEvent evt) {
 					mainFrame.setWaitingCursor();
@@ -244,12 +320,12 @@ public class CopyDialog<ELEMENT extends AbstractEntity> extends AbstractDialog
 							// removing old data
 							model.removeAllElements();
 
-							for (MainFrame frame : SbApp.getInstance().getMainFrames()) {
-								System.out.println(frame.getTitle());
-								if (frame != mainFrame) {
-									model.addElement(frame);
-								}
-							}
+//							for (MainFrame frame : SbApp.getInstance().getMainFrames()) {
+								System.out.println(mainFrame.getTitle());
+//								if (mainFrame != mainFrame) {
+									model.addElement(mainFrame);
+//								}
+//							}
 							mainFrame.setDefaultCursor();
 						}
 					});

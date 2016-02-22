@@ -2,18 +2,18 @@
  Storybook: Open Source software for novelists and authors.
  Copyright (C) 2008 - 2012 Martin Mustun
 
- This program is free software: you can redistribute it and/or modify
+ SbApp.getMainFrame() program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
+ SbApp.getMainFrame() program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ along with SbApp.getMainFrame() program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package storybook.ui;
 
@@ -73,7 +73,6 @@ import storybook.controller.BookController;
 import storybook.model.BlankModel;
 import storybook.model.BookModel;
 import storybook.model.DbFile;
-import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Internal;
@@ -91,28 +90,60 @@ import storybook.ui.edit.EntityEditor;
 import storybook.ui.interfaces.IPaintable;
 import storybook.ui.panel.BlankPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class MainFrame.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class MainFrame extends JFrame implements IPaintable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2237084857136835926L;
+
+	/**
+	 * The Class DynamicView.
+	 */
 	private static class DynamicView extends View {
 
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -4014546941197479192L;
+		
+		/** The id. */
 		private final int id;
 
+		/**
+		 * Instantiates a new dynamic view.
+		 *
+		 * @param title the title
+		 * @param icon the icon
+		 * @param component the component
+		 * @param id the id
+		 */
 		DynamicView(String title, Icon icon, Component component, int id) {
 			super(title, icon, component);
 			this.id = id;
 		}
 
+		/**
+		 * Gets the id.
+		 *
+		 * @return the id
+		 */
 		public int getId() {
 			return id;
 		}
 	}
+
+	/**
+	 * The Class MainDockingWindowAdapter.
+	 */
 	private class MainDockingWindowAdapter extends DockingWindowAdapter {
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowAdded(net.infonode.docking.DockingWindow, net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
 			SbApp.trace("MainDockingWindowAdapter.windowAdded(" + addedToWindow.getName() + ", " + addedWindow.getName()
@@ -127,6 +158,9 @@ public class MainFrame extends JFrame implements IPaintable {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see net.infonode.docking.DockingWindowAdapter#windowClosed(net.infonode.docking.DockingWindow)
+		 */
 		@Override
 		public void windowClosed(DockingWindow window) {
 			SbApp.trace("MainDockingWindowAdapter.windowClosed(" + window.getName() + ")");
@@ -148,41 +182,84 @@ public class MainFrame extends JFrame implements IPaintable {
 			}
 		}
 	}
+
+	/**
+	 * The Class MainFrameWindowAdaptor.
+	 */
 	private class MainFrameWindowAdaptor extends WindowAdapter {
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
+		 */
 		@Override
 		public void windowClosing(WindowEvent evt) {
-			close(true);
+			SbApp app = SbApp.getInstance();
+				app.exit();
 		}
 	}
+
+	/**
+	 * Creates the dummy view component.
+	 *
+	 * @param text the text
+	 * @return the j component
+	 */
 	private static JComponent createDummyViewComponent(String text) {
 		StringBuilder sb = new StringBuilder();
 		for (int j = 0; j < 100; j++) {
-			sb.append(text).append(". This is line ").append(j).append("\n");
+			sb.append(text).append(". SbApp.getMainFrame() is line ").append(j).append("\n");
 		}
 		return new JScrollPane(new JTextArea(sb.toString()));
 	}
+
+	/** The book model. */
 	private BookModel bookModel;
+	
+	/** The book controller. */
 	private BookController bookController;
+	
+	/** The sb action manager. */
 	private SbActionManager sbActionManager;
+	
+	/** The view factory. */
 	private ViewFactory viewFactory;
+	
+	/** The main tool bar. */
 	private JToolBar mainToolBar;
+	
+	/** The root window. */
 	private RootWindow rootWindow;
+	
+	/** The status bar. */
 	private StatusBarPanel statusBar;
+	
+	/** The dynamic views. */
 	private HashMap<Integer, JComponent> dynamicViews = new HashMap<Integer, JComponent>();
 
+	/** The db file. */
 	private DbFile dbFile;
 
+	/** The current part. */
 	private Part currentPart;
 
+	/** The Editor modless. */
 	private boolean EditorModless;
 
+	/** The unicode dialog. */
 	private UnicodeDialog unicodeDialog;
 
+	/**
+	 * Instantiates a new main frame.
+	 */
 	public MainFrame() {
 		FontUtil.setDefaultFont(new Font("Arial", Font.PLAIN, 12));
 	}
 
+	/**
+	 * Close.
+	 *
+	 * @param exitIfEmpty the exit if empty
+	 */
 	public void close(boolean exitIfEmpty) {
 		if (!isBlank()) {
 			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
@@ -194,7 +271,7 @@ public class MainFrame extends JFrame implements IPaintable {
 				}
 			}
 			// save
-			getSbActionManager().getActionHandler().handleFileSave();
+			getSbActionManager().getActionHandler(); //.handleFileSave();
 			// save dimension, location, maximized
 			Dimension dim = getSize();
 			PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
@@ -203,38 +280,63 @@ public class MainFrame extends JFrame implements IPaintable {
 			PrefUtil.set(PreferenceKey.POS_Y, getLocationOnScreen().y);
 			PrefUtil.set(PreferenceKey.MAXIMIZED, isMaximized());
 			// save layout
-			DockingWindowUtil.saveLayout(this, SbConstants.BookKey.LAST_USED_LAYOUT.toString());
+			DockingWindowUtil.saveLayout(SbApp.getMainFrame(), SbConstants.BookKey.LAST_USED_LAYOUT.toString());
 			// save last used part
-			BookUtil.store(this, BookKey.LAST_USED_PART.toString(), ((int) (long) getCurrentPart().getId()));
+			BookUtil.store(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(), ((int) (long) getCurrentPart().getId()));
 		}
 
 		bookModel.closeSession();
 		SbApp app = SbApp.getInstance();
-		app.removeMainFrame(this);
+		app.removeMainFrame(SbApp.getMainFrame());
 		dispose();
-		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
+//		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
 			app.exit();
-		}
+//		}
 	}
 
+	/**
+	 * Close view.
+	 *
+	 * @param viewName the view name
+	 */
 	public void closeView(ViewName viewName) {
 		SbApp.trace("MainFrame.closeView(" + viewName.name() + ")");
 		SbView view = getView(viewName);
 		view.close();
 	}
 
+	/**
+	 * Gets the action controller.
+	 *
+	 * @return the action controller
+	 */
 	public ActionHandler getActionController() {
 		return sbActionManager.getActionController();
 	}
 
+	/**
+	 * Gets the book controller.
+	 *
+	 * @return the book controller
+	 */
 	public BookController getBookController() {
 		return bookController;
 	}
 
+	/**
+	 * Gets the book model.
+	 *
+	 * @return the book model
+	 */
 	public BookModel getBookModel() {
 		return bookModel;
 	}
 
+	/**
+	 * Gets the current part.
+	 *
+	 * @return the current part
+	 */
 	public Part getCurrentPart() {
 		try {
 			Session session = bookModel.beginTransaction();
@@ -251,10 +353,21 @@ public class MainFrame extends JFrame implements IPaintable {
 		return null;
 	}
 
+	/**
+	 * Gets the db file.
+	 *
+	 * @return the db file
+	 */
 	public DbFile getDbFile() {
 		return dbFile;
 	}
 
+	/**
+	 * Gets the dynamic view.
+	 *
+	 * @param id the id
+	 * @return the dynamic view
+	 */
 	private View getDynamicView(int id) {
 		View view = (View) dynamicViews.get(new Integer(id));
 		if (view == null) {
@@ -263,38 +376,83 @@ public class MainFrame extends JFrame implements IPaintable {
 		return view;
 	}
 
+	/**
+	 * Gets the main tool bar.
+	 *
+	 * @return the main tool bar
+	 */
 	public JToolBar getMainToolBar() {
 		return mainToolBar;
 	}
 
+	/**
+	 * Gets the root window.
+	 *
+	 * @return the root window
+	 */
 	public RootWindow getRootWindow() {
 		return rootWindow;
 	}
 
+	/**
+	 * Gets the sb action manager.
+	 *
+	 * @return the sb action manager
+	 */
 	public SbActionManager getSbActionManager() {
 		return sbActionManager;
 	}
 
+	/**
+	 * Gets the SbApp.getMainFrame().
+	 *
+	 * @return the SbApp.getMainFrame()
+	 */
 	private MainFrame getThis() {
-		return this;
+		return SbApp.getMainFrame();
 	}
 
+	/**
+	 * Gets the view.
+	 *
+	 * @param viewName the view name
+	 * @return the view
+	 */
 	public SbView getView(String viewName) {
 		return viewFactory.getView(viewName);
 	}
 
+	/**
+	 * Gets the view.
+	 *
+	 * @param viewName the view name
+	 * @return the view
+	 */
 	public SbView getView(ViewName viewName) {
 		return viewFactory.getView(viewName);
 	}
 
+	/**
+	 * Gets the view factory.
+	 *
+	 * @return the view factory
+	 */
 	public ViewFactory getViewFactory() {
 		return viewFactory;
 	}
 
+	/**
+	 * Checks for current part.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasCurrentPart() {
 		return currentPart != null;
 	}
 
+	/**
+	 * Hide editor.
+	 */
 	public void hideEditor() {
 		/*
 		 * Timer timer = new Timer(200, new ActionListener() {
@@ -317,31 +475,39 @@ public class MainFrame extends JFrame implements IPaintable {
 		 */
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("MainFrame.init()");
 		dbFile = null;
-		viewFactory = new ViewFactory(this);
-		sbActionManager = new SbActionManager(this);
+		viewFactory = new ViewFactory(SbApp.getMainFrame());
+		sbActionManager = new SbActionManager(SbApp.getMainFrame());
 		sbActionManager.init();
-		bookController = new BookController(this);
-		BlankModel model = new BlankModel(this);
+		bookController = new BookController(SbApp.getMainFrame());
+		BlankModel model = new BlankModel(SbApp.getMainFrame());
 		bookController.attachModel(model);
 		setIconImage(I18N.getIconImage("icon.sb"));
 		addWindowListener(new MainFrameWindowAdaptor());
 	}
 
+	/**
+	 * Inits the.
+	 *
+	 * @param dbF the db f
+	 */
 	public void init(DbFile dbF) {
 		SbApp.trace("MainFrame.init(" + dbF.getDbName() + ")");
 		try {
-			this.dbFile = dbF;
-			viewFactory = new ViewFactory(this);
+			SbApp.getMainFrame().dbFile = dbF;
+			viewFactory = new ViewFactory(SbApp.getMainFrame());
 			viewFactory.setInitialisation();
-			sbActionManager = new SbActionManager(this);
+			sbActionManager = new SbActionManager(SbApp.getMainFrame());
 			sbActionManager.init();
 			// model and controller
-			bookController = new BookController(this);
-			bookModel = new BookModel(this);
+			bookController = new BookController(SbApp.getMainFrame());
+			bookModel = new BookModel(SbApp.getMainFrame());
 			if (!dbF.getDbName().isEmpty()) {
 				bookModel.initSession(dbF.getDbName());
 			}
@@ -359,37 +525,14 @@ public class MainFrame extends JFrame implements IPaintable {
 			SbApp.error("MainFrame.init(" + dbF.getName() + ")", e);
 		}
 	}
-	
-	public void inits() {
-//		SbApp.trace("MainFrame.init(" + dbF.getDbName() + ")");
-		try {
-//			this.dbFile = dbF;
-			viewFactory = new ViewFactory(this);
-			viewFactory.setInitialisation();
-			sbActionManager = new SbActionManager(this);
-			sbActionManager.init();
-			// model and controller
-			bookController = new BookController(this);
-			bookModel = new BookModel(this);
-			
-			
-			bookController.attachModel(bookModel);
-			// Google maps
-			// Preference pref = PrefUtil.get(PreferenceKey.GOOGLE_MAPS_URL,
-			// SbConstants.DEFAULT_GOOGLE_MAPS_URL);
-			// NetUtil.setGoogleMapUrl(pref.getStringValue());
-			// spell checker
-			SpellCheckerUtil.registerDictionaries();
-			// listener
-			addWindowListener(new MainFrameWindowAdaptor());
-			viewFactory.resetInitialisation();
-		} catch (Exception e) {
-			SbApp.error("MainFrame.inits(", e);
-		}
-	}
 
+
+
+	/**
+	 * Inits the after pack.
+	 */
 	private void initAfterPack() {
-		unicodeDialog = new UnicodeDialog(this);
+		unicodeDialog = new UnicodeDialog(SbApp.getMainFrame());
 		SbView scenesView = getView(ViewName.SCENES);
 		SbView locationsView = getView(ViewName.LOCATIONS);
 		SbView personsView = getView(ViewName.PERSONS);
@@ -419,22 +562,28 @@ public class MainFrame extends JFrame implements IPaintable {
 		chronoView.restoreFocus();
 	}
 
-	public void initBlankUi() {
-		dbFile = null;
-		setTitle(Storybook.PRODUCT_FULL_NAME.toString());
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		SbApp.getInstance().resetUiFont();
-		sbActionManager.reloadMenuToolbar();
-		BlankPanel blankPanel = new BlankPanel(this);
-		blankPanel.initAll();
-		add(blankPanel);
-		pack();
-		setVisible(true);
-	}
+	/**
+	 * Inits the blank ui.
+	 */
+//	public void initBlankUi() {
+//		dbFile = null;
+//		setTitle(Storybook.PRODUCT_FULL_NAME.toString());
+//		Toolkit toolkit = Toolkit.getDefaultToolkit();
+//		Dimension screenSize = toolkit.getScreenSize();
+//		setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
+//		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+//		SbApp.getInstance().resetUiFont();
+//		sbActionManager.reloadMenuToolbar();
+//		BlankPanel blankPanel = new BlankPanel(SbApp.getMainFrame());
+//		blankPanel.initAll();
+//		add(blankPanel);
+//		pack();
+//		setVisible(true);
+//	}
 
+	/**
+	 * Inits the root window.
+	 */
 	private void initRootWindow() {
 		SbApp.trace("MainFrame.initRootWindow()");
 		StringViewMap viewMap = viewFactory.getViewMap();
@@ -466,6 +615,9 @@ public class MainFrame extends JFrame implements IPaintable {
 		rootWindow.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace(">>> MainFrame.initUi()");
@@ -480,8 +632,8 @@ public class MainFrame extends JFrame implements IPaintable {
 		setDefaultLayout();
 		SbApp.trace("add(rootWindow, \"grow\");");
 		add(rootWindow, "grow");
-		SbApp.trace("statusBar = new StatusBarPanel(this);");
-		statusBar = new StatusBarPanel(this);
+		SbApp.trace("statusBar = new StatusBarPanel(SbApp.getMainFrame());");
+		statusBar = new StatusBarPanel(SbApp.getMainFrame());
 		SbApp.trace("add(statusBar, \"growx\");");
 		add(statusBar, "growx");
 		SbApp.trace("bookController.attachView(statusBar);");
@@ -494,12 +646,12 @@ public class MainFrame extends JFrame implements IPaintable {
 		bookController.detachView(menubar);
 		bookController.attachView(menubar);
 		// load last used layout
-		DockingWindowUtil.loadLayout(this, SbConstants.BookKey.LAST_USED_LAYOUT.toString());
+		DockingWindowUtil.loadLayout(SbApp.getMainFrame(), SbConstants.BookKey.LAST_USED_LAYOUT.toString());
 		// always hide the editor
 		hideEditor();
 		// restore last used part
 		try {
-			Internal internal = BookUtil.get(this, BookKey.LAST_USED_PART.toString(), 1);
+			Internal internal = BookUtil.get(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(), 1);
 			Part part = null;
 			if (internal != null && internal.getIntegerValue() != null) {
 				Session session = bookModel.beginTransaction();
@@ -516,18 +668,31 @@ public class MainFrame extends JFrame implements IPaintable {
 		} catch (Exception e) {
 			SbApp.trace("exiting try in MainFrame.initUi()");
 		}
-		// bookController.attachView(this);
+		// bookController.attachView(SbApp.getMainFrame());
 		SbApp.trace("<<< MainFrame.initUi()");
 	}
 
+	/**
+	 * Checks if is blank.
+	 *
+	 * @return true, if is blank
+	 */
 	public boolean isBlank() {
 		return dbFile == null;
 	}
 
+	/**
+	 * Checks if is maximized.
+	 *
+	 * @return true, if is maximized
+	 */
 	public boolean isMaximized() {
 		return (getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
 	}
 
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		setWaitingCursor();
 		for (int i = 0; i < viewFactory.getViewMap().getViewCount(); ++i) {
@@ -537,10 +702,16 @@ public class MainFrame extends JFrame implements IPaintable {
 		setDefaultCursor();
 	}
 
+	/**
+	 * Refresh status bar.
+	 */
 	public void refreshStatusBar() {
 		statusBar.refresh();
 	}
 
+	/**
+	 * Restore dimension.
+	 */
 	private void restoreDimension() {
 		int w = PrefUtil.get(PreferenceKey.SIZE_WIDTH, SbConstants.DEFAULT_SIZE_WIDTH).getIntegerValue();
 		int h = PrefUtil.get(PreferenceKey.SIZE_HEIGHT, SbConstants.DEFAULT_SIZE_HEIGHT).getIntegerValue();
@@ -549,7 +720,7 @@ public class MainFrame extends JFrame implements IPaintable {
 		int y = PrefUtil.get(PreferenceKey.POS_Y, SbConstants.DEFAULT_POS_Y).getIntegerValue();
 
 		// Do not put it out of screen
-		Dimension size = this.getToolkit().getScreenSize();
+		Dimension size = SbApp.getMainFrame().getToolkit().getScreenSize();
 		if ((x >= 0) && (y >= 0) && (x < size.width) && (y < size.height)) {
 			setLocation(x, y);
 		}
@@ -559,20 +730,34 @@ public class MainFrame extends JFrame implements IPaintable {
 		}
 	}
 
+	/**
+	 * Save all table design.
+	 */
 	public void saveAllTableDesign() {
 		viewFactory.saveAllTableDesign();
 	}
 
+	/**
+	 * Sets the current part.
+	 *
+	 * @param currentPart the new current part
+	 */
 	public void setCurrentPart(Part currentPart) {
 		if (currentPart != null) {
-			this.currentPart = currentPart;
+			SbApp.getMainFrame().currentPart = currentPart;
 		}
 	}
 
+	/**
+	 * Sets the default cursor.
+	 */
 	public void setDefaultCursor() {
-		SwingUtil.setDefaultCursor(this);
+		SwingUtil.setDefaultCursor(SbApp.getMainFrame());
 	}
 
+	/**
+	 * Sets the default layout.
+	 */
 	public void setDefaultLayout() {
 		SbApp.trace("MainFrame.setDefaultLayout()");
 		SbView scenesView = getView(ViewName.SCENES);
@@ -661,19 +846,27 @@ public class MainFrame extends JFrame implements IPaintable {
 		infoView.restoreFocus();
 		chronoView.restoreFocus();
 		rootWindow.getWindowBar(Direction.RIGHT).setEnabled(true);
-		DockingWindowUtil.setRespectMinimumSize(this);
+		DockingWindowUtil.setRespectMinimumSize(SbApp.getMainFrame());
 		SbApp.trace("end of MainFrame.setDefaultLayout()");
 	}
 
+	/**
+	 * Sets the main tool bar.
+	 *
+	 * @param toolBar the new main tool bar
+	 */
 	public void setMainToolBar(JToolBar toolBar) {
 		if (mainToolBar != null) {
 			SwingUtil.unfloatToolBar(mainToolBar);
 			getContentPane().remove(mainToolBar);
 		}
-		this.mainToolBar = toolBar;
+		SbApp.getMainFrame().mainToolBar = toolBar;
 		getContentPane().add(mainToolBar, BorderLayout.NORTH);
 	}
 
+	/**
+	 * Sets the maximized.
+	 */
 	public void setMaximized() {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
@@ -682,6 +875,9 @@ public class MainFrame extends JFrame implements IPaintable {
 	// Object oldValue = evt.getOldValue();
 	// Object newValue = evt.getNewValue();
 	// String propName = evt.getPropertyName();
+	/**
+	 * Sets the title.
+	 */
 	// }
 	public void setTitle() {
 		SbApp.trace("MainFrame.setTitle()");
@@ -693,7 +889,7 @@ public class MainFrame extends JFrame implements IPaintable {
 				partName = part.getNumberName();
 			}
 			String title = dbFile.getName();
-			Internal internal = BookUtil.get(this, BookKey.TITLE, "");
+			Internal internal = BookUtil.get(SbApp.getMainFrame(), BookKey.TITLE, "");
 			if (internal != null && !internal.getStringValue().isEmpty()) {
 				title = internal.getStringValue();
 			}
@@ -703,10 +899,18 @@ public class MainFrame extends JFrame implements IPaintable {
 		}
 	}
 
+	/**
+	 * Sets the waiting cursor.
+	 */
 	public void setWaitingCursor() {
-		SwingUtil.setWaitingCursor(this);
+		SwingUtil.setWaitingCursor(SbApp.getMainFrame());
 	}
 
+	/**
+	 * Show and focus.
+	 *
+	 * @param viewName the view name
+	 */
 	public void showAndFocus(ViewName viewName) {
 		SbApp.trace("MainFrame.showAndFocus(" + viewName.name() + ")");
 		View view = getView(viewName);
@@ -714,6 +918,9 @@ public class MainFrame extends JFrame implements IPaintable {
 		view.restoreFocus();
 	}
 
+	/**
+	 * Show editor.
+	 */
 	public void showEditor() {
 		SbApp.trace("MainFrame.showEditor()");
 		/*
@@ -726,23 +933,36 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbApp.trace("no MainFrame.showEditor()");
 	}
 
+	/**
+	 * Show editor as dialog.
+	 *
+	 * @param entity the entity
+	 */
 	public void showEditorAsDialog(AbstractEntity entity) {
-		JDialog dlg = new JDialog(this, true);
+		JDialog dlg = new JDialog(SbApp.getMainFrame(), true);
 		if (EditorModless)
 			dlg.setModalityType(Dialog.ModalityType.MODELESS);
-		EntityEditor editor = new EntityEditor(this, entity, dlg);
+		EntityEditor editor = new EntityEditor(SbApp.getMainFrame(), entity, dlg);
 		dlg.setTitle(I18N.getMsg("msg.common.editor"));
-		dlg.setSize(this.getWidth() / 2, 680);
+		dlg.setSize(SbApp.getMainFrame().getWidth() / 2, 680);
 		dlg.add(editor);
-		dlg.setLocationRelativeTo(this);
+		dlg.setLocationRelativeTo(SbApp.getMainFrame());
 		dlg.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		dlg.setVisible(true);
 	}
 
+	/**
+	 * Show unicode dialog.
+	 */
 	public void showUnicodeDialog() {
 		unicodeDialog.show();
 	}
 
+	/**
+	 * Show view.
+	 *
+	 * @param viewName the view name
+	 */
 	public void showView(ViewName viewName) {
 		SbApp.trace("MainFrame.showView(" + viewName.name() + ")");
 		// if (viewName.equals(SbConstants.ViewName.EDITOR)) {
@@ -757,13 +977,16 @@ public class MainFrame extends JFrame implements IPaintable {
 			DockingUtil.addWindow(view, rootWindow);
 		}
 		view.requestFocusInWindow();
-		DockingWindowUtil.setRespectMinimumSize(this);
+		DockingWindowUtil.setRespectMinimumSize(SbApp.getMainFrame());
 		setDefaultCursor();
 		/*
 		 * if (viewName.equals(SbConstants.ViewName.EDITOR)) { showEditor(); }
 		 */
 	}
 
+	/**
+	 * Update stat.
+	 */
 	public void updateStat() {
 		throw new UnsupportedOperationException("Not supported yet."); // To
 																		// change

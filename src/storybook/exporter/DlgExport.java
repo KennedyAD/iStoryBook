@@ -38,19 +38,24 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class DlgExport.
  *
  * @author favdb
  */
 public class DlgExport extends javax.swing.JDialog {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6009073679859756809L;
+	
+	/** The formats. */
 	private static String[] formats = { "csv", "txt", "html", "pdf", "odf", "xml", "sql" };
+	
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -90,50 +95,73 @@ public class DlgExport extends javax.swing.JDialog {
 			}
 		});
 	}
+	
+	/** The main frame. */
 	public MainFrame mainFrame;
+	
+	/** The exports. */
 	public List<ExportData> exports;
 
+	/** The param export. */
 	public ParamExport paramExport;
 
+	/** The bt close. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton btClose;
 
+	/** The bt export. */
 	private javax.swing.JButton btExport;
 
+	/** The bt folder. */
 	private javax.swing.JButton btFolder;
 
+	/** The bt options. */
 	private javax.swing.JButton btOptions;
 
+	/** The cb format. */
 	private javax.swing.JComboBox cbFormat;
 
+	/** The cb report. */
 	private javax.swing.JComboBox cbReport;
 
+	/** The j label1. */
 	private javax.swing.JLabel jLabel1;
 
+	/** The j label2. */
 	private javax.swing.JLabel jLabel2;
 
+	/** The j label3. */
 	private javax.swing.JLabel jLabel3;
 
+	/** The j panel1. */
 	private javax.swing.JPanel jPanel1;
 
+	/** The j scroll pane2. */
 	private javax.swing.JScrollPane jScrollPane2;
 
+	/** The tx folder. */
 	private javax.swing.JTextField txFolder;
+	
+	/** The tx options. */
 	private javax.swing.JTextPane txOptions;
 	// End of variables declaration//GEN-END:variables
 	/**
-	 * Creates new form dlgExportPrint
-	 * 
-	 * @param parent
-	 *            : parent frame
-	 * @param modal
-	 *            : true or false
+	 * Creates new form dlgExportPrint.
+	 *
+	 * @param parent            : parent frame
+	 * @param modal            : true or false
 	 */
 	public DlgExport(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 		initUI();
 	}
+	
+	/**
+	 * Instantiates a new dlg export.
+	 *
+	 * @param parent the parent
+	 */
 	public DlgExport(MainFrame parent) {
 		super(parent, true);
 		exports = new ArrayList<>();
@@ -153,13 +181,25 @@ public class DlgExport extends javax.swing.JDialog {
 		mainFrame = parent;
 		initUI();
 	}
+	
+	/**
+	 * Bt close action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btCloseActionPerformed
 		BookUtil.store(mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY, txFolder.getText());
 		dispose();
 	}// GEN-LAST:event_btCloseActionPerformed
+	
+	/**
+	 * Bt export action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btExportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btExportActionPerformed
 		String format = cbFormat.getSelectedItem().toString();
-		if (format.equals("sql")) {
+		if ("sql".equals(format)) {
 			doExportSQL();
 			return;
 		}
@@ -167,38 +207,66 @@ public class DlgExport extends javax.swing.JDialog {
 		ExportData report = (ExportData) cbReport.getSelectedItem();
 		SwingUtil.setWaitingCursor(this);
 		String str = "";
-		if (report.getExportName().equals("all")) {
+		if ("all".equals(report.getExportName())) {
 			for (int i = 1; i < cbReport.getItemCount() - 1; i++) {
 				ExportData data = (ExportData) cbReport.getItemAt(i);
 				str = exp.fill(txFolder.getText(), data, null, true);
 			}
-			if ("html".equals(format))
+			if ("html".equals(format)) {
 				exp.createHtmlIndex(txFolder.getText());
-		} else
+			}
+		} else {
 			str = exp.fill(txFolder.getText(), report, null, false);
+		}
 		SwingUtil.setDefaultCursor(this);
-		if (str.isEmpty())
+		if (str.isEmpty()) {
 			return;
+		}
 		dispose();
 	}// GEN-LAST:event_btExportActionPerformed
+	
+	/**
+	 * Bt folder action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btFolderActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btFolderActionPerformed
 		JFileChooser chooser = new JFileChooser(txFolder.getText());
 		chooser.setFileSelectionMode(1);
 		int i = chooser.showOpenDialog(this);
-		if (i != 0)
+		if (i != 0) {
 			return;
+		}
 		File file = chooser.getSelectedFile();
 		txFolder.setText(file.getAbsolutePath());
 	}// GEN-LAST:event_btFolderActionPerformed
+	
+	/**
+	 * Bt options action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void btOptionsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btOptionsActionPerformed
 		DlgExportOptions expo = new DlgExportOptions(this, true);
 		expo.setVisible(true);
 	}// GEN-LAST:event_btOptionsActionPerformed
+	
+	/**
+	 * Cb format item state changed.
+	 *
+	 * @param evt the evt
+	 */
 	private void cbFormatItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_cbFormatItemStateChanged
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			setOptions(evt.getItem().toString());
 		}
 	}// GEN-LAST:event_cbFormatItemStateChanged
+	
+	/**
+	 * Cb report action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void cbReportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cbReportActionPerformed
 		ExportData report = (ExportData) cbReport.getSelectedItem();
 		if (report.getExportName().contains("sql")) {
@@ -206,12 +274,21 @@ public class DlgExport extends javax.swing.JDialog {
 			return;
 		}
 	}// GEN-LAST:event_cbReportActionPerformed
+	
+	/**
+	 * Cb report item state changed.
+	 *
+	 * @param evt the evt
+	 */
 	private void cbReportItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_cbReportItemStateChanged
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			if (evt.getItem().toString().equals(I18N.getMsg("msg.export.book.text")))
-				setOptions(cbFormat.getSelectedItem().toString());
+		if (evt.getStateChange() == ItemEvent.SELECTED && evt.getItem().toString().equals(I18N.getMsg("msg.export.book.text"))) {
+			setOptions(cbFormat.getSelectedItem().toString());
 		}
 	}// GEN-LAST:event_cbReportItemStateChanged
+	
+	/**
+	 * Do export sql.
+	 */
 	private void doExportSQL() {
 		String url = "jdbc:h2:" + mainFrame.getDbFile().getDbName();
 		String file = /* txFolder.getText()+File.separator+ */mainFrame.getDbFile().getDbName() + ".sql";
@@ -225,44 +302,63 @@ public class DlgExport extends javax.swing.JDialog {
 					"SQL export error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	/**
+	 * Gets the book options.
+	 *
+	 * @return the book options
+	 */
 	private String getBookOptions() {
 		String str = "";
 		if (cbReport.getSelectedItem().toString().equals(I18N.getMsg("msg.export.book.text"))) {
 			str += "<p>" + I18N.getMsg("msg.export.book.htmloption") + " ";
-			if (paramExport.htmlBookMulti)
+			if (paramExport.htmlBookMulti) {
 				str += I18N.getMsg("msg.export.book.htmloption.multifile");
-			else
+			} else {
 				str += I18N.getMsg("msg.export.book.htmloption.onefile");
+			}
 			str += "</p>";
 			str += "<ul>";
-			if (paramExport.isExportChapterNumbers)
+			if (paramExport.isExportChapterNumbers) {
 				str += "<li>" + I18N.getMsg("msg.export.chapter.numbers") + "</li>";
-			if (paramExport.isExportChapterNumbersRoman)
+			}
+			if (paramExport.isExportChapterNumbersRoman) {
 				str += "<li>" + I18N.getMsg("msg.export.roman.numerals") + "</li>";
-			if (paramExport.isExportChapterTitles)
+			}
+			if (paramExport.isExportChapterTitles) {
 				str += "<li>" + I18N.getMsg("msg.export.chapter.titles") + "</li>";
-			if (paramExport.isExportChapterDatesLocs)
+			}
+			if (paramExport.isExportChapterDatesLocs) {
 				str += "<li>" + I18N.getMsg("msg.export.chapter.dates.locations") + "</li>";
-			if (paramExport.isExportSceneTitles)
+			}
+			if (paramExport.isExportSceneTitles) {
 				str += "<li>" + I18N.getMsg("msg.export.scene.titles") + "</li>";
-			if (paramExport.isExportSceneSeparator)
+			}
+			if (paramExport.isExportSceneSeparator) {
 				str += "<li>" + I18N.getMsg("msg.export.scene.separator") + "</li>";
+			}
 			str += "</ul>";
 		}
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options csv.
+	 *
+	 * @return the options csv
+	 */
 	private String getOptionsCsv() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " CSV :</p>";
 		str += "<ul>";
-		if (paramExport.csvNoQuotes)
+		if (paramExport.csvNoQuotes) {
 			str += "<li>" + I18N.getMsg("msg.export.not_quoted") + "</li>";
-		else
+		} else {
 			str += "<li>" + I18N.getMsg("msg.export.csv_quoted_by",
-					(paramExport.csvSingleQuotes ? I18N.getMsg("msg.export.options.csv.quoted.single")
-							: I18N.getMsg("msg.export.options.csv.quoted.double")))
+					paramExport.csvSingleQuotes ? I18N.getMsg("msg.export.options.csv.quoted.single")
+							: I18N.getMsg("msg.export.options.csv.quoted.double"))
 					+ "</li>";
+		}
 		str += "<li>" + I18N.getMsg("msg.export.csv_separator_is") + " "
 				+ (paramExport.csvComma ? I18N.getMsg("msg.export.options.csv.separate.comma")
 						: I18N.getMsg("msg.export.options.csv.separate.semicolon"))
@@ -270,23 +366,34 @@ public class DlgExport extends javax.swing.JDialog {
 		str += "</ul>";
 		str += I18N.getMsg("msg.export.csv_not_book");
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options html.
+	 *
+	 * @return the options html
+	 */
 	private String getOptionsHtml() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " HTML :</p>";
 		str += "<ul>";
 		str += "<li>" + I18N.getMsg("msg.export.html_use_css") + " : "
 				+ (paramExport.htmlUseCss ? I18N.getMsg("msg.common.yes") : I18N.getMsg("msg.common.no")) + "</li>";
-		if (paramExport.htmlUseCss)
+		if (paramExport.htmlUseCss) {
 			str += "<li>" + I18N.getMsg("msg.export.html_css_file") + " : " + paramExport.htmlCssFile + "</li>";
+		}
 		str += "</ul>";
 		str += "<p>" + I18N.getMsg("msg.export.html_add_index") + "</p>";
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options odf.
+	 *
+	 * @return the options odf
+	 */
 	private String getOptionsOdf() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " ODF :</p>";
@@ -294,9 +401,14 @@ public class DlgExport extends javax.swing.JDialog {
 		str += "<li>" + I18N.getMsg("msg.export.odf.no_options") + "</li>";
 		str += "</ul>";
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options pdf.
+	 *
+	 * @return the options pdf
+	 */
 	private String getOptionsPdf() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " PDF :</p>";
@@ -308,21 +420,31 @@ public class DlgExport extends javax.swing.JDialog {
 				+ "</li>";
 		str += "</ul>";
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options txt.
+	 *
+	 * @return the options txt
+	 */
 	private String getOptionsTxt() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " TXT :</p>";
 		str += "<ul>";
 		str += "<li>" + I18N.getMsg("msg.export.txt_separator",
-				(paramExport.txtTab ? "'tab'" : "'" + paramExport.txtSeparator + "'")) + "</li>";
+				paramExport.txtTab ? "'tab'" : "'" + paramExport.txtSeparator + "'") + "</li>";
 		str += "<li>" + I18N.getMsg("msg.export.txt_EOL") + "</li>";
 		str += "</ul>";
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Gets the options xml.
+	 *
+	 * @return the options xml
+	 */
 	private String getOptionsXml() {
 		String str = "";
 		str += "<p>" + I18N.getMsg("msg.export.current_options_for") + " XML DocBook :</p>";
@@ -330,7 +452,7 @@ public class DlgExport extends javax.swing.JDialog {
 		str += "<li>" + I18N.getMsg("msg.export.xml.no_options") + "</li>";
 		str += "</ul>";
 		str += getBookOptions();
-		return (str);
+		return str;
 	}
 
 	/**
@@ -500,6 +622,9 @@ public class DlgExport extends javax.swing.JDialog {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Inits the ui.
+	 */
 	@SuppressWarnings("unchecked")
 	private void initUI() {
 		paramExport = new ParamExport(mainFrame);
@@ -507,8 +632,9 @@ public class DlgExport extends javax.swing.JDialog {
 		Internal internal = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_DIRECTORY,
 				EnvUtil.getDefaultExportDir(mainFrame));
 		txFolder.setText(internal.getStringValue());
-		if (txFolder.getText().isEmpty())
+		if (txFolder.getText().isEmpty()) {
 			txFolder.setText(FileUtils.getUserDirectoryPath());
+		}
 		cbReport.removeAllItems();
 		for (ExportData export : exports) {
 			cbReport.addItem(export);
@@ -521,6 +647,11 @@ public class DlgExport extends javax.swing.JDialog {
 		cbFormat.setSelectedItem("html");
 	}
 
+	/**
+	 * Sets the options.
+	 *
+	 * @param f the new options
+	 */
 	private void setOptions(String f) {
 		String str = "<html><body>";
 		switch (f) {

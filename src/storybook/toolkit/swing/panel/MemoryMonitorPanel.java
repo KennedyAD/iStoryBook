@@ -38,7 +38,7 @@ import storybook.ui.interfaces.IPaintable;
  * @author martin
  *
  */
-@SuppressWarnings("serial")
+
 public class MemoryMonitorPanel extends JPanel implements IPaintable, ActionListener {
 
 	private Timer timer;

@@ -29,23 +29,42 @@ import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.ViewUtil;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ScrollToEntityAction.
  *
+ * @author martin
  */
 public class ScrollToEntityAction implements ActionListener {
 
-	private boolean found = false;
+	/** The found. */
+	private boolean found;
+	
+	/** The container. */
 	private AbstractPanel container;
+	
+	/** The panel. */
 	private JPanel panel;
+	
+	/** The entity. */
 	private AbstractEntity entity;
 
+	/**
+	 * Instantiates a new scroll to entity action.
+	 *
+	 * @param container the container
+	 * @param panel the panel
+	 * @param entity the entity
+	 */
 	public ScrollToEntityAction(AbstractPanel container, JPanel panel, AbstractEntity entity) {
 		this.container = container;
 		this.panel = panel;
 		this.entity = entity;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (entity instanceof Scene) {
@@ -55,6 +74,11 @@ public class ScrollToEntityAction implements ActionListener {
 		}
 	}
 
+	/**
+	 * Checks if is found.
+	 *
+	 * @return true, if is found
+	 */
 	public boolean isFound() {
 		return found;
 	}

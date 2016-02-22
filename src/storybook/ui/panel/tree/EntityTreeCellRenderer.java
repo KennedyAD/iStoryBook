@@ -30,8 +30,19 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityTreeCellRenderer.
+ */
 class EntityTreeCellRenderer extends DefaultTreeCellRenderer {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -3383307283441289270L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+	 */
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
 			int row, boolean hasFocus) {

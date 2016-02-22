@@ -26,23 +26,53 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import storybook.SbApp;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportPDF.
  *
  * @author favdb
  */
 public class ExportPDF {
 
+	/** The parent. */
 	private final Export parent;
+	
+	/** The out doc. */
 	private Document outDoc;
+	
+	/** The report. */
 	String report;
+	
+	/** The file name. */
 	String fileName = "";
+	
+	/** The headers. */
 	List<ExportHeader> headers;
+	
+	/** The font body. */
 	Font fontHeader, fontBody;
+	
+	/** The fop. */
 	FileOutputStream fop;
+	
+	/** The table. */
 	PdfPTable table;
+	
+	/** The author. */
 	String author;
+	
+	/** The writer. */
 	private PdfWriter writer;
 
+	/**
+	 * Instantiates a new export pdf.
+	 *
+	 * @param parent the parent
+	 * @param report the report
+	 * @param fileName the file name
+	 * @param headers the headers
+	 * @param author the author
+	 */
 	public ExportPDF(Export parent, String report, String fileName, List<ExportHeader> headers, String author) {
 		this.parent = parent;
 		this.report = report;
@@ -51,6 +81,9 @@ public class ExportPDF {
 		this.author = author;
 	}
 
+	/**
+	 * Adds the meta data.
+	 */
 	private void addMetaData() {
 		SbApp.trace("ExportPDF.addMetaData()");
 		outDoc.addTitle(report);
@@ -60,17 +93,26 @@ public class ExportPDF {
 		outDoc.addCreator(System.getProperty("user.name"));
 	}
 
+	/**
+	 * Close.
+	 */
 	public void close() {
 		SbApp.trace("ExportPDF.close()");
 		try {
-			if (headers != null)
+			if (headers != null) {
 				outDoc.add(table);
+			}
 		} catch (DocumentException ex) {
 			SbApp.error("ExportPDF.close()", ex);
 		}
 		outDoc.close();
 	}
 
+	/**
+	 * Html to pdf.
+	 *
+	 * @param source the source
+	 */
 	@SuppressWarnings("deprecation")
 	public void HtmlToPdf(String source) {
 		StyleSheet styles = null;
@@ -87,6 +129,9 @@ public class ExportPDF {
 		}
 	}
 
+	/**
+	 * Open.
+	 */
 	public void open() {
 		SbApp.trace("ExportPDF.open()");
 		outDoc = new Document();
@@ -109,8 +154,9 @@ public class ExportPDF {
 		} catch (DocumentException ex) {
 			SbApp.error("ExportPDF.open()", ex);
 		}
-		if (headers == null)
+		if (headers == null) {
 			return;
+		}
 		float hsize[] = new float[headers.size()];
 		int i = 0;
 		for (ExportHeader header : headers) {
@@ -125,6 +171,11 @@ public class ExportPDF {
 		}
 	}
 
+	/**
+	 * Write row.
+	 *
+	 * @param strings the strings
+	 */
 	public void writeRow(String[] strings) {
 		SbApp.trace("ExportPDF.writeRow()");
 		for (String str : strings) {
@@ -132,6 +183,11 @@ public class ExportPDF {
 		}
 	}
 
+	/**
+	 * Write text.
+	 *
+	 * @param str the str
+	 */
 	void writeText(String str) {
 		SbApp.trace("ExportPDF.writeText(" + str + ")");
 		try {

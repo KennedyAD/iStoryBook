@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class provides the functionality to insert an special character into the
  * document.
@@ -34,9 +35,8 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 	 * colour changed to reflect which special character will be inserted.
 	 */
 	protected class MyButton extends JButton implements ActionListener, FocusListener {
-		/**
-		 * 
-		 */
+		
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1373798657841169892L;
 
 		/**
@@ -55,26 +55,42 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 			addFocusListener(this);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			specialChar = this.getText();
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusGained(FocusEvent e) {
 			this.setBackground(Color.yellow);
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+		 */
 		@Override
 		public void focusLost(FocusEvent e) {
 			this.setBackground(null);
 		}
 
 	}
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The labels. */
 	private final String[] labels;
+	
+	/** The p. */
 	private JPanel p;
 
+	/** The special char. */
 	private String specialChar;
 
 	/**
@@ -130,6 +146,8 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 	/**
 	 * When a user presses the insert special character button this method is
 	 * called.
+	 *
+	 * @param e the e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -163,6 +181,11 @@ public class UnicodeDialogButton extends Button implements ActionListener {
 		}
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return "Special characters";
 	}

@@ -16,19 +16,21 @@ import storybook.model.hbn.dao.ChapterDAOImpl;
 import storybook.model.hbn.entity.Chapter;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ChaptersOrderDialog.
  *
  * @author favdb
  */
 public class ChaptersOrderDialog extends javax.swing.JDialog {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4699793422557018704L;
 
 	/**
-	 * @param args
-	 *            the command line arguments
+	 * The main method.
+	 *
+	 * @param args            the command line arguments
 	 */
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
@@ -79,28 +81,42 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 		});
 	}
 
+	/** The main frame. */
 	MainFrame mainFrame;
 
+	/** The j button down. */
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonDown;
 
+	/** The j button ok. */
 	private javax.swing.JButton jButtonOK;
 
+	/** The j button up. */
 	private javax.swing.JButton jButtonUp;
 
+	/** The j list chapters. */
 	private javax.swing.JList jListChapters;
 
+	/** The j scroll pane1. */
 	private javax.swing.JScrollPane jScrollPane1;
 	// End of variables declaration//GEN-END:variables
 
 	/**
-	 * Creates new form NewJDialog
+	 * Creates new form NewJDialog.
+	 *
+	 * @param parent the parent
+	 * @param modal the modal
 	 */
 	public ChaptersOrderDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 		initComponents();
 	}
 
+	/**
+	 * Instantiates a new chapters order dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ChaptersOrderDialog(MainFrame mainFrame) {
 		super(mainFrame, true);
 		initComponents();
@@ -204,22 +220,48 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
+	
+	/**
+	 * Inits the ui.
+	 */
 	@SuppressWarnings("unchecked")
 	private void initUI() {
 		jListChapters.setModel(new DefaultListModel<Chapter>());
 		loadList(-1);
 	}
+	
+	/**
+	 * J button down action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonDownActionPerformed
 		moveList(1);
 	}// GEN-LAST:event_jButtonDownActionPerformed
+	
+	/**
+	 * J button ok action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonOKActionPerformed
 		dispose();
 	}// GEN-LAST:event_jButtonOKActionPerformed
 
+	/**
+	 * J button up action performed.
+	 *
+	 * @param evt the evt
+	 */
 	private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonUpActionPerformed
 		moveList(-1);
 	}// GEN-LAST:event_jButtonUpActionPerformed
 
+	/**
+	 * Load list.
+	 *
+	 * @param first the first
+	 */
 	@SuppressWarnings("unchecked")
 	private void loadList(int first) {
 		DefaultListModel<Chapter> listModel = (DefaultListModel<Chapter>) jListChapters.getModel();
@@ -237,6 +279,11 @@ public class ChaptersOrderDialog extends javax.swing.JDialog {
 		model.commit();
 	}
 
+	/**
+	 * Move list.
+	 *
+	 * @param sens the sens
+	 */
 	private void moveList(int sens) {
 		int index = jListChapters.getSelectedIndex();
 		DefaultListModel<Chapter> listModel = (DefaultListModel<Chapter>) jListChapters.getModel();

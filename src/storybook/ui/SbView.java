@@ -26,36 +26,72 @@ import javax.swing.JComponent;
 
 import net.infonode.docking.View;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SbView.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class SbView extends View {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4420161275236942105L;
+
+	/** The counter. */
 	private static int counter = -1;
 
+	/** The loaded. */
 	private boolean loaded;
+	
+	/** The number. */
 	private Integer number;
 
+	/**
+	 * Instantiates a new sb view.
+	 *
+	 * @param title the title
+	 */
 	public SbView(String title) {
 		this(title, null, null);
 	}
 
+	/**
+	 * Instantiates a new sb view.
+	 *
+	 * @param title the title
+	 * @param comp the comp
+	 */
 	public SbView(String title, Component comp) {
 		this(title, null, comp);
 	}
 
+	/**
+	 * Instantiates a new sb view.
+	 *
+	 * @param title the title
+	 * @param icon the icon
+	 */
 	public SbView(String title, Icon icon) {
 		this(title, icon, null);
 	}
 
+	/**
+	 * Instantiates a new sb view.
+	 *
+	 * @param title the title
+	 * @param icon the icon
+	 * @param comp the comp
+	 */
 	public SbView(String title, Icon icon, Component comp) {
 		super(title, icon, comp);
 		loaded = comp != null;
 		number = counter++;
 	}
 
+	/**
+	 * Clever restore focus.
+	 */
 	public void cleverRestoreFocus() {
 		setVisible(true);
 		if (!isMinimized()) {
@@ -64,6 +100,9 @@ public class SbView extends View {
 		restoreFocus();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -76,6 +115,9 @@ public class SbView extends View {
 		return Objects.equals(number, test.number);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = 7;
@@ -83,24 +125,45 @@ public class SbView extends View {
 		return hash;
 	}
 
+	/**
+	 * Checks if is loaded.
+	 *
+	 * @return true, if is loaded
+	 */
 	public boolean isLoaded() {
 		return loaded;
 	}
 
+	/**
+	 * Checks if is window showing.
+	 *
+	 * @return true, if is window showing
+	 */
 	public boolean isWindowShowing() {
 		return getRootWindow() != null;
 	}
 
+	/**
+	 * Load.
+	 *
+	 * @param comp the comp
+	 */
 	public void load(JComponent comp) {
 		super.setComponent(comp);
 		loaded = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.infonode.docking.View#toString()
+	 */
 	@Override
 	public String toString() {
 		return "View " + number + ": " + getTitle();
 	}
 
+	/**
+	 * Unload.
+	 */
 	public void unload() {
 		super.setComponent(null);
 		loaded = false;

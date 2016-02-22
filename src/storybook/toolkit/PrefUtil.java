@@ -33,12 +33,19 @@ import storybook.model.PreferenceModel;
 import storybook.model.hbn.dao.PreferenceDAOImpl;
 import storybook.model.hbn.entity.Preference;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PrefUtil.
  *
+ * @author martin
  */
 public class PrefUtil {
 
+	/**
+	 * Delete.
+	 *
+	 * @param strPrefKey the str pref key
+	 */
 	public static void delete(String strPrefKey) {
 		Preference pref = get(strPrefKey, null);
 		if (pref == null) {
@@ -51,6 +58,9 @@ public class PrefUtil {
 		model.commit();
 	}
 
+	/**
+	 * Dump.
+	 */
 	public static void dump() {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -62,6 +72,13 @@ public class PrefUtil {
 		model.commit();
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param prefKey the pref key
+	 * @param defaultVal the default val
+	 * @return the preference
+	 */
 	public static Preference get(PreferenceKey prefKey, Object defaultVal) {
 		String key = prefKey.toString();
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
@@ -81,6 +98,13 @@ public class PrefUtil {
 		return pref;
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param strPrefKey the str pref key
+	 * @param defaultVal the default val
+	 * @return the preference
+	 */
 	public static Preference get(String strPrefKey, Object defaultVal) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -99,6 +123,11 @@ public class PrefUtil {
 		return pref;
 	}
 
+	/**
+	 * Gets the db file list.
+	 *
+	 * @return the db file list
+	 */
 	public static List<DbFile> getDbFileList() {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -116,6 +145,12 @@ public class PrefUtil {
 		return list;
 	}
 
+	/**
+	 * Sets the.
+	 *
+	 * @param prefKey the pref key
+	 * @param val the val
+	 */
 	public static void set(PreferenceKey prefKey, Object val) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -124,6 +159,12 @@ public class PrefUtil {
 		model.commit();
 	}
 
+	/**
+	 * Sets the.
+	 *
+	 * @param strPrefKey the str pref key
+	 * @param val the val
+	 */
 	public static void set(String strPrefKey, Object val) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();
@@ -132,6 +173,11 @@ public class PrefUtil {
 		model.commit();
 	}
 
+	/**
+	 * Sets the db file list.
+	 *
+	 * @param list the new db file list
+	 */
 	public static void setDbFileList(List<DbFile> list) {
 		PreferenceModel model = SbApp.getInstance().getPreferenceModel();
 		Session session = model.beginTransaction();

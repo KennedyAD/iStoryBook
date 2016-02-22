@@ -27,34 +27,53 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.LocationListCellRenderer;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class LocationEntityHandler.
  *
+ * @author martin
  */
 public class LocationEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new location entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public LocationEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getLocationColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Location location = new Location();
 		return location;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) LocationDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Location.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getListCellRenderer()
+	 */
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new LocationListCellRenderer();

@@ -22,9 +22,21 @@ import storybook.model.DbFile;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SaveAsFileDialog.
+ */
 public class SaveAsFileDialog extends AbstractFileDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7484566022959206223L;
+
+	/**
+	 * Instantiates a new save as file dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public SaveAsFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		setTitle(I18N.getMsg("msg.file.save.as"));

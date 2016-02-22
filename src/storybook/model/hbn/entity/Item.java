@@ -18,16 +18,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.hbn.entity;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Item.
+ *
  * @hibernate.subclass discriminator-value="1"
  */
 public class Item extends AbstractTag implements Comparable<Item> {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6137047987157640178L;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Item o) {
 		return getName().compareTo(o.getName());

@@ -4,25 +4,52 @@ import storybook.model.hbn.entity.Chapter;
 import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Scene;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SizedElement.
+ */
 public class SizedElement {
+	
+	/** The element. */
 	Object element;
+	
+	/** The size. */
 	int size;
+	
+	/** The max size. */
 	int maxSize;
 
+	/**
+	 * Gets the element.
+	 *
+	 * @return the element
+	 */
 	public Object getElement() {
 		return element;
 	}
 
+	/**
+	 * Gets the max size.
+	 *
+	 * @return the max size
+	 */
 	public int getMaxSize() {
 		return maxSize;
 	}
 
+	/**
+	 * Gets the size.
+	 *
+	 * @return the size
+	 */
 	public int getSize() {
 		return size;
 	}
 
 	/**
-	 * @param element
+	 * Sets the element.
+	 *
+	 * @param element the new element
 	 */
 	public void setElement(Object element) {
 		this.element = element;
@@ -35,14 +62,27 @@ public class SizedElement {
 		}
 	}
 
+	/**
+	 * Sets the max size.
+	 *
+	 * @param size the new max size
+	 */
 	public void setMaxSize(int size) {
 		this.maxSize = size;
 	}
 
+	/**
+	 * Sets the size.
+	 *
+	 * @param size the new size
+	 */
 	public void setSize(int size) {
 		this.size = size;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		if (element instanceof Part) {

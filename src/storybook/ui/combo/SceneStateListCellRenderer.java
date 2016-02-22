@@ -26,13 +26,21 @@ import javax.swing.JList;
 
 import storybook.model.state.SceneState;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneStateListCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class SceneStateListCellRenderer extends DefaultListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -409052329358186053L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {

@@ -20,22 +20,40 @@ package storybook.toolkit.swing;
 
 import java.awt.Font;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class FontUtil.
  *
+ * @author martin
  */
 public class FontUtil {
 
+	/** The default font. */
 	private static Font defaultFont;
 
+	/**
+	 * Gets the bold font.
+	 *
+	 * @return the bold font
+	 */
 	public static Font getBoldFont() {
 		return new Font(defaultFont.getName(), Font.BOLD, defaultFont.getSize());
 	}
 
+	/**
+	 * Gets the default font.
+	 *
+	 * @return the default font
+	 */
 	public static Font getDefaultFont() {
 		return defaultFont;
 	}
 
+	/**
+	 * Sets the default font.
+	 *
+	 * @param font the new default font
+	 */
 	public static void setDefaultFont(Font font) {
 		if (font == null) {
 			return;

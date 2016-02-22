@@ -22,6 +22,9 @@ import com.googlecode.genericdao.dao.hibernate.GenericDAO;
 
 import storybook.model.hbn.entity.ItemLink;
 
+/**
+ * The Interface ItemLinkDAO.
+ */
 public interface ItemLinkDAO extends GenericDAO<ItemLink, Long> {
 
 }

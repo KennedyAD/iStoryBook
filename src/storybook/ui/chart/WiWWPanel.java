@@ -29,18 +29,36 @@ import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.interfaces.IPaintable;
 import storybook.ui.interfaces.IRefreshable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WiWWPanel.
+ */
 public class WiWWPanel extends JPanel implements IRefreshable, IPaintable {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 3392907590943976699L;
+	
+	/** The container. */
 	private WiWWContainer container;
+	
+	/** The is selected. */
 	private boolean isSelected;
 
+	/**
+	 * Instantiates a new wi ww panel.
+	 *
+	 * @param paramWiWWContainer the param wi ww container
+	 */
 	public WiWWPanel(WiWWContainer paramWiWWContainer) {
 		this(paramWiWWContainer, false);
 	}
 
+	/**
+	 * Instantiates a new wi ww panel.
+	 *
+	 * @param paramWiWWContainer the param wi ww container
+	 * @param paramBoolean the param boolean
+	 */
 	public WiWWPanel(WiWWContainer paramWiWWContainer, boolean paramBoolean) {
 		this.container = paramWiWWContainer;
 		this.isSelected = paramBoolean;
@@ -48,10 +66,16 @@ public class WiWWPanel extends JPanel implements IRefreshable, IPaintable {
 		initUi();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IPaintable#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("ins 0 1 0 1"));
@@ -77,6 +101,9 @@ public class WiWWPanel extends JPanel implements IRefreshable, IPaintable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IRefreshable#refresh()
+	 */
 	@Override
 	public void refresh() {
 		removeAll();

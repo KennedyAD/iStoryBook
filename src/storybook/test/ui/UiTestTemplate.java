@@ -26,15 +26,26 @@ import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class UiTestTemplate.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class UiTestTemplate extends JFrame {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 298651093306783475L;
+	
+	/** The instance. */
 	private static UiTestTemplate instance;
 
+	/**
+	 * Gets the single instance of UiTestTemplate.
+	 *
+	 * @return single instance of UiTestTemplate
+	 */
 	public static UiTestTemplate getInstance() {
 		if (instance == null) {
 			instance = new UiTestTemplate();
@@ -42,6 +53,11 @@ public class UiTestTemplate extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -51,10 +67,16 @@ public class UiTestTemplate extends JFrame {
 		});
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
 		initUi();
 	}
 
+	/**
+	 * Inits the ui.
+	 */
 	private void initUi() {
 		setLayout(new MigLayout());
 		setTitle("IDWTest01");

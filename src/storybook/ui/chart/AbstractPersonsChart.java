@@ -29,25 +29,43 @@ import storybook.model.hbn.entity.Category;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractPersonsChart.
+ */
 public abstract class AbstractPersonsChart extends AbstractChartPanel {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -560287079314516405L;
+	
+	/** The category cb list. */
 	protected List<JCheckBox> categoryCbList;
+	
+	/** The selected categories. */
 	protected List<Category> selectedCategories;
 
+	/**
+	 * Instantiates a new abstract persons chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 * @param paramString the param string
+	 */
 	public AbstractPersonsChart(MainFrame paramMainFrame, String paramString) {
 		super(paramMainFrame, paramString);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		updateSelectedCategories();
 		refreshChart();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChart()
+	 */
 	@Override
 	protected void initChart() {
 		this.categoryCbList = EntityUtil.createCategoryCheckBoxes(this.mainFrame, this);
@@ -55,6 +73,9 @@ public abstract class AbstractPersonsChart extends AbstractChartPanel {
 		updateSelectedCategories();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 		JLabel localJLabel = new JLabel(I18N.getMsgColon("msg.common.categories"));
@@ -66,6 +87,9 @@ public abstract class AbstractPersonsChart extends AbstractChartPanel {
 		}
 	}
 
+	/**
+	 * Update selected categories.
+	 */
 	private void updateSelectedCategories() {
 		this.selectedCategories.clear();
 		Iterator localIterator = this.categoryCbList.iterator();

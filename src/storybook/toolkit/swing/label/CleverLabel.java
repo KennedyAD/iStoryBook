@@ -25,32 +25,75 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.swing.ColorUtil;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CleverLabel.
+ */
 public class CleverLabel extends JLabel {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2760117058780642566L;
+
+	/**
+	 * Instantiates a new clever label.
+	 */
 	public CleverLabel() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new clever label.
+	 *
+	 * @param image the image
+	 */
 	public CleverLabel(Icon image) {
 		super(image);
 	}
 
+	/**
+	 * Instantiates a new clever label.
+	 *
+	 * @param image the image
+	 * @param horizontalAlignment the horizontal alignment
+	 */
 	public CleverLabel(Icon image, int horizontalAlignment) {
 		super(image, horizontalAlignment);
 	}
 
+	/**
+	 * Instantiates a new clever label.
+	 *
+	 * @param text the text
+	 */
 	public CleverLabel(String text) {
 		super(text);
 	}
 
+	/**
+	 * Instantiates a new clever label.
+	 *
+	 * @param text the text
+	 * @param icon the icon
+	 * @param horizontalAlignment the horizontal alignment
+	 */
 	public CleverLabel(String text, Icon icon, int horizontalAlignment) {
 		super(text, icon, horizontalAlignment);
 	}
 
+	/**
+	 * Instantiates a new clever label.
+	 *
+	 * @param text the text
+	 * @param horizontalAlignment the horizontal alignment
+	 */
 	public CleverLabel(String text, int horizontalAlignment) {
 		super(text, horizontalAlignment);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#setBackground(java.awt.Color)
+	 */
 	@Override
 	public void setBackground(Color bg) {
 		if (bg == null) {

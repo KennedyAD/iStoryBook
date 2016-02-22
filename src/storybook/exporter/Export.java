@@ -27,23 +27,51 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class Export.
  *
  * @author favdb
  */
 public class Export {
 
+	/** The main frame. */
 	public MainFrame mainFrame;
+	
+	/** The format. */
 	public String format;
+	
+	/** The directory. */
 	public String directory;
+	
+	/** The file. */
 	public File file;
+	
+	/** The object. */
 	public Object object;
+	
+	/** The zoom. */
 	public int zoom;
+	
+	/** The export data. */
 	ExportData exportData;
+	
+	/** The parent. */
 	DlgExport parent;
+	
+	/** The book title. */
 	String bookTitle;
+	
+	/** The author. */
 	String author;
 
+	/**
+	 * Instantiates a new export.
+	 *
+	 * @param m the m
+	 * @param f the f
+	 * @param x the x
+	 */
 	public Export(DlgExport m, String f, int x) {
 		parent = m;
 		mainFrame = m.mainFrame;
@@ -53,6 +81,11 @@ public class Export {
 		bookTitle = BookUtil.get(mainFrame, SbConstants.BookKey.TITLE, "").getStringValue();
 	}
 
+	/**
+	 * Creates the html index.
+	 *
+	 * @param dir the dir
+	 */
 	public void createHtmlIndex(String dir) {
 		exportData = new ExportData("all", "msg.export.all.list");
 		ExportHtml html = new ExportHtml(this, "", dir + File.separator + "index.html", (List<ExportHeader>) null, "");
@@ -76,14 +109,12 @@ public class Export {
 	}
 
 	/**
+	 * Fill.
 	 *
-	 * @param dir
-	 *            : directory to export
-	 * @param xp
-	 *            : the object type to export
-	 * @param object
-	 *            : the object to export, null for list all
-	 * @param silent
+	 * @param dir            : directory to export
+	 * @param xp            : the object type to export
+	 * @param object            : the object to export, null for list all
+	 * @param silent the silent
 	 * @return if type==html then the export string, else if error the error
 	 *         message
 	 */
@@ -94,7 +125,7 @@ public class Export {
 		exportData = xp;
 		directory = dir;
 		file = new File(dir + File.separator + xp.getKey() + "." + format);
-		if (format.equals("preview")) {
+		if ("preview".equals(format)) {
 			format = "html";
 		}
 		switch (xp.getExportName()) {
@@ -103,10 +134,10 @@ public class Export {
 			ret = exportBook.get();
 			JOptionPane.showMessageDialog(parent, I18N.getMsg("msg.common.export.success") + "\n" + xp.getKey(),
 					I18N.getMsg("msg.common.export"), JOptionPane.INFORMATION_MESSAGE);
-			return (ret);
+			return ret;
 		case "summary":
 			ExportBookSummary exp = new ExportBookSummary(this);
-			if (format.equals("csv")) {
+			if ("csv".equals(format)) {
 				format = "txt";
 			}
 			ret = exp.get();
@@ -150,9 +181,16 @@ public class Export {
 					I18N.getMsg("msg.common.export.success") + "\n" + dir + File.separator + xp.getKey() + "." + format,
 					I18N.getMsg("msg.common.export"), JOptionPane.INFORMATION_MESSAGE);
 		}
-		return (ret);
+		return ret;
 	}
 
+	/**
+	 * Gets the colon.
+	 *
+	 * @param n the n
+	 * @param x the x
+	 * @return the colon
+	 */
 	public String getColon(String n, int x) {
 		String ret = "";
 		switch (format) {
@@ -167,16 +205,28 @@ public class Export {
 			ret = "\"" + n + "\";";
 			break;
 		case "text":
-			ret = "\t" + n + "";
+			ret = "\t" + n;
 			break;
 		}
-		return (ret);
+		return ret;
 	}
 
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
 	public MainFrame getMainFrame() {
-		return (mainFrame);
+		return mainFrame;
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @param x the x
+	 * @param verbose the verbose
+	 * @return the text
+	 */
 	public String getText(String x, boolean verbose) {
 		String str = x;
 		if (!"html".equals(format)) {
@@ -185,9 +235,17 @@ public class Export {
 		if (!verbose) {
 			str = truncateText(str, 25);
 		}
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param pdf the pdf
+	 * @param headers the headers
+	 * @param body the body
+	 * @return the string
+	 */
 	public String ligne(ExportPDF pdf, List<ExportHeader> headers, String[] body) {
 		String str = "";
 		String tr = "", ftr = "";
@@ -206,7 +264,7 @@ public class Export {
 			break;
 		case "pdf":
 			pdf.writeRow(body);
-			return ("");
+			return "";
 		}
 		str += tr;
 		int index = 0;
@@ -215,13 +273,23 @@ public class Export {
 			index++;
 		}
 		str += ftr;
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Sets the format.
+	 *
+	 * @param f the new format
+	 */
 	public void setFormat(String f) {
 		format = f;
 	}
 
+	/**
+	 * Sets the zoom.
+	 *
+	 * @param x the new zoom
+	 */
 	public void setZoom(int x) {
 		zoom = x;
 	}

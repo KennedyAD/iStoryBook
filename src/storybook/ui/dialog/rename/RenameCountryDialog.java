@@ -29,18 +29,36 @@ import storybook.model.hbn.entity.Location;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RenameCountryDialog.
+ */
 public class RenameCountryDialog extends AbstractRenameDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6309507866843770083L;
+
+	/**
+	 * Instantiates a new rename country dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public RenameCountryDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#getDlgTitle()
+	 */
 	@Override
 	protected String getDlgTitle() {
 		return I18N.getMsg("msg.location.rename.country");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#getList()
+	 */
 	@Override
 	protected List<String> getList() {
 		BookModel model = mainFrame.getBookModel();
@@ -51,6 +69,9 @@ public class RenameCountryDialog extends AbstractRenameDialog {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#rename(java.lang.String, java.lang.String)
+	 */
 	@Override
 	protected void rename(String oldValue, String newValue) {
 		BookModel model = mainFrame.getBookModel();

@@ -31,27 +31,52 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChronoOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ChronoOptionsDialog extends AbstractOptionsDialog implements ItemListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7890528002148831664L;
+	
+	/** The cn layout direction. */
 	private final String CN_LAYOUT_DIRECTION = "CbLayoutDirection";
+	
+	/** The cn date difference. */
 	private final String CN_DATE_DIFFERENCE = "CbDateDifference";
 
+	/** The layout direction. */
 	private boolean layoutDirection;
+	
+	/** The show date difference. */
 	private boolean showDateDifference;
 
+	/**
+	 * Instantiates a new chrono options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ChronoOptionsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Instantiates a new chrono options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @param hasZoom the has zoom
+	 */
 	public ChronoOptionsDialog(MainFrame mainFrame, boolean hasZoom) {
 		super(mainFrame, hasZoom);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		setZoomMinValue(SbConstants.MIN_CHRONO_ZOOM);
@@ -73,6 +98,9 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements ItemLi
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		// layout direction
@@ -100,6 +128,9 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements ItemLi
 		panel.add(cbDateDiff);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		JCheckBox cb = (JCheckBox) e.getSource();
@@ -118,6 +149,9 @@ public class ChronoOptionsDialog extends AbstractOptionsDialog implements ItemLi
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#zoom(int)
+	 */
 	@Override
 	protected void zoom(int val) {
 		BookUtil.store(mainFrame, BookKey.CHRONO_ZOOM, val);

@@ -32,17 +32,30 @@ import storybook.model.hbn.entity.Gender;
 import storybook.model.hbn.entity.Person;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PersonTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class PersonTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -3988387499317341403L;
+
+	/**
+	 * Instantiates a new person table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PersonTable(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -53,21 +66,33 @@ public class PersonTable extends AbstractTable {
 		return person;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Person();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Persons");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getPersonColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -90,6 +115,9 @@ public class PersonTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<>();
@@ -100,12 +128,18 @@ public class PersonTable extends AbstractTable {
 		ctrl.deleteMultiPersons(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Person person = (Person) getEntityFromRow(row);
 		ctrl.deletePerson(person);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -117,6 +151,9 @@ public class PersonTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(person);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setPersonToEdit((Person) entity);
@@ -124,6 +161,11 @@ public class PersonTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(entity);
 	}
 
+	/**
+	 * Update categories.
+	 *
+	 * @param evt the evt
+	 */
 	private void updateCategories(PropertyChangeEvent evt) {
 		Category oldCategory = (Category) evt.getOldValue();
 		Category newCategory = (Category) evt.getNewValue();
@@ -134,6 +176,11 @@ public class PersonTable extends AbstractTable {
 		}
 	}
 
+	/**
+	 * Update genders.
+	 *
+	 * @param evt the evt
+	 */
 	private void updateGenders(PropertyChangeEvent evt) {
 		Gender oldGender = (Gender) evt.getOldValue();
 		Gender newGender = (Gender) evt.getNewValue();

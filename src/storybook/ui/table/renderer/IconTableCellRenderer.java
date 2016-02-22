@@ -28,16 +28,28 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IconTableCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class IconTableCellRenderer extends DefaultTableCellRenderer {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5849002211621443183L;
+
+	/**
+	 * Instantiates a new icon table cell renderer.
+	 */
 	public IconTableCellRenderer() {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

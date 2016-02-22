@@ -18,18 +18,34 @@ import net.atlanticbb.tantlinger.ui.text.dialogs.ImageDialog;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.SwingUtil;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SbHTMLImageAction.
+ */
 public class SbHTMLImageAction extends HTMLTextEditAction {
 
 	// private static final I18n i18n =
 	// I18n.getInstance("storybook.toolkit.shef.shef");
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5684044864162197653L;
+
+	/**
+	 * Instantiates a new sb html image action.
+	 */
 	public SbHTMLImageAction() {
 		super(I18N.getMsg("shef.image_")); //$NON-NLS-1$
 		putValue(SMALL_ICON, UIUtils.getIcon(UIUtils.X16, "image.png")); //$NON-NLS-1$
 		putValue(Action.SHORT_DESCRIPTION, getValue(Action.NAME));
 	}
 
+	/**
+	 * Creates the dialog.
+	 *
+	 * @param ed the ed
+	 * @return the image dialog
+	 */
 	protected ImageDialog createDialog(JTextComponent ed) {
 		Window w = SwingUtilities.getWindowAncestor(ed);
 		ImageDialog d = null;
@@ -41,6 +57,9 @@ public class SbHTMLImageAction extends HTMLTextEditAction {
 		return d;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.atlanticbb.tantlinger.ui.text.actions.HTMLTextEditAction#sourceEditPerformed(java.awt.event.ActionEvent, javax.swing.JEditorPane)
+	 */
 	@Override
 	protected void sourceEditPerformed(ActionEvent e, JEditorPane editor) {
 		ImageDialog d = createDialog(editor);
@@ -54,6 +73,9 @@ public class SbHTMLImageAction extends HTMLTextEditAction {
 		editor.replaceSelection(d.getHTML());
 	}
 
+	/* (non-Javadoc)
+	 * @see net.atlanticbb.tantlinger.ui.text.actions.HTMLTextEditAction#wysiwygEditPerformed(java.awt.event.ActionEvent, javax.swing.JEditorPane)
+	 */
 	@Override
 	protected void wysiwygEditPerformed(ActionEvent e, JEditorPane editor) {
 		// ImageDialog d = createDialog(editor);

@@ -39,16 +39,36 @@ import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.manage.ChapterPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SceneTransferHandler.
+ */
 public class SceneTransferHandler extends TransferHandler {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4453635728467910911L;
+
+	/**
+	 * The Class SceneTransferable.
+	 */
 	class SceneTransferable implements Transferable {
+		
+		/** The scene id. */
 		private String sceneId;
 
+		/**
+		 * Instantiates a new scene transferable.
+		 *
+		 * @param pic the pic
+		 */
 		SceneTransferable(DTScenePanel pic) {
 			sceneId = Long.toString(pic.getScene().getId());
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
+		 */
 		@Override
 		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 			if (!isDataFlavorSupported(flavor)) {
@@ -57,25 +77,44 @@ public class SceneTransferHandler extends TransferHandler {
 			return sceneId;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
+		 */
 		@Override
 		public DataFlavor[] getTransferDataFlavors() {
 			return new DataFlavor[] { sceneFlavor };
 		}
 
+		/* (non-Javadoc)
+		 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
+		 */
 		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
 			return sceneFlavor.equals(flavor);
 		}
 	}
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
+	
+	/** The scene flavor. */
 	private DataFlavor sceneFlavor = DataFlavor.stringFlavor;
 
+	/** The source scene. */
 	private DTScenePanel sourceScene;
 
+	/**
+	 * Instantiates a new scene transfer handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public SceneTransferHandler(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
+	 */
 	@Override
 	public boolean canImport(JComponent comp, DataFlavor[] flavors) {
 		for (int i = 0; i < flavors.length; i++) {
@@ -86,22 +125,34 @@ public class SceneTransferHandler extends TransferHandler {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
+	 */
 	@Override
 	protected Transferable createTransferable(JComponent comp) {
 		sourceScene = (DTScenePanel) comp;
 		return new SceneTransferable(sourceScene);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
+	 */
 	@Override
 	protected void exportDone(JComponent comp, Transferable data, int action) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
+	 */
 	@Override
 	public int getSourceActions(JComponent comp) {
 		return COPY_OR_MOVE;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.TransferHandler#importData(javax.swing.JComponent, java.awt.datatransfer.Transferable)
+	 */
 	@Override
 	public boolean importData(JComponent comp, Transferable t) {
 		if (canImport(comp, t.getTransferDataFlavors())) {
@@ -131,6 +182,13 @@ public class SceneTransferHandler extends TransferHandler {
 		return false;
 	}
 
+	/**
+	 * Move scene.
+	 *
+	 * @param sourceSceneId the source scene id
+	 * @param destDtScene the dest dt scene
+	 * @return true, if successful
+	 */
 	private boolean moveScene(long sourceSceneId, DTScenePanel destDtScene) {
 		try {
 			ChapterPanel destChapterPanel = (ChapterPanel) destDtScene.getParent();
@@ -177,6 +235,13 @@ public class SceneTransferHandler extends TransferHandler {
 		return true;
 	}
 
+	/**
+	 * Move scene to begin.
+	 *
+	 * @param sourceSceneId the source scene id
+	 * @param destDtScene the dest dt scene
+	 * @return true, if successful
+	 */
 	private boolean moveSceneToBegin(long sourceSceneId, DTScenePanel destDtScene) {
 		ChapterPanel destChapterPanel = (ChapterPanel) destDtScene.getParent();
 		Chapter destChapter = destChapterPanel.getChapter();
@@ -195,6 +260,13 @@ public class SceneTransferHandler extends TransferHandler {
 		return true;
 	}
 
+	/**
+	 * Swap scenes.
+	 *
+	 * @param sourceSceneId the source scene id
+	 * @param destDtScene the dest dt scene
+	 * @return true, if successful
+	 */
 	private boolean swapScenes(long sourceSceneId, DTScenePanel destDtScene) {
 		BookModel model = mainFrame.getBookModel();
 		Session session = model.beginTransaction();
@@ -213,6 +285,12 @@ public class SceneTransferHandler extends TransferHandler {
 		return true;
 	}
 
+	/**
+	 * Unassign scene.
+	 *
+	 * @param sourceSceneId the source scene id
+	 * @return true, if successful
+	 */
 	private boolean unassignScene(long sourceSceneId) {
 		try {
 			BookModel model = mainFrame.getBookModel();

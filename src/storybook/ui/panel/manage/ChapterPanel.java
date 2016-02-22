@@ -54,27 +54,55 @@ import storybook.ui.panel.manage.dnd.DTScenePanel;
 import storybook.ui.panel.manage.dnd.ScenePanel;
 import storybook.ui.panel.manage.dnd.SceneTransferHandler;
 
+// TODO: Auto-generated Javadoc
 /*
 Ajout de l'ouverture de l'éditeur sur double click sur le titre du chapitre
 */
 
-@SuppressWarnings("serial")
+
+/**
+ * The Class ChapterPanel.
+ */
 public class ChapterPanel extends AbstractPanel implements MouseListener, IRefreshable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -9124772447240362592L;
+	
+	/** The chapter. */
 	private Chapter chapter;
+	
+	/** The scene transfer handler. */
 	private SceneTransferHandler sceneTransferHandler;
+	
+	/** The pref width. */
 	private int prefWidth;
 
+	/**
+	 * Instantiates a new chapter panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ChapterPanel(MainFrame mainFrame) {
 		this(mainFrame, null);
 	}
 
+	/**
+	 * Instantiates a new chapter panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param chapter the chapter
+	 */
 	public ChapterPanel(MainFrame mainFrame, Chapter chapter) {
 		super(mainFrame);
 		this.chapter = chapter;
 		initAll();
 	}
 
+	/**
+	 * Gets the chapter.
+	 *
+	 * @return the chapter
+	 */
 	public Chapter getChapter() {
 		return chapter;
 	}
@@ -95,10 +123,18 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		return list;
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected ChapterPanel getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("ChapterPanel.init()");
@@ -111,6 +147,9 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace("ChapterPanel.initUI()");
@@ -198,10 +237,18 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		}
 	}
 
+	/**
+	 * Checks if is for unassigned scene.
+	 *
+	 * @return true, if is for unassigned scene
+	 */
 	public boolean isForUnassignedScene() {
 		return chapter == null;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();
@@ -250,6 +297,9 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (getChapter() == null) {
@@ -262,26 +312,43 @@ public class ChapterPanel extends AbstractPanel implements MouseListener, IRefre
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
 	}
 
+	/**
+	 * Sets the zoomed size.
+	 *
+	 * @param zoomValue the new zoomed size
+	 */
 	private void setZoomedSize(int zoomValue) {
 		prefWidth = 50 + zoomValue * 10;
 	}

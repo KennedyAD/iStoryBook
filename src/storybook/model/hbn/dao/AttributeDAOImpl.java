@@ -25,16 +25,33 @@ import org.hibernate.Session;
 
 import storybook.model.hbn.entity.Attribute;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AttributeDAOImpl.
+ */
 public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implements AttributeDAO {
 
+	/**
+	 * Instantiates a new attribute dao impl.
+	 */
 	public AttributeDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new attribute dao impl.
+	 *
+	 * @param session the session
+	 */
 	public AttributeDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Delete orphans.
+	 *
+	 * @return the int
+	 */
 	public int deleteOrphans() {
 		try {
 			String sql = "delete from attribute where id in (" + " select id from attribute as a"
@@ -47,6 +64,9 @@ public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implemen
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Attribute> findAll() {
@@ -55,6 +75,11 @@ public class AttributeDAOImpl extends SbGenericDAOImpl<Attribute, Long> implemen
 		return ret;
 	}
 
+	/**
+	 * Find keys.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findKeys() {
 		Query query = session.createQuery("select distinct key from Attribute order by key");

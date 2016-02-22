@@ -29,18 +29,36 @@ import storybook.model.hbn.entity.Location;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RenameCityDialog.
+ */
 public class RenameCityDialog extends AbstractRenameDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7879626488128883211L;
+
+	/**
+	 * Instantiates a new rename city dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public RenameCityDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#getDlgTitle()
+	 */
 	@Override
 	protected String getDlgTitle() {
 		return I18N.getMsg("msg.location.rename.city");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#getList()
+	 */
 	@Override
 	protected List<String> getList() {
 		BookModel model = mainFrame.getBookModel();
@@ -51,6 +69,9 @@ public class RenameCityDialog extends AbstractRenameDialog {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.rename.AbstractRenameDialog#rename(java.lang.String, java.lang.String)
+	 */
 	@Override
 	protected void rename(String oldValue, String newValue) {
 		BookModel model = mainFrame.getBookModel();

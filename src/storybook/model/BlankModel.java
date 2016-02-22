@@ -20,16 +20,26 @@ package storybook.model;
 
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BlankModel.
  *
+ * @author martin
  */
 public class BlankModel extends AbstractModel {
 
+	/**
+	 * Instantiates a new blank model.
+	 *
+	 * @param m the m
+	 */
 	public BlankModel(MainFrame m) {
 		super(m);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.AbstractModel#fireAgain()
+	 */
 	@Override
 	public void fireAgain() {
 

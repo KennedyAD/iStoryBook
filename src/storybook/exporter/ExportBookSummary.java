@@ -9,23 +9,46 @@ import storybook.SbConstants;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportBookSummary.
  *
  * @author favdb
  */
 public class ExportBookSummary {
 
+	/** The parent. */
 	private final Export parent;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
 
+	/**
+	 * Instantiates a new export book summary.
+	 *
+	 * @param m the m
+	 */
 	ExportBookSummary(Export m) {
 		parent = m;
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @return the string
+	 */
 	public String debut() {
 		String str = "";
 		switch (parent.format) {
@@ -45,9 +68,12 @@ public class ExportBookSummary {
 			odf.open();
 			break;
 		}
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Fin.
+	 */
 	private void fin() {
 		switch (parent.format) {
 		case "html":
@@ -65,6 +91,11 @@ public class ExportBookSummary {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @return the string
+	 */
 	public String get() {
 		switch (parent.format) {
 		case "html":
@@ -97,9 +128,15 @@ public class ExportBookSummary {
 		ligne(I18N.getMsgColon("msg.common.blurb"),
 				BookUtil.get(parent.mainFrame, SbConstants.BookKey.BLURB, "").getStringValue());
 		fin();
-		return (str);
+		return str;
 	}
 
+	/**
+	 * Ligne.
+	 *
+	 * @param lib the lib
+	 * @param data the data
+	 */
 	private void ligne(String lib, String data) {
 		String str = lib + " " + data;
 		switch (parent.format) {

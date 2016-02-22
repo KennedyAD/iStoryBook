@@ -32,25 +32,46 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BookOptionsDialog extends AbstractOptionsDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7958887312609797125L;
+
+	/** The cn height factor. */
 	private final String CN_HEIGHT_FACTOR = "HeightFactorSlider";
 
+	/** The height factor. */
 	private int heightFactor;
 
+	/**
+	 * Instantiates a new book options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public BookOptionsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Instantiates a new book options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @param hasZoom the has zoom
+	 */
 	public BookOptionsDialog(MainFrame mainFrame, boolean hasZoom) {
 		super(mainFrame, hasZoom);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		setZoomMinValue(SbConstants.MIN_BOOK_ZOOM);
@@ -67,6 +88,9 @@ public class BookOptionsDialog extends AbstractOptionsDialog {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		// height factor
@@ -84,6 +108,9 @@ public class BookOptionsDialog extends AbstractOptionsDialog {
 		panel.add(slider, "growx");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		Component comp = (Component) e.getSource();
@@ -99,6 +126,9 @@ public class BookOptionsDialog extends AbstractOptionsDialog {
 		super.stateChanged(e);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#zoom(int)
+	 */
 	@Override
 	protected void zoom(int val) {
 		BookUtil.store(mainFrame, BookKey.BOOK_ZOOM, val);

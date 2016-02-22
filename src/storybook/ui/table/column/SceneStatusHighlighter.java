@@ -29,22 +29,33 @@ import org.jdesktop.swingx.decorator.Highlighter;
 import storybook.toolkit.swing.label.DateLabel;
 import storybook.ui.combo.SceneStateComboModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneStatusHighlighter.
  *
+ * @author martin
  */
 @Deprecated
 public class SceneStatusHighlighter implements Highlighter {
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#addChangeListener(javax.swing.event.ChangeListener)
+	 */
 	@Override
 	public void addChangeListener(ChangeListener arg0) {
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#getChangeListeners()
+	 */
 	@Override
 	public ChangeListener[] getChangeListeners() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#highlight(java.awt.Component, org.jdesktop.swingx.decorator.ComponentAdapter)
+	 */
 	@Override
 	public Component highlight(Component comp, ComponentAdapter compAdapter) {
 		DateLabel lb = new DateLabel();
@@ -57,6 +68,9 @@ public class SceneStatusHighlighter implements Highlighter {
 		return lb;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#removeChangeListener(javax.swing.event.ChangeListener)
+	 */
 	@Override
 	public void removeChangeListener(ChangeListener arg0) {
 	}

@@ -39,22 +39,42 @@ import storybook.toolkit.swing.table.ToolTipHeader;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.legend.StrandsLegendPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PersonsBySceneChart.
+ */
 public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeListener {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1208152615849597898L;
+	
+	/** The table. */
 	private JTable table;
+	
+	/** The col slider. */
 	private JSlider colSlider;
+	
+	/** The cb show unused persons. */
 	private JCheckBox cbShowUnusedPersons;
+	
+	/** The col width. */
 	private int colWidth = 50;
 
+	/**
+	 * Instantiates a new persons by scene chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public PersonsBySceneChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.report.person.scene.title");
 		this.partRelated = true;
 	}
 
+	/**
+	 * Creates the table.
+	 *
+	 * @return the j table
+	 */
 	@SuppressWarnings("unchecked")
 	private JTable createTable() {
 		Part part = mainFrame.getCurrentPart();
@@ -131,6 +151,9 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		return ntable;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		JLabel localJLabel = new JLabel(this.chartTitle);
@@ -143,6 +166,9 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		this.panel.add(new StrandsLegendPanel(this.mainFrame), "gap push");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractPersonsChart#initOptionsUi()
+	 */
 	@Override
 	protected void initOptionsUi() {
 		super.initOptionsUi();
@@ -163,6 +189,9 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		this.optionsPanel.add(this.colSlider);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		this.colWidth = this.colSlider.getValue();
@@ -171,6 +200,9 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		setTableColumnWidth();
 	}
 
+	/**
+	 * Sets the table column width.
+	 */
 	private void setTableColumnWidth() {
 		this.colWidth = this.colSlider.getValue();
 		for (int i = 0; i < this.table.getColumnCount(); i++) {
@@ -179,6 +211,9 @@ public class PersonsBySceneChart extends AbstractPersonsChart implements ChangeL
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent paramChangeEvent) {
 		setTableColumnWidth();

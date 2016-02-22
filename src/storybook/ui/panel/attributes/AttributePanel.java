@@ -29,28 +29,56 @@ import storybook.model.hbn.entity.Attribute;
 import storybook.toolkit.swing.AutoCompleteComboBox;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AttributePanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class AttributePanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1001268984925884482L;
+	
+	/** The attribute. */
 	private Attribute attribute;
+	
+	/** The combo. */
 	private AutoCompleteComboBox combo;
+	
+	/** The tf value. */
 	private JTextField tfValue;
+	
+	/** The keys. */
 	private List<String> keys;
 
+	/**
+	 * Instantiates a new attribute panel.
+	 *
+	 * @param attribute the attribute
+	 * @param keys the keys
+	 */
 	public AttributePanel(Attribute attribute, List<String> keys) {
 		this.attribute = attribute;
 		this.keys = keys;
 		initAll();
 	}
 
+	/**
+	 * Instantiates a new attribute panel.
+	 *
+	 * @param keys the keys
+	 */
 	public AttributePanel(List<String> keys) {
 		this(null, keys);
 	}
 
+	/**
+	 * Gets the attribute.
+	 *
+	 * @return the attribute
+	 */
 	public Attribute getAttribute() {
 		String key = (String) combo.getJComboBox().getSelectedItem();
 		String value = tfValue.getText();
@@ -60,10 +88,16 @@ public class AttributePanel extends AbstractPanel {
 		return new Attribute(key, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public void initUi() {
@@ -89,6 +123,9 @@ public class AttributePanel extends AbstractPanel {
 		add(tfValue, "growx");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}

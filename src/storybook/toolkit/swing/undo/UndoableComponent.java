@@ -21,10 +21,30 @@ package storybook.toolkit.swing.undo;
 import javax.swing.AbstractAction;
 import javax.swing.undo.UndoManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface UndoableComponent.
+ */
 public interface UndoableComponent {
+	
+	/**
+	 * Gets the redo action.
+	 *
+	 * @return the redo action
+	 */
 	public AbstractAction getRedoAction();
 
+	/**
+	 * Gets the undo action.
+	 *
+	 * @return the undo action
+	 */
 	public AbstractAction getUndoAction();
 
+	/**
+	 * Gets the undo manager.
+	 *
+	 * @return the undo manager
+	 */
 	public UndoManager getUndoManager();
 }

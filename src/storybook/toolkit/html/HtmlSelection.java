@@ -26,21 +26,36 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class HtmlSelection.
  *
+ * @author martin
  */
 public class HtmlSelection implements Transferable, ClipboardOwner {
 
+	/** The html flavor. */
 	public static DataFlavor htmlFlavor;
+	
+	/** The supported flavors. */
 	private DataFlavor[] supportedFlavors = { htmlFlavor };
+	
+	/** The html text. */
 	private String htmlText;
 
+	/**
+	 * Instantiates a new html selection.
+	 *
+	 * @param htmlText the html text
+	 */
 	public HtmlSelection(String htmlText) {
 		this.htmlText = htmlText;
 		htmlFlavor = new DataFlavor("text/html", "HTML");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
+	 */
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 		if (flavor.equals(htmlFlavor)) {
@@ -50,16 +65,25 @@ public class HtmlSelection implements Transferable, ClipboardOwner {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
+	 */
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return supportedFlavors;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
+	 */
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		return flavor.equals(htmlFlavor);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.datatransfer.ClipboardOwner#lostOwnership(java.awt.datatransfer.Clipboard, java.awt.datatransfer.Transferable)
+	 */
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
 		// System.out.println("HtmlSelection.lostOwnership(): ");

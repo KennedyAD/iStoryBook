@@ -27,29 +27,61 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import storybook.model.hbn.entity.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class RadioButtonGroup.
  *
+ * @author martin
  */
 public class RadioButtonGroup {
+	
+	/** The group map. */
 	private HashMap<Integer, ImmutablePair<String, String>> groupMap;
 
+	/**
+	 * Instantiates a new radio button group.
+	 */
 	public RadioButtonGroup() {
 		groupMap = new HashMap<Integer, ImmutablePair<String, String>>();
 	}
 
+	/**
+	 * Adds the.
+	 *
+	 * @param number the number
+	 * @param attr the attr
+	 * @param name the name
+	 */
 	public void add(int number, String attr, String name) {
 		groupMap.put(number, new ImmutablePair<String, String>(attr, name));
 	}
 
+	/**
+	 * Gets the attr name.
+	 *
+	 * @param key the key
+	 * @return the attr name
+	 */
 	private String getAttrName(Integer key) {
 		return groupMap.get(key).getLeft();
 	}
 
+	/**
+	 * Gets the group map.
+	 *
+	 * @return the group map
+	 */
 	public HashMap<Integer, ImmutablePair<String, String>> getGroupMap() {
 		return groupMap;
 	}
 
+	/**
+	 * Checks for attr.
+	 *
+	 * @param entity the entity
+	 * @param key the key
+	 * @return the boolean
+	 */
 	public Boolean hasAttr(AbstractEntity entity, Integer key) {
 		String attrName = getAttrName(key);
 		String methodName = "has" + WordUtils.capitalize(attrName);
@@ -64,6 +96,12 @@ public class RadioButtonGroup {
 		return null;
 	}
 
+	/**
+	 * Removes the attr.
+	 *
+	 * @param entity the entity
+	 * @param key the key
+	 */
 	public void removeAttr(AbstractEntity entity, Integer key) {
 		String attrName = getAttrName(key);
 		String methodName = "remove" + WordUtils.capitalize(attrName);

@@ -32,18 +32,31 @@ import storybook.model.hbn.entity.Category;
 import storybook.ui.MainFrame;
 import storybook.ui.SbView;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CategoryTable.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class CategoryTable extends AbstractTable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1676022203228592868L;
+
+	/**
+	 * Instantiates a new category table.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public CategoryTable(MainFrame mainFrame) {
 		super(mainFrame);
 		hasOrder = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getEntity(java.lang.Long)
+	 */
 	@Override
 	protected AbstractEntity getEntity(Long id) {
 		BookModel model = mainFrame.getBookModel();
@@ -54,21 +67,33 @@ public class CategoryTable extends AbstractTable {
 		return category;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getNewEntity()
+	 */
 	@Override
 	protected AbstractEntity getNewEntity() {
 		return new Category();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return ("Category");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		columns = SbColumnFactory.getInstance().getCategoryColumns();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#modelPropertyChangeLocal(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void modelPropertyChangeLocal(PropertyChangeEvent evt) {
 		try {
@@ -90,6 +115,9 @@ public class CategoryTable extends AbstractTable {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#orderDownEntity(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void orderDownEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
@@ -113,6 +141,9 @@ public class CategoryTable extends AbstractTable {
 		sortByColumn(2);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#orderUpEntity(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	protected void orderUpEntity(PropertyChangeEvent evt) {
 		AbstractEntity entity = (AbstractEntity) evt.getNewValue();
@@ -136,6 +167,9 @@ public class CategoryTable extends AbstractTable {
 		sortByColumn(2);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntities(int[])
+	 */
 	@Override
 	protected synchronized void sendDeleteEntities(int[] rows) {
 		ArrayList<Long> ids = new ArrayList<Long>();
@@ -146,12 +180,18 @@ public class CategoryTable extends AbstractTable {
 		ctrl.deleteMultiCategories(ids);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendDeleteEntity(int)
+	 */
 	@Override
 	protected synchronized void sendDeleteEntity(int row) {
 		Category category = (Category) getEntityFromRow(row);
 		ctrl.deleteCategory(category);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendOrderDownEntity(int)
+	 */
 	@Override
 	protected void sendOrderDownEntity(int row) {
 		if (row == -1) {
@@ -161,6 +201,9 @@ public class CategoryTable extends AbstractTable {
 		ctrl.orderDownCategory(category);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendOrderUpEntity(int)
+	 */
 	@Override
 	protected void sendOrderUpEntity(int row) {
 		if (row == -1) {
@@ -170,6 +213,9 @@ public class CategoryTable extends AbstractTable {
 		ctrl.orderUpCategory(category);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetEntityToEdit(int)
+	 */
 	@Override
 	protected void sendSetEntityToEdit(int row) {
 		if (row == -1) {
@@ -181,6 +227,9 @@ public class CategoryTable extends AbstractTable {
 		mainFrame.showEditorAsDialog(category);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.table.AbstractTable#sendSetNewEntityToEdit(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void sendSetNewEntityToEdit(AbstractEntity entity) {
 		// ctrl.setCategoryToEdit((Category) entity);

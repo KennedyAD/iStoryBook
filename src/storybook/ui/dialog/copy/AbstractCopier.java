@@ -29,18 +29,34 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.edit.CbPanelDecorator;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractCopier.
  *
+ * @author martin
+ * @param <ELEMENT> the generic type
  */
 public abstract class AbstractCopier<ELEMENT extends AbstractEntity> {
 
+	/** The main frame. */
 	private MainFrame mainFrame;
 
+	/**
+	 * Instantiates a new abstract copier.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractCopier(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
+	/**
+	 * Copy.
+	 *
+	 * @param destination the destination
+	 * @param elt the elt
+	 * @return the element
+	 */
 	@SuppressWarnings("unchecked")
 	protected ELEMENT copy(MainFrame destination, ELEMENT elt) {
 
@@ -90,14 +106,18 @@ public abstract class AbstractCopier<ELEMENT extends AbstractEntity> {
 	protected abstract CbPanelDecorator getDecorator();
 
 	/**
-	 * Get entity handler
-	 * 
-	 * @param mainFrame
-	 *            origin mainFrame
+	 * Get entity handler.
+	 *
+	 * @param mainFrame            origin mainFrame
 	 * @return the entity handler
 	 */
 	protected abstract AbstractEntityHandler getEntityHandler(MainFrame mainFrame);
 
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
@@ -119,6 +139,9 @@ public abstract class AbstractCopier<ELEMENT extends AbstractEntity> {
 	protected abstract void prepareTransfer(MainFrame origin, MainFrame destination, ELEMENT originElt,
 			ELEMENT destElt);
 
+	/**
+	 * Show dialog.
+	 */
 	public void showDialog() {
 		SwingUtil.showModalDialog(new CopyDialog<ELEMENT>(this), mainFrame);
 	}

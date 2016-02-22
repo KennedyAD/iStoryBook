@@ -28,16 +28,34 @@ import org.hibernate.criterion.Restrictions;
 
 import storybook.model.hbn.entity.Item;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemDAOImpl.
+ */
 public class ItemDAOImpl extends SbGenericDAOImpl<Item, Long> implements ItemDAO {
 
+	/**
+	 * Instantiates a new item dao impl.
+	 */
 	public ItemDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new item dao impl.
+	 *
+	 * @param session the session
+	 */
 	public ItemDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by category.
+	 *
+	 * @param category the category
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Item> findByCategory(String category) {
 		Criteria crit = session.createCriteria(Item.class);
@@ -47,6 +65,11 @@ public class ItemDAOImpl extends SbGenericDAOImpl<Item, Long> implements ItemDAO
 		return items;
 	}
 
+	/**
+	 * Find categories.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<String> findCategories() {
 		Query query = session.createQuery("select distinct(i.category) from Item as i order by i.category");

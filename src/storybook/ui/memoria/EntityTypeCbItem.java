@@ -25,19 +25,40 @@ import storybook.model.hbn.entity.Person;
 import storybook.model.hbn.entity.Scene;
 import storybook.model.hbn.entity.Tag;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityTypeCbItem.
+ */
 public class EntityTypeCbItem {
 
+	/**
+	 * The Enum Type.
+	 */
 	public static enum Type {
 
-		PERSON, SCENE, LOCATION, TAG, ITEM;
+		/** The person. */
+		PERSON, /** The scene. */
+ SCENE, /** The location. */
+ LOCATION, /** The tag. */
+ TAG, /** The item. */
+ ITEM;
 	}
 
+	/** The type. */
 	private Type type;
 
+	/**
+	 * Instantiates a new entity type cb item.
+	 *
+	 * @param paramType the param type
+	 */
 	public EntityTypeCbItem(Type paramType) {
 		this.type = paramType;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object paramObject) {
 		if (getClass() != paramObject.getClass()) {
@@ -49,6 +70,11 @@ public class EntityTypeCbItem {
 		return bool;
 	}
 
+	/**
+	 * Gets the entity.
+	 *
+	 * @return the entity
+	 */
 	private AbstractEntity getEntity() {
 		if (this.type == Type.SCENE) {
 			return new Scene();
@@ -68,18 +94,36 @@ public class EntityTypeCbItem {
 		return null;
 	}
 
+	/**
+	 * Gets the icon.
+	 *
+	 * @return the icon
+	 */
 	public Icon getIcon() {
 		return EntityUtil.getEntityIcon(getEntity());
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		return EntityUtil.getEntityTitle(getEntity(), Boolean.valueOf(false));
 	}
 
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public Type getType() {
 		return this.type;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int i = super.hashCode();
@@ -87,6 +131,9 @@ public class EntityTypeCbItem {
 		return i;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getText();

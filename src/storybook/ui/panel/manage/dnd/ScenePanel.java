@@ -45,24 +45,59 @@ import storybook.ui.MainFrame;
 import storybook.ui.interfaces.IRefreshable;
 import storybook.ui.panel.AbstractScenePanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ScenePanel.
+ */
 public class ScenePanel extends AbstractScenePanel implements MouseListener, Accessible, IRefreshable {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7141680768286952990L;
+	
+	/** The Constant TYPE_NONE. */
 	public final static int TYPE_NONE = 0;
+	
+	/** The Constant TYPE_UNASSIGNED. */
 	public final static int TYPE_UNASSIGNED = 1;
+	
+	/** The Constant TYPE_MAKE_UNASSIGNED. */
 	public final static int TYPE_MAKE_UNASSIGNED = 2;
+	
+	/** The Constant TYPE_BEGIN. */
 	public final static int TYPE_BEGIN = 3;
+	
+	/** The Constant TYPE_NEXT. */
 	public final static int TYPE_NEXT = 4;
 
+	/** The type. */
 	private int type = TYPE_NONE;
+	
+	/** The lb scene. */
 	// private Scene scene;
 	private JLabel lbScene;
+	
+	/** The text length. */
 	private int textLength;
 
+	/**
+	 * Instantiates a new scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public ScenePanel(MainFrame mainFrame, Scene scene) {
 		this(mainFrame, scene, TYPE_NONE);
 		SbApp.trace("ScenePanel(" + mainFrame.getName() + ", " + scene.getFullTitle() + ", " + type);
 	}
 
+	/**
+	 * Instantiates a new scene panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param type the type
+	 */
 	public ScenePanel(MainFrame mainFrame, Scene scene, int type) {
 		super(mainFrame, scene);
 		SbApp.trace("ScenePanel(" + mainFrame.getName() + ", " + ((scene != null) ? scene.getFullTitle() : "null")
@@ -74,14 +109,27 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		addMouseListener(this);
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	protected ScenePanel getThis() {
 		return this;
 	}
 
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public int getType() {
 		return type;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		SbApp.trace("ScenePanel.init()");
@@ -93,6 +141,9 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		SbApp.trace("ScenePanel.initUI()");
@@ -147,10 +198,16 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		add(lbScene, "top,growx");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractGradientPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent evt) {
 		if (scene == null) {
@@ -164,6 +221,9 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// if (type == TYPE_NONE || type == TYPE_UNASSIGNED) {
@@ -175,6 +235,9 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		// }
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// if (type == TYPE_NONE || type == TYPE_UNASSIGNED) {
@@ -184,14 +247,25 @@ public class ScenePanel extends AbstractScenePanel implements MouseListener, Acc
 		// }
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
 
+	/**
+	 * Sets the zoomed size.
+	 *
+	 * @param zoomValue the new zoomed size
+	 */
 	private void setZoomedSize(int zoomValue) {
 		textLength = 10 + zoomValue * 8;
 	}

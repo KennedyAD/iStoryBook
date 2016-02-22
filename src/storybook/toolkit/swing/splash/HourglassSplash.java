@@ -35,8 +35,12 @@ import storybook.ui.interfaces.IPaintable;
  * @author martin
  *
  */
-@SuppressWarnings("serial")
+
 public class HourglassSplash extends JDialog implements IPaintable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8767549985037957558L;
 	private String text;
 	private JLabel lbText;
 	private JLabel lbProgress;

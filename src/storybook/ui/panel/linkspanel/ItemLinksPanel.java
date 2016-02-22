@@ -20,16 +20,39 @@ import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ItemLinksPanel.
+ */
 public class ItemLinksPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5538737201850806204L;
+	
+	/** The scene. */
 	private Scene scene;
+	
+	/** The vertical. */
 	private boolean vertical = false;
 
+	/**
+	 * Instantiates a new item links panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public ItemLinksPanel(MainFrame mainFrame, Scene scene) {
 		this(mainFrame, scene, false);
 	}
 
+	/**
+	 * Instantiates a new item links panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param vertical the vertical
+	 */
 	public ItemLinksPanel(MainFrame mainFrame, Scene scene, boolean vertical) {
 		this.mainFrame = mainFrame;
 		this.scene = scene;
@@ -37,14 +60,25 @@ public class ItemLinksPanel extends AbstractPanel {
 		refresh();
 	}
 
+	/**
+	 * Gets the scene.
+	 *
+	 * @return the scene
+	 */
 	public Scene getScene() {
 		return scene;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		if (vertical) {
@@ -87,10 +121,18 @@ public class ItemLinksPanel extends AbstractPanel {
 		model.commit();
 	}
 
+	/**
+	 * Checks if is vertical.
+	 *
+	 * @return true, if is vertical
+	 */
 	public boolean isVertical() {
 		return vertical;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();

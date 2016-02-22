@@ -13,17 +13,32 @@ import storybook.ui.MainFrame;
 import storybook.ui.edit.CbPanelDecorator;
 import storybook.ui.edit.LocationCbPanelDecorator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LocationCopier.
+ */
 public class LocationCopier extends AbstractCopier<Location> {
 
+	/**
+	 * Instantiates a new location copier.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public LocationCopier(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#copySpecialInformation(storybook.ui.MainFrame, storybook.ui.MainFrame, storybook.model.hbn.entity.AbstractEntity, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void copySpecialInformation(MainFrame origin, MainFrame destination, Location originElt,
 			Location destElt) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getAllElements(org.hibernate.Session, storybook.ui.MainFrame)
+	 */
 	@Override
 	protected List<Location> getAllElements(Session session, MainFrame origin) {
 		LocationDAOImpl dao = new LocationDAOImpl(session);
@@ -32,22 +47,38 @@ public class LocationCopier extends AbstractCopier<Location> {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getDecorator()
+	 */
 	@Override
 	protected CbPanelDecorator getDecorator() {
 		return new LocationCbPanelDecorator();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#getEntityHandler(storybook.ui.MainFrame)
+	 */
 	@Override
 	protected AbstractEntityHandler getEntityHandler(MainFrame mainFrame) {
 		return new LocationEntityHandler(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.copy.AbstractCopier#prepareTransfer(storybook.ui.MainFrame, storybook.ui.MainFrame, storybook.model.hbn.entity.AbstractEntity, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	protected void prepareTransfer(MainFrame origin, MainFrame destination, Location originElt, Location destElt) {
 
 		setLocation(destination, originElt, destElt);
 	}
 
+	/**
+	 * Sets the location.
+	 *
+	 * @param destination the destination
+	 * @param originElt the origin elt
+	 * @param destElt the dest elt
+	 */
 	private void setLocation(MainFrame destination, Location originElt, Location destElt) {
 		Location site = originElt.getSite();
 		if (site != null) {

@@ -22,21 +22,27 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class RunAttesoroAction.
  *
+ * @author martin
  */
 public class RunAttesoroAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8901301671747380169L;
 
+	/**
+	 * Instantiates a new run attesoro action.
+	 */
 	public RunAttesoroAction() {
 		super("Translation Tool");
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {

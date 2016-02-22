@@ -20,13 +20,21 @@ package storybook.ui.combo;
 
 import javax.swing.DefaultComboBoxModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CityComboModel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class CityComboModel extends DefaultComboBoxModel<Object> {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4037907982648994119L;
+
+	/**
+	 * Instantiates a new city combo model.
+	 */
 	public CityComboModel() {
 		addElement("fsd");
 	}

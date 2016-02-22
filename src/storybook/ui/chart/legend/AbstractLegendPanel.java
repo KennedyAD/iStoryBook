@@ -22,29 +22,49 @@ import net.miginfocom.swing.MigLayout;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractLegendPanel.
+ */
 public abstract class AbstractLegendPanel extends AbstractPanel {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 257895269432770145L;
 
+	/**
+	 * Instantiates a new abstract legend panel.
+	 */
 	public AbstractLegendPanel() {
 	}
 
+	/**
+	 * Instantiates a new abstract legend panel.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public AbstractLegendPanel(MainFrame paramMainFrame) {
 		super(paramMainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("flowx"));
 		setBackground(Color.white);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent paramPropertyChangeEvent) {
 	}

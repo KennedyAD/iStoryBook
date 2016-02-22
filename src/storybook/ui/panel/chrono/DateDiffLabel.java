@@ -28,16 +28,39 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import storybook.toolkit.DateUtil;
 import storybook.toolkit.I18N;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DateDiffLabel.
+ */
 public class DateDiffLabel extends JLabel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2359830191727001566L;
+	
+	/** The date1. */
 	private Date date1;
+	
+	/** The date2. */
 	private Date date2;
 
+	/**
+	 * Instantiates a new date diff label.
+	 *
+	 * @param date1 the date1
+	 * @param date2 the date2
+	 */
 	public DateDiffLabel(Date date1, Date date2) {
 		this(date1, date2, false);
 	}
 
+	/**
+	 * Instantiates a new date diff label.
+	 *
+	 * @param date1 the date1
+	 * @param date2 the date2
+	 * @param isVertical the is vertical
+	 */
 	public DateDiffLabel(Date date1, Date date2, boolean isVertical) {
 		super("", SwingConstants.CENTER);
 		this.date1 = date1;
@@ -52,6 +75,11 @@ public class DateDiffLabel extends JLabel {
 		setIcon(I18N.getIcon("icon.small.datediff"));
 	}
 
+	/**
+	 * Gets the days.
+	 *
+	 * @return the days
+	 */
 	public final int getDays() {
 		return DateUtil.calculateDaysBetween(date1, date2);
 	}

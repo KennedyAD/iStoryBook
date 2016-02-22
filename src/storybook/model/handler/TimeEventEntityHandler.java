@@ -27,16 +27,26 @@ import storybook.model.hbn.entity.TimeEvent;
 import storybook.ui.MainFrame;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TimeEventEntityHandler.
  *
+ * @author martin
  */
 public class TimeEventEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new time event entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public TimeEventEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getTimeEventColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		TimeEvent event = new TimeEvent();
@@ -46,12 +56,18 @@ public class TimeEventEntityHandler extends AbstractEntityHandler {
 		return event;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) TimeEventDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {

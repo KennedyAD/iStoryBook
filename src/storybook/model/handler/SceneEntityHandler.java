@@ -27,39 +27,61 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.SceneListCellRenderer;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneEntityHandler.
  *
+ * @author martin
  */
 public class SceneEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new scene entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public SceneEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getSceneColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Scene scene = new Scene();
 		return scene;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) SceneDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Scene.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getListCellRenderer()
+	 */
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new SceneListCellRenderer();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#newEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public AbstractEntity newEntity(AbstractEntity entity) {
 		Scene scene = new Scene();

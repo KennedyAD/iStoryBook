@@ -22,9 +22,21 @@ import storybook.model.DbFile;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RenameFileDialog.
+ */
 public class RenameFileDialog extends AbstractFileDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5345732922707327858L;
+
+	/**
+	 * Instantiates a new rename file dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public RenameFileDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		setTitle(I18N.getMsg("msg.common.project.rename"));

@@ -23,11 +23,21 @@ import java.util.StringTokenizer;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class TreeUtil.
  *
+ * @author martin
  */
 public class TreeUtil {
+	
+	/**
+	 * Gets the expansion state.
+	 *
+	 * @param tree the tree
+	 * @param row the row
+	 * @return the expansion state
+	 */
 	public static String getExpansionState(JTree tree, int row) {
 		TreePath rowPath = tree.getPathForRow(row);
 		StringBuffer buf = new StringBuffer();
@@ -43,6 +53,13 @@ public class TreeUtil {
 		return buf.toString();
 	}
 
+	/**
+	 * Checks if is descendant.
+	 *
+	 * @param path1 the path1
+	 * @param path2 the path2
+	 * @return true, if is descendant
+	 */
 	public static boolean isDescendant(TreePath path1, TreePath path2) {
 		int count1 = path1.getPathCount();
 		int count2 = path2.getPathCount();
@@ -55,6 +72,13 @@ public class TreeUtil {
 		return path1.equals(path2);
 	}
 
+	/**
+	 * Restore expanstion state.
+	 *
+	 * @param tree the tree
+	 * @param row the row
+	 * @param expansionState the expansion state
+	 */
 	public static void restoreExpanstionState(JTree tree, int row, String expansionState) {
 		StringTokenizer stok = new StringTokenizer(expansionState, ",");
 		while (stok.hasMoreTokens()) {

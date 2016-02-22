@@ -41,16 +41,34 @@ import storybook.model.state.SceneState;
 import storybook.toolkit.LangUtil;
 import storybook.toolkit.comparator.DateComparator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SceneDAOImpl.
+ */
 public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements SceneDAO {
 
+	/**
+	 * Instantiates a new scene dao impl.
+	 */
 	public SceneDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new scene dao impl.
+	 *
+	 * @param session the session
+	 */
 	public SceneDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Count by location.
+	 *
+	 * @param location the location
+	 * @return the long
+	 */
 	public long countByLocation(Location location) {
 		Query query = session
 				.createQuery("select count(s) from Scene as s" + " join s.locations as l" + " where l=:location");
@@ -58,6 +76,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return (Long) query.uniqueResult();
 	}
 
+	/**
+	 * Count by person.
+	 *
+	 * @param person the person
+	 * @return the long
+	 */
 	public long countByPerson(Person person) {
 		Query query = session
 				.createQuery("select count(s) from Scene as s" + " join s.persons as p" + " where p=:person");
@@ -65,6 +89,9 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return (Long) query.uniqueResult();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.GenericDAOImpl#findAll()
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Scene> findAll() {
@@ -74,11 +101,23 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by chapter.
+	 *
+	 * @param chapter the chapter
+	 * @return the list
+	 */
 	public List<Scene> findByChapter(Chapter chapter) {
 		ChapterDAOImpl dao = new ChapterDAOImpl(session);
 		return dao.findScenes(chapter);
 	}
 
+	/**
+	 * Find by date.
+	 *
+	 * @param date the date
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByDate(Date date) {
 		if (date == null) {
@@ -95,6 +134,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return query.list();
 	}
 
+	/**
+	 * Find by item link.
+	 *
+	 * @param item the item
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByItemLink(Item item) {
 		Query query = session.createQuery("select s from Scene as s" + " join s.items as l" + " where l=:item");
@@ -103,6 +148,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by location link.
+	 *
+	 * @param location the location
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByLocationLink(Location location) {
 		Query query = session.createQuery("select s from Scene as s" + " join s.locations as l" + " where l=:location");
@@ -111,6 +162,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by part.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByPart(Part part) {
 		Query query = session.createQuery("select scene from Scene as scene" + " inner join scene.chapter as chapter"
@@ -121,6 +178,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by person link.
+	 *
+	 * @param person the person
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByPersonLink(Person person) {
 		Query query = session.createQuery("select s from Scene as s" + " join s.persons as p" + " where p=:person");
@@ -129,6 +192,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by scene state.
+	 *
+	 * @param state the state
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findBySceneState(int state) {
 		if (state == 6) {
@@ -145,10 +214,22 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return scenes;
 	}
 
+	/**
+	 * Find by scene state.
+	 *
+	 * @param state the state
+	 * @return the list
+	 */
 	public List<Scene> findBySceneState(SceneState state) {
 		return findBySceneState(state.getNumber());
 	}
 
+	/**
+	 * Find by strand.
+	 *
+	 * @param strand the strand
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByStrand(Strand strand) {
 		Query query = session.createQuery("select s from Scene as s" + " where s.strand=:strand");
@@ -157,6 +238,13 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by strand and date.
+	 *
+	 * @param strand the strand
+	 * @param date the date
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByStrandAndDate(Strand strand, Date date) {
 		if (date == null) {
@@ -195,6 +283,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find by strand link.
+	 *
+	 * @param strand the strand
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findByStrandLink(Strand strand) {
 		Query query = session.createQuery("select s from Scene as s" + " join s.strands as st" + " where st=:strand");
@@ -203,10 +297,21 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find distinct dates.
+	 *
+	 * @return the list
+	 */
 	public List<Date> findDistinctDates() {
 		return findDistinctDates(null);
 	}
 
+	/**
+	 * Find distinct dates.
+	 *
+	 * @param part the part
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Date> findDistinctDates(Part part) {
 		// native SQL
@@ -247,6 +352,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return dates;
 	}
 
+	/**
+	 * Find distinct dates by strand.
+	 *
+	 * @param strand the strand
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Date> findDistinctDatesByStrand(Strand strand) {
 		// native SQL
@@ -265,6 +376,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return dates;
 	}
 
+	/**
+	 * Find first date.
+	 *
+	 * @return the date
+	 */
 	public Date findFirstDate() {
 		List<Date> dates = findDistinctDates();
 		if (dates.isEmpty()) {
@@ -273,6 +389,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return dates.get(0);
 	}
 
+	/**
+	 * Find last date.
+	 *
+	 * @return the date
+	 */
 	public Date findLastDate() {
 		List<Date> dates = findDistinctDates();
 		if (dates.isEmpty()) {
@@ -281,6 +402,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return dates.get(dates.size() - 1);
 	}
 
+	/**
+	 * Find scenes to export.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenesToExport() {
 		Query query = session.createQuery("select scene from Scene as scene" + " inner join scene.chapter as chapter"
@@ -289,6 +415,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return ret;
 	}
 
+	/**
+	 * Find scenes with relative scene id.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenesWithRelativeSceneId() {
 		Criteria crit = session.createCriteria(Scene.class);
@@ -297,6 +428,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return scenes;
 	}
 
+	/**
+	 * Find scenes with relative scene id.
+	 *
+	 * @param scene the scene
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findScenesWithRelativeSceneId(Scene scene) {
 		Criteria crit = session.createCriteria(Scene.class);
@@ -305,6 +442,11 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return scenes;
 	}
 
+	/**
+	 * Find state in progress.
+	 *
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Scene> findStateInProgress() {
 		Criteria crit = session.createCriteria(Scene.class);
@@ -313,6 +455,12 @@ public class SceneDAOImpl extends SbGenericDAOImpl<Scene, Long> implements Scene
 		return scenes;
 	}
 
+	/**
+	 * Gets the relative scene.
+	 *
+	 * @param scene the scene
+	 * @return the relative scene
+	 */
 	public Scene getRelativeScene(Scene scene) {
 		Scene s = (Scene) session.get(Scene.class, scene.getRelativeSceneId());
 		return s;

@@ -22,13 +22,18 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ChapterLegendPanel.
+ */
 public class ChapterLegendPanel extends AbstractLegendPanel {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 7832819917984570472L;
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.legend.AbstractLegendPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		JLabel localJLabel = new JLabel("", 0);

@@ -26,13 +26,21 @@ import javax.swing.JList;
 
 import storybook.model.state.TimeStepState;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author jean
+ * The Class TimeEventFormatListCellRenderer.
  *
+ * @author jean
  */
-@SuppressWarnings("serial")
+
 public class TimeEventFormatListCellRenderer extends DefaultListCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -2506452331406520019L;
+
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,

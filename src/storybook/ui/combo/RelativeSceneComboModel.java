@@ -29,23 +29,38 @@ import storybook.model.hbn.dao.SceneDAOImpl;
 import storybook.model.hbn.entity.Scene;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class RelativeSceneComboModel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class RelativeSceneComboModel extends DefaultComboBoxModel<Object> implements IRefreshableComboModel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8655029076861853208L;
+	
+	/** The main frame. */
 	private MainFrame mainFrame;
 
+	/**
+	 * Instantiates a new relative scene combo model.
+	 */
 	public RelativeSceneComboModel() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.combo.IRefreshableComboModel#getMainFrame()
+	 */
 	@Override
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IRefreshable#refresh()
+	 */
 	@Override
 	public void refresh() {
 		if (mainFrame == null) {
@@ -61,11 +76,17 @@ public class RelativeSceneComboModel extends DefaultComboBoxModel<Object> implem
 		model.commit();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.combo.IRefreshableComboModel#setMainFrame(storybook.ui.MainFrame)
+	 */
 	@Override
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.DefaultComboBoxModel#setSelectedItem(java.lang.Object)
+	 */
 	@Override
 	public void setSelectedItem(Object obj) {
 		Scene scene;

@@ -21,15 +21,10 @@ package storybook;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.HeadlessException;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
 import java.nio.channels.FileLock;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,26 +32,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import org.apache.commons.io.FileUtils;
-
-import com.apple.eawt.AboutHandler;
-import com.apple.eawt.AppEvent.AboutEvent;
-import com.apple.eawt.AppEvent.PreferencesEvent;
-import com.apple.eawt.AppEvent.QuitEvent;
-
-import com.apple.eawt.Application;
-import com.apple.eawt.PreferencesHandler;
-import com.apple.eawt.QuitHandler;
-import com.apple.eawt.QuitResponse;
-
 
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.PreferenceKey;
@@ -67,6 +48,7 @@ import storybook.model.hbn.entity.Preference;
 import storybook.model.oldModel.ModelMigration;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
+import storybook.toolkit.OSNativeUtils;
 import storybook.toolkit.PrefUtil;
 import storybook.toolkit.net.Updater;
 import storybook.toolkit.swing.SwingUtil;
@@ -74,29 +56,58 @@ import storybook.ui.MainFrame;
 import storybook.ui.dialog.ExceptionDialog;
 import storybook.ui.dialog.FirstStartDialog;
 import storybook.ui.dialog.PostModelUpdateDialog;
-import storybook.ui.dialog.SplashDialog;
 import storybook.ui.dialog.file.NewFileDialog;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SbApp.
+ */
 public class SbApp extends Component {
-	/**
-	 * 
-	 */
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3654051279782138653L;
-	private static boolean bTrace = false;
-	private static boolean bTraceHibernate = false;
 
+	/** The b trace. */
+	private static boolean bTrace;
+
+	/** The b trace hibernate. */
+	private static boolean bTraceHibernate;
+
+	/** The instance. */
 	private static SbApp instance;
-	private static String i18nFile;
-	private static boolean bDevTest = false;
 
+	/** The i18n file. */
+	private static String i18nFile;
+
+	/** The b dev test. */
+	private static boolean bDevTest;
+
+	/**
+	 * Error.
+	 *
+	 * @param txt
+	 *            the txt
+	 * @param e
+	 *            the e
+	 */
 	public static void error(String txt, Exception e) {
 		System.err.println(txt + " Exception:" + e.getMessage());
 	}
 
+	/**
+	 * Gets the i18n file.
+	 *
+	 * @return the i18n file
+	 */
 	public static String getI18nFile() {
-		return (i18nFile);
+		return i18nFile;
 	}
 
+	/**
+	 * Gets the single instance of SbApp.
+	 *
+	 * @return single instance of SbApp
+	 */
 	/*
 	 * suppression de l'appel du garbage collector public void runGC(){
 	 * System.gc(); }
@@ -108,18 +119,40 @@ public class SbApp extends Component {
 		return instance;
 	}
 
+	/**
+	 * Gets the trace.
+	 *
+	 * @return the trace
+	 */
 	public static boolean getTrace() {
-		return (bTrace);
+		return bTrace;
 	}
 
+	/**
+	 * Gets the trace hibernate.
+	 *
+	 * @return the trace hibernate
+	 */
 	public static boolean getTraceHibernate() {
-		return (bTraceHibernate);
+		return bTraceHibernate;
 	}
 
+	/**
+	 * Checks if is dev test.
+	 *
+	 * @return true, if is dev test
+	 */
 	public static boolean isDevTest() {
-		return (bDevTest);
+		return bDevTest;
 	}
 
+	/**
+	 * Lock instance.
+	 *
+	 * @param lockFile
+	 *            the lock file
+	 * @return true, if successful
+	 */
 	private static boolean lockInstance(final String lockFile) {
 		try {
 			final File file = new File(lockFile);
@@ -147,145 +180,38 @@ public class SbApp extends Component {
 	}
 
 	/**
-	 * Sets various <code>System</code> properties.
+	 * The main method.
+	 *
+	 * @param args
+	 *            the arguments
 	 */
-	private static void initSystemProperties() {
-		// if (isMacOSX()) {
-		// Change Mac OS X application menu name
-		String classPackage = SbApp.class.getName();
-		classPackage = classPackage.substring(0, classPackage.lastIndexOf("."));
-		// ResourceBundle resource = ResourceBundle.getBundle(classPackage + "."
-		// + "package");
-		// String applicationName =
-		// resource.getString("SweetHome3D.applicationName");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iStorybook");
-		System.setProperty("apple.awt.application.name", "iStorybook");
-		// Use Mac OS X screen menu bar for frames menu bar
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		// Force the use of Quartz under Mac OS X for better Java 2D rendering
-		// performance
-		System.setProperty("apple.awt.graphics.UseQuartz", "true");
-		
-
-		System.setProperty("apple.awt.fileDialogForDirectories", "true");
-
-		System.setProperty("apple.awt.brushMetalLook", "true");
-
-		System.setProperty("apple.awt.showGrowBox", "true");
-		System.setProperty("apple.awt.window.position.forceSafeCreation", "true");
-		System.setProperty("apple.awt.window.position.forceSafeProgrammaticPositioning", "true");
-		System.setProperty("apple.awt.window.position.forceSafeUserPositioning", "true");
-		
-		if (System.getProperty("dragAndDropWithoutTransferHandler") == null
-		/* && isJavaVersionBetween("1.7", "1.8.0_40") */) {
-			System.setProperty("dragAndDropWithoutTransferHandler", "true");
-
-		}
-		
-//		Set dock icon if launched programmatically otherwise rely on 
-//		-Xdock no way of setting docking name rely on -X vm commands
-		try {
-		    Class util = Class.forName("com.apple.eawt.Application");
-		    Method getApplication = util.getMethod("getApplication", new Class[0]);
-		    Object application = getApplication.invoke(util);
-		    Class params[] = new Class[1];
-		    params[0] = Image.class;
-		    Method setDockIconImage = util.getMethod("setDockIconImage", params);
-		    URL url = SbApp.class.getClassLoader().getResource("oStorybook-icon.png");
-		    Image image = Toolkit.getDefaultToolkit().getImage(url);
-		    setDockIconImage.invoke(application, image);
-		} catch (ClassNotFoundException e) {
-		    // log exception
-		} catch (NoSuchMethodException e) {
-		    // log exception
-		} catch (InvocationTargetException e) {
-		    // log exception
-		} catch (IllegalAccessException e) {
-		    // log exception
-		}
-
-		// }
-		// Request to use system proxies to access to the Internet
-		if (System.getProperty("java.net.useSystemProxies") == null) {
-			System.setProperty("java.net.useSystemProxies", "true");
-		}
-	}
-
-	private static void customizeForMac() {
-
-		try {
-
-			System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iStorybook");
-
-			System.setProperty("apple.awt.application.name", "iStorybook");
-
-			System.setProperty("apple.laf.useScreenMenuBar", "true");
-
-			System.setProperty("apple.awt.graphics.UseQuartz", "true");
-
-			System.setProperty("apple.awt.fileDialogForDirectories", "true");
-
-			System.setProperty("apple.awt.brushMetalLook", "true");
-
-			System.setProperty("apple.awt.showGrowBox", "true");
-			System.setProperty("apple.awt.window.position.forceSafeCreation", "true");
-			System.setProperty("apple.awt.window.position.forceSafeProgrammaticPositioning", "true");
-			System.setProperty("apple.awt.window.position.forceSafeUserPositioning", "true");
-
-			UIManager.put("TitledBorder.border", UIManager.getBorder("TitledBorder.aquaVariant"));
-
-			Application macOSXApplication = Application.getApplication();
-
-			macOSXApplication.setAboutHandler(new AboutHandler() {
-				public void handleAbout(AboutEvent evt) {
-					// JOptionPane.showMessageDialog(MainFrame,"iStorybook "
-					// /*+ MedSavantProgramInformation.getVersion() + " "+
-					// MedSavantProgramInformation.getReleaseType()+
-					// * "\nCreated by ");
-					// */);
-				}
-			});
-			macOSXApplication.setPreferencesHandler(new PreferencesHandler() {
-				@Override
-				public void handlePreferences(PreferencesEvent pe) {
-					// handlePrefs();
-				}
-			});
-
-			macOSXApplication.setQuitHandler(new QuitHandler() {
-				@Override
-				public void handleQuitRequestWith(QuitEvent evt, QuitResponse resp) {
-					// exit();
-					resp.cancelQuit();
-				}
-			});
-		} catch (Throwable x) {
-			System.err.println(
-					"Warning: requires Java for Mac OS X 10.6 Update 3 (or later).\nPlease check Software Update for the latest version.");
-		}
-	}
-
 	public static void main(String[] args) {
 
-		initSystemProperties();
+		// Create Application Adapter (only needed for OsX and register
+		// as listener of Application events (storybook.toolkit.MacAdapter)
+		if (OSNativeUtils.isMac()) {
+
+			boolean regAdapterOK = OSNativeUtils.registerMacAdapter(instance);
+			trace("boolean regAdapterOK =" + regAdapterOK);
+		}
 
 		String tempDir = System.getProperty("java.io.tmpdir");
 		String fn = tempDir + File.separator + "storybook.lck";
 		if (args.length > 0) {
 			for (int i = 0; i < args.length; i++) {
-				if (args[i].equalsIgnoreCase("--trace")) {
+				if ("--trace".equalsIgnoreCase(args[i])) {
 					SbApp.bTrace = true;
 					System.out.println("Storybook execution in trace mode");
 				}
-				if (args[i].equalsIgnoreCase("--hibernate")) {
+				if ("--hibernate".equalsIgnoreCase(args[i])) {
 					SbApp.bTraceHibernate = true;
 					System.out.println("Hibernate in trace mode");
 				}
-				if (args[i].equalsIgnoreCase("--dev")) {
+				if ("--dev".equalsIgnoreCase(args[i])) {
 					SbApp.bDevTest = true;
 					System.out.println("Development test");
 				}
-				if (args[i].equalsIgnoreCase("--msg")) {
+				if ("--msg".equalsIgnoreCase(args[i])) {
 					File f = new File(args[i + 1] + ".properties");
 					if (!f.exists()) {
 						System.out.println("Msg test file not exists : " + args[i + 1]);
@@ -302,12 +228,9 @@ public class SbApp extends Component {
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (n == 0) {
 				File file = new File(fn);
-				if (file.exists() && file.canWrite()) {
-					if (!file.delete()) {
-						JOptionPane.showMessageDialog(null, "Delete failed",
-								"File\n" + file.getAbsolutePath() + "\ncould not be deleted.",
-								JOptionPane.ERROR_MESSAGE);
-					}
+				if (file.exists() && file.canWrite() && !file.delete()) {
+					JOptionPane.showMessageDialog(null, "Delete failed",
+							"File\n" + file.getAbsolutePath() + "\ncould not be deleted.", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			return;
@@ -322,68 +245,88 @@ public class SbApp extends Component {
 		});
 	}
 
+	/**
+	 * Sets the i18n file.
+	 *
+	 * @param file
+	 *            the new i18n file
+	 */
 	public static void setI18nFile(String file) {
 		i18nFile = file;
 	}
 
+	/**
+	 * Sets the trace.
+	 *
+	 * @param b
+	 *            the new trace
+	 */
 	public static void setTrace(boolean b) {
 		bTrace = b;
 		System.out.println((b ? "Enter" : "Exit") + " trace mode");
 	}
 
+	/**
+	 * Trace.
+	 *
+	 * @param msg
+	 *            the msg
+	 */
 	public static void trace(String msg) {
 		if (bTrace) {
 			System.out.println(msg);
 		}
 	}
 
+	/** The preference model. */
 	private PreferenceModel preferenceModel;
 
+	/** The preference controller. */
 	private PreferenceController preferenceController;
 
-	private final List<MainFrame> mainFrames;
+	/** The main frame. */
+	private static MainFrame mainFrame;
 
+	/** The default font. */
 	private Font defaultFont;
 
+	/**
+	 * Instantiates a new sb app.
+	 */
 	private SbApp() {
-		mainFrames = new ArrayList<>();
+		SbApp.mainFrame = new MainFrame();
 	}
 
-	public void addMainFrame(MainFrame mainFrame) {
-		trace("SbApp.addMainFrame(" + mainFrame.getName() + ")");
-		mainFrames.add(mainFrame);
-	}
-
+	/**
+	 * Check if already opened.
+	 *
+	 * @param dbName
+	 *            the db name
+	 * @return true, if successful
+	 */
 	private boolean checkIfAlreadyOpened(String dbName) {
 		trace("SbApp.checkIfAlreadyOpened(" + dbName + ")");
-		for (MainFrame mainFrame : mainFrames) {
-			if (mainFrame.isBlank()) {
-				continue;
-			}
-			if (mainFrame.getDbFile().getDbName().equals(dbName)) {
-				mainFrame.setVisible(true);
+		if (mainFrame.getViewFactory() != null) {
+			if (getMainFrame().getDbFile().getDbName().equals(dbName)) {
+				getMainFrame().setVisible(true);
 				return true;
 			}
 		}
 		return false;
 	}
 
+	/**
+	 * Clear recent files.
+	 */
 	public void clearRecentFiles() {
 		trace("SbApp.clearRecentFiles()");
 		PrefUtil.setDbFileList(new ArrayList<DbFile>());
 		reloadMenuBars();
 	}
 
-	public void closeBlank() {
-		trace("SbApp.closeBlank()");
-		for (MainFrame mainFrame : mainFrames) {
-			if (mainFrame.isBlank()) {
-				mainFrames.remove(mainFrame);
-				mainFrame.dispose();
-			}
-		}
-	}
-
+	/**
+	 * Creates a new file.
+	 */
 	public void createNewFile() {
 		trace("SbApp.createNewFile()");
 		try {
@@ -397,17 +340,15 @@ public class SbApp extends Component {
 			if (dbName == null) {
 				return;
 			}
-			final MainFrame newMainFrame = new MainFrame();
-			newMainFrame.init(dbFile);
-			newMainFrame.getBookModel().initEntites();
-			BookUtil.store(newMainFrame, BookKey.USE_HTML_SCENES, dlg.getUseHtmlScenes());
-			BookUtil.store(newMainFrame, BookKey.USE_HTML_DESCR, dlg.getUseHtmlDescr());
-			BookUtil.store(newMainFrame, BookKey.BOOK_CREATION_DATE,
-					new SimpleDateFormat("dd/MM/yy").format(new Date()));
-			newMainFrame.initUi();
-			newMainFrame.getBookController().fireAgain();
-			addMainFrame(newMainFrame);
-			closeBlank();
+			removeMainFrame(mainFrame);
+			mainFrame = new MainFrame();
+			mainFrame.init(dbFile);
+			mainFrame.getBookModel().initEntites();
+			BookUtil.store(mainFrame, BookKey.USE_HTML_SCENES, dlg.getUseHtmlScenes());
+			BookUtil.store(mainFrame, BookKey.USE_HTML_DESCR, dlg.getUseHtmlDescr());
+			BookUtil.store(mainFrame, BookKey.BOOK_CREATION_DATE, new SimpleDateFormat("dd/MM/yy").format(new Date()));
+			mainFrame.initUi();
+			mainFrame.getBookController().fireAgain();
 			updateFilePref(dbFile);
 			setDefaultCursor();
 		} catch (Exception e) {
@@ -415,44 +356,56 @@ public class SbApp extends Component {
 		}
 	}
 
+	/**
+	 * Exit.
+	 */
 	public void exit() {
 		trace("SbApp.exit()");
-		if (mainFrames.size() > 0) {
-			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
-			if (pref.getBooleanValue()) {
-				int n = JOptionPane.showConfirmDialog(null, I18N.getMsg("msg.mainframe.want.exit"),
-						I18N.getMsg("msg.common.exit"), JOptionPane.YES_NO_OPTION);
-				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
-					return;
-				}
+		Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
+		if (pref.getBooleanValue()) {
+			int n = JOptionPane.showConfirmDialog(null, I18N.getMsg("msg.mainframe.want.exit"),
+					I18N.getMsg("msg.common.exit"), JOptionPane.YES_NO_OPTION);
+			if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+				return;
 			}
-			saveAll();
 		}
+		saveAll();
 		System.exit(0);
 	}
 
+	/**
+	 * Gets the default font.
+	 *
+	 * @return the default font
+	 */
 	public Font getDefaultFont() {
 		return this.defaultFont;
 	}
 
-	public List<MainFrame> getMainFrames() {
-		return mainFrames;
-	}
-
+	/**
+	 * Gets the preference controller.
+	 *
+	 * @return the preference controller
+	 */
 	public PreferenceController getPreferenceController() {
 		return preferenceController;
 	}
 
+	/**
+	 * Gets the preference model.
+	 *
+	 * @return the preference model
+	 */
 	public PreferenceModel getPreferenceModel() {
 		return preferenceModel;
 	}
 
+	/**
+	 * Inits the.
+	 */
 	private void init() {
-		// trace("SbApp.init()");
-
-		// ADK SplashDialog dlgStart = new SplashDialog("oStorybook init");
+		trace("SbApp.init()");
 		try {
-			MainFrame mainFrame = new MainFrame();
 			// preference model and controller
 			trace("-->PreferenceController()");
 			preferenceController = new PreferenceController();
@@ -464,9 +417,6 @@ public class SbApp extends Component {
 			preferenceController.attachView(this);
 			trace("-->initI18N()");
 			initI18N();
-			// trace("-->SwingUtil.setLookAndFeel()");
-			// ADK Destroys loading menu bar into app bar on mac
-			// SwingUtil.setLookAndFeel();
 			restoreDefaultFont();
 			// first start dialog
 			Preference prefFirstStart = PrefUtil.get(PreferenceKey.FIRST_START_4, true);
@@ -477,24 +427,17 @@ public class SbApp extends Component {
 			}
 
 			Preference pref = PrefUtil.get(PreferenceKey.OPEN_LAST_FILE, false);
-			boolean fileHasBeenOpened = false;
 			if (pref.getBooleanValue()) {
 				Preference pref2 = PrefUtil.get(PreferenceKey.LAST_OPEN_FILE, "");
 				DbFile dbFile = new DbFile(pref2.getStringValue());
 				trace("SbApp.init(): loading... " + dbFile);
-				fileHasBeenOpened = openFile(dbFile);
+				openFile(dbFile);
 			}
-			if (fileHasBeenOpened) {
-				// check for updates
-				Updater.checkForUpdate();
-				// dlgStart.dispose();
-				return;
-			}
-			
-			createNewFile() ;
+			Preference pref2 = PrefUtil.get(PreferenceKey.LAST_OPEN_FILE, "");
+			DbFile dbFile = new DbFile(pref2.getStringValue());
+			trace("SbApp.init(): loading default db. " + dbFile);
+			openFile(dbFile);
 
-			// check for updates
-			Updater.checkForUpdate();
 			/*
 			 * abandon de l'appel au garbarge collector, utilisation non
 			 * recommandée Timer t1 = new Timer(10000, new ActionListener() {
@@ -505,13 +448,14 @@ public class SbApp extends Component {
 
 		} catch (Exception e) {
 			error("SbApp.init()", e);
-			// dlgStart.dispose();
-			ExceptionDialog dlg = new ExceptionDialog(e);
-			SwingUtil.showModalDialog(dlg, null);
+			// ExceptionDialog dlg = new ExceptionDialog(e);
+			// SwingUtil.showModalDialog(dlg, null);
 		}
-		// dlgStart.dispose();
 	}
 
+	/**
+	 * Inits the i18 n.
+	 */
 	public void initI18N() {
 		trace("SbApp.initI18N()");
 		String localeStr = PrefUtil.get(PreferenceKey.LANG, SbConstants.DEFAULT_LANG).getStringValue();
@@ -521,6 +465,12 @@ public class SbApp extends Component {
 		I18N.initResourceBundles(getLocale());
 	}
 
+	/**
+	 * Model property change.
+	 *
+	 * @param evt
+	 *            the evt
+	 */
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// works, but currently not used
 		// may be used for entity copying between files
@@ -529,15 +479,24 @@ public class SbApp extends Component {
 		// Object oldValue = evt.getOldValue();
 	}
 
+	/**
+	 * Open file.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean openFile() {
 		trace("SbApp.openFile()");
 		final DbFile dbFile = BookUtil.openDocumentDialog();
-		if (dbFile == null) {
-			return false;
-		}
-		return openFile(dbFile);
+		return dbFile != null && openFile(dbFile);
 	}
 
+	/**
+	 * Open file.
+	 *
+	 * @param dbFile
+	 *            the db file
+	 * @return true, if successful
+	 */
 	public boolean openFile(final DbFile dbFile) {
 		trace("SbApp.openFile(" + dbFile.getDbName() + ")");
 		try {
@@ -577,24 +536,23 @@ public class SbApp extends Component {
 			oldPersMngr.closeConnection();
 			setWaitCursor();
 			I18N.getMsg("msg.common.loading", dbFile.getName());
-			// final HourglassSplash dlg = new HourglassSplash(text);
+
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						MainFrame newMainFrame = new MainFrame();
-						newMainFrame.init(dbFile);
-						newMainFrame.initUi();
-						addMainFrame(newMainFrame);
-						closeBlank();
+						if (mainFrame.getViewFactory() != null) {
+							removeMainFrame(mainFrame);
+							mainFrame = new MainFrame();
+						}
+						mainFrame.init(dbFile);
+						mainFrame.initUi();
 						updateFilePref(dbFile);
 						reloadMenuBars();
 						setDefaultCursor();
-						// dlg.dispose();
-
 						if (oldPersMngr.hasAlteredDbModel()) {
-							PostModelUpdateDialog dlg2 = new PostModelUpdateDialog(newMainFrame);
-							SwingUtil.showModalDialog(dlg2, newMainFrame);
+							PostModelUpdateDialog dlg2 = new PostModelUpdateDialog(mainFrame);
+							SwingUtil.showModalDialog(dlg2, mainFrame);
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -607,40 +565,56 @@ public class SbApp extends Component {
 		return true;
 	}
 
+	/**
+	 * Refresh.
+	 */
 	public void refresh() {
 		trace("SbApp.refresh()");
-		for (MainFrame mainFrame : mainFrames) {
-			int width = mainFrame.getWidth();
-			int height = mainFrame.getHeight();
-			boolean maximized = mainFrame.isMaximized();
-			mainFrame.getSbActionManager().reloadMenuToolbar();
-			mainFrame.setSize(width, height);
-			if (maximized) {
-				mainFrame.setMaximized();
-			}
-			mainFrame.refresh();
+		int width = getMainFrame().getWidth();
+		int height = getMainFrame().getHeight();
+		boolean maximized = getMainFrame().isMaximized();
+		getMainFrame().getSbActionManager().reloadMenuToolbar();
+		getMainFrame().setSize(width, height);
+		if (maximized) {
+			getMainFrame().setMaximized();
 		}
+		getMainFrame().refresh();
 	}
 
+	/**
+	 * Reload menu bars.
+	 */
 	public void reloadMenuBars() {
-		for (MainFrame mainFrame : mainFrames) {
-			mainFrame.getSbActionManager().reloadMenuToolbar();
-		}
+		getMainFrame().getSbActionManager().reloadMenuToolbar();
 	}
 
+	/**
+	 * Reload status bars.
+	 */
 	public void reloadStatusBars() {
-		for (MainFrame mainFrame : mainFrames) {
-			mainFrame.refreshStatusBar();
-		}
+		getMainFrame().refreshStatusBar();
 	}
 
+	/**
+	 * Removes the main frame.
+	 *
+	 * @param mainFrame
+	 *            the main frame
+	 */
 	public void removeMainFrame(MainFrame mainFrame) {
 		trace("SbApp.removeMainFrame(" + mainFrame.getName() + ")");
-		for (MainFrame m : mainFrames)
-			m.saveAllTableDesign();
-		mainFrames.remove(mainFrame);
+		mainFrame.saveAllTableDesign();
+		mainFrame.remove(mainFrame);
 	}
 
+	/**
+	 * Rename file.
+	 *
+	 * @param mainFrame
+	 *            the main frame
+	 * @param outFile
+	 *            the out file
+	 */
 	public void renameFile(final MainFrame mainFrame, File outFile) {
 		trace("SbApp.renameFile(" + mainFrame.getName() + "," + outFile.getAbsolutePath() + ")");
 		try {
@@ -655,6 +629,9 @@ public class SbApp extends Component {
 		}
 	}
 
+	/**
+	 * Reset ui font.
+	 */
 	public void resetUiFont() {
 		if (defaultFont == null) {
 			return;
@@ -662,6 +639,9 @@ public class SbApp extends Component {
 		SwingUtil.setUIFont(new FontUIResource(defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize()));
 	}
 
+	/**
+	 * Restore default font.
+	 */
 	public void restoreDefaultFont() {
 		Preference pref = PrefUtil.get(PreferenceKey.DEFAULT_FONT_NAME, SbConstants.DEFAULT_FONT_NAME);
 		String name = SbConstants.DEFAULT_FONT_NAME;
@@ -682,19 +662,27 @@ public class SbApp extends Component {
 		setDefaultFont(new Font(name, style, size));
 	}
 
+	/**
+	 * Save all.
+	 */
 	public void saveAll() {
 		trace("SbApp.saveAll()");
-		for (MainFrame mainFrame : mainFrames) {
-			mainFrame.getSbActionManager().getActionHandler().handleFileSave();
-		}
+		getMainFrame().getSbActionManager().getActionHandler();// .handleFileSave();
 	}
 
+	/**
+	 * Sets the default cursor.
+	 */
 	public void setDefaultCursor() {
-		for (MainFrame mainFrame : mainFrames) {
-			SwingUtil.setDefaultCursor(mainFrame);
-		}
+		SwingUtil.setDefaultCursor(getMainFrame());
 	}
 
+	/**
+	 * Sets the default font.
+	 *
+	 * @param font
+	 *            the new default font
+	 */
 	public void setDefaultFont(Font font) {
 		if (font == null) {
 			return;
@@ -706,18 +694,27 @@ public class SbApp extends Component {
 		PrefUtil.set(PreferenceKey.DEFAULT_FONT_STYLE, font.getStyle());
 	}
 
+	/**
+	 * Sets the wait cursor.
+	 */
 	public void setWaitCursor() {
-		for (MainFrame mainFrame : mainFrames) {
-			SwingUtil.setWaitingCursor(mainFrame);
-		}
+		SwingUtil.setWaitingCursor(getMainFrame());
 	}
 
+	/**
+	 * Update file pref.
+	 *
+	 * @param dbFile
+	 *            the db file
+	 */
 	private void updateFilePref(DbFile dbFile) {
 		trace("SbApp.updateFilePref(" + dbFile.getDbName() + ")");
 		// save last open directory and file
 		File file = dbFile.getFile();
 		PrefUtil.set(PreferenceKey.LAST_OPEN_DIR, file.getParent());
 		PrefUtil.set(PreferenceKey.LAST_OPEN_FILE, file.getPath());
+		PrefUtil.set(PreferenceKey.DEFAULT_FILE, file.getPath());
+
 		// save recent files
 		List<DbFile> list = PrefUtil.getDbFileList();
 		if (!list.contains(dbFile)) {
@@ -733,6 +730,35 @@ public class SbApp extends Component {
 		}
 		PrefUtil.setDbFileList(list);
 		reloadMenuBars();
+	}
+
+	/**
+	 * Do mac open file.
+	 *
+	 * @param aFile
+	 *            the a file
+	 */
+	public static void doMacOpenFile(File aFile) {
+
+	}
+
+	/**
+	 * Gets the main frame.
+	 *
+	 * @return the main frame
+	 */
+	public static MainFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	/**
+	 * Open alignment file.
+	 *
+	 * @param firstFile
+	 *            the first file
+	 */
+	public static void openAlignmentFile(File firstFile) {
+
 	}
 
 }

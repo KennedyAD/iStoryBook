@@ -26,20 +26,39 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.swing.htmleditor.HtmlEditor;
 import storybook.toolkit.swing.panel.PlainTextEditor;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LengthVerifier.
+ */
 public class LengthVerifier extends AbstractInputVerifier {
 
+	/** The length. */
 	private int length;
 
+	/**
+	 * Instantiates a new length verifier.
+	 *
+	 * @param length the length
+	 */
 	public LengthVerifier(int length) {
 		super(true);
 		this.length = length;
 	}
 
+	/**
+	 * Instantiates a new length verifier.
+	 *
+	 * @param length the length
+	 * @param acceptEmpty the accept empty
+	 */
 	public LengthVerifier(int length, boolean acceptEmpty) {
 		super(acceptEmpty);
 		this.length = length;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#verify(javax.swing.JComponent)
+	 */
 	@Override
 	public boolean verify(JComponent comp) {
 		String errorMsg = I18N.getMsg("msg.verifier.too.long", length);

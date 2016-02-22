@@ -29,18 +29,34 @@ import javax.swing.table.TableCellRenderer;
 import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.SwingUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StandardTableCellRenderer.
+ */
 public class StandardTableCellRenderer implements TableCellRenderer {
 
+	/** The has colored rows. */
 	private boolean hasColoredRows;
 
+	/**
+	 * Instantiates a new standard table cell renderer.
+	 */
 	public StandardTableCellRenderer() {
 		this(true);
 	}
 
+	/**
+	 * Instantiates a new standard table cell renderer.
+	 *
+	 * @param coloredRows the colored rows
+	 */
 	public StandardTableCellRenderer(boolean coloredRows) {
 		this.hasColoredRows = coloredRows;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {

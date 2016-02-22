@@ -22,29 +22,64 @@ import javax.swing.JCheckBox;
 
 import storybook.model.hbn.entity.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class CbPanelDecorator.
  *
+ * @author martin
  */
 abstract public class CbPanelDecorator {
 
+	/** The panel. */
 	protected CheckBoxPanel panel;
 
+	/**
+	 * Instantiates a new cb panel decorator.
+	 */
 	public CbPanelDecorator() {
 	}
 
+	/**
+	 * Decorate after entity.
+	 *
+	 * @param entity the entity
+	 */
 	abstract public void decorateAfterEntity(AbstractEntity entity);
 
+	/**
+	 * Decorate before entity.
+	 *
+	 * @param entity the entity
+	 */
 	abstract public void decorateBeforeEntity(AbstractEntity entity);
 
+	/**
+	 * Decorate before first entity.
+	 */
 	abstract public void decorateBeforeFirstEntity();
 
+	/**
+	 * Decorate entity.
+	 *
+	 * @param cb the cb
+	 * @param entity the entity
+	 */
 	abstract public void decorateEntity(JCheckBox cb, AbstractEntity entity);
 
+	/**
+	 * Gets the panel.
+	 *
+	 * @return the panel
+	 */
 	public CheckBoxPanel getPanel() {
 		return panel;
 	}
 
+	/**
+	 * Sets the panel.
+	 *
+	 * @param panel the new panel
+	 */
 	public void setPanel(CheckBoxPanel panel) {
 		this.panel = panel;
 	}

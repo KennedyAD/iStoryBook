@@ -26,23 +26,34 @@ import storybook.model.hbn.entity.Chapter;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ChapterReSortAction.
  *
+ * @author martin
  */
 public class ChapterReSortAction extends AbstractEntityAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8503649695861596505L;
+	
+	/** The chapter. */
 	private final Chapter chapter;
 
+	/**
+	 * Instantiates a new chapter re sort action.
+	 *
+	 * @param mainFrame the main frame
+	 * @param chapter the chapter
+	 */
 	public ChapterReSortAction(MainFrame mainFrame, Chapter chapter) {
 		super(mainFrame, chapter, I18N.getMsg("msg.common.re-sort"), I18N.getIcon("icon.small.sort"));
 		this.chapter = chapter;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		EntityUtil.renumberScenes(mainFrame, chapter);

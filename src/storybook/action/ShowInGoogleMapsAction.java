@@ -26,18 +26,31 @@ import storybook.model.hbn.entity.Location;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ShowInGoogleMapsAction.
+ */
 public class ShowInGoogleMapsAction extends AbstractAction {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -8730121331817176184L;
+	
+	/** The location. */
 	private Location location;
 
+	/**
+	 * Instantiates a new show in google maps action.
+	 *
+	 * @param location the location
+	 */
 	public ShowInGoogleMapsAction(Location location) {
 		super("Google Maps", I18N.getIcon("icon.small.map"));
 		this.location = location;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		StringBuilder buf = new StringBuilder();

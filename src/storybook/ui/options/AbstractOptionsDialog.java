@@ -34,25 +34,48 @@ import storybook.toolkit.swing.panel.BackgroundPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.AbstractDialog;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public abstract class AbstractOptionsDialog extends AbstractDialog implements ChangeListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4970850444163145408L;
+
+	/** The zoom. */
 	private boolean zoom;
 
+	/** The zoom value. */
 	protected int zoomValue;
+	
+	/** The zoom min value. */
 	protected int zoomMinValue;
+	
+	/** The zoom max value. */
 	protected int zoomMaxValue;
 
+	/** The panel. */
 	protected BackgroundPanel panel;
 
+	/**
+	 * Instantiates a new abstract options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public AbstractOptionsDialog(MainFrame mainFrame) {
 		this(mainFrame, true);
 	}
 
+	/**
+	 * Instantiates a new abstract options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @param hasZoom the has zoom
+	 */
 	public AbstractOptionsDialog(MainFrame mainFrame, boolean hasZoom) {
 		super(mainFrame);
 		this.zoom = hasZoom;
@@ -60,14 +83,27 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements Ch
 		internalInitUi();
 	}
 
+	/**
+	 * Gets the zoom max value.
+	 *
+	 * @return the zoom max value
+	 */
 	public int getZoomMaxValue() {
 		return zoomMaxValue;
 	}
 
+	/**
+	 * Gets the zoom min value.
+	 *
+	 * @return the zoom min value
+	 */
 	public int getZoomMinValue() {
 		return zoomMinValue;
 	}
 
+	/**
+	 * Internal init.
+	 */
 	private void internalInit() {
 		zoomValue = 50;
 		zoomMinValue = 0;
@@ -75,6 +111,9 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements Ch
 		init();
 	}
 
+	/**
+	 * Internal init ui.
+	 */
 	private void internalInitUi() {
 		setLayout(new MigLayout("flowy,fill,ins 0"));
 		setPreferredSize(new Dimension(500, 300));
@@ -106,22 +145,45 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements Ch
 		add(panel, "grow");
 	}
 
+	/**
+	 * Checks if is zoom.
+	 *
+	 * @return true, if is zoom
+	 */
 	public boolean isZoom() {
 		return zoom;
 	}
 
+	/**
+	 * Sets the zoom.
+	 *
+	 * @param zoom the new zoom
+	 */
 	public void setZoom(boolean zoom) {
 		this.zoom = zoom;
 	}
 
+	/**
+	 * Sets the zoom max value.
+	 *
+	 * @param zoomMaxValue the new zoom max value
+	 */
 	public void setZoomMaxValue(int zoomMaxValue) {
 		this.zoomMaxValue = zoomMaxValue;
 	}
 
+	/**
+	 * Sets the zoom min value.
+	 *
+	 * @param zoomMinValue the new zoom min value
+	 */
 	public void setZoomMinValue(int zoomMinValue) {
 		this.zoomMinValue = zoomMinValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		JSlider slider = (JSlider) e.getSource();
@@ -131,6 +193,11 @@ public abstract class AbstractOptionsDialog extends AbstractDialog implements Ch
 		}
 	}
 
+	/**
+	 * Zoom.
+	 *
+	 * @param val the val
+	 */
 	protected void zoom(int val) {
 	}
 }

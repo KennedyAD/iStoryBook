@@ -23,21 +23,46 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.toolkit.I18N;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityNode.
+ */
 public class EntityNode extends DefaultMutableTreeNode {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -704711959059339L;
+	
+	/** The text. */
 	private String text;
+	
+	/** The entity. */
 	private AbstractEntity entity;
 
+	/**
+	 * Instantiates a new entity node.
+	 *
+	 * @param textKey the text key
+	 * @param entity the entity
+	 */
 	public EntityNode(String textKey, AbstractEntity entity) {
 		super();
 		this.text = I18N.getMsg(textKey);
 		this.entity = entity;
 	}
 
+	/**
+	 * Gets the db table.
+	 *
+	 * @return the db table
+	 */
 	public AbstractEntity getDbTable() {
 		return entity;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.DefaultMutableTreeNode#toString()
+	 */
 	@Override
 	public String toString() {
 		return text;

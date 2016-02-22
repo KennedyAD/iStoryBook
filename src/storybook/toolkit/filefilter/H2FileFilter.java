@@ -6,8 +6,15 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.io.FilenameUtils;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class H2FileFilter.
+ */
 public class H2FileFilter extends FileFilter {
 
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 */
 	@Override
 	public boolean accept(File f) {
 		if (f.isDirectory()) {
@@ -27,6 +34,9 @@ public class H2FileFilter extends FileFilter {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return "H2 Database File";

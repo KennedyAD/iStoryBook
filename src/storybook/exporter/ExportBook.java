@@ -31,23 +31,49 @@ import storybook.model.hbn.entity.Part;
 import storybook.model.hbn.entity.Scene;
 import storybook.toolkit.BookUtil;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ExportBook.
  *
  * @author favdb
  */
 public class ExportBook {
 
+	/** The parent. */
 	private final Export parent;
+	
+	/** The html. */
 	private ExportHtml html;
+	
+	/** The pdf. */
 	private ExportPDF pdf;
+	
+	/** The csv. */
 	private ExportCsv csv;
+	
+	/** The txt. */
 	private ExportTxt txt;
+	
+	/** The odf. */
 	private ExportOdf odf;
+	
+	/** The book exporter. */
 	private final BookExporter bookExporter;
+	
+	/** The is multi html. */
 	private boolean isMultiHtml;
+	
+	/** The base filename. */
 	private String baseFilename;
+	
+	/** The xml. */
 	private ExportXml xml;
 
+	/**
+	 * Instantiates a new export book.
+	 *
+	 * @param m the m
+	 */
 	public ExportBook(Export m) {
 		parent = m;
 		bookExporter = new BookExporter(m.mainFrame);
@@ -56,6 +82,11 @@ public class ExportBook {
 		isMultiHtml = parent.parent.paramExport.htmlBookMulti;
 	}
 
+	/**
+	 * Debut.
+	 *
+	 * @return the string
+	 */
 	public String debut() {
 		String rc = "";
 		switch (parent.format) {
@@ -78,9 +109,12 @@ public class ExportBook {
 			xml.open();
 			break;
 		}
-		return (rc);
+		return rc;
 	}
 
+	/**
+	 * Fin.
+	 */
 	private void fin() {
 		switch (parent.format) {
 		case "html":
@@ -108,6 +142,11 @@ public class ExportBook {
 		}
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @return the string
+	 */
 	public String get() {
 		String rc = "";
 		switch (parent.format) {
@@ -133,7 +172,7 @@ public class ExportBook {
 		if (!isMultiHtml) {
 			rc = debut();
 			if (!"".equals(rc)) {
-				return (rc);
+				return rc;
 			}
 		}
 		BookModel model = parent.mainFrame.getBookModel();
@@ -173,9 +212,16 @@ public class ExportBook {
 			html.close(false);
 		}
 		model.commit();
-		return (rc);
+		return rc;
 	}
 
+	/**
+	 * Gets the chapter.
+	 *
+	 * @param chapter the chapter
+	 * @param ChapterDAO the chapter dao
+	 * @return the chapter
+	 */
 	private void getChapter(Chapter chapter, ChapterDAOImpl ChapterDAO) {
 		switch (parent.format) {
 		case "html":
@@ -206,6 +252,12 @@ public class ExportBook {
 		}
 	}
 
+	/**
+	 * Gets the chapter id.
+	 *
+	 * @param chapter the chapter
+	 * @return the chapter id
+	 */
 	private String getChapterId(Chapter chapter) {
 		String spart = Integer.toString(chapter.getPart().getNumber());
 		String schapter = Integer.toString(chapter.getChapterno());
@@ -215,9 +267,15 @@ public class ExportBook {
 		if (schapter.length() < 2) {
 			schapter = "0" + schapter;
 		}
-		return (spart + "-" + schapter);
+		return spart + "-" + schapter;
 	}
 
+	/**
+	 * Gets the part.
+	 *
+	 * @param part the part
+	 * @return the part
+	 */
 	private void getPart(Part part) {
 		SbApp.trace("getPart(" + part.getName() + ")");
 		switch (parent.format) {
@@ -243,6 +301,12 @@ public class ExportBook {
 		}
 	}
 
+	/**
+	 * Gets the scene.
+	 *
+	 * @param scene the scene
+	 * @return the scene
+	 */
 	private void getScene(Scene scene) {
 		switch (parent.format) {
 		case "html":
@@ -265,12 +329,25 @@ public class ExportBook {
 		}
 	}
 
+	/**
+	 * Gets the toc chapter.
+	 *
+	 * @param chapter the chapter
+	 * @param ChapterDAO the chapter dao
+	 * @return the toc chapter
+	 */
 	private void getTocChapter(Chapter chapter, ChapterDAOImpl ChapterDAO) {
 		String str = "<a href=\"" + baseFilename + " " + getChapterId(chapter) + ".html\">" + chapter.getChapternoStr()
 				+ " " + chapter.getTitle() + "</a><br>\n";
 		html.writeText(str, false);
 	}
 
+	/**
+	 * Gets the toc part.
+	 *
+	 * @param part the part
+	 * @return the toc part
+	 */
 	private void getTocPart(Part part) {
 		html.writeText("<h2>" + part.getNumberName() + "</h2>", false);
 	}

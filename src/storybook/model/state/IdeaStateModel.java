@@ -20,12 +20,17 @@ package storybook.model.state;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IdeaStateModel.
  *
+ * @author martin
  */
 public class IdeaStateModel extends AbstractStateModel {
 
+	/**
+	 * Instantiates a new idea state model.
+	 */
 	public IdeaStateModel() {
 		super();
 		states.add(new IdeaState(0, I18N.getMsg("msg.ideas.status.not_started")));

@@ -22,16 +22,31 @@ import javax.swing.Icon;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class SceneState.
  *
+ * @author martin
  */
 public class SceneState extends AbstractState {
 
+	/**
+	 * Instantiates a new scene state.
+	 *
+	 * @param number the number
+	 * @param name the name
+	 */
 	public SceneState(Integer number, String name) {
 		this(number, name, null);
 	}
 
+	/**
+	 * Instantiates a new scene state.
+	 *
+	 * @param number the number
+	 * @param name the name
+	 * @param icon the icon
+	 */
 	public SceneState(Integer number, String name, Icon icon) {
 		super();
 		this.number = number;
@@ -39,6 +54,9 @@ public class SceneState extends AbstractState {
 		this.icon = icon;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.state.AbstractState#getToolTip()
+	 */
 	@Override
 	public String getToolTip() {
 		return I18N.getMsgColon("msg.status") + " " + this;

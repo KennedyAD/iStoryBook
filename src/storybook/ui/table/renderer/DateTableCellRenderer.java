@@ -24,17 +24,28 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class DateTableCellRenderer.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class DateTableCellRenderer extends DefaultTableCellRenderer {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 4844389177759617435L;
+
+	/**
+	 * Instantiates a new date table cell renderer.
+	 */
 	public DateTableCellRenderer() {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.table.DefaultTableCellRenderer#setValue(java.lang.Object)
+	 */
 	@Override
 	public void setValue(Object value) {
 		try {

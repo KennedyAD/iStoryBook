@@ -25,16 +25,34 @@ import com.googlecode.genericdao.search.Search;
 
 import storybook.model.hbn.entity.Preference;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PreferenceDAOImpl.
+ */
 public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implements PreferenceDAO {
 
+	/**
+	 * Instantiates a new preference dao impl.
+	 */
 	public PreferenceDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new preference dao impl.
+	 *
+	 * @param session the session
+	 */
 	public PreferenceDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by key.
+	 *
+	 * @param key the key
+	 * @return the preference
+	 */
 	public Preference findByKey(String key) {
 		Filter filter = new Filter("key", key, Filter.OP_EQUAL);
 		Search search = new Search();
@@ -42,6 +60,11 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		return searchUnique(search);
 	}
 
+	/**
+	 * Removes the.
+	 *
+	 * @param key the key
+	 */
 	public void remove(String key) {
 		Preference pref = findByKey(key);
 		if (pref != null) {
@@ -49,6 +72,12 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, Boolean value) {
 		Preference pref = findByKey(key);
 		if (pref == null) {
@@ -60,6 +89,12 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, byte[] value) {
 		Preference pref = findByKey(key);
 		if (pref == null) {
@@ -71,6 +106,12 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, Integer value) {
 		Preference pref = findByKey(key);
 		if (pref == null) {
@@ -82,6 +123,12 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, Object value) {
 		if (value instanceof String) {
 			saveOrUpdate(key, (String) value);
@@ -101,6 +148,12 @@ public class PreferenceDAOImpl extends SbGenericDAOImpl<Preference, Long> implem
 		}
 	}
 
+	/**
+	 * Save or update.
+	 *
+	 * @param key the key
+	 * @param value the value
+	 */
 	public void saveOrUpdate(String key, String value) {
 		Preference pref = findByKey(key);
 		if (pref == null) {

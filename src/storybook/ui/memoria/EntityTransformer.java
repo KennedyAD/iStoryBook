@@ -20,8 +20,15 @@ import org.apache.commons.collections15.Transformer;
 import storybook.model.EntityUtil;
 import storybook.model.hbn.entity.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EntityTransformer.
+ */
 public class EntityTransformer implements Transformer<AbstractEntity, String> {
 
+	/* (non-Javadoc)
+	 * @see org.apache.commons.collections15.Transformer#transform(java.lang.Object)
+	 */
 	@Override
 	public String transform(AbstractEntity p) {
 		return EntityUtil.getToolTip(p);

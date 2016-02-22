@@ -27,34 +27,53 @@ import storybook.ui.MainFrame;
 import storybook.ui.combo.PersonListCellRenderer;
 import storybook.ui.table.SbColumnFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PersonEntityHandler.
  *
+ * @author martin
  */
 public class PersonEntityHandler extends AbstractEntityHandler {
 
+	/**
+	 * Instantiates a new person entity handler.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PersonEntityHandler(MainFrame mainFrame) {
 		super(mainFrame, SbColumnFactory.getInstance().getPersonColumns());
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#createNewEntity()
+	 */
 	@Override
 	public AbstractEntity createNewEntity() {
 		Person person = new Person();
 		return person;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getDAOClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getDAOClass() {
 		return (Class<T>) PersonDAOImpl.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getEntityClass()
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Class<T> getEntityClass() {
 		return (Class<T>) Person.class;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.handler.AbstractEntityHandler#getListCellRenderer()
+	 */
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		return new PersonListCellRenderer();

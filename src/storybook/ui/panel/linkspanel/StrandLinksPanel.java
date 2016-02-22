@@ -37,12 +37,29 @@ import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandLinksPanel.
+ */
 public class StrandLinksPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -1457213133042360584L;
+	
+	/** The scene. */
 	private Scene scene;
+	
+	/** The opaque. */
 	private boolean opaque;
 
+	/**
+	 * Instantiates a new strand links panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 * @param opaque the opaque
+	 */
 	public StrandLinksPanel(MainFrame mainFrame, Scene scene, boolean opaque) {
 		this.mainFrame = mainFrame;
 		this.opaque = opaque;
@@ -50,10 +67,16 @@ public class StrandLinksPanel extends AbstractPanel {
 		refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("insets 2"));
@@ -85,6 +108,9 @@ public class StrandLinksPanel extends AbstractPanel {
 		model.commit();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();

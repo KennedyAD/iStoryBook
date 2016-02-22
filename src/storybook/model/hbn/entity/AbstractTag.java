@@ -20,30 +20,60 @@ package storybook.model.hbn.entity;
 
 import java.util.Objects;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class AbstractTag.
+ *
  * @hibernate.class table="TAG" discriminator-value="-1"
  * @hibernate.discriminator type="integer" column="type"
  */
 public abstract class AbstractTag extends AbstractEntity {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 8952254375477593986L;
+	
+	/** The Constant TYPE_TAG. */
 	public static final int TYPE_TAG = 0;
+	
+	/** The Constant TYPE_ITEM. */
 	public static final int TYPE_ITEM = 1;
+	
+	/** The Constant TYPE_LINK. */
 	public static final int TYPE_LINK = 10;
+	
+	/** The Constant TYPE_MEMO. */
 	public static final int TYPE_MEMO = 20;
 
+	/** The type. */
 	protected Integer type;
+	
+	/** The category. */
 	private String category;
+	
+	/** The name. */
 	private String name;
+	
+	/** The description. */
 	private String description;
+	
+	/** The notes. */
 	private String notes;
 
+	/**
+	 * Instantiates a new abstract tag.
+	 */
 	public AbstractTag() {
 	}
 
+	/**
+	 * Instantiates a new abstract tag.
+	 *
+	 * @param type the type
+	 * @param category the category
+	 * @param name the name
+	 * @param description the description
+	 * @param notes the notes
+	 */
 	public AbstractTag(Integer type, String category, String name, String description, String notes) {
 		this.type = type;
 		this.category = category;
@@ -52,6 +82,9 @@ public abstract class AbstractTag extends AbstractEntity {
 		this.notes = notes;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractEntity#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!super.equals(obj)) {
@@ -69,19 +102,37 @@ public abstract class AbstractTag extends AbstractEntity {
 		return ret;
 	}
 
+	/**
+	 * Gets the category.
+	 *
+	 * @return the category
+	 */
 	public String getCategory() {
 		return this.category;
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return this.description;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractEntity#getId()
+	 */
 	@Override
 	public Long getId() {
 		return this.id;
 	}
 
+	/**
+	 * Gets the item.
+	 *
+	 * @return the item
+	 */
 	public Item getItem() {
 		if (type != TYPE_ITEM) {
 			return null;
@@ -89,14 +140,29 @@ public abstract class AbstractTag extends AbstractEntity {
 		return (Item) this;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Gets the notes.
+	 *
+	 * @return the notes
+	 */
 	public String getNotes() {
 		return this.notes;
 	}
 
+	/**
+	 * Gets the tag.
+	 *
+	 * @return the tag
+	 */
 	public Tag getTag() {
 		if (type != TYPE_TAG) {
 			return null;
@@ -104,10 +170,18 @@ public abstract class AbstractTag extends AbstractEntity {
 		return (Tag) this;
 	}
 
+	/**
+	 * Gets the type.
+	 *
+	 * @return the type
+	 */
 	public Integer getType() {
 		return this.type;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.model.hbn.entity.AbstractEntity#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		int hash = super.hashCode();
@@ -119,30 +193,63 @@ public abstract class AbstractTag extends AbstractEntity {
 		return hash;
 	}
 
+	/**
+	 * Sets the category.
+	 *
+	 * @param category the new category
+	 */
 	public void setCategory(String category) {
 		this.category = (category == null ? "" : category);
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Sets the notes.
+	 *
+	 * @param notes the new notes
+	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
 
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
 	public void setType(Integer type) {
 		this.type = type;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getName();

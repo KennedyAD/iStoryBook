@@ -22,20 +22,45 @@ import javax.swing.Icon;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class IconUtil.
  *
+ * @author martin
  */
 public class IconUtil {
 
+	/**
+	 * The Enum StateIcon.
+	 */
 	public enum StateIcon {
-		ERROR("icon.small.error"), OK("icon.small.ok"), WARNING("icon.small.warning"), INFO("icon.small.info");
+		
+		/** The error. */
+		ERROR("icon.small.error"), 
+ /** The ok. */
+ OK("icon.small.ok"), 
+ /** The warning. */
+ WARNING("icon.small.warning"), 
+ /** The info. */
+ INFO("icon.small.info");
+		
+		/** The icon. */
 		final private Icon icon;
 
+		/**
+		 * Instantiates a new state icon.
+		 *
+		 * @param iconKey the icon key
+		 */
 		private StateIcon(String iconKey) {
 			this.icon = I18N.getImageIcon(iconKey);
 		}
 
+		/**
+		 * Gets the icon.
+		 *
+		 * @return the icon
+		 */
 		public Icon getIcon() {
 			return icon;
 		};

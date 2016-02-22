@@ -23,29 +23,54 @@ import javax.swing.JTextField;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IntegerVerifier.
+ */
 public class IntegerVerifier extends AbstractInputVerifier {
 
+	/** The only positive. */
 	private boolean onlyPositive;
 
+	/**
+	 * Instantiates a new integer verifier.
+	 */
 	public IntegerVerifier() {
 		this(false);
 	}
 
+	/**
+	 * Instantiates a new integer verifier.
+	 *
+	 * @param onlyPositive the only positive
+	 */
 	public IntegerVerifier(boolean onlyPositive) {
 		super(false);
 		this.onlyPositive = onlyPositive;
 	}
 
+	/**
+	 * Instantiates a new integer verifier.
+	 *
+	 * @param onlyPositiveNumbers the only positive numbers
+	 * @param acceptEmty the accept emty
+	 */
 	public IntegerVerifier(boolean onlyPositiveNumbers, boolean acceptEmty) {
 		super(acceptEmty);
 		this.onlyPositive = onlyPositiveNumbers;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#isNumber()
+	 */
 	@Override
 	public boolean isNumber() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#verify(javax.swing.JComponent)
+	 */
 	@Override
 	public boolean verify(JComponent comp) {
 		if (super.verify(comp)) {

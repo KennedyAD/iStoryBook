@@ -23,12 +23,24 @@ import javax.swing.JComponent;
 import storybook.toolkit.I18N;
 import storybook.toolkit.swing.panel.DateChooser;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DateVerifier.
+ */
 public class DateVerifier extends AbstractInputVerifier {
 
+	/**
+	 * Instantiates a new date verifier.
+	 *
+	 * @param acceptEmpty the accept empty
+	 */
 	public DateVerifier(boolean acceptEmpty) {
 		super(acceptEmpty);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.verifier.AbstractInputVerifier#verify(javax.swing.JComponent)
+	 */
 	@Override
 	public boolean verify(JComponent comp) {
 		if (comp instanceof DateChooser) {

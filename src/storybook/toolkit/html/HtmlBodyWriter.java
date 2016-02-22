@@ -29,17 +29,30 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class HtmlBodyWriter.
  *
+ * @author martin
  */
 public class HtmlBodyWriter extends HTMLWriter {
+	
+	/** The in body. */
 	private boolean inBody = false;
 
+	/**
+	 * Instantiates a new html body writer.
+	 *
+	 * @param writer the writer
+	 * @param doc the doc
+	 */
 	public HtmlBodyWriter(Writer writer, HTMLDocument doc) {
 		super(writer, doc);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.html.HTMLWriter#endTag(javax.swing.text.Element)
+	 */
 	@Override
 	protected void endTag(Element elem) throws IOException {
 		if (isBody(elem)) {
@@ -50,6 +63,12 @@ public class HtmlBodyWriter extends HTMLWriter {
 		}
 	}
 
+	/**
+	 * Checks if is body.
+	 *
+	 * @param elem the elem
+	 * @return true, if is body
+	 */
 	private boolean isBody(Element elem) {
 		// copied from HTMLWriter.startTag()
 		AttributeSet attr = elem.getAttributes();
@@ -63,6 +82,9 @@ public class HtmlBodyWriter extends HTMLWriter {
 		return name == HTML.Tag.BODY;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.text.html.HTMLWriter#startTag(javax.swing.text.Element)
+	 */
 	@Override
 	protected void startTag(Element elem) throws IOException, BadLocationException {
 		if (inBody) {

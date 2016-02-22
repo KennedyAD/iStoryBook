@@ -27,20 +27,33 @@ import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Item;
 import storybook.toolkit.swing.FontUtil;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author FaVdB
+ * The Class ItemCbPanelDecorator.
  *
+ * @author FaVdB
  */
 public class ItemCbPanelDecorator extends CbPanelDecorator {
+	
+	/** The old cat. */
 	private String oldCat = "";
 
+	/**
+	 * Instantiates a new item cb panel decorator.
+	 */
 	public ItemCbPanelDecorator() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateAfterEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateAfterEntity(AbstractEntity entity) {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeEntity(storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateBeforeEntity(AbstractEntity entity) {
 		Item p = (Item) entity;
@@ -53,10 +66,16 @@ public class ItemCbPanelDecorator extends CbPanelDecorator {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateBeforeFirstEntity()
+	 */
 	@Override
 	public void decorateBeforeFirstEntity() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.edit.CbPanelDecorator#decorateEntity(javax.swing.JCheckBox, storybook.model.hbn.entity.AbstractEntity)
+	 */
 	@Override
 	public void decorateEntity(JCheckBox cb, AbstractEntity entity) {
 		Item p = (Item) entity;

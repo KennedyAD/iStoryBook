@@ -23,21 +23,43 @@ import java.util.Date;
 import storybook.model.hbn.entity.Strand;
 import storybook.ui.interfaces.IRefreshable;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandDateLabel.
+ */
 public class StrandDateLabel extends DateLabel implements IRefreshable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 8282250838315049968L;
+	
+	/** The strand. */
 	private Strand strand;
 
+	/**
+	 * Instantiates a new strand date label.
+	 *
+	 * @param strand the strand
+	 * @param date the date
+	 */
 	public StrandDateLabel(Strand strand, Date date) {
 		super(date);
 		this.strand = strand;
 		refresh();
 	}
 
+	/**
+	 * Gets the strand.
+	 *
+	 * @return the strand
+	 */
 	public Strand getStrand() {
 		return strand;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.interfaces.IRefreshable#refresh()
+	 */
 	@Override
 	public final void refresh() {
 		String text = getDateText();
@@ -45,6 +67,11 @@ public class StrandDateLabel extends DateLabel implements IRefreshable {
 		setToolTipText("<html>" + text + "<br>" + strand);
 	}
 
+	/**
+	 * Sets the strand.
+	 *
+	 * @param strand the new strand
+	 */
 	public void setStrand(Strand strand) {
 		this.strand = strand;
 	}

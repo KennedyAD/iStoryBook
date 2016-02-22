@@ -28,16 +28,34 @@ import org.hibernate.criterion.Restrictions;
 import storybook.model.hbn.entity.Category;
 import storybook.model.hbn.entity.Person;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PersonDAOImpl.
+ */
 public class PersonDAOImpl extends SbGenericDAOImpl<Person, Long> implements PersonDAO {
 
+	/**
+	 * Instantiates a new person dao impl.
+	 */
 	public PersonDAOImpl() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new person dao impl.
+	 *
+	 * @param session the session
+	 */
 	public PersonDAOImpl(Session session) {
 		super(session);
 	}
 
+	/**
+	 * Find by categories.
+	 *
+	 * @param categories the categories
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Person> findByCategories(List<Category> categories) {
 		Criteria crit = session.createCriteria(Person.class);
@@ -48,6 +66,12 @@ public class PersonDAOImpl extends SbGenericDAOImpl<Person, Long> implements Per
 		return persons;
 	}
 
+	/**
+	 * Find by category.
+	 *
+	 * @param category the category
+	 * @return the list
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Person> findByCategory(Category category) {
 		Criteria crit = session.createCriteria(Person.class);

@@ -30,20 +30,34 @@ import storybook.toolkit.I18N;
 import storybook.toolkit.html.HtmlUtil;
 import storybook.toolkit.net.NetUtil;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class OpenUrlAction.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class OpenUrlAction extends AbstractAction {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -5306900574515004537L;
+	
+	/** The pane. */
 	private JEditorPane pane;
 
+	/**
+	 * Instantiates a new open url action.
+	 *
+	 * @param pane the pane
+	 */
 	public OpenUrlAction(JEditorPane pane) {
 		super(I18N.getMsg("msg.common.open.link"), I18N.getIcon("icon.small.web"));
 		this.pane = pane;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {

@@ -44,25 +44,51 @@ import storybook.ui.MainFrame;
 import storybook.ui.label.SceneStateLabel;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class BookTextPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class BookTextPanel extends AbstractPanel implements FocusListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -4030970514478286205L;
+	
+	/** The Constant CN_TITLE. */
 	private final static String CN_TITLE = "taTitle";
+	
+	/** The Constant CN_TEXT. */
 	private final static String CN_TEXT = "tcText";
 
+	/** The scene. */
 	private Scene scene;
+	
+	/** The lb scene no. */
 	private JLabel lbSceneNo;
+	
+	/** The lb status. */
 	private SceneStateLabel lbStatus;
+	
+	/** The ta title. */
 	private UndoableTextArea taTitle;
+	
+	/** The tc text. */
 	private JTextComponent tcText;
 
+	/** The size. */
 	private int size;
+	
+	/** The height factor. */
 	private int heightFactor;
 
+	/**
+	 * Instantiates a new book text panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param scene the scene
+	 */
 	public BookTextPanel(MainFrame mainFrame, Scene scene) {
 		super(mainFrame);
 		this.scene = scene;
@@ -70,14 +96,25 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		initUi();
 	}
 
+	/**
+	 * Calculate height.
+	 *
+	 * @return the int
+	 */
 	private int calculateHeight() {
 		return (int) (100 + size * 0.4) * heightFactor / 10;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
 	@Override
 	public void focusGained(FocusEvent evt) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
 	@Override
 	public void focusLost(FocusEvent e) {
 		if (e.getSource() instanceof JTextComponent) {
@@ -94,6 +131,9 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		try {
@@ -107,11 +147,17 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		refresh();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// Object oldValue = evt.getOldValue();
@@ -142,6 +188,9 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		MigLayout layout = new MigLayout("wrap,fill", "", "[][grow][grow]");
@@ -203,6 +252,11 @@ public class BookTextPanel extends AbstractPanel implements FocusListener {
 		tcText.setCaretPosition(0);
 	}
 
+	/**
+	 * Sets the zoomed size.
+	 *
+	 * @param zoomValue the new zoomed size
+	 */
 	private void setZoomedSize(int zoomValue) {
 		size = zoomValue * 12;
 	}

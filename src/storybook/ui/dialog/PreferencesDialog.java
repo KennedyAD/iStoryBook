@@ -49,37 +49,76 @@ import storybook.toolkit.SpellCheckerUtil;
 import storybook.toolkit.net.NetUtil;
 import storybook.toolkit.swing.SwingUtil;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PreferencesDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class PreferencesDialog extends AbstractDialog implements ActionListener, CaretListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -7705362820468049242L;
+	
+	/** The font chooser action. */
 	private AbstractAction fontChooserAction;
+	
+	/** The add spelling action. */
 	private AbstractAction addSpellingAction;
 
+	/** The language combo. */
 	private JComboBox languageCombo;
+	
+	/** The date format combo. */
 	private JComboBox dateFormatCombo;
+	
+	/** The spelling combo. */
 	private JComboBox spellingCombo;
+	
+	/** The cb load file on start. */
 	private JCheckBox cbLoadFileOnStart;
+	
+	/** The cb confirm exit. */
 	private JCheckBox cbConfirmExit;
+	
+	/** The lb show font. */
 	private JLabel lbShowFont;
+	
+	/** The font. */
 	private Font font;
+	
+	/** The laf combo. */
 	private JComboBox lafCombo;
+	
+	/** The tabbed pane. */
 	private JTabbedPane tabbedPane;
+	
+	/** The tf google maps url. */
 	private JTextField tfGoogleMapsUrl;
+	
+	/** The cb translator mode. */
 	private JCheckBox cbTranslatorMode;
+	
+	/**
+	 * Instantiates a new preferences dialog.
+	 */
 	public PreferencesDialog() {
 		super();
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 	}
 
+	/**
+	 * Apply settings.
+	 */
 	private void applySettings() {
 		SbApp app = SbApp.getInstance();
 		SwingUtil.setWaitingCursor(this);
@@ -125,10 +164,18 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		SwingUtil.setDefaultCursor(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
 	@Override
 	public void caretUpdate(CaretEvent e) {
 	}
 
+	/**
+	 * Creates the appearance panel.
+	 *
+	 * @return the j panel
+	 */
 	@SuppressWarnings("unchecked")
 	private JPanel createAppearancePanel() {
 		MigLayout layout = new MigLayout("wrap 2", "", "[]20[][]");
@@ -169,6 +216,11 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Creates the common panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createCommonPanel() {
 		MigLayout layout = new MigLayout("wrap 2", "", "[]10");
 		JPanel panel = new JPanel(layout);
@@ -226,6 +278,11 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Creates the internet panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createInternetPanel() {
 		MigLayout layout = new MigLayout("wrap 2", "[][fill,grow]", "");
 		JPanel panel = new JPanel(layout);
@@ -243,6 +300,11 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Creates the translators panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel createTranslatorsPanel() {
 		MigLayout layout = new MigLayout("wrap 2", "[][fill,grow]", "");
 		JPanel panel = new JPanel(layout);
@@ -261,9 +323,19 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return panel;
 	}
 
+	/**
+	 * Gets the font chooser action.
+	 *
+	 * @return the font chooser action
+	 */
 	public AbstractAction getFontChooserAction() {
 		if (fontChooserAction == null)
 			fontChooserAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -1882663154908011965L;
+
 				@Override
 				public void actionPerformed(ActionEvent evt) {
 					Font newFont = FontChooserDialog.showDialog(null, null, font);
@@ -277,9 +349,17 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return fontChooserAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8689519355304686683L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				applySettings();
@@ -289,9 +369,19 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		};
 	}
 
+	/**
+	 * Gets the spelling action.
+	 *
+	 * @return the spelling action
+	 */
 	public AbstractAction getSpellingAction() {
 		if (addSpellingAction == null)
 			addSpellingAction = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -6018333636310697228L;
+
 				@Override
 				public void actionPerformed(ActionEvent evt) {
 					GetNewSpellingDlg newSpelling = new GetNewSpellingDlg();
@@ -301,11 +391,17 @@ public class PreferencesDialog extends AbstractDialog implements ActionListener,
 		return addSpellingAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		font = SbApp.getInstance().getDefaultFont();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

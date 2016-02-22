@@ -18,12 +18,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.model.stringcategory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ItemCategory.
  *
+ * @author martin
  */
 public class ItemCategory extends AbstractStringCategory {
 
+	/**
+	 * Instantiates a new item category.
+	 *
+	 * @param name the name
+	 */
 	public ItemCategory(String name) {
 		super(name);
 	}

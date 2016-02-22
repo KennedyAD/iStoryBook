@@ -37,21 +37,40 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.chart.jfreechart.ChartUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PersonsByDateChart.
+ */
 public class PersonsByDateChart extends AbstractPersonsChart {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 7579098175114657018L;
+	
+	/** The chart panel. */
 	private ChartPanel chartPanel;
+	
+	/** The domain axis label. */
 	private String domainAxisLabel = I18N.getMsg("msg.common.person");
+	
+	/** The range axis label. */
 	private String rangeAxisLabel = I18N.getMsg("msg.common.date");
 
+	/**
+	 * Instantiates a new persons by date chart.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public PersonsByDateChart(MainFrame paramMainFrame) {
 		super(paramMainFrame, "msg.menu.tools.charts.overall.character.date");
 		this.partRelated = true;
 	}
 
+	/**
+	 * Creates the chart.
+	 *
+	 * @param paramIntervalCategoryDataset the param interval category dataset
+	 * @return the j free chart
+	 */
 	private JFreeChart createChart(IntervalCategoryDataset paramIntervalCategoryDataset) {
 		JFreeChart localJFreeChart = ChartFactory.createGanttChart(this.chartTitle, this.domainAxisLabel,
 				this.rangeAxisLabel, paramIntervalCategoryDataset, true, true, false);
@@ -67,6 +86,11 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 		return localJFreeChart;
 	}
 
+	/**
+	 * Creates the dataset.
+	 *
+	 * @return the interval category dataset
+	 */
 	private IntervalCategoryDataset createDataset() {
 		TaskSeriesCollection localTaskSeriesCollection = new TaskSeriesCollection();
 		try {
@@ -118,6 +142,9 @@ public class PersonsByDateChart extends AbstractPersonsChart {
 		return localTaskSeriesCollection;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.AbstractChartPanel#initChartUi()
+	 */
 	@Override
 	protected void initChartUi() {
 		IntervalCategoryDataset localIntervalCategoryDataset = createDataset();

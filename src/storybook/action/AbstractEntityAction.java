@@ -26,19 +26,31 @@ import storybook.SbApp;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AbstractEntityAction.
  *
+ * @author martin
  */
 public abstract class AbstractEntityAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 7908295217685383289L;
+	
+	/** The main frame. */
 	protected MainFrame mainFrame;
+	
+	/** The entity. */
 	protected AbstractEntity entity;
 
+	/**
+	 * Instantiates a new abstract entity action.
+	 *
+	 * @param mainframe the mainframe
+	 * @param entity the entity
+	 * @param name the name
+	 * @param icon the icon
+	 */
 	public AbstractEntityAction(MainFrame mainframe, AbstractEntity entity, String name, Icon icon) {
 		super(name, icon);
 		this.mainFrame = mainframe;

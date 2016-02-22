@@ -27,18 +27,31 @@ import java.awt.Insets;
 
 import javax.swing.border.Border;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DotBorder.
+ */
 public class DotBorder implements Border {
 
+	/* (non-Javadoc)
+	 * @see javax.swing.border.Border#getBorderInsets(java.awt.Component)
+	 */
 	@Override
 	public Insets getBorderInsets(Component c) {
 		return new Insets(3, 3, 6, 6);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.border.Border#isBorderOpaque()
+	 */
 	@Override
 	public boolean isBorderOpaque() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.border.Border#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
+	 */
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 		Graphics2D g2 = (Graphics2D) g;

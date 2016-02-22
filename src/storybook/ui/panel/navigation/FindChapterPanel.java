@@ -39,23 +39,46 @@ import storybook.toolkit.swing.panel.ViewsRadioButtonPanel;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class FindChapterPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class FindChapterPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7205902018716861163L;
+	
+	/** The chapter combo. */
 	private JComboBox chapterCombo;
+	
+	/** The views rb panel. */
 	private ViewsRadioButtonPanel viewsRbPanel;
 
+	/**
+	 * Instantiates a new find chapter panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public FindChapterPanel(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/**
+	 * Gets the find action.
+	 *
+	 * @return the find action
+	 */
 	private AbstractAction getFindAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6683469154055891212L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				scrollToChapter();
@@ -63,8 +86,18 @@ public class FindChapterPanel extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the next action.
+	 *
+	 * @return the next action
+	 */
 	private AbstractAction getNextAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3154236054992990137L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int index = chapterCombo.getSelectedIndex();
@@ -78,8 +111,18 @@ public class FindChapterPanel extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the previous action.
+	 *
+	 * @return the previous action
+	 */
 	private AbstractAction getPreviousAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -1667305502207086039L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				int index = chapterCombo.getSelectedIndex();
@@ -93,10 +136,16 @@ public class FindChapterPanel extends AbstractPanel {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("fillx,wrap 2", "[]10[grow]", "[]10[]10[]"));
@@ -134,10 +183,16 @@ public class FindChapterPanel extends AbstractPanel {
 		add(btFind, "span,right");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}
 
+	/**
+	 * Scroll to chapter.
+	 */
 	private void scrollToChapter() {
 		Chapter chapter = (Chapter) chapterCombo.getSelectedItem();
 		BookController ctrl = mainFrame.getBookController();

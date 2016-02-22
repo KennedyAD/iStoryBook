@@ -23,17 +23,30 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DisposeDialogAction.
+ */
 public class DisposeDialogAction extends AbstractAction {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 7155093606555095607L;
+	
+	/** The dlg. */
 	private JDialog dlg;
 
+	/**
+	 * Instantiates a new dispose dialog action.
+	 *
+	 * @param dlg the dlg
+	 */
 	public DisposeDialogAction(JDialog dlg) {
 		this.dlg = dlg;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		dlg.requestFocus();

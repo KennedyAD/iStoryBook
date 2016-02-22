@@ -32,25 +32,46 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ReadingOptionsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ReadingOptionsDialog extends AbstractOptionsDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8328801521834157387L;
+
+	/** The cn font size. */
 	private final String CN_FONT_SIZE = "FontSizeSlider";
 
+	/** The font size. */
 	private int fontSize;
 
+	/**
+	 * Instantiates a new reading options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ReadingOptionsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/**
+	 * Instantiates a new reading options dialog.
+	 *
+	 * @param mainFrame the main frame
+	 * @param hasZoom the has zoom
+	 */
 	public ReadingOptionsDialog(MainFrame mainFrame, boolean hasZoom) {
 		super(mainFrame, hasZoom);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		setZoomMinValue(10);
@@ -68,6 +89,9 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		// font size
@@ -85,6 +109,9 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 		panel.add(slider, "growx");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		Component comp = (Component) e.getSource();
@@ -100,6 +127,9 @@ public class ReadingOptionsDialog extends AbstractOptionsDialog {
 		super.stateChanged(e);
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.options.AbstractOptionsDialog#zoom(int)
+	 */
 	@Override
 	protected void zoom(int val) {
 		BookUtil.store(mainFrame, BookKey.READING_ZOOM, val);

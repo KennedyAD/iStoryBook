@@ -29,32 +29,61 @@ import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ViewsRadioButtonPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ViewsRadioButtonPanel extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 917994500388932662L;
+	
+	/** The rb chrono. */
 	private JRadioButton rbChrono;
+	
+	/** The rb book. */
 	private JRadioButton rbBook;
+	
+	/** The rb manage. */
 	private JRadioButton rbManage;
+	
+	/** The show manage. */
 	private boolean showManage;
 
+	/**
+	 * Instantiates a new views radio button panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ViewsRadioButtonPanel(MainFrame mainFrame) {
 		this(mainFrame, true);
 	}
 
+	/**
+	 * Instantiates a new views radio button panel.
+	 *
+	 * @param mainFrame the main frame
+	 * @param showManage the show manage
+	 */
 	public ViewsRadioButtonPanel(MainFrame mainFrame, boolean showManage) {
 		super(mainFrame);
 		this.showManage = showManage;
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("ins 0,wrap 2", "[]", "[]"));
@@ -89,18 +118,36 @@ public class ViewsRadioButtonPanel extends AbstractPanel {
 		}
 	}
 
+	/**
+	 * Checks if is book selected.
+	 *
+	 * @return true, if is book selected
+	 */
 	public boolean isBookSelected() {
 		return rbBook.isSelected();
 	}
 
+	/**
+	 * Checks if is chrono selected.
+	 *
+	 * @return true, if is chrono selected
+	 */
 	public boolean isChronoSelected() {
 		return rbChrono.isSelected();
 	}
 
+	/**
+	 * Checks if is manage selected.
+	 *
+	 * @return true, if is manage selected
+	 */
 	public boolean isManageSelected() {
 		return rbManage.isSelected();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 	}

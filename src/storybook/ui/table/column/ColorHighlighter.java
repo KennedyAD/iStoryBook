@@ -31,21 +31,33 @@ import org.jdesktop.swingx.decorator.Highlighter;
 
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ColorHighlighter.
  *
+ * @author martin
  */
 @Deprecated
 public class ColorHighlighter implements Highlighter {
+	
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#addChangeListener(javax.swing.event.ChangeListener)
+	 */
 	@Override
 	public void addChangeListener(ChangeListener arg0) {
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#getChangeListeners()
+	 */
 	@Override
 	public ChangeListener[] getChangeListeners() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#highlight(java.awt.Component, org.jdesktop.swingx.decorator.ComponentAdapter)
+	 */
 	@Override
 	public Component highlight(Component comp, ComponentAdapter compAdapter) {
 		Color bg = comp.getBackground();
@@ -67,6 +79,9 @@ public class ColorHighlighter implements Highlighter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdesktop.swingx.decorator.Highlighter#removeChangeListener(javax.swing.event.ChangeListener)
+	 */
 	@Override
 	public void removeChangeListener(ChangeListener arg0) {
 	}

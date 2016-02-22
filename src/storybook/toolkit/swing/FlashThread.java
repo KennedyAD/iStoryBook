@@ -28,22 +28,44 @@ import javax.swing.JLabel;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FlashThread.
+ */
 public class FlashThread extends Thread implements ActionListener {
+	
+	/** The Constant CN_FLASH_LABEL. */
 	private static final String CN_FLASH_LABEL = "FLASH";
 
+	/** The comp. */
 	private JComponent comp;
 
+	/** The remove. */
 	private boolean remove = false;
 
+	/**
+	 * Instantiates a new flash thread.
+	 *
+	 * @param comp the comp
+	 */
 	public FlashThread(JComponent comp) {
 		this.comp = comp;
 	}
 
+	/**
+	 * Instantiates a new flash thread.
+	 *
+	 * @param comp the comp
+	 * @param remove the remove
+	 */
 	public FlashThread(JComponent comp, boolean remove) {
 		this.comp = comp;
 		this.remove = remove;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		try {
@@ -59,6 +81,9 @@ public class FlashThread extends Thread implements ActionListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run() {
 		try {

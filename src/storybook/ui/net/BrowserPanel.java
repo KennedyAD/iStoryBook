@@ -29,17 +29,41 @@ import net.miginfocom.swing.MigLayout;
 import storybook.toolkit.I18N;
 import storybook.toolkit.net.NetUtil;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BrowserPanel.
+ */
 public class BrowserPanel extends JEditorPane implements HyperlinkListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 169718762518192457L;
+	
+	/** The url. */
 	private String url;
+	
+	/** The width. */
 	private int width;
+	
+	/** The height. */
 	private int height;
 
+	/**
+	 * Instantiates a new browser panel.
+	 *
+	 * @param url the url
+	 */
 	public BrowserPanel(String url) {
 		this(url, 200, 200);
 	}
 
+	/**
+	 * Instantiates a new browser panel.
+	 *
+	 * @param url the url
+	 * @param width the width
+	 * @param height the height
+	 */
 	public BrowserPanel(String url, int width, int height) {
 		super();
 		this.url = url;
@@ -57,6 +81,9 @@ public class BrowserPanel extends JEditorPane implements HyperlinkListener {
 		addHyperlinkListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.HyperlinkListener#hyperlinkUpdate(javax.swing.event.HyperlinkEvent)
+	 */
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent evt) {
 		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -68,12 +95,18 @@ public class BrowserPanel extends JEditorPane implements HyperlinkListener {
 		}
 	}
 
+	/**
+	 * Inits the gui.
+	 */
 	private void initGUI() {
 		MigLayout layout = new MigLayout("wrap,fill", "[]", "[]");
 		setLayout(layout);
 		setPreferredSize(new Dimension(width, height));
 	}
 
+	/**
+	 * Load page.
+	 */
 	private void loadPage() {
 		try {
 			setPage(url);

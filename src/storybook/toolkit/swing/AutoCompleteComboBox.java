@@ -30,23 +30,44 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import net.miginfocom.swing.MigLayout;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class AutoCompleteComboBox.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class AutoCompleteComboBox extends AbstractPanel {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -8305243096977356996L;
+	
+	/** The combo. */
 	private JComboBox combo;
+	
+	/** The bt clear. */
 	private IconButton btClear;
+	
+	/** The set preferred size. */
 	private boolean setPreferredSize = true;
+	
+	/** The add clear button. */
 	private boolean addClearButton = true;
 
+	/**
+	 * Instantiates a new auto complete combo box.
+	 */
 	public AutoCompleteComboBox() {
 		super();
 		initAll();
 	}
 
+	/**
+	 * Instantiates a new auto complete combo box.
+	 *
+	 * @param setPreferredSize the set preferred size
+	 * @param addClearButton the add clear button
+	 */
 	public AutoCompleteComboBox(boolean setPreferredSize, boolean addClearButton) {
 		super();
 		this.setPreferredSize = setPreferredSize;
@@ -54,8 +75,18 @@ public class AutoCompleteComboBox extends AbstractPanel {
 		initAll();
 	}
 
+	/**
+	 * Gets the clear action.
+	 *
+	 * @return the clear action
+	 */
 	public AbstractAction getClearAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 872934768303874904L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				combo.setSelectedItem("");
@@ -63,14 +94,25 @@ public class AutoCompleteComboBox extends AbstractPanel {
 		};
 	}
 
+	/**
+	 * Gets the j combo box.
+	 *
+	 * @return the j combo box
+	 */
 	public JComboBox getJComboBox() {
 		return combo;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setLayout(new MigLayout("ins 0,flowx"));
@@ -95,6 +137,9 @@ public class AutoCompleteComboBox extends AbstractPanel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		// not used

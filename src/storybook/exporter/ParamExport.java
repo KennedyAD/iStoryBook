@@ -9,57 +9,101 @@ import storybook.SbConstants;
 import storybook.toolkit.BookUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class ParamExport.
  *
  * @author favdb
  */
 public class ParamExport {
 
+	/** The main frame. */
 	MainFrame mainFrame;
+	
+	/** The csv no quotes. */
 	boolean csvSingleQuotes, csvDoubleQuotes, csvNoQuotes;
+	
+	/** The csv comma. */
 	boolean csvComma;
+	
+	/** The txt tab. */
 	boolean txtTab;
+	
+	/** The txt separator. */
 	String txtSeparator;
+	
+	/** The html use css. */
 	boolean htmlUseCss;
+	
+	/** The html css file. */
 	String htmlCssFile;
+	
+	/** The is export chapter numbers. */
 	boolean isExportChapterNumbers;
+	
+	/** The is export chapter numbers roman. */
 	boolean isExportChapterNumbersRoman;
+	
+	/** The is export chapter titles. */
 	boolean isExportChapterTitles;
+	
+	/** The is export chapter dates locs. */
 	boolean isExportChapterDatesLocs;
+	
+	/** The is export scene titles. */
 	boolean isExportSceneTitles;
+	
+	/** The is export scene separator. */
 	boolean isExportSceneSeparator;
+	
+	/** The html book multi. */
 	boolean htmlBookMulti;
+	
+	/** The pdf page size. */
 	String pdfPageSize;
+	
+	/** The pdf landscape. */
 	boolean pdfLandscape;
 
+	/**
+	 * Instantiates a new param export.
+	 *
+	 * @param m the m
+	 */
 	ParamExport(MainFrame m) {
 		mainFrame = m;
 	}
 
+	/**
+	 * Load.
+	 */
 	void load() {
 		String x = BookUtil.get(mainFrame, SbConstants.BookKey.CSV_QUOTES, "010").getStringValue();
 		csvSingleQuotes = false;
 		csvDoubleQuotes = true;
 		csvNoQuotes = false;
 		if (!"".equals(x)) {
-			if ("1".equals(x.substring(0, 1)))
+			if ("1".equals(x.substring(0, 1))) {
 				csvSingleQuotes = true;
-			else if ("1".equals(x.substring(1, 2)))
+			} else if ("1".equals(x.substring(1, 2))) {
 				csvDoubleQuotes = true;
-			else if ("1".equals(x.substring(2)))
+			} else if ("1".equals(x.substring(2))) {
 				csvNoQuotes = true;
+			}
 		}
 		csvComma = BookUtil.get(mainFrame, SbConstants.BookKey.CSV_COMMA, false).getBooleanValue();
 		txtTab = BookUtil.get(mainFrame, SbConstants.BookKey.TXT_TAB, true).getBooleanValue();
-		if (!txtTab)
+		if (!txtTab) {
 			txtSeparator = BookUtil.get(mainFrame, SbConstants.BookKey.TXT_OTHER, "").getStringValue();
-		else
+		} else {
 			txtSeparator = "";
+		}
 		htmlUseCss = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_USE_CSS, false).getBooleanValue();
-		if (htmlUseCss)
+		if (htmlUseCss) {
 			htmlCssFile = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_CSS_FILE, "").getStringValue();
-		else
+		} else {
 			htmlCssFile = "";
+		}
 		htmlBookMulti = BookUtil.get(mainFrame, SbConstants.BookKey.HTML_BOOK_MULTI, false).getBooleanValue();
 		isExportChapterNumbers = BookUtil.get(mainFrame, SbConstants.BookKey.EXPORT_CHAPTER_NUMBERS, false)
 				.getBooleanValue();
@@ -76,6 +120,9 @@ public class ParamExport {
 		pdfLandscape = BookUtil.get(mainFrame, SbConstants.BookKey.PDF_LANDSCAPE, false).getBooleanValue();
 	}
 
+	/**
+	 * Save.
+	 */
 	void save() {
 		String x = (csvSingleQuotes ? "1" : "0") + (csvDoubleQuotes ? "1" : "0") + (csvNoQuotes ? "1" : "0");
 		BookUtil.store(mainFrame, SbConstants.BookKey.CSV_QUOTES.toString(), x);

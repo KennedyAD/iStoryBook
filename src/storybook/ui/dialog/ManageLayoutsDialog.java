@@ -45,19 +45,44 @@ import storybook.toolkit.PrefUtil;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ManageLayoutsDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ManageLayoutsDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 2815245137577934302L;
+
+	/**
+	 * The Class NamePanel.
+	 */
 	private class NamePanel extends JPanel {
+		
+		/** The Constant serialVersionUID. */
+		private static final long serialVersionUID = -107645165884561619L;
+		
+		/** The tf layout name. */
 		private JTextField tfLayoutName;
+		
+		/** The cb delete. */
 		private JCheckBox cbDelete;
+		
+		/** The orig key. */
 		private String origKey;
+		
+		/** The orig name. */
 		private String origName;
 
+		/**
+		 * Instantiates a new name panel.
+		 *
+		 * @param preference the preference
+		 * @param number the number
+		 */
 		public NamePanel(Preference preference, int number) {
 			origKey = preference.getKey();
 			setLayout(new MigLayout("flowx,ins 0,fill", "[][grow][]"));
@@ -71,33 +96,67 @@ public class ManageLayoutsDialog extends AbstractDialog {
 			add(cbDelete);
 		}
 
+		/**
+		 * Gets the layout name.
+		 *
+		 * @return the layout name
+		 */
 		public String getLayoutName() {
 			return tfLayoutName.getText();
 		}
 
+		/**
+		 * Gets the orig key.
+		 *
+		 * @return the orig key
+		 */
 		public String getOrigKey() {
 			return origKey;
 		}
 
+		/**
+		 * Checks for changed.
+		 *
+		 * @return true, if successful
+		 */
 		public boolean hasChanged() {
 			return !origName.equals(tfLayoutName.getText());
 		}
 
+		/**
+		 * Checks if is selected for delete.
+		 *
+		 * @return true, if is selected for delete
+		 */
 		public boolean isSelectedForDelete() {
 			return cbDelete.isSelected();
 		}
 	}
 
+	/** The name panels. */
 	private List<NamePanel> namePanels;
 
+	/**
+	 * Instantiates a new manage layouts dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ManageLayoutsDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7416163973195407256L;
+
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				renameOrDeleteLayouts();
@@ -106,15 +165,26 @@ public class ManageLayoutsDialog extends AbstractDialog {
 		};
 	}
 
+	/**
+	 * Gets the this.
+	 *
+	 * @return the this
+	 */
 	private ManageLayoutsDialog getThis() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 		namePanels = new ArrayList<ManageLayoutsDialog.NamePanel>();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();
@@ -151,6 +221,9 @@ public class ManageLayoutsDialog extends AbstractDialog {
 		add(getCancelButton(), "sg");
 	}
 
+	/**
+	 * Rename or delete layouts.
+	 */
 	private void renameOrDeleteLayouts() {
 		for (NamePanel namePanel : namePanels) {
 			String key = namePanel.getOrigKey();

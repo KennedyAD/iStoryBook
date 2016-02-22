@@ -31,24 +31,45 @@ import storybook.toolkit.BookUtil;
 import storybook.toolkit.I18N;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class PostModelUpdateDialog.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class PostModelUpdateDialog extends AbstractDialog {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -6066366713595982551L;
+	
+	/** The cb use html scenes. */
 	private JCheckBox cbUseHtmlScenes;
+	
+	/** The cb use html descr. */
 	private JCheckBox cbUseHtmlDescr;
 
+	/**
+	 * Instantiates a new post model update dialog.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public PostModelUpdateDialog(MainFrame mainFrame) {
 		super(mainFrame);
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#getOkAction()
+	 */
 	@Override
 	protected AbstractAction getOkAction() {
 		return new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 998731015680118239L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BookUtil.store(mainFrame, BookKey.USE_HTML_SCENES, cbUseHtmlScenes.isSelected());
@@ -62,10 +83,16 @@ public class PostModelUpdateDialog extends AbstractDialog {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#init()
+	 */
 	@Override
 	public void init() {
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.dialog.AbstractDialog#initUi()
+	 */
 	@Override
 	public void initUi() {
 		super.initUi();

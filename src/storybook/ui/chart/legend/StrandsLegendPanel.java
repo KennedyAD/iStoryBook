@@ -30,17 +30,28 @@ import storybook.toolkit.swing.ColorUtil;
 import storybook.toolkit.swing.label.CleverLabel;
 import storybook.ui.MainFrame;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StrandsLegendPanel.
+ */
 public class StrandsLegendPanel extends AbstractLegendPanel {
-	/**
-	 * 
-	 */
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4764618614099349081L;
 
+	/**
+	 * Instantiates a new strands legend panel.
+	 *
+	 * @param paramMainFrame the param main frame
+	 */
 	public StrandsLegendPanel(MainFrame paramMainFrame) {
 		super(paramMainFrame);
 		initAll();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.chart.legend.AbstractLegendPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		setOpaque(false);

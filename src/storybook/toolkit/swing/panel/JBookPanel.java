@@ -45,6 +45,7 @@ import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
 
+// TODO: Auto-generated Javadoc
 /**
  * The BookPanel uses the page turn effect to navigate between pages. The images
  * used as pages are set by specifying their location, the basename and the
@@ -64,56 +65,119 @@ import javax.swing.event.MouseInputListener;
  *
  * @author Pieter-Jan Savat
  */
-@SuppressWarnings("serial")
+
 public class JBookPanel extends JPanel implements MouseInputListener, ActionListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 7673975178424404411L;
+
+	/**
+	 * The Enum AutomatedAction.
+	 */
 	protected enum AutomatedAction {
-		AUTO_TURN, AUTO_DROP_GO_BACK, AUTO_DROP_BUT_TURN
+		
+		/** The auto turn. */
+		AUTO_TURN, 
+ /** The auto drop go back. */
+ AUTO_DROP_GO_BACK, 
+ /** The auto drop but turn. */
+ AUTO_DROP_BUT_TURN
 	}
 
+	/** The Constant PI_DIV_2. */
 	protected static final double PI_DIV_2 = Math.PI / 2.0;
 
+	/** The rotation x. */
 	protected int rotationX;
+	
+	/** The next page angle. */
 	protected double nextPageAngle;
+	
+	/** The back page angle. */
 	protected double backPageAngle;
 
+	/** The timer. */
 	protected Timer timer;
+	
+	/** The action. */
 	protected AutomatedAction action;
+	
+	/** The auto point. */
 	protected Point autoPoint;
+	
+	/** The tmp point. */
 	protected Point tmpPoint;
 
+	/** The left page index. */
 	protected int leftPageIndex;
 
+	/** The current left image. */
 	protected Image currentLeftImage;
+	
+	/** The current right image. */
 	protected Image currentRightImage;
+	
+	/** The next left image. */
 	protected Image nextLeftImage;
+	
+	/** The next right image. */
 	protected Image nextRightImage;
+	
+	/** The previous left image. */
 	protected Image previousLeftImage;
+	
+	/** The previous right image. */
 	protected Image previousRightImage;
 
+	/** The page location. */
 	protected String pageLocation;
+	
+	/** The page name. */
 	protected String pageName;
+	
+	/** The page extension. */
 	protected String pageExtension;
+	
+	/** The nr of pages. */
 	protected int nrOfPages;
+	
+	/** The left page turn. */
 	protected boolean leftPageTurn;
+	
+	/** The refresh speed. */
 	protected int refreshSpeed;
 
+	/** The book bounds. */
 	// used to store the bounds of the book
 	protected Rectangle bookBounds;
+	
+	/** The page width. */
 	protected int pageWidth;
 
+	/** The shadow width. */
 	protected int shadowWidth;
+	
+	/** The corner region size. */
 	protected int cornerRegionSize;
+	
+	/** The soft clipping. */
 	protected boolean softClipping;
+	
+	/** The border lines visible. */
 	protected boolean borderLinesVisible;
 
+	/** The shadow dark color. */
 	// vars for optimization and reuse
 	protected Color shadowDarkColor;
+	
+	/** The shadow neutral color. */
 	protected Color shadowNeutralColor;
+	
+	/** The clip path. */
 	protected GeneralPath clipPath;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 	public JBookPanel() {
 		super();
@@ -122,6 +186,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "nextPage");
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "nextPage");
 		this.getActionMap().put("nextPage", new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -187058120551241988L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				leftPageTurn = false;
@@ -131,6 +200,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "previousPage");
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "previousPage");
 		this.getActionMap().put("previousPage", new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3275452265825133581L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previousPage();
@@ -160,6 +234,9 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 	// PAINT METHODS //
 	///////////////////
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -264,6 +341,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/**
+	 * Calculate.
+	 *
+	 * @param p the p
+	 */
 	protected void calculate(Point p) {
 
 		if (leftPageTurn) {
@@ -298,6 +380,12 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		this.repaint();
 	}
 
+	/**
+	 * Gets the blank page.
+	 *
+	 * @param index the index
+	 * @return the blank page
+	 */
 	protected BufferedImage getBlankPage(int index) {
 		BufferedImage img = new BufferedImage(pageWidth, bookBounds.height, BufferedImage.TYPE_3BYTE_BGR);
 		Graphics gfx = img.getGraphics();
@@ -306,10 +394,21 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		return img;
 	}
 
+	/**
+	 * Gets the left page index.
+	 *
+	 * @return the left page index
+	 */
 	public int getLeftPageIndex() {
 		return leftPageIndex;
 	}
 
+	/**
+	 * Gets the page.
+	 *
+	 * @param index the index
+	 * @return the page
+	 */
 	protected Image getPage(int index) {
 
 		// if request goes beyond available pages return null
@@ -353,10 +452,20 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/**
+	 * Gets the refresh speed.
+	 *
+	 * @return the refresh speed
+	 */
 	public int getRefreshSpeed() {
 		return refreshSpeed;
 	}
 
+	/**
+	 * Gets the shadow dark color.
+	 *
+	 * @return the shadow dark color
+	 */
 	public Color getShadowDarkColor() {
 		return shadowDarkColor;
 	}
@@ -365,26 +474,56 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 	// EVENT METHODS //
 	///////////////////
 
+	/**
+	 * Gets the shadow neutral color.
+	 *
+	 * @return the shadow neutral color
+	 */
 	public Color getShadowNeutralColor() {
 		return shadowNeutralColor;
 	}
 
+	/**
+	 * Gets the shadow width.
+	 *
+	 * @return the shadow width
+	 */
 	public int getShadowWidth() {
 		return shadowWidth;
 	}
 
+	/**
+	 * Inits the rotation x.
+	 */
 	protected void initRotationX() {
 		rotationX = bookBounds.width + bookBounds.x;
 	}
 
+	/**
+	 * Checks if is border lines visible.
+	 *
+	 * @return true, if is border lines visible
+	 */
 	public boolean isBorderLinesVisible() {
 		return borderLinesVisible;
 	}
 
+	/**
+	 * Checks if is mouse in book.
+	 *
+	 * @param e the e
+	 * @return true, if is mouse in book
+	 */
 	protected boolean isMouseInBook(MouseEvent e) {
 		return bookBounds.contains(e.getX(), e.getY());
 	}
 
+	/**
+	 * Checks if is mouse in region.
+	 *
+	 * @param e the e
+	 * @return true, if is mouse in region
+	 */
 	protected boolean isMouseInRegion(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -402,10 +541,21 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		return ((y < maxY) && (y > minY) && (((x < maxX) && (x > minX)) || ((x < maxX2) && (x > minX2))));
 	}
 
+	/**
+	 * Checks if is soft clipping.
+	 *
+	 * @return true, if is soft clipping
+	 */
 	public boolean isSoftClipping() {
 		return softClipping;
 	}
 
+	/**
+	 * Load page.
+	 *
+	 * @param index the index
+	 * @return the image
+	 */
 	protected Image loadPage(int index) {
 		return new ImageIcon(JBookPanel.class.getResource(pageLocation + pageName + index + "." + pageExtension))
 				.getImage();
@@ -415,6 +565,9 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 	// HELPER METHODS //
 	////////////////////
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (isMouseInRegion(e)) {
@@ -422,6 +575,9 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
 
@@ -445,14 +601,23 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
 
@@ -471,10 +636,16 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (this.getCursor().getType() != Cursor.DEFAULT_CURSOR) {
@@ -512,12 +683,18 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/**
+	 * Next page.
+	 */
 	public void nextPage() {
 		action = AutomatedAction.AUTO_TURN;
 		autoPoint = new Point(bookBounds.x + bookBounds.width, bookBounds.y + bookBounds.height);
 		this.timer.restart();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -549,6 +726,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/**
+	 * Paint left page.
+	 *
+	 * @param g2 the g2
+	 */
 	protected void paintLeftPage(Graphics2D g2) {
 		// translate to rotation point
 		g2.translate(bookBounds.width + bookBounds.x - rotationX + bookBounds.x, bookBounds.y + bookBounds.height);
@@ -599,6 +781,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		g2.fillRect(bookBounds.x, bookBounds.y, pageWidth, bookBounds.height);
 	}
 
+	/**
+	 * Paint left page soft clipped.
+	 *
+	 * @param g2 the g2
+	 */
 	protected void paintLeftPageSoftClipped(Graphics2D g2) {
 
 		// calculate amount done (traveled)
@@ -703,6 +890,18 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		g2.drawImage(img, 0, 0, null);
 	}
 
+	/**
+	 * Paint page.
+	 *
+	 * @param g the g
+	 * @param img the img
+	 * @param x the x
+	 * @param y the y
+	 * @param w the w
+	 * @param h the h
+	 * @param o the o
+	 * @param rightPage the right page
+	 */
 	protected void paintPage(Graphics2D g, Image img, int x, int y, int w, int h, ImageObserver o, boolean rightPage) {
 		if (img == null) {
 			Color oldColor = g.getColor();
@@ -751,6 +950,14 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		}
 	}
 
+	/**
+	 * Paint page number.
+	 *
+	 * @param g the g
+	 * @param index the index
+	 * @param width the width
+	 * @param height the height
+	 */
 	protected void paintPageNumber(Graphics g, int index, int width, int height) {
 		g.setFont(new Font("Arial", Font.BOLD, 11));
 		int w = (int) g.getFontMetrics().getStringBounds(String.valueOf(index), g).getWidth();
@@ -760,6 +967,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		g.drawString(String.valueOf(index), x, y);
 	}
 
+	/**
+	 * Paint right page.
+	 *
+	 * @param g2 the g2
+	 */
 	protected void paintRightPage(Graphics2D g2) {
 
 		// translate to rotation point
@@ -815,6 +1027,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 	// GETTERS AND SETTERS //
 	/////////////////////////
 
+	/**
+	 * Paint right page soft clipped.
+	 *
+	 * @param g2 the g2
+	 */
 	protected void paintRightPageSoftClipped(Graphics2D g2) {
 
 		int done = bookBounds.width + bookBounds.x - rotationX;
@@ -919,6 +1136,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		g2.drawImage(img, 0, 0, null);
 	}
 
+	/**
+	 * Passed threshold.
+	 *
+	 * @return true, if successful
+	 */
 	protected boolean passedThreshold() {
 		int done = bookBounds.width + bookBounds.x - rotationX;
 		double X = Math.min(Math.tan(PI_DIV_2 - nextPageAngle) * done, bookBounds.height);
@@ -927,15 +1149,28 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		return X > threshold;
 	}
 
+	/**
+	 * Previous page.
+	 */
 	public void previousPage() {
 		leftPageTurn = true;
 		nextPage();
 	}
 
+	/**
+	 * Sets the border lines visible.
+	 *
+	 * @param borderLinesVisible the new border lines visible
+	 */
 	public void setBorderLinesVisible(boolean borderLinesVisible) {
 		this.borderLinesVisible = borderLinesVisible;
 	}
 
+	/**
+	 * Sets the graphics hints.
+	 *
+	 * @param g2 the new graphics hints
+	 */
 	protected void setGraphicsHints(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -944,6 +1179,11 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 	}
 
+	/**
+	 * Sets the left page index.
+	 *
+	 * @param leftPageIndex the new left page index
+	 */
 	public void setLeftPageIndex(int leftPageIndex) {
 		if (leftPageIndex <= -1) {
 			leftPageIndex = -1;
@@ -960,6 +1200,12 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		nextRightImage = getPage(leftPageIndex + 3);
 	}
 
+	/**
+	 * Sets the margins.
+	 *
+	 * @param top the top
+	 * @param left the left
+	 */
 	public void setMargins(int top, int left) {
 		bookBounds.x = left;
 		bookBounds.y = top;
@@ -967,6 +1213,16 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		initRotationX();
 	}
 
+	/**
+	 * Sets the pages.
+	 *
+	 * @param pageLocation the page location
+	 * @param pageName the page name
+	 * @param pageExtension the page extension
+	 * @param nrOfPages the nr of pages
+	 * @param pageWidth the page width
+	 * @param pageHeight the page height
+	 */
 	public void setPages(String pageLocation, String pageName, String pageExtension, int nrOfPages, int pageWidth,
 			int pageHeight) {
 
@@ -989,26 +1245,54 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		previousRightImage = getPage(leftPageIndex - 1);
 	}
 
+	/**
+	 * Sets the refresh speed.
+	 *
+	 * @param refreshSpeed the new refresh speed
+	 */
 	public void setRefreshSpeed(int refreshSpeed) {
 		this.refreshSpeed = refreshSpeed;
 	}
 
+	/**
+	 * Sets the shadow dark color.
+	 *
+	 * @param shadowDarkColor the new shadow dark color
+	 */
 	public void setShadowDarkColor(Color shadowDarkColor) {
 		this.shadowDarkColor = shadowDarkColor;
 	}
 
+	/**
+	 * Sets the shadow neutral color.
+	 *
+	 * @param shadowNeutralColor the new shadow neutral color
+	 */
 	public void setShadowNeutralColor(Color shadowNeutralColor) {
 		this.shadowNeutralColor = shadowNeutralColor;
 	}
 
+	/**
+	 * Sets the shadow width.
+	 *
+	 * @param shadowWidth the new shadow width
+	 */
 	public void setShadowWidth(int shadowWidth) {
 		this.shadowWidth = shadowWidth;
 	}
 
+	/**
+	 * Sets the soft clipping.
+	 *
+	 * @param softClipping the new soft clipping
+	 */
 	public void setSoftClipping(boolean softClipping) {
 		this.softClipping = softClipping;
 	}
 
+	/**
+	 * Switch images.
+	 */
 	protected void switchImages() {
 		if (leftPageTurn) {
 			leftPageIndex -= 2;
@@ -1027,10 +1311,22 @@ public class JBookPanel extends JPanel implements MouseInputListener, ActionList
 		previousRightImage = getPage(leftPageIndex - 1);
 	}
 
+	/**
+	 * Transform index.
+	 *
+	 * @param x the x
+	 * @return the double
+	 */
 	protected double transformIndex(double x) {
 		return bookBounds.width + bookBounds.x - x + bookBounds.x;
 	}
 
+	/**
+	 * Transform index.
+	 *
+	 * @param x the x
+	 * @return the int
+	 */
 	protected int transformIndex(int x) {
 		return bookBounds.width + bookBounds.x - x + bookBounds.x;
 	}

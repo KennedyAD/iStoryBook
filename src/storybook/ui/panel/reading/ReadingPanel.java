@@ -58,13 +58,24 @@ import storybook.ui.MainFrame;
 import storybook.ui.options.ReadingOptionsDialog;
 import storybook.ui.panel.AbstractPanel;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ReadingPanel.
  *
+ * @author martin
  */
-@SuppressWarnings("serial")
+
 public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 5471888632847396429L;
+
+	/**
+	 * Dispatch to strand panels.
+	 *
+	 * @param cont the cont
+	 * @param evt the evt
+	 */
 	private static void dispatchToStrandPanels(Container cont, PropertyChangeEvent evt) {
 		List<Component> ret = new ArrayList<>();
 		SwingUtil.findComponentsByClass(cont, StrandPanel.class, ret);
@@ -73,18 +84,34 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 			panel.modelPropertyChange(evt);
 		}
 	}
+	
+	/** The tp text. */
 	private JTextPane tpText;
+	
+	/** The scroller. */
 	private JScrollPane scroller;
 
+	/** The strand panel. */
 	private StrandPanel strandPanel;
+	
+	/** The scroller width. */
 	private int scrollerWidth;
 
+	/** The font size. */
 	private int fontSize;
 
+	/**
+	 * Instantiates a new reading panel.
+	 *
+	 * @param mainFrame the main frame
+	 */
 	public ReadingPanel(MainFrame mainFrame) {
 		super(mainFrame);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.HyperlinkListener#hyperlinkUpdate(javax.swing.event.HyperlinkEvent)
+	 */
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent evt) {
 		if (evt.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -101,6 +128,9 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#init()
+	 */
 	@Override
 	public void init() {
 		strandPanel = new StrandPanel(mainFrame, this);
@@ -117,6 +147,9 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#initUi()
+	 */
 	@Override
 	public void initUi() {
 		MigLayout layout = new MigLayout("flowx", "[][fill,grow]", // columns
@@ -140,6 +173,9 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		add(scroller, "growy");
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#modelPropertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void modelPropertyChange(PropertyChangeEvent evt) {
 		String propName = evt.getPropertyName();
@@ -206,6 +242,9 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.ui.panel.AbstractPanel#refresh()
+	 */
 	@Override
 	public void refresh() {
 		Part currentPart = mainFrame.getCurrentPart();
@@ -252,6 +291,11 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		final int pos = scroller.getVerticalScrollBar().getValue();
 		tpText.setText(buf.toString());
 		final Action restoreAction = new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4603087851581916965L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				scroller.getVerticalScrollBar().setValue(pos);
@@ -265,10 +309,20 @@ public class ReadingPanel extends AbstractPanel implements HyperlinkListener {
 		});
 	}
 
+	/**
+	 * Sets the font size.
+	 *
+	 * @param fontSize the new font size
+	 */
 	private void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
 	}
 
+	/**
+	 * Sets the zoomed size.
+	 *
+	 * @param zoomValue the new zoomed size
+	 */
 	private void setZoomedSize(int zoomValue) {
 		scrollerWidth = zoomValue * 10;
 	}

@@ -25,28 +25,43 @@ import javax.swing.AbstractAction;
 
 import storybook.toolkit.I18N;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author martin
+ * The Class ClearRecentFilesAction.
  *
+ * @author martin
  */
 public class ClearRecentFilesAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6739842268748155L;
+	
+	/** The action handler. */
 	private ActionHandler actionHandler;
 
+	/**
+	 * Instantiates a new clear recent files action.
+	 *
+	 * @param actionHandler the action handler
+	 */
 	public ClearRecentFilesAction(ActionHandler actionHandler) {
 		super(I18N.getMsg("msg.file.clear.recent"));
 		this.actionHandler = actionHandler;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		actionHandler.handleRecentClear();
 	}
 
+	/**
+	 * Gets the action handler.
+	 *
+	 * @return the action handler
+	 */
 	public ActionHandler getActionHandler() {
 		return actionHandler;
 	}

@@ -29,15 +29,31 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.undo.UndoManager;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UndoableTextField.
+ */
 public class UndoableTextField extends JTextField implements UndoableComponent, KeyListener, DocumentListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = -660050412984023888L;
+
+	/** The Constant LIMIT. */
 	private static final int LIMIT = 100;
 
+	/** The undo. */
 	private SbUndoManager undo;
+	
+	/** The undo action. */
 	private AbstractAction undoAction;
+	
+	/** The redo action. */
 	private AbstractAction redoAction;
 
+	/**
+	 * Instantiates a new undoable text field.
+	 */
 	public UndoableTextField() {
 		super();
 		addKeyListener(this);
@@ -51,30 +67,48 @@ public class UndoableTextField extends JTextField implements UndoableComponent, 
 		inputMap.put(KeyStroke.getKeyStroke("control Y"), redoAction);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		undo.endGroup();
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getRedoAction()
+	 */
 	@Override
 	public AbstractAction getRedoAction() {
 		return redoAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getUndoAction()
+	 */
 	@Override
 	public AbstractAction getUndoAction() {
 		return undoAction;
 	}
 
+	/* (non-Javadoc)
+	 * @see storybook.toolkit.swing.undo.UndoableComponent#getUndoManager()
+	 */
 	@Override
 	public UndoManager getUndoManager() {
 		return undo;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int ch = e.getKeyCode();
@@ -83,14 +117,23 @@ public class UndoableTextField extends JTextField implements UndoableComponent, 
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 	}

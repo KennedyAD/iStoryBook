@@ -25,8 +25,13 @@ import javax.swing.JDialog;
 import net.miginfocom.swing.MigLayout;
 import storybook.ui.interfaces.IPaintable;
 
-@SuppressWarnings("serial")
+
 public class SplashDialog extends JDialog implements IPaintable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3758645772942345771L;
 
 	public SplashDialog() {
 		super();

@@ -26,17 +26,35 @@ import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
-@SuppressWarnings("serial")
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SbUndoManager.
+ */
 public class SbUndoManager extends UndoManager implements UndoableEditListener {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1684198282721071485L;
+
+	/**
+	 * The Class SbCompoundEdit.
+	 */
 	private class SbCompoundEdit extends CompoundEdit {
+		
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = -7132641862624605455L;
 
+		/* (non-Javadoc)
+		 * @see javax.swing.undo.CompoundEdit#isInProgress()
+		 */
 		@Override
 		public boolean isInProgress() {
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.undo.CompoundEdit#undo()
+		 */
 		@Override
 		public void undo() throws CannotUndoException {
 			if (compoundEdit != null) {
@@ -46,16 +64,29 @@ public class SbUndoManager extends UndoManager implements UndoableEditListener {
 			compoundEdit = null;
 		}
 	}
+	
+	/** The compound edit. */
 	public SbCompoundEdit compoundEdit = null;
+	
+	/** The text component. */
 	private JTextComponent textComponent;
 
+	/** The group end. */
 	private boolean groupEnd = false;
 
+	/**
+	 * Instantiates a new sb undo manager.
+	 *
+	 * @param editor the editor
+	 */
 	public SbUndoManager(JTextComponent editor) {
 		this.textComponent = editor;
 		editor.getDocument().addUndoableEditListener(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.UndoManager#canRedo()
+	 */
 	@Override
 	public synchronized boolean canRedo() {
 		if (compoundEdit != null) {
@@ -64,6 +95,12 @@ public class SbUndoManager extends UndoManager implements UndoableEditListener {
 		return super.canRedo();
 	}
 
+	/**
+	 * Creates the compound edit.
+	 *
+	 * @param edit the edit
+	 * @return the sb compound edit
+	 */
 	private SbCompoundEdit createCompoundEdit(UndoableEdit edit) {
 		SbCompoundEdit ce = new SbCompoundEdit();
 		ce.addEdit(edit);
@@ -71,6 +108,9 @@ public class SbUndoManager extends UndoManager implements UndoableEditListener {
 		return ce;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.UndoManager#discardAllEdits()
+	 */
 	@Override
 	public synchronized void discardAllEdits() {
 		super.discardAllEdits();
@@ -78,14 +118,25 @@ public class SbUndoManager extends UndoManager implements UndoableEditListener {
 		compoundEdit = null;
 	}
 
+	/**
+	 * End group.
+	 */
 	public void endGroup() {
 		groupEnd = true;
 	}
 
+	/**
+	 * Gets the editor.
+	 *
+	 * @return the editor
+	 */
 	public JTextComponent getEditor() {
 		return textComponent;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.undo.UndoManager#undoableEditHappened(javax.swing.event.UndoableEditEvent)
+	 */
 	@Override
 	public void undoableEditHappened(UndoableEditEvent evt) {
 		if (compoundEdit == null) {

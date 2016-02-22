@@ -24,23 +24,47 @@ import org.hibernate.Session;
 
 import com.googlecode.genericdao.dao.hibernate.GenericDAOImpl;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SbGenericDAOImpl.
+ *
+ * @param <T> the generic type
+ * @param <ID> the generic type
+ */
 public abstract class SbGenericDAOImpl<T, ID extends Serializable> extends GenericDAOImpl<T, ID> {
 
+	/** The session. */
 	protected Session session;
 
+	/**
+	 * Instantiates a new sb generic dao impl.
+	 */
 	public SbGenericDAOImpl() {
 	}
 
+	/**
+	 * Instantiates a new sb generic dao impl.
+	 *
+	 * @param session the session
+	 */
 	public SbGenericDAOImpl(Session session) {
 		this.session = session;
 		setSessionFactory(session.getSessionFactory());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.googlecode.genericdao.dao.hibernate.HibernateBaseDAO#getSession()
+	 */
 	@Override
 	public Session getSession() {
 		return session;
 	}
 
+	/**
+	 * Sets the session.
+	 *
+	 * @param session the new session
+	 */
 	public void setSession(Session session) {
 		this.session = session;
 		setSessionFactory(session.getSessionFactory());
