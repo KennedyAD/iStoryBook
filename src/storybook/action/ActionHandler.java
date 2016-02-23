@@ -121,7 +121,7 @@ public class ActionHandler {
 	 * Handle close.
 	 */
 	public void handleClose() {
-		mainFrame.close(true);
+		mainFrame.close();
 	}
 
 	/**
@@ -208,7 +208,7 @@ public void handleFileSaveAs() {
 		}
 		File outFile = dlg.getFile();
 		File inFile = mainFrame.getDbFile().getFile();
-		mainFrame.close(false);
+		mainFrame.close();
 		try {
 			FileUtils.copyFile(inFile, outFile);
 		} catch (IOException ioe) {

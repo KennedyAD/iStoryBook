@@ -23,7 +23,6 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -37,7 +36,6 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToolBar;
@@ -77,7 +75,6 @@ import storybook.model.hbn.dao.PartDAOImpl;
 import storybook.model.hbn.entity.AbstractEntity;
 import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
-import storybook.model.hbn.entity.Preference;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.DockingWindowUtil;
 import storybook.toolkit.I18N;
@@ -88,7 +85,6 @@ import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.dialog.unicodlg.UnicodeDialog;
 import storybook.ui.edit.EntityEditor;
 import storybook.ui.interfaces.IPaintable;
-import storybook.ui.panel.BlankPanel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -274,39 +270,30 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Close.
 	 *
-	 * @param exitIfEmpty
-	 *            the exit if empty
+	 * @param 
+	 *            
 	 */
-	public void close(boolean exitIfEmpty) {
-		if (!isBlank()) {
-//			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
-//			if (pref.getBooleanValue()) {
-//				int n = JOptionPane.showConfirmDialog(getThis(), I18N.getMsg("msg.common.want.close"),
-//						I18N.getMsg("msg.common.close"), JOptionPane.YES_NO_OPTION);
-//				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
-//					return;
-//				}
-//			}
-			// save
-			getSbActionManager().getActionHandler().handleFileSave();
-			// save dimension, location, maximized
-			Dimension dim = getSize();
-			PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
-			PrefUtil.set(PreferenceKey.SIZE_HEIGHT, dim.height);
-			PrefUtil.set(PreferenceKey.POS_X, getLocationOnScreen().x);
-			PrefUtil.set(PreferenceKey.POS_Y, getLocationOnScreen().y);
-			PrefUtil.set(PreferenceKey.MAXIMIZED, isMaximized());
-			// save layout
-			DockingWindowUtil.saveLayout(SbApp.getMainFrame(), SbConstants.BookKey.LAST_USED_LAYOUT.toString());
-			// save last used part
-			BookUtil.store(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(),
-					((int) (long) getCurrentPart().getId()));
-		}
+	public void close( ) {
+
+		//getSbActionManager().getActionHandler().handleFileSave();
+		// save dimension, location, maximized
+		Dimension dim = getSize();
+		PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
+		PrefUtil.set(PreferenceKey.SIZE_HEIGHT, dim.height);
+		PrefUtil.set(PreferenceKey.POS_X, getLocationOnScreen().x);
+		PrefUtil.set(PreferenceKey.POS_Y, getLocationOnScreen().y);
+		PrefUtil.set(PreferenceKey.MAXIMIZED, isMaximized());
+		// save layout
+		DockingWindowUtil.saveLayout(SbApp.getMainFrame(), SbConstants.BookKey.LAST_USED_LAYOUT.toString());
+		// save last used part
+		BookUtil.store(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(),
+				((int) (long) getCurrentPart().getId()));
 
 		bookModel.closeSession();
 		SbApp app = SbApp.getInstance();
 		app.removeMainFrame(SbApp.getMainFrame());
 		dispose();
+//		app.exit();
 	}
 
 	/**

@@ -18,7 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook;
 
+
+
 import java.awt.Component;
+import java.awt.Window;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
@@ -341,7 +344,7 @@ public class SbApp extends Component {
 			if (dbName == null) {
 				return;
 			}
-			removeMainFrame(mainFrame);
+			mainFrame.close();
 			mainFrame = new MainFrame();
 			mainFrame.init(dbFile);
 			mainFrame.getBookModel().initEntites();
@@ -544,7 +547,8 @@ public class SbApp extends Component {
 				public void run() {
 					try {
 						if (mainFrame.getViewFactory() != null) {
-							removeMainFrame(mainFrame);
+							mainFrame.close();
+//							removeMainFrame(mainFrame);
 							mainFrame = new MainFrame();
 						}
 						mainFrame.init(dbFile);
@@ -621,7 +625,7 @@ public class SbApp extends Component {
 		trace("SbApp.renameFile(" + mainFrame.getName() + "," + outFile.getAbsolutePath() + ")");
 		try {
 			File inFile = mainFrame.getDbFile().getFile();
-			mainFrame.close(false);
+//			mainFrame.close();
 			FileUtils.copyFile(inFile, outFile);
 			inFile.delete();
 			DbFile dbFile = new DbFile(outFile);

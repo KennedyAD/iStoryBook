@@ -1010,7 +1010,7 @@ public class MainMenu extends javax.swing.JFrame {
 	 * @param evt the evt
 	 */
 	private void fileCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileCloseActionPerformed
-		mainFrame.close(true);
+		mainFrame.close();
 	}// GEN-LAST:event_fileCloseActionPerformed
 	
 	/**
