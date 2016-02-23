@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="org/miginfocom/layout/|org/miginfocom/swing/|storybook/MacOSXConfiguration.java|storybook/toolkit/swing/panel/MemoryMonitorPanel.java|com/mucommander/ui/macosx/AppleScript.java|com/mucommander/ui/macosx/|storybook/toolkit/swing/splash/HourglassSplash.java|storybook/toolkit/swing/splash/SplashDialog.java|storybook/ui/dialog/WaitDialog.java|storybook/ui/dialog/SplashDialog.java|storybook/toolkit/swing/panel/JBookPanel.java" kind="src" path="src"/>
+	<classpathentry excluding="org/miginfocom/layout/|org/miginfocom/swing/|storybook/MacOSXConfiguration.java|storybook/toolkit/swing/panel/MemoryMonitorPanel.java|com/mucommander/ui/macosx/AppleScript.java|com/mucommander/ui/macosx/|storybook/toolkit/swing/splash/HourglassSplash.java|storybook/toolkit/swing/splash/SplashDialog.java|storybook/toolkit/swing/panel/JBookPanel.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="lib/attesoro.1.8.01.jar"/>

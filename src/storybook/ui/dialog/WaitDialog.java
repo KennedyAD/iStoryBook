@@ -18,12 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package storybook.ui.dialog;
 
+
 import java.awt.Frame;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import storybook.toolkit.I18N;
+import storybook.ui.dialog.SplashDialog;
 
 public class WaitDialog extends SplashDialog {
 

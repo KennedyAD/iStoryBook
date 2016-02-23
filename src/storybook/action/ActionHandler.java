@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
@@ -45,12 +46,14 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.EnvUtil;
+import storybook.toolkit.I18N;
 import storybook.toolkit.odt.ODTUtils;
 import storybook.toolkit.swing.SwingUtil;
 import storybook.ui.MainFrame;
 import storybook.ui.dialog.BookPropertiesDialog;
 import storybook.ui.dialog.CreateChaptersDialog;
 import storybook.ui.dialog.PreferencesDialog;
+import storybook.ui.dialog.WaitDialog;
 import storybook.ui.dialog.file.ExportBookFileDialog;
 import storybook.ui.dialog.file.RenameFileDialog;
 import storybook.ui.dialog.file.SaveAsFileDialog;
@@ -76,7 +79,8 @@ public class ActionHandler {
 	 * @param mainframe the mainframe
 	 */
 	public ActionHandler(MainFrame mainframe) {
-		mainFrame = mainframe;
+		this.mainFrame = mainframe;
+		
 	}
 
 	/*
@@ -85,6 +89,7 @@ public class ActionHandler {
 	 * I18N.getMsg("msg.update.no.text"), I18N.getMsg("msg.update.no.title"),
 	 * JOptionPane.INFORMATION_MESSAGE); } }
 	 */
+
 
 	/**
 	 * Handle book properties.
@@ -181,14 +186,14 @@ public class ActionHandler {
 		SbApp.getInstance().renameFile(mainFrame, outFile);
 	}
 
-//	public void handleFileSave() {// new OK
-//		WaitDialog dlg = new WaitDialog(mainFrame, I18N.getMsg("msg.file.saving"));
+	public void handleFileSave() {// new OK
+		WaitDialog dlg = new WaitDialog(mainFrame, I18N.getMsg("msg.file.saving"));
 //	ADK removed non mac clutter
-//		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
-//		timer.setRepeats(false);
-//		timer.start();
-//		SwingUtil.showModalDialog(dlg, mainFrame);
-//	}
+		Timer timer = new Timer(500, new DisposeDialogAction(dlg));
+		timer.setRepeats(false);
+		timer.start();
+		SwingUtil.showModalDialog(dlg, mainFrame);
+	}
 
 	/**
  * Handle file save as.

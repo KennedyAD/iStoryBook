@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import java.util.Locale;
 
 import net.infonode.docking.View;
+import storybook.SbConstants.PreferenceKey;
 import storybook.toolkit.I18N;
 
 // TODO: Auto-generated Javadoc
@@ -713,11 +714,9 @@ public enum BookKey {
  /** The translator mode. */
  TRANSLATOR_MODE("TranslatorMode"), 
  /** The email. */
- EMAIL(
-																								"Email"), 
+ EMAIL("Email"), 
  /** The password. */
- PASSWORD(
-																										"Password");
+ PASSWORD("Password");
 		
 		/** The text. */
 		private final String text;
@@ -738,6 +737,7 @@ public enum BookKey {
 		public String toString() {
 			return text;
 		}
+
 	}
 	
 	/**

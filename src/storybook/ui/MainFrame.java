@@ -109,17 +109,21 @@ public class MainFrame extends JFrame implements IPaintable {
 
 		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = -4014546941197479192L;
-		
+
 		/** The id. */
 		private final int id;
 
 		/**
 		 * Instantiates a new dynamic view.
 		 *
-		 * @param title the title
-		 * @param icon the icon
-		 * @param component the component
-		 * @param id the id
+		 * @param title
+		 *            the title
+		 * @param icon
+		 *            the icon
+		 * @param component
+		 *            the component
+		 * @param id
+		 *            the id
 		 */
 		DynamicView(String title, Icon icon, Component component, int id) {
 			super(title, icon, component);
@@ -141,8 +145,12 @@ public class MainFrame extends JFrame implements IPaintable {
 	 */
 	private class MainDockingWindowAdapter extends DockingWindowAdapter {
 
-		/* (non-Javadoc)
-		 * @see net.infonode.docking.DockingWindowAdapter#windowAdded(net.infonode.docking.DockingWindow, net.infonode.docking.DockingWindow)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * net.infonode.docking.DockingWindowAdapter#windowAdded(net.infonode.
+		 * docking.DockingWindow, net.infonode.docking.DockingWindow)
 		 */
 		@Override
 		public void windowAdded(DockingWindow addedToWindow, DockingWindow addedWindow) {
@@ -158,8 +166,12 @@ public class MainFrame extends JFrame implements IPaintable {
 			}
 		}
 
-		/* (non-Javadoc)
-		 * @see net.infonode.docking.DockingWindowAdapter#windowClosed(net.infonode.docking.DockingWindow)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * net.infonode.docking.DockingWindowAdapter#windowClosed(net.infonode.
+		 * docking.DockingWindow)
 		 */
 		@Override
 		public void windowClosed(DockingWindow window) {
@@ -188,20 +200,24 @@ public class MainFrame extends JFrame implements IPaintable {
 	 */
 	private class MainFrameWindowAdaptor extends WindowAdapter {
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.
+		 * WindowEvent)
 		 */
 		@Override
 		public void windowClosing(WindowEvent evt) {
 			SbApp app = SbApp.getInstance();
-				app.exit();
+			app.exit();
 		}
 	}
 
 	/**
 	 * Creates the dummy view component.
 	 *
-	 * @param text the text
+	 * @param text
+	 *            the text
 	 * @return the j component
 	 */
 	private static JComponent createDummyViewComponent(String text) {
@@ -214,25 +230,25 @@ public class MainFrame extends JFrame implements IPaintable {
 
 	/** The book model. */
 	private BookModel bookModel;
-	
+
 	/** The book controller. */
 	private BookController bookController;
-	
+
 	/** The sb action manager. */
 	private SbActionManager sbActionManager;
-	
+
 	/** The view factory. */
 	private ViewFactory viewFactory;
-	
+
 	/** The main tool bar. */
 	private JToolBar mainToolBar;
-	
+
 	/** The root window. */
 	private RootWindow rootWindow;
-	
+
 	/** The status bar. */
 	private StatusBarPanel statusBar;
-	
+
 	/** The dynamic views. */
 	private HashMap<Integer, JComponent> dynamicViews = new HashMap<Integer, JComponent>();
 
@@ -258,20 +274,21 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Close.
 	 *
-	 * @param exitIfEmpty the exit if empty
+	 * @param exitIfEmpty
+	 *            the exit if empty
 	 */
 	public void close(boolean exitIfEmpty) {
 		if (!isBlank()) {
-			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
-			if (pref.getBooleanValue()) {
-				int n = JOptionPane.showConfirmDialog(getThis(), I18N.getMsg("msg.common.want.close"),
-						I18N.getMsg("msg.common.close"), JOptionPane.YES_NO_OPTION);
-				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
-					return;
-				}
-			}
+//			Preference pref = PrefUtil.get(PreferenceKey.CONFIRM_EXIT, true);
+//			if (pref.getBooleanValue()) {
+//				int n = JOptionPane.showConfirmDialog(getThis(), I18N.getMsg("msg.common.want.close"),
+//						I18N.getMsg("msg.common.close"), JOptionPane.YES_NO_OPTION);
+//				if (n == JOptionPane.NO_OPTION || n == JOptionPane.CLOSED_OPTION) {
+//					return;
+//				}
+//			}
 			// save
-			getSbActionManager().getActionHandler(); //.handleFileSave();
+			getSbActionManager().getActionHandler().handleFileSave();
 			// save dimension, location, maximized
 			Dimension dim = getSize();
 			PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
@@ -282,22 +299,21 @@ public class MainFrame extends JFrame implements IPaintable {
 			// save layout
 			DockingWindowUtil.saveLayout(SbApp.getMainFrame(), SbConstants.BookKey.LAST_USED_LAYOUT.toString());
 			// save last used part
-			BookUtil.store(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(), ((int) (long) getCurrentPart().getId()));
+			BookUtil.store(SbApp.getMainFrame(), BookKey.LAST_USED_PART.toString(),
+					((int) (long) getCurrentPart().getId()));
 		}
 
 		bookModel.closeSession();
 		SbApp app = SbApp.getInstance();
 		app.removeMainFrame(SbApp.getMainFrame());
 		dispose();
-//		if (app.getMainFrames().isEmpty() && exitIfEmpty) {
-			app.exit();
-//		}
 	}
 
 	/**
 	 * Close view.
 	 *
-	 * @param viewName the view name
+	 * @param viewName
+	 *            the view name
 	 */
 	public void closeView(ViewName viewName) {
 		SbApp.trace("MainFrame.closeView(" + viewName.name() + ")");
@@ -365,7 +381,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Gets the dynamic view.
 	 *
-	 * @param id the id
+	 * @param id
+	 *            the id
 	 * @return the dynamic view
 	 */
 	private View getDynamicView(int id) {
@@ -415,7 +432,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Gets the view.
 	 *
-	 * @param viewName the view name
+	 * @param viewName
+	 *            the view name
 	 * @return the view
 	 */
 	public SbView getView(String viewName) {
@@ -425,7 +443,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Gets the view.
 	 *
-	 * @param viewName the view name
+	 * @param viewName
+	 *            the view name
 	 * @return the view
 	 */
 	public SbView getView(ViewName viewName) {
@@ -475,7 +494,9 @@ public class MainFrame extends JFrame implements IPaintable {
 		 */
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see storybook.ui.interfaces.IPaintable#init()
 	 */
 	@Override
@@ -495,7 +516,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Inits the.
 	 *
-	 * @param dbF the db f
+	 * @param dbF
+	 *            the db f
 	 */
 	public void init(DbFile dbF) {
 		SbApp.trace("MainFrame.init(" + dbF.getDbName() + ")");
@@ -525,8 +547,6 @@ public class MainFrame extends JFrame implements IPaintable {
 			SbApp.error("MainFrame.init(" + dbF.getName() + ")", e);
 		}
 	}
-
-
 
 	/**
 	 * Inits the after pack.
@@ -565,21 +585,21 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Inits the blank ui.
 	 */
-//	public void initBlankUi() {
-//		dbFile = null;
-//		setTitle(Storybook.PRODUCT_FULL_NAME.toString());
-//		Toolkit toolkit = Toolkit.getDefaultToolkit();
-//		Dimension screenSize = toolkit.getScreenSize();
-//		setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
-//		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-//		SbApp.getInstance().resetUiFont();
-//		sbActionManager.reloadMenuToolbar();
-//		BlankPanel blankPanel = new BlankPanel(SbApp.getMainFrame());
-//		blankPanel.initAll();
-//		add(blankPanel);
-//		pack();
-//		setVisible(true);
-//	}
+	// public void initBlankUi() {
+	// dbFile = null;
+	// setTitle(Storybook.PRODUCT_FULL_NAME.toString());
+	// Toolkit toolkit = Toolkit.getDefaultToolkit();
+	// Dimension screenSize = toolkit.getScreenSize();
+	// setLocation(screenSize.width / 2 - 450, screenSize.height / 2 - 320);
+	// setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	// SbApp.getInstance().resetUiFont();
+	// sbActionManager.reloadMenuToolbar();
+	// BlankPanel blankPanel = new BlankPanel(SbApp.getMainFrame());
+	// blankPanel.initAll();
+	// add(blankPanel);
+	// pack();
+	// setVisible(true);
+	// }
 
 	/**
 	 * Inits the root window.
@@ -615,7 +635,9 @@ public class MainFrame extends JFrame implements IPaintable {
 		rootWindow.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see storybook.ui.interfaces.IPaintable#initUi()
 	 */
 	@Override
@@ -740,7 +762,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Sets the current part.
 	 *
-	 * @param currentPart the new current part
+	 * @param currentPart
+	 *            the new current part
 	 */
 	public void setCurrentPart(Part currentPart) {
 		if (currentPart != null) {
@@ -853,7 +876,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Sets the main tool bar.
 	 *
-	 * @param toolBar the new main tool bar
+	 * @param toolBar
+	 *            the new main tool bar
 	 */
 	public void setMainToolBar(JToolBar toolBar) {
 		if (mainToolBar != null) {
@@ -909,7 +933,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Show and focus.
 	 *
-	 * @param viewName the view name
+	 * @param viewName
+	 *            the view name
 	 */
 	public void showAndFocus(ViewName viewName) {
 		SbApp.trace("MainFrame.showAndFocus(" + viewName.name() + ")");
@@ -936,7 +961,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Show editor as dialog.
 	 *
-	 * @param entity the entity
+	 * @param entity
+	 *            the entity
 	 */
 	public void showEditorAsDialog(AbstractEntity entity) {
 		JDialog dlg = new JDialog(SbApp.getMainFrame(), true);
@@ -961,7 +987,8 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Show view.
 	 *
-	 * @param viewName the view name
+	 * @param viewName
+	 *            the view name
 	 */
 	public void showView(ViewName viewName) {
 		SbApp.trace("MainFrame.showView(" + viewName.name() + ")");

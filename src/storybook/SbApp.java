@@ -41,6 +41,7 @@ import org.apache.commons.io.FileUtils;
 
 import storybook.SbConstants.BookKey;
 import storybook.SbConstants.PreferenceKey;
+import storybook.action.ActionHandler;
 import storybook.controller.PreferenceController;
 import storybook.model.DbFile;
 import storybook.model.PreferenceModel;
@@ -433,8 +434,8 @@ public class SbApp extends Component {
 				trace("SbApp.init(): loading... " + dbFile);
 				openFile(dbFile);
 			}
-			Preference pref2 = PrefUtil.get(PreferenceKey.LAST_OPEN_FILE, "");
-			DbFile dbFile = new DbFile(pref2.getStringValue());
+			Preference pref3 = PrefUtil.get(PreferenceKey.DEFAULT_FILE, "");
+			DbFile dbFile = new DbFile(pref3.getStringValue());
 			trace("SbApp.init(): loading default db. " + dbFile);
 			openFile(dbFile);
 
@@ -508,11 +509,12 @@ public class SbApp extends Component {
 				return false;
 			}
 			// file is read-only
-			if (!dbFile.getFile().canWrite()) {
-				String txt = I18N.getMsg("msg.error.db.read.only", dbFile.getFile().getPath());
-				JOptionPane.showMessageDialog(null, txt, I18N.getMsg("msg.common.warning"), JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
+//			if (!dbFile.getFile().canWrite()) {
+//				String txt = I18N.getMsg("msg.error.db.read.only", dbFile.getFile().getPath());
+//				JOptionPane.showMessageDialog(null, txt, I18N.getMsg("msg.common.warning"), JOptionPane.ERROR_MESSAGE);
+//				return false;
+//			}
+			
 			// file already opened
 			String dbName = dbFile.getDbName();
 			if (checkIfAlreadyOpened(dbName)) {
@@ -667,7 +669,7 @@ public class SbApp extends Component {
 	 */
 	public void saveAll() {
 		trace("SbApp.saveAll()");
-		getMainFrame().getSbActionManager().getActionHandler();// .handleFileSave();
+		getMainFrame().getSbActionManager().getActionHandler().handleFileSave();
 	}
 
 	/**
@@ -713,7 +715,7 @@ public class SbApp extends Component {
 		File file = dbFile.getFile();
 		PrefUtil.set(PreferenceKey.LAST_OPEN_DIR, file.getParent());
 		PrefUtil.set(PreferenceKey.LAST_OPEN_FILE, file.getPath());
-		PrefUtil.set(PreferenceKey.DEFAULT_FILE, file.getPath());
+		PrefUtil.set(PreferenceKey.DEFAULT_FILE, ".StoryBook.mv.db");
 
 		// save recent files
 		List<DbFile> list = PrefUtil.getDbFileList();
