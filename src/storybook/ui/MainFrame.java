@@ -23,8 +23,14 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Window;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,7 +64,9 @@ import net.infonode.docking.util.DockingUtil;
 import net.infonode.docking.util.MixedViewHandler;
 import net.infonode.docking.util.StringViewMap;
 import net.infonode.util.Direction;
+
 import net.miginfocom.swing.MigLayout;
+
 import storybook.SbApp;
 import storybook.SbConstants;
 import storybook.SbConstants.BookKey;
@@ -77,6 +85,7 @@ import storybook.model.hbn.entity.Internal;
 import storybook.model.hbn.entity.Part;
 import storybook.toolkit.BookUtil;
 import storybook.toolkit.DockingWindowUtil;
+import storybook.toolkit.FileDrop;
 import storybook.toolkit.I18N;
 import storybook.toolkit.PrefUtil;
 import storybook.toolkit.SpellCheckerUtil;
@@ -270,12 +279,11 @@ public class MainFrame extends JFrame implements IPaintable {
 	/**
 	 * Close.
 	 *
-	 * @param 
-	 *            
+	 * @param
+	 * 
 	 */
-	public void close( ) {
+	public void close() {
 
-		//getSbActionManager().getActionHandler().handleFileSave();
 		// save dimension, location, maximized
 		Dimension dim = getSize();
 		PrefUtil.set(PreferenceKey.SIZE_WIDTH, dim.width);
@@ -293,7 +301,6 @@ public class MainFrame extends JFrame implements IPaintable {
 		SbApp app = SbApp.getInstance();
 		app.removeMainFrame(SbApp.getMainFrame());
 		dispose();
-//		app.exit();
 	}
 
 	/**
@@ -509,6 +516,54 @@ public class MainFrame extends JFrame implements IPaintable {
 	public void init(DbFile dbF) {
 		SbApp.trace("MainFrame.init(" + dbF.getDbName() + ")");
 		try {
+			new FileDrop(SbApp.getMainFrame(), new FileDrop.Listener() {
+
+				@Override
+				public void filesDropped(java.io.File[] files, DropTargetDropEvent evt) {
+	
+						try {
+							// Accept copy drops
+							evt.acceptDrop(DnDConstants.ACTION_NONE);
+
+							// Get the transfer which can provide the dropped item
+							// data
+							Transferable transferable = evt.getTransferable();
+
+							// Get the data formats of the dropped item
+							DataFlavor[] flavors = transferable.getTransferDataFlavors();
+
+							// Loop through the flavors
+							for (DataFlavor flavor : flavors) {
+								// If the drop items are files
+								if (flavor.isFlavorJavaFileListType()) {
+									SbApp.trace("D&D " + files[0].getCanonicalPath() + "\n");
+									DbFile dbFile = new DbFile(files[0].getCanonicalPath());
+									SbApp.getInstance().openFile(dbFile);
+								} else {
+							//		evt.rejectDrop();
+								}
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				
+					// Inform that the drop is complete
+					evt.dropComplete(true);
+				}
+
+			});
+			
+            // Call OS X specific FullScreenUtilities.setWindowCanFullScreen(homeFrame, true) by reflection 
+
+	        try {
+	            Class.forName("com.apple.eawt.FullScreenUtilities").
+	                getMethod("setWindowCanFullScreen", new Class<?> [] {Window.class, boolean.class}).
+	                invoke(null, SbApp.getMainFrame(), true);
+	          } catch (Exception ex) {
+	            // Full screen mode is not supported
+	          }
+
 			SbApp.getMainFrame().dbFile = dbF;
 			viewFactory = new ViewFactory(SbApp.getMainFrame());
 			viewFactory.setInitialisation();

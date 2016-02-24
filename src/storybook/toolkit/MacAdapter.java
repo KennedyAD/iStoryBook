@@ -104,7 +104,8 @@ public class MacAdapter implements OpenFilesHandler, PreferencesHandler, QuitHan
 
 		// Set dock icon if not launched from a bundle otherwise rely on
 		// -Xdock
-		// No way I can find of setting docking name rely on -Xdock vm commands when in bundle
+		// No way I can find of setting docking name rely on -Xdock vm commands
+		// when in bundle
 
 		URL url = SbApp.class.getClassLoader().getResource("oStorybook-icon.png");
 		Image image = Toolkit.getDefaultToolkit().getImage(url);

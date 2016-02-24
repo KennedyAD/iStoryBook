@@ -249,8 +249,8 @@ public class MainMenu extends javax.swing.JFrame {
 	/** The edit copy persons. */
 	private javax.swing.JMenuItem editCopyPersons;
 
-	/** The file close. */
-	private javax.swing.JMenuItem fileClose;
+//	/** The file close. */
+//	private javax.swing.JMenuItem fileClose;
 
 	/** The file exit. */
 	private javax.swing.JMenuItem fileExit;
@@ -1004,15 +1004,15 @@ public class MainMenu extends javax.swing.JFrame {
 		copier.showDialog();
 	}// GEN-LAST:event_editCopyPersonsActionPerformed
 	
-	/**
-	 * File close action performed.
-	 *
-	 * @param evt the evt
-	 */
-	private void fileCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileCloseActionPerformed
-		mainFrame.close();
-	}// GEN-LAST:event_fileCloseActionPerformed
-	
+//	/**
+//	 * File close action performed.
+//	 *
+//	 * @param evt the evt
+//	 */
+//	private void fileCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_fileCloseActionPerformed
+//		mainFrame.close();
+//	}// GEN-LAST:event_fileCloseActionPerformed
+//	
 	/**
 	 * File exit action performed.
 	 *
@@ -1243,7 +1243,7 @@ public class MainMenu extends javax.swing.JFrame {
 		fileSave = new javax.swing.JMenuItem();
 		fileSaveAs = new javax.swing.JMenuItem();
 		fileRename = new javax.swing.JMenuItem();
-		fileClose = new javax.swing.JMenuItem();
+	//	fileClose = new javax.swing.JMenuItem();
 		separatorFile1 = new javax.swing.JPopupMenu.Separator();
 		fileProperties = new javax.swing.JMenuItem();
 		separatorFile2 = new javax.swing.JPopupMenu.Separator();
@@ -1364,7 +1364,7 @@ public class MainMenu extends javax.swing.JFrame {
 
 		jMenuItem1.setText("jMenuItem1");
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+	//	setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		toolBar.setFloatable(false);
 		toolBar.setRollover(true);
@@ -1824,19 +1824,19 @@ public class MainMenu extends javax.swing.JFrame {
 		});
 		menuFile.add(fileRename);
 
-		fileClose.setAccelerator(
-				javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
-		fileClose.setIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/close.png"))); // NOI18N
-		fileClose.setText(bundle.getString("msg.file.close")); // NOI18N
-		fileClose.setActionCommand("close-command");
-		fileClose.addActionListener(new java.awt.event.ActionListener() {
-			@Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				fileCloseActionPerformed(evt);
-			}
-		});
-		menuFile.add(fileClose);
+//		fileClose.setAccelerator(
+//				javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
+//		fileClose.setIcon(
+//				new javax.swing.ImageIcon(getClass().getResource("/storybook/resources/icons/16x16/close.png"))); // NOI18N
+//		fileClose.setText(bundle.getString("msg.file.close")); // NOI18N
+//		fileClose.setActionCommand("close-command");
+//		fileClose.addActionListener(new java.awt.event.ActionListener() {
+//			@Override
+//			public void actionPerformed(java.awt.event.ActionEvent evt) {
+//				fileCloseActionPerformed(evt);
+//			}
+//		});
+//		menuFile.add(fileClose);
 		menuFile.add(separatorFile1);
 
 		fileProperties.setText(bundle.getString("msg.file.properties")); // NOI18N
@@ -3211,7 +3211,7 @@ public class MainMenu extends javax.swing.JFrame {
 			m.setVisible(false);
 		}
 		javax.swing.JMenuItem[] submenus = { editCopyBlurb, editCopyBook, editCopyPersons, editCopyLocations,
-				editCopyItems, fileClose, fileExport, filePrint, fileProperties, fileRename, fileSave, fileSaveAs,
+				editCopyItems, /*fileClose,*/ fileExport, filePrint, fileProperties, fileRename, fileSave, fileSaveAs,
 				fileExport, fileImport };
 		for (javax.swing.JMenuItem m : submenus) {
 			m.setVisible(false);
@@ -3403,7 +3403,7 @@ public class MainMenu extends javax.swing.JFrame {
 		editCopyPersons.setText(I18N.getMsg("msg.dlg.copypersons.title"));
 		editCopyLocations.setText(I18N.getMsg("msg.dlg.copylocations.title"));
 		editCopyItems.setText(I18N.getMsg("msg.dlg.copyitems.title"));
-		fileClose.setText(I18N.getMsg("msg.file.close"));
+	//	fileClose.setText(I18N.getMsg("msg.file.close"));
 		fileExit.setText(I18N.getMsg("msg.common.exit"));
 		fileExport.setText(I18N.getMsg("msg.file.export"));
 		fileImport.setText(I18N.getMsg("msg.file.import"));
